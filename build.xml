@@ -140,9 +140,10 @@
         <include name="jetrix-${version}.jar" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${lib}">
-        <include name="commons-digester.jar" />
-        <include name="commons-collections.jar" />
-        <include name="commons-beanutils.jar" />
+        <include name="commons-digester*.jar" />
+        <include name="commons-collections*.jar" />
+        <include name="commons-beanutils*.jar" />
+        <include name="commons-lang*.jar" />
         <include name="jetty.jar"/>
         <include name="servlet-light.jar"/>
         <include name="jasper-runtime.jar"/>
@@ -178,9 +179,10 @@
         <include name="jetrix-${version}.jar" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${lib}">
-        <include name="commons-digester.jar" />
-        <include name="commons-collections.jar" />
-        <include name="commons-beanutils.jar" />
+        <include name="commons-digester*.jar" />
+        <include name="commons-collections*.jar" />
+        <include name="commons-beanutils*.jar" />
+        <include name="commons-lang*.jar" />
         <include name="jetty.jar"/>
         <include name="servlet-light.jar"/>
         <include name="jasper-runtime.jar"/>
