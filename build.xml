@@ -8,7 +8,7 @@
   <property name="build"   value="build"/>
   <property name="dist"    value="dist"/>
   <property name="deploy"  value="deploy"/>
-  <property name="version" value="0.0.8"/>
+  <property file="jetrix.properties" />
   <property file="password.properties" />
 
 

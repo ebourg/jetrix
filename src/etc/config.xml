@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--<!DOCTYPE tetrinet-server PUBLIC "//LFJR//Jetrix TetriNET Server" "http://tetrinet.lfjr.net/dtd/jts.dtd">-->
+<!--<!DOCTYPE tetrinet-server PUBLIC "//LFJR//Jetrix TetriNET Server" "http://tetrinet.lfjr.net/dtd/jetrix.dtd">-->
 
 <tetrinet-server host="[ALL]" port="31457">
-  <name>JetriX, the Java TetriNET Server</name>
-  
+  <name>JetriX TetriNET Server</name>
+
   <!-- How many seconds of no activity before timeout occurs -->
   <timeout>1000</timeout>
-  
+
   <!-- How many channels should be available on server -->
   <max-channels>8</max-channels>
-  
+
   <!-- Maximum number or players on server -->
   <max-players>50</max-players>
-  
+
   <!-- Maximum number of simultaneous connexions allowed from the same IP -->
   <max-connexions>2</max-connexions>
-  
+
   <!-- Typing /op <thispassword> will give player op status -->
-  <op-password>jtspass</op-password>  
-  
+  <op-password>jtspass</op-password>
+
   <!-- Access Log, where requests are logged to -->
   <access-log path="../log/access.log" />
-  
+
   <!-- Error Log, where errors are logged to -->
   <error-log  path="../log/error.log" />
 
   <!-- Message Of The Day -->
   <motd>
-    <b>Welcome on the experimental JetriX TetriNET Server</b>\n
-    http://sourceforge.net/projects/jts/\n
-    ------------------------------------------------
+Welcome on the experimental JetriX TetriNET Server !
+http://sourceforge.net/projects/jts/
+------------------------------------------------
   </motd>
-  
+
   <!-- Default game settings -->
   <settings>
     <!-- What level each player starts at -->
     <starting-level>1</starting-level>
-    
+
     <!-- How many lines to make before player level increases -->
     <lines-per-level>2</lines-per-level>
-    
+
     <!-- Number of levels to increase each time -->
     <level-increase>1</level-increase>
-    
+
     <!-- Lines to make to get a special block -->
     <lines-per-special>1</lines-per-special>
-    
+
     <!-- Number of special blocks added each time -->
     <special-added>1</special-added>
-    
+
     <!-- Capacity of Special block inventory -->
     <special-capacity>18</special-capacity>
-    
+
     <!-- Play by classic rules? -->
     <classic-rules>yes</classic-rules>
 
     <!-- Average together all player's game level? -->
     <average-levels>yes</average-levels>
-    
+
     <block-occurancy>
       <block type="leftl"     occurancy="14"/>
       <block type="leftz"     occurancy="14"/>
@@ -67,7 +67,7 @@
       <block type="halfcross" occurancy="14"/>
       <block type="line"      occurancy="15"/>
     </block-occurancy>
-  
+
     <special-occurancy>
       <special type="addline"      occurancy="32" />
       <special type="clearline"    occurancy="18" />
@@ -79,70 +79,74 @@
       <special type="quakefield"   occurancy="6"  />
       <special type="blockbomb"    occurancy="14" />
     </special-occurancy>
-      
+
   </settings>
 
-     
+
   <channels>
     <channel name="welcome">
-      <description>Welcome !</description>  
-      <max-players>6</max-players>          
+      <description>Welcome !</description>
+      <max-players>6</max-players>
+      <filters>
+        <filter class="org.lfjr.jts.filter.NoopFilter"/>
+        <filter class="org.lfjr.jts.filter.FloodFilter"/>
+      </filters>
     </channel>
 
     <channel name="pureduel">
-      <description>Pure - No Specials</description> 
-      <max-players>2</max-players>         
+      <description>Pure - No Specials</description>
+      <max-players>2</max-players>
       <settings>
-        <special-added>0</special-added>      
-      </settings>             
+        <special-added>0</special-added>
+      </settings>
     </channel>
-    
+
     <channel name="sticks">
-      <description>Sticks Only</description>    
-      <max-players>1</max-players>         
+      <description>Sticks Only</description>
+      <max-players>1</max-players>
       <settings>
-        <special-added>0</special-added>   
+        <special-added>0</special-added>
         <block-occurancy>
-          <block type="line" occurancy="100"/> 
-        </block-occurancy>     
-      </settings>             
-    </channel>    
+          <block type="line" occurancy="100"/>
+        </block-occurancy>
+      </settings>
+    </channel>
 
     <channel name="SnS">
-      <description>Stick <i>and</i> Square</description>         
+      <description>Stick <i>and</i> Square</description>
       <settings>
-        <special-added>0</special-added>   
+        <special-added>0</special-added>
         <block-occurancy>
           <block type="line"   occurancy="50"/>
-          <block type="square" occurancy="50"/> 
-        </block-occurancy>     
-      </settings>             
+          <block type="square" occurancy="50"/>
+        </block-occurancy>
+      </settings>
     </channel>
-    
+
     <channel name="theatre">
       <description>The TetriNET Theatre</description>
-      <class>org.lfjr.jetrix.channel.PlayBack</class>       
-    </channel>    
-  
+      <class>org.lfjr.jetrix.channel.PlayBack</class>
+    </channel>
+
   </channels>
 
 
   <ban>
     <!-- Cheating from host 1cust007.tnt2.billgates.da.uu.net -->
     <host>*.tnt*.billgates.da.uu.net</host>
-    
+
     <!-- Flooding from 192.168.33.200. Ban all C class IP block -->
     <host>192.168.33.*</host>
-    
+
     <!-- Ban all hostname contain the word foobar -->
     <host>*foobar*</host>
-    
+
     <!-- Ban IP block from 192.168.10.0 to 192.168.19.255 -->
     <host>192.168.1?.*</host>
-    
+
     <!-- Ban nickname -->
     <nick>billgates</nick>
-    
+
     <!-- Ban team -->
     <team>Flying Cucumbers</team>
   </ban>
