@@ -66,4 +66,13 @@ public class LanguageTest extends TestCase
         assertNotNull("null string returned", text);
         assertEquals("missing text", "[fr:xyz]", text);
     }
+
+    public void testGetLocales()
+    {
+        Collection locales = Language.getLocales();
+
+        assertNotNull("null list", locales);
+        assertTrue("english locale not found", locales.contains(Locale.ENGLISH));
+        assertTrue("french locale not found", locales.contains(Locale.FRENCH));
+    }
 }
