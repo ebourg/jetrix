@@ -52,6 +52,9 @@ public class Channel extends Thread implements Destination
     private boolean running = true;
     private GameResult result;
 
+    /** The start time of the channel */
+    private long startTime;
+
     /** set of clients connected to this channel */
     private Set<Client> clients;
 
@@ -168,7 +171,10 @@ public class Channel extends Thread implements Destination
     {
         log.info("Channel " + channelConfig.getName() + " opened");
 
-        while (running && serverConfig.isRunning() && (getConfig().isPersistent() || !clients.isEmpty()))
+        startTime = System.currentTimeMillis();
+
+        while (running && serverConfig.isRunning()
+                && (getConfig().isPersistent() || !clients.isEmpty() || (System.currentTimeMillis() - startTime < 200)))
         {
             LinkedList<Message> list = new LinkedList<Message>();
 
@@ -198,6 +204,12 @@ public class Channel extends Thread implements Destination
                 log.log(Level.WARNING, e.getMessage(), e);
             }
 
+        }
+
+        // unregister the channel
+        if (serverConfig.isRunning())
+        {
+            ChannelManager.getInstance().removeChannel(this);
         }
 
         log.info("Channel " + channelConfig.getName() + " closed");

@@ -84,13 +84,21 @@ public class ChannelManager
         // get the channel
         Channel channel = getChannel(name);
 
-        // unregister the channel
-        channels.remove(channel);
-        channelMap.remove(name.toLowerCase());
-
         // close it as soon as the last client leaves
         channel.getConfig().setPersistent(false);
         channel.send(new ShutdownMessage());
+    }
+
+    /**
+     * Remove a channel.
+     */
+    public void removeChannel(Channel channel)
+    {
+        String name = channel.getConfig().getName().toLowerCase();
+
+        // unregister the channel
+        channels.remove(channel);
+        channelMap.remove(name.toLowerCase());
     }
 
     /**
