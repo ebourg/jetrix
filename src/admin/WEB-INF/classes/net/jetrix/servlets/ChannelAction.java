@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@ import javax.servlet.ServletException;
 
 import net.jetrix.Channel;
 import net.jetrix.ChannelManager;
+import net.jetrix.Server;
 import net.jetrix.config.ChannelConfig;
 
 /**
@@ -53,8 +54,12 @@ public class ChannelAction extends HttpServlet {
         config.setMaxPlayers(Integer.parseInt(request.getParameter("maxPlayers")));
         config.setMaxSpectators(Integer.parseInt(request.getParameter("maxSpectators")));
         config.setPersistent("true".equals(request.getParameter("persistent")));
+        config.setIdleAllowed("true".equals(request.getParameter("idle")));
         config.setTopic(request.getParameter("topic"));
 
         response.sendRedirect("/channel.jsp?name=" + name);
+
+        // save the server configuration
+        Server.getInstance().getConfig().save();
     }
 }

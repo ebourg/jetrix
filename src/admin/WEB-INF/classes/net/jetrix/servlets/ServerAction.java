@@ -110,5 +110,8 @@ public class ServerAction extends HttpServlet
         }
 
         response.sendRedirect("/server.jsp");
+
+        // save the server configuration
+        config.save();        
     }
 }

@@ -127,6 +127,8 @@ public class SettingsAction extends HttpServlet
             response.sendRedirect("/server.jsp");
         }
 
+        // save the server configuration
+        Server.getInstance().getConfig().save();
     }
 
     /**

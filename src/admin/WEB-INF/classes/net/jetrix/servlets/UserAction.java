@@ -19,16 +19,12 @@
 
 package net.jetrix.servlets;
 
-import java.io.IOException;
-import java.util.logging.Logger;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
+import java.io.*;
+import java.util.logging.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
-import net.jetrix.ClientRepository;
-import net.jetrix.Client;
-import net.jetrix.Banlist;
+import net.jetrix.*;
 
 /**
  * Action Servlet handling actions on users.
@@ -60,6 +56,9 @@ public class UserAction extends HttpServlet
 
             logger.info(client.getUser().getName() + " (" + client.getInetAddress() + ") has been banned by "
                     + request.getRemoteUser() + " (" + request.getRemoteHost() + ")");
+
+            // save the server configuration
+            Server.getInstance().getConfig().save();
         }
 
         client.disconnect();
