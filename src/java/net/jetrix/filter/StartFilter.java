@@ -22,6 +22,7 @@ package net.jetrix.filter;
 import java.util.*;
 
 import net.jetrix.*;
+import net.jetrix.commands.StartCommand;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
@@ -35,11 +36,13 @@ public class StartFilter extends GenericFilter
 {
     private long timestamp[];
     private int delay = 10000;
+    private int countdown = 0;
 
     public void init(FilterConfig conf)
     {
         // reading parameters
         delay = conf.getInt("delay", delay);
+        countdown = conf.getInt("countdown", countdown);
 
         timestamp = new long[6];
     }
@@ -78,15 +81,23 @@ public class StartFilter extends GenericFilter
             while (i < 6 && doStart)
             {
                 Client player = getChannel().getClient(i + 1);
-                doStart = player == null || (player != null && (now - timestamp[i]) <= delay);
+                doStart = (player == null) || (player != null && (now - timestamp[i]) <= delay);
                 i = i + 1;
             }
 
             if (doStart)
             {
                 Arrays.fill(timestamp, 0);
-                StartGameMessage startMessage = new StartGameMessage();
-                out.add(startMessage);
+
+                if (countdown == 0)
+                {
+                    StartGameMessage startMessage = new StartGameMessage();
+                    out.add(startMessage);
+                }
+                else
+                {
+                    (new StartCommand.CountDown(getChannel(), countdown)).start();
+                }
             }
         }
     }
@@ -103,7 +114,7 @@ public class StartFilter extends GenericFilter
 
     public String getVersion()
     {
-        return "1.0";
+        return "1.1";
     }
 
     public String getAuthor()

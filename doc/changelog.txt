@@ -35,6 +35,7 @@ Changes in version 0.1.4 (2004-??-??)
 - Commands requiring a minimum number of parameters can now implement the ParameterCommand interface, the server will validate automatically the input parameters.
 - The name of the player starting or stopping the game is now displayed on the party line
 - code ported to Java 5.0 !
+- the StartFilter can now trigger a countdown before starting the game by specifying a number of seconds in the filter's "countdown" parameter
 
 Changes in version 0.1.3 (2004-01-20)
 -------------------------------------

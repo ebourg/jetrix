@@ -92,7 +92,7 @@ public class StartCommand implements Command
     /**
      * A countdown thread to delay the beginning of the game.
      */
-    private static class CountDown extends Thread
+    public static class CountDown extends Thread
     {
         private Channel channel;
         private int delay;
