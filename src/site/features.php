@@ -123,6 +123,9 @@
 <ul>
   <li class="done"> automatic advertisement to server directories (tfast.org, tetrinet.org, tsrv.com)</li>
   <li class="partial"> automatic update</li>
+  <li class="planned">Run as a service on Windows</li>
+  <li class="planned">Run as a daemon on Unix/Linux</li>
+  <li class="planned">Windows installer</li>
 </ul>
 
 <? include("footer.inc.php") ?>

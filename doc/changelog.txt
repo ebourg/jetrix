@@ -12,6 +12,9 @@ TODO
 - /ban & /unban
 - /lfd looking for duel
 - sudden death
+- windows installer
+- system tray
+- run as a service on windows (using Java Service Wrapper)
 
 Changes in version 0.1.4 (2004-??-??)
 -------------------------------------
