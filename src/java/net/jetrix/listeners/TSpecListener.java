@@ -88,23 +88,4 @@ public class TSpecListener extends TetrinetListener
         return client;
     }
 
-    public String readLine(Socket socket) throws IOException
-    {
-        int readChar;
-        Reader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        StringBuffer input = new StringBuffer();
-
-        while ((readChar = in.read()) != -1 && readChar != 255)
-        {
-            if (readChar != 10 && readChar != 13)
-            {
-                input.append((char)readChar);
-            }
-        }
-
-        if (readChar == -1) throw new IOException("client disconnected");
-
-        return input.toString();
-    }
-
 }
