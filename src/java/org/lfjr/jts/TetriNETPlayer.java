@@ -20,6 +20,7 @@
 package org.lfjr.jts;
 
 import java.net.*;
+import java.util.*;
 
 /**
  * Holds information about a player.
@@ -35,6 +36,7 @@ public class TetriNETPlayer
     private int status;
     private boolean registered;
     private boolean playing;
+    private Locale locale;
 
     public static final int STATUS_OK  = 0;
     public static final int STATUS_AFK = 1;
@@ -104,6 +106,16 @@ public class TetriNETPlayer
     public boolean isPlaying()
     {
         return playing;
+    }
+
+    public void setLocale(Locale locale)
+    {
+        this.locale = locale;
+    }
+
+    public Locale getLocale()
+    {
+        return locale;
     }
 
     public String toString()
