@@ -94,9 +94,10 @@ public class TellCommand implements Command
                 // player found
                 PlineMessage reponse = new PlineMessage();
                 String privateMessage = m.getText().substring(targetName.length() + 1);
-                String message = "<aqua>{" + client.getUser().getName() + "}</aqua> <darkBlue>" + privateMessage;
-                reponse.setText(message);
+                reponse.setKey("command.tell.format" new Object[] { client.getUser().getName(), privateMessage });
                 target.sendMessage(reponse);
+                
+                target.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
             }
         }
         else
