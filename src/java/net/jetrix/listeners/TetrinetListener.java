@@ -50,11 +50,7 @@ public class TetrinetListener extends ClientListener
     {
         // read the first line sent by the client
         String init = null;
-        try
-        {
-            init = readLine(socket);
-        }
-        catch (IOException e) { e.printStackTrace(); }
+        init = readLine(socket);
 
         // test if the client is using the query protocol
         Protocol protocol = protocolManager.getProtocol("net.jetrix.protocols.QueryProtocol");
