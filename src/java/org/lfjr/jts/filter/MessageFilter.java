@@ -34,7 +34,7 @@ public abstract class MessageFilter
     private Properties props;
     private Channel channel;
 
-    private MessageFilter()
+    public MessageFilter()
     {
         props = new Properties();
     }

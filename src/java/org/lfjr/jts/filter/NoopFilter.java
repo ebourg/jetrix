@@ -28,19 +28,19 @@ import org.lfjr.jts.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class NoopFilter extends AbstractFilter
+public class NoopFilter extends MessageFilter
 {
     public void process(Message m, List out)
     {
         out.add(m);	
     }
 
-    public String getName() { return "Noop Filter"; }
+    public static String getName() { return "Noop Filter"; }
 
-    public String getDescription() { return "I'm useless !"; }
+    public static String getDescription() { return "I'm useless !"; }
 
-    public String getVersion() { return "1.0"; }
+    public static String getVersion() { return "1.0"; }
 
-    public String getAuthor() { return "Emmanuel Bourg"; }
+    public static String getAuthor() { return "Emmanuel Bourg"; }
 
 }

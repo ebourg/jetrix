@@ -28,7 +28,7 @@ import org.lfjr.jts.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class FloodFilter extends AbstractFilter
+public class FloodFilter extends MessageFilter
 {
     private long timestamp[][];
     private int index[];
@@ -78,12 +78,12 @@ public class FloodFilter extends AbstractFilter
         return (t - t1) < delay;
     }
 
-    public String getName() { return "Flood Filter"; }
+    public static String getName() { return "Flood Filter"; }
 
-    public String getDescription() { return "Blocks exceeding messages on pline"; }
+    public static String getDescription() { return "Blocks exceeding messages on pline"; }
 
-    public String getVersion() { return "1.0"; }
+    public static String getVersion() { return "1.0"; }
 
-    public String getAuthor() { return "Emmanuel Bourg"; }
+    public static String getAuthor() { return "Emmanuel Bourg"; }
 
 }
