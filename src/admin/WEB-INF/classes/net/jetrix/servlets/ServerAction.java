@@ -19,6 +19,8 @@
 
 package net.jetrix.servlets;
 
+import static java.lang.Math.*;
+
 import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,8 +49,8 @@ public class ServerAction extends HttpServlet
         {
             config.setName(request.getParameter("name"));
             config.setHost(request.getParameter("host"));
-            config.setMaxConnections(Integer.parseInt(request.getParameter("maxConnections")));
-            config.setMaxPlayers(Integer.parseInt(request.getParameter("maxPlayers")));
+            config.setMaxConnections(max(1, Integer.parseInt(request.getParameter("maxConnections"))));
+            config.setMaxPlayers(max(0, Integer.parseInt(request.getParameter("maxPlayers"))));
             config.setOpPassword(request.getParameter("opPassword"));
             config.setAdminPassword(request.getParameter("adminPassword"));
             config.setLocale(request.getParameter("locale"));
