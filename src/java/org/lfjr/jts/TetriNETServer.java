@@ -151,7 +151,7 @@ public class TetriNETServer implements Runnable
                         }
                         else if ("/version".equalsIgnoreCase(cmd))
                         {
-                            String version1 = ChatColors.darkBlue + "" + ChatColors.bold + "JetriX/" + ServerConfig.VERSION;
+                            String version1 = ChatColors.darkBlue + "" + ChatColors.bold + "JetriX/" + ServerConfig.VERSION + " (build:@build.time@)";
                             String version2 = ChatColors.purple+"VM"+ChatColors.darkBlue+": " + System.getProperty("java.vm.name") + " " + System.getProperty("java.vm.version") + " " + System.getProperty("java.vm.info");
                             String version3 = ChatColors.purple+"OS"+ChatColors.darkBlue+": " + System.getProperty("os.name") + " " + System.getProperty("os.version") +"; " + System.getProperty("os.arch");
                                                         
