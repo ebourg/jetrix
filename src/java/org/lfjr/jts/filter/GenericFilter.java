@@ -26,8 +26,7 @@ import org.lfjr.jts.*;
  * Defines a generic filter to be used and extended by filter developpers.
  * GenericFilter makes writing filters easier by dispatching messages to an
  * appropriate method according to the type of this message (onPline(),
- * onStartGame(), etc...). The process() method does all the job and
- * shouldn't be overwritten when extending this class.
+ * onStartGame(), etc...).
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -35,8 +34,12 @@ import org.lfjr.jts.*;
 public abstract class GenericFilter extends MessageFilter
 {
 
-    public void process(Message m, List out)
+    public final void process(Message m, List out)
     {
+        // overwritable pre processing
+        onMessage(m);
+        
+        // message dispatching
         switch( m.getCode() )
         {
             case Message.MSG_UNKNOWN:      onUnknown(m, out); break;
@@ -62,6 +65,13 @@ public abstract class GenericFilter extends MessageFilter
             default: out.add(m);
         }
     }
+    
+    /**
+     * Message pre-processing. This method is called at the beginning of the
+     * <tt>process(Message m, List out)</tt> method and allow custom 
+     * processing for all filtered messages.
+     */
+    public void onMessage(Message m) { }
 
     public void onUnknown(Message m, List out)
     {
@@ -128,8 +138,12 @@ public abstract class GenericFilter extends MessageFilter
         out.add(m);
     }
 
-    public void onSpecial(Message m, List out)
+    private void onSpecial(Message m, List out)
     {
+        // message pre-processing
+        onSpecial(m);
+        
+        // message dispatching
         String rawMessage = m.getRawMessage();
         if (rawMessage.startsWith("cs1")) onOneLineAdded(m, out);
         else if (rawMessage.startsWith("cs2")) onTwoLinesAdded(m, out);
@@ -144,6 +158,12 @@ public abstract class GenericFilter extends MessageFilter
         else if (rawMessage.startsWith("q")) onBlockQuake(m, out);
         else if (rawMessage.startsWith("o")) onBlockBomb(m, out);
     }
+
+    /**
+     * Special pre-processing. This method is called for all specials filtered 
+     * and allow custom processing for all specials (lines added, blockbomb switchs, etc...).
+     */
+    public void onSpecial(Message m) { }
 
     public void onLevel(Message m, List out)
     {
