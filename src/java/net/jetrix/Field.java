@@ -41,6 +41,7 @@ public class Field
     public static final byte BLOCK_GREEN  = '3';
     public static final byte BLOCK_PURPLE = '4';
     public static final byte BLOCK_RED    = '5';
+    public static final byte BLOCK_RANDOM = '6';
 
     public static final byte SPECIAL_ADDLINE      = 'a';
     public static final byte SPECIAL_CLEARLINE    = 'c';
@@ -69,6 +70,25 @@ public class Field
     public Field(byte[][] field)
     {
         this.field = field;
+    }
+
+    /**
+     * Check if the field is empty.
+     */
+    public boolean isEmpty()
+    {
+        for (int i = HEIGHT - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < WIDTH; j++)
+            {
+                if (field[j][i] != BLOCK_VOID)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
