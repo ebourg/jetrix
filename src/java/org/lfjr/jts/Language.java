@@ -25,31 +25,46 @@ import java.text.*;
 public class Language
 {
     private static Language instance = new Language();
-    private static ResourceBundle rb;
+    private Map bundles;
     
-    private Language() {}
+    private Language() 
+    {
+        bundles = new HashMap();
+    }
     
     public static Language getInstance()
     {
         return instance;
     }
     
-    public static void load(Locale serverLocale)
+    public ResourceBundle load(Locale locale)
     {
-    	rb = PropertyResourceBundle.getBundle("lang.jetrix", serverLocale);
+    	ResourceBundle bundle = PropertyResourceBundle.getBundle("lang.jetrix", locale);
+    	bundles.put(locale, bundle);
+    	return bundle;
     }
     
-    public ResourceBundle getResourceBundle()
+    public ResourceBundle getResourceBundle(Locale locale)
     {
-        return rb;	
+        return (ResourceBundle)bundles.get(locale);
+    }
+    
+    public static boolean isSupported(Locale locale)
+    {
+    	ResourceBundle bundle = instance.getResourceBundle(locale);
+    	if (bundle == null)
+    	{
+    	    bundle = instance.load(locale);
+    	}
+    	return bundle.getLocale().equals(locale);
     }
 
-    public static String getText(String key)
+    public static String getText(String key, Locale locale)
     {
         String text = null;
         try
         {
-            text = getInstance().getResourceBundle().getString(key);            
+            text = instance.getResourceBundle(locale).getString(key);            
         }
         catch (MissingResourceException e)
         {
@@ -59,9 +74,9 @@ public class Language
         return text;
     }
 
-    public static String getText(String key, Object[] arguments)
+    public static String getText(String key, Object[] arguments, Locale locale)
     {
-        return MessageFormat.format( getText(key), arguments );
+        return MessageFormat.format( getText(key, locale), arguments );
     }
     
 }
