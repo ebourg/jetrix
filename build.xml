@@ -67,6 +67,17 @@
     </uptodate>
   </target>
 
+  <target name="compile.servlet" depends="compile" description="Compile the Servlets">
+    <mkdir dir="${build}/jsp"/>
+    <javac destdir="${build}/jsp" debug="yes">
+      <classpath>
+        <pathelement path="${build}/classes/"/>
+        <path refid="classpath.main"/>
+      </classpath>
+      <src path="${src}/admin/WEB-INF/classes"/>
+    </javac>
+  </target>
+
   <target name="compile.jsp" depends="compile, compile.jsp.check" unless="compile.jsp.notRequired" description="Compile the JSP pages">
     <mkdir dir="${build}/jsp"/>
     <jspc destdir="${build}/jsp" verbose="10" srcdir="${src}/admin">
@@ -85,7 +96,7 @@
     </javac>
   </target>
 
-  <target name="jar" depends="compile.jsp">
+  <target name="jar" depends="compile.jsp, compile.servlet">
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
 
