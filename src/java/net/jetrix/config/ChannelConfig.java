@@ -37,6 +37,7 @@ public class ChannelConfig
     private int maxSpectators = 50;
     private int accessLevel;
     private boolean persistent;
+    private String winlistId;
 
     /** extended properties */
     private Properties props;
@@ -195,6 +196,16 @@ public class ChannelConfig
     public void setPersistent(boolean persistent)
     {
         this.persistent = persistent;
+    }
+
+    public String getWinlistId()
+    {
+        return winlistId;
+    }
+
+    public void setWinlistId(String winlistId)
+    {
+        this.winlistId = winlistId;
     }
 
     public String getProperty(String name)
