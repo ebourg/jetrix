@@ -197,6 +197,7 @@
     <zip zipfile="${dist}/src/jetrix-${version}-src.zip">
       <zipfileset prefix="jetrix-${version}-src/" dir=".">
         <include name="build.xml" />
+        <include name="build.properties.sample" />
         <include name="jetrix.properties" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}-src/src/" dir="${src}">
@@ -208,6 +209,7 @@
     <tar destfile="${dist}/src/jetrix-${version}-src.tar">
       <tarfileset prefix="jetrix-${version}-src/" dir=".">
         <include name="build.xml" />
+        <include name="build.properties.sample" />
         <include name="jetrix.properties" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}-src/src/" dir="${src}">
@@ -288,7 +290,7 @@
              version="true"
              use="false"
              windowtitle="Javadoc JetriX ${version}"
-             doctitle="JetriX TetriNET Server ${version@}"
+             doctitle="JetriX TetriNET Server ${version}"
              bottom="Copyright &#169; 2001-2003 Emmanuel Bourg. All Rights Reserved.">
       <classpath>
         <fileset dir="${lib}" >
