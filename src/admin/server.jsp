@@ -187,18 +187,22 @@
     <table class="thin" style="width: 400px">
       <tr>
         <th>Pattern</th>
+        <th>Expiration</th>
         <th>Type</th>
         <th></th>
       </tr>
-<%  while (banlist.hasNext()) { %>
+<%  while (banlist.hasNext()) {
+        Banlist.Entry entry = (Banlist.Entry) banlist.next(); %>
       <tr>
-        <td><%= banlist.next() %></td>
+        <td><%= entry.pattern %></td>
+        <td><%= entry.expiration != null ? entry.expiration.toString() : "" %></td>
         <td width="50" align="center">Host</td>
         <td width="50"><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
       </tr>
 <%  } %>
       <tr>
         <td><input type="text" name="pattern" style="thin"></td>
+        <td><input type="text" name="expiration" style="thin"></td>
         <td width="50" align="center">
           <select name="type">
             <option value="0">Host</option>

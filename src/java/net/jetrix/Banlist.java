@@ -44,28 +44,60 @@ public class Banlist
         return instance;
     }
 
+    /**
+     * Ban the specified host forever.
+     */
     public void ban(String host)
+    {
+        ban(host, null);
+    }
+
+    /**
+     * Ban the specified host till the expiration date.
+     */
+    public void ban(String host, Date expiration)
     {
         // replace . by \., * by .* and ? by .
         String regexp = host.replaceAll("\\.", "\\\\.").replaceAll("\\*", "(.*)").replaceAll("\\?", ".");
         Pattern pattern = Pattern.compile(regexp);
-        banlist.put(host, pattern);
+        banlist.put(host, new Entry(pattern, expiration));
     }
 
+    /**
+     * Unban the specified host.
+     */
     public void unban(String host)
     {
         banlist.remove(host);
     }
 
+    /**
+     * Check if the specified host is currently banned.
+     */
     public boolean isBanned(String host)
     {
         boolean banned = false;
 
+        Date now = new Date();
+
         Iterator it = banlist.values().iterator();
         while (it.hasNext() && !banned)
         {
-            Pattern pattern = (Pattern) it.next();
-            banned = pattern.matcher(host).matches();
+            Entry entry = (Entry) it.next();
+            banned = entry.pattern.matcher(host).matches();
+
+            // test the expiration date
+            if (banned && entry.expiration != null)
+            {
+                if (now.after(entry.expiration))
+                {
+                    // the ban has expired
+                    banned = false;
+
+                    // remove the entry from the banlist
+                    it.remove();
+                }
+            }
         }
 
         return banned;
@@ -87,6 +119,21 @@ public class Banlist
     public void clear()
     {
         banlist.clear();
+    }
+
+    /**
+     * A ban list entry.
+     */
+    public class Entry
+    {
+        public Pattern pattern;
+        public Date expiration;
+
+        public Entry(Pattern pattern, Date expiration)
+        {
+            this.pattern = pattern;
+            this.expiration = expiration;
+        }
     }
 
 }

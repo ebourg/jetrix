@@ -19,6 +19,8 @@
 
 package net.jetrix;
 
+import java.util.*;
+
 import junit.framework.*;
 
 /**
@@ -94,6 +96,14 @@ public class BanlistTest extends TestCase
         banlist.ban("*.168.1?.*");
         assertEquals("isBanned(\"192.168.19.255\")", true, banlist.isBanned("192.168.19.255"));
         assertEquals("isBanned(\"192.168.20.255\")", false, banlist.isBanned("192.168.20.255"));
+    }
+
+    public void testExpirationDate() throws Exception
+    {
+        banlist.ban("*", new Date(System.currentTimeMillis() + 100));
+        assertTrue("not banned before expiration date", banlist.isBanned("localhost"));
+        Thread.sleep(200);
+        assertFalse("still banned after expiration date", banlist.isBanned("localhost"));
     }
 
 }
