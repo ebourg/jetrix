@@ -71,7 +71,7 @@ public class WinlistManager
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                log.log(Level.WARNING, e.getMessage(), e);
             }
         }
     }

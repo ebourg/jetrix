@@ -22,6 +22,7 @@ package net.jetrix.config;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.*;
 
 import org.apache.commons.digester.*;
 import org.xml.sax.*;
@@ -61,6 +62,8 @@ public class ServerConfig
 
     public static final String VERSION = "@version@";
 
+    private static Logger log = Logger.getLogger("net.jetrix");
+
     /**
      * Constructor declaration
      */
@@ -98,7 +101,7 @@ public class ServerConfig
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -133,7 +136,7 @@ public class ServerConfig
             }
             catch (UnknownHostException e)
             {
-                e.printStackTrace();
+                log.log(Level.WARNING, e.getMessage(), e);
             }
         }
     }

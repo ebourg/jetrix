@@ -20,6 +20,7 @@
 package net.jetrix.winlist;
 
 import java.io.*;
+import java.util.logging.Level;
 
 import net.jetrix.config.*;
 
@@ -72,7 +73,7 @@ public class TetrixWinlist extends SimpleWinlist
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                log.log(Level.WARNING, e.getMessage(), e);
             }
         }
 
@@ -104,7 +105,7 @@ public class TetrixWinlist extends SimpleWinlist
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            log.log(Level.WARNING, e.getMessage(), e);
         }
     }
 

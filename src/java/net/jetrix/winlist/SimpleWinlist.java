@@ -229,7 +229,7 @@ public class SimpleWinlist implements Winlist
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    log.log(Level.WARNING, e.getMessage(), e);
                 }
                 finally
                 {
@@ -242,7 +242,7 @@ public class SimpleWinlist implements Winlist
                     }
                     catch (Exception e)
                     {
-                        e.printStackTrace();
+                        log.log(Level.WARNING, e.getMessage(), e);
                     }
                 }
             }
@@ -279,7 +279,7 @@ public class SimpleWinlist implements Winlist
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                log.log(Level.WARNING, e.getMessage(), e);
             }
             finally
             {
@@ -292,7 +292,7 @@ public class SimpleWinlist implements Winlist
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    log.log(Level.WARNING, e.getMessage(), e);
                 }
             }
         }
