@@ -1,6 +1,5 @@
 - /start : starts the game, can be used by ops or 2nd slot player
 - /countdown <n> : starts the game in n seconds
-- /teleport <slot> <channel> : move a player to the specified channel
 
 
 
