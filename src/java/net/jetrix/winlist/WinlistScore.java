@@ -64,4 +64,24 @@ public class WinlistScore
         this.score = score;
     }
 
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof WinlistScore)) return false;
+
+        final WinlistScore score = (WinlistScore) o;
+
+        if (type != score.type) return false;
+        if (!name.equals(score.name)) return false;
+
+        return true;
+    }
+
+    public int hashCode()
+    {
+        int result;
+        result = name.hashCode();
+        result = 29 * result + type;
+        return result;
+    }
 }
