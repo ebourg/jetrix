@@ -67,7 +67,10 @@ public class ClientRepository
      */
     public void addClient(Client client)
     {
-        clients.put(client.getUser().getName().toLowerCase(), client);
+        if (client != null)
+        {
+            clients.put(client.getUser().getName().toLowerCase(), client);
+        }
     }
 
     /**
@@ -77,7 +80,10 @@ public class ClientRepository
      */
     public void removeClient(Client client)
     {
-        clients.remove(client.getUser().getName().toLowerCase());
+        if (client != null)
+        {
+            clients.remove(client.getUser().getName().toLowerCase());
+        }
     }
 
     /**
@@ -148,6 +154,17 @@ public class ClientRepository
     public int getHostCount(InetAddress address)
     {
         int count = 0;
+        
+        Iterator it = clients.values().iterator();
+        while (it.hasNext())
+        {
+            Client client = (Client)it.next();
+            if (address.equals(client.getInetAddress()))
+            {
+                count++;
+            }
+        }
+        
         return count;
     }
 
