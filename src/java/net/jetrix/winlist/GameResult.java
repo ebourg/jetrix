@@ -34,6 +34,7 @@ public class GameResult
     private Date startTime;
     private Date endTime;
     private List gamePlayers;
+    private Channel channel;
 
     /**
      * Return the date of the beginning of the game.
@@ -59,6 +60,20 @@ public class GameResult
     public void setEndTime(Date endTime)
     {
         this.endTime = endTime;
+    }
+
+    /**
+     * Return the channel associated to this result. It may be used to send a
+     * message in the channel reporting the new scores of the players.
+     */
+    public Channel getChannel()
+    {
+        return channel;
+    }
+
+    public void setChannel(Channel channel)
+    {
+        this.channel = channel;
     }
 
     /**

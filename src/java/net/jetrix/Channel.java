@@ -390,6 +390,7 @@ public class Channel extends Thread implements Destination
             // initialiaze the game result
             result = new GameResult();
             result.setStartTime(new Date());
+            result.setChannel(this);
 
             // change the game state of the players
             Iterator it = slots.iterator();
