@@ -72,16 +72,16 @@ public class MessageQueue
     /**
      * Add a new Message in the queue.
      *
-     * @param elem Message to add
+     * @param message the Message to add in the queue
      */
-    public void put(Message elem)
+    public void put(Message message)
     {
         if (!closed)
         {
             synchronized(putLock)
             {
                 MessageQueue.Node m = new MessageQueue.Node();
-                m.value = elem;
+                m.value = message;
 
                 if (tail != null) { tail.next = m; }
                 if (head == null) { head = m; }
