@@ -87,6 +87,27 @@ public class Language
     }
 
     /**
+     * Return the list of languages supported by the server.
+     */
+    public static Collection getLocales()
+    {
+        Collection locales = new ArrayList();
+
+        String[] languages = Locale.getISOLanguages();
+
+        for (int i = 0; i < languages.length; i++)
+        {
+            Locale locale = new Locale(languages[i]);
+            if (isSupported(locale))
+            {
+                locales.add(locale);
+            }
+        }
+
+        return locales;
+    }
+
+    /**
      * Return the specified localized text for a given locale.
      *
      * @param key the text key in the resource bundle

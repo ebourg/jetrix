@@ -80,21 +80,18 @@ public class LanguageCommand implements Command
         else
         {
             // list all available locales
-            String[] languages = Locale.getISOLanguages();
+            Iterator locales = Language.getLocales().iterator();
 
             PlineMessage header = new PlineMessage();
             header.setKey("command.language.available");
             client.sendMessage(header);
 
-            for (int i = 0; i < languages.length; i++)
+            while (locales.hasNext())
             {
-                Locale locale = new Locale(languages[i]);
-                if (Language.isSupported(locale))
-                {
-                    PlineMessage line = new PlineMessage();
-                    line.setKey("command.language.list_format", new Object[] {locale.getLanguage(), locale.getDisplayLanguage(client.getUser().getLocale())});
-                    client.sendMessage(line);
-                }
+                Locale locale = (Locale) locales.next();
+                PlineMessage line = new PlineMessage();
+                line.setKey("command.language.list_format", new Object[] {locale.getLanguage(), locale.getDisplayLanguage(client.getUser().getLocale())});
+                client.sendMessage(line);
             }
         }
     }
