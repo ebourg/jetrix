@@ -23,8 +23,10 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.logging.*;
+import java.beans.*;
 
 import org.apache.commons.digester.*;
+import org.apache.commons.beanutils.*;
 import org.xml.sax.*;
 
 import net.jetrix.*;
@@ -63,6 +65,9 @@ public class ServerConfig
     private boolean running;
     private int status;
     private Statistics statistics;
+
+    private URL serverConfigURL;
+    private URL channelsConfigURL;
 
     public static final int STATUS_OPENED = 0;
     public static final int STATUS_LOCKED = 1;
@@ -109,13 +114,15 @@ public class ServerConfig
 
             // parse the server configuration
             digester.push(this);
-            Reader reader = new InputStreamReader(findResource("server.xml").openStream(), ENCODING);
+            serverConfigURL = findResource("server.xml");
+            Reader reader = new InputStreamReader(serverConfigURL.openStream(), ENCODING);
             digester.parse(new InputSource(reader));
             reader.close();
 
             // parse the channel configuration
             digester.push(this);
-            reader = new InputStreamReader(findResource("channels.xml").openStream(), ENCODING);
+            channelsConfigURL = findResource("channels.xml");
+            reader = new InputStreamReader(channelsConfigURL.openStream(), ENCODING);
             digester.parse(new InputSource(reader));
             reader.close();
         }
@@ -133,7 +140,17 @@ public class ServerConfig
         // todo make a backup copy of the previous configuration files
 
         // save the server.xml file
-        PrintWriter out = new PrintWriter(new FileWriter("server2.xml"));
+        PrintWriter out = null;
+
+        try
+        {
+            File file = new File(serverConfigURL.toURI());
+            out = new PrintWriter(new FileWriter(file));
+        }
+        catch (URISyntaxException e)
+        {
+            log.log(Level.SEVERE, e.getMessage(), e);
+        }
 
         out.println("<?xml version=\"1.0\"?>");
         out.println("<!DOCTYPE tetrinet-server PUBLIC \"-//LFJR//Jetrix TetriNET Server//EN\" \"http://jetrix.sourceforge.net/dtd/tetrinet-server.dtd\">");
@@ -180,9 +197,36 @@ public class ServerConfig
         out.println("  <services>");
         for (Service service : getServices())
         {
-            String autostart = !service.isAutoStart() ? " auto-start=\"false\"" : "";
-            out.println("    <service class=\"" + service.getClass().getName() + "\"" + autostart + "/>");
-            // todo add the custom parameters
+            try
+            {
+                // get the parameters
+                Map<String, Object> params = PropertyUtils.describe(service);
+
+                String autostart = !service.isAutoStart() ? "auto-start=\"false\"" : "";
+                String classname = "class=\"" + service.getClass().getName() + "\"";
+
+                if (params.size() <= 4)
+                {
+                    out.println("    <service " + classname + " " + autostart + "/>");
+                }
+                else
+                {
+                    out.println("    <service " + classname + " " + autostart + ">");
+                    for (String param : params.keySet())
+                    {
+                        PropertyDescriptor desc = PropertyUtils.getPropertyDescriptor(service, param);
+                        if (!"autoStart".equals(param) && desc.getWriteMethod() != null)
+                        {
+                            out.println("      <param name=\"" + param + "\" value=\"" + params.get(param) + "\"/>");
+                        }
+                    }
+                    out.println("    </service>");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         out.println("  </services>");
         out.println();
@@ -220,7 +264,15 @@ public class ServerConfig
         out.close();
 
         // save the channels.xml file
-        out = new PrintWriter(new FileWriter("channels2.xml"));
+        try
+        {
+            File file = new File(channelsConfigURL.toURI());
+            out = new PrintWriter(new FileWriter(file));
+        }
+        catch (URISyntaxException e)
+        {
+            log.log(Level.SEVERE, e.getMessage(), e);
+        }
 
         out.println("<?xml version=\"1.0\"?>");
         out.println("<!DOCTYPE tetrinet-channels PUBLIC \"-//LFJR//Jetrix Channels//EN\" \"http://jetrix.sourceforge.net/dtd/tetrinet-channels.dtd\">");
