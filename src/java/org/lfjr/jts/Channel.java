@@ -34,8 +34,8 @@ import org.lfjr.jts.filter.*;
  */
 public class Channel extends Thread
 {
-    private ChannelConfig cconf;
-    private ServerConfig conf;
+    private ChannelConfig channelConfig;
+    private ServerConfig serverConfig;
     private Logger logger = Logger.getLogger("net.jetrix");
 
     private MessageQueue mq;
@@ -62,10 +62,10 @@ public class Channel extends Thread
         this(new ChannelConfig());
     }
 
-    public Channel(ChannelConfig cconf)
+    public Channel(ChannelConfig channelConfig)
     {
-        this.cconf = cconf;
-        this.conf = TetriNETServer.getInstance().getConfig();
+        this.channelConfig = channelConfig;
+        this.serverConfig  = TetriNETServer.getInstance().getConfig();
         this.gameState = GAME_STATE_STOPPED;
 
         // opening channel message queue
@@ -78,11 +78,11 @@ public class Channel extends Thread
          */
 
         // global filters
-        Iterator it = conf.getGlobalFilters();
+        Iterator it = serverConfig.getGlobalFilters();
         while ( it.hasNext() ) { addFilter( (FilterConfig)it.next() ); }
 
         // channel filters
-        it = cconf.getFilters();
+        it = channelConfig.getFilters();
         while ( it.hasNext() ) { addFilter( (FilterConfig)it.next() ); }
     }
 
@@ -113,7 +113,7 @@ public class Channel extends Thread
             // adding filter to the list
             filters.add(filter);
 
-            logger.info("["+cconf.getName()+"] loaded filter " + filter.getName() + " " + filter.getVersion());
+            logger.info("["+channelConfig.getName()+"] loaded filter " + filter.getName() + " " + filter.getVersion());
         }
         catch (FilterException e)
         {
@@ -128,9 +128,9 @@ public class Channel extends Thread
      */
     public void run()
     {
-        logger.info("Channel " + cconf.getName() + " opened");
+        logger.info("Channel " + channelConfig.getName() + " opened");
 
-        while (running && conf.isRunning())
+        while (running && serverConfig.isRunning())
         {
             LinkedList l = new LinkedList();
 
@@ -157,13 +157,13 @@ public class Channel extends Thread
 
         }
 
-        logger.info("Channel " + cconf.getName() + " closed");
+        logger.info("Channel " + channelConfig.getName() + " closed");
     }
 
     public void process(Message m)
     {
         int slot;
-        
+
         switch(m.getCode())
         {
             case Message.MSG_SLASHCMD:
@@ -195,8 +195,46 @@ public class Channel extends Thread
                                                    new Object[] { new Integer(0), ChatColors.darkBlue+"/move is not implemented yet" });
                     ((TetriNETClient)m.getSource()).sendMessage(response);
                 }
+                else if ("/config".equalsIgnoreCase(cmd) || "/conf".equalsIgnoreCase(cmd) || "/settings".equalsIgnoreCase(cmd))
+                {
+                    Settings s = channelConfig.getSettings();
+                    String configLines[] = new String[18];
+
+                    configLines[0]  = ChatColors.darkBlue + ChatColors.bold + "Blocks			Specials";
+                    configLines[1]  = ChatColors.darkBlue + "Left L	: "+ChatColors.purple+s.getBlockOccurancy(Settings.BLOCK_LEFTL)+"%"+ChatColors.purple+"		("+ChatColors.purple+"A"+ChatColors.purple+") Add Line	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_ADDLINE)+"%";
+                    configLines[2]  = ChatColors.darkBlue + "Right L	: "+ChatColors.purple+s.getBlockOccurancy(Settings.BLOCK_RIGHTL)+"%"+ChatColors.purple+"		("+ChatColors.purple+"C"+ChatColors.purple+") Clear Line	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_CLEARLINE)+"%";
+                    configLines[3]  = ChatColors.darkBlue + "Square	: "+ChatColors.purple+s.getBlockOccurancy(Settings.BLOCK_SQUARE)+"%"+ChatColors.purple+"		("+ChatColors.purple+"N"+ChatColors.purple+") Nuke Field	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_NUKEFIELD)+"%";
+                    configLines[4]  = ChatColors.darkBlue + "Left Z	: "+ChatColors.purple+s.getBlockOccurancy(Settings.BLOCK_LEFTZ)+"%"+ChatColors.purple+"		("+ChatColors.purple+"R"+ChatColors.purple+") Random Clear	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_RANDOMCLEAR)+"%";
+                    configLines[5]  = ChatColors.darkBlue + "Right Z	: "+ChatColors.purple+s.getBlockOccurancy(Settings.BLOCK_RIGHTZ)+"%"+ChatColors.purple+"		("+ChatColors.purple+"N"+ChatColors.purple+") Switch Field	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_SWITCHFIELD)+"%";
+                    configLines[6]  = ChatColors.darkBlue + "Cross	: "+ChatColors.purple+s.getBlockOccurancy(Settings.BLOCK_HALFCROSS)+"%"+ChatColors.purple+"		("+ChatColors.purple+"B"+ChatColors.purple+") Clear Special	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_CLEARSPECIAL)+"%";
+                    configLines[7]  = ChatColors.darkBlue + "Line	: "+ChatColors.purple+s.getBlockOccurancy(Settings.BLOCK_LINE)+"%"+ChatColors.purple+"		("+ChatColors.purple+"G"+ChatColors.purple+") Gravity	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_GRAVITY)+"%";
+                    configLines[8]  = ChatColors.darkBlue + "			("+ChatColors.purple+"Q"+ChatColors.purple+") Quake Field	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_QUAKEFIELD)+"%";
+                    configLines[9]  = ChatColors.darkBlue + ChatColors.bold + "Rules" + ChatColors.bold + "			("+ChatColors.purple+"O"+ChatColors.purple+") Blockbomb	: "+ChatColors.purple+s.getSpecialOccurancy(Settings.SPECIAL_BLOCKBOMB)+"%";
+                    configLines[10] = ChatColors.darkBlue + "Starting Level	: " + ChatColors.blue + s.getStartingLevel();
+                    configLines[11] = ChatColors.darkBlue + "Lines per Level	: " + ChatColors.blue + s.getLinesPerLevel();
+                    configLines[12] = ChatColors.darkBlue + "Level Increase	: " + ChatColors.blue + s.getLevelIncrease();
+                    configLines[13] = ChatColors.darkBlue + "Lines per Special	: " + ChatColors.blue + s.getLinesPerSpecial();
+                    configLines[14] = ChatColors.darkBlue + "Special Added	: " + ChatColors.blue + s.getSpecialAdded();
+                    configLines[15] = ChatColors.darkBlue + "Special Capacity	: " + ChatColors.blue + s.getSpecialCapacity();
+                    configLines[16] = ChatColors.darkBlue + "Classic Rules	: " + ChatColors.blue + (s.getClassicRules()?"yes":"no");
+                    configLines[17] = ChatColors.darkBlue + "Average Levels	: " + ChatColors.blue + (s.getAverageLevels()?"yes":"no");
+                    //configLines[18] = "";
+                    //configLines[19] = ChatColors.darkBlue + ChatColors.bold + "Filters" + ChatColors.bold + "  (type " + ChatColors.red + "/filter" + ChatColors.red + " for details)";
+                    //configLines[20] = ChatColors.darkBlue + "start, flood, amplifier";
+                                        
+                    TetriNETClient client = (TetriNETClient)m.getSource();
+
+                    for (int i = 0; i < configLines.length; i++)
+                    {
+                        Message configMessage = new Message(Message.MSG_PLINE);
+                        configMessage.setParameters(new Object[] { new Integer(0), configLines[i] });
+                        client.sendMessage(configMessage);
+                    }
+
+                }
                 else
                 {
+                    // forwards the command to the server
                     TetriNETServer.getInstance().addMessage(m);
                 }
                 break;
@@ -262,7 +300,7 @@ public class Channel extends Thread
 
             case Message.MSG_SB:
                 // specials are not forwarded in pure mode
-                if ( cconf.getSettings().getLinesPerSpecial() >0 )
+                if ( channelConfig.getSettings().getLinesPerSpecial() >0 )
                 {
                     slot = m.getIntParameter(2);
                     sendAll(m, slot);
@@ -356,7 +394,7 @@ public class Channel extends Thread
 
                     // sending message to the previous channel announcing what channel the player joined
                     Message leave2 = new Message(Message.MSG_PLINE);
-                    leave2.setParameters(new Object[] { new Integer(0), ChatColors.gray + client.getPlayer().getName()+" has joined channel " + ChatColors.bold + cconf.getName() });
+                    leave2.setParameters(new Object[] { new Integer(0), ChatColors.gray + client.getPlayer().getName()+" has joined channel " + ChatColors.bold + channelConfig.getName() });
                     previousChannel.addMessage(leave2);
 
                     // ending running game
@@ -421,7 +459,7 @@ public class Channel extends Thread
 
                     // sending welcome massage to incomming player
                     Message mwelcome = new Message(Message.MSG_PLINE);
-                    String welcomeText = ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + ChatColors.bold + cconf.getName();
+                    String welcomeText = ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + ChatColors.bold + channelConfig.getName();
                     mwelcome.setParameters(new Object[] { new Integer(0), welcomeText });
                     client.sendMessage(mwelcome);
 
@@ -497,7 +535,7 @@ public class Channel extends Thread
      */
     public boolean isFull()
     {
-        return getNbPlayers() >= cconf.getMaxPlayers();
+        return getNbPlayers() >= channelConfig.getMaxPlayers();
     }
 
     public boolean isEmpty()
@@ -514,7 +552,7 @@ public class Channel extends Thread
     {
         int count = 0;
 
-        for (int i = 0; i<cconf.getMaxPlayers(); i++)
+        for (int i = 0; i<channelConfig.getMaxPlayers(); i++)
         {
             if (playerList[i]!=null)
             {
@@ -530,7 +568,7 @@ public class Channel extends Thread
      */
     public ChannelConfig getConfig()
     {
-        return cconf;
+        return channelConfig;
     }
 
     /**
@@ -548,7 +586,7 @@ public class Channel extends Thread
     {
         int slot = 0;
 
-        for (int i = 0; i<cconf.getMaxPlayers(); i++)
+        for (int i = 0; i<channelConfig.getMaxPlayers(); i++)
         {
             if (playerList[i]==client) slot=i+1;
         }
