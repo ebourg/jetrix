@@ -70,7 +70,7 @@ public class GameResult
         return gamePlayers;
     }
 
-    public void addGamePlayer(GamePlayer gamePlayer)
+    private void addGamePlayer(GamePlayer gamePlayer)
     {
         if (gamePlayers == null)
         {
@@ -143,4 +143,35 @@ public class GameResult
 
         return players;
     }
+
+    /**
+     * Return the number of teams in this game.
+     */
+    public int getTeamCount()
+    {
+        Map teams = new HashMap();
+
+        int teamCount = 0;
+
+        Iterator players = gamePlayers.iterator();
+
+        while (players.hasNext())
+        {
+            GamePlayer player = (GamePlayer) players.next();
+
+            String team = player.getTeamName();
+
+            if (team == null)
+            {
+                teamCount++;
+            }
+            else
+            {
+                teams.put(team, team);
+            }
+        }
+
+        return teamCount + teams.size();
+    }
+
 }
