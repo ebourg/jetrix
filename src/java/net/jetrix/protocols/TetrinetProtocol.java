@@ -19,6 +19,7 @@
 
 package net.jetrix.protocols;
 
+import java.io.*;
 import java.util.*;
 
 import net.jetrix.*;
