@@ -84,4 +84,9 @@ public class WinlistScore
         result = 29 * result + type;
         return result;
     }
+
+    public String toString()
+    {
+        return "[Score name=" + name + " value=" + score + " type=" + type + "]";
+    }
 }
