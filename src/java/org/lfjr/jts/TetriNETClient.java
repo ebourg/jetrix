@@ -25,8 +25,9 @@ import java.util.*;
 import org.lfjr.jts.config.*;
 
 /**
- * Thread assurant la communication avec un client TetriNET.
- *
+ * Layer handling communication with a client. Incomming messages are turned
+ * into a server understandable format and forwarded to the apropriate 
+ * destination for processing (player's channel or main server thread)
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -103,7 +104,7 @@ class TetriNETClient extends Thread
                     m.setCode(Message.MSG_PLINE);
 
                     Integer slot = new Integer(st.nextToken());
-                    String text = st.nextToken();
+                    String text = (st.hasMoreTokens())?st.nextToken():"";
                     Object[] params = { slot, text };
                     m.setParameters(params);
                 }
@@ -189,7 +190,7 @@ class TetriNETClient extends Thread
                     m.setCode(Message.MSG_LVL);
 
                     Integer slot = new Integer(st.nextToken());
-                    String field = st.nextToken();
+                    String field = (st.hasMoreTokens())?st.nextToken():null;
                     Object[] params = { slot, field };
                     m.setParameters(params);
                 }
@@ -202,6 +203,11 @@ class TetriNETClient extends Thread
 		    System.out.println("Bad format message");
 		    e.printStackTrace();
 		}
+		catch (NoSuchElementException e)
+		{
+		    System.out.println("Bad format message");
+		    e.printStackTrace();
+		}		
             } // end while
         }
         catch (IOException e)
@@ -209,6 +215,7 @@ class TetriNETClient extends Thread
             Message m = new Message();
             m.setCode(Message.MSG_DISCONNECTED);
             Object[] params = { this };
+            m.setParameters(params);
             channel.addMessage(m);
         }
         finally
@@ -220,10 +227,10 @@ class TetriNETClient extends Thread
     }
 
 
-    public BufferedWriter getOutputWriter()
+    /*public BufferedWriter getOutputWriter()
     {
         return out;
-    }
+    }*/
 
 
     /**

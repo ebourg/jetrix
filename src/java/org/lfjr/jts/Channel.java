@@ -46,7 +46,7 @@ public class Channel extends Thread
 
     private int gameState;
 
-    private TetriNETClient[] listeJoueurs = new TetriNETClient[6];
+    private TetriNETClient[] playerList = new TetriNETClient[6];
     
     private ArrayList filters; 
 
@@ -57,10 +57,10 @@ public class Channel extends Thread
 
     public Channel(ChannelConfig cconf)
     {
-    	this.cconf = cconf;
-    	conf = ServerConfig.getInstance();
-    	
-    	// opening channel message queue
+        this.cconf = cconf;
+        conf = ServerConfig.getInstance();
+            
+        // opening channel message queue
         mq = new MessageQueue();
         
         filters = new ArrayList();
@@ -68,7 +68,7 @@ public class Channel extends Thread
 
     public void run()
     {
-    	System.out.println("Channel "+cconf.getName()+" opened");
+            System.out.println("Channel "+cconf.getName()+" opened");
 
         while (running && conf.isRunning())
         {
@@ -79,113 +79,115 @@ public class Channel extends Thread
                 
                 System.out.println("Channel["+cconf.getName()+"]: processing "+m);
                 
-            	switch(m.getCode())
-            	{
-            	    case Message.MSG_TEAM:
-            	        slot = ((Integer)m.getParameter(0)).intValue();            	        
-            	        listeJoueurs[slot - 1].getPlayer().setTeam((String)m.getParameter(1));            	                    	      
-            	        sendAll(m, slot);            	    
-            	        break;
-            	        
-            	    case Message.MSG_GMSG:
-            	        sendAll(m);
-            	        break;	     
+                    switch(m.getCode())
+                    {
+                        case Message.MSG_TEAM:
+                            slot = ((Integer)m.getParameter(0)).intValue();                            
+                            playerList[slot - 1].getPlayer().setTeam((String)m.getParameter(1));                                                      
+                            sendAll(m, slot);                        
+                            break;
+                            
+                        case Message.MSG_GMSG:
+                            sendAll(m);
+                            break;
 
-            	    case Message.MSG_PLINE:
-            	        slot = ((Integer)m.getParameter(0)).intValue();
-            	        String text = (String)m.getParameter(1);
-            	        if (!text.startsWith("/")) sendAll(m, slot);
-            	        break;
-            	                    	        
-            	    case Message.MSG_PLINEACT:
-            	        slot = ((Integer)m.getParameter(0)).intValue();
-            	        sendAll(m, slot);
-            	        break;	  
-            	        
-            	    case Message.MSG_PAUSE:
-            	        gameState = GAME_STATE_PAUSED;
-            	        sendAll(m);
-            	        break;   
-            	        
-            	    case Message.MSG_PLAYERLOST:
-            	        sendAll(m);
-            	        break;
-            	        
-            	    case Message.MSG_SB:
-            	        slot = ((Integer)m.getParameter(2)).intValue();
-            	        sendAll(m, slot);
-            	        break;
-            	        
-            	    case Message.MSG_LVL:
-            	        // how does it work ?
-            	        break;
-            	        
-            	    case Message.MSG_FIELD:
-            	        slot = ((Integer)m.getParameter(0)).intValue();
-            	        sendAll(m, slot);
-            	        break;            	   
-            	        
-            	    case Message.MSG_STARTGAME:
-            	        Settings s = cconf.getSettings();
-            	        String raw = "newgame " + s.getStackHeight() + " " + s.getStartingLevel() + " " + s.getLinesPerLevel() + " " + s.getLevelIncrease() + " " + s.getLinesPerSpecial() + " " + s.getSpecialAdded() + " " + s.getSpecialCapacity() + " ";
-                        for (int i = 0; i<7; i++)
-                        {
-                            for (int j = 0; j<s.getBlockOccurancy(i); j++) { raw = raw + (i + 1); }
-                        }
-            	        
-            	        raw += " ";
-            	        
-                        for (int i = 0; i<9; i++)
-                        {
-                            for (int j = 0; j<s.getSpecialOccurancy(i); j++) { raw = raw + (i + 1); }
-                        }
+                        case Message.MSG_PLINE:
+                            slot = ((Integer)m.getParameter(0)).intValue();
+                            String text = (String)m.getParameter(1);
+                            if (!text.startsWith("/")) sendAll(m, slot);
+                            break;
+                                                        
+                        case Message.MSG_PLINEACT:
+                            slot = ((Integer)m.getParameter(0)).intValue();
+                            sendAll(m, slot);
+                            break;
+                            
+                        case Message.MSG_PAUSE:
+                            gameState = GAME_STATE_PAUSED;
+                            sendAll(m);
+                            break;
+                            
+                        case Message.MSG_PLAYERLOST:
+                            sendAll(m);
+                            break;
+                            
+                        case Message.MSG_SB:
+                            slot = ((Integer)m.getParameter(2)).intValue();
+                            sendAll(m, slot);
+                            break;
+                            
+                        case Message.MSG_LVL:
+                            // how does it work ?
+                            break;
+                            
+                        case Message.MSG_FIELD:
+                            slot = ((Integer)m.getParameter(0)).intValue();
+                            sendAll(m, slot);
+                            break;                       
+                            
+                        case Message.MSG_STARTGAME:
+                            Settings s = cconf.getSettings();
+                            String raw = "newgame " + s.getStackHeight() + " " + s.getStartingLevel() + " " + s.getLinesPerLevel() + " " + s.getLevelIncrease() + " " + s.getLinesPerSpecial() + " " + s.getSpecialAdded() + " " + s.getSpecialCapacity() + " ";
+                            for (int i = 0; i<7; i++)
+                            {
+                                for (int j = 0; j<s.getBlockOccurancy(i); j++) { raw = raw + (i + 1); }
+                            }
+                            
+                            raw += " ";
+                            
+                            for (int i = 0; i<9; i++)
+                            {
+                                for (int j = 0; j<s.getSpecialOccurancy(i); j++) { raw = raw + (i + 1); }
+                            }
                         
-                        raw += " " + (s.getAverageLevels() ? "1" : "0") + " " + (s.getClassicRules() ? "1" : "0");
-            	                    	                    	        
-            	        gameState = GAME_STATE_STARTED;
-            	        m.setRawMessage(raw);
-            	        sendAll(m);
-            	        break;          
-            	        
-            	    case Message.MSG_ENDGAME:
-            	        gameState = GAME_STATE_STOPPED;
-            	        sendAll(m);
-            	        break;    
-            	        
-            	    case Message.MSG_DISCONNECTED:
-            	        // searching player slot
-            	        TetriNETClient client = (TetriNETClient)m.getParameter(0);
-            	        
-            	        slot=0;
-            	        int i = 0;
-            	        while(i<listeJoueurs.length && slot==0)
-            	        {
-            	            if (listeJoueurs[i] == client) { slot = i; }
-            	            i++;
-            	        }
-            	        
-            	        listeJoueurs[slot] = null;
-            	        m.setRawMessage("playerleave " + slot);
-            	        
-            	        sendAll(m);
-            	        break;
-            	        
-            	    case Message.MSG_ADDPLAYER:
-            	        client = (TetriNETClient)m.getParameter(0);
-            	        if (client.getChannel()==null)
-            	        {
-            	            // first channel assigned
-            	            client.assignChannel(this);
-            	            client.start();	
-            	        }
-            	        else
-            	        {
-            	            // leaving a previous channel
-            	            // ...
-            	        }
-            	        
-            	        // looking for the first free slot
-                        for (slot=0; slot<6 && listeJoueurs[slot]!=null; slot++);
+                            raw += " " + (s.getAverageLevels() ? "1" : "0") + " " + (s.getClassicRules() ? "1" : "0");
+                                                                                    
+                            gameState = GAME_STATE_STARTED;
+                            m.setRawMessage(raw);
+                            sendAll(m);
+                            break;          
+                            
+                        case Message.MSG_ENDGAME:
+                            gameState = GAME_STATE_STOPPED;
+                            sendAll(m);
+                            break;    
+                            
+                        case Message.MSG_DISCONNECTED:
+                            // searching player slot
+                            TetriNETClient client = (TetriNETClient)m.getParameter(0);
+                            
+                            slot=0;
+                            int i = 0;
+                            while(i<playerList.length && slot==0)
+                            {
+                                if (playerList[i] == client) { slot = i; }
+                                i++;
+                            }
+                            
+                            // removing player from channel members
+                            playerList[slot] = null;
+                            
+                            // sending notification to players
+                            m.setRawMessage("playerleave " + (slot+1));                            
+                            sendAll(m);
+                            break;
+                            
+                        case Message.MSG_ADDPLAYER:
+                            client = (TetriNETClient)m.getParameter(0);
+                            if (client.getChannel()==null)
+                            {
+                                // first channel assigned
+                                client.assignChannel(this);
+                                client.start();        
+                            }
+                            else
+                            {
+                                // leaving a previous channel
+                                // ...
+                            }
+                            
+                            // looking for the first free slot
+                        for (slot=0; slot<6 && playerList[slot]!=null; slot++);
 
                         if (slot>=6)
                         {
@@ -193,36 +195,50 @@ public class Channel extends Thread
                         }
                         else
                         {
-                            listeJoueurs[slot]= client;
+                            playerList[slot]= client;
                             
-            	            // sending new player notice to other players in the channel
-            	            Message mjoin = new Message(Message.MSG_PLAYERJOIN);
-            	            Object paramsjoin[] = { new Integer(slot+1), client.getPlayer().getName() };
-            	            mjoin.setParameters(paramsjoin);
-            	            sendAll(mjoin, slot+1);
+                            // sending new player notice to other players in the channel
+                            Message mjoin = new Message(Message.MSG_PLAYERJOIN);
+                            Object paramsjoin[] = { new Integer(slot+1), client.getPlayer().getName() };
+                            mjoin.setParameters(paramsjoin);
+                            sendAll(mjoin, slot+1);
 
-            	            // sending slot number to incomming player            	        
-            	            Message mnum = new Message(Message.MSG_PLAYERNUM);
-            	            Object paramsnum[] = { new Integer(slot+1) };
-            	            mnum.setParameters(paramsnum);
-            	            client.sendMessage(mnum);
-            	            
-            	            // sending player list to incomming player
-            	            /*Message mteam = new Message(Message.MSG_TEAM);
-            	            Object paramsteam[] = { new Integer(slot+1), client.getPlayer().getTeam() };
-            	            mteam.setParameters(paramsteam);*/            	            
-            	            
-            	            // sending team list to incomming player
-            	                   
-            	            // sending welcome massage to incomming player
-            	            Message mwelcome = new Message(Message.MSG_PLINE);
-            	            Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + cconf.getName() };
-            	            mwelcome.setParameters(paramswelcome);            	            
-            	            client.sendMessage(mwelcome);            	            
-                        }
-            	        
-            	        break;       	          	                	                		            		
-            	}         
+                            // sending slot number to incomming player                            
+                            Message mnum = new Message(Message.MSG_PLAYERNUM);
+                            Object paramsnum[] = { new Integer(slot+1) };
+                            mnum.setParameters(paramsnum);
+                            client.sendMessage(mnum);
+                                
+                            // sending player and team list to incomming player
+                            for (i=0; i<playerList.length; i++)
+                            {
+                                if (playerList[i]!=null && i!=slot)
+                                {
+                                    TetriNETClient resident = (TetriNETClient)playerList[i];
+                                          
+                                    // players...
+                                    Message mjoin2 = new Message(Message.MSG_PLAYERJOIN);
+                                    Object paramsjoin2[] = { new Integer(i+1), resident.getPlayer().getName() };
+                                    mjoin2.setParameters(paramsjoin2);
+                                    client.sendMessage(mjoin2);
+                                            
+                                    // ...and teams
+                                    Message mteam = new Message(Message.MSG_TEAM);
+                                    Object paramsteam[] = { new Integer(i+1), resident.getPlayer().getTeam() };
+                                    mteam.setParameters(paramsteam);
+                                    client.sendMessage(mteam);                                                             
+                                }
+                            }
+                                                          
+                            // sending welcome massage to incomming player
+                            Message mwelcome = new Message(Message.MSG_PLINE);
+                            Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + cconf.getName() };
+                            mwelcome.setParameters(paramswelcome);                                
+                            client.sendMessage(mwelcome);                                
+                    }
+                            
+                    break;                                                                                                                     
+                }         
 
             }
             catch (Exception e)
@@ -231,8 +247,8 @@ public class Channel extends Thread
             }
 
         }
-	
-	System.out.println("Channel "+cconf.getName()+" closed");
+        
+        System.out.println("Channel "+cconf.getName()+" closed");
     }
 
     /**
@@ -252,11 +268,11 @@ public class Channel extends Thread
      */
     protected void sendAll(Message m)
     {
-        for (int i=0; i<listeJoueurs.length; i++)
+        for (int i=0; i<playerList.length; i++)
         {
-             TetriNETClient client = listeJoueurs[i];
-             if (client != null) client.sendMessage(m);            	      
-        }     	
+             TetriNETClient client = playerList[i];
+             if (client != null) client.sendMessage(m);                          
+        }             
     }
 
     /**
@@ -267,14 +283,14 @@ public class Channel extends Thread
      */    
     protected void sendAll(Message m, int slot)
     {
-        for (int i=0; i<listeJoueurs.length; i++)
+        for (int i=0; i<playerList.length; i++)
         {
              if (i+1 != slot)
              {
-                 TetriNETClient client = listeJoueurs[i];
-                 if (client != null) client.sendMessage(m);            	      
+                 TetriNETClient client = playerList[i];
+                 if (client != null) client.sendMessage(m);                          
              }
-        }        	
+        }                
     }
 
     /**
@@ -288,7 +304,7 @@ public class Channel extends Thread
 
         for (int i = 0; i<cconf.getMaxPlayers(); i++)
         {
-            if (listeJoueurs[i++]!=null)
+            if (playerList[i++]!=null)
             {
                 count++;
             }
@@ -319,4 +335,3 @@ public class Channel extends Thread
     public void swichPlayers(int i, int j) {}
 
 }
-
