@@ -71,7 +71,6 @@ public abstract class ClientListener implements Runnable
         catch (IOException e)
         {
             logger.severe("Cannot open ServerSocket");
-            //serverConfig.setRunning(false);
             e.printStackTrace();
         }
 
@@ -125,7 +124,6 @@ public abstract class ClientListener implements Runnable
                 }
 
 
-
                 // testing ban list
                 // ....
 
@@ -154,6 +152,30 @@ public abstract class ClientListener implements Runnable
             {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * Start the listener.
+     */
+    public void start()
+    {
+        (new Thread(this)).start();
+    }
+
+    /**
+     * Stop the listener.
+     */
+    public void stop()
+    {
+        try 
+        {
+            logger.info("Stopping listener " + getName());
+            serverSocket.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 
