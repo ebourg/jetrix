@@ -244,7 +244,7 @@ public class TetrinetClient implements Client
     public Message receiveMessage() throws IOException
     {
         // read raw message from socket
-        String line = ((TetrinetProtocol) protocol).readLine(in);
+        String line = TetrinetProtocol.readLine(in);
         lastMessageTime = System.currentTimeMillis();
         if (log.isLoggable(Level.FINER))
         {

@@ -872,10 +872,12 @@ public class TetrinetProtocol implements Protocol
      * Read a line as defined in the TetriNET protocol (that's ending with a
      * 0xFF character). 0xOA and 0xOD are also accepted as EOL characters.
      *
+     * @since 0.2.1
+     *
      * @param in the stream to be read
      * @throws IOException thrown if the stream is closed
      */
-    public String readLine(Reader in) throws IOException
+    public static String readLine(Reader in) throws IOException
     {
         StringBuffer input = new StringBuffer();
 
