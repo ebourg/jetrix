@@ -141,17 +141,10 @@ public class TetrinetClient implements Client
                     server.send(message);
                 }
             }
-
-            LeaveMessage leaveNotice = new LeaveMessage();
-            leaveNotice.setSlot(channel.getClientSlot(this));
-            leaveNotice.setName(user.getName());
-            channel.send(leaveNotice);
         }
         catch (IOException e)
         {
-            DisconnectedMessage disconnect = new DisconnectedMessage();
-            disconnect.setClient(this);
-            channel.send(disconnect);
+            log.log(Level.SEVERE, e.getMessage(), e);
         }
         finally
         {
@@ -159,7 +152,18 @@ public class TetrinetClient implements Client
             try { in.close(); }     catch (IOException e) { e.printStackTrace(); }
             try { out.close(); }    catch (IOException e) { e.printStackTrace(); }
             try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
+
+            // unregister the client from the server
             ClientRepository.getInstance().removeClient(this);
+
+            // remove the player from the channel
+            if (channel != null)
+            {
+                // todo: remove the client from all channels if it supports multiple channels (IRC clients)
+                DisconnectedMessage disconnect = new DisconnectedMessage();
+                disconnect.setClient(this);
+                channel.send(disconnect);
+            }
         }
     }
 
