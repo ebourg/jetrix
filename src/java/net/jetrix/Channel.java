@@ -19,7 +19,6 @@
 
 package net.jetrix;
 
-import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 import net.jetrix.config.*;
@@ -49,9 +48,11 @@ public class Channel extends Thread implements Destination
 
     private int gameState;
 
-    // array of clients connected to this channel
-    private List players;
-    private List spectators;
+    /** set of clients connected to this channel */
+    private Set clients;
+
+    /** slot/player mapping */
+    private List slots;
 
     private ArrayList filters;
 
@@ -68,8 +69,14 @@ public class Channel extends Thread implements Destination
         this.channelConfig = channelConfig;
         this.serverConfig  = Server.getInstance().getConfig();
         this.gameState = GAME_STATE_STOPPED;
-        this.players = new ArrayList(6);
-        this.spectators = new ArrayList();
+        this.clients = new HashSet();
+        this.slots = new ArrayList(6);
+
+        // initialize the slot mapping
+        for (int i = 0; i < 6; i++)
+        {
+            slots.add(null);
+        }
 
         // opening channel message queue
         mq = new MessageQueue();
@@ -241,9 +248,9 @@ public class Channel extends Thread implements Destination
             
             // looking for the slot of the winner
             slot = 0;
-            for (int i = 0; i < players.size(); i++)
+            for (int i = 0; i < slots.size(); i++)
             {
-                client = (Client)players.get(i);
+                client = (Client)slots.get(i);
 
                 if ( client != null && client.getUser().isPlaying() )
                 {
@@ -301,12 +308,14 @@ public class Channel extends Thread implements Destination
             // change the channel state
             gameState = GAME_STATE_STARTED;
 
-            // change the players state
-            for (int i = 0; i < players.size(); i++)
+            // change the game state of the players
+            Iterator it = slots.iterator();
+            while (it.hasNext())
             {
-                if(players.get(i) != null)
+                Client client = (Client)it.next();
+                System.out.println(client);
+                if (client != null)
                 {
-                    Client client = (Client)players.get(i);
                     client.getUser().setPlaying(true);
                 }
             }
@@ -341,70 +350,61 @@ public class Channel extends Thread implements Destination
 
     private void process(DisconnectedMessage m)
     {
-        // searching player slot
         Client client = m.getClient();
-        int slot = getClientSlot(client);
-
-        // removing player from channel members
-        players.set(slot - 1, null);
-
-        // sending notification to players
-        LeaveMessage leaveNotice = new LeaveMessage();
-        leaveNotice.setSlot(slot);
-        sendAll(leaveNotice);
+        removeClient(client);
 
         PlineMessage disconnected = new PlineMessage();
         disconnected.setKey("channel.disconnected", new Object[] { client.getUser().getName() });
         sendAll(disconnected);
-
-        // stopping the game if the channel is now empty
-        if (isEmpty() && running) { gameState = GAME_STATE_STOPPED; }
     }
 
-    private void process(LeaveMessage m)
+    /*private void process(LeaveMessage m)
     {
         int slot = m.getSlot();
         players.set(slot - 1, null);
         sendAll(m);
+    }*/
 
-        // stopping the game if the channel is now empty
+    /**
+     * Remove the specified client from the channel.
+     */
+    public void removeClient(Client client)
+    {
+        if (client != null)
+        {
+            clients.remove(client);
+            int slot = slots.indexOf(client);
+
+            if (slot != -1)
+            {
+                slots.set(slot, null);
+                LeaveMessage leave = new LeaveMessage();
+                leave.setSlot(slot + 1);
+                sendAll(leave);
+            }
+            else
+            {
+                PlineMessage message = new PlineMessage();
+                message.setText("<green>*** <b>" + client.getUser().getName() + "</b> is no longer watching");
+                sendAll(message);
+            }
+        }
+
+        // stop the game if the channel is now empty
         if (isEmpty() && running) { gameState = GAME_STATE_STOPPED; }
     }
 
     private void process(AddPlayerMessage m)
     {
-        Client client = (Client)m.getClient();
+        Client client = m.getClient();
 
-        if (client.getChannel() == null)
+        Channel previousChannel = client.getChannel();
+        client.setChannel(this);
+
+        // remove the client from the previous channel
+        if (previousChannel != null)
         {
-            // first channel assigned
-            client.setChannel(this);
-            (new Thread(client)).start();
-        }
-        else
-        {
-            // leaving a previous channel
-            Channel previousChannel = client.getChannel();
-
-            // notice to players in the previous channel
-            LeaveMessage leave = new LeaveMessage();
-            leave.setSlot(previousChannel.getClientSlot(client));
-            previousChannel.sendMessage(leave);
-            client.setChannel(this);
-
-            // sending message to the previous channel announcing what channel the player joined
-            PlineMessage leave2 = new PlineMessage();
-            leave2.setKey("channel.join_notice", new Object[] { client.getUser().getName(), channelConfig.getName() });
-            previousChannel.sendMessage(leave2);
-
-            // ending running game
-            if (previousChannel.getGameState() != Channel.GAME_STATE_STOPPED)
-            {
-                Message endgame = new EndGameMessage();
-                client.sendMessage(endgame);
-            }
-
-            // clearing player list
+            // clear the player list
             for (int j = 1; j <= 6; j++)
             {
                 if (previousChannel.getPlayer(j) != null)
@@ -414,82 +414,101 @@ public class Channel extends Thread implements Destination
                     client.sendMessage(clear);
                 }
             }
+
+            previousChannel.removeClient(client);
+
+            // send a message to the previous channel announcing what channel the player joined
+            PlineMessage announce = new PlineMessage();
+            announce.setKey("channel.join_notice", new Object[] { client.getUser().getName(), channelConfig.getName() });
+            previousChannel.sendMessage(announce);
+
+            // clear the game status of the player
+            if (client.getUser().isPlaying())
+            {
+                client.sendMessage(new EndGameMessage());
+            }
         }
 
-        // looking for the first free slot
-        int slot = 0;
-        for (slot = 0; slot < players.size() && players.get(slot) != null; slot++);
+        // add the client to the channel
+        clients.add(client);
 
-        if (slot >= 6)
+        if (client.getUser().isSpectator())
         {
-            logger.warning("Panic, no slot available");
+            // announce the new spectator to the other clients in the channel
+            PlineMessage announce = new PlineMessage();
+            announce.setText("<green>*** <b>" + client.getUser().getName() + "</b> is Now Watching");
+            sendAll(announce, client);
         }
         else
         {
-            players.add(slot, client);
-            client.getUser().setPlaying(false);
+            // looking for the first free slot
+            int slot = 0;
+            for (slot = 0; slot < slots.size() && slots.get(slot) != null; slot++);
 
-            // sending new player notice to other players in the channel
-            JoinMessage mjoin = new JoinMessage();
-            mjoin.setSlot(slot + 1);
-            mjoin.setName(client.getUser().getName());
-            sendAll(mjoin, mjoin.getSlot());
-
-            // sending slot number to incomming player
-            PlayerNumMessage mnum = new PlayerNumMessage();
-            mnum.setSlot(slot + 1);
-            client.sendMessage(mnum);
-
-            // sending player and team list to incomming player
-            for (int i = 0; i < players.size(); i++)
+            if (slot >= 6)
             {
-                if (players.get(i) != null && i != slot)
-                {
-                    Client resident = getClient(i + 1);
-
-                    // players...
-                    JoinMessage mjoin2 = new JoinMessage();
-                    mjoin2.setSlot(i + 1);
-                    mjoin2.setName(resident.getUser().getName());
-                    client.sendMessage(mjoin2);
-
-                    // ...and teams
-                    TeamMessage mteam = new TeamMessage();
-                    mteam.setSlot(i + 1);
-                    mteam.setName(resident.getUser().getTeam());
-                    client.sendMessage(mteam);
-                }
+                logger.warning("[" + getConfig().getName() + "] Panic, no slot available for " + client);
+                client.getUser().setSpectator();
             }
-
-            // sending welcome massage to incomming player
-            PlineMessage mwelcome = new PlineMessage();
-            mwelcome.setKey("channel.welcome", new Object[] { client.getUser().getName(), channelConfig.getName() });
-            client.sendMessage(mwelcome);
-
-            // sending playerlost message if the game has started
-            if (gameState != GAME_STATE_STOPPED)
+            else
             {
-                //Message lost = new Message(Message.MSG_PLAYERLOST);
-                //lost.setParameters(new Object[] { new Integer(slot+1) });
-                //sendAll(lost);
+                slots.set(slot, client);
 
-                Message ingame = new IngameMessage();
-                client.sendMessage(ingame);
+                // announce the new player to the other clients in the channel
+                JoinMessage mjoin = new JoinMessage();
+                mjoin.setSlot(slot + 1);
+                mjoin.setName(client.getUser().getName());
+                sendAll(mjoin, client);
+
+                // send the slot number assigned to the new player
+                PlayerNumMessage mnum = new PlayerNumMessage();
+                mnum.setSlot(slot + 1);
+                client.sendMessage(mnum);
             }
+        }
+
+        // send the list of players and spectators
+        for (int i = 0; i < slots.size(); i++)
+        {
+            Client resident = (Client)slots.get(i);
+            if (resident != null && resident != client)
+            {
+                // players...
+                JoinMessage mjoin2 = new JoinMessage();
+                mjoin2.setSlot(i + 1);
+                mjoin2.setName(resident.getUser().getName()); // NPE
+                client.sendMessage(mjoin2);
+
+                // ...and teams
+                TeamMessage mteam = new TeamMessage();
+                mteam.setSlot(i + 1);
+                mteam.setName(resident.getUser().getTeam());
+                client.sendMessage(mteam);
+            }
+        }
+
+        // send a welcome message to the incomming client
+        PlineMessage mwelcome = new PlineMessage();
+        mwelcome.setKey("channel.welcome", new Object[] { client.getUser().getName(), channelConfig.getName() });
+        client.sendMessage(mwelcome);
+
+        // send the status of the game to the new client
+        if (gameState != GAME_STATE_STOPPED)
+        {
+            client.sendMessage(new IngameMessage());
 
             // tell the player if the game is currently paused
             if (gameState == GAME_STATE_PAUSED)
             {
-                Message pause = new PauseMessage();
-                client.sendMessage(pause);
+                client.sendMessage(new PauseMessage());
             }
         }
+
     }
 
     public void process(Message m)
     {
         logger.finest("[" + channelConfig.getName() + "] Processing " +  m);
-        int slot;
 
         if ( m instanceof CommandMessage) process((CommandMessage)m);
         else if ( m instanceof TeamMessage) process((TeamMessage)m);
@@ -506,13 +525,12 @@ public class Channel extends Thread implements Destination
         else if ( m instanceof StopGameMessage) process((StopGameMessage)m);
         else if ( m instanceof EndGameMessage) process((EndGameMessage)m);
         else if ( m instanceof DisconnectedMessage) process((DisconnectedMessage)m);
-        else if ( m instanceof LeaveMessage) process((LeaveMessage)m);
+        //else if ( m instanceof LeaveMessage) process((LeaveMessage)m);
         else if ( m instanceof AddPlayerMessage) process((AddPlayerMessage)m);
         else
         {
             logger.finest("[" + channelConfig.getName() + "] Message not processed " +  m);
         }
-
     }
 
     /**
@@ -528,33 +546,48 @@ public class Channel extends Thread implements Destination
     /**
      * Send a message to all players in this channel.
      *
-     * @param m message to send
+     * @param m       the message to send
      */
-    protected void sendAll(Message m)
+    private void sendAll(Message m)
     {
-        Iterator it = players.iterator();
+        // @todo add a fast mode to iterate on players only for game messages
+        Iterator it = clients.iterator();
         while (it.hasNext())
         {
             Client client = (Client)it.next();
-            if (client != null) client.sendMessage(m);
+            client.sendMessage(m);
         }
     }
 
     /**
      * Send a message to all players but the one in the specified slot.
      *
-     * @param m message to send
-     * @param slot
+     * @param m       the message to send
+     * @param slot    the slot to exclude
      */
-    protected void sendAll(Message m, int slot)
+    private void sendAll(Message m, int slot)
     {
-        for (int i = 0; i < players.size(); i++)
+        Client client = getClient(slot);
+        sendAll(m, client);
+    }
+
+    /**
+     * Send a message to all players but the specified client.
+     *
+     * @param m       the message to send
+     * @param c       the client to exclude
+     */
+    private void sendAll(Message m, Client c)
+    {
+        // @todo add a fast mode to iterate on players only for game messages
+        Iterator it = clients.iterator();
+        while (it.hasNext())
         {
-             if (i + 1 != slot)
-             {
-                 Client client = (Client)players.get(i);
-                 if (client != null) client.sendMessage(m);
-             }
+            Client client = (Client)it.next();
+            if (client != c)
+            {
+                client.sendMessage(m);
+            }
         }
     }
 
@@ -582,9 +615,9 @@ public class Channel extends Thread implements Destination
     {
         int count = 0;
 
-        for (int i = 0; i < players.size(); i++)
+        for (int i = 0; i < slots.size(); i++)
         {
-            if (players.get(i) != null)
+            if (slots.get(i) != null)
             {
                 count++;
             }
@@ -614,14 +647,7 @@ public class Channel extends Thread implements Destination
      */
     public int getClientSlot(Client client)
     {
-        int slot = 0;
-
-        for (int i = 0; i < players.size(); i++)
-        {
-            if (players.get(i) == client) slot = i + 1;
-        }
-
-        return slot;
+        return (slots.indexOf(client) + 1);
     }
 
     /**
@@ -635,9 +661,9 @@ public class Channel extends Thread implements Destination
     {
         Client client = null;
 
-        if (slot >= 1 && slot <= 6 && slot <= players.size() )
+        if (slot >= 1 && slot <= slots.size() )
         {
-            client = (Client)players.get(slot - 1);
+            client = (Client)slots.get(slot - 1);
         }
 
         return client;
@@ -657,20 +683,20 @@ public class Channel extends Thread implements Destination
     }
 
     /**
-     * Return an iterator of players in this channel
+     * Return an iterator of players in this channel.
      */
     public Iterator getPlayers()
     {
-        return players.iterator();
+        return slots.iterator();
     }
 
     /**
      * Return an iterator of spectators observing this channel.
      */
-    public Iterator getSpectators()
+    /*public Iterator getSpectators()
     {
         return spectators.iterator();
-    }
+    }*/
 
     /**
      * Count how many teams are still fighting for victory. A teamless player
@@ -686,9 +712,9 @@ public class Channel extends Thread implements Destination
 
         int nbTeamsLeft = 0;
 
-        for (int i = 0; i < players.size(); i++)
+        for (int i = 0; i < slots.size(); i++)
         {
-            Client client = (Client)players.get(i);
+            Client client = (Client)slots.get(i);
 
             if ( client != null && client.getUser().isPlaying() )
             {
