@@ -1,4 +1,11 @@
-<? header("Content-Type: text/html"); ?>
+<?
+    if (preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT'])) {
+        header("Content-Type: text/html");
+    } else {
+        header("Content-Type: application/xhtml+xml");
+        echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
+    }
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD xhtml 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
