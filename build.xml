@@ -50,7 +50,8 @@
         <include name="jetrix.jar" />    
       </zipfileset>
       <zipfileset prefix="jetrix/lib/" dir="${lib}/">
-        <include name="crimson.jar" />      
+        <include name="crimson.jar" />
+        <include name="jaxp.jar" />      
       </zipfileset>      
     </zip>        
   </target>
@@ -58,7 +59,8 @@
 
   <target name="test" depends="compiletest" description="Runs testcases">    
     <junit printsummary="yes" fork="yes" dir="${src}/etc">
-      <classpath> 
+      <classpath>
+        <pathelement location="${lib}/jaxp.jar"/>
         <pathelement location="${lib}/crimson.jar"/>
         <pathelement path="${build}" />
       </classpath>    
@@ -85,11 +87,7 @@
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
-    <java dir="${deploy}/jetrix" jar="${deploy}/jetrix/lib/jetrix.jar" fork="yes">
-      <classpath> 
-        <pathelement location="${deploy}/jetrix/lib/crimson.jar"/>
-      </classpath> 
-    </java>
+    <java dir="${deploy}/jetrix" jar="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
   </target>
   
   

@@ -56,6 +56,7 @@ public class Channel extends Thread
     public Channel(ChannelConfig cconf)
     {
     	this.cconf = cconf;
+    	conf = ServerConfig.getInstance();
     	
     	// opening channel message queue
         mq = new MessageQueue();
@@ -149,7 +150,7 @@ public class Channel extends Thread
             	        // searching player slot
             	        TetriNETClient client = (TetriNETClient)m.getParameter(0);
             	        
-            	        int slot=0;
+            	        slot=0;
             	        int i = 0;
             	        while(i<listeJoueurs.length && slot==0)
             	        {
@@ -157,39 +158,14 @@ public class Channel extends Thread
             	            i++;
             	        }
             	        
-            	        sendAll()
+            	        listeJoueurs[slot] = null;
+            	        m.setRawMessage("playerleave " + slot);
+            	        
+            	        sendAll(m);
             	        break;        	          	                	                		            		
             	}         
             	       
                 /*     
-                else if ("disconnected".equals(cmd))
-                {
-
-                    int l1 = Integer.parseInt(stringtokenizer.nextToken());
-
-                    //System.out.println("Player leaving " + l1);
-
-                    if (l1>0 && l1<=MAX_PLAYER)
-                    {
-                        listeJoueurs.setElementAt(null, l1 - 1);
-                    }
-
-                    //System.out.println(listeJoueurs);
-
-                    int l3 = 0;
-
-                    while (l3<listeJoueurs.size())
-                    {
-                        TetriNETClient tetrinetclient7 = (TetriNETClient) listeJoueurs.elementAt(l3);
-
-                        if (tetrinetclient7!=null)
-                        {
-                            tetrinetclient7.sendMessage("playerleave " + l1);
-                        }
-
-                        l3++;
-                    }
-                }                                                                                                            
                 else if ("server".equals(cmd))
                 {
                     // server command
