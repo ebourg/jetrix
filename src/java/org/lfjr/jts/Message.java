@@ -42,6 +42,7 @@ public class Message
     public static final int MSG_PLAYERLOST   = 12;
     public static final int MSG_DISCONNECTED = 13;
     public static final int MSG_NOCONNECTING = 14;
+    public static final int MSG_ADDPLAYER    = 15;
                          		
     private Object params[];
     private int type;

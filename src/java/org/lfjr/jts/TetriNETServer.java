@@ -164,7 +164,12 @@ public class TetriNETServer implements Runnable
 		ch.addClient(player);
 		player.assignChannel(ch);
 		player.start();
-		ch.addMessage("server addclient\n");	
+		
+		m = new Message();
+		m.setCode(Message.MSG_ADDPLAYER);
+		Object[] params2 = { player };	
+		m.setParameters(params2);
+		ch.addMessage(m);	
 		
 		              
 		}                
@@ -225,6 +230,7 @@ public class TetriNETServer implements Runnable
             Message m = new Message();
             m.setCode(Message.MSG_NOCONNECTING);
             Object[] params = { "No space allowed in nickname !" };
+            m.setParameters(params);
             player.sendMessage(m);
         }
                 
