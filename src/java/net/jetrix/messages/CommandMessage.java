@@ -52,6 +52,22 @@ public class CommandMessage extends PlineMessage
         return (String) parameters.get(i);
     }
 
+    public int getIntParameter(int i, int defaultValue)
+    {
+        int value;
+
+        try
+        {
+            value = Integer.parseInt((String) parameters.get(i));
+        }
+        catch (Exception e)
+        {
+            value = defaultValue;
+        }
+
+        return value;
+    }
+
     public void addParameter(String obj)
     {
         parameters.add(obj);
