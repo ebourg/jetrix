@@ -35,18 +35,17 @@ import net.jetrix.*;
 public class FilterManager
 {
     private static FilterManager instance = new FilterManager();
-    private Hashtable staticFilters;
-    private Hashtable filterAliases;
+    private Map staticFilters;
+    private Map filterAliases;
 
     private FilterManager()
     {
-        staticFilters = new Hashtable();
-        filterAliases = new Hashtable();
+        staticFilters = new HashMap();
+        filterAliases = new HashMap();
     }
 
     /**
-     * Returns an instance of this filter. If the fileter is static the same
-     * instance will always be returned, if not a new instance is created.
+     * Returns the instance of the FilterManager.
      */
     public static FilterManager getInstance()
     {
@@ -66,7 +65,7 @@ public class FilterManager
     {
         // is there an entry for this class in the hashtable ?
         Object obj = staticFilters.get(classname);
-        if (obj!=null) { return (MessageFilter)obj; }
+        if (obj != null) { return (MessageFilter)obj; }
 
         MessageFilter filter = null;
 
@@ -101,7 +100,7 @@ public class FilterManager
     {
         Object classname = filterAliases.get(name);
 
-        if (classname!=null)
+        if (classname != null)
         {
             return getFilter((String)classname);
         }
