@@ -36,7 +36,7 @@ public class VersionCommand implements Command
 
     public String[] getAliases()
     {
-        return (new String[] { "version" });
+        return (new String[] { "version", "--version" });
     }
 
     public int getAccessLevel()
