@@ -44,6 +44,10 @@
           <th width="80%">Value</th>
         </tr>
         <tr>
+          <td>Description</td>
+          <td><input class="thin" type="text" name="description" value="<%= conf.getDescription() %>"></td>
+        </tr>
+        <tr>
           <td>Access Level</td>
           <td><input class="thin" type="text" name="accessLevel" value="<%= conf.getAccessLevel() %>"></td>
         </tr>

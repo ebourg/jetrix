@@ -32,6 +32,7 @@ TODO
 - game auto start filter (n seconds after the end of the game)
 - downstack game mod : start at height 16, the first player to clear 30 lines wins
 - partial name matching for /goto
+- cheat control: count the specials seen in the field and check the specials sent
 
 Changes in version 0.2 (2005-01-??)
 -----------------------------------
@@ -49,6 +50,7 @@ Player visible changes
 - The server now responds "PONG" when a player send just "t" in an ingame message.
 - It's now possible to remain idle forever on the #admins channel
 - the dutch translation is once again up to date, thanks to "Sobi" from the tetridome forum
+- improved the accuracy of the game stats (bpm)
 
 Admin visible changes
 - Jetrix now requires the JRE 1.5 to run
@@ -71,6 +73,7 @@ Admin visible changes
 - web admin: the ip bound to the server can be changed on the 'General' tab, the ip available are automatically detected and listed
 - web admin: added an "Idle allowed" parameter on the channel page, it maps to the <idle> element in the channels.xml file
 - web admin: added a drop down list to select the winlist on the channel page
+- web admin: added the 'Description' field on the channel page
 - the server now checks the availability of a new release and display a message on startup and in the server administration page
 - a system tray icon is displayed on windows platforms
 - a native executable is provided on windows to run the server without the DOS console

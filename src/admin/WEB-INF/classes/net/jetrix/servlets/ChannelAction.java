@@ -51,6 +51,7 @@ public class ChannelAction extends HttpServlet {
         password = password == null ? null : password.trim();
         password = "".equals(password) ? null : password;
 
+        config.setDescription(request.getParameter("description"));
         config.setAccessLevel(Integer.parseInt(request.getParameter("accessLevel")));
         config.setPassword(password);
         config.setMaxPlayers(max(0, min(6, Integer.parseInt(request.getParameter("maxPlayers")))));
