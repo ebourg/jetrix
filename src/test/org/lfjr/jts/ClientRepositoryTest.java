@@ -69,7 +69,9 @@ public class ClientRepositoryTest extends TestCase
     {
         repository.addClient(client1);
         assertEquals("client count after adding the client", 1, repository.getClientCount());
-        assertEquals(client1, repository.getClient(client1.getPlayer().getName()));	
+        assertEquals(client1, repository.getClient(client1.getPlayer().getName()));
+        assertEquals("non case sensitive search", client1, repository.getClient(client1.getPlayer().getName().toUpperCase()));
+        assertEquals("non case sensitive search", client1, repository.getClient(client1.getPlayer().getName().toLowerCase()));
     }
 
     public void testGetClients()
