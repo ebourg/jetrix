@@ -207,7 +207,6 @@ public class TetrinetListener extends ClientListener
         int readChar;
         while ((readChar = in.read()) != -1 && readChar != 0xFF && readChar != 0x0A && readChar != 0x0D)
         {
-            System.out.println("read: " + readChar);
             if (readChar != 0x0A && readChar != 0x0D)
             {
                 input.append((char) readChar);
