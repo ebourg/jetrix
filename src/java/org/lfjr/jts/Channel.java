@@ -544,12 +544,12 @@ public class Channel extends Thread
      */
     public boolean isFull()
     {
-        return getNbPlayers() >= channelConfig.getMaxPlayers();
+        return getPlayerCount() >= channelConfig.getMaxPlayers();
     }
 
     public boolean isEmpty()
     {
-        return getNbPlayers() == 0;
+        return getPlayerCount() == 0;
     }
 
     /**
@@ -557,7 +557,7 @@ public class Channel extends Thread
      *
      * @return player count
      */
-    public int getNbPlayers()
+    public int getPlayerCount()
     {
         int count = 0;
 

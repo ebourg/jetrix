@@ -201,7 +201,7 @@ public class TetriNETServer implements Runnable
                                 while (cname.length() < 6) cname += " ";
 
                                 String message = ChatColors.darkBlue+"("+(client.getChannel().getConfig().getName().equals(conf.getName())?ChatColors.red:ChatColors.purple)+i+ChatColors.darkBlue+") " + ChatColors.purple + cname + "\t"
-                                                 + (channel.isFull()?ChatColors.darkBlue+"["+ChatColors.red+"FULL"+ChatColors.darkBlue+"]       ":ChatColors.darkBlue+"["+ChatColors.aqua+"OPEN"+ChatColors.blue+"-" + channel.getNbPlayers() + "/"+conf.getMaxPlayers() + ChatColors.darkBlue + "]")
+                                                 + (channel.isFull()?ChatColors.darkBlue+"["+ChatColors.red+"FULL"+ChatColors.darkBlue+"]       ":ChatColors.darkBlue+"["+ChatColors.aqua+"OPEN"+ChatColors.blue+"-" + channel.getPlayerCount() + "/"+conf.getMaxPlayers() + ChatColors.darkBlue + "]")
                                                  + (channel.getGameState()!=Channel.GAME_STATE_STOPPED?ChatColors.gray+" {INGAME} ":"                  ")
                                                  + ChatColors.black + conf.getDescription();
 
@@ -283,8 +283,41 @@ public class TetriNETServer implements Runnable
                         }                     
                         else if ("/who".equalsIgnoreCase(cmd))
                         {
-                            Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), ChatColors.darkBlue+"/who is not implemented yet" });
+                            Message response = new Message(Message.MSG_PLINE);
+                            Object params[] = { new Integer(0), ChatColors.darkBlue + "Channel\t\tNickname(s)" };
+                            response.setParameters(params);
                             client.sendMessage(response);
+
+                            Iterator it = channelManager.channels();
+                            while(it.hasNext())
+                            {
+                                Channel channel = (Channel)it.next();
+                                
+                                // skipping empty channels
+                                if (channel.getPlayerCount() > 0)
+                                {
+                                    ChannelConfig conf = channel.getConfig();
+                                    
+                                    boolean isInChannel = false;
+                                    String channelColor = ChatColors.purple;
+                                    StringBuffer message = new StringBuffer();
+                                    message.append("[" + conf.getName() + "] " + ChatColors.darkBlue);
+                                
+                                    for (int i = 1; i <= 6; i++)
+                                    {
+                                        TetriNETClient clientInChannel = channel.getPlayer(i);
+                                        if (clientInChannel != null) message.append(" " + clientInChannel.getPlayer().getName());
+                                        if (client == clientInChannel) isInChannel = true;
+                                    }
+                                    
+                                    if (isInChannel) channelColor = ChatColors.red;
+                                
+                                    Message response2 = new Message(Message.MSG_PLINE);
+                                    Object params2[] = { new Integer(0), channelColor + message.toString() };
+                                    response2.setParameters(params2);
+                                    client.sendMessage(response2);
+                                }
+                            }
                         }
                         else if ("/op".equalsIgnoreCase(cmd))
                         {
