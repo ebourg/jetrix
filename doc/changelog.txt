@@ -8,6 +8,8 @@ TODO
 - implement the /move command
 - implement the /afk command
 - implement the /omsg command
+- implement the /random /roll command
+- implement the /r /reply command
 
 Changes in version 0.0.10 (2002-09-28)
 --------------------------------------
@@ -22,8 +24,10 @@ Changes in version 0.0.10 (2002-09-28)
 - implemented the /broadcast command
 - implemented the /time command
 - implemented the /motd command
+- implemented the /emote command
 - commands can now be invoked using their partial name (/ver, /t, etc...)
 - reduced server startup time
+- clients are now properly disconnected on server shutdown
 
 Changes in version 0.0.9 (2002-06-23)
 -------------------------------------
