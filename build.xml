@@ -50,16 +50,6 @@
     </javac>
   </target>
 
-  <target name="compile.test" depends="compile" description="Compile JUnit TestCases">
-    <mkdir dir="${build}/test"/>
-    <javac srcdir="${src}/test" destdir="${build}/test" debug="yes">
-      <classpath>
-        <pathelement path="${build}/classes" />
-        <path refid="classpath.main"/>
-      </classpath>
-    </javac>
-  </target>
-
   <target name="compile.jsp.check" depends="compile" description="Compile the JSP pages if they aren't up to date">
     <uptodate property="compile.jsp.notRequired">
       <srcfiles dir= "${src}/admin" includes="**/*.jsp"/>
@@ -341,38 +331,11 @@
 
   <target name="dist.all" depends="clean, dist, dist.src, dist.win, doc" description="Build all distributed files"/>
 
-  <target name="test" depends="compile.test" description="Runs testcases">
-    <junit printsummary="withOutAndErr" showoutput="yes" fork="yes" dir="${src}/etc">
-      <classpath>
-        <pathelement path="${build}/test" />
-        <pathelement path="${build}/classes" />
-        <pathelement path="${src}/etc" />
-        <pathelement path="${src}/lang" />
-        <path refid="classpath.main"/>
-      </classpath>
-      <formatter type="xml" />
-      <batchtest todir="${build}/test">
-        <fileset dir="${build}/test">
-          <include name="**/*Test.class" />
-        </fileset>
-      </batchtest>
-    </junit>
-    <mkdir dir="${doc}/test"/>
-    <junitreport todir="${build}/test">
-      <fileset dir="${build}/test">
-        <include name="TEST-*.xml"/>
-      </fileset>
-      <report format="noframes" todir="${doc}/test"/>
-    </junitreport>
-  </target>
-
-
   <target name="deploy" depends="dist">
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
   </target>
-
 
   <target name="run" depends="deploy">
     <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-launcher-${version}.jar" fork="true">
@@ -396,70 +359,11 @@
     </ftp>
   </target>
 
-  <target name="doc">
-    <mkdir dir="${doc}/api"/>
-    <mkdir dir="${dist}/doc"/>
-    <javadoc packagenames="net.jetrix.*"
-             sourcepath="${src}/java"
-             classpath="${src}/java"
-             destdir="${doc}/api"
-             author="true"
-             version="true"
-             use="false"
-             windowtitle="Javadoc JetriX ${version}"
-             doctitle="JetriX TetriNET Server ${version}"
-             bottom="Copyright &#169; 2001-2004 Emmanuel Bourg. All Rights Reserved.">
-      <classpath>
-        <fileset dir="${lib}" >
-          <include name="*.jar" />
-        </fileset>
-      </classpath>
-      <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
-      <link href="http://jetty.mortbay.org/javadoc/"/>
-      <link href="http://jakarta.apache.org/commons/digester/apidocs/"/>
-      <link href="http://jakarta.apache.org/commons/collections/apidocs/"/>
-      <link href="http://jakarta.apache.org/commons/lang/apidocs/"/>
-    </javadoc>
-    <zip zipfile="${dist}/doc/jetrix-${version}-api.zip">
-      <zipfileset prefix="jetrix-${version}-api/" dir="${doc}/api"/>
-    </zip>
-  </target>
-
   <target name="clean">
     <!-- Delete the ${build} directory tree -->
     <delete dir="${dist}"/>
     <delete dir="${build}"/>
     <delete dir="${deploy}"/>
-  </target>
-
-  <target name="checkstyle">
-    <taskdef name="checkstyle" classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
-      <classpath>
-        <fileset dir="${ant.home}/lib">
-          <include name="checkstyle-2.4.jar"/>
-          <include name="antlr.jar"/>
-          <include name="jakarta-regexp-1.2.jar"/>
-        </fileset>
-      </classpath>
-    </taskdef>
-
-    <mkdir dir="${build}/style"/>
-    <checkstyle failOnViolation="false">
-      <property key="checkstyle.maxlinelen" value="200"/>
-      <property key="checkstyle.javadoc.scope" value="nothing"/>
-      <property key="checkstyle.allow.protected" value="true"/>
-      <property key="checkstyle.header.file" value="${doc}/license.txt"/>
-      <property key="checkstyle.lcurly.type" value="nl"/>
-      <property key="checkstyle.lcurly.method" value="nl"/>
-      <property key="checkstyle.lcurly.other" value="nl"/>
-      <property key="checkstyle.rcurly" value="alone"/>
-      <property key="checkstyle.ignore.imports" value="true"/>
-      <formatter type="xml" tofile="${build}/style/checkstyle-report.xml"/>
-      <fileset dir="${src}/java" includes="**/*.java"/>
-    </checkstyle>
-
-    <mkdir dir="${doc}/style"/>
-    <style in="${build}/style/checkstyle-report.xml" out="${doc}/style/checkstyle-report.html" style="${doc}/checkstyle-noframes.xsl"/>
   </target>
 
 </project>
