@@ -190,6 +190,8 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <command class="net.jetrix.commands.OperatorCommand"/>
     <command class="net.jetrix.commands.PauseCommand"/>
     <command class="net.jetrix.commands.PingCommand"/>
+    <command class="net.jetrix.commands.RandomCommand"/>
+    <command class="net.jetrix.commands.ReplyCommand"/>
     <command class="net.jetrix.commands.StartCommand"/>
     <command class="net.jetrix.commands.StopCommand"/>
     <command class="net.jetrix.commands.SummonCommand"/>
