@@ -52,7 +52,7 @@ public class TetriNETServer implements Runnable
         conf.setRunning(true);
         
         // loading localized strings
-        //Language.load(new Locale("en"));
+        //Language.load(conf.getLocale());
 
         // preparing logger        
         logger = Logger.getLogger("net.jetrix");
@@ -107,9 +107,7 @@ public class TetriNETServer implements Runnable
         
         // adding shutdown hook
         Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                System.out.println("bye bye");
-            }
+            public void run() { shutdown(); }
         });
 
         // checking new release availability
@@ -210,6 +208,30 @@ public class TetriNETServer implements Runnable
     public ServerConfig getConfig()
     {
         return conf;
+    }
+
+    /**
+     * Shut the server down.
+     */
+    protected void shutdown()
+    {
+        conf.setRunning(false);
+        disconnectAll();
+    }
+
+    /**
+     * Disconnect all clients from the server.
+     */
+    protected void disconnectAll()
+    {
+        ClientRepository repository = ClientRepository.getInstance();
+        
+        Iterator clients = repository.getClients();
+        while (clients.hasNext())
+        {
+            TetriNETClient client = (TetriNETClient)clients.next();
+            client.disconnect();
+        }	
     }
 
     /**
