@@ -32,34 +32,29 @@ import org.lfjr.jts.config.*;
  */
 public class Channel extends Thread
 {
-    private Settings settings;
+    private ChannelConfig cconf;
 
-    MessageQueue    mq;
+    private MessageQueue    mq;
 
-    boolean         running = true;
+    private boolean running = true;
+    private boolean persistent = false;
 
-    boolean         persistent = false;
+    private static final int GAME_STATE_PAUSED = 0;
+    private static final int GAME_STATE_STARTED = 1;
+    private static final int GAME_STATE_STOPPED = 2;
 
-    static int      GAME_STATE_PAUSED = 0;
-    static int      GAME_STATE_STARTED = 1;
-    static int      GAME_STATE_STOPPED = 2;
-
-    int             gameState = GAME_STATE_STOPPED;
-
-    int             MAX_PLAYER = 6;
+    private int             gameState = GAME_STATE_STOPPED;
 
     Vector          listeJoueurs = new Vector(6);
 
-    Stack           incomingClients = new Stack();
-
     public Channel()
     {
-        this(ServerConfig.getInstance().getDefaultSettings());
+        this(new ChannelConfig());
     }
 
-    public Channel(Settings settings)
+    public Channel(ChannelConfig cconf)
     {
-    	this.settings = settings;
+    	this.cconf = cconf;
         mq = new MessageQueue();
 
         for (int i = 0; i<6; i++)
@@ -67,7 +62,7 @@ public class Channel extends Thread
             listeJoueurs.addElement(null);
         }
 
-        start();
+        //start();
     }
 
     public void run()
@@ -419,7 +414,7 @@ public class Channel extends Thread
     {
         int count = 0;
 
-        for (int i = 0; i<MAX_PLAYER; i++)
+        for (int i = 0; i<cconf.getMaxPlayers(); i++)
         {
             if (listeJoueurs.elementAt(i++)!=null)
             {
@@ -428,7 +423,7 @@ public class Channel extends Thread
             }
         }
 
-        return count>=MAX_PLAYER;
+        return count>=cconf.getMaxPlayers();
     }
 
 
@@ -436,12 +431,17 @@ public class Channel extends Thread
     {
         return persistent;
     }
+    
+    public void setPersistent(boolean persistent)
+    {
+        this.persistent = persistent;
+    }
 
 
-    public void addClient(TetriNETClient c)
+    /*public void addClient(TetriNETClient c)
     {
         incomingClients.push(c);
-    }
+    }*/
 
 
     public void sortPlayers() {}

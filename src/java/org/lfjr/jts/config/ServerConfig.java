@@ -498,6 +498,12 @@ public class ServerConfig
     {
         return defaultSettings;	
     }
+    
+    public Iterator getChannels()
+    {
+        return channels.iterator();
+    	
+    }
 
     /**
      * Method declaration

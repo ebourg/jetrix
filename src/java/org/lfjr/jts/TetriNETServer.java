@@ -53,7 +53,17 @@ public class TetriNETServer implements Runnable
     	// ...
     	
     	// spawning persistent channels
-    	// ...
+    	Iterator it = conf.getChannels();
+    	
+    	while(it.hasNext())
+    	{
+    	    ChannelConfig cc = (ChannelConfig)	it.next();
+    	    Channel ch = new Channel(cc);
+    	    ch.setPersistent(true);
+    	    ch.start();
+    	    channelList.addElement(ch);    		
+    	}		    	
+
     	
     	// starting server console
         new ServerConsole();    	
@@ -155,7 +165,11 @@ public class TetriNETServer implements Runnable
          	    if (!ch2.isFull()) ch = ch2;         	    
          	}
  		
-		if (ch==null) ch = new Channel();
+		if (ch==null) 
+		{
+		    ch = new Channel();
+		    ch.start();
+		}
 		
 		channelList.addElement(ch);
 		

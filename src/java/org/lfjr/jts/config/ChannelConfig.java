@@ -30,10 +30,19 @@ package org.lfjr.jts.config;
 public class ChannelConfig
 {
     protected Settings settings;
-    protected String name;
+    protected String name = "noname";
     protected String description;
-    protected int maxPlayers;
+    protected int maxPlayers = 6;
 
+    public ChannelConfig()
+    {
+    	this(ServerConfig.getInstance().getDefaultSettings());
+    }
+
+    public ChannelConfig(Settings settings)
+    {
+        this.settings = settings;	
+    }
 
     /**
      * Set game parameters.
