@@ -21,6 +21,8 @@ package net.jetrix.clients;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.config.*;
 
@@ -114,6 +116,11 @@ public class ConsoleClient implements Client
     public String getType()
     {
         return "Console";
+    }
+
+    public Date getConnectionTime()
+    {
+        return null;
     }
 
     public void disconnect() { }

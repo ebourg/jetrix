@@ -44,6 +44,7 @@ public class TetrinetClient implements Client
     private Protocol protocol;
     private Channel channel;
     private User user;
+    private Date connectionTime;
     private boolean disconnected;
 
     private Reader in;
@@ -83,6 +84,8 @@ public class TetrinetClient implements Client
     public void run()
     {
         logger.fine("Client started " + this);
+        
+        connectionTime = new Date();
         
         Server server = Server.getInstance();
         if (server != null) serverConfig = server.getConfig();        
@@ -246,6 +249,11 @@ public class TetrinetClient implements Client
     public String getType()
     {
         return type;
+    }
+
+    public Date getConnectionTime()
+    {
+        return connectionTime;
     }
 
     public void disconnect()

@@ -21,6 +21,7 @@ package net.jetrix;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 /**
  * Layer handling communication with a client. Incomming messages are turned
@@ -35,7 +36,7 @@ public interface Client extends Runnable, Destination
     /**
      * Return the protocol used by this client.
      */
-    public abstract Protocol getProtocol();
+    public Protocol getProtocol();
 
     /**
      * Return the channel this client subscribed to.
@@ -66,6 +67,11 @@ public interface Client extends Runnable, Destination
      * Return the Internet address of this client.
      */
     public InetAddress getInetAddress();
+
+    /**
+     * Return the time of the connection to the server.
+     */
+    public Date getConnectionTime();
 
     /**
      * Send a message to the client. The raw message property must be set.
