@@ -68,6 +68,11 @@ public class PublishingService extends ScheduledService
         this.host = host;
     }
 
+    public String getHost()
+    {
+        return host;
+    }
+
     public String getName()
     {
         return "Publishing service";
