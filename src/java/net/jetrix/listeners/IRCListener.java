@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +19,17 @@
 
 package net.jetrix.listeners;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import net.jetrix.*;
-import net.jetrix.clients.*;
-import net.jetrix.messages.*;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Logger;
+
+import net.jetrix.Client;
+import net.jetrix.ProtocolManager;
+import net.jetrix.User;
+import net.jetrix.clients.IRCClient;
+import net.jetrix.protocols.IRCCommand;
+import net.jetrix.protocols.IRCMessage;
 
 /**
  * Listener for IRC clients.
@@ -34,6 +39,8 @@ import net.jetrix.messages.*;
  */
 public class IRCListener extends ClientListener
 {
+    private Logger log = Logger.getLogger("net.jetrix");
+
     public IRCListener()
     {
         port = 31456;
@@ -48,62 +55,51 @@ public class IRCListener extends ClientListener
     {
         String init = null;
 
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+
         try
         {
-            init = readLine(socket);
+            init = in.readLine();
         }
         catch (IOException e)
         {
             e.printStackTrace();
+            return null;
         }
 
-        // init string parsing "NICK <nickname>"
-        StringTokenizer st = new StringTokenizer(init, " ");
-        List tokens = new ArrayList();
+        log.fine(init);
 
-        while (st.hasMoreTokens())
+        IRCMessage message = IRCMessage.parse(init);
+
+        if (message == null || !message.isCommand(IRCCommand.NICK))
         {
-            tokens.add(st.nextToken());
+            return null;
         }
 
-        TetrinetClient client = new TetrinetClient();
+        // set up the user
         User user = new User();
-        user.setName((String) tokens.get(1));
+        user.setName(message.getParameter(0));
         user.setSpectator();
+
+        // set up the client
+        IRCClient client = new IRCClient();
         client.setSocket(socket);
         client.setUser(user);
         client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.IRCProtocol"));
 
-        if (tokens.size() > 3)
+        // get the USER message
+        init = in.readLine();
+
+        log.fine(init);
+
+        message = IRCMessage.parse(init);
+
+        if (message == null || !message.isCommand(IRCCommand.USER))
         {
-            Message m = new NoConnectingMessage("No space allowed in nickname !");
-            client.send(m);
             return null;
         }
 
         return client;
-    }
-
-    public String readLine(Socket socket) throws IOException
-    {
-        int readChar;
-        Reader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
-        StringBuffer input = new StringBuffer();
-
-        while ((readChar = in.read()) != -1 && readChar != 255)
-        {
-            if (readChar != 10 && readChar != 13)
-            {
-                input.append((char) readChar);
-            }
-        }
-
-        if (readChar == -1)
-        {
-            throw new IOException("client disconnected");
-        }
-
-        return input.toString();
     }
 
 }

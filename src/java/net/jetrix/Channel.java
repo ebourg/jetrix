@@ -470,12 +470,10 @@ public class Channel extends Thread implements Destination
         sendAll(disconnected);
     }
 
-    /*private void process(LeaveMessage m)
+    private void process(LeaveMessage m)
     {
-        int slot = m.getSlot();
-        players.set(slot - 1, null);
-        sendAll(m);
-    }*/
+        removeClient((Client) m.getSource());
+    }
 
     private void process(AddPlayerMessage m)
     {
@@ -484,8 +482,8 @@ public class Channel extends Thread implements Destination
         Channel previousChannel = client.getChannel();
         client.setChannel(this);
 
-        // remove the client from the previous channel
-        if (previousChannel != null)
+        // remove the client from the previous channel if it doesn't support multiple channels
+        if (previousChannel != null && !client.supportsMultipleChannels())
         {
             // clear the player list
             for (int j = 1; j <= 6; j++)
@@ -521,7 +519,8 @@ public class Channel extends Thread implements Destination
             // announce the new player to the other clients in the channel
             JoinMessage mjoin = new JoinMessage();
             mjoin.setName(client.getUser().getName());
-            sendAll(mjoin, client);
+            //sendAll(mjoin, client);
+            sendAll(mjoin);
 
             // send a boggus slot number for gtetrinet
             PlayerNumMessage mnum = new PlayerNumMessage();
@@ -556,6 +555,12 @@ public class Channel extends Thread implements Destination
             }
         }
 
+        // send the list of spectators
+        if (client.getUser().isSpectator())
+        {
+            sendSpectatorList(client);
+        }
+
         // send the list of players
         for (int i = 0; i < slots.size(); i++)
         {
@@ -564,12 +569,15 @@ public class Channel extends Thread implements Destination
             {
                 // players...
                 JoinMessage mjoin2 = new JoinMessage();
+                mjoin2.setChannel(this);
                 mjoin2.setSlot(i + 1);
                 mjoin2.setName(resident.getUser().getName()); // NPE
                 client.send(mjoin2);
 
                 // ...and teams
                 TeamMessage mteam = new TeamMessage();
+                mteam.setChannel(this);
+                mteam.setSource(resident);
                 mteam.setSlot(i + 1);
                 mteam.setName(resident.getUser().getTeam());
                 client.send(mteam);
@@ -598,7 +606,7 @@ public class Channel extends Thread implements Destination
         mwelcome.setKey("channel.welcome", client.getUser().getName(), channelConfig.getName());
         client.send(mwelcome);
 
-        // send the message of the day
+        // send the topic of the channel
         if (channelConfig.getTopic() != null)
         {
             BufferedReader topic = new BufferedReader(new StringReader(channelConfig.getTopic()));
@@ -620,6 +628,32 @@ public class Channel extends Thread implements Destination
         }
 
         // send the list of spectators
+        if (client.getUser().isPlayer())
+        {
+            sendSpectatorList(client);
+        }
+
+        // send the status of the game to the new client
+        if (gameState != GAME_STATE_STOPPED)
+        {
+            IngameMessage ingame = new IngameMessage();
+            ingame.setChannel(this);
+            client.send(ingame);
+
+            // tell the player if the game is currently paused
+            if (gameState == GAME_STATE_PAUSED)
+            {
+                client.send(new PauseMessage());
+            }
+        }
+    }
+
+    /**
+     * Send the list of spectators in this channel to the specified client.
+     */
+    private void sendSpectatorList(Client client)
+    {
+        // extract the list of spectators
         List specnames = new ArrayList();
         Iterator it = clients.iterator();
         while (it.hasNext())
@@ -631,26 +665,15 @@ public class Channel extends Thread implements Destination
             }
         }
 
-        if (specnames.size() > 0)
+        // send the list of spectators
+        if (!specnames.isEmpty())
         {
             SpectatorListMessage spectators = new SpectatorListMessage();
+            spectators.setDestination(client);
             spectators.setChannel(getConfig().getName());
             spectators.setSpectators(specnames);
             client.send(spectators);
         }
-
-        // send the status of the game to the new client
-        if (gameState != GAME_STATE_STOPPED)
-        {
-            client.send(new IngameMessage());
-
-            // tell the player if the game is currently paused
-            if (gameState == GAME_STATE_PAUSED)
-            {
-                client.send(new PauseMessage());
-            }
-        }
-
     }
 
     public void process(PlayerSwitchMessage m)
@@ -727,7 +750,7 @@ public class Channel extends Thread implements Destination
         else if (m instanceof EndGameMessage) process((EndGameMessage) m);
         else if (m instanceof DisconnectedMessage) process((DisconnectedMessage) m);
         else if (m instanceof PlayerSwitchMessage) process((PlayerSwitchMessage) m);
-        //else if (m instanceof LeaveMessage) process((LeaveMessage)m);
+        else if (m instanceof LeaveMessage) process((LeaveMessage) m);
         else if (m instanceof AddPlayerMessage) process((AddPlayerMessage) m);
         else
         {
@@ -773,49 +796,59 @@ public class Channel extends Thread implements Destination
     /**
      * Add a message to the channel MessageQueue.
      *
-     * @param m message to add
+     * @param message message to add
      */
-    public void send(Message m)
+    public void send(Message message)
     {
-        queue.put(m);
+        queue.put(message);
     }
 
     /**
      * Send a message to all players in this channel.
      *
-     * @param m       the message to send
+     * @param message the message to send
      */
-    private void sendAll(Message m)
+    private void sendAll(Message message)
     {
+        if (message.getDestination() == null)
+        {
+            message.setDestination(this);
+        }
+
         // @todo add a fast mode to iterate on players only for game messages
         Iterator it = clients.iterator();
         while (it.hasNext())
         {
             Client client = (Client) it.next();
-            client.send(m);
+            client.send(message);
         }
     }
 
     /**
      * Send a message to all players but the one in the specified slot.
      *
-     * @param m       the message to send
+     * @param message the message to send
      * @param slot    the slot to exclude
      */
-    private void sendAll(Message m, int slot)
+    private void sendAll(Message message, int slot)
     {
         Client client = getClient(slot);
-        sendAll(m, client);
+        sendAll(message, client);
     }
 
     /**
      * Send a message to all players but the specified client.
      *
-     * @param m       the message to send
+     * @param message the message to send
      * @param c       the client to exclude
      */
-    private void sendAll(Message m, Client c)
+    private void sendAll(Message message, Client c)
     {
+        if (message.getDestination() == null)
+        {
+            message.setDestination(this);
+        }
+
         // @todo add a fast mode to iterate on players only for game messages
         Iterator it = clients.iterator();
         while (it.hasNext())
@@ -823,7 +856,7 @@ public class Channel extends Thread implements Destination
             Client client = (Client) it.next();
             if (client != c)
             {
-                client.send(m);
+                client.send(message);
             }
         }
     }
