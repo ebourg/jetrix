@@ -9,7 +9,7 @@ use it only if you need the latest features for your developments. This
 documentation is generated daily from the CVS HEAD.
 
 <p>
-  <a href="/doc/apidocs/index.html">Jetrix TetriNET Server @version@ API</a>
+  <a href="/docs/apidocs/index.html">Jetrix TetriNET Server @version@ API</a>
 </p>
 
 
