@@ -26,6 +26,8 @@ import java.util.Locale;
 /**
  * Special blocks enumeration.
  *
+ * @since 0.1.4
+ * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
@@ -33,12 +35,12 @@ public enum Special
 {
     ADDLINE(0, "a", "addline"),
     CLEARLINE(1, "c", "clearline"),
-    NUKEFIELD(2, "n", "nuke"),
-    RANDOMCLEAR(3, "r", "random"),
-    SWITCHFIELD(4, "s", "switch"),
-    CLEARSPECIAL(5, "b", "clear_special"),
+    NUKEFIELD(2, "n", "nukefield"),
+    RANDOMCLEAR(3, "r", "randomclear"),
+    SWITCHFIELD(4, "s", "switchfield"),
+    CLEARSPECIAL(5, "b", "clearspecial"),
     GRAVITY(6, "g", "gravity"),
-    QUAKEFIELD(7, "q", "quake"),
+    QUAKEFIELD(7, "q", "quakefield"),
     BLOCKBOMB(8, "o", "blockbomb");
 
     private int value;
