@@ -37,10 +37,10 @@ http://jetrix.sourceforge.net/
   
   <!-- Channel filters -->
   <filter-definitions>
-    <alias name="flood" class="org.lfjr.jts.filter.FloodFilter"/>
-    <alias name="start" class="org.lfjr.jts.filter.StartFilter"/>
-    <alias name="amplifier" class="org.lfjr.jts.filter.AmplifierFilter"/>
-    <alias name="ping" class="org.lfjr.jts.filter.PingFilter"/>
+    <alias name="flood" class="net.jetrix.filter.FloodFilter"/>
+    <alias name="start" class="net.jetrix.filter.StartFilter"/>
+    <alias name="amplifier" class="net.jetrix.filter.AmplifierFilter"/>
+    <alias name="ping" class="net.jetrix.filter.PingFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -51,7 +51,7 @@ http://jetrix.sourceforge.net/
     </filter>
     <filter name="start">
       <param name="delay" value="10000"/>
-    </filter>
+    </filter>    
     <filter name="ping"/>
   </default-filters>
 
@@ -175,25 +175,25 @@ http://jetrix.sourceforge.net/
 
   <!-- Server commands -->
   <commands>
-    <command class="org.lfjr.jts.commands.BroadcastCommand"/>
-    <command class="org.lfjr.jts.commands.ConfigCommand"/>
-    <command class="org.lfjr.jts.commands.EmoteCommand"/>
-    <command class="org.lfjr.jts.commands.HelpCommand"/>
-    <command class="org.lfjr.jts.commands.IpCommand"/>
-    <command class="org.lfjr.jts.commands.JoinCommand"/>
-    <command class="org.lfjr.jts.commands.KickCommand"/>
-    <command class="org.lfjr.jts.commands.LanguageCommand"/>
-    <command class="org.lfjr.jts.commands.ListCommand"/>
-    <command class="org.lfjr.jts.commands.MotdCommand"/>
-    <command class="org.lfjr.jts.commands.MoveCommand"/>
-    <command class="org.lfjr.jts.commands.OperatorCommand"/>
-    <command class="org.lfjr.jts.commands.PingCommand"/>
-    <command class="org.lfjr.jts.commands.SummonCommand"/>
-    <command class="org.lfjr.jts.commands.TeleportCommand"/>
-    <command class="org.lfjr.jts.commands.TellCommand"/>
-    <command class="org.lfjr.jts.commands.TimeCommand"/>
-    <command class="org.lfjr.jts.commands.VersionCommand"/>
-    <command class="org.lfjr.jts.commands.WhoCommand"/>
+    <command class="net.jetrix.commands.BroadcastCommand"/>
+    <command class="net.jetrix.commands.ConfigCommand"/>
+    <command class="net.jetrix.commands.EmoteCommand"/>
+    <command class="net.jetrix.commands.HelpCommand"/>
+    <command class="net.jetrix.commands.IpCommand"/>
+    <command class="net.jetrix.commands.JoinCommand"/>
+    <command class="net.jetrix.commands.KickCommand"/>
+    <command class="net.jetrix.commands.LanguageCommand"/>
+    <command class="net.jetrix.commands.ListCommand"/>
+    <command class="net.jetrix.commands.MotdCommand"/>
+    <command class="net.jetrix.commands.MoveCommand"/>
+    <command class="net.jetrix.commands.OperatorCommand"/>
+    <command class="net.jetrix.commands.PingCommand"/>
+    <command class="net.jetrix.commands.SummonCommand"/>
+    <command class="net.jetrix.commands.TeleportCommand"/>
+    <command class="net.jetrix.commands.TellCommand"/>
+    <command class="net.jetrix.commands.TimeCommand"/>
+    <command class="net.jetrix.commands.VersionCommand"/>
+    <command class="net.jetrix.commands.WhoCommand"/>
   </commands>
 
   <ban>

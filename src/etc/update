@@ -1,1 +1,1 @@
-$JAVA_HOME/bin/java -cp lib/jetrix.jar org.lfjr.jts.patcher.JetrixUpdate
+$JAVA_HOME/bin/java -cp lib/jetrix.jar net.jetrix.patcher.JetrixUpdate

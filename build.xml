@@ -60,7 +60,7 @@
     <mkdir dir="${dist}/lib"/>
     <mkdir dir="${dist}/bin"/>
 
-    <jar jarfile="${dist}/lib/jetrix.jar" basedir="${build}/classes" manifest="${src}/etc/MANIFEST.MF">
+    <jar jarfile="${dist}/lib/jetrix.jar" manifest="${src}/etc/MANIFEST.MF">
       <fileset dir="${build}/classes" excludes="**/*Test.class"/>
       <fileset dir="${src}/etc">
         <include name="tetrinet-server.dtd"/>
@@ -124,7 +124,7 @@
   </target>
 
 
-  <target name="dist-src" description="Build source distribution">
+  <target name="dist.src" description="Build source distribution">
     <!-- Create the source distribution directory -->
     <mkdir dir="${dist}/src"/>
 
@@ -133,7 +133,9 @@
         <include name="build.xml" />
         <include name="jetrix.properties" />
       </zipfileset>
-      <zipfileset prefix="jetrix-src/src/" dir="${src}" />
+      <zipfileset prefix="jetrix-src/src/" dir="${src}">
+        <exclude name="site/"/>
+      </zipfileset>
       <zipfileset prefix="jetrix-src/lib/" dir="${lib}" />
     </zip>
 
@@ -142,7 +144,9 @@
         <include name="build.xml" />
         <include name="jetrix.properties" />
       </tarfileset>
-      <tarfileset prefix="jetrix-src/src/" dir="${src}" />
+      <tarfileset prefix="jetrix-src/src/" dir="${src}">
+        <exclude name="site/"/>
+      </tarfileset>
       <tarfileset prefix="jetrix-src/lib/" dir="${lib}" />
     </tar>
 
@@ -199,7 +203,7 @@
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
 
     <!-- Checksum computation -->
-    <java classname="org.lfjr.jts.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
+    <java classname="net.jetrix.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
 
     <!-- Uploading to patch server -->
     <ftp server="${ftp.host}" remotedir="/vsite/tetrinet/public_html/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes">
@@ -211,7 +215,7 @@
   <target name="doc">
     <mkdir dir="${doc}/api"/>
     <mkdir dir="${dist}/doc"/>
-    <javadoc packagenames="org.lfjr.jts,org.lfjr.jts.config,org.lfjr.jts.patcher,org.lfjr.jts.filter,org.lfjr.jts.commands"
+    <javadoc packagenames="net.jetrix,net.jetrix.config,net.jetrix.patcher,net.jetrix.filter,net.jetrix.commands,net.jetrix.messages,net.jetrix.clients,net.jetrix.protocols,net.jetrix.listeners"
              sourcepath="${src}/java"
              classpath="${src}/java"
              destdir="${doc}/api"

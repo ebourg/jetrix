@@ -10,11 +10,21 @@ TODO
 - implement the /omsg command
 - implement the /random /roll command
 - implement the /r /reply command
+- /start : starts the game, can be used by ops or 2nd slot player
+- /stop
+- /pause
+- /countdown <n> : starts the game in n seconds
+
+Changes in version 0.1.0 (2002-10-??)
+--------------------------------------
+- added support for tetrifast clients
+- new commands : /teleport, /summon, /ping and /ip
+- level change is now working
 
 Changes in version 0.0.10 (2002-09-28)
 --------------------------------------
 - implemented the client repository
-- nickname unicity is now checked on logging
+- nickname uniqueness is now checked on logging
 - incomming clients are now rejected when the server is full
 - implemented the pluggable command system
 - implemented the /who command
