@@ -9,15 +9,15 @@ TODO
 - implement the /afk command
 - implement the /omsg command
 - /tmsg (team message)
-+ implement the /reply command
 - zip files on the patch server
 + /snoop
 - /help <command name>
 - check for new versions available
+- ignore & friend list
 
 Changes in version 0.1.1 (2003-02-??)
 -------------------------------------
-- new commands : /start, /stop, /pause, /random
+- new commands : /start, /stop, /pause, /random, /reply
 - "/start <n>" will run a countdown for n seconds
 - the admin console can now use all /commands available to the clients
 - the winner is announced at the end of the game
