@@ -12,6 +12,13 @@
   <property file="build.properties" />
   <property file="jetrix.properties" />
   <property file="password.properties" />
+  
+  <path id="classpath.main">
+    <fileset dir="${lib}">
+      <include name="**/*.jar"/>
+      <include name="**/*.zip"/>
+    </fileset>
+  </path>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -37,9 +44,7 @@
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${build}/java" destdir="${build}/classes" debug="${compile.debug}" optimize="${compile.optimize}">
       <classpath>
-        <pathelement location="${lib}/commons-digester.jar"/>
-        <pathelement location="${lib}/commons-collections.jar"/>
-        <pathelement location="${lib}/jetty.jar"/>
+        <path refid="classpath.main"/>
       </classpath>
     </javac>
   </target>
@@ -49,7 +54,7 @@
     <javac srcdir="${src}/test" destdir="${build}/test" debug="yes">
       <classpath>
         <pathelement path="${build}/classes" />
-        <pathelement location="${lib}/junit.jar"/>
+        <path refid="classpath.main"/>
       </classpath>
     </javac>
   </target>
@@ -58,15 +63,14 @@
     <mkdir dir="${build}/jsp"/>
     <jspc destdir="${build}/jsp" verbose="1" srcdir="${src}/admin">
       <classpath>
-        <pathelement location="${lib}/jasper.jar"/>
+        <path refid="classpath.main"/>
         <pathelement location="${ant.home}/lib/ant.jar"/>
-        <pathelement location="${lib}/servlet.jar"/>
       </classpath>
     </jspc>
     <javac destdir="${build}/jsp" debug="yes">
       <classpath>
         <pathelement path="${build}/classes/"/>
-        <pathelement location="${lib}/servlet.jar"/>
+        <path refid="classpath.main"/>
       </classpath>
       <src path="${build}/jsp"/>
       <src path="${src}/admin/WEB-INF/classes"/>
@@ -102,6 +106,12 @@
   </target>
 
   <target name="dist" depends="jar">
+
+    <mkdir dir="${build}/bin"/>
+    <copy todir="${build}/bin" filtering="on">
+      <fileset dir="${src}/bin" includes="**/*"/>
+    </copy>
+  
     <mkdir dir="${dist}/bin"/>
 
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
@@ -111,10 +121,12 @@
         <include name="README" />
         <include name="config.xml" />
       </zipfileset>
-      <zipfileset prefix="jetrix-${version}/" dir="${src}/bin/">
+      <zipfileset prefix="jetrix-${version}/" dir="${build}/bin/">
         <include name="jetrix.bat" />
-        <include name="jetrix" />
         <include name="update.bat" />
+      </zipfileset>
+      <zipfileset prefix="jetrix-${version}/" dir="${build}/bin/" filemode="755">
+        <include name="jetrix" />
         <include name="update" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
@@ -144,11 +156,11 @@
         <include name="README" />
         <include name="config.xml" />
       </tarfileset>
-      <tarfileset prefix="jetrix-${version}/" dir="${src}/bin/">
+      <tarfileset prefix="jetrix-${version}/" dir="${build}/bin/">
         <include name="jetrix.bat" />
         <include name="update.bat" />
       </tarfileset>
-      <tarfileset prefix="jetrix-${version}/" dir="${src}/bin/" mode="755">
+      <tarfileset prefix="jetrix-${version}/" dir="${build}/bin/" mode="755">
         <include name="jetrix" />
         <include name="update" />
       </tarfileset>
@@ -217,10 +229,8 @@
         <pathelement path="${build}/test" />
         <pathelement path="${build}/classes" />
         <pathelement path="${src}/etc" />
-        <pathelement location="${lib}/commons-beanutils.jar"/>
-        <pathelement location="${lib}/commons-collections.jar"/>
-        <pathelement location="${lib}/commons-digester.jar"/>
-        <pathelement location="${lib}/jetty.jar"/>
+        <pathelement path="${src}/lang" />
+        <path refid="classpath.main"/>
       </classpath>
       <formatter type="xml" />
       <batchtest todir="${build}/test">
@@ -259,11 +269,11 @@
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
 
     <!-- Checksum computation -->
-    <java classname="net.jetrix.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix-${version}.jar" fork="yes" />
+    <java classname="net.jetrix.patcher.UpdateList" dir="${deploy}/jetrix-${version}" classpath="${deploy}/jetrix/lib/jetrix-${version}.jar" fork="yes" />
 
     <!-- Uploading to patch server -->
     <ftp server="${ftp.host}" remotedir="/vsite/tetrinet/public_html/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes" ignoreNoncriticalErrors="yes">
-      <fileset dir="${deploy}/jetrix"/>
+      <fileset dir="${deploy}/jetrix-${version}"/>
     </ftp>
   </target>
 
@@ -277,8 +287,8 @@
              author="true"
              version="true"
              use="false"
-             windowtitle="Javadoc JetriX"
-             doctitle="JetriX TetriNET Server"
+             windowtitle="Javadoc JetriX ${version}"
+             doctitle="JetriX TetriNET Server ${version@}"
              bottom="Copyright &#169; 2001-2003 Emmanuel Bourg. All Rights Reserved.">
       <classpath>
         <fileset dir="${lib}" >
@@ -298,6 +308,25 @@
     <delete dir="${dist}"/>
     <delete dir="${build}"/>
     <delete dir="${deploy}"/>
+  </target>
+  
+  <!-- Clover -->
+  <taskdef resource="clovertasks"/>
+  
+  <target name="clover">
+    <clover-setup initString="jetrix-coverage.db">
+      <fileset dir=".">
+        <exclude name="**/*Test.java"/>
+      </fileset>
+    </clover-setup>
+  </target>
+
+  <target name="clover.html" depends="clover">
+    <clover-report>
+      <current outfile="${doc}/clover">
+        <format type="html"/> 
+      </current>	 
+    </clover-report>
   </target>
 
 </project>
