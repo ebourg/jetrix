@@ -7,17 +7,12 @@ goal is to match the features of tetrinetx and then add the cool features up
 to the version 1.0.
 
 
-<h2>JetriX 0.1.3</h2>
-
-<ul>
-  <li>Full TSpec support</li>
-  <li>Ban list</li>
-</ul>
 
 <h2>JetriX 0.1.4</h2>
 
 <ul>
-  <li>IRC Clients support</li>  
+  <li>IRC Clients support</li>
+  <li>Services</li>
 </ul>
 
 <h2>JetriX 0.1.5</h2>
