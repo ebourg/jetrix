@@ -63,11 +63,13 @@
         <pathelement location="${lib}/servlet.jar"/>
       </classpath>
     </jspc>
-    <javac srcdir="${build}/jsp" destdir="${build}/jsp" debug="yes">
+    <javac destdir="${build}/jsp" debug="yes">
       <classpath>
         <pathelement path="${build}/classes/"/>
         <pathelement location="${lib}/servlet.jar"/>
       </classpath>
+      <src path="${build}/jsp"/>
+      <src path="${src}/admin/WEB-INF/classes"/>
     </javac>
   </target>
 
@@ -85,20 +87,21 @@
         <include name="tetrinet-server.dtd"/>
       </fileset>
     </jar>
-    
+
     <mkdir dir="${dist}/webapp"/>
     <war destfile="${dist}/webapp/jetrix-admin.war" webxml="${src}/admin//WEB-INF/web.xml">
       <fileset dir="${src}/admin">
         <exclude name="WEB-INF/web.xml"/>
         <exclude name="**/*.jsp"/>
+        <exclude name="**/*.java"/>
       </fileset>
-	  <fileset dir="${src}/site">
+      <fileset dir="${src}/site">
         <include name="style.css"/>
-      </fileset>      
+      </fileset>
       <classes dir="${build}/jsp">
-        <include name="**/*.class"/>        
+        <include name="**/*.class"/>
       </classes>
-    </war>        
+    </war>
   </target>
 
   <target name="dist" depends="jar">
@@ -165,7 +168,7 @@
       </tarfileset>
       <tarfileset prefix="jetrix/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
-      </tarfileset>      
+      </tarfileset>
       <tarfileset prefix="jetrix/lang/" dir="${src}/lang/">
         <include name="*.properties" />
       </tarfileset>
