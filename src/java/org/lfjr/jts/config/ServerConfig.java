@@ -53,8 +53,8 @@ public class ServerConfig
     // private ArrayList bans;
     private ArrayList channels;
     private boolean running;
-
-    public static final String VERSION = "0.0.8";
+    
+    public static final String VERSION = "0.0.8";    
 
     /**
      * Constructor declaration

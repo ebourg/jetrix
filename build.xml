@@ -9,6 +9,8 @@
   <property name="dist"    value="dist"/>
   <property name="deploy"  value="deploy"/>
   <property name="version" value="0.0.8"/>
+  <property file="password.properties" />
+
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -17,38 +19,44 @@
     <mkdir dir="${build}"/>
   </target>
 
+
   <target name="compile" depends="init">
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${src}/java" destdir="${build}" debug="yes" />
   </target>
 
+
   <target name="compiletest" depends="compile" description="Compile JUnit TestCases">
     <javac srcdir="${src}/test" destdir="${build}" classpath="${build};${lib}/junit.jar;" debug="yes"/>     
   </target> 
   
+  
   <target name="dist" depends="compile">
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
-
-    <jar jarfile="${dist}/lib/jts.jar" basedir="${build}" manifest="${src}/etc/MANIFEST.MF" />
-    
-    <zip zipfile="${dist}/bin/jts-${version}.zip">
-      <zipfileset prefix="jts/" dir="${src}/etc/">
+    <jar jarfile="${dist}/lib/jetrix.jar" basedir="${build}" manifest="${src}/etc/MANIFEST.MF" />    
+    <zip zipfile="${dist}/bin/jetrix-${version}.zip">
+      <zipfileset prefix="jetrix/" dir="${src}/etc/">
         <include name="news.txt" />
         <include name="LICENSE" />
         <include name="README" />
+        <include name="config.xml" />
+        <include name="jetrix.bat" />
+        <include name="jetrix" />
+        <include name="update.bat" />
+        <include name="update" />        
       </zipfileset>
-      <zipfileset prefix="jts/" dir="${dist}/lib/">
-        <include name="jts.jar" />
+      <zipfileset prefix="jetrix/lib/" dir="${dist}/lib/">
+        <include name="jetrix.jar" />    
+      </zipfileset>
+      <zipfileset prefix="jetrix/lib/" dir="${lib}/">
         <include name="crimson.jar" />      
-      </zipfileset>
-    </zip>    
-    
+      </zipfileset>      
+    </zip>        
   </target>
 
 
-  <target name="test" depends="compiletest" description="Runs testcases">
-    
+  <target name="test" depends="compiletest" description="Runs testcases">    
     <junit printsummary="yes" fork="yes" dir="${src}/etc">
       <classpath> 
         <pathelement location="${lib}/crimson.jar"/>
@@ -60,28 +68,46 @@
           <include name="**/*Test.class" />
         </fileset>
       </batchtest>
-    </junit>    
-           
+    </junit>               
     <junitreport>
       <fileset dir=".">
         <include name="TEST-*.xml"/>
       </fileset>
       <report format="noframes"/>
     </junitreport>    
-
     <delete>
       <fileset dir="." includes="TEST*"/>
-    </delete>
-    
+    </delete>    
   </target>
     
   
   <target name="run" depends="dist">
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>
-    <unzip src="${dist}/bin/jts-${version}.zip" dest="${deploy}" />
-    <java dir="${deploy}/jts" jar="${deploy}/jts/jts.jar" fork="yes" />  
+    <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
+    <java dir="${deploy}/jetrix" jar="${deploy}/jetrix/lib/jetrix.jar" fork="yes">
+      <classpath> 
+        <pathelement location="${deploy}/jetrix/lib/crimson.jar"/>
+      </classpath> 
+    </java>
   </target>
+  
+  
+  <target name="update" depends="dist">
+    <!-- Installing -->
+    <delete dir="${deploy}"/>
+    <mkdir dir="${deploy}"/>
+    <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
+    
+    <!-- Checksum computation -->
+    <java classname="org.lfjr.jts.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />  
+    
+    <!-- Uploading to patch server -->
+    <ftp server="${ftp.host}" remotedir="/site/tetrinet/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes">
+      <fileset dir="${deploy}/jetrix"/>
+    </ftp>    
+    
+  </target>  
 
 
   <target name="doc">
@@ -94,8 +120,8 @@
              author="true"
              version="true"
              use="false"
-             windowtitle="Javadoc JTS"
-             doctitle="JTS"
+             windowtitle="Javadoc JetriX"
+             doctitle="JetriX"
              bottom="Copyright &#169; 2001 Emmanuel Bourg. All Rights Reserved.">
       <link href="http://java.sun.com/j2se/1.3/docs/api/"/>
       <!--<link href="http://java.sun.com/j2ee/tutorial/api/"/>-->

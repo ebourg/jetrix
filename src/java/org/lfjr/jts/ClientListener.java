@@ -88,10 +88,16 @@ public class ClientListener extends Thread
 		// testing name unicity
 		// ....
 		
+		// testing concurrent connexions
+		// ....
+		
+		// testing ban list
+		// ....
+		
 		//System.out.println("Client accepted, " + si.nbClient + " client(s) online.");
 		                                
                 Message m = new Message(Message.MSG_PLINE);
-                Object params[] = { new Integer(0), ChatColors.bold+"Welcome on Jetrix TetriNET Server "+ServerConfig.VERSION+" !" };
+                Object params[] = { new Integer(0), ChatColors.bold+"Welcome to Jetrix TetriNET Server "+ServerConfig.VERSION+" !" };
                 m.setParameters(params);
 		client.sendMessage(m);
 		

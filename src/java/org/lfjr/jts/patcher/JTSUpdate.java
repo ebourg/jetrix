@@ -27,7 +27,7 @@ import java.util.zip.*;
 public class JTSUpdate
 {
     static Vector update = new Vector();
-    static String basedir = "http://tetrinet.lfjr.net/java/bin/";  // should read this from a property file
+    static String basedir = "http://tetrinet.lfjr.net/jetrix/autoupdate/";  // should read this from a property file
     static String newsFileName = "news.txt";
     
     static boolean downloadFailed = false;
@@ -91,7 +91,7 @@ public class JTSUpdate
 
     public static void downloadFile(String filename, long remoteFileCRC) throws IOException
     {	
-	URL updateList = new URL(basedir+filename);	
+	URL updateList = new URL(basedir+filename.replace('\\','/'));	
 		
 	HttpURLConnection conn = (HttpURLConnection)updateList.openConnection();	
 	BufferedInputStream bis = new BufferedInputStream( conn.getInputStream() );

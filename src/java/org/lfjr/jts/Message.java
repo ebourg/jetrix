@@ -50,8 +50,9 @@ public class Message
     public static final int MSG_NOCONNECTING = 14;
     public static final int MSG_ADDPLAYER    = 15;
     public static final int MSG_RESTART      = 16;
-    public static final int MSG_SHUTDOWN     = 17;        
-                         		
+    public static final int MSG_SHUTDOWN     = 17;  
+    public static final int MSG_SLASHCMD     = 18;
+                                   		
     private Object params[];
     private int type;
     private int code;

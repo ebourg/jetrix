@@ -35,15 +35,20 @@ public class TetriNETServer implements Runnable
     ServerConfig conf;
     MessageQueue mq;
     
-    Vector channelList = new Vector();    
+    private static final String VERSION = "0.0.8";
+    
+    private Vector channelList = new Vector();    
 
     public TetriNETServer()
     {
-    	System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001 Emmanuel Bourg\n");
+    	System.out.println("Jetrix TetriNET Server " + VERSION + ", Copyright (C) 2001 Emmanuel Bourg\n");
     	
     	// reading server configuration
     	conf = ServerConfig.getInstance();
     	conf.setRunning(true);
+    	    	    	
+    	// checking new release availability
+    	// ....
     	
     	// spawning server message queue handler
     	mq = new MessageQueue();
@@ -77,13 +82,31 @@ public class TetriNETServer implements Runnable
     {
         while (conf.isRunning())
         {
-            //try
+            try
             {
             	Message m = mq.get();
+            	
+            	switch(m.getCode())
+            	{
+            	    case Message.MSG_RESTART:
+            	    break;	
+            		
+            	    case Message.MSG_SHUTDOWN:
+            	        conf.setRunning(false);
+            	    break;
+
+            	    case Message.MSG_UNKNOWN:
+            	    break;
+            	    
+            	    case Message.MSG_SLASHCMD:
+            	    break;           	                		
+            		
+            	}
+            	            	
             }            
-            //catch (IOException e)
+            catch (IOException e)
             {
-                //e.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
