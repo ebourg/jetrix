@@ -34,7 +34,7 @@ import org.lfjr.jts.config.*;
  */
 class TetriNETClient extends Thread
 {
-    public Socket socket;
+    private Socket socket;
     private BufferedReader in;
     private BufferedWriter out;
     private ServerConfig conf;
@@ -105,8 +105,8 @@ class TetriNETClient extends Thread
                     m.setCode(Message.MSG_PLINE);
 
                     Integer slot = new Integer(st.nextToken());
-                    String text = (st.hasMoreTokens())?st.nextToken():"";
-                    Object[] params = { slot, text };
+                    //String text = (st.hasMoreTokens())?st.nextToken():"";
+                    Object[] params = { slot, s.substring(7).trim() };
                     m.setParameters(params);
                 }
                 // gmsg playername+text
@@ -303,7 +303,7 @@ class TetriNETClient extends Thread
         return input;
     }
 
-    public void assignChannel(Channel ch)
+    public void setChannel(Channel ch)
     {
         channel = ch;
     }

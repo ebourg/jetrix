@@ -1,17 +1,17 @@
 /**
  * Jetrix TetriNET Server
  * Copyright (C) 2001-2002  Emmanuel Bourg
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -38,35 +38,35 @@ public class Channel extends Thread
     private MessageQueue mq;
 
     private boolean running = true;
-    
+
     // game states
     public static final int GAME_STATE_STOPPED = 0;
-    public static final int GAME_STATE_STARTED = 1;    
+    public static final int GAME_STATE_STARTED = 1;
     public static final int GAME_STATE_PAUSED  = 2;
 
     private int gameState;
 
     // array of clients connected to this channel
     private TetriNETClient[] playerList = new TetriNETClient[6];
-    
+
     private ArrayList filters;
-    
+
     // JetriX logo
     private short jetrixLogo[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0};
 
     public Channel()
     {
-        this(new ChannelConfig());        
+        this(new ChannelConfig());
     }
 
     public Channel(ChannelConfig cconf)
     {
         this.cconf = cconf;
         conf = ServerConfig.getInstance();
-            
+
         // opening channel message queue
         mq = new MessageQueue();
-        
+
         filters = new ArrayList();
     }
 
@@ -80,9 +80,9 @@ public class Channel extends Thread
             {
                 Message m = mq.get();
                 int slot;
-                
+
                 System.out.println("Channel["+cconf.getName()+"]: processing "+m);
-                
+
                     switch(m.getCode())
                     {
                         case Message.MSG_SLASHCMD:
@@ -106,20 +106,20 @@ public class Channel extends Thread
                             	        target.addMessage(move);
                             	    }
                             	}
-                            	                            	
+
                             }
                             else
                             {
                                 TetriNETServer.getInstance().addMessage(m);
                             }
-                            break;                        
-                        
-                        case Message.MSG_TEAM:
-                            slot = ((Integer)m.getParameter(0)).intValue();                            
-                            playerList[slot - 1].getPlayer().setTeam((String)m.getParameter(1));                                                      
-                            sendAll(m, slot);                        
                             break;
-                            
+
+                        case Message.MSG_TEAM:
+                            slot = ((Integer)m.getParameter(0)).intValue();
+                            playerList[slot - 1].getPlayer().setTeam((String)m.getParameter(1));
+                            sendAll(m, slot);
+                            break;
+
                         case Message.MSG_GMSG:
                             sendAll(m);
                             break;
@@ -129,23 +129,23 @@ public class Channel extends Thread
                             String text = (String)m.getParameter(1);
                             if (!text.startsWith("/")) sendAll(m, slot);
                             break;
-                                                        
+
                         case Message.MSG_PLINEACT:
                             slot = ((Integer)m.getParameter(0)).intValue();
                             sendAll(m, slot);
                             break;
-                            
+
                         case Message.MSG_PAUSE:
                             gameState = GAME_STATE_PAUSED;
                             sendAll(m);
                             break;
-                            
+
                         case Message.MSG_PLAYERLOST:
                             slot = ((Integer)m.getParameter(0)).intValue();
                             TetriNETClient client = (TetriNETClient)playerList[slot-1];
                             client.getPlayer().setPlaying(false);
                             sendAll(m);
-                            
+
                             // sending closing screen
                             StringBuffer screenLayout = new StringBuffer();
                             for (int i=0; i<12*22; i++)
@@ -157,24 +157,24 @@ public class Channel extends Thread
                             Object paramsending[] = { m.getParameter(0), screenLayout.toString() };
                             endingScreen.setParameters(paramsending);
                             sendAll(endingScreen);
-                            
+
                             break;
-                            
+
                         case Message.MSG_SB:
                             slot = ((Integer)m.getParameter(2)).intValue();
                             sendAll(m, slot);
                             break;
-                            
+
                         case Message.MSG_LVL:
                             // how does it work ?
                             break;
-                            
+
                         case Message.MSG_FIELD:
                             slot = ((Integer)m.getParameter(0)).intValue();
                             //sendAll(m, slot);
                             sendAll(m);
                             break;
-                            
+
                         case Message.MSG_STARTGAME:
                             Settings s = cconf.getSettings();
                             String raw = "newgame " + s.getStackHeight() + " " + s.getStartingLevel() + " " + s.getLinesPerLevel() + " " + s.getLevelIncrease() + " " + s.getLinesPerSpecial() + " " + s.getSpecialAdded() + " " + s.getSpecialCapacity() + " ";
@@ -182,16 +182,16 @@ public class Channel extends Thread
                             {
                                 for (int j = 0; j<s.getBlockOccurancy(i); j++) { raw = raw + (i + 1); }
                             }
-                            
+
                             raw += " ";
-                            
+
                             for (int i = 0; i<9; i++)
                             {
                                 for (int j = 0; j<s.getSpecialOccurancy(i); j++) { raw = raw + (i + 1); }
                             }
-                        
+
                             raw += " " + (s.getAverageLevels() ? "1" : "0") + " " + (s.getClassicRules() ? "1" : "0");
-                                                                                    
+
                             gameState = GAME_STATE_STARTED;
                             for (int i=0; i<playerList.length; i++)
                             {
@@ -200,20 +200,20 @@ public class Channel extends Thread
                                     client = (TetriNETClient)playerList[i];
                                     client.getPlayer().setPlaying(true);
                                 }
-                            }                            
+                            }
                             m.setRawMessage(raw);
                             sendAll(m);
-                            break;          
-                            
+                            break;
+
                         case Message.MSG_ENDGAME:
                             gameState = GAME_STATE_STOPPED;
                             sendAll(m);
-                            break;    
-                            
+                            break;
+
                         case Message.MSG_DISCONNECTED:
                             // searching player slot
                             client = (TetriNETClient)m.getParameter(0);
-                            
+
                             slot=0;
                             int i = 0;
                             while(i<playerList.length && slot==0)
@@ -221,29 +221,30 @@ public class Channel extends Thread
                                 if (playerList[i] == client) { slot = i; }
                                 i++;
                             }
-                            
+
                             // removing player from channel members
                             playerList[slot] = null;
-                            
+
                             // sending notification to players
-                            m.setRawMessage("playerleave " + (slot+1));                            
+                            m.setRawMessage("playerleave " + (slot+1));
                             sendAll(m);
                             break;
-                            
+
                         case Message.MSG_PLAYERLEAVE:
                             System.out.println("player leaving channel "+this);
                             slot = ((Integer)m.getParameter(0)).intValue();
                             playerList[slot-1]=null;
                             sendAll(m);
                             break;
-                        
+
                         case Message.MSG_ADDPLAYER:
                             client = (TetriNETClient)m.getParameter(0);
+                           
                             if (client.getChannel()==null)
                             {
                                 // first channel assigned
-                                client.assignChannel(this);
-                                client.start();        
+                                client.setChannel(this);
+                                client.start();
                             }
                             else
                             {
@@ -253,8 +254,9 @@ public class Channel extends Thread
                                 Object params[] = { new Integer(client.getChannel().getPlayerSlot(client)) };
                                 leave.setParameters(params);
                                 client.getChannel().addMessage(leave);
+                                client.setChannel(this);
                             }
-                            
+
                             // looking for the first free slot
                         for (slot=0; slot<6 && playerList[slot]!=null; slot++);
 
@@ -266,46 +268,46 @@ public class Channel extends Thread
                         {
                             playerList[slot]= client;
                             client.getPlayer().setPlaying(false);
-                            
+
                             // sending new player notice to other players in the channel
                             Message mjoin = new Message(Message.MSG_PLAYERJOIN);
                             Object paramsjoin[] = { new Integer(slot+1), client.getPlayer().getName() };
                             mjoin.setParameters(paramsjoin);
                             sendAll(mjoin, slot+1);
 
-                            // sending slot number to incomming player                            
+                            // sending slot number to incomming player
                             Message mnum = new Message(Message.MSG_PLAYERNUM);
                             Object paramsnum[] = { new Integer(slot+1) };
                             mnum.setParameters(paramsnum);
                             client.sendMessage(mnum);
-                                
+
                             // sending player and team list to incomming player
                             for (i=0; i<playerList.length; i++)
                             {
                                 if (playerList[i]!=null && i!=slot)
                                 {
                                     TetriNETClient resident = (TetriNETClient)playerList[i];
-                                          
+
                                     // players...
                                     Message mjoin2 = new Message(Message.MSG_PLAYERJOIN);
                                     Object paramsjoin2[] = { new Integer(i+1), resident.getPlayer().getName() };
                                     mjoin2.setParameters(paramsjoin2);
                                     client.sendMessage(mjoin2);
-                                            
+
                                     // ...and teams
                                     Message mteam = new Message(Message.MSG_TEAM);
                                     Object paramsteam[] = { new Integer(i+1), resident.getPlayer().getTeam() };
                                     mteam.setParameters(paramsteam);
-                                    client.sendMessage(mteam);                                                             
+                                    client.sendMessage(mteam);
                                 }
                             }
-                                                          
+
                             // sending welcome massage to incomming player
                             Message mwelcome = new Message(Message.MSG_PLINE);
                             Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + ChatColors.bold + cconf.getName() };
-                            mwelcome.setParameters(paramswelcome);                                
+                            mwelcome.setParameters(paramswelcome);
                             client.sendMessage(mwelcome);
-                            
+
                             // sending playerlost message if the game has started
                             if (gameState != GAME_STATE_STOPPED)
                             {
@@ -316,9 +318,9 @@ public class Channel extends Thread
                                 sendAll(lost);
                             }
                     }
-                            
-                    break;                                                                                                                     
-                }         
+
+                    break;
+                }
 
             }
             catch (Exception e)
@@ -327,7 +329,7 @@ public class Channel extends Thread
             }
 
         }
-        
+
         System.out.println("Channel "+cconf.getName()+" closed");
     }
 
@@ -344,23 +346,23 @@ public class Channel extends Thread
     /**
      * Send a message to all players in this channel.
      *
-     * @param m message to send     
+     * @param m message to send
      */
     protected void sendAll(Message m)
     {
         for (int i=0; i<playerList.length; i++)
         {
              TetriNETClient client = playerList[i];
-             if (client != null) client.sendMessage(m);                          
-        }             
+             if (client != null) client.sendMessage(m);
+        }
     }
 
     /**
      * Send a message to all players but the one in the specified slot.
      *
      * @param m message to send
-     * @param slot 
-     */    
+     * @param slot
+     */
     protected void sendAll(Message m, int slot)
     {
         for (int i=0; i<playerList.length; i++)
@@ -368,9 +370,9 @@ public class Channel extends Thread
              if (i+1 != slot)
              {
                  TetriNETClient client = playerList[i];
-                 if (client != null) client.sendMessage(m);                          
+                 if (client != null) client.sendMessage(m);
              }
-        }                
+        }
     }
 
     /**
@@ -382,7 +384,7 @@ public class Channel extends Thread
     {
         return getNbPlayers() >= cconf.getMaxPlayers();
     }
-    
+
     /**
      * Returns the number of players currently in this chanel.
      *
@@ -400,7 +402,7 @@ public class Channel extends Thread
             }
         }
 
-        return count;    	
+        return count;
     }
 
     /**
@@ -408,17 +410,17 @@ public class Channel extends Thread
      */
     public ChannelConfig getConfig()
     {
-        return cconf;	
+        return cconf;
     }
-    
+
     /**
      * Returns the game state.
      */
     public int getGameState()
     {
-        return gameState;	
+        return gameState;
     }
-    
+
     public int getPlayerSlot(TetriNETClient client)
     {
         int slot = 0;
@@ -428,7 +430,7 @@ public class Channel extends Thread
             if (playerList[i]==client) slot=i+1;
         }
 
-        return slot;        	
+        return slot;
     }
 
 }
