@@ -29,7 +29,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TellCommand implements Command
+public class TellCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
@@ -52,53 +52,44 @@ public class TellCommand implements Command
         return Language.getText("command.tell.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 2;
+    }
+
     public void execute(CommandMessage m)
     {
-        String cmd = m.getCommand();
         Client client = (Client) m.getSource();
 
-        if (m.getParameterCount() >= 2)
+        String targetName = m.getParameter(0);
+        Client target = m.getClientParameter(0);
+
+        if (target == null)
         {
-            String targetName = m.getParameter(0);
-            Client target = m.getClientParameter(0);
-
-            if (target == null)
-            {
-                // no player found
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", targetName);
-                client.send(response);
-            }
-            else
-            {
-                // player found
-                PlineMessage response = new PlineMessage();
-                String privateMessage = m.getText().substring(targetName.length() + 1);
-                response.setKey("command.tell.format", client.getUser().getName(), privateMessage);
-                response.setSource(client);
-                target.send(response);
-
-                target.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
-
-                // afk message
-                if (target.getUser().getStatus() == User.STATUS_AFK)
-                {
-                    String awayMessage = (String) target.getUser().getProperty("command.away.message");
-                    PlineMessage away = new PlineMessage();
-                    away.setKey("command.away.player_unavailable" + (awayMessage != null ? "2" : ""), target.getUser().getName(), awayMessage);
-                    client.send(away);
-                }
-            }
+            // no player found
+            PlineMessage response = new PlineMessage();
+            response.setKey("command.player_not_found", targetName);
+            client.send(response);
         }
         else
         {
-            // not enough parameters
-            Locale locale = client.getUser().getLocale();
+            // player found
             PlineMessage response = new PlineMessage();
-            String message = "<red>" + cmd + " <blue><" + Language.getText("command.params.player_name_num", locale) + ">"
-                + " <" + Language.getText("command.params.message", locale) + ">";
-            response.setText(message);
-            client.send(response);
+            String privateMessage = m.getText().substring(targetName.length() + 1);
+            response.setKey("command.tell.format", client.getUser().getName(), privateMessage);
+            response.setSource(client);
+            target.send(response);
+
+            target.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
+
+            // afk message
+            if (target.getUser().getStatus() == User.STATUS_AFK)
+            {
+                String awayMessage = (String) target.getUser().getProperty("command.away.message");
+                PlineMessage away = new PlineMessage();
+                away.setKey("command.away.player_unavailable" + (awayMessage != null ? "2" : ""), target.getUser().getName(), awayMessage);
+                client.send(away);
+            }
         }
     }
 

@@ -30,7 +30,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TeleportCommand implements Command
+public class TeleportCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
@@ -52,56 +52,50 @@ public class TeleportCommand implements Command
         return Language.getText("command.teleport.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 2;
+    }
+
     public void execute(CommandMessage m)
     {
-        String cmd = m.getCommand();
         Client client = (Client) m.getSource();
 
-        if (m.getParameterCount() >= 2)
+        String targetName = m.getParameter(0);
+        Client target = m.getClientParameter(0);
+
+        if (target == null)
         {
-            String targetName = m.getParameter(0);
-            Client target = m.getClientParameter(0);
-
-            if (target == null)
-            {
-                // no player found
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", targetName);
-                client.send(response);
-            }
-            else
-            {
-                // player found
-                Channel channel = m.getChannelParameter(1);
-
-                if (channel != null)
-                {
-                    if (channel.isFull())
-                    {
-                        // sending channel full message
-                        PlineMessage channelfull = new PlineMessage();
-                        channelfull.setKey("command.join.full");
-                        client.send(channelfull);
-                    }
-                    else
-                    {
-                        // adding the ADDPLAYER message to the queue of the target channel
-                        AddPlayerMessage move = new AddPlayerMessage(target);
-                        channel.send(move);
-
-                        PlineMessage teleported = new PlineMessage();
-                        teleported.setKey("command.teleport.message", target.getUser().getName(), channel.getConfig().getName());
-                        client.send(teleported);
-                    }
-                }
-            }
+            // no player found
+            PlineMessage response = new PlineMessage();
+            response.setKey("command.player_not_found", targetName);
+            client.send(response);
         }
         else
         {
-            // not enough parameters
-            String message = "<red>" + cmd + "<blue> <player name|player number> <channel name|channel number>";
-            PlineMessage response = new PlineMessage(message);
-            client.send(response);
+            // player found
+            Channel channel = m.getChannelParameter(1);
+
+            if (channel != null)
+            {
+                if (channel.isFull())
+                {
+                    // sending channel full message
+                    PlineMessage channelfull = new PlineMessage();
+                    channelfull.setKey("command.join.full");
+                    client.send(channelfull);
+                }
+                else
+                {
+                    // adding the ADDPLAYER message to the queue of the target channel
+                    AddPlayerMessage move = new AddPlayerMessage(target);
+                    channel.send(move);
+
+                    PlineMessage teleported = new PlineMessage();
+                    teleported.setKey("command.teleport.message", target.getUser().getName(), channel.getConfig().getName());
+                    client.send(teleported);
+                }
+            }
         }
     }
 }

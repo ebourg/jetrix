@@ -30,7 +30,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class IpCommand implements Command
+public class IpCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
@@ -52,39 +52,34 @@ public class IpCommand implements Command
         return Language.getText("command.ip.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 1;
+    }
+
     public void execute(CommandMessage m)
     {
         Client client = (Client) m.getSource();
 
-        if (m.getParameterCount() >= 1)
-        {
-            String targetName = m.getParameter(0);
-            Client target = m.getClientParameter(0);
+        String targetName = m.getParameter(0);
+        Client target = m.getClientParameter(0);
 
-            if (target == null)
-            {
-                // no player found
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", targetName);
-                client.send(response);
-            }
-            else
-            {
-                // player found
-                String hostname = target.getInetAddress().getHostName();
-                String hostaddress = target.getInetAddress().getHostAddress();
-                String message = "<darkBlue>[<red>" + target.getUser().getName() + "</red>] " + hostname;
-                if (!hostname.equals(hostaddress)) message += " (" + hostaddress + ")";
-                PlineMessage reponse = new PlineMessage(message);
-                client.send(reponse);
-            }
+        if (target == null)
+        {
+            // no player found
+            PlineMessage response = new PlineMessage();
+            response.setKey("command.player_not_found", targetName);
+            client.send(response);
         }
         else
         {
-            // not enough parameters
-            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_name_num", client.getUser().getLocale()) + ">";
-            PlineMessage response = new PlineMessage(message);
-            client.send(response);
+            // player found
+            String hostname = target.getInetAddress().getHostName();
+            String hostaddress = target.getInetAddress().getHostAddress();
+            String message = "<darkBlue>[<red>" + target.getUser().getName() + "</red>] " + hostname;
+            if (!hostname.equals(hostaddress)) message += " (" + hostaddress + ")";
+            PlineMessage reponse = new PlineMessage(message);
+            client.send(reponse);
         }
     }
 

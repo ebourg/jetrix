@@ -31,7 +31,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class KickCommand implements Command
+public class KickCommand implements ParameterCommand
 {
     private Logger log = Logger.getLogger("net.jetrix");
 
@@ -55,36 +55,30 @@ public class KickCommand implements Command
         return Language.getText("command.kick.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 1;
+    }
+
     public void execute(CommandMessage m)
     {
-        String cmd = m.getCommand();
         Client client = (Client) m.getSource();
 
-        if (m.getParameterCount() >= 1)
-        {
-            String targetName = m.getParameter(0);
-            Client target = m.getClientParameter(0);
+        String targetName = m.getParameter(0);
+        Client target = m.getClientParameter(0);
 
-            if (target == null)
-            {
-                // no player found
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", targetName);
-                client.send(response);
-            }
-            else
-            {
-                // player found
-                log.info(target.getUser().getName() + " (" + target.getInetAddress() + ") has been kicked by " + client.getUser().getName() + " (" + client.getInetAddress() + ")");
-                target.disconnect();
-            }
+        if (target == null)
+        {
+            // no player found
+            PlineMessage response = new PlineMessage();
+            response.setKey("command.player_not_found", targetName);
+            client.send(response);
         }
         else
         {
-            // not enough parameters
-            PlineMessage response = new PlineMessage();
-            response.setText("<red>" + cmd + "<blue> <playername|playernumber>");
-            client.send(response);
+            // player found
+            log.info(target.getUser().getName() + " (" + target.getInetAddress() + ") has been kicked by " + client.getUser().getName() + " (" + client.getInetAddress() + ")");
+            target.disconnect();
         }
     }
 

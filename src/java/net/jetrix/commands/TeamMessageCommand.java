@@ -30,7 +30,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TeamMessageCommand implements Command
+public class TeamMessageCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
@@ -52,6 +52,11 @@ public class TeamMessageCommand implements Command
         return Language.getText("command.team_message.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 1;
+    }
+
     public void execute(CommandMessage m)
     {
         Client client = (Client) m.getSource();
@@ -63,7 +68,7 @@ public class TeamMessageCommand implements Command
             response.setKey("command.team_message.not_in_team");
             client.send(response);
         }
-        else if (m.getParameterCount() >= 1)
+        else
         {
             // preparing message
             PlineMessage response = new PlineMessage();
@@ -78,15 +83,6 @@ public class TeamMessageCommand implements Command
                     target.send(response);
                 }
             }
-        }
-        else
-        {
-            // not enough parameters
-            Locale locale = client.getUser().getLocale();
-            PlineMessage response = new PlineMessage();
-            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.message", locale) + ">";
-            response.setText(message);
-            client.send(response);
         }
     }
 }

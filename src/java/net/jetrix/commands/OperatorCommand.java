@@ -32,7 +32,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class OperatorCommand implements Command
+public class OperatorCommand implements ParameterCommand
 {
     private Logger log = Logger.getLogger("net.jetrix");
 
@@ -56,38 +56,32 @@ public class OperatorCommand implements Command
         return Language.getText("command.operator.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 1;
+    }
+
     public void execute(CommandMessage m)
     {
-        String cmd = m.getCommand();
         Client client = (Client) m.getSource();
         ServerConfig conf = Server.getInstance().getConfig();
 
-        if (m.getParameterCount() >= 1)
-        {
-            String password = m.getParameter(0);
+        String password = m.getParameter(0);
 
-            if (password.equalsIgnoreCase(conf.getOpPassword()))
-            {
-                // access granted
-                client.getUser().setAccessLevel(1);
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.operator.granted");
-                client.send(response);
-            }
-            else
-            {
-                // access denied, logging attempt
-                log.severe(client.getUser().getName() + "(" + client.getInetAddress() + ") attempted to get operator status.");
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.operator.denied");
-                client.send(response);
-            }
+        if (password.equalsIgnoreCase(conf.getOpPassword()))
+        {
+            // access granted
+            client.getUser().setAccessLevel(1);
+            PlineMessage response = new PlineMessage();
+            response.setKey("command.operator.granted");
+            client.send(response);
         }
         else
         {
-            // not enough parameters
+            // access denied, logging attempt
+            log.severe(client.getUser().getName() + "(" + client.getInetAddress() + ") attempted to get operator status.");
             PlineMessage response = new PlineMessage();
-            response.setText("<red>" + cmd + "<blue> <password>");
+            response.setKey("command.operator.denied");
             client.send(response);
         }
     }

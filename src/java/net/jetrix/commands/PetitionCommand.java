@@ -30,7 +30,7 @@ import java.util.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class PetitionCommand implements Command
+public class PetitionCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
@@ -52,48 +52,40 @@ public class PetitionCommand implements Command
         return Language.getText("command.petition.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 1;
+    }
+
     public void execute(CommandMessage m)
     {
-        String cmd = m.getCommand();
         Client client = (Client) m.getSource();
 
-        if (m.getParameterCount() >= 1)
+        Iterator operators = ClientRepository.getInstance().getOperators();
+
+        if (operators.hasNext())
         {
-            Iterator operators = ClientRepository.getInstance().getOperators();
+            PlineMessage petition = new PlineMessage();
+            String message = m.getText();
+            petition.setKey("command.tell.format", client.getUser().getName(), message);
+            petition.setSource(client);
 
-            if (operators.hasNext())
+            while (operators.hasNext())
             {
-                PlineMessage petition = new PlineMessage();
-                String message = m.getText();
-                petition.setKey("command.tell.format", client.getUser().getName(), message);
-                petition.setSource(client);
-
-                while (operators.hasNext())
-                {
-                    Client operator = (Client) operators.next();
-                    operator.send(petition);
-                    operator.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
-                }
-
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.petition.sent");
-                client.send(response);
+                Client operator = (Client) operators.next();
+                operator.send(petition);
+                operator.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
             }
-            else
-            {
-                // no operator online
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.petition.no_operator");
-                client.send(response);
-            }
+
+            PlineMessage response = new PlineMessage();
+            response.setKey("command.petition.sent");
+            client.send(response);
         }
         else
         {
-            // not enough parameters
-            Locale locale = client.getUser().getLocale();
+            // no operator online
             PlineMessage response = new PlineMessage();
-            String message = "<red>" + cmd + " <blue><" + Language.getText("command.params.message", locale) + ">";
-            response.setText(message);
+            response.setKey("command.petition.no_operator");
             client.send(response);
         }
     }

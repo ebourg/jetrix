@@ -143,6 +143,17 @@ public class CommandManager
             // check the access level
             if (client.getUser().getAccessLevel() >= command.getAccessLevel())
             {
+                // check the number of parameters
+                if (command instanceof ParameterCommand && m.getParameterCount() < ((ParameterCommand) command).getParameterCount())
+                {
+                    // not enough parameters
+                    PlineMessage response = new PlineMessage();
+                    response.setText(colorizeUsage(command.getUsage(client.getUser().getLocale())));
+                    client.send(response);
+                    return;
+                }
+
+                // execute the command
                 try
                 {
                     command.execute(m);
@@ -169,6 +180,31 @@ public class CommandManager
     {
         commands.clear();
         commandSet.clear();
+    }
+
+    /**
+     * Return a colorized usage string of the specified command.
+     */
+    String colorizeUsage(String usage)
+    {
+        usage = usage.trim();
+        int i = usage.indexOf(" ");
+
+        StringBuffer colorized = new StringBuffer();
+        colorized.append("<red>");
+
+        if (i > -1)
+        {
+            colorized.append(usage.substring(0, i));
+            colorized.append(" <blue>");
+            colorized.append(usage.substring(i + 1));
+        }
+        else
+        {
+            colorized.append(usage);
+        }
+
+        return colorized.toString();
     }
 
 }

@@ -29,7 +29,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class BroadcastCommand implements Command
+public class BroadcastCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
@@ -51,32 +51,25 @@ public class BroadcastCommand implements Command
         return Language.getText("command.broadcast.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 1;
+    }
+
     public void execute(CommandMessage m)
     {
         Client client = (Client) m.getSource();
 
-        if (m.getParameterCount() >= 1)
-        {
-            // preparing message
-            PlineMessage response = new PlineMessage();
-            response.setKey("command.broadcast.message", client.getUser().getName(), m.getText());
-            response.setSource(client);
+        // preparing message
+        PlineMessage response = new PlineMessage();
+        response.setKey("command.broadcast.message", client.getUser().getName(), m.getText());
+        response.setSource(client);
 
-            Iterator clients = ClientRepository.getInstance().getClients();
-            while (clients.hasNext())
-            {
-                Client target = (Client) clients.next();
-                target.send(response);
-            }
-        }
-        else
+        Iterator clients = ClientRepository.getInstance().getClients();
+        while (clients.hasNext())
         {
-            // not enough parameters
-            Locale locale = client.getUser().getLocale();
-            PlineMessage response = new PlineMessage();
-            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.message", locale) + ">";
-            response.setText(message);
-            client.send(response);
+            Client target = (Client) clients.next();
+            target.send(response);
         }
     }
 

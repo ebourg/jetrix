@@ -175,4 +175,10 @@ public class CommandManagerTest extends TestCase
         assertEquals(command3, commands.next());
     }
 
+    public void testColorizeUsage()
+    {
+        assertEquals("<red>/usage", commandManager.colorizeUsage("/usage"));
+        assertEquals("<red>/usage <blue>param1 param2", commandManager.colorizeUsage("/usage param1 param2"));
+    }
+
 }

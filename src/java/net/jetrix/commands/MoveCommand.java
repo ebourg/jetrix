@@ -30,7 +30,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class MoveCommand implements Command
+public class MoveCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
@@ -52,32 +52,26 @@ public class MoveCommand implements Command
         return Language.getText("command.move.description", locale);
     }
 
+    public int getParameterCount()
+    {
+        return 2;
+    }
+
     public void execute(CommandMessage m)
     {
         Client client = (Client) m.getSource();
 
-        if (m.getParameterCount() >= 2)
-        {
-            // parse the two slot numbers
-            int slot1 = m.getIntParameter(0, 0);
-            int slot2 = m.getIntParameter(1, 0);
+        // parse the two slot numbers
+        int slot1 = m.getIntParameter(0, 0);
+        int slot2 = m.getIntParameter(1, 0);
 
-            if (slot1 >= 1 && slot1 <= 6 && slot2 >= 1 && slot2 <= 6)
-            {
-                // send the switch message to the channel
-                PlayerSwitchMessage pswitch = new PlayerSwitchMessage();
-                pswitch.setSlot1(slot1);
-                pswitch.setSlot2(slot2);
-                client.getChannel().send(pswitch);
-            }
-        }
-        else
+        if (slot1 >= 1 && slot1 <= 6 && slot2 >= 1 && slot2 <= 6)
         {
-            // not enough parameters
-            Locale locale = client.getUser().getLocale();
-            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_num", locale) + "> <" + Language.getText("command.params.slot_num", locale) + ">";
-            PlineMessage response = new PlineMessage(message);
-            client.send(response);
+            // send the switch message to the channel
+            PlayerSwitchMessage pswitch = new PlayerSwitchMessage();
+            pswitch.setSlot1(slot1);
+            pswitch.setSlot2(slot2);
+            client.getChannel().send(pswitch);
         }
     }
 }
