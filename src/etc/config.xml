@@ -40,6 +40,7 @@ http://jetrix.sourceforge.net/
     <alias name="flood" class="org.lfjr.jts.filter.FloodFilter"/>
     <alias name="start" class="org.lfjr.jts.filter.StartFilter"/>
     <alias name="amplifier" class="org.lfjr.jts.filter.AmplifierFilter"/>
+    <alias name="ping" class="org.lfjr.jts.filter.PingFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -50,7 +51,8 @@ http://jetrix.sourceforge.net/
     </filter>
     <filter name="start">
       <param name="delay" value="10000"/>
-    </filter>    
+    </filter>
+    <filter name="ping"/>
   </default-filters>
 
   <!-- Default game settings -->
@@ -185,6 +187,7 @@ http://jetrix.sourceforge.net/
     <command class="org.lfjr.jts.commands.MotdCommand"/>
     <command class="org.lfjr.jts.commands.MoveCommand"/>
     <command class="org.lfjr.jts.commands.OperatorCommand"/>
+    <command class="org.lfjr.jts.commands.PingCommand"/>
     <command class="org.lfjr.jts.commands.SummonCommand"/>
     <command class="org.lfjr.jts.commands.TeleportCommand"/>
     <command class="org.lfjr.jts.commands.TellCommand"/>
