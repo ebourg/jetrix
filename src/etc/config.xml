@@ -38,24 +38,31 @@ Welcome on <b>JetriX TetriNET Server</b>!
 
   <!-- Channel filters -->
   <filter-definitions>
-    <alias name="flood" class="net.jetrix.filter.FloodFilter"/>
-    <alias name="start" class="net.jetrix.filter.StartFilter"/>
+    <alias name="flood"     class="net.jetrix.filter.FloodFilter"/>
+    <alias name="start"     class="net.jetrix.filter.StartFilter"/>
     <alias name="amplifier" class="net.jetrix.filter.AmplifierFilter"/>
-    <alias name="ping" class="net.jetrix.filter.PingFilter"/>
-    <alias name="7tetris" class="net.jetrix.filter.TetrisFilter"/>
+    <alias name="ping"      class="net.jetrix.filter.PingFilter"/>
+    <alias name="7tetris"   class="net.jetrix.filter.TetrisFilter"/>
+    <alias name="stats"     class="net.jetrix.filter.StatsFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
   <default-filters>
     <filter name="flood">
       <param name="capacity" value="8"/>
-      <param name="delay" value="5000"/>
+      <param name="delay"    value="5000"/>
     </filter>
     <filter name="start">
       <param name="delay" value="10000"/>
     </filter>
     <filter name="ping"/>
+    <filter name="stats"/>
   </default-filters>
+
+  <!-- Winlists -->
+  <winlists>
+    <winlist name="welcome" class="net.jetrix.winlist.SimpleWinlist"/>
+  </winlists>
 
   <!-- Default game settings -->
   <default-settings>
@@ -111,14 +118,17 @@ Welcome on <b>JetriX TetriNET Server</b>!
   <channels>
     <channel name="welcome">
       <description>Welcome !</description>
+      <winlist name="welcome"/>
     </channel>
 
     <channel name="welcome2">
       <description>Welcome !</description>
+      <winlist name="welcome"/>
     </channel>
 
     <channel name="welcome3">
       <description>Welcome !</description>
+      <winlist name="welcome"/>
     </channel>
 
     <channel name="pureduel">
@@ -157,13 +167,6 @@ Welcome on <b>JetriX TetriNET Server</b>!
         <filter name="7tetris"/>
       </filters>
     </channel>
-
-<!--
-    <channel name="theatre">
-      <description>The TetriNET Theatre</description>
-      <class>org.lfjr.jetrix.channel.PlayBack</class>
-    </channel>
--->
 
     <channel name="laboratory">
       <description>Silly tests here</description>
