@@ -89,7 +89,7 @@ public class QueryClient extends TetrinetClient
                     message.append("\"");
                     message.append(user.getName());
                     message.append("\" \"");
-                    message.append(user.getTeam());
+                    message.append(user.getTeam() == null ? "" : user.getTeam());
                     message.append("\" \"");
                     message.append(client.getVersion());
                     message.append("\" ");
