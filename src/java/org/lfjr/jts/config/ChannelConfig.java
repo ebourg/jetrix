@@ -34,6 +34,7 @@ public class ChannelConfig
     private String password;
     private String description;
     private int maxPlayers = 6;
+    private int accessLevel;
     private boolean persistent;
 
     /** extended properties */
@@ -97,6 +98,16 @@ public class ChannelConfig
     public void setMaxPlayers(int maxPlayers)
     {
         this.maxPlayers = maxPlayers;
+    }
+
+    /**
+     * Sets the minimum access level required to join the channel.
+     *
+     * @param accessLevel
+     */
+    public void setAccessLevel(int accessLevel)
+    {
+        this.accessLevel = accessLevel;
     }
 
     /**
@@ -165,6 +176,16 @@ public class ChannelConfig
     }
 
     /**
+     * Gets the minimum access level required to join the channel.
+     *
+     * @return
+     */
+    public int getAccessLevel()
+    {
+        return accessLevel;
+    }
+
+    /**
      * Tell if the channel will vanish once the last player leave
      *
      * @return <tt>true</tt> if the channel is persistent, <tt>false</tt> if not
@@ -172,6 +193,14 @@ public class ChannelConfig
     public boolean isPersistent()
     {
         return persistent;
+    }
+
+    /**
+     * Tell if a password is required to enter the channel.
+     */
+    public boolean isPasswordProtected()
+    {
+        return (password == null);	
     }
 
     public String getProperty(String name)
