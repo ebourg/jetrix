@@ -38,10 +38,7 @@ public class ClientRepository
             public boolean evaluate(Object obj)
             {
                 Client client = (Client)obj;
-                boolean isPlayer =
-                    client.getType() == Client.CLIENT_TETRINET
-                    || client.getType() == Client.CLIENT_TETRIFAST;
-                return isPlayer;
+                return client.getUser().isPlayer();
             }
         };
 
@@ -49,8 +46,7 @@ public class ClientRepository
             public boolean evaluate(Object obj)
             {
                 Client client = (Client)obj;
-                boolean isSpec = client.getType() == Client.CLIENT_TSPEC;
-                return isSpec;
+                return client.getUser().isSpectator();
             }
         };
 
