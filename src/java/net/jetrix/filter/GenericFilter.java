@@ -59,6 +59,7 @@ public abstract class GenericFilter extends MessageFilter
         else if (m instanceof ResumeMessage)       onMessage((ResumeMessage)m, out);
         else if (m instanceof IngameMessage)       onMessage((IngameMessage)m, out);
         else if (m instanceof GmsgMessage)         onMessage((GmsgMessage)m, out);
+        else if (m instanceof PlayerWonMessage)    onMessage((PlayerWonMessage)m, out);
         else if (m instanceof NoConnectingMessage) onMessage((NoConnectingMessage)m, out);
         else
         {
@@ -173,6 +174,11 @@ public abstract class GenericFilter extends MessageFilter
     }
 
     public void onMessage(PlayerLostMessage m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onMessage(PlayerWonMessage m, List out)
     {
         out.add(m);
     }
