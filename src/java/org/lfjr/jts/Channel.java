@@ -277,24 +277,25 @@ public class Channel extends Thread
 
                 // sending closing screen
                 StringBuffer screenLayout = new StringBuffer();
-                for (int i=0; i<12*22; i++)
+                for (int i = 0; i < 12*22; i++)
                 {
-                    screenLayout.append( ( (int)(Math.random()*4+1) ) * (1-jetrixLogo[i]) );
+                    screenLayout.append( ( (int)(Math.random() * 4 + 1) ) * (1 - jetrixLogo[i]) );
                     //screenLayout.append( ( (int)(slot%5+1) ) * (1-jetrixLogo[i]) );
                 }
                 Message endingScreen = new Message(Message.MSG_FIELD);
                 endingScreen.setParameters(new Object[] { m.getParameter(0), screenLayout.toString() });
                 sendAll(endingScreen);
+                
+                boolean wasPlaying = client.getPlayer().isPlaying();
+                client.getPlayer().setPlaying(false);
 
                 // check for end of game
-                if (client.getPlayer().isPlaying() && countRemainingTeams() <= 1)
+                if (wasPlaying && countRemainingTeams() <= 1)
                 {
                     gameState = Channel.GAME_STATE_STOPPED;
                     Message endgame = new Message(Message.MSG_ENDGAME);
                     sendAll(endgame);
                 }
-
-                client.getPlayer().setPlaying(false);
 
                 break;
 
@@ -321,7 +322,7 @@ public class Channel extends Thread
                 if (gameState == GAME_STATE_STOPPED)
                 {
                     gameState = GAME_STATE_STARTED;
-                    for (int i=0; i<playerList.length; i++)
+                    for (int i = 0; i < playerList.length; i++)
                     {
                         if(playerList[i] != null)
                         {
@@ -334,17 +335,20 @@ public class Channel extends Thread
                 break;
 
             case Message.MSG_ENDGAME:
-                gameState = GAME_STATE_STOPPED;
-                sendAll(m);
+                if (gameState != GAME_STATE_STOPPED)
+                {
+                    gameState = GAME_STATE_STOPPED;
+                    sendAll(m);
+                }
                 break;
 
             case Message.MSG_DISCONNECTED:
                 // searching player slot
                 client = (TetriNETClient)m.getParameter(0);
 
-                slot=0;
+                slot = 0;
                 int i = 0;
-                while(i<playerList.length && slot==0)
+                while(i < playerList.length && slot == 0)
                 {
                     if (playerList[i] == client) { slot = i; }
                     i++;
@@ -356,6 +360,10 @@ public class Channel extends Thread
                 // sending notification to players
                 Message leaveNotice = new Message(Message.MSG_PLAYERLEAVE, new Object[] { new Integer(slot+1) });
                 sendAll(leaveNotice);
+                
+                String disconnectedMessage = ChatColors.gray + client.getPlayer().getName() + " has been disconnected.";
+                Message disconnected = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), disconnectedMessage });
+                sendAll(disconnected);
 
                 // stopping the game if the channel is now empty
                 if (isEmpty() && running) { gameState = GAME_STATE_STOPPED; }
@@ -394,7 +402,8 @@ public class Channel extends Thread
 
                     // sending message to the previous channel announcing what channel the player joined
                     Message leave2 = new Message(Message.MSG_PLINE);
-                    leave2.setParameters(new Object[] { new Integer(0), ChatColors.gray + client.getPlayer().getName()+" has joined channel " + ChatColors.bold + channelConfig.getName() });
+                    String leaveMessage = ChatColors.gray + client.getPlayer().getName()+" has joined channel " + ChatColors.bold + channelConfig.getName();
+                    leave2.setParameters(new Object[] { new Integer(0), leaveMessage});
                     previousChannel.addMessage(leave2);
 
                     // ending running game
@@ -503,7 +512,7 @@ public class Channel extends Thread
      */
     protected void sendAll(Message m)
     {
-        for (int i=0; i<playerList.length; i++)
+        for (int i = 0; i < playerList.length; i++)
         {
              TetriNETClient client = playerList[i];
              if (client != null) client.sendMessage(m);
@@ -518,9 +527,9 @@ public class Channel extends Thread
      */
     protected void sendAll(Message m, int slot)
     {
-        for (int i=0; i<playerList.length; i++)
+        for (int i = 0; i < playerList.length; i++)
         {
-             if (i+1 != slot)
+             if (i + 1 != slot)
              {
                  TetriNETClient client = playerList[i];
                  if (client != null) client.sendMessage(m);
@@ -588,7 +597,7 @@ public class Channel extends Thread
 
         for (int i = 0; i<channelConfig.getMaxPlayers(); i++)
         {
-            if (playerList[i]==client) slot=i+1;
+            if (playerList[i] == client) slot = i + 1;
         }
 
         return slot;
@@ -605,7 +614,7 @@ public class Channel extends Thread
     {
         TetriNETClient client = null;
 
-        if (slot>=1 && slot <=6) client = playerList[slot-1];
+        if (slot >= 1 && slot <= 6) client = playerList[slot - 1];
 
         return client;
     }
@@ -624,7 +633,7 @@ public class Channel extends Thread
 
         int nbTeamsLeft = 0;
 
-        for (int i = 0; i<playerList.length; i++)
+        for (int i = 0; i < playerList.length; i++)
         {
             TetriNETClient client = playerList[i];
 
