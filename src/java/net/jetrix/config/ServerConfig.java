@@ -69,13 +69,16 @@ public class ServerConfig
     }
 
     /**
-     * Loads the default configuration file <tt>config.xml</tt>.
+     * Load the default configuration file <tt>config.xml</tt>.
      */
     public void load()
     {
         load("config.xml");
     }
 
+    /**
+     * Load the content of the specified configuration file in this object.
+     */
     public void load(String filename)
     {
         try
@@ -85,95 +88,9 @@ public class ServerConfig
             URL url = ServerConfig.class.getClassLoader().getResource("tetrinet-server.dtd");
             digester.register("-//LFJR//Jetrix TetriNET Server//EN", url.toString());
             digester.setValidating(true);
-            //digester.setDebug(2);
+            digester.addRuleSet(new ConfigRuleSet());
             digester.push(this);
-
-            // server parameters
-            digester.addCallMethod("tetrinet-server", "setHost", 1);
-            digester.addCallParam("tetrinet-server", 0, "host");
-            digester.addCallMethod("tetrinet-server", "setPort", 1, new Class[] {Integer.TYPE});
-            digester.addCallParam("tetrinet-server", 0, "port");
-            digester.addCallMethod("tetrinet-server/language", "setLocale", 0);
-            digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("tetrinet-server/max-connexions", "setMaxConnexions", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("tetrinet-server/op-password", "setOpPassword", 0);
-            digester.addCallMethod("tetrinet-server/motd", "setMessageOfTheDay", 0);
-            digester.addCallMethod("tetrinet-server/access-log", "setAccessLogPath", 1);
-            digester.addCallParam("tetrinet-server/access-log", 0, "path");
-            digester.addCallMethod("tetrinet-server/error-log", "setErrorLogPath", 1);
-            digester.addCallParam("tetrinet-server/error-log", 0, "path");
-
-            // default game settings
-            digester.addObjectCreate("tetrinet-server/default-settings", "net.jetrix.config.Settings");
-            digester.addSetNext("tetrinet-server/default-settings", "setDefaultSettings", "net.jetrix.config.Settings");
-
-            // channel settings
-            digester.addObjectCreate("*/channel/settings", "net.jetrix.config.Settings");
-            digester.addSetNext("*/channel/settings", "setSettings", "net.jetrix.config.Settings");
-
-            // any game settings
-            digester.addCallMethod("*/starting-level", "setStartingLevel", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/lines-per-level", "setLinesPerLevel", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/level-increase", "setLevelIncrease", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/lines-per-special", "setLinesPerSpecial", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-added", "setSpecialAdded", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-capacity", "setSpecialCapacity", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/classic-rules", "setClassicRules", 0, new Class[] {Boolean.TYPE});
-            digester.addCallMethod("*/average-levels", "setAverageLevels", 0, new Class[] {Boolean.TYPE});
-            digester.addCallMethod("*/block-occurancy/leftl", "setLeftLOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/block-occurancy/leftz", "setLeftZOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/block-occurancy/square", "setSquareOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/block-occurancy/rightl", "setRightLOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/block-occurancy/rightz", "setRightZOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/block-occurancy/halfcross", "setHalfCrossOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/block-occurancy/line", "setLineOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/block-occurancy", "normalizeBlockOccurancy", 0, (Class[])null);
-            digester.addCallMethod("*/special-occurancy/addline", "setAddLineOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy/clearline", "setClearLineOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy/nukefield", "setNukeFieldOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy/randomclear", "setRandomClearOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy/switchfield", "setSwitchFieldOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy/clearspecial", "setClearSpecialOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy/gravity", "setGravityOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy/quakefield", "setQuakeFieldOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy/blockbomb", "setBlockBombOccurancy", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, (Class[])null);
-
-            // channel configuration
-            digester.addObjectCreate("*/channel", "net.jetrix.config.ChannelConfig");
-            digester.addSetNext("*/channel", "addChannel", "net.jetrix.config.ChannelConfig");
-            digester.addCallMethod("*/channel", "setName", 1);
-            digester.addCallParam("*/channel", 0, "name");
-            digester.addCallMethod("*/channel/password", "setPassword", 0);
-            digester.addCallMethod("*/channel/access-level", "setAccessLevel", 0, new Class[] {Integer.TYPE});
-            digester.addCallMethod("*/channel/description", "setDescription", 0);
-            digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
-
-            // filter configuration
-            digester.addObjectCreate("*/filter", "net.jetrix.config.FilterConfig");
-            digester.addSetNext("*/filter", "addFilter", "net.jetrix.config.FilterConfig");
-            digester.addCallMethod("*/filter", "setName", 1);
-            digester.addCallParam("*/filter", 0, "name");
-            digester.addCallMethod("*/filter", "setClassname", 1);
-            digester.addCallParam("*/filter", 0, "class");
-            digester.addCallMethod("*/filter/param", "setParameter", 2);
-            digester.addCallParam("*/filter/param", 0, "name");
-            digester.addCallParam("*/filter/param", 1, "value");
-
-            // filter definitions
-            digester.addCallMethod("tetrinet-server/filter-definitions/alias", "addFilterAlias", 2);
-            digester.addCallParam("tetrinet-server/filter-definitions/alias", 0, "name");
-            digester.addCallParam("tetrinet-server/filter-definitions/alias", 1, "class");
-
-            // command definitions
-            digester.addObjectCreate("*/command", null, "class");
-            digester.addSetNext("*/command", "addCommand", "net.jetrix.commands.Command");
-            digester.addCallMethod("*/filter/access-level", "setAccessLevel", 0,  new Class[] {Integer.TYPE});
-
             digester.parse(new File(filename));
-
         }
         catch (Exception e)
         {
