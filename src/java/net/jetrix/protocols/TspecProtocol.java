@@ -63,14 +63,14 @@ public class TspecProtocol extends TetrinetProtocol
      */
     public String translate(Message m, Locale locale)
     {
-        if (m instanceof SpectatorListMessage) return translate((SpectatorListMessage)m);
+        if (m instanceof SpectatorListMessage) return translate((SpectatorListMessage)m, locale);
         else
         {
             return super.translate(m, locale);
         }
     }
 
-    public String translate(SpectatorListMessage m)
+    public String translate(SpectatorListMessage m, Locale locale)
     {
         StringBuffer message = new StringBuffer();
         message.append("speclist #");
@@ -82,6 +82,36 @@ public class TspecProtocol extends TetrinetProtocol
             message.append(specators.next());
         }
         return message.toString();
+    }
+
+    public String translate(JoinMessage m, Locale locale)
+    {
+        if (m.getSlot() == 0)
+        {
+            StringBuffer message = new StringBuffer();
+            message.append("specjoin ");
+            message.append(m.getName());
+            return message.toString();
+        }
+        else
+        {
+            return super.translate(m, locale);
+        }
+    }
+
+    public String translate(LeaveMessage m, Locale locale)
+    {
+        if (m.getSlot() == 0)
+        {
+            StringBuffer message = new StringBuffer();
+            message.append("specleave ");
+            message.append(m.getName());
+            return message.toString();
+        }
+        else
+        {
+            return super.translate(m, locale);
+        }
     }
 
     /*public String translate(PlineMessage m)

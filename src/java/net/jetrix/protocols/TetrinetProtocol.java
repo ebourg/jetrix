@@ -271,8 +271,8 @@ public class TetrinetProtocol implements Protocol
         else if ( m instanceof PlayerLostMessage) return translate((PlayerLostMessage)m);
         else if ( m instanceof PlineActMessage) return translate((PlineActMessage)m, locale);
         else if ( m instanceof TeamMessage) return translate((TeamMessage)m);
-        else if ( m instanceof JoinMessage) return translate((JoinMessage)m);
-        else if ( m instanceof LeaveMessage) return translate((LeaveMessage)m);
+        else if ( m instanceof JoinMessage) return translate((JoinMessage)m, locale);
+        else if ( m instanceof LeaveMessage) return translate((LeaveMessage)m, locale);
         else if ( m instanceof PlayerNumMessage) return translate((PlayerNumMessage)m);
         else if ( m instanceof StartGameMessage) return translate((StartGameMessage)m);
         else if ( m instanceof StopGameMessage) return translate((StopGameMessage)m);
@@ -345,22 +345,42 @@ public class TetrinetProtocol implements Protocol
         return message.toString();
     }
 
-    public String translate(JoinMessage m)
+    public String translate(JoinMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
-        message.append("playerjoin ");
-        message.append(m.getSlot());
-        message.append(" ");
-        message.append(m.getName());
-        return message.toString();
+        if (m.getSlot() == 0)
+        {
+            // spectator joining
+            PlineMessage announce = new PlineMessage();
+            announce.setText("<green>*** <b>" + m.getName() + "</b> is Now Watching");
+            return translate(announce, locale);
+        }
+        else
+        {
+            StringBuffer message = new StringBuffer();
+            message.append("playerjoin ");
+            message.append(m.getSlot());
+            message.append(" ");
+            message.append(m.getName());
+            return message.toString();
+        }
     }
 
-    public String translate(LeaveMessage m)
+    public String translate(LeaveMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
-        message.append("playerleave ");
-        message.append(m.getSlot());
-        return message.toString();
+        if (m.getSlot() == 0)
+        {
+            // spectator leaving
+            PlineMessage announce = new PlineMessage();
+            announce.setText("<green>*** <b>" + m.getName() + "</b> is no longer watching");
+            return translate(announce, locale);
+        }
+        else
+        {
+            StringBuffer message = new StringBuffer();
+            message.append("playerleave ");
+            message.append(m.getSlot());
+            return message.toString();
+        }
     }
 
     public String translate(PlayerNumMessage m)

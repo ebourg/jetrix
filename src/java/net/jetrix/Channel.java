@@ -59,7 +59,28 @@ public class Channel extends Thread implements Destination
 
     // JetriX logo
     // @todo move the logo to an external file
-    private short jetrixLogo[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0};
+    private short jetrixLogo[] = {0,0,0,0,0,0,0,0,0,0,0,0,
+                                  0,0,0,0,0,0,1,1,0,1,1,0,
+                                  0,0,0,0,0,0,0,0,1,0,0,0,
+                                  0,0,0,0,0,0,1,1,0,1,1,0,
+                                  0,0,0,0,0,0,0,0,0,0,0,0,
+                                  0,0,0,0,0,0,1,1,1,1,1,0,
+                                  0,0,0,0,0,0,0,0,0,0,0,0,
+                                  0,0,0,0,0,0,1,1,0,1,1,0,
+                                  0,0,0,0,0,0,1,0,1,0,0,0,
+                                  0,0,0,0,0,0,1,1,1,1,1,0,
+                                  0,0,0,0,0,0,0,0,0,0,0,0,
+                                  0,0,0,0,0,0,1,0,0,0,0,0,
+                                  0,0,0,0,0,0,1,1,1,1,1,0,
+                                  0,0,0,0,0,0,1,0,0,0,0,0,
+                                  0,0,0,0,0,0,0,0,0,0,0,0,
+                                  0,0,0,0,0,0,1,0,0,0,1,0,
+                                  0,0,0,0,0,0,1,0,1,0,1,0,
+                                  0,0,0,0,0,0,1,1,1,1,1,0,
+                                  0,0,0,0,0,0,0,0,0,0,0,0,
+                                  0,0,0,0,0,0,1,1,1,1,1,0,
+                                  0,0,0,0,0,0,0,0,0,0,1,0,
+                                  0,0,0,0,0,0,0,0,0,1,1,0};
 
     public Channel()
     {
@@ -421,14 +442,14 @@ public class Channel extends Thread implements Destination
         }
 
         // add the client to the channel
-        clients.add(client);
+        clients.add(client);      
 
         if (client.getUser().isSpectator())
         {
-            // announce the new spectator to the other clients in the channel
-            PlineMessage announce = new PlineMessage();
-            announce.setText("<green>*** <b>" + client.getUser().getName() + "</b> is Now Watching");
-            sendAll(announce, client);
+            // announce the new player to the other clients in the channel
+            JoinMessage mjoin = new JoinMessage();
+            mjoin.setName(client.getUser().getName());
+            sendAll(mjoin, client);
         }
         else
         {
@@ -616,21 +637,18 @@ public class Channel extends Thread implements Destination
         if (client != null)
         {
             clients.remove(client);
-            int slot = slots.indexOf(client);
 
+            LeaveMessage leave = new LeaveMessage();
+            leave.setName(client.getUser().getName());
+
+            int slot = slots.indexOf(client);
             if (slot != -1)
             {
                 slots.set(slot, null);
-                LeaveMessage leave = new LeaveMessage();
                 leave.setSlot(slot + 1);
-                sendAll(leave);
             }
-            else
-            {
-                PlineMessage message = new PlineMessage();
-                message.setText("<green>*** <b>" + client.getUser().getName() + "</b> is no longer watching");
-                sendAll(message);
-            }
+
+            sendAll(leave);
         }
 
         // stop the game if the channel is now empty

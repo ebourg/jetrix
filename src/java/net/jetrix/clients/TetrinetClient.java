@@ -109,6 +109,7 @@ public class TetrinetClient implements Client
 
             LeaveMessage leaveNotice = new LeaveMessage();
             leaveNotice.setSlot(channel.getClientSlot(this));
+            leaveNotice.setName(user.getName());
             channel.sendMessage(leaveNotice);
         }
         catch (IOException e)

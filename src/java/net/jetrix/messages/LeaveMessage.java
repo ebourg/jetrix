@@ -19,16 +19,25 @@
 
 package net.jetrix.messages;
 
-import net.jetrix.*;
-
 /**
- *
+ * Message sent when a player or spectator leave a channel.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public class LeaveMessage extends ChannelMessage
 {
+    /** the name of the player leaving the channel */
+    private String name;
 
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
 }
