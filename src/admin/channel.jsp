@@ -111,11 +111,12 @@
 
 	<h2>Filters</h2>
 
-	<table class="thin" style="width: 500px">
+	<table class="thin" style="width: 600px">
 	  <tr>
 	    <th>Name</th>
 	    <th>Version</th>
 	    <th>Description</th>
+        <th>Global</th>
 	    <th></th>
 	  </tr>
 <%  while (filters.hasNext()) {
@@ -124,7 +125,12 @@
 	    <td><%= filter.getName() %></td>
 	    <td><%= filter.getVersion() %></td>
 	    <td><%= filter.getDescription() %></td>
-	    <td><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
+        <td align="center"><%= filter.getConfig().isGlobal() ? "yes" : "no" %></td>
+	    <td>
+<%      if (!filter.getConfig().isGlobal()) { %>
+          <input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove">
+<%      } %>
+        </td>
 	  </tr>
 <%  } %>
 	</table>
@@ -136,7 +142,14 @@
     <table class="thin" cellpadding="3">
       <tr>
 <%  for (int i = 0; i < 6; i++) { %>
-        <td><%= i + 1 %>: <%= channel.getPlayer(i + 1) != null ? channel.getPlayer(i + 1).getName() : "(empty)" %></td>
+        <td>
+          <%= i + 1 %>:
+<%      if (channel.getPlayer(i + 1) != null) { %>
+          <a href="user.jsp?name=<%= channel.getPlayer(i + 1).getName() %>"><%= channel.getPlayer(i + 1).getName() %></a>
+<%      } else { %>
+          (empty)
+<%      } %>
+        </td>
 <%  } %>
       </tr>
       <tr>
