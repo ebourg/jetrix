@@ -55,7 +55,7 @@ public class MoveCommand extends AbstractCommand implements ParameterCommand
         int slot1 = m.getIntParameter(0, 0);
         int slot2 = m.getIntParameter(1, 0);
 
-        if (slot1 >= 1 && slot1 <= 6 && slot2 >= 1 && slot2 <= 6)
+        if (slot1 >= 1 && slot1 <= 6 && slot2 >= 1 && slot2 <= 6 && slot1 != slot2)
         {
             // send the switch message to the channel
             PlayerSwitchMessage pswitch = new PlayerSwitchMessage();
