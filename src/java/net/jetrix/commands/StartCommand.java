@@ -71,6 +71,11 @@ public class StartCommand implements Command
 
             if (delay > 0)
             {
+                // tell who started the game
+                PlineMessage message = new PlineMessage();
+                message.setKey("channel.game.started-by", client.getUser().getName());
+                channel.send(message);
+
                 (new StartCommand.CountDown(channel, delay)).start();
             }
             else

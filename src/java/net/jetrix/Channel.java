@@ -287,12 +287,32 @@ public class Channel extends Thread implements Destination
     private void process(PauseMessage m)
     {
         gameState = GAME_STATE_PAUSED;
+
+        // tell who paused the game if the message comes from a client
+        if (m.getSource() instanceof Client)
+        {
+            Client client = (Client) m.getSource();
+            PlineMessage message = new PlineMessage();
+            message.setKey("channel.game.paused-by", client.getUser().getName());
+            sendAll(message);
+        }
+
         sendAll(m);
     }
 
     private void process(ResumeMessage m)
     {
         gameState = GAME_STATE_STARTED;
+
+        // tell who resumed the game if the message comes from a client
+        if (m.getSource() instanceof Client)
+        {
+            Client client = (Client) m.getSource();
+            PlineMessage message = new PlineMessage();
+            message.setKey("channel.game.resumed-by", client.getUser().getName());
+            sendAll(message);
+        }
+
         sendAll(m);
     }
 
@@ -406,6 +426,15 @@ public class Channel extends Thread implements Destination
             // change the channel state
             gameState = GAME_STATE_STARTED;
 
+            // tell who started the game if the message comes from a client
+            if (m.getSource() instanceof Client)
+            {
+                Client client = (Client) m.getSource();
+                PlineMessage message = new PlineMessage();
+                message.setKey("channel.game.started-by", client.getUser().getName());
+                sendAll(message);
+            }
+
             // initialiaze the game result
             result = new GameResult();
             result.setStartTime(new Date());
@@ -446,6 +475,7 @@ public class Channel extends Thread implements Destination
     {
         EndGameMessage end = new EndGameMessage();
         end.setSlot(m.getSlot());
+        end.setSource(m.getSource());
         send(end);
     }
 
@@ -453,6 +483,15 @@ public class Channel extends Thread implements Destination
     {
         if (gameState != GAME_STATE_STOPPED)
         {
+            // tell who stopped the game if the message comes from a client
+            if (m.getSource() instanceof Client)
+            {
+                Client client = (Client) m.getSource();
+                PlineMessage message = new PlineMessage();
+                message.setKey("channel.game.stopped-by", client.getUser().getName());
+                sendAll(message);
+            }
+
             gameState = GAME_STATE_STOPPED;
             sendAll(m);
 
