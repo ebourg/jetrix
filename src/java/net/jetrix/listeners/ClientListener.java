@@ -80,6 +80,7 @@ public abstract class ClientListener implements Listener
             {
                 // waiting for connexions
                 socket = serverSocket.accept();
+                socket.setSoTimeout(3000);
 
                 // log the connection
                 logger.info("Incoming client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
@@ -124,6 +125,7 @@ public abstract class ClientListener implements Listener
                 // ....
 
                 logger.fine("Client accepted (" + socket.getInetAddress().getHostAddress() + ")");
+                socket.setSoTimeout(serverConfig.getTimeout() * 1000);
 
                 if (!(client instanceof QueryClient))
                 {
@@ -152,6 +154,7 @@ public abstract class ClientListener implements Listener
             }
             catch (Exception e)
             {
+                try { socket.close(); } catch (IOException ioe) { ioe.printStackTrace(); }
                 e.printStackTrace();
             }
         }
