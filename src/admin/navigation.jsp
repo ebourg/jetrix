@@ -2,14 +2,6 @@
 <%@ page import="net.jetrix.config.*"%>
 <%@ page import="net.jetrix.filter.*"%>
 <%@ page import="java.util.*"%>
-
-<%
-    ChannelManager channelManager = ChannelManager.getInstance();
-    
-    
-    
-%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,7 +9,7 @@
   <script type="text/javascript" src="javascript/xloadtree/xtree.js"></script>
   <script type="text/javascript" src="javascript/xloadtree/xmlextras.js"></script>
   <script type="text/javascript" src="javascript/xloadtree/xloadtree.js"></script>
-  <link type="text/css" rel="stylesheet" href="javascript/xloadtree/xtree.css" />
+  <link type="text/css" rel="stylesheet" href="javascript/xloadtree/xtree.css">
   <link type="text/css" rel="stylesheet" href="style.css">
   <title>JetriX Admin - Navigation</title>
 </head>
