@@ -260,6 +260,10 @@ public class TetriNETClient extends Thread
                     e.printStackTrace();
                 }
             } // end while
+
+            Message leaveNotice = new Message(Message.MSG_PLAYERLEAVE);
+            leaveNotice.setParameters(new Object[] { new Integer(channel.getPlayerSlot(this)) });
+            channel.addMessage(leaveNotice);
         }
         catch (IOException e)
         {
@@ -312,20 +316,20 @@ public class TetriNETClient extends Thread
      */
     protected String readLine() throws IOException
     {
-        int    readChar;
-        String input = "";
+        int readChar;
+        StringBuffer input = new StringBuffer();
 
         while ((readChar = in.read()) != -1 && readChar != 255)
         {
             if (readChar != 10 && readChar != 13)
             {
-                input += (char)readChar;
+                input.append((char)readChar);
             }
         }
 
         if (readChar == -1) throw new IOException("client disconnected");
 
-        return input;
+        return input.toString();
     }
 
     public void setChannel(Channel channel)
@@ -351,7 +355,7 @@ public class TetriNETClient extends Thread
     public void setSocket(Socket socket)
     {
         this.socket = socket;
-        try 
+        try
         {
             in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -390,6 +394,7 @@ public class TetriNETClient extends Thread
     public void disconnect()
     {
         disconnected = true;
+        try { socket.shutdownOutput(); } catch(Exception e) { e.printStackTrace(); }
     }
 
     public String toString()
