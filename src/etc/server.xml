@@ -104,4 +104,19 @@
     <team>Flying Cucumbers</team>
   </ban>
 
+  <!-- Database connection parameters -->
+  <data-source>
+    <!-- The class of the JDBC driver used -->
+    <driver>com.mysql.jdbc.Driver</driver>
+
+    <!-- The URL of the database (jdbc:<type>://<hostname>:<port>/<database>) -->
+    <url>jdbc:mysql://localhost/jetrix</url>
+
+    <!-- The username connecting to the database -->
+    <username>jetrix</username>
+
+    <!-- The password of the user -->
+    <password>jetrixpass</password>
+  </data-source>
+
 </tetrinet-server>

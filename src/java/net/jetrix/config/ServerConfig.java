@@ -67,6 +67,12 @@ public class ServerConfig
     private int status;
     private Statistics statistics;
 
+    // datasource parameters
+    private String dataSourceDriver;
+    private String dataSourceURL;
+    private String dataSourceUsername;
+    private String dataSourcePassword;
+
     private URL serverConfigURL;
     private URL channelsConfigURL;
 
@@ -197,6 +203,7 @@ public class ServerConfig
         }
         out.println("  </listeners>");
         out.println();
+
         out.println("  <!-- Services -->");
         out.println("  <services>");
         for (Service service : getServices())
@@ -234,6 +241,7 @@ public class ServerConfig
         }
         out.println("  </services>");
         out.println();
+
         out.println("  <!-- Server commands -->");
         out.println("  <commands>");
         Iterator<Command> commands = CommandManager.getInstance().getCommands(AccessLevel.ADMINISTRATOR);
@@ -254,6 +262,7 @@ public class ServerConfig
         }
         out.println("  </commands>");
         out.println();
+
         out.println("  <ban>");
         Iterator<Banlist.Entry> entries = Banlist.getInstance().getBanlist();
         while (entries.hasNext())
@@ -262,6 +271,22 @@ public class ServerConfig
             out.println("    <host>" + entry.pattern + "</host>");
         }
         out.println("  </ban>");
+        out.println();
+
+        out.println("  <!-- Database connection parameters -->");
+        out.println("  <datasource>");
+        out.println("    <!-- The class of the JDBC driver used -->");
+        out.println("    <driver>" + dataSourceDriver + "</driver>");
+        out.println();
+        out.println("    <!-- The URL of the database (jdbc:<type>://<hostname>:<port>/<database>) -->");
+        out.println("    <url>" + dataSourceURL + "</url>");
+        out.println();
+        out.println("    <!-- The username connecting to the database -->");
+        out.println("    <username>" + dataSourceUsername + "</username>");
+        out.println();
+        out.println("    <!-- The password of the user -->");
+        out.println("    <password>" + dataSourcePassword + "</password>");
+        out.println("  <datasource>");
         out.println();
         out.println("</tetrinet-server>");
 
@@ -876,6 +901,70 @@ public class ServerConfig
     public Statistics getStatistics()
     {
         return statistics;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public String getDataSourceDriver()
+    {
+        return dataSourceDriver;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public void setDataSourceDriver(String driver)
+    {
+        this.dataSourceDriver = driver;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public String getDataSourceURL()
+    {
+        return dataSourceURL;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public void setDataSourceURL(String url)
+    {
+        this.dataSourceURL = url;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public String getDataSourceUsername()
+    {
+        return dataSourceUsername;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public void setDataSourceUsername(String username)
+    {
+        this.dataSourceUsername = username;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public String getDataSourcePassword()
+    {
+        return dataSourcePassword;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public void setDataSourcePassword(String password)
+    {
+        this.dataSourcePassword = password;
     }
 
 }
