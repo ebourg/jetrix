@@ -34,6 +34,13 @@ TODO
 - partial name matching for /goto
 - cheat control: count the specials seen in the field and check the specials sent
 
+Changes in version 0.3 (2005-??-??)
+-----------------------------------
+
+Player visible changes
+- new #survival channel (drop as many blocks as you can before you die)
+
+
 Changes in version 0.2 (2005-01-18)
 -----------------------------------
 

@@ -42,6 +42,7 @@
   <li class="done"> TetriFast clients</li>
   <li class="done"> Block synchronization protocol (1.14)</li>
   <li class="done"> TSpec clients</li>
+  <li class="planned"> Flash clients</li>
   <li class="done"> Query protocol</li>
   <li class="partial"> IRC clients</li>
 </ul>
@@ -54,6 +55,8 @@
   <li class="planned"> game recording and playback</li>
   <li class="done"> multiplayer "7Tetris" channel</li>
   <li class="planned"> puzzle channels</li>
+  <li class="done"> survival channel</li>
+  <li class="planned"> quick channel</li>
   <li class="planned"> "all around" channel</li>
   <li class="done"> sudden death</li>
 </ul>
@@ -82,7 +85,7 @@
 <ul>
   <li class="partial"> web administration console</li>
   <li class="done"> XML based configuration files</li>
-  <li class="planned"> hot reconfiguration (no server restart needed)</li>
+  <li class="partial"> hot reconfiguration (no server restart needed)</li>
   <li class="partial"> administration from the system shell</li>
 </ul>
 

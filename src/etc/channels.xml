@@ -22,6 +22,7 @@ Welcome on <b>Jetrix TetriNET Server</b>!
     <alias name="logo"         class="net.jetrix.filter.LogoFilter"/>
     <alias name="sudden-death" class="net.jetrix.filter.SuddenDeathFilter"/>
     <alias name="command"      class="net.jetrix.filter.CommandFilter"/>
+    <alias name="survival"     class="net.jetrix.filter.SurvivalFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -222,6 +223,33 @@ your opponents. Good luck!
       </settings>
       <filters>
         <filter name="7tetris"/>
+      </filters>
+    </channel>
+
+    <channel name="survival">
+      <description>Staying Aliiiive !!</description>
+      <topic>
+<![CDATA[
+<b>
+Welcome to the survival channel! Drop as many blocks as you can
+before you die. The sudden death is activated immediately and one
+line is added every 5 seconds.
+If you clear <b>2</b> lines, <b>1</b> extra line will be removed.
+If you clear <b>3</b> lines, <b>2</b> extra lines will be removed.
+If you clear <b>4</b> lines, <b>3</b> extra additional lines will be removed.
+<b>
+]]>
+      </topic>
+      <max-players>2</max-players>
+      <settings>
+        <sudden-death>
+          <time>5</time>
+          <delay>5</delay>
+          <lines-added>1</lines-added>
+        </sudden-death>
+      </settings>
+      <filters>
+        <filter name="survival"/>
       </filters>
     </channel>
 
