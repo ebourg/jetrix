@@ -64,4 +64,29 @@ public abstract class Protocol
         return locale;
     }
 
+    /**
+     * Return the map of the color and style codes for this protocol.
+     */
+    public abstract Map getStyles();
+
+    /**
+     * Transform the style tags (<blue>, <u>, etc...) in the specified string
+     * into the style codes of this protocol.
+     */
+    public String applyStyle(String text)
+    {
+        // to be optimized later
+        Map styles = getStyles();
+        Iterator keys = styles.keySet().iterator();
+        while (keys.hasNext())
+        {
+            String key = (String)keys.next();
+            String value = (String)styles.get(key);
+            if (value == null) { value = ""; }
+            text = text.replaceAll("<" + key + ">", value);
+            text = text.replaceAll("</" + key + ">", value);
+        }
+        return text;
+    }
+
 }

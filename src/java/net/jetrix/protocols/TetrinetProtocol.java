@@ -56,19 +56,6 @@ public class TetrinetProtocol extends Protocol
         styles.put("u", "\u001f");
         styles.put("white", "\u0018");
     }
-
-    public String applyStyle(String text)
-    {
-        // to be optimized later
-        Iterator keys = styles.keySet().iterator();
-        while (keys.hasNext())
-        {
-            String key = (String)keys.next();
-            text = text.replaceAll("<" + key + ">", getStyle(key));
-            text = text.replaceAll("</" + key + ">", getStyle(key));
-        }
-        return text;
-    }
 	
     /**
      * Return the name of this protocol
@@ -76,12 +63,6 @@ public class TetrinetProtocol extends Protocol
     public String getName()
     {
         return "tetrinet";
-    }
-
-    public String getStyle(String code)
-    {
-        String style = (String)styles.get(code);
-        return (style != null) ? style : "";
     }
 
     /**
@@ -613,6 +594,11 @@ public class TetrinetProtocol extends Protocol
         message.append(" o ");
         message.append(m.getFromSlot());
         return message.toString();
+    }
+
+    public Map getStyles()
+    {
+        return styles;
     }
 
     public String toString()
