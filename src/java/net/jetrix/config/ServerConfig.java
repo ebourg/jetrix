@@ -298,11 +298,24 @@ public class ServerConfig
         return listeners;
     }
 
+    /**
+     * Add a new service to the server. The service is not started
+     * automatically by calling this method.
+     *
+     * @since 0.1.4
+     *
+     * @param service the service to add
+     */
     public void addService(Service service)
     {
         services.add(service);
     }
 
+    /**
+     * Return the list of services currently registered on the server
+     *
+     * @since 0.1.4
+     */
     public List getServices()
     {
         return services;
