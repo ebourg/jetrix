@@ -50,6 +50,7 @@ public abstract class GenericFilter extends MessageFilter
             case Message.MSG_NEWGAME:      onNewGame(m, out); break;
             case Message.MSG_ENDGAME:      onEndGame(m, out); break;
             case Message.MSG_PAUSE:        onPause(m, out); break;
+            case Message.MSG_RESUME:       onResume(m, out); break;
             case Message.MSG_GMSG:         onGmsg(m, out); break;
             case Message.MSG_SB:           onSpecial(m, out); break;
             case Message.MSG_LVL:          onLevel(m, out); break;
@@ -73,6 +74,7 @@ public abstract class GenericFilter extends MessageFilter
     public void onNewGame(Message m, List out) { out.add(m); }
     public void onEndGame(Message m, List out) { out.add(m); }
     public void onPause(Message m, List out) { out.add(m); }
+    public void onResume(Message m, List out) { out.add(m); }
     public void onGmsg(Message m, List out) { out.add(m); }
     public void onSpecial(Message m, List out) { out.add(m); }
     public void onLevel(Message m, List out) { out.add(m); }
