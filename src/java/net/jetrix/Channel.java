@@ -386,7 +386,7 @@ public class Channel extends Thread implements Destination
 
         // looking for the first free slot
         int slot = 0;
-        for (slot = 0; slot < 6 && players.get(slot) != null; slot++);
+        for (slot = 0; slot < players.size() && players.get(slot) != null; slot++);
 
         if (slot >= 6)
         {
@@ -550,7 +550,7 @@ public class Channel extends Thread implements Destination
     {
         int count = 0;
 
-        for (int i = 0; i<channelConfig.getMaxPlayers(); i++)
+        for (int i = 0; i < players.size(); i++)
         {
             if (players.get(i) != null)
             {
@@ -584,7 +584,7 @@ public class Channel extends Thread implements Destination
     {
         int slot = 0;
 
-        for (int i = 0; i < channelConfig.getMaxPlayers(); i++)
+        for (int i = 0; i < players.size(); i++)
         {
             if (players.get(i) == client) slot = i + 1;
         }
@@ -619,7 +619,10 @@ public class Channel extends Thread implements Destination
     {
         Client client = null;
 
-        if (slot >= 1 && slot <= 6) client = (Client)players.get(slot - 1);
+        if (slot >= 1 && slot <= 6 && slot <= players.size()) 
+        {
+            client = (Client)players.get(slot - 1);
+        }
 
         return (client != null) ? client.getUser() : null;
     }
