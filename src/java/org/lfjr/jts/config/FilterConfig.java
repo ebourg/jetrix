@@ -67,4 +67,10 @@ public class FilterConfig
     {
         return props.getProperty(name);
     }
+    
+    public String toString()
+    {
+        return "[FilterConfig name=" + name + " class=" + classname + " params=" + props + "]";
+    }
+    
 }
