@@ -3,7 +3,6 @@ JetriX Changelog
 
 TODO
 ----
-- add password protected channels
 - ban list
 - winlists
 - implement the /move command
@@ -21,10 +20,11 @@ Changes in version 0.1.1 (2003-02-??)
 - new commands : /start, /stop, /pause, /random
 - "/start <n>" will run a countdown for n seconds
 - the admin console can now use all /commands available to the clients
-- winner announcement
+- the winner is announced at the end of the game
 - any jar or class in the ./lib directory is now loaded at startup
 - the number of concurrent connections from the same host can be limited (the default value is 2)
-- channel access can now be restricted by access level.
+- channel access can now be restricted by access level
+- channels can now be protected by a password
 
 Changes in version 0.1.0 (2002-11-16)
 -------------------------------------
