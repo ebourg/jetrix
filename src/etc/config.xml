@@ -44,6 +44,7 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <alias name="ping"      class="net.jetrix.filter.PingFilter"/>
     <alias name="7tetris"   class="net.jetrix.filter.TetrisFilter"/>
     <alias name="stats"     class="net.jetrix.filter.StatsFilter"/>
+    <alias name="logo"      class="net.jetrix.filter.LogoFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -57,6 +58,7 @@ Welcome on <b>JetriX TetriNET Server</b>!
     </filter>
     <filter name="ping"/>
     <filter name="stats"/>
+    <filter name="logo"/>
   </default-filters>
 
   <!-- Winlists -->
