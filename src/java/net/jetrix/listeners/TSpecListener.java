@@ -49,7 +49,7 @@ public class TSpecListener extends TetrinetListener
     public Client getClient(Socket socket) throws Exception
     {
         TetrinetProtocol protocol = (TetrinetProtocol) ProtocolManager.getInstance().getProtocol(TetrinetProtocol.class);
-        String init = protocol.readLine(new InputStreamReader(socket.getInputStream()));
+        String init = protocol.readLine(new InputStreamReader(socket.getInputStream(), net.jetrix.config.ServerConfig.ENCODING));
 
         String dec = TetrinetProtocol.decode(init);
 
