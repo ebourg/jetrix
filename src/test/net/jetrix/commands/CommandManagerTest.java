@@ -169,7 +169,7 @@ public class CommandManagerTest extends TestCase
         commandManager.addCommand(command2);
         commandManager.addCommand(command1);
 
-        Iterator commands = commandManager.getCommands(1);
+        Iterator commands = commandManager.getCommands(AccessLevel.OPERATOR);
         assertEquals(command1, commands.next());
         assertEquals(command2, commands.next());
         assertEquals(command3, commands.next());
