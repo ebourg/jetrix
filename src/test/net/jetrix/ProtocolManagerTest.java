@@ -34,7 +34,7 @@ public class ProtocolManagerTest extends TestCase
     public void testGetProtocol()
     {
         ProtocolManager manager = ProtocolManager.getInstance();
-        Protocol protocol = manager.getProtocol("net.jetrix.protocols.TetrinetProtocol");
+        Protocol protocol = manager.getProtocol(TetrinetProtocol.class);
 
         assertNotNull("no protocol returned", protocol);
         assertEquals("protocol returned", TetrinetProtocol.class, protocol.getClass());
@@ -43,8 +43,8 @@ public class ProtocolManagerTest extends TestCase
     public void testGetCachedProtocol()
     {
         ProtocolManager manager = ProtocolManager.getInstance();
-        Protocol protocol1 = manager.getProtocol("net.jetrix.protocols.TetrinetProtocol");
-        Protocol protocol2 = manager.getProtocol("net.jetrix.protocols.TetrinetProtocol");
+        Protocol protocol1 = manager.getProtocol(TetrinetProtocol.class);
+        Protocol protocol2 = manager.getProtocol(TetrinetProtocol.class);
 
         assertEquals("the protocol is not cached", protocol1, protocol2);
     }
@@ -55,7 +55,7 @@ public class ProtocolManagerTest extends TestCase
         Exception exception = null;
         try
         {
-            manager.getProtocol("net.jetrix.protocols.BozoProtocol");
+            manager.getProtocol(Object.class);
         }
         catch (Exception e)
         {

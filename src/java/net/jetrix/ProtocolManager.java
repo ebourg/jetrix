@@ -32,11 +32,11 @@ import java.util.*;
 public class ProtocolManager
 {
     private static ProtocolManager instance = new ProtocolManager();
-    private Map<String, Protocol> protocols;
+    private Map<Class, Protocol> protocols;
 
     private ProtocolManager()
     {
-        protocols = new HashMap<String, Protocol>();
+        protocols = new HashMap<Class, Protocol>();
     }
 
     /**
@@ -48,18 +48,17 @@ public class ProtocolManager
     }
 
     /**
-     * Returns a filter of the specified class. If the filter is declared as
-     * a singleton, the instance will be stored and returned on further calls
-     * for the same filter.
+     * Returns a protocol of the specified class. If a protocol of this class
+     * has already been created, the same instance is returned.
      *
-     * @param classname Classname of the filter to return
+     * @param cls Class of the protocol to return
      *
-     * @return Filter of the specified class.
+     * @return Protocol of the specified class.
      */
-    public synchronized Protocol getProtocol(String classname)
+    public synchronized Protocol getProtocol(Class cls)
     {
         // is there an entry for this class in the hashtable ?
-        Object obj = protocols.get(classname);
+        Object obj = protocols.get(cls);
         if (obj != null)
         {
             return (Protocol) obj;
@@ -70,11 +69,10 @@ public class ProtocolManager
         try
         {
             // constructing a new protocol
-            Class protocolClass = Class.forName(classname);
-            protocol = (Protocol) protocolClass.newInstance();
+            protocol = (Protocol) cls.newInstance();
 
             // adding the protocol to the hashtable
-            protocols.put(classname, protocol);
+            protocols.put(cls, protocol);
         }
         catch (Exception e)
         {

@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import net.jetrix.*;
+import net.jetrix.protocols.*;
 import net.jetrix.config.*;
 
 /**
@@ -46,7 +47,7 @@ public class ConsoleClient implements Client
     public ConsoleClient()
     {
         conf = Server.getInstance().getConfig();
-        protocol = ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.ConsoleProtocol");
+        protocol = ProtocolManager.getInstance().getProtocol(ConsoleProtocol.class);
         user = new User();
         user.setName("Admin");
         user.setAccessLevel(100);

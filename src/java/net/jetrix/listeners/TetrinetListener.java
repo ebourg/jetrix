@@ -24,6 +24,7 @@ import java.net.*;
 import java.util.*;
 
 import net.jetrix.*;
+import net.jetrix.protocols.*;
 import net.jetrix.clients.*;
 import net.jetrix.messages.*;
 
@@ -53,7 +54,7 @@ public class TetrinetListener extends ClientListener
         String init = readLine(socket);
 
         // test if the client is using the query protocol
-        Protocol protocol = protocolManager.getProtocol("net.jetrix.protocols.QueryProtocol");
+        Protocol protocol = protocolManager.getProtocol(QueryProtocol.class);
         Message message = protocol.getMessage(init);
 
         if (message != null)
@@ -90,11 +91,11 @@ public class TetrinetListener extends ClientListener
         client.setVersion((String) tokens.get(2));
         if ((tokens.get(0)).equals("tetrisstart"))
         {
-            client.setProtocol(protocolManager.getProtocol("net.jetrix.protocols.TetrinetProtocol"));
+            client.setProtocol(protocolManager.getProtocol(TetrinetProtocol.class));
         }
         else if ((tokens.get(0)).equals("tetrifaster"))
         {
-            client.setProtocol(protocolManager.getProtocol("net.jetrix.protocols.TetrifastProtocol"));
+            client.setProtocol(protocolManager.getProtocol(TetrifastProtocol.class));
         }
         else
         {
@@ -107,11 +108,6 @@ public class TetrinetListener extends ClientListener
             client.send(m);
             return null;
         }
-
-        // send a boggus slot number to avoid disconnection timeout
-        PlayerNumMessage mnum = new PlayerNumMessage();
-        mnum.setSlot(1);
-        client.send(mnum);
 
         return client;
     }

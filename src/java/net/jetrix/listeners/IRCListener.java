@@ -19,17 +19,13 @@
 
 package net.jetrix.listeners;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Logger;
+import java.io.*;
+import java.net.*;
+import java.util.logging.*;
 
-import net.jetrix.Client;
-import net.jetrix.ProtocolManager;
-import net.jetrix.User;
-import net.jetrix.clients.IRCClient;
-import net.jetrix.protocols.IRCCommand;
-import net.jetrix.protocols.IRCMessage;
+import net.jetrix.*;
+import net.jetrix.clients.*;
+import net.jetrix.protocols.*;
 
 /**
  * Listener for IRC clients.
@@ -85,7 +81,7 @@ public class IRCListener extends ClientListener
         IRCClient client = new IRCClient();
         client.setSocket(socket);
         client.setUser(user);
-        client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.IRCProtocol"));
+        client.setProtocol(ProtocolManager.getInstance().getProtocol(IRCProtocol.class));
 
         // get the USER message
         init = in.readLine();

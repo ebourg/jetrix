@@ -23,6 +23,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import net.jetrix.*;
+import net.jetrix.protocols.TspecProtocol;
 import net.jetrix.clients.*;
 import net.jetrix.messages.*;
 
@@ -79,7 +80,7 @@ public class TSpecListener extends TetrinetListener
         user.setSpectator();
         client.setSocket(socket);
         client.setUser(user);
-        client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.TspecProtocol"));
+        client.setProtocol(ProtocolManager.getInstance().getProtocol(TspecProtocol.class));
 
         if (tokens.size() > 3)
         {
