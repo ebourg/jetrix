@@ -71,7 +71,7 @@ public class ClientRepository
      */
     public void addClient(TetriNETClient client)
     {
-        clients.put(client.getPlayer().getName(), client);
+        clients.put(client.getPlayer().getName().toLowerCase(), client);
     }
 
     /**
@@ -81,7 +81,7 @@ public class ClientRepository
      */
     public void removeClient(TetriNETClient client)
     {
-        clients.remove(client.getPlayer().getName());
+        clients.remove(client.getPlayer().getName().toLowerCase());
     }
 
     /**
@@ -124,7 +124,7 @@ public class ClientRepository
      */
     public TetriNETClient getClient(String nickname)
     {
-        return (TetriNETClient)clients.get(nickname);
+        return (TetriNETClient)clients.get(nickname.toLowerCase());
     }
 
     /**
