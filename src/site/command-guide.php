@@ -139,7 +139,7 @@ Save the code above in a <tt>HelloCommand.java</tt> file and copy the <tt>jetrix
 file in the same directory (this jar is in the <tt>jetrix/lib</tt> directory of
 the jetrix distribution). Then compile the command with :
 
-<div class="code">javac -cp jetrix.jar HelloCommand.java</div>
+<div class="code">javac -classpath jetrix.jar HelloCommand.java</div>
 
 <h1>Deploy the command</h1>
 
