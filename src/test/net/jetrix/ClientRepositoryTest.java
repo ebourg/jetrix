@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,17 +38,32 @@ public class ClientRepositoryTest extends TestCase
     public void setUp()
     {
         repository = ClientRepository.getInstance();
+
+        User user1 = new User("Stormcat");
+        User user2 = new User("Smanux");
+        User user3 = new User("Jetrix");
+        User user4 = new User("Test");
+
         client1 = new TetrinetClient();
-        ((TetrinetClient)client1).setUser(new User("Stormcat"));
-
         client2 = new TetrinetClient();
-        ((TetrinetClient)client2).setUser(new User("Smanux"));
-
         client3 = new TetrinetClient();
-        ((TetrinetClient)client3).setUser(new User("Jetrix"));
-
         //client4 = new TSpecClient();
-        //((TSpecClient)client4).setUser(new User("Test"));
+
+        ((TetrinetClient)client1).setUser(user1);
+        ((TetrinetClient)client2).setUser(user2);
+        ((TetrinetClient)client3).setUser(user3);
+        //((TSpecClient)client4).setUser(user4);
+    }
+
+    /**
+     * Add the clients defined in the setUp in the ClientRepository.
+     */
+    private void addClients()
+    {
+        repository.addClient(client1);
+        repository.addClient(client2);
+        repository.addClient(client3);
+        repository.addClient(client4);
     }
 
     public void tearDown()
@@ -68,10 +83,7 @@ public class ClientRepositoryTest extends TestCase
     public void testGetClients()
     {
         // adding clients to the repository
-        repository.addClient(client1);
-        repository.addClient(client2);
-        repository.addClient(client3);
-        repository.addClient(client4);
+        addClients();
 
         // looking for players
         StringBuffer playerList = new StringBuffer();
@@ -101,10 +113,7 @@ public class ClientRepositoryTest extends TestCase
     public void testGetClientCount()
     {
         // adding clients to the repository
-        repository.addClient(client1);
-        repository.addClient(client2);
-        repository.addClient(client3);
-        repository.addClient(client4);
+        addClients();
 
         assertEquals("getPlayerCount", 3, repository.getPlayerCount());
         assertEquals("getSpectatorCount", 1, repository.getSpectatorCount());
@@ -127,14 +136,33 @@ public class ClientRepositoryTest extends TestCase
     public void testClear()
     {
         // adding clients to the repository
-        repository.addClient(client1);
-        repository.addClient(client2);
-        repository.addClient(client3);
-        repository.addClient(client4);
+        addClients();
         repository.clear();
 
         // testing
         assertEquals("client count after clearing", 0, repository.getClientCount());
+    }
+
+    public void testHostCount() throws Exception
+    {
+        // adding clients to the repository
+        addClients();
+
+        InetAddress ip1 = InetAddress.getByName("www.google.com");
+        InetAddress ip2 = InetAddress.getByName("jetrix.sourceforge.net");
+        InetAddress localhost = InetAddress.getLocalHost();
+
+        Socket socket1 = new Socket(ip1, 80);
+        Socket socket2 = new Socket(ip2, 80);
+
+        ((TetrinetClient)client1).setSocket(socket1);
+        ((TetrinetClient)client2).setSocket(socket1);
+        ((TetrinetClient)client3).setSocket(socket2);
+
+        // testing
+        assertEquals(ip1 + " count", 2, repository.getHostCount(ip1));
+        assertEquals(ip2 + " count", 1, repository.getHostCount(ip2));
+        assertEquals(localhost + " count", 0, repository.getHostCount(localhost));
     }
 
     public static Test suite()
