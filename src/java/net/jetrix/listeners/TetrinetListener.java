@@ -34,6 +34,8 @@ import net.jetrix.messages.*;
  */
 public class TetrinetListener extends ClientListener
 {
+    private ProtocolManager protocolManager = ProtocolManager.getInstance();
+
     public String getName()
     {
         return "tetrinet & tetrifast";
@@ -46,13 +48,27 @@ public class TetrinetListener extends ClientListener
 
     public Client getClient(Socket socket) throws Exception
     {
+        // read the first line sent by the client
         String init = null;
-
         try
         {
             init = readLine(socket);
         }
         catch (IOException e) { e.printStackTrace(); }
+
+        // test if the client is using the query protocol
+        Protocol protocol = protocolManager.getProtocol("net.jetrix.protocols.QueryProtocol");
+        Message message = protocol.getMessage(init);
+
+        if (message != null)
+        {
+            QueryClient client = new QueryClient();
+            client.setProtocol(protocol);
+            client.setSocket(socket);
+            client.setUser(new User());
+            client.setFirstMessage(message);
+            return client;
+        }
 
         String dec = decode(init);
 
@@ -78,11 +94,11 @@ public class TetrinetListener extends ClientListener
         client.setVersion((String)tokens.get(2));
         if ((tokens.get(0)).equals("tetrisstart"))
         {
-            client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.TetrinetProtocol"));
+            client.setProtocol(protocolManager.getProtocol("net.jetrix.protocols.TetrinetProtocol"));
         }
         else if ((tokens.get(0)).equals("tetrifaster"))
         {
-            client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.TetrifastProtocol"));
+            client.setProtocol(protocolManager.getProtocol("net.jetrix.protocols.TetrifastProtocol"));
         }
         else
         {

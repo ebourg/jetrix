@@ -26,7 +26,6 @@ import java.util.logging.*;
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
-import net.jetrix.protocols.*;
 
 /**
  * Layer handling communication with a tetrinet or tetrifast client. Incomming 
@@ -44,14 +43,14 @@ public class TetrinetClient implements Client
     private Protocol protocol;
     private Channel channel;
     private User user;
-    private Date connectionTime;
-    private boolean disconnected;
+    protected Date connectionTime;
+    protected boolean disconnected;
 
-    private Reader in;
-    private Writer out;
-    private Socket socket;
-    private ServerConfig serverConfig;
-    private Logger logger = Logger.getLogger("net.jetrix");
+    protected Reader in;
+    protected Writer out;
+    protected Socket socket;
+    protected ServerConfig serverConfig;
+    protected Logger logger = Logger.getLogger("net.jetrix");
 
     public TetrinetClient() { }
 
@@ -106,7 +105,6 @@ public class TetrinetClient implements Client
                     // no channel assigned, the message is sent to the server
                     server.sendMessage(m);
                 }
-
             }
 
             LeaveMessage leaveNotice = new LeaveMessage();

@@ -77,7 +77,12 @@ The TetriFast protocol use two different messages :
 
 <h2><a id="section2-4"></a>Query</h2>
 
-Tetrix first introduced a query protocol to get easily a list of players and channels on TetriNET servers. This protocol consists in 4 commands : <tt>playerquery</tt>, <tt>listchan</tt>, <tt>listuser</tt> and <tt>version</tt>. These commands are sent through the standard tetrinet port 31457 and must be terminated by the <tt>0xFF</tt> character. The line terminator for the response is a line feed <tt>0x0A</tt>. This protocol is not yet supported by JetriX.<br />
+Tetrix first introduced a query protocol to get easily a list of players and
+channels on TetriNET servers. This protocol consists in 4 commands :
+<tt>playerquery</tt>, <tt>listchan</tt>, <tt>listuser</tt> and <tt>version</tt>.
+These commands are sent through the standard tetrinet port 31457 and must be
+terminated by the <tt>0xFF</tt> character. The line terminator for the response
+is a line feed <tt>0x0A</tt>.<br />
 
 
 <br /><div><b>playerquery</b></div>
@@ -112,7 +117,7 @@ nick         the name of the player
 team         the team name of the player
 version      the version of the client used, usually "1.13"
 slot         the slot used in the channel (1-6)
-state        the state of the player (0: nor playing, 1: playing, 2: lost)
+state        the state of the player (0: not playing, 1: playing, 2: lost)
 auth         the authentication level (1: normal, 2: channel operator, 3: operator)
 channel      the name of the channel
 </pre>

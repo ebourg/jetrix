@@ -22,9 +22,11 @@ package net.jetrix.listeners;
 import java.io.*;
 import java.net.*;
 import java.util.logging.*;
+
+import net.jetrix.*;
+import net.jetrix.clients.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
-import net.jetrix.*;
 
 /**
  * Abstract Listener waiting for incomming clients.
@@ -56,7 +58,7 @@ public abstract class ClientListener implements Listener
         running = true;
 
         try
-        {            
+        {
             serverSocket = new ServerSocket(getPort(), 50, serverConfig.getHost());
             logger.info("Listening at " + getName() + " port " + getPort()
                 + ( (serverConfig.getHost() != null)?", bound to " + serverConfig.getHost():"") );
@@ -79,16 +81,17 @@ public abstract class ClientListener implements Listener
                 // waiting for connexions
                 socket = serverSocket.accept();
 
-                // logging connexion
+                // log the connection
                 logger.info("Incoming client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
 
                 Client client = getClient(socket);
                 User user = client.getUser();
                 user.setLocale(serverConfig.getLocale());
 
-                // checking if server is full
+                // check if the server is full
                 ClientRepository repository = ClientRepository.getInstance();
-                if (repository.getClientCount() >= serverConfig.getMaxPlayers())
+                if (repository.getClientCount() >= serverConfig.getMaxPlayers()
+                    && !(client instanceof QueryClient))
                 {
                     logger.info("Server full, client rejected (" + socket.getInetAddress().getHostAddress() + ").");
                     Message m = new NoConnectingMessage("Server is full!");
@@ -97,7 +100,7 @@ public abstract class ClientListener implements Listener
                     continue;
                 }
 
-                // testing concurrent connexions from the same host
+                // test concurrent connections from the same host
                 int maxConnections = serverConfig.getMaxConnections();
                 if (maxConnections > 0 && repository.getHostCount(client.getInetAddress()) >= maxConnections)
                 {
@@ -109,11 +112,7 @@ public abstract class ClientListener implements Listener
                 }
 
                 // testing name unicity
-                if (repository.getClient(user.getName()) == null)
-                {
-                    repository.addClient(client);
-                }
-                else
+                if (repository.getClient(user.getName()) != null)
                 {
                     Message m = new NoConnectingMessage("Nickname already in use!");
                     client.sendMessage(m);
@@ -126,24 +125,30 @@ public abstract class ClientListener implements Listener
 
                 logger.fine("Client accepted (" + socket.getInetAddress().getHostAddress() + ")");
 
-                // sending the message of the day
-                BufferedReader motd = new BufferedReader(new StringReader( serverConfig.getMessageOfTheDay() ));
-                String motdline;
-                while( (motdline = motd.readLine() ) != null )
+                if (!(client instanceof QueryClient))
                 {
-                    PlineMessage m = new PlineMessage();
-                    m.setText("<gray>" + motdline);
-                    client.sendMessage(m);
+                    // add the client to the repository
+                    repository.addClient(client);
+
+                    // send the message of the day
+                    BufferedReader motd = new BufferedReader(new StringReader( serverConfig.getMessageOfTheDay() ));
+                    String motdline;
+                    while( (motdline = motd.readLine() ) != null )
+                    {
+                        PlineMessage m = new PlineMessage();
+                        m.setText("<gray>" + motdline);
+                        client.sendMessage(m);
+                    }
+                    motd.close();
+
+                    // forward the client to the server for channel assignation
+                    AddPlayerMessage m = new AddPlayerMessage();
+                    m.setClient(client);
+                    Server.getInstance().sendMessage(m);
                 }
-                motd.close();
 
                 // start the client
                 (new Thread(client)).start();
-
-                // forward the client to the server for channel assignation
-                AddPlayerMessage m = new AddPlayerMessage();
-                m.setClient(client);
-                Server.getInstance().sendMessage(m);
             }
             catch (Exception e)
             {
@@ -165,7 +170,7 @@ public abstract class ClientListener implements Listener
      */
     public void stop()
     {
-        try 
+        try
         {
             logger.info("Stopping listener " + getName());
             running = false;
