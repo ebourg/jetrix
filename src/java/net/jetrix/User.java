@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class User
 {
-    private String nickname;
+    private String name;
     private String team;
     private int accessLevel;
     private int status;
@@ -48,19 +48,19 @@ public class User
 
     public User() { }
 
-    public User(String nickname)
+    public User(String name)
     {
-        this.nickname = nickname;
+        this.name = name;
     }
 
-    public void setName(String nickname)
+    public void setName(String name)
     {
-        this.nickname = nickname;
+        this.name = name;
     }
 
     public String getName()
     {
-        return nickname;
+        return name;
     }
 
     public void setTeam(String team)
@@ -165,7 +165,7 @@ public class User
 
     public String toString()
     {
-        return "[User " + nickname + " <" + team + "> playing=" + playing + "]";
+        return "[User " + name + " <" + team + "> playing=" + playing + "]";
     }
 
 }
