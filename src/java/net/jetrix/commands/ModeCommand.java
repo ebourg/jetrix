@@ -82,7 +82,7 @@ public class ModeCommand extends AbstractCommand
             // display all modes available
             for (int i = 0; i < modes.length; i++)
             {
-                Message tmode = new PlineMessage("<red>/" + getAlias() + " <darkBlue>" + i + "</darkBlue> : " + Language.getText("command.mode.message" + i, locale));
+                Message tmode = new PlineMessage("<red>/" + getAlias() + " <aqua>" + i + "</aqua> : <darkBlue>" + Language.getText("command.mode.message" + i, locale));
                 client.send(tmode);
             }
         }
