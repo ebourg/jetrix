@@ -134,11 +134,15 @@ public class ConfigRuleSet extends RuleSetBase
         // listeners
         digester.addObjectCreate("*/listener", null, "class");
         digester.addSetProperties("*/listener");
+        digester.addCallMethod("*/listener", "setAutoStart", 1, new Class[] {Boolean.TYPE});
+        digester.addCallParam("*/listener", 0, "auto-start");
         digester.addSetNext("*/listener", "addListener", "net.jetrix.Listener");
 
         // services
         digester.addObjectCreate("*/service", null, "class");
         digester.addSetProperties("*/service");
+        digester.addCallMethod("*/service", "setAutoStart", 1, new Class[] {Boolean.TYPE});
+        digester.addCallParam("*/service", 0, "auto-start");
         digester.addSetProperty("*/service/param", "name", "value");
         digester.addSetNext("*/service", "addService", "net.jetrix.Service");
 

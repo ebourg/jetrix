@@ -108,7 +108,7 @@ public class Server implements Runnable, Destination
         }
 
         // start the client listeners
-        Iterator listeners = config.getListeners();
+        Iterator listeners = config.getListeners().iterator();
         while (listeners.hasNext())
         {
             Listener listener = (Listener) listeners.next();
@@ -119,7 +119,7 @@ public class Server implements Runnable, Destination
         }
 
         // start the services
-        Iterator services = config.getServices();
+        Iterator services = config.getServices().iterator();
         while (services.hasNext())
         {
             Service service = (Service) services.next();
@@ -131,7 +131,7 @@ public class Server implements Runnable, Destination
         }
 
         // start the server console
-        (new Thread(new ConsoleClient())).start();
+        (new Thread(new ConsoleClient())).start();        
 
         log.info("Server ready!");
     }
@@ -212,7 +212,7 @@ public class Server implements Runnable, Destination
     protected void stop()
     {
         // stop the listeners
-        Iterator listeners = config.getListeners();
+        Iterator listeners = config.getListeners().iterator();
         while (listeners.hasNext())
         {
             Listener listener = (Listener) listeners.next();
@@ -220,7 +220,7 @@ public class Server implements Runnable, Destination
         }
 
         // stop the services
-        Iterator services = config.getServices();
+        Iterator services = config.getServices().iterator();
         while (services.hasNext())
         {
             Service service = (Service) listeners.next();

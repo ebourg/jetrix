@@ -4,6 +4,8 @@ a:hover { color: #2B313D }
 
 a img { border-width: 0 }
 
+form { margin: 0 }
+
 .menu { margin-left: 0.5em; }
 .menu h1 { font-size: 12pt; font-weight: bold; margin-bottom: 0.2em }
 .menu ul { padding-left: 0.5em; margin-top: 0; margin-left: 0; }

@@ -70,7 +70,6 @@ public class ServerConfig
         globalFilters = new ArrayList();
         listeners = new ArrayList();
         services = new ArrayList();
-        // bans = new ArrayList();
     }
 
     /**
@@ -294,9 +293,9 @@ public class ServerConfig
         listeners.add(listener);
     }
 
-    public Iterator getListeners()
+    public List getListeners()
     {
-        return listeners.iterator();
+        return listeners;
     }
 
     public void addService(Service service)
@@ -304,9 +303,9 @@ public class ServerConfig
         services.add(service);
     }
 
-    public Iterator getServices()
+    public List getServices()
     {
-        return services.iterator();
+        return services;
     }
 
     public void addBannedHost(String host)

@@ -28,6 +28,8 @@ import javax.servlet.ServletException;
 import net.jetrix.config.ServerConfig;
 import net.jetrix.Server;
 import net.jetrix.Banlist;
+import net.jetrix.Listener;
+import net.jetrix.Service;
 
 /**
  * Action Servlet handling actions on the server.
@@ -41,17 +43,40 @@ public class ServerAction extends HttpServlet
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String action = request.getParameter("action");
+        ServerConfig config = Server.getInstance().getConfig();
 
         if ("general".equals(action))
         {
-            ServerConfig config = Server.getInstance().getConfig();
-
             config.setName(request.getParameter("name"));
             config.setMaxConnections(Integer.parseInt(request.getParameter("maxConnections")));
             config.setMaxPlayers(Integer.parseInt(request.getParameter("maxPlayers")));
             config.setOpPassword(request.getParameter("opPassword"));
             config.setLocale(request.getParameter("locale"));
             config.setMessageOfTheDay(request.getParameter("motd"));
+        }
+        else if ("listener.start".equals(action))
+        {
+            int index = Integer.parseInt(request.getParameter("index"));
+            Listener listener = (Listener) config.getListeners().get(index);
+            listener.start();
+        }
+        else if ("listener.stop".equals(action))
+        {
+            int index = Integer.parseInt(request.getParameter("index"));
+            Listener listener = (Listener) config.getListeners().get(index);
+            listener.stop();
+        }
+        else if ("service.start".equals(action))
+        {
+            int index = Integer.parseInt(request.getParameter("index"));
+            Service service = (Service) config.getServices().get(index);
+            service.start();
+        }
+        else if ("service.stop".equals(action))
+        {
+            int index = Integer.parseInt(request.getParameter("index"));
+            Service service = (Service) config.getServices().get(index);
+            service.stop();
         }
         else if ("banlist.add".equals(action))
         {

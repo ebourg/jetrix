@@ -77,7 +77,7 @@
           <td>Status</td>
           <td>
             <label><input type="radio" value="opened" name="status"> Opened</label>
-            <label><input type="radio" value="closed" name="status"> Closed</label>
+            <label><input type="radio" value="closed" name="status"> Locked</label>
           </td>
         </tr>
       <tr>
@@ -262,7 +262,7 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Listeners</h2>
 
-<%  Iterator listeners = conf.getListeners(); %>
+<%  List listeners = conf.getListeners(); %>
 
     <table class="thin" style="width: 400px">
       <tr>
@@ -272,14 +272,64 @@
         <th>Auto Start</th>
         <th></th>
       </tr>
-<%  while (listeners.hasNext()) {
-        Listener listener = (Listener) listeners.next();  %>
+<%  for (int i = 0; i < listeners.size(); i++) {
+        Listener listener = (Listener) listeners.get(i);  %>
       <tr>
         <td><%= listener.getName() %></td>
         <td width="70" align="center"><%= listener.getPort() %></td>
         <td width="70" align="center"><%= listener.isRunning() ? "Started" : "Stopped" %></td>
         <td width="70" align="center"><%= listener.isAutoStart() ? "yes" : "no" %></td>
-        <td width="50"><input type="button" value="Stop"></td>
+        <td width="50">
+          <form id="listener" action="/servlet/net.jetrix.servlets.ServerAction">
+            <input type="hidden" name="index"  value="<%= i %>">
+<%      if (listener.isRunning()) { %>
+            <input type="hidden" name="action" value="listener.stop">
+            <input type="submit" value="Stop">
+<%      } else { %>
+            <input type="hidden" name="action" value="listener.start">
+            <input type="submit" value="Start">
+<%      } %>
+          </form>
+        </td>
+      </tr>
+<%  } %>
+    </table>
+
+    <br>
+
+    <input type="button" value="Add">
+
+  </div>
+  <div class="tab-page" style="height: 400px">
+    <h2 class="tab">Services</h2>
+
+<%  List services = conf.getServices(); %>
+
+    <table class="thin" style="width: 400px">
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Auto Start</th>
+        <th></th>
+      </tr>
+<%  for (int i = 0; i < services.size(); i++) {
+        Service service = (Service) services.get(i);  %>
+      <tr>
+        <td><%= service.getName() %></td>
+        <td width="70" align="center"><%= service.isRunning() ? "Started" : "Stopped" %></td>
+        <td width="70" align="center"><%= service.isAutoStart() ? "yes" : "no" %></td>
+        <td width="50">
+          <form id="listener" action="/servlet/net.jetrix.servlets.ServerAction">
+            <input type="hidden" name="index"  value="<%= i %>">
+<%      if (service.isRunning()) { %>
+            <input type="hidden" name="action" value="service.stop">
+            <input type="submit" value="Stop">
+<%      } else { %>
+            <input type="hidden" name="action" value="service.start">
+            <input type="submit" value="Start">
+<%      } %>
+          </form>
+        </td>
       </tr>
 <%  } %>
     </table>
