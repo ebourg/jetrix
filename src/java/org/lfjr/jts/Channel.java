@@ -39,16 +39,21 @@ public class Channel extends Thread
 
     private boolean running = true;
     private boolean persistent = false;
-
+    
+    // game states
     private static final int GAME_STATE_STOPPED = 0;
     private static final int GAME_STATE_STARTED = 1;    
     private static final int GAME_STATE_PAUSED  = 2;
 
     private int gameState;
 
+    // array of clients connected to this channel
     private TetriNETClient[] playerList = new TetriNETClient[6];
     
-    private ArrayList filters; 
+    private ArrayList filters;
+    
+    // JetriX logo
+    private short jetrixLogo[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0};
 
     public Channel()
     {
@@ -68,7 +73,7 @@ public class Channel extends Thread
 
     public void run()
     {
-            System.out.println("Channel "+cconf.getName()+" opened");
+        System.out.println("Channel "+cconf.getName()+" opened");
 
         while (running && conf.isRunning())
         {
@@ -108,7 +113,22 @@ public class Channel extends Thread
                             break;
                             
                         case Message.MSG_PLAYERLOST:
+                            slot = ((Integer)m.getParameter(0)).intValue();
+                            TetriNETClient client = (TetriNETClient)playerList[slot-1];
+                            client.getPlayer().setPlaying(false);
                             sendAll(m);
+                            
+                            // sending closing screen
+                            StringBuffer screenLayout = new StringBuffer();
+                            for (int i=0; i<12*22; i++)
+                            {
+                            	screenLayout.append( ( (int)(Math.random()*4+1) ) * (1-jetrixLogo[i]) );
+                            }
+                            Message endingScreen = new Message(Message.MSG_FIELD);
+                            Object paramsending[] = { m.getParameter(0), screenLayout.toString() };
+                            endingScreen.setParameters(paramsending);
+                            sendAll(endingScreen);
+                            
                             break;
                             
                         case Message.MSG_SB:
@@ -122,8 +142,9 @@ public class Channel extends Thread
                             
                         case Message.MSG_FIELD:
                             slot = ((Integer)m.getParameter(0)).intValue();
-                            sendAll(m, slot);
-                            break;                       
+                            //sendAll(m, slot);
+                            sendAll(m);
+                            break;
                             
                         case Message.MSG_STARTGAME:
                             Settings s = cconf.getSettings();
@@ -143,6 +164,14 @@ public class Channel extends Thread
                             raw += " " + (s.getAverageLevels() ? "1" : "0") + " " + (s.getClassicRules() ? "1" : "0");
                                                                                     
                             gameState = GAME_STATE_STARTED;
+                            for (int i=0; i<playerList.length; i++)
+                            {
+                                if(playerList[i]!=null)
+                                {
+                                    client = (TetriNETClient)playerList[i];
+                                    client.getPlayer().setPlaying(true);
+                                }
+                            }                            
                             m.setRawMessage(raw);
                             sendAll(m);
                             break;          
@@ -154,7 +183,7 @@ public class Channel extends Thread
                             
                         case Message.MSG_DISCONNECTED:
                             // searching player slot
-                            TetriNETClient client = (TetriNETClient)m.getParameter(0);
+                            client = (TetriNETClient)m.getParameter(0);
                             
                             slot=0;
                             int i = 0;
@@ -196,6 +225,7 @@ public class Channel extends Thread
                         else
                         {
                             playerList[slot]= client;
+                            client.getPlayer().setPlaying(false);
                             
                             // sending new player notice to other players in the channel
                             Message mjoin = new Message(Message.MSG_PLAYERJOIN);
@@ -234,7 +264,17 @@ public class Channel extends Thread
                             Message mwelcome = new Message(Message.MSG_PLINE);
                             Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + cconf.getName() };
                             mwelcome.setParameters(paramswelcome);                                
-                            client.sendMessage(mwelcome);                                
+                            client.sendMessage(mwelcome);
+                            
+                            // sending playerlost message if the game has started
+                            if (gameState != GAME_STATE_STOPPED)
+                            {
+                            	System.out.println("blurp");
+                                Message lost = new Message(Message.MSG_PLAYERLOST);
+                                Object paramslost[] = { new Integer(slot+1) };
+                                lost.setParameters(paramslost);
+                                sendAll(lost);
+                            }
                     }
                             
                     break;                                                                                                                     

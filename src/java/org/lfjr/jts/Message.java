@@ -109,6 +109,17 @@ public class Message
     	        raw = "playernum " + slot;
     	        break;
     	        
+    	        case MSG_PLAYERLOST:
+    	        slot = (Integer)getParameter(0);
+    	        raw = "playerlost " + slot;
+    	        break;
+    	        
+    	        case MSG_FIELD:
+    	        slot = (Integer)getParameter(0);
+    	        String layout = (String)getParameter(1);
+    	        raw = "f " + slot + " " + layout;
+    	        break;
+    	        
     	    }
     	}
     	

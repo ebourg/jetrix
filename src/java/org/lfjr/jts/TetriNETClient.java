@@ -187,7 +187,7 @@ class TetriNETClient extends Thread
                 else if ("f".equals(cmd))
                 {
                     m.setType(Message.TYPE_CHANNEL);
-                    m.setCode(Message.MSG_LVL);
+                    m.setCode(Message.MSG_FIELD);
 
                     Integer slot = new Integer(st.nextToken());
                     String field = (st.hasMoreTokens())?st.nextToken():null;
