@@ -23,13 +23,11 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import javax.xml.parsers.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-import org.w3c.dom.*;
+import org.apache.commons.digester.*;
 
 /**
- * Singleton reading and containing the server configuration.
+ * Server configuration. This objet reads and retains server parameters,
+ * channel definitions and the ban list.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -46,13 +44,14 @@ public class ServerConfig
     private String accesslogPath;
     private String errorlogPath;
     private String motd;
+    private String name;
 
-    private Settings defaultSettings;
     // private ArrayList bans;
     private ArrayList channels;
     private boolean running;
 
-    public static final String VERSION = "0.0.8";
+    public static final String VERSION = "0.0.8+";
+    public static final int DEFAULT_PORT = 31457;
 
     /**
      * Constructor declaration
@@ -62,122 +61,76 @@ public class ServerConfig
     	channels = new ArrayList();
     	// bans = new ArrayList();
     }
-    
+
     public void load()
+    {
+        load("config.xml");
+    }
+
+    public void load(String filename)
     {
         try
         {
-            // reading configuration file
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            Digester digester = new Digester();
+            //digester.setDebug(5);
+            digester.push(this);
 
-            dbf.setNamespaceAware(false);
+            // server parameters
+            digester.addSetProperty("tetrinet-server", "host", "host");
+            digester.addSetProperty("tetrinet-server", "port", "port");
+            digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.class});
+            digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.class});
+            digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.class});
+            digester.addCallMethod("tetrinet-server/max-connexions", "setMaxConnexions", 0, new Class[] {Integer.class});
+            digester.addCallMethod("tetrinet-server/op-password", "setOpPassword", 0);
+            digester.addCallMethod("tetrinet-server/motd", "setMessageOfTheDay", 0);
+            digester.addSetProperty("tetrinet-server/access-log", "path", "accesslogPath");
+            digester.addSetProperty("tetrinet-server/error-log", "path", "errorlogPath");
 
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new File("config.xml"));
+            // default game settings
+            digester.addObjectCreate("tetrinet-server/default-settings", "org.lfjr.jts.config.Settings");
+            digester.addSetNext("tetrinet-server/default-settings", "setDefaultSettings", "org.lfjr.jts.config.Settings");
 
-            // parsing general parameters
-            Element root = doc.getDocumentElement();
+            // channel settings
+            digester.addObjectCreate("*/channel/settings", "org.lfjr.jts.config.Settings");
+            digester.addSetNext("*/channel/settings", "setSettings", "org.lfjr.jts.config.Settings");
 
-            // reading port
-            try { port = Integer.parseInt(root.getAttribute("port")); }
-            catch (Exception e) { port = 31457; }
-            
-            // reading host, a value of "[ALL]" stands for any IP
-            if (!"[ALL]".equals(root.getAttribute("host"))) 
-            {
-            	try {
-        	    host = InetAddress.getByName(root.getAttribute("host"));
-        	}
-        	catch(UnknownHostException e) { e.printStackTrace(); }
-            }
+            // any game settings
+            digester.addCallMethod("*/starting-level", "setStartingLevel", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/lines-per-level", "setLinesPerLevel", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/level-increase", "setLevelIncrease", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/lines-per-special", "setLinesPerSpecial", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-added", "setSpecialAdded", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-capacity", "setSpecialCapacity", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/classic-rules", "setClassicRules", 0, new Class[] {Boolean.class});
+            digester.addCallMethod("*/average-levels", "setAverageLevels", 0, new Class[] {Boolean.class});
+            digester.addCallMethod("*/block-occurancy/leftl", "setLeftLOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/block-occurancy/leftz", "setLeftZOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/block-occurancy/square", "setSquareOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/block-occurancy/rightl", "setRightLOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/block-occurancy/rightz", "setRightZOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/block-occurancy/halfcross", "setHalfCrossOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/block-occurancy/line", "setLineOccurancy", 0, new Class[] {Integer.class});
+            //digester.addSetNext("*/block-occurancy", "normalizeBlockOccurancy");
+            digester.addCallMethod("*/special-occurancy/addline", "setAddLineOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-occurancy/clearline", "setClearLineOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-occurancy/nukefield", "setNukeFieldOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-occurancy/randomclear", "setRandomClearOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-occurancy/switchfield", "setSwitchFieldOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-occurancy/clearspecial", "setClearSpecialOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-occurancy/gravity", "setGravityOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-occurancy/quakefield", "setQuakeFieldOccurancy", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/special-occurancy/blockbomb", "setBlockBombOccurancy", 0, new Class[] {Integer.class});
+            //digester.addSetTop("*/special-occurancy", "normalizeSpecialOccurancy");
 
-            NodeList nodes = root.getChildNodes();
-            Element defaultSettingsElement = null;
-            Element channelsElement = null;
-            Element bansElement = null;
+            // channel configuration
+            digester.addObjectCreate("*/channel", "org.lfjr.jts.config.ChannelConfig");
+            digester.addSetNext("*/channel", "addChannel", "org.lfjr.jts.config.ChannelConfig");
+            digester.addSetProperty("*/channel", "name", "name");
+            digester.addCallMethod("*/channel/description", "setDescription", 0);
+            digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.class});
 
-            for (int i = 0; i < nodes.getLength(); i++)
-            {
-                Node n = nodes.item(i);
-
-                if (n.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    String tagname = ((Element) n).getTagName();
-                    String value = null;
-
-                    if (n.getFirstChild() != null)
-                    {
-                        value = n.getFirstChild().getNodeValue();
-                    }
-
-                    if ("timeout".equals(tagname))
-                    {
-                        timeout = Integer.parseInt(value);
-                    }
-                    else if ("max-channel".equals(tagname))
-                    {
-                        maxChannels = Integer.parseInt(value);
-                    }
-                    else if ("max-players".equals(tagname))
-                    {
-                        maxPlayers = Integer.parseInt(value);
-                    }
-                    else if ("max-connexions".equals(tagname))
-                    {
-                        maxConnexions = Integer.parseInt(value);
-                    }
-                    else if ("op-password".equals(tagname))
-                    {
-                        oppass = value;
-                    }
-                    else if ("access-log".equals(tagname))
-                    {
-                        accesslogPath = ((Element) n).getAttribute("path");
-                    }
-                    else if ("error-log".equals(tagname))
-                    {
-                        errorlogPath = ((Element) n).getAttribute("path");
-                    }
-                    else if ("motd".equals(tagname))
-                    {
-                        motd = value;
-                    }
-                    else if ("settings".equals(tagname))
-                    {
-                        defaultSettingsElement = (Element) n;
-                    }
-                    else if ("channels".equals(tagname))
-                    {
-                        channelsElement = (Element) n;
-                    }
-                    else if ("bans".equals(tagname))
-                    {
-                        bansElement = (Element) n;
-                    }
-                }
-            }
-
-            // parsing default settings
-            defaultSettings = parseSettings(defaultSettingsElement);
-
-            // parsing channels
-            nodes = channelsElement.getChildNodes();
-
-            for (int i = 0; i < nodes.getLength(); i++)
-            {
-                Node n = nodes.item(i);
-
-                if (n.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    if ("channel".equals(((Element) n).getTagName()))
-                    {
-                        channels.add(parseChannel((Element) n, defaultSettings));
-                    }
-                }
-            }
-
-            // parsing banlist
-
+            digester.parse(new File(filename));
 
         }
         catch (Exception e)
@@ -186,356 +139,102 @@ public class ServerConfig
         }
     }
 
-
-    /**
-     * Parse a &lt;settings&gt; Node
-     *
-     *
-     * @param e settings node
-     *
-     * @return a <tt>Settings</tt> object reflecting values found while parsing the settings Node
-     */
-    private Settings parseSettings(Element e)
-    {
-        return parseSettings(e, null);
-    }
-
-
-    /**
-     * Parse a &lt;settings&gt; Node
-     *
-     *
-     * @param e settings node
-     * @param s default settings
-     *
-     * @return a <tt>Settings</tt> object reflecting values found while parsing the settings Node
-     */
-    private Settings parseSettings(Element e, Settings s)
-    {
-        Settings sc = new Settings(s);
-
-        Element specialOccurancyElement = null;
-        Element blockOccurancyElement = null;
-
-        if (e == null)
-        {
-            return s;
-
-        }
-
-        NodeList nodes = e.getChildNodes();
-
-        for (int i = 0; i < nodes.getLength(); i++)
-        {
-            Node n = nodes.item(i);
-
-            if (n.getNodeType() == Node.ELEMENT_NODE)
-            {
-                String tagname = ((Element) n).getTagName();
-                String value = null;
-
-                if (n.getFirstChild() != null)
-                {
-                    value = n.getFirstChild().getNodeValue();
-                }
-
-                if ("starting-level".equals(tagname))
-                {
-                    sc.setStartingLevel(Integer.parseInt(value));
-                }
-                else if ("lines-per-level".equals(tagname))
-                {
-                    sc.setLinesPerLevel(Integer.parseInt(value));
-                }
-                else if ("level-increase".equals(tagname))
-                {
-                    sc.setLevelIncrease(Integer.parseInt(value));
-                }
-                else if ("lines-per-special".equals(tagname))
-                {
-                    sc.setLinesPerSpecial(Integer.parseInt(value));
-                }
-                else if ("special-added".equals(tagname))
-                {
-                    sc.setSpecialAdded(Integer.parseInt(value));
-                }
-                else if ("special-capacity".equals(tagname))
-                {
-                    sc.setSpecialCapacity(Integer.parseInt(value));
-                }
-                else if ("classic-rules".equals(tagname))
-                {
-                    sc.setClassicRules("yes".equalsIgnoreCase(value));
-                }
-                else if ("average-levels".equals(tagname))
-                {
-                    sc.setAverageLevels("yes".equalsIgnoreCase(value));
-                }
-                else if ("block-occurancy".equals(tagname))
-                {
-                    blockOccurancyElement = (Element) n;
-                }
-                else if ("special-occurancy".equals(tagname))
-                {
-                    specialOccurancyElement = (Element) n;
-                }
-
-
-            }
-        }
-
-        // parsing block occurancy parameters
-        if (blockOccurancyElement != null)
-        {
-            nodes = blockOccurancyElement.getChildNodes();
-
-            boolean cleared = false;
-
-            for (int i = 0; i < nodes.getLength(); i++)
-            {
-                Node n = nodes.item(i);
-
-                if (n.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    if ("block".equals(((Element) n).getTagName()))
-                    {
-                        if (!cleared)
-                        {
-                            sc.clearBlockOccurancy();
-
-                            cleared = true;
-                        }
-
-                        String type = ((Element) n).getAttributeNode("type").getValue();
-                        int occurancy = Integer.parseInt(((Element) n).getAttributeNode("occurancy").getValue());
-
-                        if ("leftl".equals(type))
-                        {
-                            sc.setBlockOccurancy(Settings.BLOCK_LEFTL, occurancy);
-                        }
-                        else if ("leftz".equals(type))
-                        {
-                            sc.setBlockOccurancy(Settings.BLOCK_LEFTZ, occurancy);
-                        }
-                        else if ("square".equals(type))
-                        {
-                            sc.setBlockOccurancy(Settings.BLOCK_SQUARE, occurancy);
-                        }
-                        else if ("rightl".equals(type))
-                        {
-                            sc.setBlockOccurancy(Settings.BLOCK_RIGHTL, occurancy);
-                        }
-                        else if ("rightz".equals(type))
-                        {
-                            sc.setBlockOccurancy(Settings.BLOCK_RIGHTZ, occurancy);
-                        }
-                        else if ("halfcross".equals(type))
-                        {
-                            sc.setBlockOccurancy(Settings.BLOCK_HALFCROSS, occurancy);
-                        }
-                        else if ("line".equals(type))
-                        {
-                            sc.setBlockOccurancy(Settings.BLOCK_LINE, occurancy);
-                        }
-
-                    }
-                }
-            }
-
-            sc.normalizeBlockOccurancy();
-
-        }
-
-
-        // parsing special occurancy parameters
-        if (specialOccurancyElement != null)
-        {
-            nodes = specialOccurancyElement.getChildNodes();
-
-            boolean cleared = false;
-
-            for (int i = 0; i < nodes.getLength(); i++)
-            {
-                Node n = nodes.item(i);
-
-                if (n.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    if ("special".equals(((Element) n).getTagName()))
-                    {
-                        if (!cleared)
-                        {
-                            sc.clearSpecialOccurancy();
-
-                            cleared = true;
-                        }
-
-                        String type = ((Element) n).getAttributeNode("type").getValue();
-                        int occurancy = Integer.parseInt(((Element) n).getAttributeNode("occurancy").getValue());
-
-                        if ("addline".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_ADDLINE, occurancy);
-                        }
-                        else if ("clearline".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_CLEARLINE, occurancy);
-                        }
-                        else if ("nukefield".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_NUKEFIELD, occurancy);
-                        }
-                        else if ("randomclear".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_RANDOMCLEAR, occurancy);
-                        }
-                        else if ("switchfield".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_SWITCHFIELD, occurancy);
-                        }
-                        else if ("clearspecial".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_CLEARSPECIAL, occurancy);
-                        }
-                        else if ("gravity".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_GRAVITY, occurancy);
-                        }
-                        else if ("quakefield".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_QUAKEFIELD, occurancy);
-                        }
-                        else if ("blockbomb".equals(type))
-                        {
-                            sc.setSpecialOccurancy(Settings.SPECIAL_BLOCKBOMB, occurancy);
-                        }
-
-                    }
-                }
-            }
-
-            sc.normalizeSpecialOccurancy();
-
-        }
-
-        return sc;
-
-    }
-
-
-    /**
-     * Parse a &lt;channel&gt; Node
-     *
-     *
-     * @param e
-     * @param defaultSettings
-     *
-     * @return
-     */
-    private ChannelConfig parseChannel(Element e, Settings defaultSettings)
-    {
-        ChannelConfig cc = new ChannelConfig();
-        cc.setPersistent(true);
-
-        NodeList nodes = e.getChildNodes();
-        Element settingsElement = null;
-
-        cc.setName(e.getAttributeNode("name").getValue());
-
-        for (int i = 0; i < nodes.getLength(); i++)
-        {
-            Node n = nodes.item(i);
-
-            if (n.getNodeType() == Node.ELEMENT_NODE)
-            {
-                String tagname = ((Element) n).getTagName();
-                String value = null;
-
-                if (n.getFirstChild() != null)
-                {
-                    value = n.getFirstChild().getNodeValue();
-                }
-
-                if ("description".equals(tagname))
-                {
-                    cc.setDescription(value);
-                }
-                else if ("max-players".equals(tagname))
-                {
-                    cc.setMaxPlayers(Integer.parseInt(value));
-                }
-                else if ("settings".equals(tagname))
-                {
-                    settingsElement = (Element) n;
-                }
-            }
-        }
-
-        Settings s = parseSettings(settingsElement, defaultSettings);
-
-        cc.setSettings(s);
-
-        return cc;
-    }
-
-
     public InetAddress getHost()
     {
         return host;
     }
-    
+
     public void setHost(InetAddress host)
     {
-        this.host = host;	
+        this.host = host;
+    }
+
+    public void setHost(String host)
+    {
+        // a value of "[ALL]" stands for any IP
+        if (!"[ALL]".equals(host))
+        {
+            try {
+        	this.host = InetAddress.getByName(host);
+            }
+            catch(UnknownHostException e) { e.printStackTrace(); }
+        }
     }
 
     public int getPort()
     {
         return port;
     }
-    
+
     public void setPort(int port)
     {
-        this.port = port;	
+        this.port = port;
+    }
+
+    public void setPort(String port)
+    {
+        try { this.port = Integer.parseInt(port); }
+        catch (Exception e) { this.port = DEFAULT_PORT; }
     }
 
     public int getTimeout()
     {
         return timeout;
     }
-    
+
     public void setTimeout(int timeout)
     {
-        this.timeout = timeout;	
+        this.timeout = timeout;
     }
-
+    
+    public void setTimeout(Integer timeout)
+    {
+        this.timeout = timeout.intValue();
+    }
+    
     public int getMaxChannels()
     {
         return maxChannels;
     }
-    
+
     public void setMaxChannels(int maxChannels)
     {
-        this.maxChannels = maxChannels;	
+        this.maxChannels = maxChannels;
     }
 
+    public void setMaxChannels(Integer maxChannels)
+    {
+        this.maxChannels = maxChannels.intValue();
+    }
+    
     public int getMaxPlayers()
     {
         return maxPlayers;
     }
-    
-    public void setMaxPlayers(int maxChannels)
+
+    public void setMaxPlayers(int maxPlayers)
     {
-        this.maxPlayers = maxPlayers;	
+        this.maxPlayers = maxPlayers;
     }
 
+    public void setMaxPlayers(Integer maxPlayers)
+    {
+        this.maxPlayers = maxPlayers.intValue();
+    }
+    
     public int getMaxConnexions()
     {
         return maxConnexions;
     }
-    
-    public void setMaxConnexions(int maxChannels)
+
+    public void setMaxConnexions(int maxConnexions)
     {
-        this.maxConnexions = maxConnexions;	
+        this.maxConnexions = maxConnexions;
+    }
+
+    public void setMaxConnexions(Integer maxConnexions)
+    {
+        this.maxConnexions = maxConnexions.intValue();
     }
 
     public String getOpPassword()
@@ -567,7 +266,7 @@ public class ServerConfig
     {
         this.errorlogPath = errorlogPath;
     }
-    
+
     public String getMessageOfTheDay()
     {
         return motd;
@@ -588,19 +287,18 @@ public class ServerConfig
         this.running = running;
     }
 
-    public Settings getDefaultSettings()
-    {
-        return defaultSettings;
-    }
-
     public void setDefaultSettings(Settings defaultSettings)
     {
-        this.defaultSettings = defaultSettings;
+        Settings.setDefaultSettings(defaultSettings);
     }
 
     public Iterator getChannels()
     {
         return channels.iterator();
     }
-    
+
+    public void addChannel(ChannelConfig cconf)
+    {
+        channels.add(cconf);
+    }
 }

@@ -22,12 +22,21 @@
 
   <target name="compile" depends="init">
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}/java" destdir="${build}" debug="yes" />
+    <javac srcdir="${src}/java" destdir="${build}" debug="yes">
+      <classpath>
+        <pathelement location="${lib}/commons-digester.jar"/>
+      </classpath>
+    </javac>
   </target>
 
 
   <target name="compiletest" depends="compile" description="Compile JUnit TestCases">
-    <javac srcdir="${src}/test" destdir="${build}" classpath="${build};${lib}/junit.jar;" debug="yes"/>
+    <javac srcdir="${src}/test" destdir="${build}" debug="yes">
+      <classpath>
+        <pathelement path="${build}" />      
+        <pathelement location="${lib}/junit.jar"/>
+      </classpath>
+    </javac>
   </target>
 
 
@@ -49,6 +58,11 @@
       <zipfileset prefix="jetrix/lib/" dir="${dist}/lib/">
         <include name="jetrix.jar" />
       </zipfileset>
+      <zipfileset prefix="jetrix/lib/" dir="${lib}">
+        <include name="commons-digester.jar" />
+        <include name="commons-collections.jar" />
+        <include name="commons-beanutils.jar" />
+      </zipfileset>
     </zip>
   </target>
 
@@ -56,8 +70,6 @@
   <target name="test" depends="compiletest" description="Runs testcases">
     <junit printsummary="yes" fork="yes" dir="${src}/etc">
       <classpath>
-        <!--<pathelement location="${lib}/jaxp.jar"/>-->
-        <!--<pathelement location="${lib}/crimson.jar"/>-->
         <pathelement path="${build}" />
       </classpath>
       <formatter type="xml" />
@@ -91,7 +103,7 @@
   </target>
 
 
-  <target name="update" depends="deploy">
+  <target name="update" depends="deploy" description="Uploads JetriX to the patch server">
     <!-- Installing -->
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>
@@ -119,7 +131,7 @@
              use="false"
              windowtitle="Javadoc JetriX"
              doctitle="JetriX TetriNET Server"
-             bottom="Copyright &#169; 2001 Emmanuel Bourg. All Rights Reserved.">
+             bottom="Copyright &#169; 2001-2002 Emmanuel Bourg. All Rights Reserved.">
       <link href="http://java.sun.com/j2se/1.4/docs/api/"/>
       <!--<link href="http://java.sun.com/j2ee/tutorial/api/"/>-->
     </javadoc>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0"?>
 <!--<!DOCTYPE tetrinet-server PUBLIC "//LFJR//Jetrix TetriNET Server" "http://tetrinet.lfjr.net/dtd/jetrix.dtd">-->
 
 <tetrinet-server host="[ALL]" port="31457">
@@ -33,7 +33,7 @@ http://sourceforge.net/projects/jts/
   </motd>
 
   <!-- Default game settings -->
-  <settings>
+  <default-settings>
     <!-- What level each player starts at -->
     <starting-level>1</starting-level>
 
@@ -53,34 +53,34 @@ http://sourceforge.net/projects/jts/
     <special-capacity>18</special-capacity>
 
     <!-- Play by classic rules? -->
-    <classic-rules>yes</classic-rules>
+    <classic-rules>true</classic-rules>
 
     <!-- Average together all player's game level? -->
-    <average-levels>yes</average-levels>
+    <average-levels>true</average-levels>
 
     <block-occurancy>
-      <block type="leftl"     occurancy="14"/>
-      <block type="leftz"     occurancy="14"/>
-      <block type="square"    occurancy="15"/>
-      <block type="rightl"    occurancy="14"/>
-      <block type="rightz"    occurancy="14"/>
-      <block type="halfcross" occurancy="14"/>
-      <block type="line"      occurancy="15"/>
+      <leftl>14</leftl>
+      <leftz>14</leftz>
+      <square>15</square>
+      <rightl>14</rightl>
+      <rightz>14</rightz>
+      <halfcross>14</halfcross>
+      <line>15</line>
     </block-occurancy>
 
     <special-occurancy>
-      <special type="addline"      occurancy="32" />
-      <special type="clearline"    occurancy="18" />
-      <special type="nukefield"    occurancy="1"  />
-      <special type="randomclear"  occurancy="11" />
-      <special type="switchfield"  occurancy="3"  />
-      <special type="clearspecial" occurancy="14" />
-      <special type="gravity"      occurancy="1"  />
-      <special type="quakefield"   occurancy="6"  />
-      <special type="blockbomb"    occurancy="14" />
+      <addline>32</addline>
+      <clearline>18</clearline>
+      <nukefield>1</nukefield>
+      <randomclear>11</randomclear>
+      <switchfield>3</switchfield>
+      <clearspecial>14</clearspecial>
+      <gravity>1</gravity>
+      <quakefield>6</quakefield>
+      <blockbomb>14</blockbomb>
     </special-occurancy>
 
-  </settings>
+  </default-settings>
 
 
   <channels>
@@ -107,7 +107,7 @@ http://sourceforge.net/projects/jts/
       <settings>
         <special-added>0</special-added>
         <block-occurancy>
-          <block type="line" occurancy="100"/>
+          <line>100</line>
         </block-occurancy>
       </settings>
     </channel>
@@ -117,8 +117,8 @@ http://sourceforge.net/projects/jts/
       <settings>
         <special-added>0</special-added>
         <block-occurancy>
-          <block type="line"   occurancy="50"/>
-          <block type="square" occurancy="50"/>
+          <line>50</line>
+          <square>50</square>
         </block-occurancy>
       </settings>
     </channel>
@@ -150,6 +150,5 @@ http://sourceforge.net/projects/jts/
     <!-- Ban team -->
     <team>Flying Cucumbers</team>
   </ban>
-
 
 </tetrinet-server>

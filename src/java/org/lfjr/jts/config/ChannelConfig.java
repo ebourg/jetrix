@@ -19,6 +19,7 @@
 
 package org.lfjr.jts.config;
 
+import java.util.*;
 
 /**
  * Channel configuration.
@@ -28,24 +29,28 @@ package org.lfjr.jts.config;
  */
 public class ChannelConfig
 {
-    protected Settings settings;
-    protected String name = "noname";
-    protected String description;
-    protected int maxPlayers = 6;
-    protected boolean persistent;
+    private Settings settings;
+    private String name = "noname";
+    private String description;
+    private int maxPlayers = 6;
+    private boolean persistent;
+
+    /** extended properties */
+    private Properties props;
 
     public ChannelConfig()
     {
-
+        props = new Properties();
     }
 
     public ChannelConfig(Settings settings)
     {
+        this();
         this.settings = settings;
     }
 
     /**
-     * Set game parameters.
+     * Sets game parameters.
      *
      * @param settings
      */
@@ -56,7 +61,7 @@ public class ChannelConfig
 
 
     /**
-     * Set channel name.
+     * Sets channel name.
      *
      * @param name
      */
@@ -67,7 +72,7 @@ public class ChannelConfig
 
 
     /**
-     * Set the description shown on entering the channel.
+     * Sets the description shown on entering the channel.
      *
      * @param description
      */
@@ -78,7 +83,7 @@ public class ChannelConfig
 
 
     /**
-     * Set the maximum number of players allowed at the same time in the channel.
+     * Sets the maximum number of players allowed at the same time in the channel.
      *
      * @param maxPlayers
      */
@@ -87,9 +92,13 @@ public class ChannelConfig
         this.maxPlayers = maxPlayers;
     }
 
+    public void setMaxPlayers(Integer maxPlayers)
+    {
+        this.maxPlayers = maxPlayers.intValue();
+    }
 
     /**
-     * Set channel persistence
+     * Sets channel persistence
      *
      * @param persistent
      */
@@ -98,9 +107,13 @@ public class ChannelConfig
         this.persistent = persistent;
     }
 
+    public void setProperty(String name, String value)
+    {
+        props.setProperty(name, value);
+    }
 
     /**
-     * Get game parameters.
+     * Gets game parameters.
      *
      * @return
      */
@@ -111,7 +124,7 @@ public class ChannelConfig
 
 
     /**
-     * Get channel name.
+     * Gets channel name.
      *
      * @return
      */
@@ -122,7 +135,7 @@ public class ChannelConfig
 
 
     /**
-     * Get channel description.
+     * Gets channel description.
      *
      * @return
      */
@@ -133,7 +146,7 @@ public class ChannelConfig
 
 
     /**
-     * Get maximum number of players allowed.
+     * Gets maximum number of players allowed.
      *
      * @return
      */
@@ -150,6 +163,11 @@ public class ChannelConfig
     public boolean isPersistent()
     {
         return persistent;
+    }
+
+    public String getProperty(String name)
+    {
+        return props.getProperty(name);
     }
 
 }

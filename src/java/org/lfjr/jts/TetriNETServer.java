@@ -37,11 +37,9 @@ public class TetriNETServer implements Runnable
     private MessageQueue mq;
     private ChannelManager channelManager;
 
-    private static final String VERSION = "0.0.8+";
-
     private TetriNETServer()
     {
-        System.out.println("Jetrix TetriNET Server " + VERSION + ", Copyright (C) 2001-2002 Emmanuel Bourg\n");
+        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2002 Emmanuel Bourg\n");
         instance = this;
 
         // reading server configuration
@@ -153,7 +151,7 @@ public class TetriNETServer implements Runnable
                         }
                         else if ("/version".equalsIgnoreCase(cmd))
                         {
-                            String version1 = ChatColors.darkBlue + "" + ChatColors.bold + "JetriX/" + VERSION;
+                            String version1 = ChatColors.darkBlue + "" + ChatColors.bold + "JetriX/" + ServerConfig.VERSION;
                             String version2 = ChatColors.purple+"VM"+ChatColors.darkBlue+": " + System.getProperty("java.vm.name") + " " + System.getProperty("java.vm.version") + " " + System.getProperty("java.vm.info");
                             String version3 = ChatColors.purple+"OS"+ChatColors.darkBlue+": " + System.getProperty("os.name") + " " + System.getProperty("os.version") +"; " + System.getProperty("os.arch");
                                                         

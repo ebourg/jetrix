@@ -29,6 +29,25 @@ import java.util.*;
  */
 public class Settings
 {
+    /** Default settings used by new Settings objets */
+    private static Settings defaultSettings;
+
+    /** indicates if this setting objets use the default block occurancy settings */
+    private boolean defaultBlockOccurancy;
+
+    /** indicates if this setting objets use the default block occurancy settings */
+    private boolean defaultSpecialOccurancy;
+
+    private boolean defaultStartingLevel;
+    private boolean defaultStackHeight;
+    private boolean defaultLinesPerLevel;
+    private boolean defaultLinesPerSpecial;
+    private boolean defaultLevelIncrease;
+    private boolean defaultSpecialAdded;
+    private boolean defaultSpecialCapacity;
+    private boolean defaultAverageLevels;
+    private boolean defaultClassicRules;
+
     private int startingLevel;
     private int stackHeight;
     private int linesPerLevel;
@@ -43,11 +62,11 @@ public class Settings
 
     public static final int BLOCK_LINE      = 0;
     public static final int BLOCK_SQUARE    = 1;
-    public static final int BLOCK_LEFTL     = 2;    
-    public static final int BLOCK_RIGHTL    = 3;        
-    public static final int BLOCK_LEFTZ     = 4;        
+    public static final int BLOCK_LEFTL     = 2;
+    public static final int BLOCK_RIGHTL    = 3;
+    public static final int BLOCK_LEFTZ     = 4;
     public static final int BLOCK_RIGHTZ    = 5;
-    public static final int BLOCK_HALFCROSS = 6;    
+    public static final int BLOCK_HALFCROSS = 6;
 
     public static final int SPECIAL_ADDLINE      = 0;
     public static final int SPECIAL_CLEARLINE    = 1;
@@ -60,64 +79,249 @@ public class Settings
     public static final int SPECIAL_BLOCKBOMB    = 8;
 
 
+    /**
+     * Creates a new Settings objects ignoring default settings.
+     */
     public Settings()
     {
-        blockOccurancy = new int[7];
-        specialOccurancy = new int [9];
+        this(false);
     }
 
     /**
-     * Create a new Settings object with inheritate values from the specified Settings.
-     *
-     * @param conf Settings to copy values from
+     * Creates a new Settings object. If <tt>useDefaultSettings</tt> is <tt>true</tt>,
+     * calls to getBlockOccurancy() will be forwarded to the default settings
+     * objets until the method setBlockOccurancy() is used to overwrite the
+     * default configuration (same thing with specials).
      */
-    public Settings(Settings conf)
+    public Settings(boolean useDefaultSettings)
     {
-        this();
+        blockOccurancy = new int[7];
+        specialOccurancy = new int [9];
 
-        if (conf != null)
+        if (useDefaultSettings)
         {
-            startingLevel   = conf.getStartingLevel();
-            stackHeight     = conf.getStackHeight();
-            linesPerLevel   = conf.getLinesPerLevel();
-            linesPerSpecial = conf.getLinesPerSpecial();
-            levelIncrease   = conf.getLevelIncrease();
-            specialAdded    = conf.getSpecialAdded();
-            specialCapacity = conf.getSpecialCapacity();
-            averageLevels   = conf.getAverageLevels();
-            classicRules    = conf.getClassicRules();
-
-            for (int i=0; i<blockOccurancy.length; i++) { blockOccurancy[i] = conf.getBlockOccurancy(i); }
-            for (int i=0; i<specialOccurancy.length; i++) { specialOccurancy[i] = conf.getSpecialOccurancy(i); }
+            defaultBlockOccurancy = true;
+            defaultSpecialOccurancy = true;
+            defaultStartingLevel = true;
+            defaultStackHeight = true;
+            defaultLinesPerLevel = true;
+            defaultLinesPerSpecial = true;
+            defaultLevelIncrease = true;
+            defaultSpecialAdded = true;
+            defaultSpecialCapacity = true;
+            defaultAverageLevels = true;
+            defaultClassicRules = true;
         }
     }
 
+    public int getStartingLevel()
+    {
+    	if (defaultStartingLevel && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getStartingLevel();
+        else
+            return startingLevel;
+    }
 
-    public int getStartingLevel() { return startingLevel; }
-    public int getStackHeight() { return stackHeight; }
-    public int getLinesPerLevel() { return linesPerLevel; }
-    public int getLinesPerSpecial() { return linesPerSpecial; }
-    public int getLevelIncrease() { return levelIncrease; }
-    public int getSpecialAdded() { return specialAdded; }
-    public int getSpecialCapacity() { return specialCapacity; }
-    public boolean getAverageLevels() { return averageLevels; }
-    public boolean getClassicRules() { return classicRules; }
-    public int getBlockOccurancy(int piece) { return blockOccurancy[piece]; }
-    public int getSpecialOccurancy(int special) { return specialOccurancy[special]; }
+    public int getStackHeight()
+    {
+    	if (defaultStackHeight && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getStackHeight();
+        else
+            return stackHeight;
+    }
 
+    public int getLinesPerLevel()
+    {
+    	if (defaultLinesPerLevel && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getLinesPerLevel();
+        else
+            return linesPerLevel;
+    }
 
-    public void setStartingLevel(int startingLevel) { this.startingLevel=startingLevel; }
-    public void setStackHeight(int stackHeight) { this.stackHeight=stackHeight; }
-    public void setLinesPerLevel(int linesPerLevel) { this.linesPerLevel=linesPerLevel; }
-    public void setLinesPerSpecial(int linesPerSpecial) { this.linesPerSpecial=linesPerSpecial; }
-    public void setLevelIncrease(int levelIncrease) { this.levelIncrease=levelIncrease; }
-    public void setSpecialAdded(int specialAdded) { this.specialAdded=specialAdded; }
-    public void setSpecialCapacity(int specialCapacity) { this.specialCapacity=specialCapacity; }
-    public void setAverageLevels(boolean averageLevels) { this.averageLevels=averageLevels; }
-    public void setClassicRules(boolean classicRules) { this.classicRules=classicRules; }
-    public void setBlockOccurancy(int piece, int occurancy) { blockOccurancy[piece] = occurancy; }
-    public void setSpecialOccurancy(int special, int occurancy) { specialOccurancy[special] = occurancy; }
+    public int getLinesPerSpecial()
+    {
+    	if (defaultLinesPerSpecial && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getLinesPerSpecial();
+        else
+            return linesPerSpecial;
+    }
 
+    public int getLevelIncrease()
+    {
+    	if (defaultLevelIncrease && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getLevelIncrease();
+        else
+            return levelIncrease;
+    }
+
+    public int getSpecialAdded()
+    {
+    	if (defaultSpecialAdded && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getSpecialAdded();
+        else
+            return specialAdded;
+    }
+
+    public int getSpecialCapacity()
+    {
+    	if (defaultSpecialCapacity && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getSpecialCapacity();
+        else
+            return specialCapacity;
+    }
+
+    public boolean getAverageLevels()
+    {
+    	if (defaultAverageLevels && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getAverageLevels();
+        else
+            return averageLevels;
+    }
+
+    public boolean getClassicRules()
+    {
+        if (defaultClassicRules && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getClassicRules();
+        else
+            return classicRules;
+    }
+
+    public int getBlockOccurancy(int piece)
+    {
+        if (defaultBlockOccurancy && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getBlockOccurancy(piece);
+        else
+            return blockOccurancy[piece];
+    }
+
+    public int getSpecialOccurancy(int special)
+    {
+        if (defaultSpecialOccurancy && defaultSettings!=null && this!=defaultSettings)
+            return defaultSettings.getSpecialOccurancy(special);
+        else
+            return specialOccurancy[special];
+    }
+
+    public void setStartingLevel(int startingLevel)
+    {
+    	this.startingLevel = startingLevel;
+    	defaultStartingLevel = false;
+    }
+
+    public void setStartingLevel(Integer startingLevel)
+    {
+    	setStartingLevel(startingLevel.intValue());
+    }
+
+    public void setStackHeight(int stackHeight)
+    {
+    	this.stackHeight = stackHeight;
+    	defaultStackHeight = false;
+    }
+
+    public void setStackHeight(Integer stackHeight)
+    {
+    	setStackHeight(stackHeight.intValue());
+    }
+
+    public void setLinesPerLevel(int linesPerLevel)
+    {
+    	this.linesPerLevel = linesPerLevel;
+    	defaultLinesPerLevel = false;
+    }
+
+    public void setLinesPerLevel(Integer linesPerLevel) 
+    { 
+    	setLinesPerLevel(linesPerLevel.intValue());
+    }
+
+    public void setLinesPerSpecial(int linesPerSpecial)
+    {
+    	this.linesPerSpecial = linesPerSpecial;
+    	defaultLinesPerSpecial = false;
+    }
+
+    public void setLinesPerSpecial(Integer linesPerSpecial)
+    {
+    	setLinesPerSpecial(linesPerSpecial.intValue());
+    }
+
+    public void setLevelIncrease(int levelIncrease)
+    {
+    	this.levelIncrease = levelIncrease;
+    	defaultLevelIncrease = false;
+    }
+
+    public void setLevelIncrease(Integer levelIncrease)
+    {
+    	setLevelIncrease(levelIncrease.intValue());
+    }
+
+    public void setSpecialAdded(int specialAdded)
+    {
+    	this.specialAdded = specialAdded;
+    	defaultSpecialAdded = false;
+    }
+
+    public void setSpecialAdded(Integer specialAdded)
+    {
+    	setSpecialAdded(specialAdded.intValue());
+    }
+
+    public void setSpecialCapacity(int specialCapacity)
+    {
+    	this.specialCapacity = specialCapacity;
+    	defaultSpecialCapacity = false;
+    }
+
+    public void setSpecialCapacity(Integer specialCapacity)
+    {
+    	setSpecialCapacity(specialCapacity.intValue());
+    }
+
+    public void setAverageLevels(boolean averageLevels)
+    {
+    	this.averageLevels = averageLevels;
+    	defaultAverageLevels = false;
+    }
+
+    public void setAverageLevels(Boolean averageLevels)
+    {
+    	setAverageLevels(averageLevels.booleanValue());
+    }
+
+    public void setClassicRules(boolean classicRules)
+    {
+    	this.classicRules = classicRules;
+    	defaultClassicRules = false;
+    }
+
+    public void setClassicRules(Boolean classicRules)
+    {
+    	setClassicRules(classicRules.booleanValue());
+    }
+
+    public void setBlockOccurancy(int piece, int occurancy)
+    {
+        if (defaultBlockOccurancy)
+        {
+            defaultBlockOccurancy = false;
+            clearBlockOccurancy();
+        }
+
+        blockOccurancy[piece] = occurancy;
+    }
+
+    public void setSpecialOccurancy(int special, int occurancy)
+    {
+        if (defaultSpecialOccurancy)
+        {
+            defaultSpecialOccurancy = false;
+            clearSpecialOccurancy();
+        }
+
+        specialOccurancy[special] = occurancy;
+    }
 
     public void clearBlockOccurancy()
     {
@@ -183,5 +387,34 @@ public class Settings
     {
         normalize(specialOccurancy);
     }
+
+    public static Settings getDefaultSettings()
+    {
+        return defaultSettings;
+    }
+
+    public static void setDefaultSettings(Settings defaultSettings)
+    {
+        Settings.defaultSettings = defaultSettings;
+    }
+
+
+    public void setLineOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_LINE, occurancy.intValue()); }
+    public void setSquareOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_SQUARE, occurancy.intValue()); }
+    public void setLeftLOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_LEFTL, occurancy.intValue()); }
+    public void setRightLOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_RIGHTL, occurancy.intValue()); }
+    public void setLeftZOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_LEFTZ, occurancy.intValue()); }
+    public void setRightZOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_RIGHTZ, occurancy.intValue()); }
+    public void setHalfCrossOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_HALFCROSS, occurancy.intValue()); }
+
+    public void setAddLineOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_ADDLINE, occurancy.intValue()); }
+    public void setClearLineOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_CLEARLINE, occurancy.intValue()); }
+    public void setNukeFieldOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_NUKEFIELD, occurancy.intValue()); }
+    public void setRandomClearOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_RANDOMCLEAR, occurancy.intValue()); }
+    public void setSwitchFieldOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_SWITCHFIELD, occurancy.intValue()); }
+    public void setClearSpecialOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_CLEARSPECIAL, occurancy.intValue()); }
+    public void setGravityOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_GRAVITY, occurancy.intValue()); }
+    public void setQuakeFieldOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_QUAKEFIELD, occurancy.intValue()); }
+    public void setBlockBombOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_BLOCKBOMB, occurancy.intValue()); }
 
 }
