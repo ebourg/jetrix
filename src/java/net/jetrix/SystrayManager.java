@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2004  Emmanuel Bourg
+ * Copyright (C) 2004-2005  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,15 +23,15 @@ import java.io.*;
 import java.util.logging.*;
 
 import net.jetrix.config.*;
+import net.jetrix.listeners.*;
 import snoozesoft.systray4j.*;
 
 /**
  * Manages the system tray (windows only).
  *
- * @since 0.2
- *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
+ * @since 0.2
  */
 public class SystrayManager
 {
@@ -54,24 +54,12 @@ public class SystrayManager
                 }
             });
 
-            final ServerConfig config = Server.getInstance().getConfig();
-
             SysTrayMenuItem itemAdmin = new SysTrayMenuItem("Administration", "admin");
             SysTrayMenuListener adminListener = new SysTrayMenuAdapter()
             {
                 public void menuItemSelected(SysTrayMenuEvent event)
                 {
-                    Runtime runtime = Runtime.getRuntime();
-                    try
-                    {
-                        int port = 8080; // todo get the real port from the HttpListener
-                        String adminUrl = "http://admin:" + config.getAdminPassword() + "@localhost:" + port;
-                        runtime.exec("rundll32 url.dll,FileProtocolHandler " + adminUrl);
-                    }
-                    catch (IOException e)
-                    {
-                        log.log(Level.WARNING, e.getMessage(), e);
-                    }
+                    openWebAdmin();
                 }
 
                 public void iconLeftDoubleClicked(SysTrayMenuEvent event)
@@ -101,6 +89,42 @@ public class SystrayManager
     public static void close()
     {
         SysTrayMenu.dispose();
+    }
+
+    /**
+     * Open the web administration console in a browser window (Win32 only).
+     */
+    private static void openWebAdmin()
+    {
+        ServerConfig config = Server.getInstance().getConfig();
+
+        // find the port of the HttpListener
+        int port = 0;
+        for (Listener listener : config.getListeners())
+        {
+            if (listener instanceof HttpListener)
+            {
+                port = listener.getPort();
+                break;
+            }
+        }
+
+        if (port != 0)
+        {
+            try
+            {
+                // build the URL
+                String adminUrl = "http://admin:" + config.getAdminPassword() + "@localhost:" + port;
+
+                // open the browser
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("rundll32 url.dll,FileProtocolHandler " + adminUrl);
+            }
+            catch (IOException e)
+            {
+                log.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
     }
 
 }
