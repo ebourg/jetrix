@@ -28,6 +28,8 @@ import java.util.logging.FileHandler;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.PrintWriter;
 
 import net.jetrix.config.ServerConfig;
 
@@ -51,6 +53,7 @@ class LogManager
         log.setUseParentHandlers(false);
         log.setLevel(Level.ALL);
 
+        // console output
         ConsoleHandler consoleHandler = new ConsoleHandler();
         final boolean debug = "true".equals(System.getProperty("jetrix.debug"));
         if (debug)
@@ -58,25 +61,9 @@ class LogManager
             consoleHandler.setLevel(Level.ALL);
         }
         log.addHandler(consoleHandler);
-        consoleHandler.setFormatter(new Formatter()
-        {
-            Date date = new Date();
-            private String format = debug ? "HH:mm:ss,SSS" : "HH:mm:ss";
-            private SimpleDateFormat formatter;
+        consoleHandler.setFormatter(new TimestampFormatter(debug ? "HH:mm:ss,SSS" : "HH:mm:ss", true));
 
-            public synchronized String format(LogRecord record)
-            {
-                date.setTime(record.getMillis());
-                if (formatter == null)
-                {
-                    formatter = new SimpleDateFormat(format);
-                }
-                return "[" + formatter.format(date) + "] ["
-                        + record.getLevel().getLocalizedName() + "] "
-                        + formatMessage(record) + "\n";
-            }
-        });
-
+        // file output
         try
         {
             ServerConfig config = Server.getInstance().getConfig();
@@ -84,27 +71,62 @@ class LogManager
             FileHandler fileHandler = new FileHandler(config.getAccessLogPath(), 1000000, 10);
             fileHandler.setLevel(Level.CONFIG);
             log.addHandler(fileHandler);
-            fileHandler.setFormatter(new Formatter()
-            {
-                Date dat = new Date();
-                private final static String format = "yyyy-MM-dd HH:mm:ss";
-                private SimpleDateFormat formatter;
-
-                public synchronized String format(LogRecord record)
-                {
-                    dat.setTime(record.getMillis());
-                    if (formatter == null)
-                    {
-                        formatter = new SimpleDateFormat(format);
-                    }
-                    return "[" + formatter.format(dat) + "] "
-                            + formatMessage(record) + "\n";
-                }
-            });
+            fileHandler.setFormatter(new TimestampFormatter("yyyy-MM-dd HH:mm:ss", false));
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            log.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
+
+    private static class TimestampFormatter extends Formatter
+    {
+        private Date date = new Date();
+        private String format;
+        private SimpleDateFormat formatter;
+        private boolean level;
+
+        public TimestampFormatter(String format, boolean level)
+        {
+            this.format = format;
+            this.level = level;
+
+            formatter = new SimpleDateFormat(format);
+        }
+
+        public synchronized String format(LogRecord record)
+        {
+            StringBuffer message = new StringBuffer();
+
+            // display the timestamp
+            date.setTime(record.getMillis());
+            message.append("[");
+            message.append(formatter.format(date));
+            message.append("] ");
+
+            // display the log level
+            if (level)
+            {
+                message.append("[");
+                message.append(record.getLevel().getName());
+                message.append("] ");
+            }
+
+            // display the message
+            message.append(formatMessage(record));
+            message.append("\n");
+
+            // display the exception
+            if (record.getThrown() != null)
+            {
+                StringWriter writer = new StringWriter();
+                PrintWriter out = new PrintWriter(writer);
+
+                record.getThrown().printStackTrace(out);
+                message.append(writer.toString());
+            }
+
+            return message.toString();
         }
     }
 }
