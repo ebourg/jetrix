@@ -67,6 +67,11 @@ public class SimpleWinlist implements Winlist
         this.config = config;
     }
 
+    public WinlistConfig getConfig()
+    {
+        return config;
+    }
+
     public boolean isPersistent()
     {
         return persistent;

@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -47,7 +47,10 @@ public class WinlistManager
         return instance;
     }
 
-    public void addWinlist(Winlist winlist)
+    /**
+     * Register a new winlist.
+     */
+    protected void addWinlist(Winlist winlist)
     {
         if (winlist != null && winlist.getId() != null)
         {
@@ -56,6 +59,9 @@ public class WinlistManager
         }
     }
 
+    /**
+     * Declare a new winlist.
+     */
     public void addWinlist(WinlistConfig config)
     {
         if (config != null && config.getName() != null && config.getClassname() != null)
@@ -76,8 +82,21 @@ public class WinlistManager
         }
     }
 
+    /**
+     * Return the winlist with the specified id.
+     */
     public Winlist getWinlist(String id)
     {
         return (id == null) ? null : winlists.get(id);
+    }
+
+    /**
+     * Return the registered winlists
+     *
+     * @since 0.1.4
+     */
+    public Collection<Winlist> getWinlists()
+    {
+        return winlists.values();
     }
 }

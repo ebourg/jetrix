@@ -51,6 +51,13 @@ public interface Winlist
     void init(WinlistConfig config);
 
     /**
+     * Return the configuration necessary to create the same winlist
+     *
+     * @since 0.1.4
+     */
+    WinlistConfig getConfig();
+
+    /**
      * Return the score of the specified player or team
      *
      * @param name the name of the player or team
