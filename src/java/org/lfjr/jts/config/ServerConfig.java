@@ -23,6 +23,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.lfjr.jts.filter.*;
 import org.apache.commons.digester.*;
 
 /**
@@ -64,6 +65,9 @@ public class ServerConfig
         // bans = new ArrayList();
     }
 
+    /**
+     * Loads the default configuration file <tt>config.xml</tt>.
+     */
     public void load()
     {
         load("config.xml");
@@ -147,6 +151,11 @@ public class ServerConfig
             digester.addCallMethod("*/filter/param", "setParameter", 2);
             digester.addCallParam("*/filter/param", 0, "name");
             digester.addCallParam("*/filter/param", 1, "value");
+            
+            // filter definitions
+            digester.addCallMethod("tetrinet-server/filter-definitions/alias", "addFilterAlias", 2);
+            digester.addCallParam("tetrinet-server/filter-definitions/alias", 0, "name");
+            digester.addCallParam("tetrinet-server/filter-definitions/alias", 1, "class");
 
             digester.parse(new File(filename));
 
@@ -328,6 +337,11 @@ public class ServerConfig
     public void addFilter(FilterConfig fconf)
     {
         globalFilters.add(fconf);
+    }
+    
+    public void addFilterAlias(String name, String classname)
+    {
+        FilterManager.getInstance().addFilterAlias(name, classname);
     }
 
 }

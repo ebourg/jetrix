@@ -36,10 +36,12 @@ public class FilterManager
 {
     private static FilterManager instance = new FilterManager();
     private Hashtable staticFilters;
+    private Hashtable filterAliases;
 
     private FilterManager()
     {
         staticFilters = new Hashtable();
+        filterAliases = new Hashtable();
     }
 
     /**
@@ -87,4 +89,37 @@ public class FilterManager
 
         return filter;
     }
+
+    /**
+     * Returns a filter matching the specified name. 
+     *
+     * @param name name of the filter to return
+     *
+     * @return Filter of the specified class.
+     */
+    public MessageFilter getFilterByName(String name) throws FilterException
+    {
+        Object classname = filterAliases.get(name);
+
+        if (classname!=null)
+        {            
+            return getFilter((String)classname);
+        }
+        else
+        {
+            throw new FilterException("Cannot find filter " + name);
+        }
+    }
+
+    /**
+     * Defines a new alias for a filter.
+     *
+     * @param name alias of the filter
+     * @param class of the filter
+     */
+    public void addFilterAlias(String name, String classname)
+    {
+        filterAliases.put(name, classname);
+    }
+
 }
