@@ -33,11 +33,6 @@ public class FilterConfig
     private String classname;
     private Properties props;
 
-    public FilterConfig()
-    {
-        props = new Properties();
-    }
-
     public void setName(String name)
     {
         this.name = name;
@@ -60,12 +55,16 @@ public class FilterConfig
 
     public void setParameter(String name, String value)
     {
+        if (props == null)
+        {
+            props = new Properties();
+        }
         props.setProperty(name, value);
     }
 
     public String getParameter(String name)
     {
-        return props.getProperty(name);
+        return props != null ? props.getProperty(name) : null;
     }
 
     public String toString()
