@@ -150,12 +150,13 @@
             <include>*.dtd</include>
           </includes>
         </resource>
-        <ressource>
+        <resource>
           <directory>src/lang</directory>
+          <targetPath>/</targetPath>
           <includes>
             <include>*.properties</include>
           </includes>
-        </ressource>
+        </resource>
       </resources>
     </unitTest>
 
