@@ -39,7 +39,7 @@ public class Language
 
     public ResourceBundle load(Locale locale)
     {
-        ResourceBundle bundle = PropertyResourceBundle.getBundle("lang.jetrix", locale);
+        ResourceBundle bundle = PropertyResourceBundle.getBundle("jetrix", locale);
         bundles.put(locale, bundle);
         return bundle;
     }
