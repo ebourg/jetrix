@@ -174,7 +174,7 @@
         <pathelement location="${lib}/commons-collections.jar"/>
       </classpath>
       <formatter type="xml" />
-      <batchtest>
+      <batchtest todir="${build}/test">
         <fileset dir="${build}/test">
           <include name="**/*Test.class" />
         </fileset>
@@ -182,14 +182,11 @@
     </junit>
     <mkdir dir="${doc}/test"/>
     <junitreport todir="${build}/test">
-      <fileset dir=".">
+      <fileset dir="${build}/test">
         <include name="TEST-*.xml"/>
       </fileset>
       <report format="noframes" todir="${doc}/test"/>
     </junitreport>
-    <delete>
-      <fileset dir="." includes="TEST*"/>
-    </delete>
   </target>
 
 
