@@ -270,7 +270,7 @@ public class IRCMessage
             buffer.append(" ");
 
             String lastParam = String.valueOf(parameters.get(parameters.size() - 1));
-            if (lastParam.indexOf(" ") != -1)
+            if (lastParam.indexOf(" ") != -1 || lastParam.startsWith(":"))
             {
                 buffer.append(":");
             }

@@ -166,9 +166,8 @@ public class IRCMessageTest extends TestCase
 
     public void testToStringWithNumericReply()
     {
-        IRCMessage message = new IRCMessage();
+        IRCMessage message = new IRCMessage(IRCReply.RPL_MOTD);
         message.setPrefix("localhost");
-        message.setReply(IRCReply.RPL_MOTD);
         message.addParameter("Smanux");
         message.addParameter("Message of the day");
 
@@ -177,10 +176,18 @@ public class IRCMessageTest extends TestCase
 
     public void testToStringWithoutParameter()
     {
-        IRCMessage message = new IRCMessage();
+        IRCMessage message = new IRCMessage(IRCCommand.LIST);
         message.setPrefix("localhost");
-        message.setCommand(IRCCommand.LIST);
 
         assertEquals("message", ":localhost LIST", message.toString());
+    }
+
+    public void testToStringWithSemicolon()
+    {
+        IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);
+        message.addParameter("#tetrinet");
+        message.addParameter(":)");
+
+        assertEquals("message", "PRIVMSG #tetrinet ::)");
     }
 }
