@@ -19,13 +19,13 @@
 
 package net.jetrix.clients;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 import net.jetrix.*;
-import net.jetrix.protocols.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
+import net.jetrix.protocols.*;
 
 /**
  * Client for the query protocol on port 31457.
@@ -35,6 +35,7 @@ import net.jetrix.messages.*;
  */
 public class QueryClient extends TetrinetClient
 {
+
     private Message firstMessage;
 
     public void run()
@@ -52,8 +53,7 @@ public class QueryClient extends TetrinetClient
 
             while (!disconnected && serverConfig.isRunning())
             {
-                Message m = receiveMessage();
-                process(m);
+                process(receiveMessage());
             }
         }
         catch (Exception e)
@@ -62,8 +62,8 @@ public class QueryClient extends TetrinetClient
         }
         finally
         {
-            try { in.close(); }     catch (IOException e) { e.printStackTrace(); }
-            try { out.close(); }    catch (IOException e) { e.printStackTrace(); }
+            try { in.close(); } catch (IOException e) { e.printStackTrace(); }
+            try { out.close(); } catch (IOException e) { e.printStackTrace(); }
             try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
         }
 
@@ -101,10 +101,7 @@ public class QueryClient extends TetrinetClient
                     message.append(" \"");
                     message.append(client.getChannel().getConfig().getName());
                     message.append("\"");
-                    if (clients.hasNext())
-                    {
-                        message.append(QueryProtocol.EOL);
-                    }
+                    message.append(QueryProtocol.EOL);
                 }
 
                 response.setText(message.toString());
@@ -129,10 +126,7 @@ public class QueryClient extends TetrinetClient
                     message.append(config.getMaxPlayers());
                     message.append(" 0 ");
                     message.append(channel.getGameState() + 1);
-                    if (channels.hasNext())
-                    {
-                        message.append(QueryProtocol.EOL);
-                    }
+                    message.append(QueryProtocol.EOL);
                 }
 
                 response.setText(message.toString());
@@ -143,7 +137,7 @@ public class QueryClient extends TetrinetClient
             }
             else if ("version".equals(command.getCommand()))
             {
-                response.setText("JetriX/" + ServerConfig.VERSION);
+                response.setText("JetriX/" + ServerConfig.VERSION + QueryProtocol.EOL);
             }
 
             sendMessage(response);
@@ -164,4 +158,22 @@ public class QueryClient extends TetrinetClient
     {
         this.firstMessage = firstMessage;
     }
+
+    public void sendMessage(Message m)
+    {
+        String rawMessage = m.getRawMessage(getProtocol(), null);
+
+        try
+        {
+            out.write(rawMessage + QueryProtocol.EOL, 0, rawMessage.length() + 1);
+            out.flush();
+
+            logger.finest("> " + rawMessage);
+        }
+        catch (Exception e)
+        {
+            logger.fine(e.getMessage());
+        }
+    }
+
 }
