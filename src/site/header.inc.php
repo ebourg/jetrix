@@ -16,6 +16,7 @@
   <meta name="keywords" content="jetrix, tetrinet, server, tnet, tetrifast, tfast, tspec, tetris, tetrix, java" />
   <link rel="stylesheet" href="style.css" />
   <link rel="shortcut icon" href="images/favicon.gif" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://sourceforge.net/export/rss2_projnews.php?group_id=52188&amp;rss_fulltext=1" />
   <title>JetriX TetriNET Server</title>
 </head>
 <body>
