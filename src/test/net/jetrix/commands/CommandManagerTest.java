@@ -41,24 +41,24 @@ public class CommandManagerTest extends TestCase
 
         cmd1 = new Command() {
             public String[] getAliases() { return new String[] { "aaabbbccc" }; }
-            public String getUsage() { return null; }
-            public String getDescription() { return null; }
+            public String getUsage(Locale locale) { return null; }
+            public String getDescription(Locale locale) { return null; }
             public int getAccessLevel() { return 0; }
             public void execute(CommandMessage m) { }
         };
 
         cmd2 = new Command() {
             public String[] getAliases() { return new String[] { "aaabbbddd" }; }
-            public String getUsage() { return null; }
-            public String getDescription() { return null; }
+            public String getUsage(Locale locale) { return null; }
+            public String getDescription(Locale locale) { return null; }
             public int getAccessLevel() { return 0; }
             public void execute(CommandMessage m) { }
         };
 
         cmd3 = new Command() {
             public String[] getAliases() { return new String[] { "aaabbbeee" }; }
-            public String getUsage() { return null; }
-            public String getDescription() { return null; }
+            public String getUsage(Locale locale) { return null; }
+            public String getDescription(Locale locale) { return null; }
             public int getAccessLevel() { return 1; }
             public void execute(CommandMessage m) { }
         };

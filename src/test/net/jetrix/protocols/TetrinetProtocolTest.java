@@ -19,6 +19,7 @@
 
 package net.jetrix.protocols;
 
+import java.util.*;
 import junit.framework.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
@@ -32,10 +33,12 @@ import net.jetrix.messages.*;
 public class TetrinetProtocolTest extends TestCase
 {
     private Protocol protocol;
+    private Locale locale;
 
     public void setUp()
     {
         protocol = new TetrinetProtocol();
+        locale = new Locale("fr");
     }
 
     public void testTranslate1()
@@ -43,7 +46,7 @@ public class TetrinetProtocolTest extends TestCase
         PlineMessage msg = new PlineMessage();
         msg.setSlot(1);
         msg.setText("Hello JetriX!");
-        assertEquals("pline 1 Hello JetriX!", protocol.translate(msg));
+        assertEquals("pline 1 Hello JetriX!", protocol.translate(msg, locale));
     }
 
     public void testTranslate2()
@@ -51,7 +54,7 @@ public class TetrinetProtocolTest extends TestCase
         JoinMessage msg = new JoinMessage();
         msg.setSlot(1);
         msg.setName("Smanux");
-        assertEquals("playerjoin 1 Smanux", protocol.translate(msg));
+        assertEquals("playerjoin 1 Smanux", protocol.translate(msg, locale));
     }
 
     public void testTranslate3()
@@ -59,38 +62,38 @@ public class TetrinetProtocolTest extends TestCase
         TeamMessage msg1 = new TeamMessage();
         msg1.setSlot(1);
         msg1.setName("LFJR");
-        assertEquals("team 1 LFJR", protocol.translate(msg1));
+        assertEquals("team 1 LFJR", protocol.translate(msg1, locale));
 
         TeamMessage msg2 = new TeamMessage();
         msg2.setSlot(1);
-        assertEquals("team 1", protocol.translate(msg2));
+        assertEquals("team 1", protocol.translate(msg2, locale));
     }
 
     public void testTranslate4()
     {
         LeaveMessage msg = new LeaveMessage();
         msg.setSlot(1);
-        assertEquals("playerleave 1", protocol.translate(msg));
+        assertEquals("playerleave 1", protocol.translate(msg, locale));
     }
 
     public void testTranslate5()
     {
         PlayerNumMessage msg = new PlayerNumMessage();
         msg.setSlot(1);
-        assertEquals("playernum 1", protocol.translate(msg));
+        assertEquals("playernum 1", protocol.translate(msg, locale));
     }
 
     public void testTranslate6()
     {
         EndGameMessage msg = new EndGameMessage();
-        assertEquals("endgame", protocol.translate(msg));
+        assertEquals("endgame", protocol.translate(msg, locale));
     }
 
     public void testTranslate7()
     {
         PlayerLostMessage msg = new PlayerLostMessage();
         msg.setSlot(1);
-        assertEquals("playerlost 1", protocol.translate(msg));
+        assertEquals("playerlost 1", protocol.translate(msg, locale));
     }
 
     public void testTranslate8()
@@ -98,7 +101,7 @@ public class TetrinetProtocolTest extends TestCase
         FieldMessage msg = new FieldMessage();
         msg.setSlot(1);
         msg.setField("XYZABCD");
-        assertEquals("f 1 XYZABCD", protocol.translate(msg));
+        assertEquals("f 1 XYZABCD", protocol.translate(msg, locale));
     }
 
     public void testTranslate9()
@@ -106,7 +109,7 @@ public class TetrinetProtocolTest extends TestCase
         PlineActMessage msg = new PlineActMessage();
         msg.setSlot(1);
         msg.setText("feels faster");
-        assertEquals("plineact 1 feels faster", protocol.translate(msg));
+        assertEquals("plineact 1 feels faster", protocol.translate(msg, locale));
     }
 
     public static Test suite()

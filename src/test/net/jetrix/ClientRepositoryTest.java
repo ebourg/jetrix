@@ -34,26 +34,21 @@ public class ClientRepositoryTest extends TestCase
 {
     private ClientRepository repository;
     private Client client1, client2, client3, client4;
-    private Player player1, player2, player3, player4;
 
     public void setUp()
     {
         repository = ClientRepository.getInstance();
         client1 = new TetrinetClient();
-        client1.setPlayer(new Player("Stormcat"));
-        client1.setType(Client.CLIENT_TETRINET);
+        ((TetrinetClient)client1).setUser(new User("Stormcat"));
 
         client2 = new TetrinetClient();
-        client2.setPlayer(new Player("Smanux"));
-        client2.setType(Client.CLIENT_TETRINET);
+        ((TetrinetClient)client2).setUser(new User("Smanux"));
 
         client3 = new TetrinetClient();
-        client3.setPlayer(new Player("Jetrix"));
-        client3.setType(Client.CLIENT_TETRIFAST);
+        ((TetrinetClient)client3).setUser(new User("Jetrix"));
 
-        client4 = new TetrinetClient();
-        client4.setPlayer(new Player("Test"));
-        client4.setType(Client.CLIENT_TSPEC);
+        //client4 = new TSpecClient();
+        //((TSpecClient)client4).setUser(new User("Test"));
     }
 
     public void tearDown()
@@ -65,9 +60,9 @@ public class ClientRepositoryTest extends TestCase
     {
         repository.addClient(client1);
         assertEquals("client count after adding the client", 1, repository.getClientCount());
-        assertEquals(client1, repository.getClient(client1.getPlayer().getName()));
-        assertEquals("non case sensitive search", client1, repository.getClient(client1.getPlayer().getName().toUpperCase()));
-        assertEquals("non case sensitive search", client1, repository.getClient(client1.getPlayer().getName().toLowerCase()));
+        assertEquals(client1, repository.getClient(client1.getUser().getName()));
+        assertEquals("non case sensitive search", client1, repository.getClient(client1.getUser().getName().toUpperCase()));
+        assertEquals("non case sensitive search", client1, repository.getClient(client1.getUser().getName().toLowerCase()));
     }
 
     public void testGetClients()
@@ -84,7 +79,7 @@ public class ClientRepositoryTest extends TestCase
         while (players.hasNext())
         {
             Client client = (Client)players.next();
-            playerList.append(client.getPlayer().getName());
+            playerList.append(client.getUser().getName());
             if (players.hasNext()) playerList.append(", ");
         }
 
@@ -94,7 +89,7 @@ public class ClientRepositoryTest extends TestCase
         while (spectators.hasNext())
         {
             Client client = (Client)spectators.next();
-            spectatorList.append(client.getPlayer().getName());
+            spectatorList.append(client.getUser().getName());
             if (spectators.hasNext()) spectatorList.append(", ");
         }
 
