@@ -197,7 +197,7 @@
 
   </target>
   
-  <target name="dist.win" depends="dist" description="Build the windows installer">
+  <target name="dist.win" depends="deploy" description="Build the windows installer">
     
     <!-- Build the windows executable file jetrix.exe -->
     <mkdir dir="${build}/bin"/>
@@ -211,7 +211,10 @@
     </exec>
     
     <!-- Build the installer -->
-  
+    <exec executable="C:\Program Files\NSIS\makensis.exe">
+      <arg line="${build}/bin/installer.nsi"/>
+    </exec>
+    <move file="${build}/bin/jetrix-${version}-installer.exe" todir="${dist}/bin"/>
   
   </target>
 
@@ -249,7 +252,7 @@
 
   </target>
 
-  <target name="dist.all" depends="clean, dist, dist.src, doc" description="Build all distributed files"/>
+  <target name="dist.all" depends="clean, dist, dist.src, dist.win, doc" description="Build all distributed files"/>
 
   <target name="test" depends="compile.test" description="Runs testcases">
     <junit printsummary="withOutAndErr" showoutput="yes" fork="yes" dir="${src}/etc">
