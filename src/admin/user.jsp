@@ -64,12 +64,21 @@
         <td><%= client.getInetAddress().getHostName() %></td>
       </tr>
     </table>
-    
+
     <br>
-    
-    <input type="button" value="Kick">
-    <input type="button" value="Ban">
-  
+
+    <form id="kick" action="/servlet/net.jetrix.servlets.UserAction" style="display: inline">
+      <input type="hidden" name="action" value="kick">
+      <input type="hidden" name="name" value="<%= user.getName() %>">
+      <input type="submit" value="Kick">
+    </form>
+
+    <form id="ban" action="/servlet/net.jetrix.servlets.UserAction" style="display: inline">
+      <input type="hidden" name="action" value="ban">
+      <input type="hidden" name="name" value="<%= user.getName() %>">
+      <input type="submit" value="Ban">
+    </form>
+
   </div>
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Statistics</h2>
