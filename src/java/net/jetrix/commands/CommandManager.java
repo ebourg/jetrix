@@ -49,6 +49,9 @@ public class CommandManager
         return instance;
     }
 
+    /**
+     * Register a new command.
+     */
     public void addCommand(Command command)
     {
         String aliases[] = command.getAliases();
@@ -60,6 +63,9 @@ public class CommandManager
         if (aliases.length > 0) commandSet.put(command.getAliases()[0], command);
     }
 
+    /**
+     * Register a new alias for a command.
+     */
     public void addCommandAlias(Command command, String alias)
     {
         commands.put(alias.toLowerCase(), command);
@@ -72,17 +78,18 @@ public class CommandManager
      */
     public Command getCommand(String alias)
     {
-        Command command = (Command)commands.get(alias.toLowerCase());
+        alias = alias.toLowerCase();
+        Command command = (Command) commands.get(alias);
 
         if (command == null)
         {
             Iterator aliases = commands.keySet().iterator();
             while (command == null && aliases.hasNext())
             {
-                String name = ((String)aliases.next()).toLowerCase();
-                if (name.startsWith(alias.toLowerCase()))
+                String name = (String) aliases.next();
+                if (name.startsWith(alias))
                 {
-                    command = (Command)commands.get(name);
+                    command = (Command) commands.get(name);
                 }
             }
         }
@@ -96,7 +103,7 @@ public class CommandManager
      */
     public Iterator getCommands()
     {
-         return getCommands(0);
+        return getCommands(AccessLevel.PLAYER);
     }
 
     /**
@@ -105,10 +112,11 @@ public class CommandManager
      */
     public Iterator getCommands(final int accessLevel)
     {
-        Predicate availableToLevel = new Predicate() {
+        Predicate availableToLevel = new Predicate()
+        {
             public boolean evaluate(Object obj)
             {
-                Command command = (Command)obj;
+                Command command = (Command) obj;
                 return command.getAccessLevel() <= accessLevel;
             }
         };
@@ -123,7 +131,7 @@ public class CommandManager
     public void execute(CommandMessage m)
     {
         Command command = getCommand(m.getCommand());
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         if (command == null)
         {
             PlineMessage response = new PlineMessage();
