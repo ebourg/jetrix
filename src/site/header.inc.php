@@ -17,7 +17,7 @@
 <tbody>
   <tr>
     <td>
-      <a href="http://jetrix.sourceforge.net/"><img src="images/jetrix-logo.png" align="left" border="0"></a>
+      <a href="http://jetrix.sourceforge.net/"><img src="images/jetrix-logo.png" align="left" border="0" alt="JetriX"></a>
     </td>
     <td align="right">
       <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=52188&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
