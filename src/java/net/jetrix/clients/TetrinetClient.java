@@ -93,17 +93,17 @@ public class TetrinetClient implements Client
         {
             while (!disconnected && serverConfig.isRunning())
             {
-                Message m = receiveMessage();
-                if (m == null) continue;
+                Message message = receiveMessage();
+                if (message == null) continue;
 
                 if (channel != null)
                 {
-                    channel.sendMessage(m);
+                    channel.sendMessage(message);
                 }
                 else
                 {
                     // no channel assigned, the message is sent to the server
-                    server.sendMessage(m);
+                    server.sendMessage(message);
                 }
             }
 
@@ -114,9 +114,9 @@ public class TetrinetClient implements Client
         }
         catch (IOException e)
         {
-            DisconnectedMessage m = new DisconnectedMessage();
-            m.setClient(this);
-            channel.sendMessage(m);
+            DisconnectedMessage disconnect = new DisconnectedMessage();
+            disconnect.setClient(this);
+            channel.sendMessage(disconnect);
         }
         finally
         {
@@ -144,7 +144,7 @@ public class TetrinetClient implements Client
                 logger.finest("> " + rawMessage);
             }
             catch (SocketException e) { logger.fine(e.getMessage()); }
-            catch (Exception e) { e.printStackTrace(); }
+            catch (Exception e) { logger.log(Level.INFO, getUser().toString(), e); }
         }
         else
         {
@@ -155,15 +155,15 @@ public class TetrinetClient implements Client
     public Message receiveMessage() throws IOException
     {
         // read raw message from socket
-        String s = readLine();
-        logger.finer("RECV: " + s);
+        String line = readLine();
+        logger.finer("RECV: " + line);
 
         // build server message
-        Message m = getProtocol().getMessage(s);
-        //m.setRawMessage(getProtocol(), s);
-        if (m != null) m.setSource(this);
+        Message message = getProtocol().getMessage(line);
+        //message.setRawMessage(getProtocol(), line);
+        if (message != null) message.setSource(this);
 
-        return m;
+        return message;
     }
 
     /**
