@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <project name="Jetrix TetriNET Server" default="dist" basedir=".">
 
-  <property name="build.compiler" value="jikes"/>
   <property name="compile.debug"    value="true"/>
   <property name="compile.optimize" value="false"/>
   <property name="src"     value="src"/>
@@ -10,9 +9,9 @@
   <property name="build"   value="build"/>
   <property name="dist"    value="dist"/>
   <property name="deploy"  value="deploy"/>
+  <property file="build.properties" />
   <property file="jetrix.properties" />
   <property file="password.properties" />
-
 
   <target name="init">
     <!-- Create the time stamp -->
