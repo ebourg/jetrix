@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,6 +57,43 @@ public class Server implements Runnable, Destination
         conf.setRunning(true);
 
         // preparing logger
+        prepareLoggers();
+
+        // adding shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() { shutdown(); }
+        });
+
+        // checking new release availability
+        // ....
+
+        // spawning server message queue handler
+        mq = new MessageQueue();
+        Thread server = new Thread(this);
+        server.start();
+
+        // spawning persistent channels
+        channelManager = ChannelManager.getInstance();
+        Iterator it = conf.getChannels();
+
+        while(it.hasNext())
+        {
+            ChannelConfig cc = (ChannelConfig)it.next();
+            cc.setPersistent(true);
+            channelManager.createChannel(cc);
+        }
+
+        // starting server console
+        (new Thread(new ConsoleClient())).start();
+
+        // starting client listeners
+        (new Thread(new TetrinetListener())).start();
+
+        logger.info("Server ready!");
+    }
+
+    private void prepareLoggers()
+    {
         logger = Logger.getLogger("net.jetrix");
         logger.setUseParentHandlers(false);
         logger.setLevel(Level.ALL);
@@ -106,40 +143,7 @@ public class Server implements Runnable, Destination
         {
             e.printStackTrace();
         }
-
-        // adding shutdown hook
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() { shutdown(); }
-        });
-
-        // checking new release availability
-        // ....
-
-        // spawning server message queue handler
-        mq = new MessageQueue();
-        Thread server = new Thread(this);
-        server.start();
-
-        // spawning persistent channels
-        channelManager = ChannelManager.getInstance();
-        Iterator it = conf.getChannels();
-
-        while(it.hasNext())
-        {
-            ChannelConfig cc = (ChannelConfig)it.next();
-            cc.setPersistent(true);
-            channelManager.createChannel(cc);
-        }
-
-        // starting server console
-        (new Thread(new ConsoleClient())).start();
-
-        // starting client listeners
-        (new Thread(new TetrinetListener())).start();
-
-        logger.info("Server ready!");
     }
-
 
     public void run()
     {
@@ -218,7 +222,7 @@ public class Server implements Runnable, Destination
         {
             instance = new Server();
         }
-        
+
         return instance;
     }
 
