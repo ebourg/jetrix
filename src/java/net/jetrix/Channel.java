@@ -418,13 +418,9 @@ public class Channel extends Thread implements Destination
 
     private void process(StopGameMessage m)
     {
-        if (gameState != GAME_STATE_STOPPED)
-        {
-            gameState = GAME_STATE_STOPPED;
-            EndGameMessage end = new EndGameMessage();
-            end.setSlot(m.getSlot());
-            sendAll(end);
-        }
+        EndGameMessage end = new EndGameMessage();
+        end.setSlot(m.getSlot());
+        sendMessage(end);
     }
 
     private void process(EndGameMessage m)
@@ -433,6 +429,16 @@ public class Channel extends Thread implements Destination
         {
             gameState = GAME_STATE_STOPPED;
             sendAll(m);
+
+            // update the status of the remaining players
+            for (int i = 0 ; i < slots.size(); i++)
+            {
+                Client client = (Client) slots.get(i);
+                if (client != null)
+                {
+                    client.getUser().setPlaying(false);
+                }
+            }
         }
     }
 

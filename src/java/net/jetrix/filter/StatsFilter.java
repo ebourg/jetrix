@@ -83,12 +83,6 @@ public class StatsFilter extends GenericFilter
         displayStats(out);
     }
 
-    public void onMessage(StopGameMessage m, List out)
-    {
-        out.add(m);
-        displayStats(out);
-    }
-
     public void onMessage(PauseMessage m, List out)
     {
         // updating global play time
