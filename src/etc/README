@@ -3,36 +3,21 @@ JetriX TetriNET Server                   http://jetrix.sourceforge.net
 
 What is JetriX ?
 
-  JetriX is a new generation TetriNET server written in Java and designed
-  for maximum scalability and extensibility. It features a pluggable filter
-  and command API allowing easy channel behavior customization that requires 
-  little knowledge of the server's inner functioning. The ambitious goal of
-  this project is to create the ideal plateform for server side TetriNET
-  programmers. JetriX is open source and developped under the GPL.
-
-Features planned for JetriX 1.0
-
-  * multi channel
-  * multi client : tetrinet & tetrifast
-  * Pluggable and extensible filter & command system
-  * player authentication
-  * game recording & playback
-  * interface to external ladder systems
-  * TSpec support
-  * IRC support
-  * internationalization
-  * XML based configuration files
-  * Web based administration
-  * interactive console administration
-  * Hot reconfiguration
-  * auto updater
-  * IPv6 support
+  JetriX is a new generation TetriNET server written in Java and 
+  designed for maximum scalability and extensibility. It features a 
+  pluggable filter and command API allowing easy channel behavior 
+  customization that requires little knowledge of the server's inner 
+  functioning. The ambitious goal of this project is to create the 
+  ideal plateform for server side TetriNET programmers. JetriX is open 
+  source and developped under the GNU General Public License. 
 
 Installing & Running JetriX
 
   You need a JRE 1.4 or higher installed on your server to run JetriX.
   You can download it here : http://java.sun.com/j2se/1.4/download.html
-  Make sure the JAVA_HOME environnement variable is properly set !
+  Make sure the JAVA_HOME environnement variable is properly set and 
+  points to your Java installation directory! Unzip the JetriX archive
+  to the installation directory and run the following commands :
 
   To start the server,
     Unix    : ./jetrix
@@ -42,7 +27,14 @@ Installing & Running JetriX
     Unix    : ./update
     Windows : update
 
-  Not too complicated i hope ;) Thanks again for using JetriX !
+Latest Documentation:
 
+   http://jetrix.sourceforge.net
 
-                                              Smanux (smanux@lfjr.net)
+Bug Reports
+
+   smanux@lfjr.net
+
+Technical Support
+
+   http://sourceforge.net/forum/forum.php?forum_id=172941
