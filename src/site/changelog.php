@@ -3,6 +3,16 @@
 <h1>Changelog</h1>
 
 <pre>
+Changes in version 0.1.0 (2002-11-16)
+-------------------------------------
+- added support for tetrifast clients
+- new commands : /teleport, /summon, /ping and /ip
+- level change is now working
+- full internationalization support
+- added french support
+- added dutch support (contributed by Tim Van Wassenhove)
+- made the colors & styles protocol independant
+
 Changes in version 0.0.10 (2002-09-28)
 --------------------------------------
 - implemented the client repository
