@@ -468,6 +468,7 @@ public class ServerConfig
                     out.println("      <winlist name=\"" + config.getWinlistId() + "\"/>");
                 }
 
+                // channel settings
                 settings = config.getSettings();
                 if (!settings.useDefaultSettings())
                 {
@@ -547,19 +548,40 @@ public class ServerConfig
                 Iterator<MessageFilter> it = channel.getFilters();
                 if (it.hasNext())
                 {
-                    out.println("      <filters>");
+                    out.println("      <filters>"); // do not display if the channel has only global filters
                     while (it.hasNext())
                     {
                         MessageFilter filter = it.next();
                         if (!filter.getConfig().isGlobal())
                         {
-                            if (filter.getConfig().getName() != null)
+                            Properties props = filter.getConfig().getProperties();
+                            if (props == null || props.isEmpty())
                             {
-                                out.println("        <filter name=\"" + filter.getConfig().getName() + "\"/>");
+                                if (filter.getConfig().getName() != null)
+                                {
+                                    out.println("        <filter name=\"" + filter.getConfig().getName() + "\"/>");
+                                }
+                                else
+                                {
+                                    out.println("        <filter class=\"" + filter.getConfig().getClassname() + "\"/>");
+                                }
                             }
                             else
                             {
-                                out.println("        <filter class=\"" + filter.getConfig().getClassname() + "\"/>");
+                                if (filter.getConfig().getName() != null)
+                                {
+                                    out.println("        <filter name=\"" + filter.getConfig().getName() + "\">");
+                                }
+                                else
+                                {
+                                    out.println("        <filter class=\"" + filter.getConfig().getClassname() + "\">");
+                                }
+
+                                for (Object name : props.keySet())
+                                {
+                                    out.println("          <param name=\"" + name + "\" value=\"" + props.get(name) + "\"/>");
+                                }
+                                out.println("        </filter>");
                             }
                         }
                     }
