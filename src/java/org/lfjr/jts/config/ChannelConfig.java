@@ -45,12 +45,7 @@ public class ChannelConfig
     {
         props = new Properties();
         filters = new ArrayList();
-    }
-
-    public ChannelConfig(Settings settings)
-    {
-        this();
-        this.settings = settings;
+        settings = new Settings();
     }
 
     /**
@@ -63,7 +58,6 @@ public class ChannelConfig
         this.settings = settings;
     }
 
-
     /**
      * Sets channel name.
      *
@@ -74,7 +68,6 @@ public class ChannelConfig
         this.name = name;
     }
 
-
     /**
      * Sets the description shown on entering the channel.
      *
@@ -84,7 +77,6 @@ public class ChannelConfig
     {
         this.description = description;
     }
-
 
     /**
      * Sets the maximum number of players allowed at the same time in the channel.
@@ -126,7 +118,6 @@ public class ChannelConfig
         return settings;
     }
 
-
     /**
      * Gets channel name.
      *
@@ -137,7 +128,6 @@ public class ChannelConfig
         return name;
     }
 
-
     /**
      * Gets channel description.
      *
@@ -147,7 +137,6 @@ public class ChannelConfig
     {
         return description;
     }
-
 
     /**
      * Gets maximum number of players allowed.
@@ -174,11 +163,17 @@ public class ChannelConfig
         return props.getProperty(name);
     }
 
+    /**
+     * Returns an iterator of registered filters.
+     */
     public Iterator getFilters()
     {
         return filters.iterator();
     }
 
+    /**
+     * Registers a new filter.
+     */
     public void addFilter(FilterConfig fconf)
     {
         filters.add(fconf);
