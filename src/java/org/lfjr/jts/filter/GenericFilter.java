@@ -52,36 +52,190 @@ public abstract class GenericFilter extends MessageFilter
             case Message.MSG_PAUSE:        onPause(m, out); break;
             case Message.MSG_RESUME:       onResume(m, out); break;
             case Message.MSG_GMSG:         onGmsg(m, out); break;
-            case Message.MSG_SB:           onSpecial(m, out); break;
             case Message.MSG_LVL:          onLevel(m, out); break;
             case Message.MSG_FIELD:        onField(m, out); break;
             case Message.MSG_PLAYERLOST:   onPlayerLost(m, out); break;
             case Message.MSG_DISCONNECTED: onDisconnected(m, out); break;
             case Message.MSG_ADDPLAYER:    onAddPlayer(m, out); break;
             case Message.MSG_SLASHCMD:     onSlashCommand(m, out); break;
+            case Message.MSG_SB:
+                onSpecial(m, out);
+                String rawMessage = m.getRawMessage();
+                if (rawMessage.startsWith("cs1")) onOneLineAdded(m, out);
+                else if (rawMessage.startsWith("cs2")) onTwoLinesAdded(m, out);
+                else if (rawMessage.startsWith("cs4")) onFourLinesAdded(m, out);
+                else if (rawMessage.startsWith("a")) onAddLine(m, out);
+                else if (rawMessage.startsWith("c")) onClearLine(m, out);
+                else if (rawMessage.startsWith("n")) onNukeField(m, out);
+                else if (rawMessage.startsWith("r")) onClearRandomBlocks(m, out);
+                else if (rawMessage.startsWith("s")) onSwitchFields(m, out);
+                else if (rawMessage.startsWith("b")) onClearSpecialBlocks(m, out);
+                else if (rawMessage.startsWith("g")) onBlockGravity(m, out);
+                else if (rawMessage.startsWith("q")) onBlockQuake(m, out);
+                else if (rawMessage.startsWith("o")) onBlockBomb(m, out);
+                break;
             default: out.add(m);
         }
     }
 
-    public void onUnknown(Message m, List out) { out.add(m); }
-    public void onPline(Message m, List out) { out.add(m); }
-    public void onPlineAct(Message m, List out) { out.add(m); }
-    public void onTeam(Message m, List out) { out.add(m); }
-    public void onPlayerJoin(Message m, List out) { out.add(m); }
-    public void onPlayerLeave(Message m, List out) { out.add(m); }
-    public void onPlayerNum(Message m, List out) { out.add(m); }
-    public void onStartGame(Message m, List out) { out.add(m); }
-    public void onNewGame(Message m, List out) { out.add(m); }
-    public void onEndGame(Message m, List out) { out.add(m); }
-    public void onPause(Message m, List out) { out.add(m); }
-    public void onResume(Message m, List out) { out.add(m); }
-    public void onGmsg(Message m, List out) { out.add(m); }
-    public void onSpecial(Message m, List out) { out.add(m); }
-    public void onLevel(Message m, List out) { out.add(m); }
-    public void onField(Message m, List out) { out.add(m); }
-    public void onPlayerLost(Message m, List out) { out.add(m); }
-    public void onDisconnected(Message m, List out) { out.add(m); }
-    public void onAddPlayer(Message m, List out) { out.add(m); }
-    public void onSlashCommand(Message m, List out) { out.add(m); }
+    public void onUnknown(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onPline(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onPlineAct(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onTeam(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onPlayerJoin(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onPlayerLeave(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onPlayerNum(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onStartGame(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onNewGame(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onEndGame(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onPause(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onResume(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onGmsg(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onSpecial(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onLevel(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onField(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onPlayerLost(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onDisconnected(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onAddPlayer(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onSlashCommand(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onOneLineAdded(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onTwoLinesAdded(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onFourLinesAdded(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onAddLine(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onClearLine(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onNukeField(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onClearRandomBlocks(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onSwitchFields(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onClearSpecialBlocks(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onBlockGravity(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onBlockQuake(Message m, List out)
+    {
+        out.add(m);
+    }
+
+    public void onBlockBomb(Message m, List out)
+    {
+        out.add(m);
+    }
 
 }
