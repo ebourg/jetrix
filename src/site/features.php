@@ -57,7 +57,7 @@
   <li class="done"> multiplayer "7Tetris" channel</li>
   <li class="planned"> puzzle channels</li>
   <li class="planned"> "all around" channel</li>
-  <li class="planned"> sudden death</li>
+  <li class="done"> sudden death</li>
 </ul>
 
 <h2>Anti cheating</h2>
