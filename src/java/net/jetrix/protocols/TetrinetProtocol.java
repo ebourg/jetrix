@@ -357,7 +357,7 @@ public class TetrinetProtocol implements Protocol
         {
             // spectator joining
             PlineMessage announce = new PlineMessage();
-            announce.setText("<green>*** <b>" + m.getName() + "</b> is Now Watching");
+            announce.setKey("channel.spectator.join", new Object[] { m.getName() });
             return translate(announce, locale);
         }
         else
@@ -377,7 +377,7 @@ public class TetrinetProtocol implements Protocol
         {
             // spectator leaving
             PlineMessage announce = new PlineMessage();
-            announce.setText("<green>*** <b>" + m.getName() + "</b> is no longer watching");
+            announce.setKey("channel.spectator.leave", new Object[] { m.getName() });
             return translate(announce, locale);
         }
         else
@@ -659,7 +659,6 @@ public class TetrinetProtocol implements Protocol
         PlineMessage pline = new PlineMessage();
 
         StringBuffer message = new StringBuffer();
-        message.append("<gray><b>Spectators</b>: ");
         Iterator specators = m.getSpectators().iterator();
         while (specators.hasNext())
         {
@@ -670,7 +669,7 @@ public class TetrinetProtocol implements Protocol
             }
         }
 
-        pline.setText(message.toString());
+        pline.setKey("command.speclist.format", new Object[] { message.toString() });
 
         return translate(pline, locale);
     }
