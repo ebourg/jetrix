@@ -32,8 +32,6 @@ import net.jetrix.messages.*;
  */
 public class WhoCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "who", "w", "cwho" });
@@ -41,7 +39,7 @@ public class WhoCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)
@@ -56,7 +54,6 @@ public class WhoCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        String cmd = m.getCommand();
         Client client = (Client)m.getSource();
         ChannelManager channelManager = ChannelManager.getInstance();
 

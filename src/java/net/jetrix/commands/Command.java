@@ -20,7 +20,7 @@
 package net.jetrix.commands;
 
 import java.util.*;
-import net.jetrix.*;
+
 import net.jetrix.messages.*;
 
 /**

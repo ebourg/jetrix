@@ -33,7 +33,6 @@ import net.jetrix.messages.*;
  */
 public class KickCommand implements Command
 {
-    private int accessLevel = 1;
     private Logger logger = Logger.getLogger("net.jetrix");
 
     public String[] getAliases()
@@ -43,7 +42,7 @@ public class KickCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.OPERATOR;
     }
 
     public String getUsage(Locale locale)

@@ -31,8 +31,6 @@ import net.jetrix.messages.*;
  */
 public class MoveCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "move" });
@@ -40,7 +38,7 @@ public class MoveCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

@@ -20,8 +20,8 @@
 package net.jetrix.commands;
 
 import java.util.*;
+
 import net.jetrix.*;
-import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
 /**
@@ -32,8 +32,6 @@ import net.jetrix.messages.*;
  */
 public class HelpCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "help", "?", "h" });
@@ -41,7 +39,7 @@ public class HelpCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

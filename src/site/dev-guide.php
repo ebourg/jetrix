@@ -135,8 +135,9 @@ Returns the version of the server. The response is terminated by the string "<tt
 <h2><a id="section3-1"></a>Commands</h2>
 
 Jetrix has been designed to allow the addition of new commands like <tt>/who</tt>
-or <tt>/list</tt> easily. This document will show you the steps to create a simple
-command <tt>/hello</tt> that will just display the message <tt>"Hello World!"</tt>.
+or <tt>/list</tt> easily. This document will show you the steps to follow in 
+order tocreate a simple <tt>/hello</tt> command that will just display the 
+message <tt>"Hello World!"</tt>.
 
 <h3>Write the command</h3>
 
@@ -198,13 +199,14 @@ listing, it returns a short description of the command :
 </div>
 
 The <tt>getAccessLevel()</tt> defines the minimal access level required to use
-the command. To allow everyone to use the command it should return 0, to restrict
-it to operators only it would return 1.
+the command. To allow everyone to use the command it should return 
+<tt>AccessLevel.PLAYER</tt>, to restrict it to operators only it would return 
+<tt>AccessLevel.OPERATOR</tt>.
 
 <div class="code">
     <span class="blue">public int</span> getAccessLevel()
     {
-        <span class="blue">return</span> <span class="red">0</span>;
+        <span class="blue">return</span> <span class="red">AccessLevel</span>.PLAYER;
     }
 
 </div>
@@ -252,7 +254,7 @@ Our command is complete, let's put all the pieces together :
 
     <span class="blue">public int</span> getAccessLevel()
     {
-        <span class="blue">return</span> <span class="red">0</span>;
+        <span class="blue">return</span> <span class="red">AccessLevel</span>.PLAYER;
     }
 
     <span class="blue">public void</span> execute(<span class="red">CommandMessage</span> message)

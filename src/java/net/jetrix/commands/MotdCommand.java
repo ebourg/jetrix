@@ -33,8 +33,6 @@ import net.jetrix.messages.*;
  */
 public class MotdCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "motd" });
@@ -42,7 +40,7 @@ public class MotdCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

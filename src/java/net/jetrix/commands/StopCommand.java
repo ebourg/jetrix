@@ -31,8 +31,6 @@ import net.jetrix.messages.*;
  */
 public class StopCommand implements Command
 {
-    private int accessLevel = 1;
-
     public String[] getAliases()
     {
         return (new String[] { "stop" });
@@ -40,7 +38,7 @@ public class StopCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.OPERATOR;
     }
 
     public String getUsage(Locale locale)

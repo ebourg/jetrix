@@ -33,8 +33,6 @@ import net.jetrix.messages.*;
  */
 public class TimeCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "time", "date" });
@@ -42,7 +40,7 @@ public class TimeCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)
@@ -59,7 +57,6 @@ public class TimeCommand implements Command
     {
         Client client = (Client)m.getSource();
         Locale locale = client.getUser().getLocale();
-        ServerConfig conf = Server.getInstance().getConfig();
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
 
         PlineMessage response = new PlineMessage();

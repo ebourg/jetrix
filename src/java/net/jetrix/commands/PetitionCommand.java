@@ -32,8 +32,6 @@ import java.util.*;
  */
 public class PetitionCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "petition", "omsg" });
@@ -41,7 +39,7 @@ public class PetitionCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

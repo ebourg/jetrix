@@ -32,8 +32,6 @@ import net.jetrix.*;
  */
 public class SpecListCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return new String[] { "speclist", "slist" };
@@ -41,7 +39,7 @@ public class SpecListCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

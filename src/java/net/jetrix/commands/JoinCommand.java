@@ -34,7 +34,6 @@ import net.jetrix.messages.*;
  */
 public class JoinCommand implements Command
 {
-    private int accessLevel = 0;
     private Logger logger = Logger.getLogger("net.jetrix");
 
     public String[] getAliases()
@@ -44,7 +43,7 @@ public class JoinCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

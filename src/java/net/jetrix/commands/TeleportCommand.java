@@ -20,8 +20,8 @@
 package net.jetrix.commands;
 
 import java.util.*;
+
 import net.jetrix.*;
-import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
 /**
@@ -32,8 +32,6 @@ import net.jetrix.messages.*;
  */
 public class TeleportCommand implements Command
 {
-    private int accessLevel = 1;
-
     public String[] getAliases()
     {
         return (new String[] { "teleport", "tp" });
@@ -41,7 +39,7 @@ public class TeleportCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.OPERATOR;
     }
 
     public String getUsage(Locale locale)

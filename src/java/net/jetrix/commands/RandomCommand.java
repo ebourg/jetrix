@@ -31,7 +31,6 @@ import net.jetrix.messages.*;
  */
 public class RandomCommand implements Command
 {
-    private int accessLevel = 0;
     private Random random = new Random();
 
     public String[] getAliases()
@@ -41,7 +40,7 @@ public class RandomCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)
@@ -72,7 +71,7 @@ public class RandomCommand implements Command
             catch (NumberFormatException e) { /* keep the default values */ }
         }
 
-        int result = random.nextInt((int)Math.abs(max - min) + 1);
+        int result = random.nextInt(Math.abs(max - min) + 1);
 
         // display the result
         PlineMessage response = new PlineMessage();

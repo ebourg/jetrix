@@ -20,9 +20,11 @@
 package net.jetrix.commands;
 
 import java.util.*;
+
+import org.apache.commons.collections.*;
+
 import net.jetrix.*;
 import net.jetrix.messages.*;
-import org.apache.commons.collections.*;
 
 /**
  * CommandManager

@@ -31,8 +31,6 @@ import net.jetrix.messages.*;
  */
 public class TellCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "tell", "msg", "cmsg", "send" });
@@ -40,7 +38,7 @@ public class TellCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

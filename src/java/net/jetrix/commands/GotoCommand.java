@@ -34,8 +34,6 @@ import java.util.*;
  */
 public class GotoCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "goto", "go" });
@@ -43,7 +41,7 @@ public class GotoCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

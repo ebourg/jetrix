@@ -32,8 +32,6 @@ import net.jetrix.messages.*;
  */
 public class TeamMessageCommand implements Command
 {
-    private int accessLevel = 0;
-
     public String[] getAliases()
     {
         return (new String[] { "tmsg", "gu" });
@@ -41,7 +39,7 @@ public class TeamMessageCommand implements Command
 
     public int getAccessLevel()
     {
-        return accessLevel;
+        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)
