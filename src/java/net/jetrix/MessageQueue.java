@@ -121,7 +121,10 @@ public class MessageQueue
     public void close()
     {
         closed = true;
-        getLock.notifyAll();
+        synchronized(getLock)
+        {
+            getLock.notifyAll();
+        }
     }
 
     /**
