@@ -19,12 +19,11 @@
 
 package net.jetrix.filter;
 
-import java.util.List;
+import java.util.*;
+import java.util.logging.*;
 
-import net.jetrix.messages.CommandMessage;
-import net.jetrix.commands.Command;
-import net.jetrix.commands.CommandManager;
-import net.jetrix.config.FilterConfig;
+import net.jetrix.messages.*;
+import net.jetrix.commands.*;
 
 /**
  * A filter executing a specific command. This filter is useful to add
@@ -56,7 +55,7 @@ public class CommandFilter extends GenericFilter
         }
         catch (Exception e)
         {
-            log.warning(e.getMessage());
+            log.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -73,6 +72,26 @@ public class CommandFilter extends GenericFilter
         }
 
         out.add(m);
+    }
+
+    public String getName()
+    {
+        return "Command Filter";
+    }
+
+    public String getDescription()
+    {
+        return "Enable a command locally";
+    }
+
+    public String getVersion()
+    {
+        return "1.0";
+    }
+
+    public String getAuthor()
+    {
+        return "Emmanuel Bourg";
     }
 
 }
