@@ -20,40 +20,30 @@
 package org.lfjr.jts;
 
 /**
- * Color codes.
+ * Color and style codes
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public interface ChatColors
 {
-    char red         = '\u0014';
-    char black       = '\u0004';
-
-    char green       = '\u000c'; // not sure
-    char lightGreen  = '\u000e';
-
-    char darkBlue    = '\u0011'; //
-    char blue        = '\u0005'; //
-    char cyan        = '\u0003';
-
-    char aqua        = '\u0017'; //
-
-    char yellow      = '\u0019';
-    char kaki        = '\u0012'; //
-    char brown       = '\u0010';
-
-    char lightgray   = '\u000f'; // or \u0015
-    char gray        = '\u0006'; // or \u000b
-
-    char lightPurple = '\u0008'; //
-    char purple      = '\u0013'; //
-
-    char bold        = '\u0002'; //
-    char italic      = '\u0016'; //
-
-    char white = '\u0018'; //
-
-    char[] slots = { darkBlue, kaki, brown, aqua, green, purple  };
-
+    public static final char red         = '\u0014';
+    public static final char black       = '\u0004';
+    public static final char green       = '\u000c';
+    public static final char lightGreen  = '\u000e';
+    public static final char darkBlue    = '\u0011';
+    public static final char blue        = '\u0005';
+    public static final char cyan        = '\u0003';
+    public static final char aqua        = '\u0017';
+    public static final char yellow      = '\u0019';
+    public static final char kaki        = '\u0012';
+    public static final char brown       = '\u0010';
+    public static final char lightgray   = '\u000f';
+    public static final char gray        = '\u0006';
+    public static final char magenta     = '\u0008';
+    public static final char purple      = '\u0013';
+    public static final char bold        = '\u0002';
+    public static final char italic      = '\u0016';
+    public static final char underline   = '\u001f';
+    public static final char white       = '\u0018';
 }
