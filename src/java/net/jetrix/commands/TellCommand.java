@@ -104,8 +104,10 @@ public class TellCommand implements Command
         else
         {
             // not enough parameters
+            Locale locale = client.getUser().getLocale();
             PlineMessage response = new PlineMessage();
-            String message = "<red>" + cmd + " <blue><playername|playernumber> <message>";
+            String message = "<red>" + cmd + " <blue><" + Language.getText("command.params.player_name_num", locale) + ">"
+                + " <" + Language.getText("command.params.message", locale) + ">";
             response.setText(message);
             client.sendMessage(response);
         }

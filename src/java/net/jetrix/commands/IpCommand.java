@@ -102,7 +102,7 @@ public class IpCommand implements Command
         else
         {
             // not enough parameters
-            String message = "<red>" + m.getCommand() + "<blue> <player name|number>";
+            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_name_num", client.getUser().getLocale()) + ">";
             PlineMessage response = new PlineMessage(message);
             client.sendMessage(response);
         }

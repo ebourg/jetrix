@@ -112,7 +112,9 @@ public class JoinCommand implements Command
         else
         {
             // not enough parameters
-            String message = "<red>" + m.getCommand() + "<blue> <channel name|number>";
+            Locale locale = client.getUser().getLocale();
+            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.channel_name_num", locale) + ">"
+                + " <" + Language.getText("command.params.password", locale) + ">";
             PlineMessage response = new PlineMessage(message);
             client.sendMessage(response);
         }

@@ -21,7 +21,6 @@ package net.jetrix.commands;
 
 import java.util.*;
 import net.jetrix.*;
-import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
 /**
@@ -56,20 +55,14 @@ public class SummonCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        String cmd = m.getCommand();
         Client client = (Client)m.getSource();
 
         if (m.getParameterCount() >= 1)
         {
             String targetName = m.getParameter(0);
-            Client target = null;
 
-            if (target == null)
-            {
-                // target is still null, the second parameter is a playername
-                ClientRepository repository = ClientRepository.getInstance();
-                target = repository.getClient(targetName);
-            }
+            ClientRepository repository = ClientRepository.getInstance();
+            Client target = repository.getClient(targetName);
 
             if (target == null)
             {
@@ -121,8 +114,9 @@ public class SummonCommand implements Command
         else
         {
             // not enough parameters
+            Locale locale = client.getUser().getLocale();
             PlineMessage response = new PlineMessage();
-            String message = "<red>" + cmd + "<blue> <player name>";
+            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_name", locale) + ">";
             response.setText(message);
             client.sendMessage(response);
         }
