@@ -34,7 +34,8 @@ public interface Command
     /**
      * Return the different names available to invoke this command.
      * An alias doesn't contain the leading character used to call
-     * a command ("/" or "!").
+     * a command ("/" or "!"). The first alias in the array is the 
+     * default name that will be displayed in the /help list.
      */
     public String[] getAliases();
 
@@ -57,6 +58,6 @@ public interface Command
     /**
      * Execute the command.
      */
-    public void execute(CommandMessage m);
+    public void execute(CommandMessage message);
 
 }
