@@ -147,11 +147,11 @@ public class Settings
     	    else
     	    {
     	    	float f = 100f/sum;
-    	    	System.out.println("f = "+f);
     	    	for (int i=0; i<tab.length; i++) { tab[i] = (int)(tab[i] * f); }    	    	
     	    }
     	    
     	    // distribution des points restants.
+    	    sum = 0;
     	    for (int i=0; i<tab.length; i++) { sum = sum + tab[i]; } 
     	    int r = 100 - sum;
     	    int i = 0;    	        	    

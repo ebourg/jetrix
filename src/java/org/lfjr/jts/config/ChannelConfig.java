@@ -36,7 +36,7 @@ public class ChannelConfig
 
     public ChannelConfig()
     {
-    	this(ServerConfig.getInstance().getDefaultSettings());
+
     }
 
     public ChannelConfig(Settings settings)

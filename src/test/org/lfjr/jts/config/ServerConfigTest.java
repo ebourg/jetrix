@@ -15,10 +15,10 @@ public class ServerConfigTest extends TestCase
     	{    		
             ServerConfig conf = ServerConfig.getInstance();
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
             fail(e.getMessage());
-        }
+        }        
     }
 
     public static Test suite()
