@@ -31,6 +31,21 @@ Welcome on the experimental JetriX TetriNET Server !
 http://sourceforge.net/projects/jts/
 ------------------------------------------------
   </motd>
+  
+  <!-- Channel filters -->
+  <filter-definitions>
+    <filter name="noop"  class="org.lfjr.jts.filter.NoopFilter"/>
+    <filter name="flood" class="org.lfjr.jts.filter.FloodFilter"/>
+    <filter name="echo"  class="org.lfjr.jts.filter.EchoFilter"/>
+  </filter-definitions>
+
+  <!-- Global filters -->
+  <default-filters>
+    <filter name="flood">
+      <param name="capacity" value="5"/>
+      <param name="delay" value="1000"/>
+    </filter>
+  </default-filters>
 
   <!-- Default game settings -->
   <default-settings>
@@ -86,11 +101,14 @@ http://sourceforge.net/projects/jts/
   <channels>
     <channel name="welcome">
       <description>Welcome !</description>
-      <max-players>6</max-players>
-      <filters>
-        <filter class="org.lfjr.jts.filter.NoopFilter"/>
-        <filter class="org.lfjr.jts.filter.FloodFilter"/>
-      </filters>
+    </channel>
+
+    <channel name="welcome2">
+      <description>Welcome !</description>
+    </channel>
+
+    <channel name="welcome3">
+      <description>Welcome !</description>
     </channel>
 
     <channel name="pureduel">
@@ -113,7 +131,7 @@ http://sourceforge.net/projects/jts/
     </channel>
 
     <channel name="SnS">
-      <description>Stick <i>and</i> Square</description>
+      <description>Sticks <i>and</i> Squares</description>
       <settings>
         <special-added>0</special-added>
         <block-occurancy>
@@ -126,6 +144,13 @@ http://sourceforge.net/projects/jts/
     <channel name="theatre">
       <description>The TetriNET Theatre</description>
       <class>org.lfjr.jetrix.channel.PlayBack</class>
+    </channel>
+    
+    <channel name="laboratory">
+      <description>Silly tests here</description>
+      <filters>
+        <filter name="echo"/>
+      </filters>
     </channel>
 
   </channels>
