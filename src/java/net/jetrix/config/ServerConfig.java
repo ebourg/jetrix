@@ -146,7 +146,7 @@ public class ServerConfig
         try
         {
             File file = new File(serverConfigURL.toURI());
-            out = new PrintWriter(new FileWriter(file));
+            out = new PrintWriter(file, ENCODING);
         }
         catch (URISyntaxException e)
         {
@@ -271,7 +271,7 @@ public class ServerConfig
         try
         {
             File file = new File(channelsConfigURL.toURI());
-            out = new PrintWriter(new FileWriter(file));
+            out = new PrintWriter(file, ENCODING);
         }
         catch (URISyntaxException e)
         {
