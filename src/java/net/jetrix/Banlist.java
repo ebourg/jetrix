@@ -110,7 +110,7 @@ public class Banlist
 
     public Iterator getBanlist()
     {
-        return banlist.keySet().iterator();
+        return banlist.values().iterator();
     }
 
     /**
