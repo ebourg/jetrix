@@ -94,18 +94,15 @@ public class SimpleWinlist implements Winlist
         {
             load();
         }
-        System.out.println(result);
 
         int teamCount = getTeamCount(result);
         if (teamCount == 1)
         {
             return;
         }
-        System.out.println("count: " + teamCount);
 
         // reward the winning player or team
         Collection winners = result.getPlayersAtRank(1);
-        System.out.println("winners: " + winners);
         Iterator it = winners.iterator();
         GamePlayer winner = (GamePlayer) it.next();
         if (winner.isWinner())
@@ -127,7 +124,6 @@ public class SimpleWinlist implements Winlist
 
         // reward the second player or team
         Collection seconds = result.getPlayersAtRank(2);
-        System.out.println("seconds : " + seconds);
         it = seconds.iterator();
         GamePlayer second = (GamePlayer) it.next();
         if (teamCount >= 5)
