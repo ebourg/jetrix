@@ -3,6 +3,19 @@
 <h1>Changelog</h1>
 
 <pre>
+Changes in version 0.1.2 (2003-08-03)
+-------------------------------------
+- new commands : /move, /goto, /petition, /tmsg, /speclist
+- new game mod : 7tetris
+- basic web administration console available on port 8080 (read only)
+- basic tspec support
+- implemented the winlists
+- implemented the tetrinetx query protocol
+- the connection timeout is now enabled
+- implemented the ban list (hosts only)
+- italian translation contributed by Claudio Gargiulo
+- german translation contributed by Mario Meuser
+
 Changes in version 0.1.1 (2003-03-02)
 -------------------------------------
 - new commands : /start, /stop, /pause, /random, /reply
