@@ -33,8 +33,8 @@ import net.jetrix.messages.*;
 public class TetrinetProtocol extends Protocol
 {
     private static Map styles = new HashMap();
-    
-    static 
+
+    static
     {
         styles.put("red", "\u0014");
         styles.put("black", "\u0004");
@@ -56,7 +56,7 @@ public class TetrinetProtocol extends Protocol
         styles.put("u", "\u001f");
         styles.put("white", "\u0018");
     }
-	
+
     /**
      * Return the name of this protocol
      */
@@ -82,7 +82,7 @@ public class TetrinetProtocol extends Protocol
             team.setSlot(Integer.parseInt(st.nextToken()));
             team.setName(st.hasMoreTokens()?st.nextToken():"");
             m = team;
-            m.setRawMessage(getName(), line);
+            m.setRawMessage(this, line);
         }
         // pline <slot> text
         else if ("pline".equals(cmd))
@@ -108,7 +108,7 @@ public class TetrinetProtocol extends Protocol
                         pline.setSlot(Integer.parseInt(slot));
                         pline.setText(line.substring("pline".length() + 3));
                         m = pline;
-                        m.setRawMessage(getName(), line);
+                        m.setRawMessage(this, line);
                     }
                 }
             }
@@ -119,7 +119,7 @@ public class TetrinetProtocol extends Protocol
             GmsgMessage gmsg = new GmsgMessage();
             gmsg.setText(line.substring(line.indexOf(" ")));
             m = gmsg;
-            m.setRawMessage(getName(), line);
+            m.setRawMessage(this, line);
         }
         // plineact <slot> emote
         else if ("plineact".equals(cmd))
@@ -128,7 +128,7 @@ public class TetrinetProtocol extends Protocol
             plineAct.setSlot(Integer.parseInt(st.nextToken()));
             plineAct.setText(line.substring(line.indexOf(" ")));
             m = plineAct;
-            m.setRawMessage(getName(), line);
+            m.setRawMessage(this, line);
         }
         // startgame <0 = stop | 1 = start> <playernumber>
         else if ("startgame".equals(cmd))
@@ -166,7 +166,7 @@ public class TetrinetProtocol extends Protocol
             PlayerLostMessage lost = new PlayerLostMessage();
             lost.setSlot(Integer.parseInt(st.nextToken()));
             m = lost;
-            m.setRawMessage(getName(), line);
+            m.setRawMessage(this, line);
         }
         // lvl <playernumber> <level>
         else if ("lvl".equals(cmd))
@@ -175,7 +175,7 @@ public class TetrinetProtocol extends Protocol
             level.setSlot(Integer.parseInt(st.nextToken()));
             level.setLevel(Integer.parseInt(st.nextToken()));
             m = level;
-            m.setRawMessage(getName(), line);
+            m.setRawMessage(this, line);
         }
         // sb <to> <bonus> <from>
         else if ("sb".equals(cmd))
@@ -241,7 +241,7 @@ public class TetrinetProtocol extends Protocol
             spmsg.setSlot(to);
             spmsg.setFromSlot(from);
             m = spmsg;
-            m.setRawMessage(getName(), line);
+            m.setRawMessage(this, line);
         }
         // f <slot> <field>
         else if ("f".equals(cmd))
@@ -250,7 +250,7 @@ public class TetrinetProtocol extends Protocol
             field.setSlot(Integer.parseInt(st.nextToken()));
             field.setField((st.hasMoreTokens())?st.nextToken():null);
             m = field;
-            m.setRawMessage(getName(), line);
+            m.setRawMessage(this, line);
         }
 
         return m;
@@ -263,7 +263,11 @@ public class TetrinetProtocol extends Protocol
      */
     public String translate(Message m)
     {
-        if ( m instanceof PlineMessage) return translate((PlineMessage)m);
+        if ( m instanceof SpecialMessage) return translate((SpecialMessage)m);
+        else if ( m instanceof FieldMessage) return translate((FieldMessage)m);
+        else if ( m instanceof PlineMessage) return translate((PlineMessage)m);
+        else if ( m instanceof LevelMessage) return translate((LevelMessage)m);
+        else if ( m instanceof PlayerLostMessage) return translate((PlayerLostMessage)m);
         else if ( m instanceof PlineActMessage) return translate((PlineActMessage)m);
         else if ( m instanceof TeamMessage) return translate((TeamMessage)m);
         else if ( m instanceof JoinMessage) return translate((JoinMessage)m);
@@ -277,15 +281,31 @@ public class TetrinetProtocol extends Protocol
         else if ( m instanceof ResumeMessage) return translate((ResumeMessage)m);
         else if ( m instanceof IngameMessage) return translate((IngameMessage)m);
         else if ( m instanceof GmsgMessage) return translate((GmsgMessage)m);
-        else if ( m instanceof LevelMessage) return translate((LevelMessage)m);
-        else if ( m instanceof FieldMessage) return translate((FieldMessage)m);
-        else if ( m instanceof PlayerLostMessage) return translate((PlayerLostMessage)m);
         else if ( m instanceof NoConnectingMessage) return translate((NoConnectingMessage)m);
-        else if ( m instanceof SpecialMessage) return null;
         else
         {
             return null;
         }
+    }
+
+    public String translate(SpecialMessage m)
+    {
+        if (m instanceof OneLineAddedMessage)        return translate((OneLineAddedMessage)m);
+        else if (m instanceof TwoLinesAddedMessage)  return translate((TwoLinesAddedMessage)m);
+        else if (m instanceof FourLinesAddedMessage) return translate((FourLinesAddedMessage)m);
+        else if (m instanceof AddLineMessage)        return translate((AddLineMessage)m);
+        else if (m instanceof ClearLineMessage)      return translate((ClearLineMessage)m);
+        else if (m instanceof ClearSpecialsMessage)  return translate((ClearSpecialsMessage)m);
+        else if (m instanceof RandomClearMessage)    return translate((RandomClearMessage)m);
+        else if (m instanceof BlockQuakeMessage)     return translate((BlockQuakeMessage)m);
+        else if (m instanceof BlockBombMessage)      return translate((BlockBombMessage)m);
+        else if (m instanceof GravityMessage)        return translate((GravityMessage)m);
+        else if (m instanceof NukeFieldMessage)      return translate((NukeFieldMessage)m);
+        else if (m instanceof SwitchFieldsMessage)   return translate((SwitchFieldsMessage)m);
+        else
+        {
+            return null;
+        }        
     }
 
     public String translate(PlineMessage m)
