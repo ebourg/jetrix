@@ -21,7 +21,6 @@ package net.jetrix;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.*;
 
@@ -48,8 +47,6 @@ public class Server implements Runnable, Destination
 
     private Server()
     {
-        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2004 Emmanuel Bourg\n");
-
         // spawn the server message queue
         queue = new LinkedBlockingQueue<Message>();
 
@@ -332,6 +329,7 @@ public class Server implements Runnable, Destination
      */
     public static void main(String[] args)
     {
+        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2004 Emmanuel Bourg\n");
         Server server = Server.getInstance();
         server.start();
     }
