@@ -30,7 +30,7 @@ import java.util.*;
 public abstract class Message
 {
     private Destination source;
-    private Date date;
+    private long time;
     private Map rawMessages;
 
     /**
@@ -38,7 +38,7 @@ public abstract class Message
      */
     public Message()
     {
-        this.date = new Date();
+        this.time = System.currentTimeMillis();
         rawMessages = new HashMap();
     }
 
@@ -62,9 +62,9 @@ public abstract class Message
     /**
      * Returns the creation date of this message.
      */
-    public Date getDate()
+    public long getTime()
     {
-        return date;
+        return time;
     }
 
     /**
@@ -81,16 +81,16 @@ public abstract class Message
     public String getRawMessage(Protocol protocol, Locale locale)
     {
         // is the raw message available for the specified protocol
-        String msg = (String)rawMessages.get(protocol);
+        String message = (String)rawMessages.get(protocol);
 
-        if (msg == null)
+        if (message == null)
         {
             // building the raw message for this protocol
-            msg = protocol.translate(this, locale);
-            rawMessages.put(protocol, msg);
+            message = protocol.translate(this, locale);
+            rawMessages.put(protocol, message);
         }
 
-        return msg;
+        return message;
     }
 
 }
