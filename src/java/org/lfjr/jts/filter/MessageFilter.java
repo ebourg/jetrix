@@ -72,22 +72,22 @@ public abstract class MessageFilter
     /**
      * Returns the name of this filter.
      */
-    public static String getName() { return "unknown filter"; }
+    public String getName() { return "unknown filter"; }
 
     /**
      * Returns a short description of this filter.
      */
-    public static String getDescription() { return "no description"; }
+    public String getDescription() { return "no description"; }
 
     /**
      * Returns the version of this filter
      */
-    public static String getVersion() { return "1.0"; }
+    public String getVersion() { return "1.0"; }
 
     /**
      * Returns the author of this filter.
      */
-    public static String getAuthor() { return "unknown"; }
+    public String getAuthor() { return "unknown"; }
 
     /**
      * Gets the filter property indicated by the specified key.
