@@ -115,7 +115,7 @@ Our command is complete, let's put all the pieces together :
 
 <h1>Compile the command</h1>
 
-Save the code above in a <tt>HelloCommand.java</tt> file and copy the <tt>jetrix.jar</tt> file in the same directory (this jar is in the jetrix/lib directory of the jetrix distribution). Then compile the command with :
+Save the code above in a <tt>HelloCommand.java</tt> file and copy the <tt>jetrix.jar</tt> file in the same directory (this jar is in the <tt>jetrix/lib</tt> directory of the jetrix distribution). Then compile the command with :
 
 <div class="code">javac -cp jetrix.jar HelloCommand.java</div>
 
