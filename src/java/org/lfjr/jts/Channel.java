@@ -46,7 +46,7 @@ public class Channel extends Thread
 
     private int gameState;
 
-    Vector listeJoueurs = new Vector(6);
+    TetriNETClient[] listeJoueurs = new TetriNETClient[6];
 
     public Channel()
     {
@@ -59,11 +59,6 @@ public class Channel extends Thread
     	
     	// opening channel message queue
         mq = new MessageQueue();
-
-        for (int i = 0; i<cconf.getMaxPlayers(); i++)
-        {
-            listeJoueurs.addElement(null);
-        }
     }
 
     public void run()
@@ -72,43 +67,26 @@ public class Channel extends Thread
 
         while (running && conf.isRunning())
         {
-            /*
-
             try
             {
-
-                Message message = mq.get();
-
-                StringTokenizer stringtokenizer = new StringTokenizer(message, " ");
-
-                String          cmd = stringtokenizer.nextToken();
-
-                if ("team".equals(cmd))
-                {
-                    int    i = Integer.parseInt(stringtokenizer.nextToken());
-                    String s3 = "";
-
-                    if (stringtokenizer.hasMoreTokens())
-                    {
-                        s3 = stringtokenizer.nextToken();
-                    }
-
-                    ((TetriNETClient) listeJoueurs.elementAt(i - 1)).setTeam(s3);
-
-                    int i4 = 0;
-
-                    while (i4<listeJoueurs.size())
-                    {
-                        TetriNETClient tetrinetclient8 = (TetriNETClient) listeJoueurs.elementAt(i4);
-
-                        if (tetrinetclient8!=null && i4 + 1!=i)
-                        {
-                            tetrinetclient8.sendMessage(message);
-                        }
-
-                        i4++;
-                    }
-                }
+                Message m = mq.get();
+                
+            	switch(m.getCode())
+            	{
+            	    case Message.MSG_TEAM:
+            	        int slot = ((Integer)m.getParameter(0)).intValue();
+            	        
+            	        listeJoueurs[slot - 1].getPlayer().setTeam((String)m.getParameter(1));
+            	                    	      
+            	        for (int i=0; i<listeJoueurs.length; i++)
+            	        {
+            	             TetriNETClient client = listeJoueurs[i];
+            	             if (client != null) client.sendMessage(m);            	      
+            	        }            	    
+            	    
+            	        break;	                 	                		            		
+            	}                
+                /*
                 else if ("server".equals(cmd))
                 {
                     // server command
@@ -378,15 +356,13 @@ public class Channel extends Thread
 
                         l3++;
                     }
-                }
+                }*/
 
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-            
-            */
 
         }
 	
@@ -399,7 +375,7 @@ public class Channel extends Thread
         mq.put(m);
     }
 
-
+/*
     public void addPlayer(TetriNETClient tc)
     {
         listeJoueurs.addElement(tc);
@@ -410,7 +386,7 @@ public class Channel extends Thread
     {
         listeJoueurs.removeElement(tc);
     }
-
+*/
 
     public boolean isFull()
     {
@@ -418,10 +394,9 @@ public class Channel extends Thread
 
         for (int i = 0; i<cconf.getMaxPlayers(); i++)
         {
-            if (listeJoueurs.elementAt(i++)!=null)
+            if (listeJoueurs[i++]!=null)
             {
                 count++;
-
             }
         }
 
