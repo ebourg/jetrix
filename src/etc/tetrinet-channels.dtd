@@ -103,4 +103,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   average-levels?, same-blocks?, block-occurancy?, special-occurancy?,
   sudden-death?)>
 <!ELEMENT class (#PCDATA)>
-<!ELEMENT filters (filter)>
+<!ELEMENT filters (filter*)>
