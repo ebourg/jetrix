@@ -20,6 +20,8 @@
 package net.jetrix.commands;
 
 import java.util.*;
+import java.util.logging.*;
+
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -33,6 +35,7 @@ import net.jetrix.messages.*;
 public class JoinCommand implements Command
 {
     private int accessLevel = 0;
+    private Logger logger = Logger.getLogger("net.jetrix");
 
     public String[] getAliases()
     {
@@ -46,7 +49,8 @@ public class JoinCommand implements Command
 
     public String getUsage(Locale locale)
     {
-        return "/join <" + Language.getText("command.params.channel_name_num", locale) + ">";
+        return "/join <" + Language.getText("command.params.channel_name_num", locale) + ">"
+               + " <" + Language.getText("command.params.password", locale) + ">";
     }
 
     public String getDescription(Locale locale)
@@ -61,16 +65,34 @@ public class JoinCommand implements Command
         if (m.getParameterCount() >= 1)
         {
             Channel target = ChannelManager.getInstance().getChannel(m.getParameter(0));
+            ChannelConfig channelConfig = target.getConfig();
+
+            // get the password
+            String password = null;
+            if (m.getParameterCount() >= 2)
+            {
+                password = m.getParameter(1);
+            }
+
             if (target != null)
             {
-                if (client.getUser().getAccessLevel() < target.getConfig().getAccessLevel())
+                if (client.getUser().getAccessLevel() < channelConfig.getAccessLevel())
                 {
                     // deny access
                     PlineMessage accessDenied = new PlineMessage();
                     accessDenied.setKey("command.join.denied");
                     client.sendMessage(accessDenied);
                 }
-                else if ( target.isFull() )
+                else if (channelConfig.isPasswordProtected() && !channelConfig.getPassword().equals(password))
+                {
+                    // wrong password
+                    logger.severe(client.getUser().getName() + "(" + client.getInetAddress() + ") "
+                                  + "attempted to join the protected channel '"  + channelConfig.getName() + "'.");
+                    PlineMessage accessDenied = new PlineMessage();
+                    accessDenied.setKey("command.join.wrong_password");
+                    client.sendMessage(accessDenied);
+                }
+                else if (target.isFull())
                 {
                     // sending channel full message
                     PlineMessage channelfull = new PlineMessage();
