@@ -24,7 +24,7 @@ import org.lfjr.jts.*;
 import org.lfjr.jts.config.*;
 
 /**
- * Anti spam over pline filter
+ * Blocks spam over pline.
  * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -36,11 +36,18 @@ public class FloodFilter extends GenericFilter
     private int capacity = 5;
     private int delay = 1000;
     
+    /** Minimum time between two warnings */
+    private long warningPeriod = 15;
+    
+    /** Date of the last warning */
+    private Date lastWarning = new Date(0);
+    
     public void init(FilterConfig conf)
     {
         // reading parameters
         try { this.capacity = Integer.parseInt(conf.getParameter("capacity")); } catch (Exception e) {}
         try { this.delay = Integer.parseInt(conf.getParameter("delay")); } catch (Exception e) {}
+        try { this.warningPeriod = Integer.parseInt(conf.getParameter("warningPeriod")); } catch (Exception e) {}
         
         timestamp = new long[6][capacity];
         index = new int[6];
@@ -49,10 +56,14 @@ public class FloodFilter extends GenericFilter
     public void onPline(Message m, List out)
     {
         int slot = m.getIntParameter(0);
-        if (slot>0 && isRateExceeded(slot-1, new Date())) {
+        Date now = new Date();
+        if (slot > 0 
+            && isRateExceeded(slot-1, now)
+            && ( now.getTime() - lastWarning.getTime() ) > warningPeriod ) {
             Message warning = new Message(Message.MSG_PLINE, new Object [] 
                               { new Integer(0), ChatColors.red + "Flood blocked from slot " + slot });
             out.add(warning);
+            lastWarning = now;
         } else {
             out.add(m);
         }
@@ -76,12 +87,12 @@ public class FloodFilter extends GenericFilter
         return (t - t1) < delay;
     }
 
-    public static String getName() { return "Flood Filter"; }
+    public String getName() { return "Flood Filter"; }
 
-    public static String getDescription() { return "Blocks exceeding messages on pline"; }
+    public String getDescription() { return "Blocks exceeding messages on pline"; }
 
-    public static String getVersion() { return "1.0"; }
+    public String getVersion() { return "1.0"; }
 
-    public static String getAuthor() { return "Emmanuel Bourg"; }
+    public String getAuthor() { return "Emmanuel Bourg"; }
 
 }
