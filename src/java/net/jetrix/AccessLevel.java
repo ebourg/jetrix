@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2005  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,15 @@ package net.jetrix;
  */
 public interface AccessLevel
 {
+    /** The lowest access level */
     public static final int PLAYER = 0;
-    public static final int OPERATOR = 1;
+
+    /** Level of the first player in the channel's player list */
+    public static final int CHANNEL_OPERATOR = 1;
+
+    /** Authenticated server operator */
+    public static final int OPERATOR = 2;
+
+    /** Server administrator level */
     public static final int ADMINISTRATOR = 100;
 }

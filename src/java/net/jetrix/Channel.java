@@ -605,6 +605,9 @@ public class Channel extends Thread implements Destination
                 PlayerNumMessage mnum = new PlayerNumMessage(slot + 1);
                 client.send(mnum);
             }
+
+            // update the access level of the channel operator
+            updateChannelOperator();
         }
 
         // send the list of spectators
@@ -792,6 +795,9 @@ public class Channel extends Thread implements Destination
                 PlayerNumMessage mnum = new PlayerNumMessage(m.getSlot1());
                 player2.send(mnum);
             }
+
+            // update the access level of the channel operator
+            updateChannelOperator();
         }
     }
 
@@ -856,6 +862,12 @@ public class Channel extends Thread implements Destination
             }
 
             sendAll(leave);
+        }
+
+        // update the channel operator is the channel is not empty
+        if (!isEmpty())
+        {
+            updateChannelOperator();
         }
 
         // stop the game if the channel is now empty
@@ -1084,6 +1096,39 @@ public class Channel extends Thread implements Destination
     public Field getField(int slot)
     {
         return fields[slot];
+    }
+
+    /**
+     * Promote the first player in the channel to the channel operator access
+     * level if necessary, and demote the former channel operator to the
+     * player access level.
+     *
+     * @since 0.3
+     */
+    private void updateChannelOperator()
+    {
+        boolean firstFound = false;
+        for (Client client : slots)
+        {
+            if (client != null)
+            {
+                User user = client.getUser();
+
+                if (user.getAccessLevel() == AccessLevel.PLAYER && !firstFound)
+                {
+                    // promote to channel operator
+                    user.setAccessLevel(AccessLevel.CHANNEL_OPERATOR);
+                }
+                else if (user.getAccessLevel() == AccessLevel.CHANNEL_OPERATOR && firstFound)
+                {
+                    // demote the player
+                    user.setAccessLevel(AccessLevel.PLAYER);
+                }
+
+                firstFound = true;
+            }
+        }
+
     }
 
 }

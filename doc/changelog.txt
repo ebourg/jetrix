@@ -33,12 +33,15 @@ TODO
 - downstack game mod : start at height 16, the first player to clear 30 lines wins
 - partial name matching for /goto
 - cheat control: count the specials seen in the field and check the specials sent
+- channel reordering from the admin console
+- create a channel from the admin console
 
 Changes in version 0.3 (2005-??-??)
 -----------------------------------
 
 Player visible changes
-- new #survival channel (drop as many blocks as you can before you die)
+- New #survival channel (drop as many blocks as you can before you die)
+- Implemented the channel operator access level. It's now possible to restrict some commands to the first player in the channel (/move, /start...)
 
 
 Changes in version 0.2 (2005-01-18)
