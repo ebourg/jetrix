@@ -22,6 +22,12 @@ package net.jetrix;
 import java.util.*;
 import java.text.*;
 
+/**
+ * Helper class to handle and retrieve localized strings.
+ *
+ * @author Emmanuel Bourg
+ * @version $Revision$, $Date$
+ */
 public class Language
 {
     private static Language instance = new Language();
@@ -32,11 +38,20 @@ public class Language
         bundles = new HashMap();
     }
 
+    /**
+     * Return the unique instance of this class.
+     */
     public static Language getInstance()
     {
         return instance;
     }
 
+    /**
+     * Load and return the <tt>ResourceBundle</tt> for the specified locale.
+     * Bundles are cached in a local Map.
+     *
+     * @param locale the locale of the returned bundle if available
+     */
     public ResourceBundle load(Locale locale)
     {
         ResourceBundle bundle = PropertyResourceBundle.getBundle("jetrix", locale);
@@ -44,11 +59,23 @@ public class Language
         return bundle;
     }
 
+    /**
+     * Return the <tt>ResourceBundle</tt> for the specified locale.
+     *
+     * @param locale the locale of the bundle to return
+     */
     public ResourceBundle getResourceBundle(Locale locale)
     {
         return (ResourceBundle)bundles.get(locale);
     }
 
+    /**
+     * Tell if the specified locale has a corresponding resource file available.
+     *
+     * @param locale the locale to test
+     *
+     * @return <tt>true</tt> if the locale is supported, <tt>false</tt> if not.
+     */
     public static boolean isSupported(Locale locale)
     {
         ResourceBundle bundle = instance.getResourceBundle(locale);
@@ -59,6 +86,12 @@ public class Language
         return bundle.getLocale().equals(locale);
     }
 
+    /**
+     * Return the specified localized text for a given locale.
+     *
+     * @param key the text key in the resource bundle
+     * @param locale the locale of the message
+     */
     public static String getText(String key, Locale locale)
     {
         String text = null;
@@ -79,6 +112,13 @@ public class Language
         return text;
     }
 
+    /**
+     * Return the specified localized text for a given locale and replace the
+     * parameters with an array of arguments.
+     *
+     * @param key the text key in the resource bundle
+     * @param locale the locale of the message
+     */
     public static String getText(String key, Object[] arguments, Locale locale)
     {
         return MessageFormat.format( getText(key, locale), arguments );
