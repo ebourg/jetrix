@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2005  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,7 +26,9 @@ import net.jetrix.messages.*;
 
 /**
  * Display the ping of the player if a <tt>team</tt> message is processed
- * and the player property <tt>command.ping</tt> is set to true.
+ * and the player property <tt>command.ping</tt> is set to true. This filter
+ * also intercepts in game messages containing only "t" and send back a "PONG"
+ * message to the player.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -55,6 +57,23 @@ public class PingFilter extends MessageFilter
                 out.add(m);
             }
         }
+        else if (m instanceof GmsgMessage)
+        {
+            // send back "* PONG" to the player if he just wrote "t"
+            GmsgMessage gmsg = (GmsgMessage) m;
+            Client client = (Client) m.getSource();
+
+            String text = "<" + client.getUser().getName() + "> t";
+
+            if (text.equals(gmsg.getText()))
+            {
+                client.send(new GmsgMessage("* PONG"));
+            }
+            else
+            {
+                out.add(m);
+            }
+        }
         else
         {
             out.add(m);
@@ -73,7 +92,7 @@ public class PingFilter extends MessageFilter
 
     public String getVersion()
     {
-        return "1.0";
+        return "1.1";
     }
 
     public String getAuthor()
