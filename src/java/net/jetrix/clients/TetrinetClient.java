@@ -93,7 +93,17 @@ public class TetrinetClient implements Client
             {
                 Message m = receiveMessage();
                 if (m == null) continue;
-                channel.sendMessage(m);
+
+                if (channel != null)
+                {
+                    channel.sendMessage(m);
+                }
+                else
+                {
+                    // no channel assigned, the message is sent to the server
+                    server.sendMessage(m);
+                }
+
             }
 
             LeaveMessage leaveNotice = new LeaveMessage();
