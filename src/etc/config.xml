@@ -61,7 +61,10 @@ Welcome on <b>JetriX TetriNET Server</b>!
 
   <!-- Winlists -->
   <winlists>
-    <winlist name="default" class="net.jetrix.winlist.SimpleWinlist"/>
+    <winlist name="default" class="net.jetrix.winlist.SimpleWinlist">
+      <param name="file" value="game.winlist11"/>
+      <param name="display.score" value="true"/>
+    </winlist>
   </winlists>
 
   <!-- Default game settings -->
@@ -89,6 +92,9 @@ Welcome on <b>JetriX TetriNET Server</b>!
 
     <!-- Average together all player's game level? -->
     <average-levels>true</average-levels>
+
+    <!-- Same sequence of blocks for all players? -->
+    <same-blocks>true</same-blocks>
 
     <block-occurancy>
       <leftl>14</leftl>
@@ -165,6 +171,7 @@ Welcome on <b>JetriX TetriNET Server</b>!
       <winlist name="default"/>
       <settings>
         <special-added>0</special-added>
+        <same-blocks>true</same-blocks>
       </settings>
     </channel>
 

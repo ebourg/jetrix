@@ -37,7 +37,6 @@ import net.jetrix.winlist.*;
  */
 public class Channel extends Thread implements Destination
 {
-
     private ChannelConfig channelConfig;
     private ServerConfig serverConfig;
     private Logger logger = Logger.getLogger("net.jetrix");
@@ -190,29 +189,29 @@ public class Channel extends Thread implements Destination
 
         while (running && serverConfig.isRunning())
         {
-            LinkedList l = new LinkedList();
+            LinkedList list = new LinkedList();
 
             try
             {
                 // waiting for new messages
-                l.add(queue.get());
+                list.add(queue.get());
 
                 // filtering message
                 Iterator it = filters.iterator();
                 while (it.hasNext())
                 {
                     MessageFilter filter = (MessageFilter) it.next();
-                    int size = l.size();
+                    int size = list.size();
                     for (int i = 0; i < size; i++)
                     {
-                        filter.process((Message) l.removeFirst(), l);
+                        filter.process((Message) list.removeFirst(), list);
                     }
                 }
 
                 // processing message(s)
-                while (!l.isEmpty())
+                while (!list.isEmpty())
                 {
-                    process((Message) l.removeFirst());
+                    process((Message) list.removeFirst());
                 }
             }
             catch (Exception e)
@@ -407,6 +406,12 @@ public class Channel extends Thread implements Destination
             NewGameMessage newgame = new NewGameMessage();
             newgame.setSlot(m.getSlot());
             newgame.setSettings(channelConfig.getSettings());
+            if (channelConfig.getSettings().getSameBlocks())
+            {
+                Random random = new Random();
+                newgame.setSeed(random.nextInt());
+            }
+
             sendAll(newgame);
         }
     }

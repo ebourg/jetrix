@@ -14,13 +14,16 @@ TODO
 - server advertisement on tetrinet.org and tfast.org
 - /ban & /unban
 - /lfd looking for duel
-- reuse legacy tetrix winlists
 
-Changes un version 0.1.3 (2003-??-??)
+Changes un version 0.1.3 (2003-09-??)
 -------------------------------------
-- fixed the query protocol handling
+- fixed the query protocol (thanks to ekn for the debugging info)
 - the list of available languages can be displayed with /lang
 - the new score & rank of the winner is now announced in the channel
+- can read and write tetrinetx winlists
+- winlists now accept initialization parameters like filters
+- implemented the tetrinet 1.14 block synchronization protocol
+- the /join command now accepts a partial channel name as argument
 
 Changes in version 0.1.2 (2003-08-03)
 -------------------------------------
