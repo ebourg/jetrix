@@ -27,7 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 <!ELEMENT tetrinet-server (name?, language?, timeout?, max-channels?,
   max-players?, max-connections?, op-password, access-log, error-log, motd,
-  filter-definitions?, default-filters?, default-settings, channels, commands, ban?)>
+  filter-definitions?, default-filters?, default-settings, channels, commands, 
+  listeners, ban?)>
 <!ATTLIST tetrinet-server host CDATA #IMPLIED>
 <!ATTLIST tetrinet-server port CDATA #IMPLIED>
 
@@ -107,6 +108,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT commands (command*)>
 <!ELEMENT command (access-level?)>
 <!ATTLIST command class CDATA #REQUIRED>
+
+<!ELEMENT listeners (listener*)>
+<!ELEMENT listener EMPTY>
+<!ATTLIST listener class CDATA #REQUIRED>
 
 <!ELEMENT ban %Ban;>
 <!ELEMENT host (#PCDATA)>
