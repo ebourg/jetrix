@@ -90,6 +90,15 @@ commands in the jetrix directory:</p>
 
 <h1><a id="section3"></a>Web Administration</h1>
 
+<p>An administration console is integrated to Jetrix, you can use it with any
+modern browser to change most of the configuration without restarting the 
+server. The console is available on the port 8080 of your server. You'll be 
+prompted for a username and a password, just type in <tt>operator</tt> and the 
+operator password to enter (<tt>jetrixpass</tt> by default).</p>
+
+<p>NOTE: This is still a prototype, the changes made to the configuration will 
+not survive a server restart with the current version (0.1.3). The full 
+persistence of the configuration is planned for a future release.</p>
 
 <h1><a id="section4"></a>Command Reference</h1>
 
