@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,8 +39,8 @@ public class FilterManager
 
     private FilterManager()
     {
-        staticFilters = new HashMap<String, MessageFilter>();
-        filterAliases = new HashMap<String, String>();
+        staticFilters = new LinkedHashMap<String, MessageFilter>();
+        filterAliases = new LinkedHashMap<String, String>();
     }
 
     /**
@@ -125,6 +125,16 @@ public class FilterManager
     public void addFilterAlias(String name, String classname)
     {
         filterAliases.put(name, classname);
+    }
+
+    /**
+     * Return the map of filter aliases
+     *
+     * @since 0.1.4
+     */
+    public Map<String, String> getFilterAliases()
+    {
+        return filterAliases;
     }
 
 }
