@@ -33,27 +33,28 @@
     <h2 class="tab">Parameters</h2>
 
     <form id="parameters" action="/servlet/net.jetrix.servlets.ChannelAction">
+      <input type="hidden" name="name" value="<%= conf.getName() %>">
 
-      <table class="thin" style="width: 400px">
+      <table class="thin" style="width: 600px">
         <tr>
-          <th>Parameter</th>
-          <th>Value</th>
+          <th width="20%">Parameter</th>
+          <th width="80%">Value</th>
         </tr>
         <tr>
           <td>Access Level</td>
-          <td><input class="thin" type="text" value="<%= conf.getAccessLevel() %>"></td>
+          <td><input class="thin" type="text" name="accessLevel" value="<%= conf.getAccessLevel() %>"></td>
         </tr>
         <tr>
           <td>Password</td>
-          <td><input class="thin" type="text" value="<%= conf.getPassword() %>"></td>
+          <td><input class="thin" type="text" name="password" value="<%= conf.getPassword() == null ? "" : conf.getPassword() %>"></td>
         </tr>        
         <tr>
           <td>Max Players</td>
-          <td><input class="thin" type="text" value="<%= conf.getMaxPlayers() %>"></td>
+          <td><input class="thin" type="text" name="maxPlayers" value="<%= conf.getMaxPlayers() %>"></td>
         </tr>
         <tr>
           <td>Max Spectators</td>
-          <td><input class="thin" type="text" value="<%= conf.getMaxSpectators() %>"></td>
+          <td><input class="thin" type="text" name="maxSpectators" value="<%= conf.getMaxSpectators() %>"></td>
         </tr>
         <tr>
           <td>Spectator Comments</td>
@@ -65,7 +66,7 @@
         <tr>
           <td>Status</td>
           <td>
-            <label><input type="radio" value="true"  name="open"> Open</label>
+            <label><input type="radio" value="true"  name="open"> Opened</label>
             <label><input type="radio" value="false" name="open"> Closed</label>
           </td>
         </tr>
@@ -78,9 +79,13 @@
         </tr>
         <tr>
           <td valign="top">Topic</td>
-          <td><textarea class="thin" rows="3" cols="20" style="width: 100%"></textarea></td>
+          <td><textarea class="thin" name="topic" rows="5" cols="20" style="width: 100%"><%= conf.getTopic() == null ? "" : conf.getTopic() %></textarea></td>
         </tr>
       </table>
+
+      <br>
+
+      <input type="submit" value="Save Changes">
 
     </form>
 
