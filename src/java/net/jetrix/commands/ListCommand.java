@@ -58,6 +58,11 @@ public class ListCommand implements Command
     {
         Client client = (Client)m.getSource();
         ChannelManager channelManager = ChannelManager.getInstance();
+        Locale locale = client.getUser().getLocale();
+        
+        // get the name of the channel of this player to highlight it
+        String playerChannel = new String();
+        if (client.getChannel() != null) playerChannel = client.getChannel().getConfig().getName();        
 
         PlineMessage response = new PlineMessage();
         response.setKey("command.list.header");        
@@ -72,8 +77,6 @@ public class ListCommand implements Command
 
             String cname = conf.getName();
             while (cname.length() < 6) cname += " ";
-            String playerChannel = client.getChannel().getConfig().getName();
-            Locale locale = client.getUser().getLocale();
 
             StringBuffer message = new StringBuffer();
             message.append("<darkBlue>("+(playerChannel.equals(conf.getName())?"<red>"+i+"</red>":"<purple>"+i+"</purple>")+ ") ");
