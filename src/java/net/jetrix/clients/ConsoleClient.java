@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +23,6 @@ import java.io.*;
 import java.net.*;
 import net.jetrix.*;
 import net.jetrix.config.*;
-import net.jetrix.messages.*;
 
 /**
  * Command line console.
@@ -37,6 +36,7 @@ public class ConsoleClient implements Client
     private ServerConfig conf;
     private Protocol protocol;
     private User user;
+    private Channel channel;
 
     public ConsoleClient()
     {
@@ -91,11 +91,14 @@ public class ConsoleClient implements Client
         return conf.getHost();
     }
 
-    public void setChannel(Channel channel) { }
+    public void setChannel(Channel channel)
+    {
+        this.channel = channel;
+    }
 
     public Channel getChannel()
     {
-        return null;
+        return channel;
     }
 
     public User getUser()
