@@ -6,7 +6,6 @@ TODO
 - add password protected channels
 - add an access level check to join channels
 - ban list
-+ host count check
 - winlists
 - implement the /move command
 - implement the /afk command
@@ -16,14 +15,16 @@ TODO
 - zip files on the patch server
 + /snoop
 - /help <command name>
+- check for new versions available
 
-Changes in version 0.1.1 (2003-01-??)
+Changes in version 0.1.1 (2003-02-??)
 -------------------------------------
 - new commands : /start, /stop, /pause, /random
 - "/start <n>" will run a countdown for n seconds
 - the admin console can now use all /commands available to the clients
 - winner announcement
 - any jar or class in the ./lib directory is now loaded at startup
+- the number of concurrent connections from the same host can be limited (the default value is 2)
 
 Changes in version 0.1.0 (2002-11-16)
 -------------------------------------

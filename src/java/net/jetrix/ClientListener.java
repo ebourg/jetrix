@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -69,7 +69,7 @@ public abstract class ClientListener implements Runnable
         ServerConfig serverConfig = Server.getInstance().getConfig();
 
         try
-        {
+        {            
             serverSocket = new ServerSocket(getPort(), 50, serverConfig.getHost());
             logger.info("Listening at " + getName() + " port " + getPort()
                 + ( (serverConfig.getHost() != null)?", bound to " + serverConfig.getHost():"") );
@@ -106,6 +106,17 @@ public abstract class ClientListener implements Runnable
                     continue;
                 }
 
+                // testing concurrent connexions from the same host
+                int maxConnections = serverConfig.getMaxConnections();
+                if (maxConnections > 0 && repository.getHostCount(client.getInetAddress()) >= maxConnections)
+                {
+                    logger.info("Too many connections from host, client rejected (" + socket.getInetAddress().getHostAddress() + ").");
+                    Message m = new NoConnectingMessage("Too many connections from your host!");
+                    client.sendMessage(m);
+                    socket.close();
+                    continue;
+                }
+
                 // testing name unicity
                 if (repository.getClient(user.getName()) == null)
                 {
@@ -119,8 +130,7 @@ public abstract class ClientListener implements Runnable
                     continue;
                 }
 
-                // testing concurrent connexions from the same host
-                // ....
+
 
                 // testing ban list
                 // ....
