@@ -19,6 +19,8 @@
 
 package net.jetrix.commands;
 
+import static net.jetrix.GameState.*;
+
 import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
@@ -59,7 +61,7 @@ public class PauseCommand implements Command
         if (channel != null)
         {
             ChannelMessage pause = null;
-            if (channel.getGameState() == Channel.GAME_STATE_PAUSED)
+            if (channel.getGameState() == PAUSED)
             {
                 pause = new ResumeMessage();
             }

@@ -19,6 +19,8 @@
 
 package net.jetrix.commands;
 
+import static net.jetrix.GameState.*;
+
 import java.util.*;
 
 import net.jetrix.*;
@@ -114,7 +116,7 @@ public class StartCommand implements Command
         public void run()
         {
             // don't start the countdown is the game has already started
-            if (channel.getGameState() != Channel.GAME_STATE_STOPPED) return;
+            if (channel.getGameState() != STOPPED) return;
 
             // don't start the countdown if another one is already running
             if (countdowns.get(channel) != null) return;
@@ -157,7 +159,7 @@ public class StartCommand implements Command
                 }
 
                 // cancel the countdown if the game has started
-                if (channel.getGameState() != Channel.GAME_STATE_STOPPED)
+                if (channel.getGameState() != STOPPED)
                 {
                     countdowns.put(channel, null);
                     return;

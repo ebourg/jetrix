@@ -19,6 +19,8 @@
 
 package net.jetrix.filter;
 
+import static net.jetrix.GameState.*;
+
 import java.util.*;
 
 import net.jetrix.*;
@@ -62,7 +64,7 @@ public class StartFilter extends GenericFilter
         }
 
         // can't start if the game isn't stopped
-        if (getChannel().getGameState() != Channel.GAME_STATE_STOPPED)
+        if (getChannel().getGameState() != STOPPED)
         {
             return;
         }

@@ -19,6 +19,8 @@
 
 package net.jetrix;
 
+import static net.jetrix.GameState.*;
+
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -45,13 +47,8 @@ public class Channel extends Thread implements Destination
 
     private BlockingQueue<Message> queue;
 
-    // game states
-    public static final int GAME_STATE_STOPPED = 0;
-    public static final int GAME_STATE_STARTED = 1;
-    public static final int GAME_STATE_PAUSED = 2;
-
     private boolean open;
-    private int gameState;
+    private GameState gameState;
     private boolean running = true;
     private GameResult result;
 
@@ -73,7 +70,7 @@ public class Channel extends Thread implements Destination
     {
         this.channelConfig = channelConfig;
         this.serverConfig = Server.getInstance().getConfig();
-        this.gameState = GAME_STATE_STOPPED;
+        this.gameState = STOPPED;
         this.clients = new HashSet<Client>();
         this.slots = new ArrayList<Client>(6);
 
@@ -90,7 +87,7 @@ public class Channel extends Thread implements Destination
         }
 
         // opening channel message queue
-        queue = new LinkedBlockingQueue();
+        queue = new LinkedBlockingQueue<Message>();
 
         filters = new ArrayList<MessageFilter>();
 
@@ -283,7 +280,7 @@ public class Channel extends Thread implements Destination
 
     private void process(PauseMessage m)
     {
-        gameState = GAME_STATE_PAUSED;
+        gameState = PAUSED;
 
         // tell who paused the game if the message comes from a client
         if (m.getSource() instanceof Client)
@@ -299,7 +296,7 @@ public class Channel extends Thread implements Destination
 
     private void process(ResumeMessage m)
     {
-        gameState = GAME_STATE_STARTED;
+        gameState = STARTED;
 
         // tell who resumed the game if the message comes from a client
         if (m.getSource() instanceof Client)
@@ -418,10 +415,10 @@ public class Channel extends Thread implements Destination
 
     private void process(StartGameMessage m)
     {
-        if (gameState == GAME_STATE_STOPPED)
+        if (gameState == STOPPED)
         {
             // change the channel state
-            gameState = GAME_STATE_STARTED;
+            gameState = STARTED;
 
             // tell who started the game if the message comes from a client
             if (m.getSource() instanceof Client)
@@ -476,7 +473,7 @@ public class Channel extends Thread implements Destination
 
     private void process(EndGameMessage m)
     {
-        if (gameState != GAME_STATE_STOPPED)
+        if (gameState != STOPPED)
         {
             // tell who stopped the game if the message comes from a client
             if (m.getSource() instanceof Client)
@@ -487,7 +484,7 @@ public class Channel extends Thread implements Destination
                 sendAll(message);
             }
 
-            gameState = GAME_STATE_STOPPED;
+            gameState = STOPPED;
             sendAll(m);
 
             // update the status of the remaining players
@@ -675,14 +672,14 @@ public class Channel extends Thread implements Destination
         }
 
         // send the status of the game to the new client
-        if (gameState != GAME_STATE_STOPPED)
+        if (gameState != STOPPED)
         {
             IngameMessage ingame = new IngameMessage();
             ingame.setChannel(this);
             client.send(ingame);
 
             // tell the player if the game is currently paused
-            if (gameState == GAME_STATE_PAUSED)
+            if (gameState == PAUSED)
             {
                 client.send(new PauseMessage());
             }
@@ -718,7 +715,7 @@ public class Channel extends Thread implements Destination
 
     public void process(PlayerSwitchMessage m)
     {
-        if (gameState == GAME_STATE_STOPPED)
+        if (gameState == STOPPED)
         {
             // get the players at the specified slots
             Client player1 = getClient(m.getSlot1());
@@ -818,7 +815,7 @@ public class Channel extends Thread implements Destination
             }
 
             // update the result of the game
-            if (gameState != GAME_STATE_STOPPED && client.getUser().isPlaying())
+            if (gameState != STOPPED && client.getUser().isPlaying())
             {
                 result.update(client.getUser(), false);
             }
@@ -829,7 +826,7 @@ public class Channel extends Thread implements Destination
         // stop the game if the channel is now empty
         if (isEmpty() && running)
         {
-            gameState = GAME_STATE_STOPPED;
+            gameState = STOPPED;
         }
     }
 
@@ -943,7 +940,7 @@ public class Channel extends Thread implements Destination
     /**
      * Returns the game state.
      */
-    public int getGameState()
+    public GameState getGameState()
     {
         return gameState;
     }

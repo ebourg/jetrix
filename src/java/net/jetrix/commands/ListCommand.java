@@ -19,6 +19,8 @@
 
 package net.jetrix.commands;
 
+import static net.jetrix.GameState.*;
+
 import java.util.*;
 
 import net.jetrix.*;
@@ -93,7 +95,7 @@ public class ListCommand implements Command
             {
                 message.append("[<aqua>" + Language.getText("command.list.status.open", locale) + "</aqua><blue>-" + channel.getPlayerCount() + "/" + conf.getMaxPlayers() + "</blue>]");
             }
-            if (channel.getGameState() != Channel.GAME_STATE_STOPPED)
+            if (channel.getGameState() != STOPPED)
             {
                 message.append(" <gray>{" + Language.getText("command.list.status.ingame", locale) + "}</gray> ");
             }
