@@ -55,7 +55,7 @@ public class GhostbusterService extends ScheduledService
         {
             if (client.getIdleTime() > 5000)
             {
-                log.info("checking connection for " + client.getUser().getName());
+                log.finest("checking connection for " + client.getUser().getName());
 
                 try
                 {
