@@ -58,10 +58,10 @@ public class TimeCommand implements Command
     {
         TetriNETClient client = (TetriNETClient)m.getSource();
         ServerConfig conf = TetriNETServer.getInstance().getConfig();
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, conf.getLocale());
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, client.getPlayer().getLocale());
 
         String message = ChatColors.darkBlue + "Server time is " + ChatColors.purple + df.format(new Date())
-                         + ChatColors.darkBlue + " [" + TimeZone.getDefault().getDisplayName(conf.getLocale()) + "]";
+                         + ChatColors.darkBlue + " [" + TimeZone.getDefault().getDisplayName(client.getPlayer().getLocale()) + "]";
         Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), message });
         client.sendMessage(response);
     }
