@@ -44,11 +44,11 @@ public class ChannelConfig
     private Properties props;
 
     /** channel filter definitions */
-    private List filters;
+    private List<FilterConfig> filters;
 
     public ChannelConfig()
     {
-        filters = new ArrayList();
+        filters = new ArrayList<FilterConfig>();
         settings = new Settings();
     }
 
@@ -243,7 +243,7 @@ public class ChannelConfig
     /**
      * Returns an iterator of registered filters.
      */
-    public Iterator getFilters()
+    public Iterator<FilterConfig> getFilters()
     {
         return filters.iterator();
     }

@@ -31,9 +31,9 @@ import net.jetrix.messages.*;
  */
 public class IRCProtocol implements Protocol
 {
-    private static Map styles = new HashMap();
+    private static Map<String, String> styles = new HashMap<String, String>();
 
-    static 
+    static
     {
         styles.put("red", "\u000304");
         styles.put("black", "\u000301");
@@ -220,13 +220,13 @@ public class IRCProtocol implements Protocol
         message1.addParameter("=");
         message1.addParameter("#" + m.getChannel());
 
-        Collection spectators = m.getSpectators();
+        Collection<String> spectators = m.getSpectators();
         StringBuffer speclist = new StringBuffer();
 
-        Iterator it = spectators.iterator();
+        Iterator<String> it = spectators.iterator();
         while (it.hasNext())
         {
-            String spec = (String) it.next();
+            String spec = it.next();
             speclist.append(spec);
             speclist.append(" ");
         }
@@ -252,7 +252,7 @@ public class IRCProtocol implements Protocol
 
         String messageKey = m.getName() == null ? "channel.team.none" : "channel.team.new";
         Object[] params = new Object[] { client.getUser().getName(), m.getName() };
-        message.addParameter(applyStyle(Language.getText(messageKey, params, locale)));
+        message.addParameter(applyStyle(Language.getText(messageKey, locale, params)));
 
         return message.toString();
     }
@@ -400,7 +400,7 @@ public class IRCProtocol implements Protocol
         return null;
     }
 
-    public Map getStyles()
+    public Map<String,String> getStyles()
     {
         return styles;
     }
@@ -408,14 +408,14 @@ public class IRCProtocol implements Protocol
     public String applyStyle(String text)
     {
         // todo to be optimized later
-        Map styles = getStyles();
+        Map<String,String> styles = getStyles();
         if (styles == null) return text;
-        
-        Iterator keys = styles.keySet().iterator();
+
+        Iterator<String> keys = styles.keySet().iterator();
         while (keys.hasNext())
         {
-            String key = (String)keys.next();
-            String value = (String)styles.get(key);
+            String key = keys.next();
+            String value = styles.get(key);
             if (value == null) { value = ""; }
             text = text.replaceAll("<" + key + ">", value);
             text = text.replaceAll("</" + key + ">", value);

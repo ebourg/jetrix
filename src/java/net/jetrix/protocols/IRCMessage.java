@@ -38,7 +38,7 @@ public class IRCMessage
     private String host;
     private String command;
     private int reply;
-    private List parameters = new ArrayList();
+    private List<String> parameters = new ArrayList<String>();
 
     public IRCMessage() { }
 
@@ -212,19 +212,19 @@ public class IRCMessage
         this.reply = reply;
     }
 
-    public List getParameters()
+    public List<String> getParameters()
     {
         return parameters;
     }
 
-    public void setParameters(List parameters)
+    public void setParameters(List<String> parameters)
     {
         this.parameters = parameters;
     }
 
     public String getParameter(int i)
     {
-        return (String) parameters.get(i);
+        return parameters.get(i);
     }
 
     public void addParameter(String param)

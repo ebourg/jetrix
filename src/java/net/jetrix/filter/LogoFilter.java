@@ -21,6 +21,7 @@ package net.jetrix.filter;
 
 import java.util.*;
 
+import net.jetrix.*;
 import net.jetrix.messages.*;
 
 /**
@@ -55,7 +56,7 @@ public class LogoFilter extends GenericFilter
                                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
                                   0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0};
 
-    public void onMessage(PlayerLostMessage m, List out)
+    public void onMessage(PlayerLostMessage m, List<Message> out)
     {
         // send closing screen
         StringBuffer screenLayout = new StringBuffer();

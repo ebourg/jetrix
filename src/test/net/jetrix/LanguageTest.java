@@ -53,8 +53,8 @@ public class LanguageTest extends TestCase
         Object[] params = new Object[] { "Smanux", "tetrinet1" };
         String englishText = "<gray>Hello Smanux, you are in channel <b>tetrinet1</b>";
         String frenchText = "<gray>Salut Smanux, tu es dans le channel <b>tetrinet1</b>";
-        assertEquals("welcome message in english", englishText, Language.getText("channel.welcome", params, Locale.ENGLISH));
-        assertEquals("welcome message in french", frenchText, Language.getText("channel.welcome", params, Locale.FRENCH));
+        assertEquals("welcome message in english", englishText, Language.getText("channel.welcome", Locale.ENGLISH, params));
+        assertEquals("welcome message in french", frenchText, Language.getText("channel.welcome", Locale.FRENCH, params));
     }
 
     public void testGetMissingText()

@@ -35,7 +35,7 @@ import net.jetrix.messages.*;
 public abstract class GenericFilter extends MessageFilter
 {
 
-    public final void process(Message m, List out)
+    public final void process(Message m, List<Message> out)
     {
         // overwritable pre processing
         onMessage(m);
@@ -72,74 +72,74 @@ public abstract class GenericFilter extends MessageFilter
      */
     public void onMessage(Message m) { }
 
-    public void onMessage(Message m, List out) { out.add(m); }
+    public void onMessage(Message m, List<Message> out) { out.add(m); }
 
-    public void onMessage(PlineMessage m, List out)
+    public void onMessage(PlineMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(PlineActMessage m, List out)
+    public void onMessage(PlineActMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(TeamMessage m, List out)
+    public void onMessage(TeamMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(JoinMessage m, List out)
+    public void onMessage(JoinMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(LeaveMessage m, List out)
+    public void onMessage(LeaveMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(PlayerNumMessage m, List out)
+    public void onMessage(PlayerNumMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(StartGameMessage m, List out)
+    public void onMessage(StartGameMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(StopGameMessage m, List out)
+    public void onMessage(StopGameMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(NewGameMessage m, List out)
+    public void onMessage(NewGameMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(EndGameMessage m, List out)
+    public void onMessage(EndGameMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(PauseMessage m, List out)
+    public void onMessage(PauseMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(ResumeMessage m, List out)
+    public void onMessage(ResumeMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(GmsgMessage m, List out)
+    public void onMessage(GmsgMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    private void onMessage(SpecialMessage m, List out)
+    private void onMessage(SpecialMessage m, List<Message> out)
     {
         // message pre-processing
         onSpecial(m);
@@ -166,97 +166,97 @@ public abstract class GenericFilter extends MessageFilter
      */
     public void onSpecial(SpecialMessage m) { }
 
-    public void onMessage(LevelMessage m, List out)
+    public void onMessage(LevelMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(FieldMessage m, List out)
+    public void onMessage(FieldMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(PlayerLostMessage m, List out)
+    public void onMessage(PlayerLostMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(PlayerWonMessage m, List out)
+    public void onMessage(PlayerWonMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(DisconnectedMessage m, List out)
+    public void onMessage(DisconnectedMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(AddPlayerMessage m, List out)
+    public void onMessage(AddPlayerMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(CommandMessage m, List out)
+    public void onMessage(CommandMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(OneLineAddedMessage m, List out)
+    public void onMessage(OneLineAddedMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(TwoLinesAddedMessage m, List out)
+    public void onMessage(TwoLinesAddedMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(FourLinesAddedMessage m, List out)
+    public void onMessage(FourLinesAddedMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(AddLineMessage m, List out)
+    public void onMessage(AddLineMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(ClearLineMessage m, List out)
+    public void onMessage(ClearLineMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(NukeFieldMessage m, List out)
+    public void onMessage(NukeFieldMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(RandomClearMessage m, List out)
+    public void onMessage(RandomClearMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(SwitchFieldsMessage m, List out)
+    public void onMessage(SwitchFieldsMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(ClearSpecialsMessage m, List out)
+    public void onMessage(ClearSpecialsMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(GravityMessage m, List out)
+    public void onMessage(GravityMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(BlockQuakeMessage m, List out)
+    public void onMessage(BlockQuakeMessage m, List<Message> out)
     {
         out.add(m);
     }
 
-    public void onMessage(BlockBombMessage m, List out)
+    public void onMessage(BlockBombMessage m, List<Message> out)
     {
         out.add(m);
     }

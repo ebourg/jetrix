@@ -33,7 +33,7 @@ public class GameResult
 {
     private Date startTime;
     private Date endTime;
-    private List gamePlayers;
+    private List<GamePlayer> gamePlayers;
     private Channel channel;
 
     /**
@@ -80,7 +80,7 @@ public class GameResult
      * Return the list of players involved in the game. The collection contains
      * instances of GamePlayer.
      */
-    public Collection getGamePlayers()
+    public Collection<GamePlayer> getGamePlayers()
     {
         return gamePlayers;
     }
@@ -89,7 +89,7 @@ public class GameResult
     {
         if (gamePlayers == null)
         {
-            gamePlayers = new ArrayList();
+            gamePlayers = new ArrayList<GamePlayer>();
         }
         gamePlayers.add(gamePlayer);
     }
@@ -110,17 +110,15 @@ public class GameResult
     /**
      * Return the players that finished the game at the specified rank.
      */
-    public Collection getPlayersAtRank(int rank)
+    public Collection<GamePlayer> getPlayersAtRank(int rank)
     {
-        Collection players = new ArrayList();
+        Collection<GamePlayer> players = new ArrayList<GamePlayer>();
 
         if (rank == 1)
         {
             // look for the winners
-            Iterator it = gamePlayers.iterator();
-            while (it.hasNext())
+            for (GamePlayer player : gamePlayers)
             {
-                GamePlayer player = (GamePlayer) it.next();
                 if (player.isWinner())
                 {
                     players.add(player);
@@ -130,7 +128,8 @@ public class GameResult
         else
         {
             // sort by date (reverse order)
-            Collections.sort(gamePlayers, new Comparator() {
+            Collections.sort(gamePlayers, new Comparator()
+            {
                 public int compare(Object o1, Object o2)
                 {
                     GamePlayer player1 = (GamePlayer) o1;
@@ -141,10 +140,10 @@ public class GameResult
 
             // find the player at the specified rank
             int i = 1;
-            Iterator it = gamePlayers.iterator();
+            Iterator<GamePlayer> it = gamePlayers.iterator();
             while (it.hasNext() && i < rank)
             {
-                GamePlayer player = (GamePlayer) it.next();
+                GamePlayer player = it.next();
                 if (!player.isWinner())
                 {
                     i++;
@@ -164,16 +163,12 @@ public class GameResult
      */
     public int getTeamCount()
     {
-        Map teams = new HashMap();
+        Map<String, String> teams = new HashMap<String, String>();
 
         int teamCount = 0;
 
-        Iterator players = gamePlayers.iterator();
-
-        while (players.hasNext())
+        for (GamePlayer player : gamePlayers)
         {
-            GamePlayer player = (GamePlayer) players.next();
-
             String team = player.getTeamName();
 
             if (team == null)

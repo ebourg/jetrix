@@ -53,7 +53,7 @@ public class TSpecProtocolTest extends TestCase
 
         SmsgMessage message = new SmsgMessage(1, "spectator message");
         message.setSource(client);
-        String raw = "pline 0 " + Language.getText("channel.spectator.message", "Smanux", "spectator message", locale);
+        String raw = "pline 0 " + Language.getText("channel.spectator.message", locale, "Smanux", "spectator message");
         assertEquals(protocol.applyStyle(raw), protocol.translate(message, locale));
     }
 

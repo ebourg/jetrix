@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,39 +17,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.jetrix;
-
-import junit.framework.*;
-
-import net.jetrix.messages.*;
+package net.jetrix.config;
 
 /**
- * JUnit TestCase for the class net.jetrix.MessageQueue
+ *
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class MessageQueueTest extends TestCase
+public enum Block
 {
-    private MessageQueue mq;
+    LINE(0), SQUARE(1), LEFTL(2), RIGHTL(3), LEFTZ(4), RIGHTZ(5), HALFCROSS(6);
 
-    protected void setUp() throws Exception
+    private int value;
+
+    Block(int value)
     {
-        mq = new MessageQueue();
+        this.value = value;
     }
 
-    public void testOrder() throws Exception
+    public int getValue()
     {
-        Message message1 = new CommandMessage();
-        Message message2 = new CommandMessage();
-        Message message3 = new CommandMessage();
-
-        mq.put(message1);
-        mq.put(message2);
-        mq.put(message3);
-
-        assertEquals(message1, mq.get());
-        assertEquals(message2, mq.get());
-        assertEquals(message3, mq.get());
+        return value;
     }
 }

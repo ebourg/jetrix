@@ -34,8 +34,8 @@ public abstract class TextMessage extends ChannelMessage
     private String text;
     private String key;
     private Object params[];
-    private Map texts;
-    private Map rawMessages;
+    private Map<Locale, String> texts;
+    private Map<Protocol, Map<Locale, String>> rawMessages;
 
     /**
      * Return the text of this message using the default server locale.
@@ -71,14 +71,14 @@ public abstract class TextMessage extends ChannelMessage
         {
             if (texts == null)
             {
-                texts = new HashMap();
+                texts = new HashMap<Locale, String>();
             }
 
-            String s = (String) texts.get(locale);
+            String s = texts.get(locale);
 
             if (s == null)
             {
-                s = Language.getText(key, params, locale);
+                s = Language.getText(key, locale, params);
                 texts.put(locale, s);
             }
 
@@ -104,54 +104,10 @@ public abstract class TextMessage extends ChannelMessage
     }
 
     /**
-     * Set the key of the message for internationalized text messages.
-     */
-    public void setKey(String key)
-    {
-        this.key = key;
-    }
-
-    /**
      * Set the key and the parameters of the message for internationalized
      * text messages.
      */
-    public void setKey(String key, Object param)
-    {
-        setKey(key, new Object[] { param });
-    }
-
-    /**
-     * Set the key and the parameters of the message for internationalized
-     * text messages.
-     */
-    public void setKey(String key, Object param0, Object param1)
-    {
-        setKey(key, new Object[] { param0, param1 });
-    }
-
-    /**
-     * Set the key and the parameters of the message for internationalized
-     * text messages.
-     */
-    public void setKey(String key, Object param0, Object param1, Object param2)
-    {
-        setKey(key, new Object[] { param0, param1, param2 });
-    }
-
-    /**
-     * Set the key and the parameters of the message for internationalized
-     * text messages.
-     */
-    public void setKey(String key, Object param0, Object param1, Object param2, Object param3)
-    {
-        setKey(key, new Object[] { param0, param1, param2, param3 });
-    }
-
-    /**
-     * Set the key and the parameters of the message for internationalized
-     * text messages.
-     */
-    public void setKey(String key, Object[] params)
+    public void setKey(String key, Object... params)
     {
         this.key = key;
         this.params = params;
@@ -169,17 +125,17 @@ public abstract class TextMessage extends ChannelMessage
             // use the caching on the (protocol, locale) combo
             if (rawMessages == null)
             {
-                rawMessages = new HashMap();
+                rawMessages = new HashMap<Protocol, Map<Locale, String>>();
             }
 
-            Map i18nMessages = (Map) rawMessages.get(protocol);
+            Map<Locale, String> i18nMessages = rawMessages.get(protocol);
             if (i18nMessages == null)
             {
-                i18nMessages = new HashMap();
+                i18nMessages = new HashMap<Locale, String>();
                 rawMessages.put(protocol, i18nMessages);
             }
 
-            String cachedMessage = (String) i18nMessages.get(locale);
+            String cachedMessage = i18nMessages.get(locale);
             if (cachedMessage == null)
             {
                 cachedMessage = protocol.translate(this, locale);

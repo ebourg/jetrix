@@ -44,7 +44,7 @@ public class Launcher {
     {
         // build the list of JARs in the ./lib directory
         File repository = new File("lib/");
-        List jars = new ArrayList();
+        List<URL> jars = new ArrayList<URL>();
         jars.add(repository.toURL());
         jars.add(new File("lang/").toURL());
 
@@ -61,7 +61,7 @@ public class Launcher {
         URL[] urls = new URL[jars.size()];
         for (int i = 0; i < jars.size(); i++)
         {
-            urls[i] = (URL) jars.get(i);
+            urls[i] = jars.get(i);
         }
 
         URLClassLoader loader = new URLClassLoader(urls, null);
@@ -69,7 +69,7 @@ public class Launcher {
 
         // run the main method of the specified class
         Class serverClass = loader.loadClass("net.jetrix.Server");
-        serverClass.getMethod("main", new Class[] { args.getClass() }).invoke(null, new Object[] { args });
+        serverClass.getMethod("main", args.getClass()).invoke(null, new Object[] { args });
     }
 
 }

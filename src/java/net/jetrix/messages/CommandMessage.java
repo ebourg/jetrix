@@ -32,11 +32,11 @@ import net.jetrix.*;
 public class CommandMessage extends PlineMessage
 {
     private String command;
-    private List parameters;
+    private List<String> parameters;
 
     public CommandMessage()
     {
-        parameters = new ArrayList();
+        parameters = new ArrayList<String>();
     }
 
     public String getCommand()
@@ -51,7 +51,7 @@ public class CommandMessage extends PlineMessage
 
     public String getParameter(int i)
     {
-        return (String) parameters.get(i);
+        return parameters.get(i);
     }
 
     public int getIntParameter(int i, int defaultValue)
@@ -60,7 +60,7 @@ public class CommandMessage extends PlineMessage
 
         try
         {
-            value = Integer.parseInt((String) parameters.get(i));
+            value = Integer.parseInt(parameters.get(i));
         }
         catch (Exception e)
         {

@@ -27,47 +27,47 @@
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/a.png" alt="A"></td>
           <td>Add Line</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_ADDLINE) %>" name="addLine" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.ADDLINE) %>" name="addLine" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/c.png" alt="C"></td>
           <td>Clear Line</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_CLEARLINE) %>" name="clearLine" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.CLEARLINE) %>" name="clearLine" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/n.png" alt="N"></td>
           <td>Nuke Field</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_NUKEFIELD) %>" name="nukeField" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.NUKEFIELD) %>" name="nukeField" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/r.png" alt="R"></td>
           <td>Random Clear</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_RANDOMCLEAR) %>" name="randomClear" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.RANDOMCLEAR) %>" name="randomClear" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/s.png" alt="S"></td>
           <td>Switch Field</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_SWITCHFIELD) %>" name="switchField" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.SWITCHFIELD) %>" name="switchField" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/b.png" alt="B"></td>
           <td>Clear Specials</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_CLEARSPECIAL) %>" name="clearSpecial" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.CLEARSPECIAL) %>" name="clearSpecial" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/g.png" alt="G"></td>
           <td>Gravity</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_GRAVITY) %>" name="gravity" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.GRAVITY) %>" name="gravity" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/q.png" alt="Q"></td>
           <td>Quake Field</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_QUAKEFIELD) %>" name="quakeField" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.QUAKEFIELD) %>" name="quakeField" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>        
         <tr>
           <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/o.png" alt="O"></td>
           <td>Block Bomb</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_BLOCKBOMB) %>" name="blockBomb" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.BLOCKBOMB) %>" name="blockBomb" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
           <td colspan="2" align="right"><b>Total :</b> </td>
@@ -88,31 +88,31 @@
         </tr>
         <tr>
           <td align="center" width="10%"><img src="/images/blocks/line.png" alt="Line"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getBlockOccurancy(Settings.BLOCK_LINE) %>" name="line" style="width: 30px" onchange="updateBlocks()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.LINE) %>" name="line" style="width: 30px" onchange="updateBlocks()"> %</td>
         </tr>
         <tr>
           <td align="center" width="10%"><img src="/images/blocks/square.png" alt="Square"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getBlockOccurancy(Settings.BLOCK_SQUARE) %>" name="square" style="width: 30px" onchange="updateBlocks()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.SQUARE) %>" name="square" style="width: 30px" onchange="updateBlocks()"> %</td>
         </tr>
         <tr>
           <td align="center" width="10%"><img src="/images/blocks/leftl.png" alt="Left L"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getBlockOccurancy(Settings.BLOCK_LEFTL) %>" name="leftL" style="width: 30px" onchange="updateBlocks()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.LEFTL) %>" name="leftL" style="width: 30px" onchange="updateBlocks()"> %</td>
         </tr>
         <tr>
           <td align="center" width="10%"><img src="/images/blocks/rightl.png" alt="Right L"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getBlockOccurancy(Settings.BLOCK_RIGHTL) %>" name="rightL" style="width: 30px" onchange="updateBlocks()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.RIGHTL) %>" name="rightL" style="width: 30px" onchange="updateBlocks()"> %</td>
         </tr>
         <tr>
           <td align="center" width="10%"><img src="/images/blocks/leftz.png" alt="Left Z"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getBlockOccurancy(Settings.BLOCK_LEFTZ) %>" name="leftZ" style="width: 30px" onchange="updateBlocks()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.LEFTZ) %>" name="leftZ" style="width: 30px" onchange="updateBlocks()"> %</td>
         </tr>
         <tr>
           <td align="center" width="10%"><img src="/images/blocks/rightz.png" alt="Right Z"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getBlockOccurancy(Settings.BLOCK_RIGHTZ) %>" name="rightZ" style="width: 30px" onchange="updateBlocks()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.RIGHTZ) %>" name="rightZ" style="width: 30px" onchange="updateBlocks()"> %</td>
         </tr>
         <tr>
           <td align="center" width="10%"><img src="/images/blocks/halfcross.png" alt="Half Cross"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getBlockOccurancy(Settings.BLOCK_HALFCROSS) %>" name="halfcross" style="width: 30px" onchange="updateBlocks()"> %</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.HALFCROSS) %>" name="halfcross" style="width: 30px" onchange="updateBlocks()"> %</td>
         </tr>
         <tr>
           <td align="right"><b>Total :</b> </td>

@@ -98,12 +98,13 @@ public class TspecProtocol extends TetrinetProtocol
         StringBuffer message = new StringBuffer();
         message.append("speclist #");
         message.append(m.getChannel());
-        Iterator specators = m.getSpectators().iterator();
-        while (specators.hasNext())
+
+        for (String spectator : m.getSpectators())
         {
             message.append(" ");
-            message.append(specators.next());
+            message.append(spectator);
         }
+        
         return message.toString();
     }
 

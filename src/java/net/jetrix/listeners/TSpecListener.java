@@ -61,7 +61,7 @@ public class TSpecListener extends TetrinetListener
 
         // init string parsing "team <nickname> <password>"
         StringTokenizer st = new StringTokenizer(dec, " ");
-        List tokens = new ArrayList();
+        List<String> tokens = new ArrayList<String>();
 
         while (st.hasMoreTokens())
         {
@@ -75,7 +75,7 @@ public class TSpecListener extends TetrinetListener
 
         TetrinetClient client = new TetrinetClient();
         User user = new User();
-        user.setName((String) tokens.get(1));
+        user.setName(tokens.get(1));
         user.setSpectator();
         client.setSocket(socket);
         client.setUser(user);

@@ -35,7 +35,7 @@ import net.jetrix.messages.*;
  */
 public class StatsFilter extends GenericFilter
 {
-    private List stats;
+    private List<PlayerStats> stats;
     private long totalTime;
     private long lastStart;
     private long startTime;
@@ -44,14 +44,14 @@ public class StatsFilter extends GenericFilter
 
     public void init(FilterConfig conf)
     {
-        stats = new ArrayList(6);
+        stats = new ArrayList<PlayerStats>(6);
         for (int i = 0; i < 6; i++)
         {
             stats.add(null);
         }
     }
 
-    public void onMessage(StartGameMessage m, List out)
+    public void onMessage(StartGameMessage m, List<Message> out)
     {
         // reset the played time for this game
         totalTime = 0;
@@ -76,7 +76,7 @@ public class StatsFilter extends GenericFilter
         out.add(m);
     }
 
-    public void onMessage(EndGameMessage m, List out)
+    public void onMessage(EndGameMessage m, List<Message> out)
     {
         // forward the message
         out.add(m);
@@ -86,7 +86,7 @@ public class StatsFilter extends GenericFilter
         }
     }
 
-    public void onMessage(PauseMessage m, List out)
+    public void onMessage(PauseMessage m, List<Message> out)
     {
         // updating global play time
         long now = System.currentTimeMillis();
@@ -95,7 +95,7 @@ public class StatsFilter extends GenericFilter
         // @todo update individual play time
         for (int i = 0; i < 6; i++)
         {
-            PlayerStats playerStats = (PlayerStats) stats.get(i);
+            PlayerStats playerStats = stats.get(i);
             if (playerStats != null && playerStats.playing)
             {
                 playerStats.timePlayed += (now - lastStart);
@@ -105,19 +105,19 @@ public class StatsFilter extends GenericFilter
         out.add(m);
     }
 
-    public void onMessage(ResumeMessage m, List out)
+    public void onMessage(ResumeMessage m, List<Message> out)
     {
         lastStart = new Date().getTime();
         out.add(m);
     }
 
-    public void onMessage(FieldMessage m, List out)
+    public void onMessage(FieldMessage m, List<Message> out)
     {
         // ignore the empty field message sent on using specials
         if (m.getField() != null)
         {
             // increasing block count for the updated slot
-            PlayerStats playerStats = (PlayerStats) stats.get(m.getSlot() - 1);
+            PlayerStats playerStats = stats.get(m.getSlot() - 1);
             if (playerStats != null && (System.currentTimeMillis() - startTime > 1500))
             {
                 playerStats.blockCount++;
@@ -127,10 +127,10 @@ public class StatsFilter extends GenericFilter
         out.add(m);
     }
 
-    public void onMessage(OneLineAddedMessage m, List out)
+    public void onMessage(OneLineAddedMessage m, List<Message> out)
     {
         out.add(m);
-        PlayerStats playerStats = (PlayerStats) stats.get(m.getFromSlot() - 1);
+        PlayerStats playerStats = stats.get(m.getFromSlot() - 1);
         if (playerStats != null)
         {
             playerStats.linesAdded++;
@@ -139,10 +139,10 @@ public class StatsFilter extends GenericFilter
         }
     }
 
-    public void onMessage(TwoLinesAddedMessage m, List out)
+    public void onMessage(TwoLinesAddedMessage m, List<Message> out)
     {
         out.add(m);
-        PlayerStats playerStats = (PlayerStats) stats.get(m.getFromSlot() - 1);
+        PlayerStats playerStats = stats.get(m.getFromSlot() - 1);
         if (playerStats != null)
         {
             playerStats.linesAdded += 2;
@@ -151,10 +151,10 @@ public class StatsFilter extends GenericFilter
         }
     }
 
-    public void onMessage(FourLinesAddedMessage m, List out)
+    public void onMessage(FourLinesAddedMessage m, List<Message> out)
     {
         out.add(m);
-        PlayerStats playerStats = (PlayerStats) stats.get(m.getFromSlot() - 1);
+        PlayerStats playerStats = stats.get(m.getFromSlot() - 1);
         if (playerStats != null)
         {
             playerStats.linesAdded += 4;
@@ -170,36 +170,36 @@ public class StatsFilter extends GenericFilter
                 && !(m instanceof TwoLinesAddedMessage)
                 && !(m instanceof FourLinesAddedMessage))
         {
-            PlayerStats playerStats = (PlayerStats) stats.get(m.getSlot() - 1);
+            PlayerStats playerStats = stats.get(m.getSlot() - 1);
             playerStats.specialsReceived++;
 
-            playerStats = (PlayerStats) stats.get(m.getFromSlot() - 1);
+            playerStats = stats.get(m.getFromSlot() - 1);
             playerStats.specialsSent++;
         }
     }
 
-    public void onMessage(LevelMessage m, List out)
+    public void onMessage(LevelMessage m, List<Message> out)
     {
         out.add(m);
-        PlayerStats playerStats = (PlayerStats) stats.get(m.getSlot() - 1);
+        PlayerStats playerStats = stats.get(m.getSlot() - 1);
         if (playerStats != null)
         {
             playerStats.level = m.getLevel();
         }
     }
 
-    public void onMessage(LeaveMessage m, List out)
+    public void onMessage(LeaveMessage m, List<Message> out)
     {
         out.add(m);
         // remove the stats from the list if a player leave the channel
         stats.set(m.getSlot() - 1, null);
     }
 
-    public void onMessage(PlayerLostMessage m, List out)
+    public void onMessage(PlayerLostMessage m, List<Message> out)
     {
         long now = System.currentTimeMillis();
         out.add(m);
-        PlayerStats playerStats = (PlayerStats) stats.get(m.getSlot() - 1);
+        PlayerStats playerStats = stats.get(m.getSlot() - 1);
         if (playerStats != null)
         {
             playerStats.playing = false;
@@ -228,7 +228,7 @@ public class StatsFilter extends GenericFilter
 
                     if (user.isPlaying() && (user.getTeam() == null || !user.getTeam().equals(fromClient.getUser().getTeam())))
                     {
-                        PlayerStats playerStats = (PlayerStats) stats.get(i - 1);
+                        PlayerStats playerStats = stats.get(i - 1);
                         playerStats.blockCount--;
                     }
                 }
@@ -236,14 +236,14 @@ public class StatsFilter extends GenericFilter
         }
     }
 
-    private void displayStats(List out)
+    private void displayStats(List<Message> out)
     {
         long now = System.currentTimeMillis();
         totalTime += (now - lastStart);
 
         for (int slot = 1; slot <= 6; slot++)
         {
-            PlayerStats playerStats = (PlayerStats) stats.get(slot - 1);
+            PlayerStats playerStats = stats.get(slot - 1);
             User user = getChannel().getPlayer(slot);
 
             if (playerStats != null && user != null)

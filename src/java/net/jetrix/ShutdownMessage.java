@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,30 +17,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.jetrix.messages;
-
-import net.jetrix.*;
-import net.jetrix.winlist.Score;
-
-import java.util.*;
+package net.jetrix;
 
 /**
- * The top teams and players of a winlist.
- *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class WinlistMessage extends Message
+public class ShutdownMessage extends Message
 {
-    private List<Score> scores;
 
-    public List<Score> getScores()
-    {
-        return scores;
-    }
-
-    public void setScores(List<Score> scores)
-    {
-        this.scores = scores;
-    }
 }

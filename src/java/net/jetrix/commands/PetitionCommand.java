@@ -61,7 +61,7 @@ public class PetitionCommand implements ParameterCommand
     {
         Client client = (Client) m.getSource();
 
-        Iterator operators = ClientRepository.getInstance().getOperators();
+        Iterator<Client> operators = ClientRepository.getInstance().getOperators();
 
         if (operators.hasNext())
         {
@@ -72,7 +72,7 @@ public class PetitionCommand implements ParameterCommand
 
             while (operators.hasNext())
             {
-                Client operator = (Client) operators.next();
+                Client operator = operators.next();
                 operator.send(petition);
                 operator.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
             }

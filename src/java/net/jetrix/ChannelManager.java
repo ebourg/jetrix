@@ -31,14 +31,14 @@ import net.jetrix.config.*;
  */
 public class ChannelManager
 {
-    private List channels;
-    private Map channelMap;
+    private List<Channel> channels;
+    private Map<String, Channel> channelMap;
     private static ChannelManager instance = new ChannelManager();
 
     private ChannelManager()
     {
-        channels = new ArrayList();
-        channelMap = new TreeMap();
+        channels = new ArrayList<Channel>();
+        channelMap = new TreeMap<String, Channel>();
     }
 
     public static ChannelManager getInstance()
@@ -93,7 +93,7 @@ public class ChannelManager
     /**
      * Returns an iterator over the channels available.
      */
-    public Iterator channels()
+    public Iterator<Channel> channels()
     {
         return channels.iterator();
     }
@@ -106,10 +106,10 @@ public class ChannelManager
     public Channel getOpenedChannel()
     {
         Channel channel = null;
-        Iterator it = channels();
+        Iterator<Channel> it = channels();
         while (it.hasNext() && channel == null)
         {
-            Channel channel2 = (Channel) it.next();
+            Channel channel2 = it.next();
             if (!channel2.isFull()) channel = channel2;
         }
 
@@ -145,18 +145,18 @@ public class ChannelManager
         // stripping leading #
         name = name.replaceFirst("#", "").toLowerCase();
 
-        Channel channel = (Channel) channelMap.get(name);
+        Channel channel = channelMap.get(name);
 
         if (channel == null && partial)
         {
             // match a partial name
-            Iterator names = channelMap.keySet().iterator();
+            Iterator<String> names = channelMap.keySet().iterator();
             while (channel == null && names.hasNext())
             {
-                String name2 = (String) names.next();
+                String name2 = names.next();
                 if (name2.startsWith(name))
                 {
-                    channel = (Channel) channelMap.get(name2);
+                    channel = channelMap.get(name2);
                 }
             }
         }
@@ -178,10 +178,8 @@ public class ChannelManager
      */
     public void closeAll()
     {
-        Iterator it = channels();
-        while (it.hasNext())
+        for (Channel channel : channels)
         {
-            Channel channel = (Channel) it.next();
             try
             {
                 channel.close();
@@ -198,7 +196,7 @@ public class ChannelManager
      */
     public Channel getChannel(int num)
     {
-        return ((num >= 0 && num < channels.size()) ? (Channel) channels.get(num) : null);
+        return ((num >= 0 && num < channels.size()) ? channels.get(num) : null);
     }
 
 }

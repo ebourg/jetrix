@@ -99,7 +99,7 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Filters</h2>
 
-<%  Iterator filters = channel.getFilters(); %>
+<%  Iterator<MessageFilter> filters = channel.getFilters(); %>
 
 	<h2>Filters</h2>
 
@@ -111,7 +111,7 @@
 	    <th></th>
 	  </tr>
 <%  while (filters.hasNext()) {
-        MessageFilter filter = (MessageFilter) filters.next();  %>
+        MessageFilter filter = filters.next();  %>
 	  <tr>
 	    <td><%= filter.getName() %></td>
 	    <td><%= filter.getVersion() %></td>

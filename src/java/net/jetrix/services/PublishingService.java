@@ -94,7 +94,7 @@ public class PublishingService extends ScheduledService
                 try
                 {
                     String url = "http://www.tfast.org/en/add.php";
-                    Map params = new HashMap();
+                    Map<String, String> params = new HashMap<String, String>();
                     params.put("ip", host);
                     params.put("desc", Server.getInstance().getConfig().getName());
                     post(url, params);
@@ -108,7 +108,7 @@ public class PublishingService extends ScheduledService
                 try
                 {
                     String url = "http://slummy.tetrinet.org/grav/slummy_addsvr.pl";
-                    Map params = new HashMap();
+                    Map<String, String> params = new HashMap<String, String>();
                     params.put("qname", host);
                     params.put("submit_bt", "Add Server");
                     post(url, params);
@@ -122,7 +122,7 @@ public class PublishingService extends ScheduledService
                 try
                 {
                     String url = "http://dieterdhoker.mine.nu:8280/cgi-bin/TSRV/submitserver.pl";
-                    Map params = new HashMap();
+                    Map<String, String> params = new HashMap<String, String>();
                     params.put("hostname", host);
                     params.put("description", Server.getInstance().getConfig().getName());
                     post(url, params);
@@ -141,7 +141,7 @@ public class PublishingService extends ScheduledService
      * @param url        the URL
      * @param parameters the parameters of the request
      */
-    protected void post(String url, Map parameters) throws IOException
+    protected void post(String url, Map<String, String> parameters) throws IOException
     {
         log.fine("posting to: " + url);
 
@@ -152,10 +152,10 @@ public class PublishingService extends ScheduledService
 
         // prepare the request body
         StringBuffer params = new StringBuffer();
-        Iterator keys = parameters.keySet().iterator();
+        Iterator<String> keys = parameters.keySet().iterator();
         while (keys.hasNext())
         {
-            String key = (String) keys.next();
+            String key = keys.next();
             params.append(key);
             params.append("=");
             params.append(parameters.get(key));
@@ -242,15 +242,15 @@ public class PublishingService extends ScheduledService
 
         try
         {
-            Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements() && address == null)
             {
-                NetworkInterface network = (NetworkInterface) interfaces.nextElement();
+                NetworkInterface network = interfaces.nextElement();
 
-                Enumeration addresses = network.getInetAddresses();
+                Enumeration<InetAddress> addresses = network.getInetAddresses();
                 while (addresses.hasMoreElements() && address == null)
                 {
-                    InetAddress addr = (InetAddress) addresses.nextElement();
+                    InetAddress addr = addresses.nextElement();
                     if (!addr.isLoopbackAddress()
                             && !addr.isLinkLocalAddress()
                             && !addr.isSiteLocalAddress())

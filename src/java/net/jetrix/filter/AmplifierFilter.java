@@ -43,7 +43,7 @@ public class AmplifierFilter extends MessageFilter
         factor = conf.getInt("factor", factor);
     }
 
-    public void process(Message m, List out)
+    public void process(Message m, List<Message> out)
     {
         if (m instanceof SpecialMessage)
         {

@@ -37,8 +37,8 @@ public class User
     private boolean playing;
     private int type;
     private Locale locale;
-    private Map props;
-    private Set ignoredUsers;
+    private Map<String, Object> props;
+    private Set<String> ignoredUsers;
 
     public static final int STATUS_OK  = 0;
     public static final int STATUS_AFK = 1;
@@ -165,7 +165,7 @@ public class User
     {
         if (ignoredUsers == null)
         {
-            ignoredUsers = new TreeSet();
+            ignoredUsers = new TreeSet<String>();
         }
 
         ignoredUsers.add(name.toLowerCase());
@@ -190,9 +190,9 @@ public class User
      *
      * @since 0.1.4
      */
-    public Set getIgnoredUsers()
+    public Set<String> getIgnoredUsers()
     {
-        return ignoredUsers == null ? new TreeSet() : ignoredUsers;
+        return ignoredUsers == null ? new TreeSet<String>() : ignoredUsers;
     }
 
     /**
@@ -202,7 +202,7 @@ public class User
     {
         if (props == null)
         {
-            props = new HashMap();
+            props = new HashMap<String, Object>();
         }
         props.put(key, value);
     }

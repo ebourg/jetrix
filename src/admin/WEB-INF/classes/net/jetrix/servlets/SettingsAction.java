@@ -19,6 +19,9 @@
 
 package net.jetrix.servlets;
 
+import static net.jetrix.config.Block.*;
+import static net.jetrix.config.Special.*;
+
 import java.io.*;
 import java.util.*;
 import javax.servlet.*;
@@ -26,6 +29,7 @@ import javax.servlet.http.*;
 
 import net.jetrix.*;
 import net.jetrix.config.*;
+
 
 /**
  * Action Servlet handling the server and channels settings changes.
@@ -42,23 +46,23 @@ public class SettingsAction extends HttpServlet
         Settings settings = new Settings();
 
         // validation
-        settings.setSpecialOccurancy(Settings.SPECIAL_ADDLINE, Integer.parseInt(request.getParameter("addLine")));
-        settings.setSpecialOccurancy(Settings.SPECIAL_CLEARLINE, Integer.parseInt(request.getParameter("clearLine")));
-        settings.setSpecialOccurancy(Settings.SPECIAL_NUKEFIELD, Integer.parseInt(request.getParameter("nukeField")));
-        settings.setSpecialOccurancy(Settings.SPECIAL_RANDOMCLEAR, Integer.parseInt(request.getParameter("randomClear")));
-        settings.setSpecialOccurancy(Settings.SPECIAL_SWITCHFIELD, Integer.parseInt(request.getParameter("switchField")));
-        settings.setSpecialOccurancy(Settings.SPECIAL_CLEARSPECIAL, Integer.parseInt(request.getParameter("clearSpecial")));
-        settings.setSpecialOccurancy(Settings.SPECIAL_GRAVITY, Integer.parseInt(request.getParameter("gravity")));
-        settings.setSpecialOccurancy(Settings.SPECIAL_QUAKEFIELD, Integer.parseInt(request.getParameter("quakeField")));
-        settings.setSpecialOccurancy(Settings.SPECIAL_BLOCKBOMB, Integer.parseInt(request.getParameter("blockBomb")));
+        settings.setOccurancy(ADDLINE, Integer.parseInt(request.getParameter("addLine")));
+        settings.setOccurancy(CLEARLINE, Integer.parseInt(request.getParameter("clearLine")));
+        settings.setOccurancy(NUKEFIELD, Integer.parseInt(request.getParameter("nukeField")));
+        settings.setOccurancy(RANDOMCLEAR, Integer.parseInt(request.getParameter("randomClear")));
+        settings.setOccurancy(SWITCHFIELD, Integer.parseInt(request.getParameter("switchField")));
+        settings.setOccurancy(CLEARSPECIAL, Integer.parseInt(request.getParameter("clearSpecial")));
+        settings.setOccurancy(GRAVITY, Integer.parseInt(request.getParameter("gravity")));
+        settings.setOccurancy(QUAKEFIELD, Integer.parseInt(request.getParameter("quakeField")));
+        settings.setOccurancy(BLOCKBOMB, Integer.parseInt(request.getParameter("blockBomb")));
 
-        settings.setBlockOccurancy(Settings.BLOCK_LINE, Integer.parseInt(request.getParameter("line")));
-        settings.setBlockOccurancy(Settings.BLOCK_SQUARE, Integer.parseInt(request.getParameter("square")));
-        settings.setBlockOccurancy(Settings.BLOCK_LEFTL,  Integer.parseInt(request.getParameter("leftL")));
-        settings.setBlockOccurancy(Settings.BLOCK_RIGHTL, Integer.parseInt(request.getParameter("rightL")));
-        settings.setBlockOccurancy(Settings.BLOCK_LEFTZ, Integer.parseInt(request.getParameter("leftZ")));
-        settings.setBlockOccurancy(Settings.BLOCK_RIGHTZ, Integer.parseInt(request.getParameter("rightZ")));
-        settings.setBlockOccurancy(Settings.BLOCK_HALFCROSS, Integer.parseInt(request.getParameter("halfcross")));
+        settings.setOccurancy(LINE, Integer.parseInt(request.getParameter("line")));
+        settings.setOccurancy(SQUARE, Integer.parseInt(request.getParameter("square")));
+        settings.setOccurancy(LEFTL,  Integer.parseInt(request.getParameter("leftL")));
+        settings.setOccurancy(RIGHTL, Integer.parseInt(request.getParameter("rightL")));
+        settings.setOccurancy(LEFTZ, Integer.parseInt(request.getParameter("leftZ")));
+        settings.setOccurancy(RIGHTZ, Integer.parseInt(request.getParameter("rightZ")));
+        settings.setOccurancy(HALFCROSS, Integer.parseInt(request.getParameter("halfcross")));
 
         settings.setStartingLevel(Integer.parseInt(request.getParameter("startingLevel")));
         settings.setStartingLevel(Integer.parseInt(request.getParameter("stackHeight")));

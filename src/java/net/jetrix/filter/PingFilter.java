@@ -33,7 +33,7 @@ import net.jetrix.messages.*;
  */
 public class PingFilter extends MessageFilter
 {
-    public final void process(Message m, List out)
+    public final void process(Message m, List<Message> out)
     {
         if (m instanceof TeamMessage)
         {

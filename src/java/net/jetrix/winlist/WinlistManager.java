@@ -33,13 +33,13 @@ import net.jetrix.config.*;
 public class WinlistManager
 {
     private static WinlistManager instance = new WinlistManager();
-    private Map winlists;
+    private Map<String,Winlist> winlists;
 
     private Logger log = Logger.getLogger("net.jetrix");
 
     private WinlistManager()
     {
-        winlists = new TreeMap();
+        winlists = new TreeMap<String, Winlist>();
     }
 
     public static WinlistManager getInstance()
@@ -78,6 +78,6 @@ public class WinlistManager
 
     public Winlist getWinlist(String id)
     {
-        return (id == null) ? null : (Winlist) winlists.get(id);
+        return (id == null) ? null : winlists.get(id);
     }
 }

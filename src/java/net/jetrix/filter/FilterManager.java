@@ -34,13 +34,13 @@ import java.lang.reflect.*;
 public class FilterManager
 {
     private static FilterManager instance = new FilterManager();
-    private Map staticFilters;
-    private Map filterAliases;
+    private Map<String, MessageFilter> staticFilters;
+    private Map<String, String> filterAliases;
 
     private FilterManager()
     {
-        staticFilters = new HashMap();
-        filterAliases = new HashMap();
+        staticFilters = new HashMap<String, MessageFilter>();
+        filterAliases = new HashMap<String, String>();
     }
 
     /**
@@ -75,8 +75,8 @@ public class FilterManager
         {
             // checking if the filter is a singleton
             Class filterClass = Class.forName(classname);
-            Method isSingletonMethod = filterClass.getMethod("isSingleton", null);
-            Boolean isSingleton = (Boolean) isSingletonMethod.invoke(null, null);
+            Method isSingletonMethod = filterClass.getMethod("isSingleton");
+            Boolean isSingleton = (Boolean) isSingletonMethod.invoke(null);
 
             // constructing a new filter
             filter = (MessageFilter) filterClass.newInstance();
@@ -104,11 +104,11 @@ public class FilterManager
      */
     public MessageFilter getFilterByName(String name) throws FilterException
     {
-        Object classname = filterAliases.get(name);
+        String classname = filterAliases.get(name);
 
         if (classname != null)
         {
-            return getFilter((String) classname);
+            return getFilter(classname);
         }
         else
         {

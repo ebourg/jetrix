@@ -31,7 +31,7 @@ import net.jetrix.messages.*;
  */
 public class ConsoleProtocol implements Protocol
 {
-    private static Map styles = new HashMap();
+    private static Map<String, String> styles = new HashMap<String, String>();
 
     static
     {
@@ -109,7 +109,7 @@ public class ConsoleProtocol implements Protocol
         return message.toString();
     }
 
-    public Map getStyles()
+    public Map<String, String> getStyles()
     {
         return styles;
     }
@@ -117,14 +117,14 @@ public class ConsoleProtocol implements Protocol
     public String applyStyle(String text)
     {
         // to be optimized later
-        Map styles = getStyles();
+        Map<String, String> styles = getStyles();
         if (styles == null) return text;
         
-        Iterator keys = styles.keySet().iterator();
+        Iterator<String> keys = styles.keySet().iterator();
         while (keys.hasNext())
         {
-            String key = (String) keys.next();
-            String value = (String) styles.get(key);
+            String key = keys.next();
+            String value = styles.get(key);
             if (value == null) { value = ""; }
             text = text.replaceAll("<" + key + ">", value);
             text = text.replaceAll("</" + key + ">", value);

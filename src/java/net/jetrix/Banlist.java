@@ -32,11 +32,11 @@ import java.net.*;
 public class Banlist
 {
     private static Banlist instance = new Banlist();
-    private Map banlist;
+    private Map<String, Entry> banlist;
 
     private Banlist()
     {
-        banlist = new HashMap();
+        banlist = new HashMap<String, Entry>();
     }
 
     public static Banlist getInstance()
@@ -77,10 +77,10 @@ public class Banlist
 
         Date now = new Date();
 
-        Iterator it = banlist.values().iterator();
+        Iterator<Entry> it = banlist.values().iterator();
         while (it.hasNext() && !banned)
         {
-            Entry entry = (Entry) it.next();
+            Entry entry = it.next();
             banned = entry.matches(host);
 
             // test the expiration date
@@ -105,7 +105,7 @@ public class Banlist
         return isBanned(address.getHostAddress()) || isBanned(address.getHostName());
     }
 
-    public Iterator getBanlist()
+    public Iterator<Entry> getBanlist()
     {
         return banlist.values().iterator();
     }

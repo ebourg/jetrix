@@ -44,7 +44,7 @@ public class StartFilter extends GenericFilter
         timestamp = new long[6];
     }
 
-    public void onMessage(PlineMessage m, List out)
+    public void onMessage(PlineMessage m, List<Message> out)
     {
         int slot = m.getSlot();
         String text = m.getText();

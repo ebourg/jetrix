@@ -33,7 +33,7 @@ import org.apache.commons.collections.*;
 public class ClientRepository
 {
     private static ClientRepository instance = new ClientRepository();
-    private Map clients;
+    private Map<String, Client> clients;
 
     public static final Predicate PLAYER_PREDICATE = new Predicate()
     {
@@ -103,7 +103,7 @@ public class ClientRepository
     /**
      * Return an iterator of players online in alphabetical order.
      */
-    public Iterator getPlayers()
+    public Iterator<Client> getPlayers()
     {
         return new FilterIterator(clients.values().iterator(), PLAYER_PREDICATE);
     }
@@ -119,7 +119,7 @@ public class ClientRepository
     /**
      * Return an iterator of spectators online in alphabetical order.
      */
-    public Iterator getSpectators()
+    public Iterator<Client> getSpectators()
     {
         return new FilterIterator(clients.values().iterator(), SPECTATOR_PREDICATE);
     }
@@ -135,7 +135,7 @@ public class ClientRepository
     /**
      * Return an iterator of operators online in alphabetical order.
      */
-    public Iterator getOperators()
+    public Iterator<Client> getOperators()
     {
         return new FilterIterator(clients.values().iterator(), OPERATOR_PREDICATE);
     }
@@ -148,13 +148,13 @@ public class ClientRepository
      */
     public Client getClient(String nickname)
     {
-        return (nickname == null) ? null : (Client) clients.get(nickname.toLowerCase());
+        return (nickname == null) ? null : clients.get(nickname.toLowerCase());
     }
 
     /**
      * Return an iterator of all clients online in alphabetical order.
      */
-    public Iterator getClients()
+    public Iterator<Client> getClients()
     {
         return clients.values().iterator();
     }
@@ -177,10 +177,8 @@ public class ClientRepository
     {
         int count = 0;
 
-        Iterator it = clients.values().iterator();
-        while (it.hasNext())
+        for (Client client : clients.values())
         {
-            Client client = (Client) it.next();
             if (address.equals(client.getInetAddress()))
             {
                 count++;

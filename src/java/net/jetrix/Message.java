@@ -32,7 +32,7 @@ public abstract class Message
     private Destination source;
     private Destination destination;
     private long time;
-    private Map rawMessages;
+    private Map<Protocol, String> rawMessages;
 
     /**
      * Constructs a new server message.
@@ -40,7 +40,7 @@ public abstract class Message
     public Message()
     {
         this.time = System.currentTimeMillis();
-        rawMessages = new HashMap();
+        rawMessages = new HashMap<Protocol, String>();
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class Message
     public String getRawMessage(Protocol protocol, Locale locale)
     {
         // is the raw message available for the specified protocol
-        String message = (String) rawMessages.get(protocol);
+        String message = rawMessages.get(protocol);
 
         if (message == null)
         {

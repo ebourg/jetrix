@@ -31,12 +31,12 @@ import java.text.*;
 public class Language
 {
     private static Language instance = new Language();
-    private Map bundles;
+    private Map<Locale,ResourceBundle> bundles;
     private static String resource = "jetrix";
 
     private Language()
     {
-        bundles = new HashMap();
+        bundles = new HashMap<Locale, ResourceBundle>();
     }
 
     /**
@@ -67,7 +67,7 @@ public class Language
      */
     public ResourceBundle getResourceBundle(Locale locale)
     {
-        return (ResourceBundle) bundles.get(locale);
+        return bundles.get(locale);
     }
 
     /**
@@ -90,9 +90,9 @@ public class Language
     /**
      * Return the list of languages supported by the server.
      */
-    public static Collection getLocales()
+    public static Collection<Locale> getLocales()
     {
-        Collection locales = new ArrayList();
+        Collection<Locale> locales = new ArrayList<Locale>();
 
         String[] languages = Locale.getISOLanguages();
 
@@ -138,58 +138,15 @@ public class Language
      * Return the specified localized text for a given locale and replace the
      * parameters with an array of arguments.
      *
+     * @since 0.1.4
+     *
      * @param key the text key in the resource bundle
-     * @param arguments the array of arguments
      * @param locale the locale of the message
+     * @param arguments the array of arguments
      */
-    public static String getText(String key, Object[] arguments, Locale locale)
+    public static String getText(String key, Locale locale, Object ... arguments)
     {
         return MessageFormat.format(getText(key, locale), arguments);
-    }
-
-    /**
-     * Return the specified localized text for a given locale and replace the
-     * parameters with the specified arguments.
-     *
-     * @param key the text key in the resource bundle
-     * @param arg0 first argument
-     * @param locale the locale of the message
-     */
-    public static String getText(String key, Object arg0, Locale locale)
-    {
-        Object arguments = new Object[] { arg0 };
-        return getText(key, arguments, locale);
-    }
-
-    /**
-     * Return the specified localized text for a given locale and replace the
-     * parameters with the specified arguments.
-     *
-     * @param key the text key in the resource bundle
-     * @param arg0 first argument
-     * @param arg1 second argument
-     * @param locale the locale of the message
-     */
-    public static String getText(String key, Object arg0, Object arg1, Locale locale)
-    {
-        Object arguments = new Object[] { arg0, arg1 };
-        return getText(key, arguments, locale);
-    }
-
-    /**
-     * Return the specified localized text for a given locale and replace the
-     * parameters with the specified arguments.
-     *
-     * @param key the text key in the resource bundle
-     * @param arg0 first argument
-     * @param arg1 second argument
-     * @param arg2 third argument
-     * @param locale the locale of the message
-     */
-    public static String getText(String key, Object arg0, Object arg1, Object arg2, Locale locale)
-    {
-        Object arguments = new Object[] { arg0, arg1, arg2 };
-        return getText(key, arguments, locale);
     }
 
 }

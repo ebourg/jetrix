@@ -20,6 +20,7 @@
 package net.jetrix.commands;
 
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -33,7 +34,7 @@ public class StartCommand implements Command
 {
     public String[] getAliases()
     {
-        return (new String[] { "start" });
+        return (new String[]{"start"});
     }
 
     public int getAccessLevel()
@@ -96,13 +97,13 @@ public class StartCommand implements Command
         private Channel channel;
         private int delay;
         /** */
-        private static Map countdowns = new HashMap();
+        private static Map<Channel, CountDown> countdowns = new HashMap<Channel, CountDown>();
 
         /**
          * Construct a new game countdown.
          *
          * @param channel the channel where game will start
-         * @param delay the delay in seconds for this countdown
+         * @param delay   the delay in seconds for this countdown
          */
         public CountDown(Channel channel, int delay)
         {
@@ -120,7 +121,7 @@ public class StartCommand implements Command
             countdowns.put(channel, this);
 
             PlineMessage getready1 = new PlineMessage();
-            GmsgMessage  getready2 = new GmsgMessage();
+            GmsgMessage getready2 = new GmsgMessage();
             getready1.setKey("command.start.get_ready");
             getready2.setKey("command.start.get_ready.gmsg");
             channel.send(getready1);
@@ -130,7 +131,7 @@ public class StartCommand implements Command
             for (int i = delay; i > 0; i--)
             {
                 PlineMessage msg1 = new PlineMessage();
-                GmsgMessage  msg2 = new GmsgMessage();
+                GmsgMessage msg2 = new GmsgMessage();
 
                 // plural or singular ? :)
                 if (i > 1)
@@ -151,7 +152,9 @@ public class StartCommand implements Command
                 {
                     sleep(1000);
                 }
-                catch (InterruptedException e) { }
+                catch (InterruptedException e)
+                {
+                }
 
                 // cancel the countdown if the game has started
                 if (channel.getGameState() != Channel.GAME_STATE_STOPPED)
@@ -163,7 +166,7 @@ public class StartCommand implements Command
 
             // announce "GO!"
             PlineMessage go1 = new PlineMessage();
-            GmsgMessage  go2 = new GmsgMessage();
+            GmsgMessage go2 = new GmsgMessage();
             go1.setKey("command.start.go");
             go2.setKey("command.start.go.gmsg");
             channel.send(go1);

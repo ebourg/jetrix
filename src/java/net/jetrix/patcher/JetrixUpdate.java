@@ -32,7 +32,7 @@ import java.util.zip.*;
  */
 public class JetrixUpdate
 {
-    private Vector update = new Vector();
+    private List<String> update = new ArrayList<String>();
     private String basedir = "http://tetrinet.lfjr.net/jetrix/autoupdate/";  // should read this from a property file
     private String newsFileName = "news.txt";
 
@@ -51,7 +51,7 @@ public class JetrixUpdate
 
         for (int i = 0; i < update.size(); i++)
         {
-            StringTokenizer st = new StringTokenizer((String) update.elementAt(i), " \t");
+            StringTokenizer st = new StringTokenizer(update.get(i), " \t");
             String fileName = st.nextToken();
             long chksum = Long.parseLong(st.nextToken());
 
@@ -98,7 +98,7 @@ public class JetrixUpdate
 
         while (line != null)
         {
-            update.addElement(line);
+            update.add(line);
             line = br.readLine();
         }
     }

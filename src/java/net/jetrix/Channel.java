@@ -21,14 +21,15 @@ package net.jetrix;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.*;
-
-import org.apache.commons.collections.*;
 
 import net.jetrix.config.*;
 import net.jetrix.filter.*;
 import net.jetrix.messages.*;
 import net.jetrix.winlist.*;
+
+import org.apache.commons.collections.*;
 
 /**
  * Game channel.
@@ -42,7 +43,7 @@ public class Channel extends Thread implements Destination
     private ServerConfig serverConfig;
     private Logger log = Logger.getLogger("net.jetrix");
 
-    private MessageQueue queue;
+    private BlockingQueue<Message> queue;
 
     // game states
     public static final int GAME_STATE_STOPPED = 0;
@@ -55,13 +56,13 @@ public class Channel extends Thread implements Destination
     private GameResult result;
 
     /** set of clients connected to this channel */
-    private Set clients;
+    private Set<Client> clients;
 
     /** slot/player mapping */
-    private List slots;
+    private List<Client> slots;
     private Field[] fields = new Field[6];
 
-    private List filters;
+    private List<MessageFilter> filters;
 
     public Channel()
     {
@@ -73,8 +74,8 @@ public class Channel extends Thread implements Destination
         this.channelConfig = channelConfig;
         this.serverConfig = Server.getInstance().getConfig();
         this.gameState = GAME_STATE_STOPPED;
-        this.clients = new HashSet();
-        this.slots = new ArrayList(6);
+        this.clients = new HashSet<Client>();
+        this.slots = new ArrayList<Client>(6);
 
         // initialize the slot mapping
         for (int i = 0; i < 6; i++)
@@ -89,26 +90,26 @@ public class Channel extends Thread implements Destination
         }
 
         // opening channel message queue
-        queue = new MessageQueue();
+        queue = new LinkedBlockingQueue();
 
-        filters = new ArrayList();
+        filters = new ArrayList<MessageFilter>();
 
         /**
          * Loading filters
          */
 
         // global filters
-        Iterator it = serverConfig.getGlobalFilters();
-        while (it.hasNext())
+        Iterator<FilterConfig> globalFilters = serverConfig.getGlobalFilters();
+        while (globalFilters.hasNext())
         {
-            addFilter((FilterConfig) it.next());
+            addFilter(globalFilters.next());
         }
 
         // channel filters
-        it = channelConfig.getFilters();
-        while (it.hasNext())
+        Iterator<FilterConfig> channelFilters = channelConfig.getFilters();
+        while (channelFilters.hasNext())
         {
-            addFilter((FilterConfig) it.next());
+            addFilter(channelFilters.next());
         }
     }
 
@@ -157,7 +158,7 @@ public class Channel extends Thread implements Destination
         // remove the filter from the channel config
     }
 
-    public Iterator getFilters()
+    public Iterator<MessageFilter> getFilters()
     {
         return filters.iterator();
     }
@@ -173,29 +174,27 @@ public class Channel extends Thread implements Destination
 
         while (running && serverConfig.isRunning())
         {
-            LinkedList list = new LinkedList();
+            LinkedList<Message> list = new LinkedList<Message>();
 
             try
             {
                 // waiting for new messages
-                list.add(queue.get());
+                list.add(queue.take());
 
                 // filtering message
-                Iterator it = filters.iterator();
-                while (it.hasNext())
+                for (MessageFilter filter : filters)
                 {
-                    MessageFilter filter = (MessageFilter) it.next();
                     int size = list.size();
                     for (int i = 0; i < size; i++)
                     {
-                        filter.process((Message) list.removeFirst(), list);
+                        filter.process(list.removeFirst(), list);
                     }
                 }
 
                 // processing message(s)
                 while (!list.isEmpty())
                 {
-                    process((Message) list.removeFirst());
+                    process(list.removeFirst());
                 }
             }
             catch (Exception e)
@@ -214,7 +213,7 @@ public class Channel extends Thread implements Destination
     public void close()
     {
         running = false;
-        queue.close();
+        queue.add(new ShutdownMessage());
     }
 
     private void process(CommandMessage m)
@@ -268,10 +267,8 @@ public class Channel extends Thread implements Destination
         if (m.isPrivate())
         {
             // send the message to the spectators only
-            Iterator it = clients.iterator();
-            while (it.hasNext())
+            for (Client client : clients)
             {
-                Client client = (Client) it.next();
                 if (client.getUser().isSpectator() && client != m.getSource())
                 {
                     client.send(m);
@@ -343,7 +340,7 @@ public class Channel extends Thread implements Destination
             slot = 0;
             for (int i = 0; i < slots.size(); i++)
             {
-                client = (Client) slots.get(i);
+                client = slots.get(i);
 
                 if (client != null && client.getUser().isPlaying())
                 {
@@ -379,7 +376,7 @@ public class Channel extends Thread implements Destination
             {
                 winlist.saveGameResult(result);
 
-                List topScores = winlist.getScores(0, 10);
+                List<Score> topScores = winlist.getScores(0, 10);
                 WinlistMessage winlistMessage = new WinlistMessage();
                 winlistMessage.setScores(topScores);
                 sendAll(winlistMessage);
@@ -441,10 +438,8 @@ public class Channel extends Thread implements Destination
             result.setChannel(this);
 
             // change the game state of the players
-            Iterator it = slots.iterator();
-            while (it.hasNext())
+            for (Client client : slots)
             {
-                Client client = (Client) it.next();
                 if (client != null && client.getUser().isPlayer())
                 {
                     client.getUser().setPlaying(true);
@@ -496,9 +491,8 @@ public class Channel extends Thread implements Destination
             sendAll(m);
 
             // update the status of the remaining players
-            for (int i = 0 ; i < slots.size(); i++)
+            for (Client client : slots)
             {
-                Client client = (Client) slots.get(i);
                 if (client != null)
                 {
                     client.getUser().setPlaying(false);
@@ -611,7 +605,7 @@ public class Channel extends Thread implements Destination
         // send the list of players
         for (int i = 0; i < slots.size(); i++)
         {
-            Client resident = (Client) slots.get(i);
+            Client resident = slots.get(i);
             if (resident != null && resident != client)
             {
                 // players...
@@ -642,7 +636,7 @@ public class Channel extends Thread implements Destination
         Winlist winlist = WinlistManager.getInstance().getWinlist(channelConfig.getWinlistId());
         if (winlist != null)
         {
-            List topScores = winlist.getScores(0, 10);
+            List<Score> topScores = winlist.getScores(0, 10);
             WinlistMessage winlistMessage = new WinlistMessage();
             winlistMessage.setScores(topScores);
             client.send(winlistMessage);
@@ -701,11 +695,10 @@ public class Channel extends Thread implements Destination
     private void sendSpectatorList(Client client)
     {
         // extract the list of spectators
-        List specnames = new ArrayList();
-        Iterator it = clients.iterator();
-        while (it.hasNext())
+        List<String> specnames = new ArrayList<String>();
+
+        for (Client c : clients)
         {
-            Client c = (Client) it.next();
             if (c.getUser().isSpectator())
             {
                 specnames.add(c.getUser().getName());
@@ -841,13 +834,13 @@ public class Channel extends Thread implements Destination
     }
 
     /**
-     * Add a message to the channel MessageQueue.
+     * Add a message to the channel message queue.
      *
      * @param message message to add
      */
     public void send(Message message)
     {
-        queue.put(message);
+        queue.add(message);
     }
 
     /**
@@ -863,10 +856,8 @@ public class Channel extends Thread implements Destination
         }
 
         // @todo add a fast mode to iterate on players only for game messages
-        Iterator it = clients.iterator();
-        while (it.hasNext())
+        for (Client client : clients)
         {
-            Client client = (Client) it.next();
             client.send(message);
         }
     }
@@ -897,10 +888,8 @@ public class Channel extends Thread implements Destination
         }
 
         // @todo add a fast mode to iterate on players only for game messages
-        Iterator it = clients.iterator();
-        while (it.hasNext())
+        for (Client client : clients)
         {
-            Client client = (Client) it.next();
             if (client != c)
             {
                 client.send(message);
@@ -980,7 +969,7 @@ public class Channel extends Thread implements Destination
 
         if (slot >= 1 && slot <= slots.size())
         {
-            client = (Client) slots.get(slot - 1);
+            client = slots.get(slot - 1);
         }
 
         return client;
@@ -1002,7 +991,7 @@ public class Channel extends Thread implements Destination
     /**
      * Return an iterator of players in this channel.
      */
-    public Iterator getPlayers()
+    public Iterator<Client> getPlayers()
     {
         return slots.iterator();
     }
@@ -1010,7 +999,7 @@ public class Channel extends Thread implements Destination
     /**
      * Return an iterator of spectators observing this channel.
      */
-    public Iterator getSpectators()
+    public Iterator<Client> getSpectators()
     {
         return new FilterIterator(clients.iterator(), ClientRepository.SPECTATOR_PREDICATE);
     }
@@ -1025,13 +1014,13 @@ public class Channel extends Thread implements Destination
      */
     private int countRemainingTeams()
     {
-        Map playingTeams = new HashMap();
+        Map<String, String> playingTeams = new HashMap<String, String>();
 
         int nbTeamsLeft = 0;
 
         for (int i = 0; i < slots.size(); i++)
         {
-            Client client = (Client) slots.get(i);
+            Client client = slots.get(i);
 
             if (client != null && client.getUser().isPlaying())
             {

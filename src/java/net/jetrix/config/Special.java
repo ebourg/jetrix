@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,30 +17,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.jetrix.messages;
-
-import net.jetrix.*;
-import net.jetrix.winlist.Score;
-
-import java.util.*;
+package net.jetrix.config;
 
 /**
- * The top teams and players of a winlist.
  *
+ * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class WinlistMessage extends Message
+public enum Special
 {
-    private List<Score> scores;
+    ADDLINE(0), CLEARLINE(1), NUKEFIELD(2), RANDOMCLEAR(3), SWITCHFIELD(4), CLEARSPECIAL(5), GRAVITY(6), QUAKEFIELD(7), BLOCKBOMB(8);
 
-    public List<Score> getScores()
+    private int value;
+
+    Special(int value)
     {
-        return scores;
+        this.value = value;
     }
 
-    public void setScores(List<Score> scores)
+    public int getValue()
     {
-        this.scores = scores;
+        return value;
     }
 }

@@ -20,18 +20,15 @@
 package net.jetrix;
 
 import java.io.*;
-import java.text.*;
+import java.net.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.*;
-import java.net.URL;
-import java.net.HttpURLConnection;
 
 import net.jetrix.clients.*;
 import net.jetrix.commands.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
-
-import snoozesoft.systray4j.*;
 
 /**
  * Main class, starts server components.
@@ -44,9 +41,9 @@ public class Server implements Runnable, Destination
     private static Server instance;
 
     private ServerConfig config;
-    private MessageQueue queue;
+    private BlockingQueue<Message> queue;
     private ChannelManager channelManager;
-    private Logger log;
+    private Logger log = Logger.getLogger("net.jetrix");
     private Client console;
 
     private Server()
@@ -54,7 +51,7 @@ public class Server implements Runnable, Destination
         System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2004 Emmanuel Bourg\n");
 
         // spawn the server message queue
-        queue = new MessageQueue();
+        queue = new LinkedBlockingQueue<Message>();
 
         // add the stop hook
         Runtime.getRuntime().addShutdownHook(new Thread()
@@ -94,67 +91,24 @@ public class Server implements Runnable, Destination
         config.setRunning(true);
 
         // prepare the loggers
-        prepareLoggers();
+        LogManager.init();
 
         // display the systray icon (windows only)
-        if (SysTrayMenu.isAvailable())
-        {
-            // build the menu items
-            SysTrayMenuItem itemExit = new SysTrayMenuItem("Stop && Exit", "exit");
-            itemExit.addSysTrayMenuListener(new SysTrayMenuAdapter() {
-                public void menuItemSelected(SysTrayMenuEvent event) {
-                    stop();
-                }
-            });
-
-            SysTrayMenuItem itemAdmin = new SysTrayMenuItem("Administration", "admin");
-            SysTrayMenuListener adminListener = new SysTrayMenuAdapter() {
-                public void menuItemSelected(SysTrayMenuEvent event) {
-                    Runtime runtime = Runtime.getRuntime();
-                    try {
-                        String adminUrl = "http://operator:" + config.getOpPassword() + "@localhost:8080";
-                        runtime.exec("rundll32 url.dll,FileProtocolHandler " + adminUrl);
-                    } catch (IOException e) {
-                        log.log(Level.WARNING, e.getMessage(), e);
-                    }
-                }
-
-                public void iconLeftDoubleClicked(SysTrayMenuEvent event) {
-                    menuItemSelected(event);
-                }
-            };
-            itemAdmin.addSysTrayMenuListener(adminListener);
-
-            // build the systray icon
-            SysTrayMenuIcon icon = new SysTrayMenuIcon(getClass().getClassLoader().getResource("jetrix.ico"));
-            icon.addSysTrayMenuListener(adminListener);
-
-            // build the menu
-            SysTrayMenu menu = new SysTrayMenu(icon);
-            menu.setToolTip("Jetrix TetriNET Server");
-            menu.addItem(itemExit);
-            menu.addItem(itemAdmin);
-
-            menu.showIcon();
-        }
+        SystrayManager.open();
 
         // spawning persistent channels
         channelManager = ChannelManager.getInstance();
         channelManager.clear();
 
-        Iterator it = config.getChannels();
-        while (it.hasNext())
+        for (ChannelConfig cc : config.getChannels())
         {
-            ChannelConfig cc = (ChannelConfig) it.next();
             cc.setPersistent(true);
             channelManager.createChannel(cc);
         }
 
         // start the client listeners
-        Iterator listeners = config.getListeners().iterator();
-        while (listeners.hasNext())
+        for (Listener listener : config.getListeners())
         {
-            Listener listener = (Listener) listeners.next();
             if (listener.isAutoStart())
             {
                 listener.start();
@@ -162,10 +116,8 @@ public class Server implements Runnable, Destination
         }
 
         // start the services
-        Iterator services = config.getServices().iterator();
-        while (services.hasNext())
+        for (Service service : config.getServices())
         {
-            Service service = (Service) services.next();
             if (service.isAutoStart())
             {
                 log.info("Starting service " + service.getName());
@@ -185,67 +137,6 @@ public class Server implements Runnable, Destination
         new Thread(console).start();
 
         log.info("Server ready!");
-    }
-
-    private void prepareLoggers()
-    {
-        log = Logger.getLogger("net.jetrix");
-        log.setUseParentHandlers(false);
-        log.setLevel(Level.ALL);
-
-        ConsoleHandler consoleHandler = new ConsoleHandler();
-        String debug = System.getProperty("jetrix.debug");
-        if ("true".equals(debug))
-        {
-            consoleHandler.setLevel(Level.ALL);
-        }
-        log.addHandler(consoleHandler);
-        consoleHandler.setFormatter(new Formatter()
-        {
-            Date dat = new Date();
-            private final static String format = "HH:mm:ss";
-            private SimpleDateFormat formatter;
-
-            public synchronized String format(LogRecord record)
-            {
-                dat.setTime(record.getMillis());
-                if (formatter == null)
-                {
-                    formatter = new SimpleDateFormat(format);
-                }
-                return "[" + formatter.format(dat) + "] ["
-                        + record.getLevel().getLocalizedName() + "] "
-                        + formatMessage(record) + "\n";
-            }
-        });
-
-        try
-        {
-            FileHandler fileHandler = new FileHandler(config.getAccessLogPath(), 1000000, 10);
-            fileHandler.setLevel(Level.CONFIG);
-            log.addHandler(fileHandler);
-            fileHandler.setFormatter(new Formatter()
-            {
-                Date dat = new Date();
-                private final static String format = "yyyy-MM-dd HH:mm:ss";
-                private SimpleDateFormat formatter;
-
-                public synchronized String format(LogRecord record)
-                {
-                    dat.setTime(record.getMillis());
-                    if (formatter == null)
-                    {
-                        formatter = new SimpleDateFormat(format);
-                    }
-                    return "[" + formatter.format(dat) + "] "
-                            + formatMessage(record) + "\n";
-                }
-            });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -301,10 +192,8 @@ public class Server implements Runnable, Destination
         config.setRunning(false);
 
         // stop the listeners
-        Iterator listeners = config.getListeners().iterator();
-        while (listeners.hasNext())
+        for (Listener listener : config.getListeners())
         {
-            Listener listener = (Listener) listeners.next();
             if (listener.isRunning())
             {
                 listener.stop();
@@ -312,10 +201,8 @@ public class Server implements Runnable, Destination
         }
 
         // stop the services
-        Iterator services = config.getServices().iterator();
-        while (services.hasNext())
+        for (Service service : config.getServices())
         {
-            Service service = (Service) services.next();
             if (service.isRunning())
             {
                 service.stop();
@@ -329,7 +216,7 @@ public class Server implements Runnable, Destination
         ChannelManager.getInstance().closeAll();
 
         // stop the server thread
-        queue.close();
+        queue.add(new ShutdownMessage());
     }
 
     /**
@@ -339,11 +226,10 @@ public class Server implements Runnable, Destination
     {
         ClientRepository repository = ClientRepository.getInstance();
 
-        Iterator clients = repository.getClients();
+        Iterator<Client> clients = repository.getClients();
         while (clients.hasNext())
         {
-            Client client = (Client) clients.next();
-            client.disconnect();
+            clients.next().disconnect();
         }
 
         // disconnect the console client as well
@@ -359,9 +245,9 @@ public class Server implements Runnable, Destination
             try
             {
                 // fetching next message waiting in the queue
-                Message message = queue.get();
+                Message message = queue.take();
 
-                log.finest("Server: processing " + message);
+                log.finest("[server] processing " + message);
 
                 // processing message
 
@@ -402,14 +288,14 @@ public class Server implements Runnable, Destination
                     case Message.MSG_COMMAND:
                 }*/
             }
-            catch (IOException e)
+            catch (InterruptedException e)
             {
                 log.log(Level.WARNING, e.getMessage(), e);
             }
         }
 
         // remove the system tray icon
-        SysTrayMenu.dispose();
+        SystrayManager.close();
     }
 
     /**
@@ -417,7 +303,7 @@ public class Server implements Runnable, Destination
      */
     public void send(Message message)
     {
-        queue.put(message);
+        queue.add(message);
     }
 
     /**

@@ -54,10 +54,10 @@ public class ServerConfig
     private Locale locale;
 
     // private List bans;
-    private List channels;
-    private List globalFilters;
-    private List listeners;
-    private List services;
+    private List<ChannelConfig> channels;
+    private List<FilterConfig> globalFilters;
+    private List<Listener> listeners;
+    private List<Service> services;
     private boolean running;
     private int status;
 
@@ -73,10 +73,10 @@ public class ServerConfig
      */
     public ServerConfig()
     {
-        channels = new ArrayList();
-        globalFilters = new ArrayList();
-        listeners = new ArrayList();
-        services = new ArrayList();
+        channels = new ArrayList<ChannelConfig>();
+        globalFilters = new ArrayList<FilterConfig>();
+        listeners = new ArrayList<Listener>();
+        services = new ArrayList<Service>();
     }
 
     /**
@@ -270,9 +270,9 @@ public class ServerConfig
         Settings.setDefaultSettings(defaultSettings);
     }
 
-    public Iterator getChannels()
+    public List<ChannelConfig> getChannels()
     {
-        return channels.iterator();
+        return channels;
     }
 
     public void addChannel(ChannelConfig cconf)
@@ -280,7 +280,7 @@ public class ServerConfig
         channels.add(cconf);
     }
 
-    public Iterator getGlobalFilters()
+    public Iterator<FilterConfig> getGlobalFilters()
     {
         return globalFilters.iterator();
     }
@@ -310,7 +310,7 @@ public class ServerConfig
         listeners.add(listener);
     }
 
-    public List getListeners()
+    public List<Listener> getListeners()
     {
         return listeners;
     }
@@ -333,7 +333,7 @@ public class ServerConfig
      *
      * @since 0.1.4
      */
-    public List getServices()
+    public List<Service> getServices()
     {
         return services;
     }

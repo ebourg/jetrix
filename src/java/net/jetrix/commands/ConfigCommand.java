@@ -19,6 +19,9 @@
 
 package net.jetrix.commands;
 
+import static net.jetrix.config.Block.*;
+import static net.jetrix.config.Special.*;
+
 import java.util.*;
 
 import net.jetrix.*;
@@ -62,15 +65,15 @@ public class ConfigCommand implements Command
         String configLines[] = new String[19];
 
         configLines[0] = "<darkBlue>" + "<b>" + Language.getText("command.config.blocks", locale) + "			" + Language.getText("command.config.specials", locale);
-        configLines[1] = "<darkBlue>" + Language.getText("command.config.blocks.leftl", locale) + "	: <purple>" + s.getBlockOccurancy(Settings.BLOCK_LEFTL) + "%</purple>		(<purple>A</purple>) " + Language.getText("command.config.specials.add_line", locale) + "	: " + "<purple>" + s.getSpecialOccurancy(Settings.SPECIAL_ADDLINE) + "%";
-        configLines[2] = "<darkBlue>" + Language.getText("command.config.blocks.rightl", locale) + "	: <purple>" + s.getBlockOccurancy(Settings.BLOCK_RIGHTL) + "%</purple>		(<purple>C</purple>) " + Language.getText("command.config.specials.clear_line", locale) + "	: " + "<purple>" + s.getSpecialOccurancy(Settings.SPECIAL_CLEARLINE) + "%";
-        configLines[3] = "<darkBlue>" + Language.getText("command.config.blocks.square", locale) + "	: <purple>" + s.getBlockOccurancy(Settings.BLOCK_SQUARE) + "%</purple>		(<purple>N</purple>) " + Language.getText("command.config.specials.nuke", locale) + "	: " + "<purple>" + s.getSpecialOccurancy(Settings.SPECIAL_NUKEFIELD) + "%";
-        configLines[4] = "<darkBlue>" + Language.getText("command.config.blocks.leftz", locale) + "	: <purple>" + s.getBlockOccurancy(Settings.BLOCK_LEFTZ) + "%</purple>		(<purple>R</purple>) " + Language.getText("command.config.specials.random", locale) + "	: " + "<purple>" + s.getSpecialOccurancy(Settings.SPECIAL_RANDOMCLEAR) + "%";
-        configLines[5] = "<darkBlue>" + Language.getText("command.config.blocks.rightz", locale) + "	: <purple>" + s.getBlockOccurancy(Settings.BLOCK_RIGHTZ) + "%</purple>		(<purple>S</purple>) " + Language.getText("command.config.specials.switch", locale) + "	: " + "<purple>" + s.getSpecialOccurancy(Settings.SPECIAL_SWITCHFIELD) + "%";
-        configLines[6] = "<darkBlue>" + Language.getText("command.config.blocks.cross", locale) + "	: <purple>" + s.getBlockOccurancy(Settings.BLOCK_HALFCROSS) + "%</purple>		(<purple>B</purple>) " + Language.getText("command.config.specials.clear_special", locale) + "	: " + "<purple>" + s.getSpecialOccurancy(Settings.SPECIAL_CLEARSPECIAL) + "%";
-        configLines[7] = "<darkBlue>" + Language.getText("command.config.blocks.line", locale) + "	: <purple>" + s.getBlockOccurancy(Settings.BLOCK_LINE) + "%</purple>		(<purple>G</purple>) " + Language.getText("command.config.specials.gravity", locale) + "	: " + "<purple>" + s.getSpecialOccurancy(Settings.SPECIAL_GRAVITY) + "%";
-        configLines[8] = "<darkBlue>" + "			(<purple>Q</purple>) Quake Field	: <purple>" + s.getSpecialOccurancy(Settings.SPECIAL_QUAKEFIELD) + "%";
-        configLines[9] = "<darkBlue>" + "<b>" + Language.getText("command.config.rules", locale) + "<b>" + "			(<purple>O<purple>) " + Language.getText("command.config.specials.blockbomb", locale) + "	: <purple>" + s.getSpecialOccurancy(Settings.SPECIAL_BLOCKBOMB) + "%";
+        configLines[1] = "<darkBlue>" + Language.getText("command.config.blocks.leftl", locale) + "	: <purple>" + s.getOccurancy(LEFTL) + "%</purple>		(<purple>A</purple>) " + Language.getText("command.config.specials.add_line", locale) + "	: " + "<purple>" + s.getOccurancy(ADDLINE) + "%";
+        configLines[2] = "<darkBlue>" + Language.getText("command.config.blocks.rightl", locale) + "	: <purple>" + s.getOccurancy(RIGHTL) + "%</purple>		(<purple>C</purple>) " + Language.getText("command.config.specials.clear_line", locale) + "	: " + "<purple>" + s.getOccurancy(CLEARLINE) + "%";
+        configLines[3] = "<darkBlue>" + Language.getText("command.config.blocks.square", locale) + "	: <purple>" + s.getOccurancy(SQUARE) + "%</purple>		(<purple>N</purple>) " + Language.getText("command.config.specials.nuke", locale) + "	: " + "<purple>" + s.getOccurancy(NUKEFIELD) + "%";
+        configLines[4] = "<darkBlue>" + Language.getText("command.config.blocks.leftz", locale) + "	: <purple>" + s.getOccurancy(LEFTZ) + "%</purple>		(<purple>R</purple>) " + Language.getText("command.config.specials.random", locale) + "	: " + "<purple>" + s.getOccurancy(RANDOMCLEAR) + "%";
+        configLines[5] = "<darkBlue>" + Language.getText("command.config.blocks.rightz", locale) + "	: <purple>" + s.getOccurancy(RIGHTZ) + "%</purple>		(<purple>S</purple>) " + Language.getText("command.config.specials.switch", locale) + "	: " + "<purple>" + s.getOccurancy(SWITCHFIELD) + "%";
+        configLines[6] = "<darkBlue>" + Language.getText("command.config.blocks.cross", locale) + "	: <purple>" + s.getOccurancy(HALFCROSS) + "%</purple>		(<purple>B</purple>) " + Language.getText("command.config.specials.clear_special", locale) + "	: " + "<purple>" + s.getOccurancy(CLEARSPECIAL) + "%";
+        configLines[7] = "<darkBlue>" + Language.getText("command.config.blocks.line", locale) + "	: <purple>" + s.getOccurancy(LINE) + "%</purple>		(<purple>G</purple>) " + Language.getText("command.config.specials.gravity", locale) + "	: " + "<purple>" + s.getOccurancy(GRAVITY) + "%";
+        configLines[8] = "<darkBlue>" + "			(<purple>Q</purple>) Quake Field	: <purple>" + s.getOccurancy(QUAKEFIELD) + "%";
+        configLines[9] = "<darkBlue>" + "<b>" + Language.getText("command.config.rules", locale) + "<b>" + "			(<purple>O<purple>) " + Language.getText("command.config.specials.blockbomb", locale) + "	: <purple>" + s.getOccurancy(BLOCKBOMB) + "%";
         configLines[10] = "<darkBlue>" + Language.getText("command.config.rules.starting_level", locale) + "	: " + "<blue>" + s.getStartingLevel();
         configLines[11] = "<darkBlue>" + Language.getText("command.config.rules.lines_per_level", locale) + "	: " + "<blue>" + s.getLinesPerLevel();
         configLines[12] = "<darkBlue>" + Language.getText("command.config.rules.level_increase", locale) + "	: " + "<blue>" + s.getLevelIncrease();

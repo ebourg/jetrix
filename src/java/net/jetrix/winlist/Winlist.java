@@ -62,7 +62,7 @@ public interface Winlist
      * @param offset the beginning of the range
      * @param length the length of the range
      */
-    List getScores(long offset, long length);
+    List<Score> getScores(long offset, long length);
 
     /**
      * Update the winlist with the specified game result.

@@ -40,7 +40,7 @@ import net.jetrix.*;
 public class SimpleWinlist implements Winlist
 {
     private String id;
-    protected List scores;
+    protected List<Score> scores;
     protected boolean initialized = false;
     protected boolean persistent = true;
 
@@ -49,7 +49,7 @@ public class SimpleWinlist implements Winlist
 
     public SimpleWinlist()
     {
-        scores = new ArrayList();
+        scores = new ArrayList<Score>();
     }
 
     public String getId()
@@ -99,7 +99,7 @@ public class SimpleWinlist implements Winlist
         return score;
     }
 
-    public synchronized List getScores(long offset, long length)
+    public synchronized List<Score> getScores(long offset, long length)
     {
         if (!initialized && persistent)
         {
@@ -126,9 +126,9 @@ public class SimpleWinlist implements Winlist
         Score score1 = null;
         long previousRank1 = 0;
         long previousScore1 = 0;
-        Collection winners = result.getPlayersAtRank(1);
-        Iterator it = winners.iterator();
-        GamePlayer winner = (GamePlayer) it.next();
+        Collection<GamePlayer> winners = result.getPlayersAtRank(1);
+        GamePlayer winner = winners.iterator().next();
+
         if (winner.isWinner())
         {
             String name = winner.getTeamName() == null ? winner.getName() : winner.getTeamName();
@@ -155,9 +155,9 @@ public class SimpleWinlist implements Winlist
         Score score2 = null;
         long previousRank2 = 0;
         long previousScore2 = 0;
-        Collection seconds = result.getPlayersAtRank(2);
-        it = seconds.iterator();
-        GamePlayer second = (GamePlayer) it.next();
+        Collection<GamePlayer> seconds = result.getPlayersAtRank(2);
+        GamePlayer second = seconds.iterator().next();
+
         if (teamCount >= 5)
         {
             String name = second.getTeamName() == null ? second.getName() : second.getTeamName();
@@ -262,10 +262,10 @@ public class SimpleWinlist implements Winlist
             try
             {
                 writer = new BufferedWriter(new FileWriter(id + ".winlist"));
-                Iterator it = scores.iterator();
+                Iterator<Score> it = scores.iterator();
                 while (it.hasNext())
                 {
-                    Score score = (Score) it.next();
+                    Score score = it.next();
                     StringBuffer line = new StringBuffer();
                     line.append(score.getType() == Score.TYPE_PLAYER ? "p" : "t");
                     line.append("\t");
@@ -316,8 +316,7 @@ public class SimpleWinlist implements Winlist
         }
 
         PlineMessage message = new PlineMessage();
-        message.setKey(key.toString(), new Object[]{score.getName(), new Long(score.getScore() - previousScore),
-                                                    new Long(score.getScore()), new Long(rank), new Long(previousRank - rank)});
+        message.setKey(key.toString(), score.getName(), score.getScore() - previousScore, score.getScore(), rank, previousRank - rank);
         return message;
     }
 

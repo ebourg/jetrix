@@ -32,11 +32,11 @@ import java.util.*;
 public class ProtocolManager
 {
     private static ProtocolManager instance = new ProtocolManager();
-    private Map protocols;
+    private Map<String, Protocol> protocols;
 
     private ProtocolManager()
     {
-        protocols = new HashMap();
+        protocols = new HashMap<String, Protocol>();
     }
 
     /**

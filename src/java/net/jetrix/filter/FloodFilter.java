@@ -55,7 +55,7 @@ public class FloodFilter extends GenericFilter
         index = new int[6];
     }
 
-    public void onMessage(PlineMessage m, List out)
+    public void onMessage(PlineMessage m, List<Message> out)
     {
         int slot = m.getSlot();
         // no check for server messages

@@ -19,6 +19,9 @@
 
 package net.jetrix.config;
 
+import static net.jetrix.config.Block.*;
+import static net.jetrix.config.Special.*;
+
 import java.util.*;
 
 /**
@@ -62,25 +65,6 @@ public class Settings
     private boolean classicRules;
     private boolean sameBlocks;
 
-    public static final int BLOCK_LINE      = 0;
-    public static final int BLOCK_SQUARE    = 1;
-    public static final int BLOCK_LEFTL     = 2;
-    public static final int BLOCK_RIGHTL    = 3;
-    public static final int BLOCK_LEFTZ     = 4;
-    public static final int BLOCK_RIGHTZ    = 5;
-    public static final int BLOCK_HALFCROSS = 6;
-
-    public static final int SPECIAL_ADDLINE      = 0;
-    public static final int SPECIAL_CLEARLINE    = 1;
-    public static final int SPECIAL_NUKEFIELD    = 2;
-    public static final int SPECIAL_RANDOMCLEAR  = 3;
-    public static final int SPECIAL_SWITCHFIELD  = 4;
-    public static final int SPECIAL_CLEARSPECIAL = 5;
-    public static final int SPECIAL_GRAVITY      = 6;
-    public static final int SPECIAL_QUAKEFIELD   = 7;
-    public static final int SPECIAL_BLOCKBOMB    = 8;
-
-
     /**
      * Creates a new Settings objects using default settings.
      */
@@ -97,8 +81,8 @@ public class Settings
      */
     public Settings(boolean useDefaultSettings)
     {
-        blockOccurancy = new int[7];
-        specialOccurancy = new int [9];
+        blockOccurancy = new int[Block.values().length];
+        specialOccurancy = new int [Special.values().length];
 
         if (useDefaultSettings)
         {
@@ -177,16 +161,16 @@ public class Settings
         return useDefaultSettings ? defaultSettings.getSameBlocks() : sameBlocks;
     }
 
-    public int getBlockOccurancy(int piece)
+    public int getOccurancy(Block piece)
     {
         boolean useDefaultSettings = defaultBlockOccurancy && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getBlockOccurancy(piece) : blockOccurancy[piece];
+        return useDefaultSettings ? defaultSettings.getOccurancy(piece) : blockOccurancy[piece.getValue()];
     }
 
-    public int getSpecialOccurancy(int special)
+    public int getOccurancy(Special special)
     {
         boolean useDefaultSettings = defaultSpecialOccurancy && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getSpecialOccurancy(special) : specialOccurancy[special];
+        return useDefaultSettings ? defaultSettings.getOccurancy(special) : specialOccurancy[special.getValue()];
     }
 
     public void setStartingLevel(int startingLevel)
@@ -249,7 +233,15 @@ public class Settings
         defaultSameBlocks = false;
     }
 
-    public void setBlockOccurancy(int piece, int occurancy)
+    /**
+     * Set the occurancy of a block.
+     *
+     * @since 0.1.4
+     *
+     * @param block
+     * @param occurancy
+     */
+    public void setOccurancy(Block block, int occurancy)
     {
         if (defaultBlockOccurancy)
         {
@@ -257,10 +249,18 @@ public class Settings
             Arrays.fill(blockOccurancy, 0);
         }
 
-        blockOccurancy[piece] = occurancy;
+        blockOccurancy[block.getValue()] = occurancy;
     }
 
-    public void setSpecialOccurancy(int special, int occurancy)
+    /**
+     * Set the occurancy of a special block
+     *
+     * @since 0.1.4
+     *
+     * @param special
+     * @param occurancy
+     */
+    public void setOccurancy(Special special, int occurancy)
     {
         if (defaultSpecialOccurancy)
         {
@@ -268,7 +268,7 @@ public class Settings
             Arrays.fill(specialOccurancy, 0);
         }
 
-        specialOccurancy[special] = occurancy;
+        specialOccurancy[special.getValue()] = occurancy;
     }
 
     /**
@@ -354,22 +354,22 @@ public class Settings
     }
 
 
-    public void setLineOccurancy(int occurancy) { setBlockOccurancy(BLOCK_LINE, occurancy); }
-    public void setSquareOccurancy(int occurancy) { setBlockOccurancy(BLOCK_SQUARE, occurancy); }
-    public void setLeftLOccurancy(int occurancy) { setBlockOccurancy(BLOCK_LEFTL, occurancy); }
-    public void setRightLOccurancy(int occurancy) { setBlockOccurancy(BLOCK_RIGHTL, occurancy); }
-    public void setLeftZOccurancy(int occurancy) { setBlockOccurancy(BLOCK_LEFTZ, occurancy); }
-    public void setRightZOccurancy(int occurancy) { setBlockOccurancy(BLOCK_RIGHTZ, occurancy); }
-    public void setHalfCrossOccurancy(int occurancy) { setBlockOccurancy(BLOCK_HALFCROSS, occurancy); }
+    public void setLineOccurancy(int occurancy) { setOccurancy(LINE, occurancy); }
+    public void setSquareOccurancy(int occurancy) { setOccurancy(SQUARE, occurancy); }
+    public void setLeftLOccurancy(int occurancy) { setOccurancy(LEFTL, occurancy); }
+    public void setRightLOccurancy(int occurancy) { setOccurancy(RIGHTL, occurancy); }
+    public void setLeftZOccurancy(int occurancy) { setOccurancy(LEFTZ, occurancy); }
+    public void setRightZOccurancy(int occurancy) { setOccurancy(RIGHTZ, occurancy); }
+    public void setHalfCrossOccurancy(int occurancy) { setOccurancy(HALFCROSS, occurancy); }
 
-    public void setAddLineOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_ADDLINE, occurancy); }
-    public void setClearLineOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_CLEARLINE, occurancy); }
-    public void setNukeFieldOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_NUKEFIELD, occurancy); }
-    public void setRandomClearOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_RANDOMCLEAR, occurancy); }
-    public void setSwitchFieldOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_SWITCHFIELD, occurancy); }
-    public void setClearSpecialOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_CLEARSPECIAL, occurancy); }
-    public void setGravityOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_GRAVITY, occurancy); }
-    public void setQuakeFieldOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_QUAKEFIELD, occurancy); }
-    public void setBlockBombOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_BLOCKBOMB, occurancy); }
+    public void setAddLineOccurancy(int occurancy) { setOccurancy(ADDLINE, occurancy); }
+    public void setClearLineOccurancy(int occurancy) { setOccurancy(CLEARLINE, occurancy); }
+    public void setNukeFieldOccurancy(int occurancy) { setOccurancy(NUKEFIELD, occurancy); }
+    public void setRandomClearOccurancy(int occurancy) { setOccurancy(RANDOMCLEAR, occurancy); }
+    public void setSwitchFieldOccurancy(int occurancy) { setOccurancy(SWITCHFIELD, occurancy); }
+    public void setClearSpecialOccurancy(int occurancy) { setOccurancy(CLEARSPECIAL, occurancy); }
+    public void setGravityOccurancy(int occurancy) { setOccurancy(GRAVITY, occurancy); }
+    public void setQuakeFieldOccurancy(int occurancy) { setOccurancy(QUAKEFIELD, occurancy); }
+    public void setBlockBombOccurancy(int occurancy) { setOccurancy(BLOCKBOMB, occurancy); }
 
 }

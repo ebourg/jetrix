@@ -31,7 +31,7 @@ import net.jetrix.*;
  */
 public class NoopFilter extends MessageFilter
 {
-    public void process(Message m, List out)
+    public void process(Message m, List<Message> out)
     {
         out.add(m);
     }

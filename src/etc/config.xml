@@ -271,6 +271,7 @@ your opponents. Good luck!
     <service class="net.jetrix.services.PublishingService">
       <!--<param name="host" value="tetrinet.yourhostname.net"/>-->
     </service>
+    <service class="net.jetrix.services.HappyNewYearService"/>
   </services>
 
   <ban>

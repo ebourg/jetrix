@@ -81,10 +81,10 @@ public class QueryClient extends TetrinetClient
             {
                 // "<nick>" "<team>" "<version>" <slot> <state> <auth> "<channelname>"
                 StringBuffer message = new StringBuffer();
-                Iterator clients = ClientRepository.getInstance().getClients();
+                Iterator<Client> clients = ClientRepository.getInstance().getClients();
                 while (clients.hasNext())
                 {
-                    Client client = (Client) clients.next();
+                    Client client = clients.next();
                     User user = client.getUser();
                     message.append("\"");
                     message.append(user.getName());
@@ -110,10 +110,10 @@ public class QueryClient extends TetrinetClient
             {
                 // "<name>" "<description>" <playernum> <playermax> <priority> <status>
                 StringBuffer message = new StringBuffer();
-                Iterator channels = ChannelManager.getInstance().channels();
+                Iterator<Channel> channels = ChannelManager.getInstance().channels();
                 while (channels.hasNext())
                 {
-                    Channel channel = (Channel) channels.next();
+                    Channel channel = channels.next();
                     ChannelConfig config = channel.getConfig();
 
                     message.append("\"");

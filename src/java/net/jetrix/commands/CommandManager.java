@@ -35,13 +35,13 @@ import net.jetrix.messages.*;
 public class CommandManager
 {
     private static CommandManager instance = new CommandManager();
-    private Map commands;
-    private Map commandSet;
+    private Map<String, Command> commands;
+    private Map<String, Command> commandSet;
 
     private CommandManager()
     {
-        commands = new TreeMap();
-        commandSet = new TreeMap();
+        commands = new TreeMap<String, Command>();
+        commandSet = new TreeMap<String, Command>();
     }
 
     public static CommandManager getInstance()
@@ -79,7 +79,7 @@ public class CommandManager
     public Command getCommand(String alias)
     {
         alias = alias.toLowerCase();
-        Command command = (Command) commands.get(alias);
+        Command command = commands.get(alias);
 
         if (command == null)
         {
@@ -89,7 +89,7 @@ public class CommandManager
                 String name = (String) aliases.next();
                 if (name.startsWith(alias))
                 {
-                    command = (Command) commands.get(name);
+                    command = commands.get(name);
                 }
             }
         }

@@ -66,7 +66,7 @@ public abstract class MessageFilter
     /**
      * Process a message and outputs messages to the specified List.
      */
-    public abstract void process(Message m, List out);
+    public abstract void process(Message m, List<Message> out);
 
     /**
      * Returns the name of this filter.

@@ -43,7 +43,7 @@ public class TetrisFilter extends GenericFilter
         addToAll = conf.getBoolean("addToAll", addToAll);
     }
 
-    public void onMessage(StartGameMessage m, List out)
+    public void onMessage(StartGameMessage m, List<Message> out)
     {
         Arrays.fill(tetrisCount, 0);
 
@@ -54,7 +54,7 @@ public class TetrisFilter extends GenericFilter
         out.add(message);
     }
 
-    public void onMessage(FourLinesAddedMessage m, List out)
+    public void onMessage(FourLinesAddedMessage m, List<Message> out)
     {
         int from = m.getFromSlot() - 1;
         tetrisCount[from]++;
@@ -88,7 +88,7 @@ public class TetrisFilter extends GenericFilter
             if (tetrisCount[from] == max)
             {
                 // look for the leaders
-                List leaders = new ArrayList();
+                List<String> leaders = new ArrayList<String>();
                 for (int i = 0; i < 6; i++)
                 {
                     if (tetrisCount[i] == max)
@@ -128,7 +128,7 @@ public class TetrisFilter extends GenericFilter
         }
     }
 
-    public void onMessage(TwoLinesAddedMessage m, List out)
+    public void onMessage(TwoLinesAddedMessage m, List<Message> out)
     {
         if (addToAll)
         {
@@ -136,7 +136,7 @@ public class TetrisFilter extends GenericFilter
         }
     }
 
-    public void onMessage(OneLineAddedMessage m, List out)
+    public void onMessage(OneLineAddedMessage m, List<Message> out)
     {
         if (addToAll)
         {

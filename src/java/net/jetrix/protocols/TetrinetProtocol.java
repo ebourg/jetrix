@@ -34,7 +34,7 @@ import net.jetrix.messages.*;
  */
 public class TetrinetProtocol implements Protocol
 {
-    private static Map styles = new HashMap();
+    private static Map<String, String> styles = new HashMap<String, String>();
 
     static
     {
@@ -59,7 +59,7 @@ public class TetrinetProtocol implements Protocol
         styles.put("white", "\u0018");
     }
 
-    private static Map specials = new TreeMap();
+    private static Map<String, Class> specials = new TreeMap<String, Class>();
 
     static
     {
@@ -214,7 +214,7 @@ public class TetrinetProtocol implements Protocol
             String special = st.nextToken();
             int from = Integer.parseInt(st.nextToken());
 
-            Class cls = (Class) specials.get(special);
+            Class cls = specials.get(special);
 
             SpecialMessage spmsg = null;
             if (specials.keySet().contains(special))
@@ -423,22 +423,22 @@ public class TetrinetProtocol implements Protocol
         message.append(" ");
 
         // blocks frequency
-        for (int i = 0; i < 7; i++)
+        for (Block block : Block.values())
         {
-            for (int j = 0; j < s.getBlockOccurancy(i); j++)
+            for (int j = 0; j < s.getOccurancy(block); j++)
             {
-                message.append(Integer.toString(i + 1));
+                message.append(Integer.toString(block.getValue() + 1));
             }
         }
 
         message.append(" ");
 
         // specials frequency
-        for (int i = 0; i < 9; i++)
+        for (Special special : Special.values())
         {
-            for (int j = 0; j < s.getSpecialOccurancy(i); j++)
+            for (int j = 0; j < s.getOccurancy(special); j++)
             {
-                message.append(Integer.toString(i + 1));
+                message.append(Integer.toString(special.getValue() + 1));
             }
         }
 
@@ -664,7 +664,8 @@ public class TetrinetProtocol implements Protocol
         PlineMessage pline = new PlineMessage();
 
         StringBuffer message = new StringBuffer();
-        Iterator specators = m.getSpectators().iterator();
+        Iterator<String> specators = m.getSpectators().iterator();
+
         while (specators.hasNext())
         {
             message.append(specators.next());
@@ -695,10 +696,9 @@ public class TetrinetProtocol implements Protocol
     {
         StringBuffer message = new StringBuffer();
         message.append("winlist");
-        Iterator scores = m.getScores().iterator();
-        while (scores.hasNext())
-        {
-            Score score = (Score) scores.next();
+
+        for (Score score : m.getScores())
+        {           
             message.append(" ");
             message.append(score.getType() == Score.TYPE_PLAYER ? "p" : "t");
             message.append(score.getName());
@@ -711,7 +711,7 @@ public class TetrinetProtocol implements Protocol
     /**
      * Return the map of the color and style codes for this protocol.
      */
-    public Map getStyles()
+    public Map<String, String> getStyles()
     {
         return styles;
     }
@@ -719,16 +719,16 @@ public class TetrinetProtocol implements Protocol
     public String applyStyle(String text)
     {
         // to be optimized later
-        Map styles = getStyles();
+        Map<String, String> styles = getStyles();
         if (styles == null) {
             return text;
         }
 
-        Iterator keys = styles.keySet().iterator();
+        Iterator<String> keys = styles.keySet().iterator();
         while (keys.hasNext())
         {
-            String key = (String) keys.next();
-            String value = (String) styles.get(key);
+            String key = keys.next();
+            String value = styles.get(key);
             if (value == null)
             {
                 value = "";

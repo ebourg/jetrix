@@ -70,7 +70,7 @@ public class TetrinetListener extends ClientListener
 
         // init string parsing "tetrisstart <nickname> <version>"
         StringTokenizer st = new StringTokenizer(dec, " ");
-        List tokens = new ArrayList();
+        List<String> tokens = new ArrayList<String>();
 
         while (st.hasMoreTokens())
         {
@@ -84,7 +84,7 @@ public class TetrinetListener extends ClientListener
 
         TetrinetClient client = new TetrinetClient();
         User user = new User();
-        user.setName((String) tokens.get(1));
+        user.setName(tokens.get(1));
         client.setSocket(socket);
         client.setUser(user);
         client.setVersion((String) tokens.get(2));
