@@ -192,6 +192,23 @@
     <delete file="${dist}/bin/jetrix-${version}.tar"/>
 
   </target>
+  
+  <target name="dist.win" description="Build the windows installer">  
+    
+    <!-- Build the windows executable file jetrix.exe -->
+    <mkdir dir="${build}/bin"/>
+    <copy todir="${build}/bin" filtering="on">
+      <fileset dir="${src}/bin" includes="*.nsi"/>
+    </copy>    
+    
+    <exec executable="C:\Program Files\NSIS\makensis.exe">
+      <arg line="${build}/bin/launcher.nsi"/>
+    </exec>
+    
+    <!-- Build the installer -->
+  
+  
+  </target>
 
 
   <target name="dist.src" description="Build source distribution">
