@@ -355,7 +355,7 @@
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
 
     <!-- Checksum computation -->
-    <java classname="net.jetrix.patcher.UpdateList" dir="${deploy}/jetrix-${version}" classpath="${deploy}/jetrix-${version}/lib/jetrix-${version}.jar" fork="yes" />
+    <java classname="net.jetrix.tools.patcher.UpdateList" dir="${deploy}/jetrix-${version}" classpath="${deploy}/jetrix-${version}/lib/jetrix-${version}.jar" fork="yes" />
 
     <!-- Uploading to patch server -->
     <ftp server="${ftp.host}" remotedir="/vsite/tetrinet/public_html/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes" ignoreNoncriticalErrors="yes">
