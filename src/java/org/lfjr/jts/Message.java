@@ -134,32 +134,38 @@ public class Message
             switch (code)
             {
                 case MSG_PLINE:
-                  Integer slot = (Integer)getParameter(0);
-                  String message = (String)getParameter(1);
-                  raw = "pline " + slot + " " + message;
-                  //for (int i=1; i<getParameterCount(); i++) { raw += " " + (String)getParameter(i); }
-                  break;
+                    Integer slot = (Integer)getParameter(0);
+                    String message = (String)getParameter(1);
+                    raw = "pline " + slot + " " + message;
+                    //for (int i=1; i<getParameterCount(); i++) { raw += " " + (String)getParameter(i); }
+                    break;
+
+                case MSG_PLINEACT:
+                    slot = (Integer)getParameter(0);
+                    message = (String)getParameter(1);
+                    raw = "plineact " + slot + " " + message;
+                    break;
 
                 case MSG_PLAYERJOIN:
-                  slot = (Integer)getParameter(0);
-                  String playername = (String)getParameter(1);
-                  raw = "playerjoin " + slot + " " + playername;
-                  break;
+                    slot = (Integer)getParameter(0);
+                    String playername = (String)getParameter(1);
+                    raw = "playerjoin " + slot + " " + playername;
+                    break;
 
                 case MSG_TEAM:
-                  slot = (Integer)getParameter(0);
-                  Object team = getParameter(1);
-                  raw = "team " + slot + ( (team==null)?"":" "+team );
-                  break;
+                    slot = (Integer)getParameter(0);
+                    Object team = getParameter(1);
+                    raw = "team " + slot + ( (team==null)?"":" "+team );
+                    break;
 
                 case MSG_PLAYERLEAVE:
-                  raw = "playerleave " + (Integer)getParameter(0);
-                  break;
+                    raw = "playerleave " + (Integer)getParameter(0);
+                    break;
 
                 case MSG_PLAYERNUM:
-                  slot = (Integer)getParameter(0);
-                  raw = "playernum " + slot;
-                  break;
+                    slot = (Integer)getParameter(0);
+                    raw = "playernum " + slot;
+                    break;
 
                 case MSG_STARTGAME:
                     Settings s = (Settings)getParameter(1);
@@ -188,32 +194,35 @@ public class Message
                     break;
 
                 case MSG_ENDGAME:
-                  raw = "endgame";
-                  break;
+                    raw = "endgame";
+                    break;
 
                 case MSG_PAUSE:
-                  raw = "pause 1";
-                  break;
+                    raw = "pause 1";
+                    break;
 
                 case MSG_RESUME:
-                  raw = "pause 0";
-                  break;
+                    raw = "pause 0";
+                    break;
 
                 case MSG_INGAME:
-                  raw = "ingame";
-                  break;
+                    raw = "ingame";
+                    break;
 
                 case MSG_PLAYERLOST:
-                  slot = (Integer)getParameter(0);
-                  raw = "playerlost " + slot;
-                  break;
+                    slot = (Integer)getParameter(0);
+                    raw = "playerlost " + slot;
+                    break;
 
                 case MSG_FIELD:
-                  slot = (Integer)getParameter(0);
-                  String layout = (String)getParameter(1);
-                  raw = "f " + slot + " " + layout;
-                  break;
-
+                    slot = (Integer)getParameter(0);
+                    String layout = (String)getParameter(1);
+                    raw = "f " + slot + " " + layout;
+                    break;
+                  
+                case MSG_NOCONNECTING:
+                    raw = "noconnecting " + getParameter(0);
+                    break;
             }
         }
 
@@ -348,7 +357,7 @@ public class Message
 
             /**
              * Should compare parameters one by one since internal messages
-             * don't have an raw string representation.
+             * don't have a raw string representation.
              */
 
         }
@@ -375,4 +384,5 @@ public class Message
 
         return "[Message type="+type+" code="+code+" params="+paramsView+"]";
     }
+
 }
