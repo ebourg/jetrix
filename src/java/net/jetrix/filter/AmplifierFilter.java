@@ -37,10 +37,10 @@ public class AmplifierFilter extends MessageFilter
 {
     private int factor = 2;
 
-    public void init(FilterConfig conf)
+    public void init()
     {
-        // reading parameters
-        factor = conf.getInt("factor", factor);
+        // read the parameters
+        factor = config.getInt("factor", factor);
     }
 
     public void process(Message m, List<Message> out)

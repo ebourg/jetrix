@@ -43,7 +43,7 @@ public class SuddenDeathFilter extends GenericFilter
     private StopWatch stopWatch;
     private Timer timer;
 
-    public void init(FilterConfig conf)
+    public void init()
     {
         stopWatch = new StopWatch();
     }

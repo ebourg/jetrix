@@ -43,7 +43,7 @@ public class StatsFilter extends GenericFilter
 
     private static DecimalFormat df = new DecimalFormat("0.00");
 
-    public void init(FilterConfig conf)
+    public void init()
     {
         stopWatch = new StopWatch();
         stats = new ArrayList<PlayerStats>(6);

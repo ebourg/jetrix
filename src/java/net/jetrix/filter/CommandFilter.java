@@ -29,7 +29,7 @@ import net.jetrix.config.FilterConfig;
 /**
  * A filter executing a specific command. This filter is useful to add
  * a command to a specific channel. For example:
- *
+ * <p/>
  * <pre>
  * &lt;channel name="duel">
  *   &lt;filters>
@@ -43,20 +43,25 @@ import net.jetrix.config.FilterConfig;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class CommandFilter extends GenericFilter {
-
+public class CommandFilter extends GenericFilter
+{
     private Command command;
 
-    public void init(FilterConfig conf) {
-        String cls = conf.getString("class", null);
-        try {
+    public void init()
+    {
+        String cls = config.getString("class", null);
+        try
+        {
             command = (Command) Class.forName(cls).newInstance();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             log.warning(e.getMessage());
         }
     }
 
-    public void onMessage(CommandMessage m, List out) {
+    public void onMessage(CommandMessage m, List out)
+    {
 
         for (String alias : command.getAliases())
         {

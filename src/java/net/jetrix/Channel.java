@@ -134,12 +134,11 @@ public class Channel extends Thread implements Destination
 
             // initializing filter
             filter.setChannel(this);
-            filter.init(filterConfig);
+            filter.setConfig(filterConfig);
+            filter.init();
 
-            // adding filter to the list
+            // add the filter to the list
             filters.add(filter);
-
-            log.fine("[" + channelConfig.getName() + "] loaded filter " + filter.getName() + " " + filter.getVersion());
         }
         catch (FilterException e)
         {
@@ -178,7 +177,7 @@ public class Channel extends Thread implements Destination
                 // waiting for new messages
                 list.add(queue.take());
 
-                // filtering message
+                // filter the message
                 for (MessageFilter filter : filters)
                 {
                     int size = list.size();
@@ -188,7 +187,7 @@ public class Channel extends Thread implements Destination
                     }
                 }
 
-                // processing message(s)
+                // process the message(s)
                 while (!list.isEmpty())
                 {
                     process(list.removeFirst());

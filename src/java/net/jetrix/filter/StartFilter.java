@@ -40,11 +40,11 @@ public class StartFilter extends GenericFilter
     private int delay = 10000;
     private int countdown = 0;
 
-    public void init(FilterConfig conf)
+    public void init()
     {
         // reading parameters
-        delay = conf.getInt("delay", delay);
-        countdown = conf.getInt("countdown", countdown);
+        delay = config.getInt("delay", delay);
+        countdown = config.getInt("countdown", countdown);
 
         timestamp = new long[6];
     }

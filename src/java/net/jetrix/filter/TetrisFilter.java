@@ -39,10 +39,10 @@ public class TetrisFilter extends GenericFilter
     private int tetrisLimit = 7;
     private boolean addToAll = false;
 
-    public void init(FilterConfig conf)
-    {
-        tetrisLimit = conf.getInt("limit", tetrisLimit);
-        addToAll = conf.getBoolean("addToAll", addToAll);
+    public void init()
+    {       
+        tetrisLimit = config.getInt("limit", tetrisLimit);
+        addToAll = config.getBoolean("addToAll", addToAll);
     }
 
     public void onMessage(StartGameMessage m, List<Message> out)

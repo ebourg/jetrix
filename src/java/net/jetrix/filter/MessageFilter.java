@@ -36,6 +36,7 @@ public abstract class MessageFilter
 {
     private Properties props;
     private Channel channel;
+    protected FilterConfig config;
 
     /**
      * Indicates if the filter is a slingleton or not. A filter should be
@@ -54,7 +55,23 @@ public abstract class MessageFilter
     /**
      * Called by the channel to indicate to a filter that the filter is being placed into service.
      */
-    public void init(FilterConfig conf) { }
+    public void init() { }
+
+    /**
+     * Set the configuration used to initialize this filter.
+     */
+    public void setConfig(FilterConfig config)
+    {
+        this.config = config;
+    }
+
+    /**
+     * Return the configuration used to initialize this filter.
+     */
+    public FilterConfig getConfig()
+    {
+        return config;
+    }
 
     /**
      * Called by the channel to indicate to a filter that the filter is being taken out of service.

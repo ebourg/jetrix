@@ -44,12 +44,12 @@ public class FloodFilter extends GenericFilter
     /** Date of the last warning */
     private long lastWarning;
 
-    public void init(FilterConfig conf)
-    {
+    public void init()
+    {       
         // reading parameters
-        capacity = conf.getInt("capacity", capacity);
-        delay = conf.getInt("delay", delay);
-        warningPeriod = conf.getInt("warningPeriod", warningPeriod);
+        capacity = config.getInt("capacity", capacity);
+        delay = config.getInt("delay", delay);
+        warningPeriod = config.getInt("warningPeriod", warningPeriod);
 
         timestamp = new long[6][capacity];
         index = new int[6];
