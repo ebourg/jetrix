@@ -68,6 +68,58 @@ public class TetrisFilter extends GenericFilter
             PlineMessage announce = new PlineMessage();
             announce.setKey("channel.player_won", new Object[] { winner.getName() });
             getChannel().sendMessage(announce);
+        } else {
+            // get the highest tetris count
+            int maxSlot = 0;
+            int max = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                if (tetrisCount[i] > max)
+                {
+                    max = tetrisCount[i];
+                    maxSlot = i;
+                }
+            }
+
+            if (tetrisCount[from] == max)
+            {
+                // look for the leaders
+                List leaders = new ArrayList();
+                for (int i = 0; i < 6; i++)
+                {
+                    if (tetrisCount[i] == max)
+                    {
+                        Client client = getChannel().getClient(i + 1);
+                        if (client != null)
+                        {
+                            leaders.add(client.getUser().getName());
+                        }
+                    }
+                }
+
+                // announce the leaders
+                StringBuffer message = new StringBuffer();
+                if (leaders.size() == 1)
+                {
+                    String name = (String) leaders.get(0);
+                    message.append(name + " leads with " + max + " tetris");
+                } else {
+                    Iterator it = leaders.iterator();
+                    while (it.hasNext())
+                    {
+                        message.append(it.next());
+                        if (it.hasNext())
+                        {
+                            message.append(", ");
+                        }
+                    }
+                    message.append(" are tied for the lead with " + max + " tetris");
+                }
+
+                GmsgMessage announce = new GmsgMessage();
+                announce.setText(message.toString());
+                out.add(announce);
+            }
         }
     }
 
