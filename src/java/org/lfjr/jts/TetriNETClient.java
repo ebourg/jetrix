@@ -233,20 +233,18 @@ class TetriNETClient extends Thread
      */     
     public void sendMessage(Message m)
     {
-    	String s = m.getRawMessage();
-    	
-    	if (s != null)
+    	if (m.getRawMessage() != null)
     	{
 
     	try
     	{
     	    synchronized(out)
     	    {
-                out.write(s + (char)255, 0, s.length() + 1);
-                out.flush();
+                out.write(m.getRawMessage() + (char)255, 0, m.getRawMessage().length() + 1);
+                out.flush();                
             }
 
-            //System.out.println(">"+s);
+            System.out.println("> "+m.getRawMessage());
 	}
 	catch (SocketException e) { System.out.println(e.getMessage()); }
 	catch (Exception e) { /*e.printStackTrace();*/ }

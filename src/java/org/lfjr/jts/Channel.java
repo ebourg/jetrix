@@ -84,7 +84,7 @@ public class Channel extends Thread
             	    case Message.MSG_TEAM:
             	        slot = ((Integer)m.getParameter(0)).intValue();            	        
             	        listeJoueurs[slot - 1].getPlayer().setTeam((String)m.getParameter(1));            	                    	      
-            	        sendAll(m);            	    
+            	        sendAll(m, slot);            	    
             	        break;
             	        
             	    case Message.MSG_GMSG:
@@ -195,24 +195,31 @@ public class Channel extends Thread
                         {
                             listeJoueurs[slot]= client;
                             
+            	            // sending new player notice to other players in the channel
             	            Message mjoin = new Message(Message.MSG_PLAYERJOIN);
-            	            mjoin.setRawMessage("playerjoin "+(slot+1)+" "+client.getPlayer().getName());
-            	            listeJoueurs[0]=client;
-            	        
-            	            Message mteam = new Message(Message.MSG_TEAM);
-            	            mteam.setRawMessage("team " + (slot+1) + " " + client.getPlayer().getTeam());
-            	        
-            	            Message mgame = new Message(Message.MSG_STARTGAME);
-            	            mgame.setRawMessage("playernum " + (slot+1) );
+            	            Object paramsjoin[] = { new Integer(slot+1), client.getPlayer().getName() };
+            	            mjoin.setParameters(paramsjoin);
+            	            sendAll(mjoin, slot+1);
+
+            	            // sending slot number to incomming player            	        
+            	            Message mnum = new Message(Message.MSG_PLAYERNUM);
+            	            Object paramsnum[] = { new Integer(slot+1) };
+            	            mnum.setParameters(paramsnum);
+            	            client.sendMessage(mnum);
             	            
+            	            // sending player list to incomming player
+            	            /*Message mteam = new Message(Message.MSG_TEAM);
+            	            Object paramsteam[] = { new Integer(slot+1), client.getPlayer().getTeam() };
+            	            mteam.setParameters(paramsteam);*/            	            
+            	            
+            	            // sending team list to incomming player
+            	                   
+            	            // sending welcome massage to incomming player
             	            Message mwelcome = new Message(Message.MSG_PLINE);
-            	            mwelcome.setRawMessage("pline 0 \022Hello " + client.getPlayer().getName() + ", you are in channel " + this);
-            	            
-            	            client.sendMessage(mwelcome);
-            	            sendAll(mjoin);
-            	            sendAll(mteam);
-            	            client.sendMessage(mgame);
-                        }	        
+            	            Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + cconf.getName() };
+            	            mwelcome.setParameters(paramswelcome);            	            
+            	            client.sendMessage(mwelcome);            	            
+                        }
             	        
             	        break;       	          	                	                		            		
             	}         

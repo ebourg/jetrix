@@ -37,21 +37,22 @@ public class Message
     public static final int MSG_TEAM         = 2;
     public static final int MSG_PLAYERJOIN   = 3;
     public static final int MSG_PLAYERLEAVE  = 4;
-    public static final int MSG_STARTGAME    = 5;
-    public static final int MSG_NEWGAME      = 6;
-    public static final int MSG_ENDGAME      = 7;
-    public static final int MSG_PAUSE        = 8;
-    public static final int MSG_GMSG         = 9;
-    public static final int MSG_SB           = 10;
-    public static final int MSG_LVL          = 11;
-    public static final int MSG_FIELD        = 12;
-    public static final int MSG_PLAYERLOST   = 13;
-    public static final int MSG_DISCONNECTED = 14;
-    public static final int MSG_NOCONNECTING = 15;
-    public static final int MSG_ADDPLAYER    = 16;
-    public static final int MSG_RESTART      = 17;
-    public static final int MSG_SHUTDOWN     = 18;  
-    public static final int MSG_SLASHCMD     = 19;
+    public static final int MSG_PLAYERNUM    = 5;
+    public static final int MSG_STARTGAME    = 6;
+    public static final int MSG_NEWGAME      = 7;
+    public static final int MSG_ENDGAME      = 8;
+    public static final int MSG_PAUSE        = 9;
+    public static final int MSG_GMSG         = 10;
+    public static final int MSG_SB           = 11;
+    public static final int MSG_LVL          = 12;
+    public static final int MSG_FIELD        = 13;
+    public static final int MSG_PLAYERLOST   = 14;
+    public static final int MSG_DISCONNECTED = 15;
+    public static final int MSG_NOCONNECTING = 16;
+    public static final int MSG_ADDPLAYER    = 17;
+    public static final int MSG_RESTART      = 18;
+    public static final int MSG_SHUTDOWN     = 19;  
+    public static final int MSG_SLASHCMD     = 20;
                                    		
     private Object params[];
     private int type;
@@ -83,11 +84,31 @@ public class Message
     {
     	if (raw==null)
     	{
-    	    if (type==MSG_PLINE)
+    	    switch (code)
     	    {
+    	        case MSG_PLINE:
     	        Integer slot = (Integer)getParameter(0);
     	        String message = (String)getParameter(1);
-    	        raw = "pline "+slot+" "+message;
+    	        raw = "pline " + slot + " " + message;
+    	        break;
+    	        
+    	        case MSG_PLAYERJOIN:
+    	        slot = (Integer)getParameter(0);
+    	        String playername = (String)getParameter(1);
+    	        raw = "playerjoin " + slot + " " + playername;
+    	        break;
+    	        
+    	        case MSG_TEAM:
+    	        slot = (Integer)getParameter(0);
+    	        Object team = getParameter(1);
+    	        raw = "team " + slot + ( (team==null)?"":" "+team );
+    	        break;
+    	        
+    	        case MSG_PLAYERNUM:
+    	        slot = (Integer)getParameter(0);
+    	        raw = "playernum " + slot;
+    	        break;
+    	        
     	    }
     	}
     	
