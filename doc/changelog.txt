@@ -5,7 +5,7 @@ TODO
 ----
 - implement the /afk command
 - zip files on the patch server
-+ /snoop
+- /snoop
 - /help <command name>
 - check for new versions available
 - ignore & friend list
@@ -14,10 +14,11 @@ TODO
 - server advertisement on tetrinet.org and tfast.org
 - /ban & /unban
 - display available languages with /lang
+- /lfd looking for duel
 
 Changes in version 0.1.2 (2003-06-??)
 -------------------------------------
-- new commands : /move, /goto, /petition, /tmsg
+- new commands : /move, /goto, /petition, /tmsg, /speclist
 - new game mod : 7tetris
 - basic web administration console available on port 8080 (read only)
 - basic tspec support
