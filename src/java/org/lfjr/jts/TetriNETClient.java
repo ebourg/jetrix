@@ -36,16 +36,17 @@ import org.lfjr.jts.config.*;
 public class TetriNETClient extends Thread
 {
     private Socket socket;
-    private BufferedReader in;
-    private BufferedWriter out;
+    private Reader in;
+    private Writer out;
     private ServerConfig serverConfig;
 
-    private int clientType;
-    private String clientVersion;
+    private int type;
+    private String version;
 
-    // client type
+    // client types
     public static final int CLIENT_TETRINET  = 0;
     public static final int CLIENT_TETRIFAST = 1;
+    public static final int CLIENT_TSPEC     = 2;
 
     private Channel channel;
     private TetriNETServer server;
@@ -72,15 +73,17 @@ public class TetriNETClient extends Thread
         allowedSpecials.add("o");
     }
 
-
-    public TetriNETClient(TetriNETPlayer player, Socket socket) throws IOException
+    public TetriNETClient()
     {
-        this.player = player;
-        this.socket = socket;
-        serverConfig = TetriNETServer.getInstance().getConfig();
+        TetriNETServer server = TetriNETServer.getInstance();
+        if (server != null ) serverConfig = server.getConfig();
+    }
 
-        in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+    public TetriNETClient(TetriNETPlayer player, Socket socket)
+    {
+        this();
+        setSocket(socket);
+        this.player = player;
     }
 
     /**
@@ -270,11 +273,12 @@ public class TetriNETClient extends Thread
             try { in.close(); }     catch (IOException e) { e.printStackTrace(); }
             try { out.close(); }    catch (IOException e) { e.printStackTrace(); }
             try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
+            ClientRepository.getInstance().removeClient(this);
         }
     }
 
     /**
-     * Send message to client. The raw message property must be set.
+     * Send a message to the client. The raw message property must be set.
      *
      * @param m message to send
      */
@@ -297,7 +301,7 @@ public class TetriNETClient extends Thread
         catch (Exception e) { e.printStackTrace(); }
 
         }
-        else { logger.warning("Message not sent, raw message missing "+m); }
+        else { logger.warning("Message not sent, raw message missing " + m); }
     }
 
 
@@ -311,22 +315,22 @@ public class TetriNETClient extends Thread
         int    readChar;
         String input = "";
 
-        while ((readChar = in.read())!=-1 && readChar!=255)
+        while ((readChar = in.read()) != -1 && readChar != 255)
         {
-            if (readChar!=10 && readChar!=13)
+            if (readChar != 10 && readChar != 13)
             {
-                input += (char) readChar;
+                input += (char)readChar;
             }
         }
 
-        if (readChar==-1) throw new IOException("client disconnected");
+        if (readChar == -1) throw new IOException("client disconnected");
 
         return input;
     }
 
-    public void setChannel(Channel ch)
+    public void setChannel(Channel channel)
     {
-        channel = ch;
+        this.channel = channel;
     }
 
     public Channel getChannel()
@@ -334,35 +338,50 @@ public class TetriNETClient extends Thread
         return channel;
     }
 
+    public void setPlayer(TetriNETPlayer player)
+    {
+        this.player = player;
+    }
 
     public TetriNETPlayer getPlayer()
     {
         return player;
     }
 
-   public Socket getSocket()
-   {
-       return socket;
-   }
-
-    public void setClientVersion(String clientVersion)
+    public void setSocket(Socket socket)
     {
-        this.clientVersion = clientVersion;
+        this.socket = socket;
+        try 
+        {
+            in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        }
+        catch(IOException e) { e.printStackTrace(); }
     }
 
-    public String getClientVersion()
+    public Socket getSocket()
     {
-        return clientVersion;
+        return socket;
     }
 
-    public void setClientType(int clientType)
+    public void setVersion(String version)
     {
-        this.clientType = clientType;
+        this.version = version;
     }
 
-    public int getClientType()
+    public String getVersion()
     {
-        return clientType;
+        return version;
+    }
+
+    public void setType(int type)
+    {
+        this.type = type;
+    }
+
+    public int getType()
+    {
+        return type;
     }
 
     /**
@@ -375,7 +394,7 @@ public class TetriNETClient extends Thread
 
     public String toString()
     {
-        return "[Client " + socket.getInetAddress() + " type=" + clientType + "]";
+        return "[Client " + socket + " type=" + type + "]";
     }
 
 }
