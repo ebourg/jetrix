@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 public abstract class AbstractService implements Service
 {
     protected boolean autoStart = true;
-    protected Logger log = Logger.getLogger("net.jetrix");
+    protected static Logger log = Logger.getLogger("net.jetrix");
 
     public boolean isAutoStart()
     {
