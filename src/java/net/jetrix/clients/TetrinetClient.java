@@ -54,6 +54,11 @@ public class TetrinetClient implements Client
 
     public TetrinetClient() { }
 
+    public TetrinetClient(User user)
+    {
+        this.user = user;
+    }
+
     public TetrinetClient(User user, Socket socket)
     {
         this();

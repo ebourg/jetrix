@@ -41,7 +41,7 @@ public class Channel extends Thread implements Destination
 {
     private ChannelConfig channelConfig;
     private ServerConfig serverConfig;
-    private Logger logger = Logger.getLogger("net.jetrix");
+    private Logger log = Logger.getLogger("net.jetrix");
 
     private MessageQueue queue;
 
@@ -160,7 +160,7 @@ public class Channel extends Thread implements Destination
             // adding filter to the list
             filters.add(filter);
 
-            logger.fine("[" + channelConfig.getName() + "] loaded filter " + filter.getName() + " " + filter.getVersion());
+            log.fine("[" + channelConfig.getName() + "] loaded filter " + filter.getName() + " " + filter.getVersion());
         }
         catch (FilterException e)
         {
@@ -188,7 +188,7 @@ public class Channel extends Thread implements Destination
      */
     public void run()
     {
-        logger.info("Channel " + channelConfig.getName() + " opened");
+        log.info("Channel " + channelConfig.getName() + " opened");
 
         while (running && serverConfig.isRunning())
         {
@@ -224,7 +224,7 @@ public class Channel extends Thread implements Destination
 
         }
 
-        logger.info("Channel " + channelConfig.getName() + " closed");
+        log.info("Channel " + channelConfig.getName() + " closed");
     }
 
     private void process(CommandMessage m)
@@ -249,7 +249,10 @@ public class Channel extends Thread implements Destination
     {
         int slot = m.getSlot();
         String text = m.getText();
-        if (!text.startsWith("/")) sendAll(m, slot);
+        if (!text.startsWith("/"))
+        {
+            sendAll(m, slot);
+        }
     }
 
     private void process(PlineActMessage m)
@@ -263,6 +266,27 @@ public class Channel extends Thread implements Destination
         else
         {
             sendAll(m, slot);
+        }
+    }
+
+    private void process(SmsgMessage m)
+    {
+        if (m.isPrivate())
+        {
+            // send the message to the spectators only
+            Iterator it = clients.iterator();
+            while (it.hasNext())
+            {
+                Client client = (Client) it.next();
+                if (client.getUser().isSpectator() && client != m.getSource())
+                {
+                    client.sendMessage(m);
+                }
+            }
+        }
+        else
+        {
+            sendAll(m);
         }
     }
 
@@ -516,7 +540,7 @@ public class Channel extends Thread implements Destination
 
             if (slot >= 6)
             {
-                logger.warning("[" + getConfig().getName() + "] Panic, no slot available for " + client);
+                log.warning("[" + getConfig().getName() + "] Panic, no slot available for " + client);
                 client.getUser().setSpectator();
             }
             else
@@ -681,7 +705,7 @@ public class Channel extends Thread implements Destination
 
     public void process(Message m)
     {
-        logger.finest("[" + channelConfig.getName() + "] Processing " + m);
+        log.finest("[" + channelConfig.getName() + "] Processing " + m);
 
         if (m instanceof CommandMessage) process((CommandMessage) m);
         else if (m instanceof FieldMessage) process((FieldMessage) m);
@@ -691,6 +715,7 @@ public class Channel extends Thread implements Destination
         else if (m instanceof TeamMessage) process((TeamMessage) m);
         else if (m instanceof PlineMessage) process((PlineMessage) m);
         else if (m instanceof GmsgMessage) process((GmsgMessage) m);
+        else if (m instanceof SmsgMessage) process((SmsgMessage) m);
         else if (m instanceof PlineActMessage) process((PlineActMessage) m);
         else if (m instanceof PauseMessage) process((PauseMessage) m);
         else if (m instanceof ResumeMessage) process((ResumeMessage) m);
@@ -703,7 +728,7 @@ public class Channel extends Thread implements Destination
         else if (m instanceof AddPlayerMessage) process((AddPlayerMessage) m);
         else
         {
-            logger.finest("[" + channelConfig.getName() + "] Message not processed " + m);
+            log.finest("[" + channelConfig.getName() + "] Message not processed " + m);
         }
     }
 

@@ -279,6 +279,7 @@ public class TetrinetProtocol implements Protocol
         else if (m instanceof PlayerWonMessage)     { return translate((PlayerWonMessage) m); }
         else if (m instanceof NoConnectingMessage)  { return translate((NoConnectingMessage) m); }
         else if (m instanceof SpectatorListMessage) { return translate((SpectatorListMessage) m, locale); }
+        else if (m instanceof SmsgMessage)          { return translate((SmsgMessage) m, locale); }
         else if (m instanceof WinlistMessage)       { return translate((WinlistMessage) m, locale); }
         else
         {
@@ -676,6 +677,18 @@ public class TetrinetProtocol implements Protocol
         pline.setKey("command.speclist.format", new Object[]{message.toString()});
 
         return translate(pline, locale);
+    }
+
+    public String translate(SmsgMessage m, Locale locale)
+    {
+        StringBuffer message = new StringBuffer();
+        String name = ((Client) m.getSource()).getUser().getName();
+
+        PlineMessage pline = new PlineMessage();
+        pline.setKey("channel.spectator.message", new Object[] { name, m.getText() });
+        message.append(translate(pline, locale));
+
+        return message.toString();
     }
 
     public String translate(WinlistMessage m, Locale locale)

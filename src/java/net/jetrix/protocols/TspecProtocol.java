@@ -46,15 +46,37 @@ public class TspecProtocol extends TetrinetProtocol
      */
     public Message getMessage(String line)
     {
-        Message message = super.getMessage(line);
+        Message message = null;
 
-        if (message instanceof PlineMessage)
+        if (line.startsWith("pline"))
         {
-            PlineMessage pline = (PlineMessage) message;
-            pline.setSlot(0);
+            SmsgMessage smsg = new SmsgMessage();
+
+            if (line.indexOf("//") == 8)
+            {
+                // public comment
+                smsg.setPrivate(false);
+                if (line.length() > 11)
+                {
+                    smsg.setText(line.substring(11));
+                }
+
+                message = smsg;
+            }
+            else if (line.indexOf("/") != 8)
+            {
+                // private comment
+                smsg.setPrivate(true);
+                if (line.length() > 8)
+                {
+                    smsg.setText(line.substring(8));
+                }
+
+                message = smsg;
+            }
         }
 
-        return message;
+        return message != null ? message : super.getMessage(line);
     }
 
     /**
@@ -64,6 +86,7 @@ public class TspecProtocol extends TetrinetProtocol
     public String translate(Message m, Locale locale)
     {
         if (m instanceof SpectatorListMessage) { return translate((SpectatorListMessage) m, locale); }
+        if (m instanceof SmsgMessage) { return translate((SmsgMessage) m, locale); }
         else
         {
             return super.translate(m, locale);
@@ -81,6 +104,26 @@ public class TspecProtocol extends TetrinetProtocol
             message.append(" ");
             message.append(specators.next());
         }
+        return message.toString();
+    }
+
+    public String translate(SmsgMessage m, Locale locale)
+    {
+        StringBuffer message = new StringBuffer();
+        String name = ((Client) m.getSource()).getUser().getName();
+
+        if (m.isPrivate())
+        {
+            message.append("smsg ");
+            message.append(name);
+            message.append(" ");
+            message.append(m.getText());
+        }
+        else
+        {
+            message.append(super.translate(m, locale));
+        }
+
         return message.toString();
     }
 
