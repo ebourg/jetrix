@@ -25,7 +25,7 @@ Admin visible changes
 - Jetrix now requires the JRE 1.5 to run
 - the configuration file config.xml has been split in two files: server.xml and channels.xml
 - a listener can now be disabled at startup by setting the auto-start attribute to false
-- the address of the server is now automatically published on tetrinet.org, tfast.org & tsrv.com server lists
+- the address of the server is now automatically published on tetrinet.org, tfast.org &amp; tsrv.com server lists
 - the server can be locked from the admin console, once locked new connections will be rejected
 - ghost connections (connections that never time out) are now automatically removed
 - commands can be hidden from the /help list by specifying a "hidden" attribute on the &lt;command> element
