@@ -76,13 +76,13 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <same-blocks>true</same-blocks>
 
     <block-occurancy>
-      <leftl>14</leftl>
-      <leftz>14</leftz>
+      <line>15</line>
       <square>15</square>
+      <leftl>14</leftl>
       <rightl>14</rightl>
+      <leftz>14</leftz>
       <rightz>14</rightz>
       <halfcross>14</halfcross>
-      <line>15</line>
     </block-occurancy>
 
     <special-occurancy>
