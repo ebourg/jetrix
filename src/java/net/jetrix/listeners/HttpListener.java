@@ -53,8 +53,8 @@ public class HttpListener extends AbstractService implements Listener
     {
         // authentication realm
         HashUserRealm realm = new HashUserRealm("Jetrix Admin");
-        realm.put("operator", Server.getInstance().getConfig().getOpPassword());
-        realm.addUserToRole("operator", "operator");
+        realm.put("admin", Server.getInstance().getConfig().getAdminPassword());
+        realm.addUserToRole("admin", "admin");
 
         jetty = new org.mortbay.jetty.Server();
         jetty.addRealm(realm);

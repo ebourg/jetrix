@@ -62,7 +62,11 @@
         <td><input class="thin" type="text" name="opPassword" value="<%= conf.getOpPassword() != null ? conf.getOpPassword() : "" %>"></td>
       </tr>
       <tr>
-        <td>Locale</td>
+        <td>Administrator Password</td>
+        <td><input class="thin" type="text" name="adminPassword" value="<%= conf.getAdminPassword() != null ? conf.getAdminPassword() : "" %>"></td>
+      </tr>
+      <tr>
+        <td>Default Language</td>
         <td>
 <%  Iterator locales = Language.getLocales().iterator(); %>
           <select class="thin" name="locale">

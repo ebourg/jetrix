@@ -26,6 +26,9 @@ TODO
 - /points to display the score and the rank in the current winlist
 - tetris mode, do a tetris as fast as possible (single player). Show intermediate times vs the best player recorded
 - warn the players before a timeout
+- ip based language detection (using geoip)
+- web admin: select the network interface
+
 
 Changes in version 0.2 (2004-12-??)
 -----------------------------------
@@ -39,6 +42,7 @@ Player visible changes
 - the StartFilter can now trigger a countdown before starting the game by specifying a number of seconds in the filter's "countdown" parameter
 - partial support of IRC clients on the the port 31456 (disabled by default)
 - on connecting, the player now joins automatically the first accessible channel with other players
+- Added a flow control to prevent players using the windows client from being disconnected when they are flooded
 
 Admin visible changes
 - Jetrix now requires the JRE 1.5 to run
@@ -48,6 +52,7 @@ Admin visible changes
 - the server can be locked from the admin console, once locked new connections will be rejected
 - commands can be hidden from the /help list by specifying a "hidden" atribute on the <command> element
 - the access level of a command can be overridden by adding an "access-level" attribute on the <command> attribute
+- web admin: there is now a specific administrator password to log on the admin console (admin/adminpass by default instead of operator/jetrixpass)
 - web admin: changes made to the configuration are now automatically saved to the disk !
 - web admin: the name of the server can now be configured
 - web admin: the idle time is now displayed on the user page

@@ -24,6 +24,9 @@
   <!-- Typing /op <thispassword> will give player operator status -->
   <op-password>jetrixpass</op-password>
 
+  <!-- Use this password to log on the administration console -->
+  <admin-password>adminpass</admin-password>
+
   <!-- Access Log, where requests are logged to -->
   <access-log path="log/access%g.log" />
 

@@ -49,6 +49,7 @@ public class ServerAction extends HttpServlet
             config.setMaxConnections(Integer.parseInt(request.getParameter("maxConnections")));
             config.setMaxPlayers(Integer.parseInt(request.getParameter("maxPlayers")));
             config.setOpPassword(request.getParameter("opPassword"));
+            config.setAdminPassword(request.getParameter("adminPassword"));
             config.setLocale(request.getParameter("locale"));
             config.setMessageOfTheDay(request.getParameter("motd"));
             config.setStatus(Integer.parseInt(request.getParameter("status")));

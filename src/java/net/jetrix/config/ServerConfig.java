@@ -51,7 +51,8 @@ public class ServerConfig
     private int maxChannels;
     private int maxPlayers;
     private int maxConnections;
-    private String oppass;
+    private String operatorPassword;
+    private String adminPassword;
     private String accesslogPath;
     private String errorlogPath;
     private String motd;
@@ -177,6 +178,9 @@ public class ServerConfig
         out.println();
         out.println("  <!-- Typing /op <thispassword> will give player operator status -->");
         out.println("  <op-password>" + getOpPassword() + "</op-password>");
+        out.println();
+        out.println("  <!-- Use this password to log on the administration console -->");
+        out.println("  <admin-password>" + getAdminPassword() + "</admin-password>");
         out.println();
         out.println("  <!-- Access Log, where requests are logged to -->");
         out.println("  <access-log path=\"" + getAccessLogPath() + "\" />");
@@ -689,12 +693,22 @@ public class ServerConfig
 
     public String getOpPassword()
     {
-        return oppass;
+        return operatorPassword;
     }
 
     public void setOpPassword(String oppass)
     {
-        this.oppass = oppass;
+        this.operatorPassword = oppass;
+    }
+
+    public String getAdminPassword()
+    {
+        return adminPassword;
+    }
+
+    public void setAdminPassword(String adminPassword)
+    {
+        this.adminPassword = adminPassword;
     }
 
     public String getAccessLogPath()

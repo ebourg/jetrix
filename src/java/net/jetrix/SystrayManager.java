@@ -64,7 +64,8 @@ public class SystrayManager
                     Runtime runtime = Runtime.getRuntime();
                     try
                     {
-                        String adminUrl = "http://operator:" + config.getOpPassword() + "@localhost:8080";
+                        int port = 8080; // todo get the real port from the HttpListener
+                        String adminUrl = "http://admin:" + config.getAdminPassword() + "@localhost:" + port;
                         runtime.exec("rundll32 url.dll,FileProtocolHandler " + adminUrl);
                     }
                     catch (IOException e)

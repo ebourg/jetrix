@@ -23,7 +23,7 @@
             <url-pattern>*.jsp</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>operator</role-name>
+            <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
 
