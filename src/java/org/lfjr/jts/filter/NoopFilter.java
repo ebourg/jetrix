@@ -23,7 +23,7 @@ import java.util.*;
 import org.lfjr.jts.*;
 
 /**
- * A dummy filter forward incomming messages with no change.
+ * A dummy filter forwarding incomming messages with no change.
  * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -35,12 +35,12 @@ public class NoopFilter extends MessageFilter
         out.add(m);	
     }
 
-    public static String getName() { return "Noop Filter"; }
+    public String getName() { return "Noop Filter"; }
 
-    public static String getDescription() { return "I'm useless !"; }
+    public String getDescription() { return "I'm useless !"; }
 
-    public static String getVersion() { return "1.0"; }
+    public String getVersion() { return "1.0"; }
 
-    public static String getAuthor() { return "Emmanuel Bourg"; }
+    public String getAuthor() { return "Emmanuel Bourg"; }
 
 }
