@@ -19,8 +19,9 @@
 
 package net.jetrix.services;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
@@ -179,17 +180,21 @@ public class PublishingService extends ScheduledService
             // send the request
             conn.connect();
 
-            log.fine("Response: " + conn.getResponseCode() + " - " + conn.getResponseMessage());
-
-            // read the response
-            DataInputStream in = new DataInputStream(conn.getInputStream());
-            String line = null;
-            while ((line = in.readLine()) != null)
+            if (log.isLoggable(Level.FINE))
             {
-                log.fine(line);
+                log.fine("Response: " + conn.getResponseCode() + " - " + conn.getResponseMessage());
+
+                // read the response
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line = null;
+                while ((line = in.readLine()) != null)
+                {
+                    log.fine(line);
+                }
+
+                in.close();
             }
 
-            in.close();
         }
         finally
         {
