@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,6 @@ public class JetrixUpdate
     static boolean downloadFailed = false;
     static boolean displayNews = false;
 
-
     public static void main(String[] argv) throws IOException
     {
         getUpdate();
@@ -49,7 +48,6 @@ public class JetrixUpdate
             StringTokenizer st = new StringTokenizer((String)update.elementAt(i), " \t");
             String fileName = st.nextToken();
             long chksum     = Long.parseLong(st.nextToken());
-            long size       = Long.parseLong(st.nextToken());
 
             long localSum = getFileCRC32(fileName);
 
@@ -58,7 +56,6 @@ public class JetrixUpdate
                 downloadFile(fileName, chksum);
                 if (fileName.equals(newsFileName)) displayNews = true;
             }
-
         }
 
         if (displayNews) displayNews();
@@ -121,7 +118,6 @@ public class JetrixUpdate
         fos.close();
         bis.close();
 
-
         // CRC Check
         long downloadedFileCRC = getFileCRC32(localFile);
 
@@ -140,8 +136,10 @@ public class JetrixUpdate
         }
     }
 
-
-    static public long getFileCRC32(File f) throws IOException
+    /**
+     * Return the CRC32 value of the specified file.
+     */
+    public static long getFileCRC32(File f) throws IOException
     {
         if ( f.exists() && f.isFile() )
         {
@@ -167,13 +165,18 @@ public class JetrixUpdate
         }
     }
 
-    static public long getFileCRC32(String filename) throws IOException
+    /**
+     * Return the CRC32 value of the specified file.
+     */
+    public static long getFileCRC32(String filename) throws IOException
     {
         File f = new File(filename);
         return getFileCRC32(f);
     }
 
-
+    /**
+     * Display the content of the news file.
+     */
     public static void displayNews() throws IOException
     {
         System.out.println("\n");
@@ -182,7 +185,7 @@ public class JetrixUpdate
 
         String line = br.readLine();
 
-        while (line!=null)
+        while (line != null)
         {
             System.out.println(line);
             line = br.readLine();

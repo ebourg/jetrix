@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -55,7 +55,6 @@ public class UpdateList
     /**
      * Recurse through directories and output files CRCs
      *
-     *
      * @param directory base directory
      *
      * @throws IOException
@@ -84,7 +83,6 @@ public class UpdateList
 
     /**
      * Compute CRC32 for the specified file.
-     *
      *
      * @param f
      *
