@@ -38,6 +38,7 @@ public class HttpListener implements Listener
     private org.mortbay.jetty.Server jetty;
     private Logger logger = Logger.getLogger("net.jetrix");
     private boolean initialized;
+    private int port = 8080;
 
     public HttpListener()
     {
@@ -75,7 +76,12 @@ public class HttpListener implements Listener
 
     public int getPort()
     {
-        return 8080;
+        return port;
+    }
+
+    public void setPort(int port)
+    {
+        this.port = port;
     }
 
     public void start()

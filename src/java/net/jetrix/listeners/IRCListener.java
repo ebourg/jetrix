@@ -34,14 +34,14 @@ import net.jetrix.messages.*;
  */
 public class IRCListener extends ClientListener
 {
+    public IRCListener()
+    {
+        port = 31456;
+    }
+
     public String getName()
     {
         return "IRC";
-    }
-
-    public int getPort()
-    {
-        return 31456;
     }
 
     public Client getClient(Socket socket) throws Exception

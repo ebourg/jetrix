@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE tetrinet-server PUBLIC "-//LFJR//Jetrix TetriNET Server//EN" "http://jetrix.sourceforge.net/dtd/tetrinet-server.dtd">
 
-<tetrinet-server host="[ALL]" port="31457">
+<tetrinet-server host="[ALL]">
   <name>JetriX TetriNET Server</name>
 
   <!-- Server default language (using an ISO-639 two-letter language code) -->
@@ -258,8 +258,8 @@ your opponents. Good luck!
   <listeners>
     <listener class="net.jetrix.listeners.TetrinetListener"/>
     <listener class="net.jetrix.listeners.TSpecListener"/>
-    <listener class="net.jetrix.listeners.IRCListener"/>
-    <listener class="net.jetrix.listeners.HttpListener"/>
+    <listener class="net.jetrix.listeners.IRCListener" port="31456"/>
+    <listener class="net.jetrix.listeners.HttpListener" port="8080"/>
   </listeners>
 
   <ban>

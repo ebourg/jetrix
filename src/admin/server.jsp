@@ -44,10 +44,6 @@
         <td><input class="thin" type="text" value="<%= conf.getHost() != null ? conf.getHost().toString() : "*" %>"></td>
       </tr>
       <tr>
-        <td>Port</td>
-        <td><input class="thin" type="text" value="<%= conf.getPort() %>"></td>
-      </tr>
-      <tr>
         <td>Max Players</td>
         <td><input class="thin" type="text" name="maxPlayers" value="<%= conf.getMaxPlayers() %>"></td>
       </tr>

@@ -41,7 +41,6 @@ import net.jetrix.commands.*;
 public class ServerConfig
 {
     private InetAddress host;
-    private int port;
     private int timeout;
     private int maxChannels;
     private int maxPlayers;
@@ -59,7 +58,6 @@ public class ServerConfig
     private boolean running;
 
     public static final String VERSION = "@version@";
-    public static final int DEFAULT_PORT = 31457;
 
     /**
      * Constructor declaration
@@ -70,7 +68,6 @@ public class ServerConfig
         globalFilters = new ArrayList();
         listeners = new ArrayList();
         // bans = new ArrayList();
-        port = DEFAULT_PORT;
     }
 
     /**
@@ -123,16 +120,6 @@ public class ServerConfig
             }
             catch(UnknownHostException e) { e.printStackTrace(); }
         }
-    }
-
-    public int getPort()
-    {
-        return port;
-    }
-
-    public void setPort(int port)
-    {
-        this.port = port;
     }
 
     public Locale getLocale()

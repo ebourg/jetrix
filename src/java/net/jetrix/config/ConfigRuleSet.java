@@ -35,8 +35,6 @@ public class ConfigRuleSet extends RuleSetBase
         // server parameters
         digester.addCallMethod("tetrinet-server", "setHost", 1);
         digester.addCallParam("tetrinet-server", 0, "host");
-        digester.addCallMethod("tetrinet-server", "setPort", 1, new Class[] {Integer.TYPE});
-        digester.addCallParam("tetrinet-server", 0, "port");
         digester.addCallMethod("tetrinet-server/language", "setLocale", 0);
         digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.TYPE});
@@ -134,6 +132,8 @@ public class ConfigRuleSet extends RuleSetBase
         
         // listeners
         digester.addObjectCreate("*/listener", null, "class");
+        digester.addCallMethod("*/listener", "setPort", 1, new Class[] {Integer.TYPE});
+        digester.addCallParam("*/listener", 0, "port");
         digester.addSetNext("*/listener", "addListener", "net.jetrix.Listener");
 
         // banlist

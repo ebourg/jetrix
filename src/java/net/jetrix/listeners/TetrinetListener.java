@@ -36,14 +36,14 @@ public class TetrinetListener extends ClientListener
 {
     private ProtocolManager protocolManager = ProtocolManager.getInstance();
 
+    public TetrinetListener()
+    {
+        port = 31457;
+    }
+
     public String getName()
     {
         return "tetrinet & tetrifast";
-    }
-
-    public int getPort()
-    {
-        return Server.getInstance().getConfig().getPort();
     }
 
     public Client getClient(Socket socket) throws Exception

@@ -38,6 +38,11 @@ public interface Listener extends Runnable
     public int getPort();
 
     /**
+     * Set the port used the next time the listener is started.
+     */
+    public void setPort(int port);
+
+    /**
      * Start the listener.
      */
     public void start();

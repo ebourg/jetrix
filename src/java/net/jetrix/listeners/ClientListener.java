@@ -38,6 +38,7 @@ public abstract class ClientListener implements Listener
 {
     private ServerSocket serverSocket;
     private Socket socket;
+    protected int port;
     private Logger logger;
     private boolean running;
 
@@ -59,6 +60,7 @@ public abstract class ClientListener implements Listener
 
         try
         {
+            // bind the listener to the host & port
             serverSocket = new ServerSocket(getPort(), 50, serverConfig.getHost());
             logger.info("Listening at " + getName() + " port " + getPort()
                 + ( (serverConfig.getHost() != null)?", bound to " + serverConfig.getHost():"") );
@@ -174,6 +176,16 @@ public abstract class ClientListener implements Listener
                 e.printStackTrace();
             }
         }
+    }
+
+    public int getPort()
+    {
+        return port;
+    }
+
+    public void setPort(int port)
+    {
+        this.port = port;
     }
 
     /**

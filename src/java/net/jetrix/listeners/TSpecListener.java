@@ -34,14 +34,14 @@ import net.jetrix.messages.*;
  */
 public class TSpecListener extends TetrinetListener
 {
+    public TSpecListener()
+    {
+        port = 31458;
+    }
+
     public String getName()
     {
         return "tspec";
-    }
-
-    public int getPort()
-    {
-        return 31458;
     }
 
     public Client getClient(Socket socket) throws Exception

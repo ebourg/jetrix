@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   filter-definitions?, default-filters?, winlists?, default-settings, channels,
   commands, listeners, ban?)>
 <!ATTLIST tetrinet-server host CDATA #IMPLIED>
-<!ATTLIST tetrinet-server port CDATA #IMPLIED>
 
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT language (#PCDATA)>
@@ -120,6 +119,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT listeners (listener*)>
 <!ELEMENT listener EMPTY>
 <!ATTLIST listener class CDATA #REQUIRED>
+<!ATTLIST listener port CDATA #IMPLIED>
 
 <!ELEMENT ban %Ban;>
 <!ELEMENT host (#PCDATA)>
