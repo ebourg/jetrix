@@ -116,7 +116,7 @@
 	    <td><%= filter.getName() %></td>
 	    <td><%= filter.getVersion() %></td>
 	    <td><%= filter.getDescription() %></td>
-	    <td><input type="button" value="Remove"></td>
+	    <td><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
 	  </tr>
 <%  } %>
 	</table>
