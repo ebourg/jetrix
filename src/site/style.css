@@ -31,3 +31,9 @@ table.thin th { border-bottom: 1px solid #c0c0c0; border-right: 1px solid #c0c0c
 table.thin td { border-bottom: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0; }
 
 div.hr { width: 100%; border-top: 1px solid gray }
+
+.news { border: 1px dashed #525d76; margin: 1em 0; padding: 1em }
+.news h2 { margin-top: 0; margin-bottom: 0; font-size: 14pt; }
+
+.newsdate { font-size: 9pt; font-style: italic; }
+.newstext { margin-top: 1em; }
