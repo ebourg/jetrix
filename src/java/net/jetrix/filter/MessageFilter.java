@@ -36,11 +36,6 @@ public abstract class MessageFilter
     private Properties props;
     private Channel channel;
 
-    public MessageFilter()
-    {
-        props = new Properties();
-    }
-
     /**
      * Indicates if the filter is a slingleton or not. A filter should be
      * a singleton if it's independant from the channel context (for example:
@@ -95,7 +90,7 @@ public abstract class MessageFilter
      */
     public final String getProperty(String key)
     {
-        return props.getProperty(key);
+        return (props == null) ? null : props.getProperty(key);
     }
 
     /**
@@ -103,6 +98,10 @@ public abstract class MessageFilter
      */
     public final void setProperty(String key, String value)
     {
+        if (props == null)
+        {
+            props = new Properties();
+        }
         props.setProperty(key, value);
     }
 

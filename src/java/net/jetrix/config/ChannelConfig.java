@@ -47,7 +47,6 @@ public class ChannelConfig
 
     public ChannelConfig()
     {
-        props = new Properties();
         filters = new ArrayList();
         settings = new Settings();
     }
@@ -210,11 +209,15 @@ public class ChannelConfig
 
     public String getProperty(String name)
     {
-        return props.getProperty(name);
+        return (props == null) ? null : props.getProperty(name);
     }
 
     public void setProperty(String name, String value)
     {
+        if (props == null)
+        {
+            props = new Properties();
+        }
         props.setProperty(name, value);
     }
 
