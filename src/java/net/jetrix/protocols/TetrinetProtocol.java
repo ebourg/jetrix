@@ -73,6 +73,12 @@ public class TetrinetProtocol implements Protocol
     public Message getMessage(String line)
     {
         StringTokenizer st = new StringTokenizer(line);
+        if (!st.hasMoreTokens())
+        {
+            // skip empty lines
+            return null;
+        }
+
         String cmd = st.nextToken();
         Message m = null;
 
