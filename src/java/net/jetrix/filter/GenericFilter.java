@@ -20,6 +20,8 @@
 package net.jetrix.filter;
 
 import java.util.*;
+import java.util.logging.*;
+
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -34,6 +36,7 @@ import net.jetrix.messages.*;
  */
 public abstract class GenericFilter extends MessageFilter
 {
+    protected Logger log = Logger.getLogger("net.jetrix");
 
     public final void process(Message m, List<Message> out)
     {
