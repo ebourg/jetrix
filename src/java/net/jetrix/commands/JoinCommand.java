@@ -135,7 +135,7 @@ public class JoinCommand implements Command
         }
         catch (NumberFormatException e)
         {
-            channel = ChannelManager.getInstance().getChannel(name);;
+            channel = ChannelManager.getInstance().getChannel(name, true);
         }
 
         return channel;
