@@ -45,6 +45,7 @@ public class ServerConfigTest extends TestCase
 
     public void testSave() throws Exception
     {
+        // load...
         ServerConfig config = new ServerConfig();
         config.load();
 
@@ -55,7 +56,12 @@ public class ServerConfigTest extends TestCase
             ChannelManager.getInstance().createChannel(cc, false);
         }
 
+        // save...
         config.save();
+
+        // and load again !
+        ServerConfig config2 = new ServerConfig();
+        config2.load();
     }
 
 }
