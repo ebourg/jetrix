@@ -49,8 +49,7 @@ public class TetrinetListener extends ClientListener
     public Client getClient(Socket socket) throws Exception
     {
         // read the first line sent by the client
-        String init = null;
-        init = readLine(socket);
+        String init = readLine(socket);
 
         // test if the client is using the query protocol
         Protocol protocol = protocolManager.getProtocol("net.jetrix.protocols.QueryProtocol");
@@ -202,7 +201,7 @@ public class TetrinetListener extends ClientListener
     public String readLine(Socket socket) throws IOException
     {
         StringBuffer input = new StringBuffer();
-        Reader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
+        InputStream in = socket.getInputStream();
 
         int readChar;
         while ((readChar = in.read()) != -1 && readChar != 0xFF && readChar != 0x0A && readChar != 0x0D)
