@@ -21,7 +21,6 @@ package net.jetrix;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import java.util.logging.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -37,11 +36,6 @@ public abstract class ClientListener implements Runnable
     private ServerSocket serverSocket;
     private Socket socket;
     private Logger logger;
-
-    public ClientListener()
-    {
-        Server server = Server.getInstance();
-    }
 
     /**
      * Return the name of the listener.
@@ -148,7 +142,10 @@ public abstract class ClientListener implements Runnable
                 }
                 motd.close();
 
-                // forwarding client to server for channel assignation
+                // start the client
+                (new Thread(client)).start();
+
+                // forward the client to the server for channel assignation
                 AddPlayerMessage m = new AddPlayerMessage();
                 m.setClient(client);
                 Server.getInstance().sendMessage(m);
