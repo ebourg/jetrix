@@ -139,6 +139,29 @@ public class Settings
         Settings.defaultSettings = defaultSettings;
     }
 
+    /**
+     * Tell if the current Settings use the default Settings for all its values.
+     */
+    public boolean useDefaultSettings()
+    {
+        return defaultBlockOccurancy
+                && defaultSpecialOccurancy
+                && defaultStartingLevel
+                && defaultStackHeight
+                && defaultLinesPerLevel
+                && defaultLinesPerSpecial
+                && defaultLevelIncrease
+                && defaultSpecialAdded
+                && defaultSpecialCapacity
+                && defaultAverageLevels
+                && defaultClassicRules
+                && defaultSameBlocks
+                && defaultSuddenDeathTime
+                && defaultSuddenDeathMessage
+                && defaultSuddenDeathDelay
+                && defaultSuddenDeathLinesAdded;
+    }
+
     public int getStartingLevel()
     {
         return isDefaultStartingLevel() ? defaultSettings.getStartingLevel() : startingLevel;
@@ -409,42 +432,9 @@ public class Settings
         normalize(specialOccurancy);
     }
 
-    public void setLineOccurancy(int occurancy) { setOccurancy(LINE, occurancy); }
-    public void setSquareOccurancy(int occurancy) { setOccurancy(SQUARE, occurancy); }
-    public void setLeftLOccurancy(int occurancy) { setOccurancy(LEFTL, occurancy); }
-    public void setRightLOccurancy(int occurancy) { setOccurancy(RIGHTL, occurancy); }
-    public void setLeftZOccurancy(int occurancy) { setOccurancy(LEFTZ, occurancy); }
-    public void setRightZOccurancy(int occurancy) { setOccurancy(RIGHTZ, occurancy); }
-    public void setHalfCrossOccurancy(int occurancy) { setOccurancy(HALFCROSS, occurancy); }
-
-    public int getLineOccurancy() { return getOccurancy(LINE); }
-    public int getSquareOccurancy() { return getOccurancy(SQUARE); }
-    public int getLeftLOccurancy() { return getOccurancy(LEFTL); }
-    public int getRightLOccurancy() { return getOccurancy(RIGHTL); }
-    public int getLeftZOccurancy() { return getOccurancy(LEFTZ); }
-    public int getRightZOccurancy() { return getOccurancy(RIGHTZ); }
-    public int getHalfCrossOccurancy() { return getOccurancy(HALFCROSS); }
-
-    public void setAddLineOccurancy(int occurancy) { setOccurancy(ADDLINE, occurancy); }
-    public void setClearLineOccurancy(int occurancy) { setOccurancy(CLEARLINE, occurancy); }
-    public void setNukeFieldOccurancy(int occurancy) { setOccurancy(NUKEFIELD, occurancy); }
-    public void setRandomClearOccurancy(int occurancy) { setOccurancy(RANDOMCLEAR, occurancy); }
-    public void setSwitchFieldOccurancy(int occurancy) { setOccurancy(SWITCHFIELD, occurancy); }
-    public void setClearSpecialOccurancy(int occurancy) { setOccurancy(CLEARSPECIAL, occurancy); }
-    public void setGravityOccurancy(int occurancy) { setOccurancy(GRAVITY, occurancy); }
-    public void setQuakeFieldOccurancy(int occurancy) { setOccurancy(QUAKEFIELD, occurancy); }
-    public void setBlockBombOccurancy(int occurancy) { setOccurancy(BLOCKBOMB, occurancy); }
-
-    public int getAddLineOccurancy() { return getOccurancy(ADDLINE); }
-    public int getClearLineOccurancy() { return getOccurancy(CLEARLINE); }
-    public int getNukeFieldOccurancy() { return getOccurancy(NUKEFIELD); }
-    public int getRandomClearOccurancy() { return getOccurancy(RANDOMCLEAR); }
-    public int getSwitchFieldOccurancy() { return getOccurancy(SWITCHFIELD); }
-    public int getClearSpecialOccurancy() { return getOccurancy(CLEARSPECIAL); }
-    public int getGravityOccurancy() { return getOccurancy(GRAVITY); }
-    public int getQuakeFieldOccurancy() { return getOccurancy(QUAKEFIELD); }
-    public int getBlockBombOccurancy() { return getOccurancy(BLOCKBOMB); }
-
+    /**
+     * Tells if the block occurancies of the default settings are used.
+     */
     public boolean isDefaultBlockOccurancy()
     {
         return defaultBlockOccurancy && defaultSettings != null && this != defaultSettings;
@@ -455,6 +445,9 @@ public class Settings
         this.defaultBlockOccurancy = defaultBlockOccurancy;
     }
 
+    /**
+     * Tells if the special occurancies of the default settings are used.
+     */
     public boolean isDefaultSpecialOccurancy()
     {
         return defaultSpecialOccurancy && defaultSettings != null && this != defaultSettings;
