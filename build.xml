@@ -85,11 +85,14 @@
       <manifest>
         <attribute name="Implementation-Title" value="Jetrix TetriNET Server"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Main-Class" value="net.jetrix.Server"/>
+        <attribute name="Main-Class" value="net.jetrix.Launcher"/>
       </manifest>
       <fileset dir="${build}/classes"/>
       <fileset dir="${src}/etc">
         <include name="tetrinet-server.dtd"/>
+      </fileset>
+      <fileset dir="${src}/etc/icons">
+        <include name="jetrix.ico"/>
       </fileset>
     </jar>
 
@@ -142,6 +145,7 @@
         <include name="servlet-light.jar"/>
         <include name="jasper-runtime.jar"/>
         <include name="jcrontab*.jar"/>
+        <include name="systray4j*.*" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
@@ -193,14 +197,15 @@
 
   </target>
   
-  <target name="dist.win" description="Build the windows installer">  
+  <target name="dist.win" depends="dist" description="Build the windows installer">
     
     <!-- Build the windows executable file jetrix.exe -->
     <mkdir dir="${build}/bin"/>
-    <copy todir="${build}/bin" filtering="on">
+    <copy todir="${build}/bin" filtering="true">
       <fileset dir="${src}/bin" includes="*.nsi"/>
-    </copy>    
-    
+    </copy>
+    <copy file="${src}/etc/icons/jetrix.ico" todir="${build}/bin"/>
+
     <exec executable="C:\Program Files\NSIS\makensis.exe">
       <arg line="${build}/bin/launcher.nsi"/>
     </exec>
@@ -282,6 +287,7 @@
   <target name="run" depends="deploy">
     <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-${version}.jar" fork="true">
       <sysproperty key="jetrix.debug" value="true"/>
+      <sysproperty key="java.library.path" value="lib"/>
     </java>
   </target>
 

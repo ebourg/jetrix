@@ -1,3 +1,3 @@
 @echo off
 
-java -jar lib/jetrix-@version@.jar
+java -Djava.library.path=lib -jar lib/jetrix-@version@.jar

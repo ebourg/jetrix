@@ -20,15 +20,16 @@
 package net.jetrix;
 
 import java.io.*;
-import java.net.*;
 import java.text.*;
 import java.util.*;
 import java.util.logging.*;
 
 import net.jetrix.clients.*;
-import net.jetrix.config.*;
 import net.jetrix.commands.*;
+import net.jetrix.config.*;
 import net.jetrix.messages.*;
+
+import snoozesoft.systray4j.*;
 
 /**
  * Main class, starts server components.
@@ -44,6 +45,7 @@ public class Server implements Runnable, Destination
     private MessageQueue queue;
     private ChannelManager channelManager;
     private Logger log;
+    private Client console;
 
     private Server()
     {
@@ -92,6 +94,48 @@ public class Server implements Runnable, Destination
         // prepare the loggers
         prepareLoggers();
 
+        // display the systray icon (windows only)
+        if (SysTrayMenu.isAvailable())
+        {
+            // build the menu items
+            SysTrayMenuItem itemExit = new SysTrayMenuItem("Stop && Exit", "exit");
+            itemExit.addSysTrayMenuListener(new SysTrayMenuAdapter() {
+                public void menuItemSelected(SysTrayMenuEvent event) {
+                    stop();
+                }
+            });
+
+            SysTrayMenuItem itemAdmin = new SysTrayMenuItem("Administration", "admin");
+            SysTrayMenuListener adminListener = new SysTrayMenuAdapter() {
+                public void menuItemSelected(SysTrayMenuEvent event) {
+                    Runtime runtime = Runtime.getRuntime();
+                    try {
+                        String adminUrl = "http://operator:" + config.getOpPassword() + "@localhost:8080";
+                        runtime.exec("rundll32 url.dll,FileProtocolHandler " + adminUrl);
+                    } catch (IOException e) {
+                        log.log(Level.WARNING, e.getMessage(), e);
+                    }
+                }
+
+                public void iconLeftDoubleClicked(SysTrayMenuEvent event) {
+                    menuItemSelected(event);
+                }
+            };
+            itemAdmin.addSysTrayMenuListener(adminListener);
+
+            // build the systray icon
+            SysTrayMenuIcon icon = new SysTrayMenuIcon(getClass().getClassLoader().getResource("jetrix.ico"));
+            icon.addSysTrayMenuListener(adminListener);
+
+            // build the menu
+            SysTrayMenu menu = new SysTrayMenu(icon);
+            menu.setToolTip("Jetrix TetriNET Server");
+            menu.addItem(itemExit);
+            menu.addItem(itemAdmin);
+
+            menu.showIcon();
+        }
+
         // @todo check the availability of a new release
         // ....
 
@@ -131,7 +175,8 @@ public class Server implements Runnable, Destination
         }
 
         // start the server console
-        (new Thread(new ConsoleClient())).start();        
+        console = new ConsoleClient();
+        new Thread(console).start();
 
         log.info("Server ready!");
     }
@@ -211,24 +256,38 @@ public class Server implements Runnable, Destination
      */
     protected void stop()
     {
+        config.setRunning(false);
+
         // stop the listeners
         Iterator listeners = config.getListeners().iterator();
         while (listeners.hasNext())
         {
             Listener listener = (Listener) listeners.next();
-            listener.stop();
+            if (listener.isRunning())
+            {
+                listener.stop();
+            }
         }
 
         // stop the services
         Iterator services = config.getServices().iterator();
         while (services.hasNext())
         {
-            Service service = (Service) listeners.next();
-            service.stop();
+            Service service = (Service) services.next();
+            if (service.isRunning())
+            {
+                service.stop();
+            }
         }
 
-        config.setRunning(false);
+        // disconnect all clients
         disconnectAll();
+
+        // close the channels
+        ChannelManager.getInstance().closeAll();
+
+        // stop the server thread
+        queue.close();
     }
 
     /**
@@ -244,6 +303,9 @@ public class Server implements Runnable, Destination
             Client client = (Client) clients.next();
             client.disconnect();
         }
+
+        // disconnect the console client as well
+        console.disconnect();
     }
 
     public void run()
@@ -300,9 +362,12 @@ public class Server implements Runnable, Destination
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                log.log(Level.WARNING, e.getMessage(), e);
             }
         }
+
+        // remove the system tray icon
+        SysTrayMenu.dispose();
     }
 
     /**
@@ -313,48 +378,23 @@ public class Server implements Runnable, Destination
         queue.put(message);
     }
 
+    /**
+     * Return the server configuration.
+     */
     public ServerConfig getConfig()
     {
         return config;
     }
 
     /**
-     * Server entry point. All classes, jar and zip files in the lib
-     * subdirectory are automatically added to the classpath.
+     * Server entry point.
      *
      * @param args start parameters
      */
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
-        // build the list of JARs in the ./lib directory
-        File repository = new File("lib/");
-        List jars = new ArrayList();
-        jars.add(repository.toURL());
-        jars.add(new File("lang/").toURL());
-
-        File[] files = repository.listFiles();
-        for (int i = 0; i < files.length; i++)
-        {
-            String filename = files[i].getAbsolutePath();
-            if (filename.endsWith(".jar") || filename.endsWith(".zip"))
-            {
-                jars.add(files[i].toURL());
-            }
-        }
-
-        URL[] urls = new URL[jars.size()];
-        for (int i = 0; i < jars.size(); i++)
-        {
-            urls[i] = (URL) jars.get(i);
-        }
-
-        URLClassLoader loader = new URLClassLoader(urls, null);
-        Thread.currentThread().setContextClassLoader(loader);
-
-        // start the server
-        Class serverClass = loader.loadClass("net.jetrix.Server");
-        Object server = serverClass.getMethod("getInstance", null).invoke(null, null);
-        server.getClass().getMethod("start", null).invoke(server, null);
+        Server server = Server.getInstance();
+        server.start();
     }
 
 }
