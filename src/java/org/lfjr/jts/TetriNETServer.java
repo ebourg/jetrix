@@ -37,7 +37,7 @@ public class TetriNETServer implements Runnable
     private MessageQueue mq;
     private ChannelManager channelManager;
 
-    private static final String VERSION = "0.0.8";
+    private static final String VERSION = "0.0.8+";
 
     private TetriNETServer()
     {
@@ -151,6 +151,19 @@ public class TetriNETServer implements Runnable
                                 i = i + 1;
                             }
                         }
+                        else if ("/version".equalsIgnoreCase(cmd))
+                        {
+                            String version1 = ChatColors.darkBlue + "" + ChatColors.bold + "JetriX/" + VERSION;
+                            String version2 = ChatColors.purple+"VM"+ChatColors.darkBlue+": " + System.getProperty("java.vm.name") + " " + System.getProperty("java.vm.version") + " " + System.getProperty("java.vm.info");
+                            String version3 = ChatColors.purple+"OS"+ChatColors.darkBlue+": " + System.getProperty("os.name") + " " + System.getProperty("os.version") +"; " + System.getProperty("os.arch");
+                                                        
+                            Message response1 = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), version1 });
+                            Message response2 = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), version2 });
+                            Message response3 = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), version3 });
+                            client.sendMessage(response1);
+                            client.sendMessage(response2);
+                            client.sendMessage(response3);
+                        }                        
                         else if ("/who".equalsIgnoreCase(cmd))
                         {
                             Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), ChatColors.darkBlue+"/who is not implemented yet" });
