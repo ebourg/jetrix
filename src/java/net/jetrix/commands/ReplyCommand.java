@@ -52,7 +52,6 @@ public class ReplyCommand extends AbstractCommand implements ParameterCommand
 
         String targetName = (String) client.getUser().getProperty("command.tell.reply_to");
 
-        // aucun message précédent
         if (targetName == null)
         {
             // no previous message
