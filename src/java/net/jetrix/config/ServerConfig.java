@@ -26,6 +26,7 @@ import java.util.*;
 import org.apache.commons.digester.*;
 
 import net.jetrix.*;
+import net.jetrix.winlist.*;
 import net.jetrix.filter.*;
 import net.jetrix.commands.*;
 
@@ -271,6 +272,11 @@ public class ServerConfig
     public void addFilterAlias(String name, String classname)
     {
         FilterManager.getInstance().addFilterAlias(name, classname);
+    }
+
+    public void addWinlist(Winlist winlist)
+    {
+        WinlistManager.getInstance().addWinlist(winlist);
     }
 
     public void addCommand(Command command)
