@@ -81,14 +81,15 @@ public class WhoCommand implements Command
 
                 for (int i = 1; i <= 6; i++)
                 {
-                    Client clientInChannel = channel.getPlayer(i);
+                    Client clientInChannel = channel.getClient(i);
+                    User user = clientInChannel.getUser();
                     if (clientInChannel != null)
                     {
-                        if (clientInChannel.getPlayer().getAccessLevel() > 0) message.append("<b>");
+                        if (user.getAccessLevel() > 0) message.append("<b>");
                         if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("<i>");
-                        message.append(" " + clientInChannel.getPlayer().getName());
+                        message.append(" " + user.getName());
                         if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("</i>");
-                        if (clientInChannel.getPlayer().getAccessLevel() > 0) message.append("</b>");
+                        if (user.getAccessLevel() > 0) message.append("</b>");
                     }
                     if (client == clientInChannel) isInChannel = true;
                 }

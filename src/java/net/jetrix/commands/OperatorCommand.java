@@ -69,7 +69,7 @@ public class OperatorCommand implements Command
             if (password.equalsIgnoreCase(conf.getOpPassword()))
             {
                 // access granted
-                client.getPlayer().setAccessLevel(1);
+                client.getUser().setAccessLevel(1);
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.operator.granted");
                 client.sendMessage(response);
@@ -77,7 +77,7 @@ public class OperatorCommand implements Command
             else
             {
                 // access denied, logging attempt
-                logger.severe(client.getPlayer().getName() + "(" + client.getSocket().getInetAddress() + ") attempted to get operator status.");
+                logger.severe(client.getUser().getName() + "(" + client.getSocket().getInetAddress() + ") attempted to get operator status.");
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.operator.denied");
                 client.sendMessage(response);

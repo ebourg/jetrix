@@ -80,10 +80,10 @@ public class TetrinetListener extends ClientListener
         }
 
         TetrinetClient client = new TetrinetClient();
-        Player player = new Player();
-        player.setName((String)tokens.get(1));
+        User user = new User();
+        user.setName((String)tokens.get(1));
         client.setSocket(socket);
-        client.setPlayer(player);
+        client.setUser(user);
         client.setVersion((String)tokens.get(2));
         if (((String)tokens.get(0)).equals("tetrisstart"))
         {

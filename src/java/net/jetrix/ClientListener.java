@@ -92,9 +92,9 @@ public abstract class ClientListener implements Runnable
                 logger.info("Incoming client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
 
                 Client client = getClient(socket);
-                Player player = client.getPlayer();
-                player.setLocale(serverConfig.getLocale());
-                client.getProtocol().setLocale(player.getLocale());
+                User user = client.getUser();
+                user.setLocale(serverConfig.getLocale());
+                client.getProtocol().setLocale(user.getLocale());
 
                 // checking if server is full
                 ClientRepository repository = ClientRepository.getInstance();
@@ -108,7 +108,7 @@ public abstract class ClientListener implements Runnable
                 }
 
                 // testing name unicity
-                if (repository.getClient(player.getName()) == null)
+                if (repository.getClient(user.getName()) == null)
                 {
                     repository.addClient(client);
                 }

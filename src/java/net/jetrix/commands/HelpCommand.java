@@ -63,13 +63,13 @@ public class HelpCommand implements Command
         header.setKey("command.help.header");
         client.sendMessage(header);
 
-        Iterator commands = commandManager.getCommands(client.getPlayer().getAccessLevel());
+        Iterator commands = commandManager.getCommands(client.getUser().getAccessLevel());
         while (commands.hasNext())
         {
             Command command = (Command)commands.next();
 
             PlineMessage ligne1 = new PlineMessage();
-            String usage = command.getUsage(client.getPlayer().getLocale());
+            String usage = command.getUsage(client.getUser().getLocale());
             String line1Body;
             int space = usage.indexOf(" ");
             if (space == -1)
@@ -77,7 +77,7 @@ public class HelpCommand implements Command
             else
                 line1Body = "<red>" + usage.substring(0, space) + "<aqua>" + usage.substring(space);
             ligne1.setText(line1Body);
-            PlineMessage ligne2 = new PlineMessage("         " + command.getDescription(client.getPlayer().getLocale()));
+            PlineMessage ligne2 = new PlineMessage("         " + command.getDescription(client.getUser().getLocale()));
             client.sendMessage(ligne1);
             client.sendMessage(ligne2);
         }

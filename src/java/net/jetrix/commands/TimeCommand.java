@@ -58,7 +58,7 @@ public class TimeCommand implements Command
     public void execute(CommandMessage m)
     {
         Client client = (Client)m.getSource();
-        Locale locale = client.getPlayer().getLocale();
+        Locale locale = client.getUser().getLocale();
         ServerConfig conf = Server.getInstance().getConfig();
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
 

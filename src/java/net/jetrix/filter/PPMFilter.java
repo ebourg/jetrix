@@ -69,10 +69,9 @@ public class PPMFilter extends GenericFilter
         // displaying results
         for (int slot=0; slot<6; slot++)
         {
-            Client client = getChannel().getPlayer(slot);
-            Player player = client.getPlayer();
+            User user = getChannel().getPlayer(slot);
 
-            System.out.println(player.getName() + " : " + "time played="+slotTime[slot]+" ");
+            System.out.println(user.getName() + " : " + "time played="+slotTime[slot]+" ");
         }
 
         out.add(m);

@@ -71,7 +71,7 @@ public class TeleportCommand implements Command
                 if (slot >= 1 && slot <= 6)
                 {
                     Channel channel = client.getChannel();
-                    target = channel.getPlayer(slot);
+                    target = channel.getClient(slot);
                 }
             }
             catch (NumberFormatException e) {}
@@ -111,7 +111,7 @@ public class TeleportCommand implements Command
                         channel.sendMessage(move);
 
                         PlineMessage teleported = new PlineMessage();
-                        Object[] params = new Object[] { target.getPlayer().getName(), channel.getConfig().getName() };
+                        Object[] params = new Object[] { target.getUser().getName(), channel.getConfig().getName() };
                         teleported.setKey("command.teleport.message", params);
                         client.sendMessage(teleported);
                     }

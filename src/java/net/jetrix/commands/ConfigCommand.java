@@ -57,7 +57,7 @@ public class ConfigCommand implements Command
     public void execute(CommandMessage m)
     {
         Client client = (Client)m.getSource();
-        Locale locale = client.getPlayer().getLocale();
+        Locale locale = client.getUser().getLocale();
 
         Settings s = client.getChannel().getConfig().getSettings();
         String configLines[] = new String[18];

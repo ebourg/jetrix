@@ -38,17 +38,17 @@ public class PingFilter extends MessageFilter
         if (m instanceof TeamMessage)
         {
             Client client = (Client)m.getSource();
-            Player player = client.getPlayer();
+            User user = client.getUser();
 
-            if ("true".equals((player.getProperty("command.ping"))))
+            if ("true".equals((user.getProperty("command.ping"))))
             {
-                long delay = (System.currentTimeMillis() - ((Long)player.getProperty("command.ping.time")).longValue()) >> 1;
+                long delay = (System.currentTimeMillis() - ((Long)user.getProperty("command.ping.time")).longValue()) >> 1;
 
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.ping.message", new Object[] { new Long(delay) });
                 client.sendMessage(response);
 
-                player.setProperty("command.ping", "false");
+                user.setProperty("command.ping", "false");
             }
             else
             {

@@ -70,7 +70,7 @@ public class IpCommand implements Command
                 if (slot >= 1 && slot <= 6)
                 {
                     Channel channel = client.getChannel();
-                    target = channel.getPlayer(slot);
+                    target = channel.getClient(slot);
                 }
             }
             catch (NumberFormatException e) {}
@@ -94,7 +94,7 @@ public class IpCommand implements Command
                 // player found
                 String hostname = target.getSocket().getInetAddress().getHostName();
                 String hostaddress = target.getSocket().getInetAddress().getHostAddress();
-                String message = "<darkBlue>[<red>" + target.getPlayer().getName() + "</red>] " + hostname;
+                String message = "<darkBlue>[<red>" + target.getUser().getName() + "</red>] " + hostname;
                 if (!hostname.equals(hostaddress)) message += " (" + hostaddress + ")";
                 PlineMessage reponse = new PlineMessage(message);
                 client.sendMessage(reponse);

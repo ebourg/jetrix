@@ -64,7 +64,7 @@ public class LanguageCommand implements Command
 
             if (Language.isSupported(l))
             {
-                client.getPlayer().setLocale(l);
+                client.getUser().setLocale(l);
                 client.getProtocol().setLocale(l);
 
                 PlineMessage response = new PlineMessage();
@@ -73,7 +73,7 @@ public class LanguageCommand implements Command
             }
             else
             {
-                client.getPlayer().setLocale(l);
+                client.getUser().setLocale(l);
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.language.not_supported");
                 client.sendMessage(response);

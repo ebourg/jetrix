@@ -92,7 +92,7 @@ public class SummonCommand implements Command
                 else if (channel == target.getChannel())
                 {
                     PlineMessage cantsummon = new PlineMessage();
-                    cantsummon.setKey("command.summon.same_channel", new Object[] { target.getPlayer().getName() });
+                    cantsummon.setKey("command.summon.same_channel", new Object[] { target.getUser().getName() });
                     client.sendMessage(cantsummon);
                 }
                 else if (channel.isFull())
@@ -109,11 +109,11 @@ public class SummonCommand implements Command
                     channel.sendMessage(move);
 
                     PlineMessage summoned1 = new PlineMessage();
-                    summoned1.setKey("command.summon.summoned", new Object[] { target.getPlayer().getName() });
+                    summoned1.setKey("command.summon.summoned", new Object[] { target.getUser().getName() });
                     client.sendMessage(summoned1);
 
                     PlineMessage summoned2 = new PlineMessage();
-                    summoned2.setKey("command.summon.summoned_by", new Object[] { client.getPlayer().getName() });
+                    summoned2.setKey("command.summon.summoned_by", new Object[] { client.getUser().getName() });
                     target.sendMessage(summoned2);
                 }
             }

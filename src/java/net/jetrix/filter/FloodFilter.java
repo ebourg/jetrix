@@ -74,9 +74,9 @@ public class FloodFilter extends GenericFilter
 
         if (slot > 0 && isRateExceeded ) {
             if ( ( now - lastWarning ) > warningPeriod * 1000 ) {
-                Player player = getChannel().getPlayer(slot).getPlayer();
+                User user = getChannel().getPlayer(slot);
                 PlineMessage warning = new PlineMessage();
-                warning.setKey("filter.flood.blocked", new Object[] { player.getName() });
+                warning.setKey("filter.flood.blocked", new Object[] { user.getName() });
                 out.add(warning);
                 lastWarning = now;
             }

@@ -70,7 +70,7 @@ public class TellCommand implements Command
                 if (slot >= 1 && slot <= 6)
                 {
                     Channel channel = client.getChannel();
-                    target = channel.getPlayer(slot);
+                    target = channel.getClient(slot);
                 }
             }
             catch (NumberFormatException e) {}
@@ -94,7 +94,7 @@ public class TellCommand implements Command
                 // player found
                 PlineMessage reponse = new PlineMessage();
                 String privateMessage = m.getText().substring(targetName.length() + 1);
-                String message = "<aqua>{" + client.getPlayer().getName() + "}</aqua> <darkBlue>" + privateMessage;
+                String message = "<aqua>{" + client.getUser().getName() + "}</aqua> <darkBlue>" + privateMessage;
                 reponse.setText(message);
                 target.sendMessage(reponse);
             }

@@ -66,19 +66,19 @@ public class PingCommand implements Command
     public void execute(CommandMessage m)
     {
         Client client = (Client)m.getSource();
-        Player player = client.getPlayer();
+        User user = client.getUser();
 
         // @todo check if the client use the tetrinet protocol
 
         // check if a previous /ping request has still to be completed
-        if ("true".equals(player.getProperty("command.ping"))) return;
+        if ("true".equals(user.getProperty("command.ping"))) return;
 
         PlayerNumMessage response = new PlayerNumMessage();
-        response.setSlot(client.getChannel().getPlayerSlot(client));
+        response.setSlot(client.getChannel().getClientSlot(client));
 
         // set the client properties to be used by the PingFilter
-        player.setProperty("command.ping", "true");
-        player.setProperty("command.ping.time", new Long(System.currentTimeMillis()));
+        user.setProperty("command.ping", "true");
+        user.setProperty("command.ping.time", new Long(System.currentTimeMillis()));
 
         client.sendMessage(response);
     }

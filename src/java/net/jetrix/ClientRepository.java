@@ -71,7 +71,7 @@ public class ClientRepository
      */
     public void addClient(Client client)
     {
-        clients.put(client.getPlayer().getName().toLowerCase(), client);
+        clients.put(client.getUser().getName().toLowerCase(), client);
     }
 
     /**
@@ -81,7 +81,7 @@ public class ClientRepository
      */
     public void removeClient(Client client)
     {
-        clients.remove(client.getPlayer().getName().toLowerCase());
+        clients.remove(client.getUser().getName().toLowerCase());
     }
 
     /**

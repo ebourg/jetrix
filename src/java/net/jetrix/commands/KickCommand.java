@@ -70,7 +70,7 @@ public class KickCommand implements Command
                 if (slot >= 1 && slot <= 6)
                 {
                     Channel channel = client.getChannel();
-                    target = channel.getPlayer(slot);
+                    target = channel.getClient(slot);
                 }
             }
             catch (NumberFormatException e) {}

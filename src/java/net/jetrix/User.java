@@ -23,12 +23,12 @@ import java.net.*;
 import java.util.*;
 
 /**
- * Holds information about a player.
+ * A user connected to the server. The user can be a player or a spectator.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class Player
+public class User
 {
     private String nickname;
     private String team;
@@ -36,15 +36,19 @@ public class Player
     private int status;
     private boolean registered;
     private boolean playing;
+    private boolean spectator;
     private Locale locale;
     private Map props;
 
     public static final int STATUS_OK  = 0;
     public static final int STATUS_AFK = 1;
+    
+    public static final int USER_PLAYER = 0;
+    public static final int USER_SPECTATOR = 1;
 
-    public Player() { }
+    public User() { }
 
-    public Player(String nickname)
+    public User(String nickname)
     {
         this.nickname = nickname;
     }
@@ -109,6 +113,16 @@ public class Player
         return playing;
     }
 
+    public void setSpectator(boolean playing)
+    {
+        this.playing = playing;
+    }
+
+    public boolean isSpectator()
+    {
+        return playing;
+    }
+
     public void setLocale(Locale locale)
     {
         this.locale = locale;
@@ -141,7 +155,7 @@ public class Player
 
     public String toString()
     {
-        return "[Player " + nickname + " <" + team + "> playing=" + playing + "]";
+        return "[User " + nickname + " <" + team + "> playing=" + playing + "]";
     }
 
 }

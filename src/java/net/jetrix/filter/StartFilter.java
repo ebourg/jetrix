@@ -72,7 +72,7 @@ public class StartFilter extends GenericFilter
             int i = 0;
             while(i < 6 && doStart)
             {
-                Client player = getChannel().getPlayer(i + 1);
+                Client player = getChannel().getClient(i + 1);
                 doStart = player == null || ( player != null  && (now - timestamp[i]) <= delay );
                 i = i + 1;
             }

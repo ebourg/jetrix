@@ -131,7 +131,7 @@ public class CommandManager
         else
         {
             // check the access level
-            if (client.getPlayer().getAccessLevel() >= command.getAccessLevel())
+            if (client.getUser().getAccessLevel() >= command.getAccessLevel())
             {
                 command.execute(m);
             }

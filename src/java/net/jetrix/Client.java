@@ -51,7 +51,7 @@ public abstract class Client implements Runnable, Destination
 
     private Channel channel;
     private Server server;
-    private Player player;
+    private User user;
 
     private boolean disconnected;
     private Logger logger = Logger.getLogger("net.jetrix");
@@ -63,11 +63,11 @@ public abstract class Client implements Runnable, Destination
         if (server != null ) serverConfig = server.getConfig();
     }
 
-    public Client(Player player, Socket socket)
+    public Client(User user, Socket socket)
     {
         this();
         setSocket(socket);
-        this.player = player;
+        this.user = user;
     }
 
     /**
@@ -123,7 +123,7 @@ public abstract class Client implements Runnable, Destination
             } // end while
 
             LeaveMessage leaveNotice = new LeaveMessage();
-            leaveNotice.setSlot(channel.getPlayerSlot(this));
+            leaveNotice.setSlot(channel.getClientSlot(this));
             channel.sendMessage(leaveNotice);
         }
         catch (IOException e)
@@ -187,14 +187,14 @@ public abstract class Client implements Runnable, Destination
         return channel;
     }
 
-    public void setPlayer(Player player)
+    public void setUser(User user)
     {
-        this.player = player;
+        this.user = user;
     }
 
-    public Player getPlayer()
+    public User getUser()
     {
-        return player;
+        return user;
     }
 
     public void setSocket(Socket socket)

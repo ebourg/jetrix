@@ -49,7 +49,7 @@ public class TetrinetClient extends Client
 
     private Channel channel;
     private Server server;
-    private Player player;
+    private User user;
 
     private boolean disconnected;
     private Logger logger = Logger.getLogger("net.jetrix");
@@ -59,11 +59,11 @@ public class TetrinetClient extends Client
         //this.protocol = new TetrinetProtocol();
     }
 
-    public TetrinetClient(Player player, Socket socket)
+    public TetrinetClient(User user, Socket socket)
     {
         this();
         setSocket(socket);
-        this.player = player;
+        this.user = user;
     }
 
     /**
