@@ -30,10 +30,12 @@ import org.lfjr.jts.config.*;
  */
 public class Message
 {
+    // Types
     public static final int TYPE_SERVER  = 0; // disconnected, / commands, noconnecting
     public static final int TYPE_CHANNEL = 1; // pline, plineact, playerjoin, team, playerleave, startgame
     public static final int TYPE_INGAME  = 2; // f, sb, lvl, playerlost, pause, newgame, endgame, gmsg
 
+    // Codes
     public static final int MSG_UNKNOWN      = -1;
     public static final int MSG_PLINE        = 0;
     public static final int MSG_PLINEACT     = 1;
@@ -64,27 +66,63 @@ public class Message
     private Object source; // (server, channel, client) should use a dedicated interface ()
     private Date date;
 
+    /**
+     * Constructs a new server message of unknown signification.
+     */
     public Message()
     {
         this(MSG_UNKNOWN);
     }
 
+    /**
+     * Constructs a new server message of the specified code.
+     */
     public Message(int code)
     {
+        this(code, null);
+    }
+
+    /**
+     * Constructs a new server message with the specified code and parameters.
+     */
+    public Message(int code, Object[] params)
+    {
         this.code = code;
+        this.params = params;
         this.date = new Date();
     }
 
+    /**
+     * Returns the type of this message. There are 3 types available, server
+     * (<tt>Message.TYPE_SERVER</tt>) for internal messages used by the server,
+     * channel (<tt>Message.TYPE_CHANNEL</tt>) for messages handled by a game
+     * channel, and ingame (<tt>Message.TYPE_INGAME</tt>), same as channel
+     * message but restricted to messages related to a running game.
+     *
+     * @return type of this message
+     */
     public int getType()
     {
         return type;
     }
 
+    /**
+     * Returns the code of this message. The code defines the semantic of
+     * the message.
+     *
+     * @return code of this message
+     */
     public int getCode()
     {
         return code;
     }
 
+    /**
+     * Returns the raw String representation of this message. This string is to
+     * be sent to a TetriNET client.
+     *
+     * @return a raw message understandable by a TetriNET client.
+     */
     public String getRawMessage()
     {
         if (raw==null)
@@ -158,21 +196,63 @@ public class Message
         return raw;
     }
 
+    /**
+     * Returns the array of parameters associated with this message.
+     */
     public Object[] getParameters()
     {
         return params;
     }
 
-    public Object getParameter(int i)
+    /**
+     * Returns the parameter at the specified position.
+     *
+     * @param index  index of parameter to return
+     *
+     * @return the parameter at the specified position
+     *
+     * @throw IndexOutOfBoundsException if index is out of range (<tt>index < 0 || index >= size()</tt>).
+     */
+    public Object getParameter(int index)
     {
-        return params[i];
+        if (params != null && !(index < 0 || index >= getNbParameters()))
+        {
+            return params[index];
+        }
+        else
+        {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
+    public String getStringParameter(int index)
+    {
+        return (String)getParameter(index);
+    }
+
+    public int getIntParameter(int index)
+    {
+        return ( (Integer)getParameter(index) ).intValue();
+    }
+
+    /**
+     * Returns the number of parameters associated with this message.
+     */
     public int getNbParameters()
     {
-        return params.length;
+        if (params != null)
+        {
+            return params.length;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
+    /**
+     * Returns the source of this message.
+     */
     public Object getSource()
     {
         return source;
@@ -186,46 +266,90 @@ public class Message
         return date;
     }
 
+    /**
+     * Sets the type of this message.
+     */
     public void setType(int type)
     {
         this.type = type;
     }
 
+    /**
+     * Sets the code of this message.
+     */
     public void setCode(int code)
     {
         this.code = code;
     }
 
+    /**
+     * Sets the row string representation of this message.
+     */
     public void setRawMessage(String raw)
     {
         this.raw = raw;
     }
 
+    /**
+     * Sets the array of parameters associated with this message.
+     */
     public void setParameters(Object[] params)
     {
         this.params = params;
         //raw = null;
     }
 
+    /**
+     * Sets the source of this message.
+     */
     public void setSource(Object source)
     {
         this.source = source;
     }
 
+    /**
+     * Indicates whether some other Message object is "equal to" this one.
+     *
+     * @param obj   the reference object with which to compare.
+     *
+     * @return <tt>true</tt> if this object is the same as the obj argument; <tt>false</tt> otherwise.
+     */
+    public boolean equals(Object obj)
+    {
+        boolean isEqual = false;
+
+        if (obj instanceof Message)
+        {
+            Message m = (Message)obj;
+            isEqual = m.getType()==getType() && m.getCode()==getCode() && m.getRawMessage()==getRawMessage();
+
+            /**
+             * Should compare parameters one by one since internal messages
+             * don't have an raw string representation.
+             */
+
+        }
+
+        return isEqual;
+    }
+
+    /**
+     * String representation of this Message.
+     */
     public String toString()
     {
         StringBuffer paramsView = new StringBuffer();
         paramsView.append("{");
         if (params != null)
         {
-            for (int i=0; i<params.length; i++)	
+            for (int i=0; i<params.length; i++)
             {
                 paramsView.append(params[i]);
                 if (i!=params.length-1) paramsView.append("; ");
             }
         }
         paramsView.append("}");
-        
+
         return "[Message type="+type+" code="+code+" params="+paramsView+"]";
     }
 }

@@ -118,7 +118,7 @@ public class TetriNETServer implements Runnable
                         break;
 
                     case Message.MSG_SLASHCMD:
-                        String cmd = (String)m.getParameter(1);
+                        String cmd = m.getStringParameter(1);
                         TetriNETClient client = (TetriNETClient)m.getSource();
 
                         if ("/list".equalsIgnoreCase(cmd))
@@ -151,11 +151,19 @@ public class TetriNETServer implements Runnable
                                 i = i + 1;
                             }
                         }
+                        else if ("/who".equalsIgnoreCase(cmd))
+                        {
+                            Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), ChatColors.darkBlue+"/who is not implemented yet" });
+                            client.sendMessage(response);
+                        }
+                        else if ("/op".equalsIgnoreCase(cmd))
+                        {
+                            Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), ChatColors.darkBlue+"/op is not implemented yet" });
+                            client.sendMessage(response);
+                        }
                         else
                         {
-                            Message response = new Message(Message.MSG_PLINE);
-                            Object params[] = { new Integer(0), ChatColors.red+"Invalid /COMMAND" };
-                            response.setParameters(params);
+                            Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), ChatColors.red+"Invalid /COMMAND" });
                             client.sendMessage(response);
                         }
                         break;

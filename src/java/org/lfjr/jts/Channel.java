@@ -62,7 +62,8 @@ public class Channel extends Thread
     public Channel(ChannelConfig cconf)
     {
         this.cconf = cconf;
-        conf = TetriNETServer.getInstance().getConfig();
+        this.conf = TetriNETServer.getInstance().getConfig();
+        this.gameState = GAME_STATE_STOPPED;
 
         // opening channel message queue
         mq = new MessageQueue();
@@ -86,15 +87,15 @@ public class Channel extends Thread
                     switch(m.getCode())
                     {
                         case Message.MSG_SLASHCMD:
-                            String cmd = (String)m.getParameter(1);
-                            System.out.println("Commande : "+cmd);
+                            String cmd = m.getStringParameter(1);
+                            //System.out.println("Commande : "+cmd);
                             if ("/join".equalsIgnoreCase(cmd))
                             {
-                                System.out.println("changement de channel detecte");
-                                Channel target = ChannelManager.getInstance().getChannel((String)m.getParameter(2));
+                                //System.out.println("changement de channel detecte");
+                                Channel target = ChannelManager.getInstance().getChannel(m.getStringParameter(2));
                                 if (target!=null)
                                 {
-                                    System.out.println("channel cible trouve : "+target);
+                                    //System.out.println("channel cible trouve : "+target);
                                     if ( target.isFull() )
                                     {
                                         // sending channel full message
@@ -104,12 +105,17 @@ public class Channel extends Thread
                                     }
                                     else
                                     {
-                                        Message move = new Message(Message.MSG_ADDPLAYER);
-                                        move.setParameters(new Object[] { m.getSource() });
+                                        Message move = new Message(Message.MSG_ADDPLAYER, new Object[] { m.getSource() });
                                         target.addMessage(move);
                                     }
                                 }
 
+                            }
+                            else if ("/move".equalsIgnoreCase(cmd))
+                            {
+                                Message response = new Message(Message.MSG_PLINE,
+                                                               new Object[] { new Integer(0), ChatColors.darkBlue+"/move is not implemented yet" });
+                                ((TetriNETClient)m.getSource()).sendMessage(response);
                             }
                             else
                             {
@@ -118,8 +124,8 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_TEAM:
-                            slot = ((Integer)m.getParameter(0)).intValue();
-                            playerList[slot - 1].getPlayer().setTeam((String)m.getParameter(1));
+                            slot = m.getIntParameter(0);
+                            playerList[slot - 1].getPlayer().setTeam(m.getStringParameter(1));
                             sendAll(m, slot);
                             break;
 
@@ -128,13 +134,13 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_PLINE:
-                            slot = ((Integer)m.getParameter(0)).intValue();
-                            String text = (String)m.getParameter(1);
+                            slot = m.getIntParameter(0);
+                            String text = m.getStringParameter(1);
                             if (!text.startsWith("/")) sendAll(m, slot);
                             break;
 
                         case Message.MSG_PLINEACT:
-                            slot = ((Integer)m.getParameter(0)).intValue();
+                            slot = m.getIntParameter(0);
                             sendAll(m, slot);
                             break;
 
@@ -144,7 +150,7 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_PLAYERLOST:
-                            slot = ((Integer)m.getParameter(0)).intValue();
+                            slot = m.getIntParameter(0);
                             TetriNETClient client = (TetriNETClient)playerList[slot-1];
                             client.getPlayer().setPlaying(false);
                             sendAll(m);
@@ -159,13 +165,14 @@ public class Channel extends Thread
                             Message endingScreen = new Message(Message.MSG_FIELD);
                             endingScreen.setParameters(new Object[] { m.getParameter(0), screenLayout.toString() });
                             sendAll(endingScreen);
-                            
+
                             // check for end of game
                             if (countRemainingTeams() <= 1)
                             {
+                                gameState = Channel.GAME_STATE_STOPPED;
                                 Message endgame = new Message(Message.MSG_ENDGAME);
-                                sendAll(endgame);                                
-                            }                            
+                                sendAll(endgame);
+                            }
 
                             break;
 
@@ -173,7 +180,7 @@ public class Channel extends Thread
                             // specials are not forwarded in pure mode
                             if ( cconf.getSettings().getLinesPerSpecial() >0 )
                             {
-                                slot = ((Integer)m.getParameter(2)).intValue();
+                                slot = m.getIntParameter(2);
                                 sendAll(m, slot);
                             }
                             break;
@@ -183,7 +190,7 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_FIELD:
-                            //slot = ((Integer)m.getParameter(0)).intValue();
+                            //slot = m.getIntParameter(0);
                             //sendAll(m, slot);
                             sendAll(m);
                             break;
@@ -222,13 +229,17 @@ public class Channel extends Thread
                             playerList[slot] = null;
 
                             // sending notification to players
-                            m.setRawMessage("playerleave " + (slot+1));
-                            sendAll(m);
+                            Message leaveNotice = new Message(Message.MSG_PLAYERLEAVE, new Object[] { new Integer(slot+1) });
+                            sendAll(leaveNotice);
+
+                            // stopping the game if the channel is now empty
+                            if (isEmpty() && running) { gameState = GAME_STATE_STOPPED; }
+
                             break;
 
                         case Message.MSG_PLAYERLEAVE:
                             System.out.println("player leaving channel " + cconf.getName());
-                            slot = ((Integer)m.getParameter(0)).intValue();
+                            slot = m.getIntParameter(0);
                             playerList[slot-1] = null;
                             sendAll(m);
 
@@ -259,7 +270,7 @@ public class Channel extends Thread
                                 client.setChannel(this);
 
                                 // ending running game
-                                if (previousChannel.getGameState() != Channel.GAME_STATE_STOPPED);
+                                if (previousChannel.getGameState() != Channel.GAME_STATE_STOPPED)
                                 {
                                     Message endgame = new Message(Message.MSG_ENDGAME);
                                     client.sendMessage(endgame);
@@ -327,7 +338,6 @@ public class Channel extends Thread
                                 // sending playerlost message if the game has started
                                 if (gameState != GAME_STATE_STOPPED)
                                 {
-                                    System.out.println("blurp");
                                     Message lost = new Message(Message.MSG_PLAYERLOST);
                                     lost.setParameters(new Object[] { new Integer(slot+1) });
                                     sendAll(lost);
@@ -440,6 +450,9 @@ public class Channel extends Thread
         return gameState;
     }
 
+    /**
+     * Finds the slot used in the channel by the specified client.
+     */
     public int getPlayerSlot(TetriNETClient client)
     {
         int slot = 0;
@@ -486,12 +499,12 @@ public class Channel extends Thread
         for (int i = 0; i<playerList.length; i++)
         {
             TetriNETClient client = playerList[i];
-            
+
             //if (client != null) System.out.println("checking ["+i+"]" + client.getPlayer().getName() + " " + (client.getPlayer().isPlaying()?"playing":"not playing") );
 
             if ( client != null && client.getPlayer().isPlaying() )
             {
-                String team = client.getPlayer().getTeam();                                
+                String team = client.getPlayer().getTeam();
 
                 if (team == null || "".equals(team))
                 {
