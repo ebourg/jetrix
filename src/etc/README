@@ -4,17 +4,18 @@ JetriX TetriNET Server                   http://jetrix.sourceforge.net
 What is JetriX ?
 
   JetriX is a new generation TetriNET server written in Java and 
-  designed for maximum scalability and extensibility. It features a 
-  pluggable filter and command API allowing easy channel behavior 
-  customization that requires little knowledge of the server's inner 
-  functioning. The ambitious goal of this project is to create the 
-  ideal plateform for server side TetriNET programmers. JetriX is open 
-  source and developped under the GNU General Public License. 
+  designed for maximum scalability, extensibility and ease of use. 
+  It features a web based administration console and a simple API
+  to let developpers add custom commands or change the channels'
+  behavior with little knowledge of the server's inner functioning. 
+  The ambitious goal of this project is to create the ideal plateform 
+  for server side TetriNET programmers. JetriX is open source and 
+  developped under the GNU General Public License.
 
 Installing & Running JetriX
 
-  You need a JRE 1.4 or higher installed on your server to run JetriX.
-  You can download it here : http://java.sun.com/j2se/1.4.2/download.html
+  You need a JRE 1.5 or higher installed on your server to run JetriX.
+  You can download it here : http://java.sun.com/j2se/1.5.0/download.jsp
   If the 'java' command is not in your path, you can set the JAVA_HOME 
   environnement variable to point to your Java installation directory.
   
