@@ -31,7 +31,7 @@ public class TetriNETPlayer
 {
     private String nickname;
     private String team;
-
+    private int accessLevel;
     private int status;
     private boolean registered;
     private boolean playing;
@@ -64,6 +64,26 @@ public class TetriNETPlayer
     public String getTeam()
     {
         return team;
+    }
+
+    public void setAccessLevel(int accessLevel)
+    {
+        this.accessLevel = accessLevel;
+    }
+
+    public int getAccessLevel()
+    {
+        return accessLevel;
+    }
+
+    public void setStatus(int status)
+    {
+        this.status = status;
+    }
+
+    public int getStatus()
+    {
+        return status;
     }
 
     public void setRegistered(boolean registered)
