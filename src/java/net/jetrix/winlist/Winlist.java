@@ -35,10 +35,25 @@ public interface Winlist
 
     public void setId(String id);
 
-    public WinlistScore getScore(String name);
+    /**
+     * Return the score of the specified player or team
+     *
+     * @param name the name of the player or team
+     * @param type the score type (0: player, 1: team)
+     */
+    public WinlistScore getScore(String name, int type);
 
+    /**
+     * Return the score list in the specified range.
+     *
+     * @param offset the beginning of the range
+     * @param length the length of the range
+     */
     public List getScores(long offset, long length);
 
+    /**
+     * Update the winlist with the specified game result.
+     */
     public void saveGameResult(GameResult result);
 
 }
