@@ -9,6 +9,7 @@
 
     ChannelConfig conf = channel.getConfig();
     request.setAttribute("settings", conf.getSettings());
+    request.setAttribute("channel.name", conf.getName());
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -16,7 +17,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <script type="text/javascript" src="javascript/tabpane/js/tabpane.js"></script>
-  <link type="text/css" rel="stylesheet" href="javascript/tabpane/css/luna/tab.css" />
+  <link type="text/css" rel="stylesheet" href="javascript/tabpane/css/luna/tab.css">
   <link type="text/css" rel="stylesheet" href="style.css">
   <title>JetriX Admin - Channel - <%= conf.getName() %></title>
 </head>
@@ -30,6 +31,8 @@
 
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Parameters</h2>
+
+    <form id="parameters" action="/servlet/net.jetrix.servlets.ChannelAction">
 
       <table class="thin" style="width: 400px">
         <tr>
@@ -54,26 +57,37 @@
         </tr>
         <tr>
           <td>Spectator Comments</td>
-          <td>yes / no</td>
+          <td>
+            <label><input type="radio" value="true"  name="spectalk"> Yes</label>
+            <label><input type="radio" value="false" name="spectalk"> No</label>
+          </td>
         </tr>
         <tr>
           <td>Status</td>
-          <td>open / closed</td>
-        </tr>        
+          <td>
+            <label><input type="radio" value="true"  name="open"> Open</label>
+            <label><input type="radio" value="false" name="open"> Closed</label>
+          </td>
+        </tr>
         <tr>
           <td>Persistent</td>
-          <td><%= conf.isPersistent() %></td>
+          <td>
+            <label><input type="radio" value="true"  name="persistent" <%= conf.isPersistent() ? "checked" : "" %>> Yes</label>
+            <label><input type="radio" value="false" name="persistent" <%= conf.isPersistent() ? "" : "checked" %>> No</label>
+          </td>
         </tr>
         <tr>
           <td valign="top">Topic</td>
-          <td><textarea class="thin"></textarea></td>
+          <td><textarea class="thin" rows="3" cols="20" style="width: 100%"></textarea></td>
         </tr>
-      </table>      
+      </table>
+
+    </form>
 
   </div>
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Settings</h2>
-    
+
     <jsp:include page="/servlet/org.apache.jsp.settings_jsp"/>
 
   </div>
