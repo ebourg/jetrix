@@ -1,4 +1,6 @@
-<%@ page import="net.jetrix.*"%>
+<%@ page import="net.jetrix.*,
+                 net.jetrix.winlist.WinlistManager,
+                 net.jetrix.winlist.Winlist"%>
 <%@ page import="net.jetrix.servlets.*"%>
 <%@ page import="net.jetrix.config.*"%>
 <%@ page import="net.jetrix.filter.*"%>
@@ -83,6 +85,17 @@
           <td>
             <label><input type="radio" value="true"  name="idle" <%= conf.isIdleAllowed() ? "checked" : "" %>> Yes</label>
             <label><input type="radio" value="false" name="idle" <%= conf.isIdleAllowed() ? "" : "checked" %>> No</label>
+          </td>
+        </tr>
+        <tr>
+          <td>Winlist</td>
+          <td>
+            <select name="winlist">
+              <option value="">-- none --</option>
+<%  for (Winlist winlist : WinlistManager.getInstance().getWinlists()) { %>
+              <option <%= winlist.getId().equals(conf.getWinlistId()) ? "selected" : "" %>><%= winlist.getId() %></option>
+<%  } %>
+            </select>
           </td>
         </tr>
         <tr>

@@ -19,16 +19,18 @@
 
 package net.jetrix.servlets;
 
-import java.io.IOException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
-
 import net.jetrix.Channel;
 import net.jetrix.ChannelManager;
 import net.jetrix.Server;
 import net.jetrix.config.ChannelConfig;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static java.lang.Math.*;
 
 /**
  * Action Servlet handling actions on channels.
@@ -51,10 +53,11 @@ public class ChannelAction extends HttpServlet {
 
         config.setAccessLevel(Integer.parseInt(request.getParameter("accessLevel")));
         config.setPassword(password);
-        config.setMaxPlayers(Integer.parseInt(request.getParameter("maxPlayers")));
-        config.setMaxSpectators(Integer.parseInt(request.getParameter("maxSpectators")));
+        config.setMaxPlayers(max(0, min(6, Integer.parseInt(request.getParameter("maxPlayers")))));
+        config.setMaxSpectators(max(0, Integer.parseInt(request.getParameter("maxSpectators"))));
         config.setPersistent("true".equals(request.getParameter("persistent")));
         config.setIdleAllowed("true".equals(request.getParameter("idle")));
+        config.setWinlistId(request.getParameter("winlist"));
         config.setTopic(request.getParameter("topic"));
 
         response.sendRedirect("/channel.jsp?name=" + name);
