@@ -34,7 +34,7 @@ TODO
 - partial name matching for /goto
 - cheat control: count the specials seen in the field and check the specials sent
 
-Changes in version 0.2 (2005-01-??)
+Changes in version 0.2 (2005-01-18)
 -----------------------------------
 
 Player visible changes
