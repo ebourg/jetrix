@@ -24,6 +24,7 @@ import java.net.*;
 import java.util.*;
 
 import org.apache.commons.digester.*;
+import org.xml.sax.*;
 
 import net.jetrix.*;
 import net.jetrix.winlist.*;
@@ -94,7 +95,7 @@ public class ServerConfig
             digester.setValidating(true);
             digester.addRuleSet(new ConfigRuleSet());
             digester.push(this);
-            digester.parse(new File(filename));
+            digester.parse(new InputSource(new InputStreamReader(new FileInputStream(filename), "ISO-8859-1")));
         }
         catch (Exception e)
         {
