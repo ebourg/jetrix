@@ -20,6 +20,8 @@
 package net.jetrix.commands;
 
 import java.util.*;
+import java.util.logging.*;
+
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -32,6 +34,7 @@ import net.jetrix.messages.*;
 public class KickCommand implements Command
 {
     private int accessLevel = 1;
+    private Logger logger = Logger.getLogger("net.jetrix");
 
     public String[] getAliases()
     {
@@ -92,6 +95,7 @@ public class KickCommand implements Command
             else
             {
                 // player found
+                logger.info(target.getUser().getName() + " (" + target.getInetAddress() + ") has been kicked by " + client.getUser().getName() + " (" + client.getInetAddress() + ")");
                 target.disconnect();
             }
         }
