@@ -60,12 +60,12 @@ public abstract class AbstractCommand implements Command
 
     public String getUsage(Locale locale)
     {
-        return "/" + getAlias();
+        return "/" + getAliases()[0];
     }
 
     public String getDescription(Locale locale)
     {
-        return Language.getText("command." + getAlias() + ".description", locale);
+        return Language.getText("command." + getAliases()[0] + ".description", locale);
     }
 
     /**
