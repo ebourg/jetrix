@@ -21,6 +21,7 @@ package net.jetrix.protocols;
 
 import java.util.*;
 import net.jetrix.*;
+import net.jetrix.winlist.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
@@ -94,7 +95,7 @@ public class TetrinetProtocol implements Protocol
                 {
                     String firstWord = st.nextToken();
 
-                    if (firstWord.startsWith("/"))
+                    if (firstWord.startsWith("/") && !firstWord.startsWith("//"))
                     {
                         CommandMessage command = new CommandMessage();
                         command.setCommand(firstWord.substring(1));
@@ -283,6 +284,8 @@ public class TetrinetProtocol implements Protocol
         else if ( m instanceof GmsgMessage) return translate((GmsgMessage)m, locale);
         else if ( m instanceof PlayerWonMessage) return translate((PlayerWonMessage)m);
         else if ( m instanceof NoConnectingMessage) return translate((NoConnectingMessage)m);
+        else if ( m instanceof SpectatorListMessage) return translate((SpectatorListMessage)m, locale);
+        else if ( m instanceof WinlistMessage) return translate((WinlistMessage)m, locale);
         else
         {
             return null;
@@ -622,6 +625,44 @@ public class TetrinetProtocol implements Protocol
         message.append(m.getSlot());
         message.append(" o ");
         message.append(m.getFromSlot());
+        return message.toString();
+    }
+
+    public String translate(SpectatorListMessage m, Locale locale)
+    {
+        PlineMessage pline = new PlineMessage();
+
+        StringBuffer message = new StringBuffer();
+        message.append("<gray><b>Spectators</b>: ");
+        Iterator specators = m.getSpectators().iterator();
+        while (specators.hasNext())
+        {
+            message.append(specators.next());
+            if (specators.hasNext())
+            {
+                message.append(", ");
+            }
+        }
+
+        pline.setText(message.toString());
+
+        return translate(pline, locale);
+    }
+
+    public String translate(WinlistMessage m, Locale locale)
+    {
+        StringBuffer message = new StringBuffer();
+        message.append("winlist");
+        Iterator scores = m.getScores().iterator();
+        while (scores.hasNext())
+        {
+            WinlistScore score = (WinlistScore) scores.next();
+            message.append(" ");
+            message.append(score.getType() == WinlistScore.TYPE_PLAYER ? "p" : "t");
+            message.append(score.getName());
+            message.append(";");
+            message.append(score.getScore());
+        }
         return message.toString();
     }
 
