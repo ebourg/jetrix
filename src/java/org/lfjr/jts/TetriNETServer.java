@@ -20,7 +20,9 @@
 package org.lfjr.jts;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
+import java.util.logging.*;
 import org.lfjr.jts.config.*;
 
 /**
@@ -36,6 +38,7 @@ public class TetriNETServer implements Runnable
     private ServerConfig conf;
     private MessageQueue mq;
     private ChannelManager channelManager;
+    private Logger logger;
 
     private TetriNETServer()
     {
@@ -46,6 +49,57 @@ public class TetriNETServer implements Runnable
         conf = new ServerConfig();
         conf.load();
         conf.setRunning(true);
+
+        // preparing logger        
+        logger = Logger.getLogger("net.jetrix");
+        logger.setUseParentHandlers(false);
+        logger.setLevel(Level.ALL);
+        
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        String debug = System.getProperty("jetrix.debug");
+        if ( "true".equals(debug) ) { consoleHandler.setLevel( Level.ALL); }
+        logger.addHandler(consoleHandler);
+        consoleHandler.setFormatter(new Formatter() {
+            Date dat = new Date();
+            private final static String format = "HH:mm:ss";
+            private SimpleDateFormat formatter;
+            
+            public synchronized String format(LogRecord record) {
+                dat.setTime(record.getMillis());
+                StringBuffer text = new StringBuffer();
+                if (formatter == null) {
+                    formatter = new SimpleDateFormat(format);
+                }
+                return "[" + formatter.format(dat) + "] [" 
+                    + record.getLevel().getLocalizedName() + "] " 
+                    + formatMessage(record) + "\n";
+            }
+        });
+        
+        try {
+            FileHandler fileHandler = new FileHandler(conf.getAccessLogPath(), 1000000, 10);
+            fileHandler.setLevel(Level.CONFIG);
+            logger.addHandler(fileHandler);
+            fileHandler.setFormatter(new Formatter() {
+                Date dat = new Date();
+                private final static String format = "yyyy-MM-dd HH:mm:ss";
+                private SimpleDateFormat formatter;
+            
+                public synchronized String format(LogRecord record) {
+                    dat.setTime(record.getMillis());
+                    StringBuffer text = new StringBuffer();
+                    if (formatter == null) {
+                        formatter = new SimpleDateFormat(format);
+                    }
+                    return "[" + formatter.format(dat) + "] "
+                        + formatMessage(record) + "\n";
+                }
+            });
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         // checking new release availability
         // ....
@@ -73,7 +127,7 @@ public class TetriNETServer implements Runnable
         ClientListener cl = new ClientListener();
         cl.start();
 
-        System.out.println("Server started...");
+        logger.info("Server started...");
     }
 
 
@@ -86,7 +140,7 @@ public class TetriNETServer implements Runnable
                 // fetching next message waiting in the queue
                 Message m = mq.get();
 
-                //System.out.println("Server: processing "+m);
+                logger.finest("Server: processing " + m);
 
                 // processing message
                 switch(m.getCode())
@@ -95,7 +149,7 @@ public class TetriNETServer implements Runnable
                         // looking for a channel with room left
                         Channel ch = channelManager.getOpenedChannel();
 
-                        if (ch!=null)
+                        if (ch != null)
                         {
                             ch.addMessage(m);
                         }
@@ -127,14 +181,14 @@ public class TetriNETServer implements Runnable
                             client.sendMessage(response);
 
                             Iterator it = channelManager.channels();
-                            int i=1;
+                            int i = 1;
                             while(it.hasNext())
                             {
                                 Channel channel = (Channel)it.next();
                                 ChannelConfig conf = channel.getConfig();
 
                                 String cname = conf.getName();
-                                while (cname.length()<6) cname += " ";
+                                while (cname.length() < 6) cname += " ";
 
                                 String message = ChatColors.darkBlue+"("+(client.getChannel().getConfig().getName().equals(conf.getName())?ChatColors.red:ChatColors.purple)+i+ChatColors.darkBlue+") " + ChatColors.purple + cname + "\t"
                                                  + (channel.isFull()?ChatColors.darkBlue+"["+ChatColors.red+"FULL"+ChatColors.darkBlue+"]       ":ChatColors.darkBlue+"["+ChatColors.aqua+"OPEN"+ChatColors.blue+"-" + channel.getNbPlayers() + "/"+conf.getMaxPlayers() + ChatColors.darkBlue + "]")

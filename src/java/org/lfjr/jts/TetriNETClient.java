@@ -22,6 +22,7 @@ package org.lfjr.jts;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.*;
 import org.lfjr.jts.config.*;
 
 /**
@@ -37,48 +38,55 @@ class TetriNETClient extends Thread
     private Socket socket;
     private BufferedReader in;
     private BufferedWriter out;
-    private ServerConfig conf;
+    private ServerConfig serverConfig;
 
+    private int clientType;
     private String clientVersion;
 
-    //private int slot;
+    // client type
+    public static final int CLIENT_TETRINET  = 0;
+    public static final int CLIENT_TETRIFAST = 1;
 
     private Channel channel;
     private TetriNETServer server;
     private TetriNETPlayer player;
 
     private boolean disconnected;
+    private Logger logger = Logger.getLogger("net.jetrix");
 
 
-    public TetriNETClient(TetriNETPlayer player) throws IOException
+    public TetriNETClient(TetriNETPlayer player, Socket socket) throws IOException
     {
         this.player = player;
-        conf = TetriNETServer.getInstance().getConfig();
-        socket = player.getSocket();
+        this.socket = socket;
+        serverConfig = TetriNETServer.getInstance().getConfig();
 
         in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
-
+    /**
+     * Main loop listening and parsing messages sent by the client.
+     */
     public void run()
     {
-        System.out.println("Client started "+this);
+        logger.fine("Client started " + this);
 
         try
         {
             String s;
             Message m;
 
-            while ( !disconnected && conf.isRunning() )
+            while ( !disconnected && serverConfig.isRunning() )
             {
                 // reading raw message from socket
                 s = readLine();
+                logger.finer("RECV: " + s);
                 StringTokenizer st = new StringTokenizer(s, " ");
-                
+
                 try
                 {
-                	
+
                 String cmd = st.nextToken();
 
                 // building server message
@@ -200,24 +208,24 @@ class TetriNETClient extends Thread
                         ArrayList params = new ArrayList();
                         params.add(m.getParameter(0));
                         params.add(m.getParameter(1));
-                        
+
                         while (st.hasMoreTokens()) params.add(st.nextToken());
                         m.setParameters(params.toArray());
-                    }                  
+                    }
                 }
 
                 // forwarding message to channel
                 channel.addMessage(m);
-                
+
                 }
                 catch (NumberFormatException e)
                 {
-                    System.out.println("Bad format message");
+                    logger.finer("Bad format message");
                     e.printStackTrace();
                 }
                 catch (NoSuchElementException e)
                 {
-                    System.out.println("Bad format message");
+                    logger.finer("Bad format message");
                     e.printStackTrace();
                 }
             } // end while
@@ -237,13 +245,6 @@ class TetriNETClient extends Thread
         }
     }
 
-
-    /*public BufferedWriter getOutputWriter()
-    {
-        return out;
-    }*/
-
-
     /**
      * Send message to client. The raw message property must be set.
      *
@@ -262,13 +263,13 @@ class TetriNETClient extends Thread
                 out.flush();
             }
 
-            //System.out.println("> "+m.getRawMessage());
+            logger.finest("> " + m.getRawMessage());
         }
-        catch (SocketException e) { System.out.println(e.getMessage()); }
+        catch (SocketException e) { logger.fine(e.getMessage()); }
         catch (Exception e) { e.printStackTrace(); }
 
         }
-        else { System.out.println("Message not sent, raw message missing "+m); }
+        else { logger.warning("Message not sent, raw message missing "+m); }
     }
 
 
@@ -311,21 +312,34 @@ class TetriNETClient extends Thread
         return player;
     }
 
-    public void setClientVersion(String v)
+   public Socket getSocket()
+   {
+       return socket;
+   }
+
+    public void setClientVersion(String clientVersion)
     {
-        clientVersion = v;
-    }
-/*
-    public void setSlot(int s)
-    {
-        slot = s;
+        this.clientVersion = clientVersion;
     }
 
-    public int getSlot()
+    public String getClientVersion()
     {
-        return slot;
+        return clientVersion;
     }
-*/
+
+    public void setClientType(int clientType)
+    {
+        this.clientType = clientType;
+    }
+
+    public int getClientType()
+    {
+        return clientType;
+    }
+
+    /**
+     * Triggers the disconnection of this client.
+     */
     public void disconnect()
     {
         disconnected = true;
@@ -333,7 +347,7 @@ class TetriNETClient extends Thread
 
     public String toString()
     {
-        return "[Player "+player.getName()+" <"+player.getTeam()+">]";
+        return "[Client "+player.getName()+" <"+player.getTeam()+">]";
     }
 
 }

@@ -21,6 +21,7 @@ package org.lfjr.jts;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.*;
 import org.lfjr.jts.config.*;
 import org.lfjr.jts.filter.*;
 
@@ -35,6 +36,7 @@ public class Channel extends Thread
 {
     private ChannelConfig cconf;
     private ServerConfig conf;
+    private Logger logger = Logger.getLogger("net.jetrix");
 
     private MessageQueue mq;
 
@@ -91,7 +93,6 @@ public class Channel extends Thread
     {
         FilterManager filterManager = FilterManager.getInstance();
         MessageFilter filter;
-        //System.out.println(filterConfig.toString());
 
         try
         {
@@ -112,7 +113,7 @@ public class Channel extends Thread
             // adding filter to the list
             filters.add(filter);
 
-            System.out.println("["+cconf.getName()+"] loaded filter " + filter.getName() + " " + filter.getVersion());
+            logger.info("["+cconf.getName()+"] loaded filter " + filter.getName() + " " + filter.getVersion());
         }
         catch (FilterException e)
         {
@@ -127,7 +128,7 @@ public class Channel extends Thread
      */
     public void run()
     {
-        System.out.println("Channel " + cconf.getName() + " opened");
+        logger.info("Channel " + cconf.getName() + " opened");
 
         while (running && conf.isRunning())
         {
@@ -156,7 +157,7 @@ public class Channel extends Thread
 
         }
 
-        System.out.println("Channel " + cconf.getName() + " closed");
+        logger.info("Channel " + cconf.getName() + " closed");
     }
 
     public void process(Message m)
@@ -382,7 +383,7 @@ public class Channel extends Thread
 
                 if (slot>=6)
                 {
-                    System.out.println("Panic, no slot available");
+                    logger.warning("Panic, no slot available");
                 }
                 else
                 {
@@ -581,7 +582,6 @@ public class Channel extends Thread
      */
     private int countRemainingTeams()
     {
-        //System.out.println("controle des equipes encore en lice");
         Hashtable playingTeams = new Hashtable();
 
         int nbTeamsLeft = 0;
@@ -590,8 +590,6 @@ public class Channel extends Thread
         {
             TetriNETClient client = playerList[i];
 
-            //if (client != null) System.out.println("checking ["+i+"]" + client.getPlayer().getName() + " " + (client.getPlayer().isPlaying()?"playing":"not playing") );
-
             if ( client != null && client.getPlayer().isPlaying() )
             {
                 String team = client.getPlayer().getTeam();
@@ -599,19 +597,15 @@ public class Channel extends Thread
                 if (team == null || "".equals(team))
                 {
                     nbTeamsLeft++;
-                    //System.out.println("un joueur sans equipe : " + client.getPlayer().getName());
                 }
                 else
                 {
                     playingTeams.put(team, team);
-                    //System.out.println("un joueur avec equipe : " + client.getPlayer().getName() + " - " + client.getPlayer().getTeam());
                 }
             }
         }
 
-        //System.out.println("joueurs seuls : " + nbTeamsLeft + " - equipes : " + playingTeams.size() + " - " + playingTeams);
         return nbTeamsLeft + playingTeams.size();
     }
-
 
 }

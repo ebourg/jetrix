@@ -85,6 +85,7 @@
       <zipfileset prefix="jetrix/lang/" dir="${src}/lang/">
         <include name="*.properties" />
       </zipfileset>
+      <zipfileset prefix="jetrix/log/" dir="${src}/etc/log/"/>
     </zip>
 
     <tar destfile="${dist}/bin/jetrix-${version}.tar">
@@ -97,8 +98,8 @@
         <include name="update.bat" />
       </tarfileset>
       <tarfileset prefix="jetrix/" dir="${src}/etc/" mode="755">
-        <include name="jetrix" />      
-        <include name="update" />      
+        <include name="jetrix" />
+        <include name="update" />
       </tarfileset>
       <tarfileset prefix="jetrix/lib/" dir="${dist}/lib/">
         <include name="jetrix.jar" />
@@ -111,6 +112,7 @@
       <tarfileset prefix="jetrix/lang/" dir="${src}/lang/">
         <include name="*.properties" />
       </tarfileset>
+      <tarfileset prefix="jetrix/log/" dir="${src}/etc/log/"/>
     </tar>
 
     <gzip zipfile="${dist}/bin/jetrix-${version}.tar.gz" src="${dist}/bin/jetrix-${version}.tar"/>
@@ -139,7 +141,7 @@
       <tarfileset prefix="jetrix-src/src/" dir="${src}" />
       <tarfileset prefix="jetrix-src/lib/" dir="${lib}" />
     </tar>
-    
+
     <gzip zipfile="${dist}/src/jetrix-${version}-src.tar.gz" src="${dist}/src/jetrix-${version}-src.tar"/>
     <delete file="${dist}/src/jetrix-${version}-src.tar"/>
 
@@ -178,7 +180,9 @@
 
 
   <target name="run" depends="deploy">
-    <java dir="${deploy}/jetrix" jar="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
+    <java dir="${deploy}/jetrix" jar="${deploy}/jetrix/lib/jetrix.jar" fork="yes">
+      <sysproperty key="jetrix.debug" value="true"/>
+    </java>
   </target>
 
 

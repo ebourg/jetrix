@@ -23,10 +23,10 @@
   <op-password>jtspass</op-password>
 
   <!-- Access Log, where requests are logged to -->
-  <access-log path="log/access.log" />
+  <access-log path="log/access%g.log" />
 
   <!-- Error Log, where errors are logged to -->
-  <error-log  path="log/error.log" />
+  <error-log  path="log/error%g.log" />
 
   <!-- Message Of The Day -->
   <motd>

@@ -22,6 +22,7 @@ package org.lfjr.jts;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.*;
 import org.lfjr.jts.config.*;
 
 /**
@@ -32,39 +33,44 @@ import org.lfjr.jts.config.*;
  */
 public class ClientListener extends Thread
 {
-    private ServerConfig conf;
+    private ServerConfig serverConfig;
 
-    private ServerSocket s;
+    private ServerSocket serverSocket;
     private Socket socket;
+    private Logger logger;
 
     public ClientListener()
     {
-        conf = TetriNETServer.getInstance().getConfig();
+        serverConfig = TetriNETServer.getInstance().getConfig();
     }
 
     public void run()
     {
+        logger = Logger.getLogger("net.jetrix");
+        
         try
         {
-            s = new ServerSocket(conf.getPort(), 50, conf.getHost());            
+            serverSocket = new ServerSocket(serverConfig.getPort(), 50, serverConfig.getHost());
+            logger.info("Listening at tetrinet port " + serverConfig.getPort() 
+                + ( (serverConfig.getHost() != null)?", bound to " + serverConfig.getHost():"") );
         }
         catch (IOException e)
         {
-            System.out.println("Cannot open ServerSocket");
-            conf.setRunning(false);
+            logger.severe("Cannot open ServerSocket");
+            serverConfig.setRunning(false);
             e.printStackTrace();
         }
 
-        while (conf.isRunning())
+        while (serverConfig.isRunning())
         {
             try
             {
                 // waiting for connexions
-                socket = s.accept();
+                socket = serverSocket.accept();
 
                 // logging connexion
                 // ....
-                System.out.println("New client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
+                logger.info("Incoming player: " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
 
                 // checking if server is full
                 // ....
@@ -77,8 +83,8 @@ public class ClientListener extends Thread
                 else continue*/
 
                 // validating client
-                TetriNETPlayer player = new TetriNETPlayer(socket);
-                TetriNETClient client = new TetriNETClient(player);
+                TetriNETPlayer player = new TetriNETPlayer();
+                TetriNETClient client = new TetriNETClient(player, socket);
                 initializeConnexion(client);
 
                 //si.playerList.addElement(client);
@@ -101,7 +107,7 @@ public class ClientListener extends Thread
                 client.sendMessage(m);*/
 
                 // sending message of the day
-                BufferedReader motd = new BufferedReader(new StringReader( conf.getMessageOfTheDay() ));
+                BufferedReader motd = new BufferedReader(new StringReader( serverConfig.getMessageOfTheDay() ));
                 String motdline;
                 while( (motdline = motd.readLine() ) != null )
                 {
