@@ -88,11 +88,6 @@ public class ChannelConfig
         this.maxPlayers = maxPlayers;
     }
 
-    public void setMaxPlayers(Integer maxPlayers)
-    {
-        this.maxPlayers = maxPlayers.intValue();
-    }
-
     /**
      * Sets channel persistence
      *

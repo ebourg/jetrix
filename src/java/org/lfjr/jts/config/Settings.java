@@ -208,20 +208,10 @@ public class Settings
         defaultStartingLevel = false;
     }
 
-    public void setStartingLevel(Integer startingLevel)
-    {
-        setStartingLevel(startingLevel.intValue());
-    }
-
     public void setStackHeight(int stackHeight)
     {
         this.stackHeight = stackHeight;
         defaultStackHeight = false;
-    }
-
-    public void setStackHeight(Integer stackHeight)
-    {
-        setStackHeight(stackHeight.intValue());
     }
 
     public void setLinesPerLevel(int linesPerLevel)
@@ -230,20 +220,10 @@ public class Settings
         defaultLinesPerLevel = false;
     }
 
-    public void setLinesPerLevel(Integer linesPerLevel)
-    {
-        setLinesPerLevel(linesPerLevel.intValue());
-    }
-
     public void setLinesPerSpecial(int linesPerSpecial)
     {
         this.linesPerSpecial = linesPerSpecial;
         defaultLinesPerSpecial = false;
-    }
-
-    public void setLinesPerSpecial(Integer linesPerSpecial)
-    {
-        setLinesPerSpecial(linesPerSpecial.intValue());
     }
 
     public void setLevelIncrease(int levelIncrease)
@@ -252,20 +232,10 @@ public class Settings
         defaultLevelIncrease = false;
     }
 
-    public void setLevelIncrease(Integer levelIncrease)
-    {
-        setLevelIncrease(levelIncrease.intValue());
-    }
-
     public void setSpecialAdded(int specialAdded)
     {
         this.specialAdded = specialAdded;
         defaultSpecialAdded = false;
-    }
-
-    public void setSpecialAdded(Integer specialAdded)
-    {
-        setSpecialAdded(specialAdded.intValue());
     }
 
     public void setSpecialCapacity(int specialCapacity)
@@ -274,31 +244,16 @@ public class Settings
         defaultSpecialCapacity = false;
     }
 
-    public void setSpecialCapacity(Integer specialCapacity)
-    {
-        setSpecialCapacity(specialCapacity.intValue());
-    }
-
     public void setAverageLevels(boolean averageLevels)
     {
         this.averageLevels = averageLevels;
         defaultAverageLevels = false;
     }
 
-    public void setAverageLevels(Boolean averageLevels)
-    {
-        setAverageLevels(averageLevels.booleanValue());
-    }
-
     public void setClassicRules(boolean classicRules)
     {
         this.classicRules = classicRules;
         defaultClassicRules = false;
-    }
-
-    public void setClassicRules(Boolean classicRules)
-    {
-        setClassicRules(classicRules.booleanValue());
     }
 
     public void setBlockOccurancy(int piece, int occurancy)
@@ -394,22 +349,22 @@ public class Settings
     }
 
 
-    public void setLineOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_LINE, occurancy.intValue()); }
-    public void setSquareOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_SQUARE, occurancy.intValue()); }
-    public void setLeftLOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_LEFTL, occurancy.intValue()); }
-    public void setRightLOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_RIGHTL, occurancy.intValue()); }
-    public void setLeftZOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_LEFTZ, occurancy.intValue()); }
-    public void setRightZOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_RIGHTZ, occurancy.intValue()); }
-    public void setHalfCrossOccurancy(Integer occurancy) { setBlockOccurancy(BLOCK_HALFCROSS, occurancy.intValue()); }
+    public void setLineOccurancy(int occurancy) { setBlockOccurancy(BLOCK_LINE, occurancy); }
+    public void setSquareOccurancy(int occurancy) { setBlockOccurancy(BLOCK_SQUARE, occurancy); }
+    public void setLeftLOccurancy(int occurancy) { setBlockOccurancy(BLOCK_LEFTL, occurancy); }
+    public void setRightLOccurancy(int occurancy) { setBlockOccurancy(BLOCK_RIGHTL, occurancy); }
+    public void setLeftZOccurancy(int occurancy) { setBlockOccurancy(BLOCK_LEFTZ, occurancy); }
+    public void setRightZOccurancy(int occurancy) { setBlockOccurancy(BLOCK_RIGHTZ, occurancy); }
+    public void setHalfCrossOccurancy(int occurancy) { setBlockOccurancy(BLOCK_HALFCROSS, occurancy); }
 
-    public void setAddLineOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_ADDLINE, occurancy.intValue()); }
-    public void setClearLineOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_CLEARLINE, occurancy.intValue()); }
-    public void setNukeFieldOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_NUKEFIELD, occurancy.intValue()); }
-    public void setRandomClearOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_RANDOMCLEAR, occurancy.intValue()); }
-    public void setSwitchFieldOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_SWITCHFIELD, occurancy.intValue()); }
-    public void setClearSpecialOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_CLEARSPECIAL, occurancy.intValue()); }
-    public void setGravityOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_GRAVITY, occurancy.intValue()); }
-    public void setQuakeFieldOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_QUAKEFIELD, occurancy.intValue()); }
-    public void setBlockBombOccurancy(Integer occurancy) { setSpecialOccurancy(SPECIAL_BLOCKBOMB, occurancy.intValue()); }
+    public void setAddLineOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_ADDLINE, occurancy); }
+    public void setClearLineOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_CLEARLINE, occurancy); }
+    public void setNukeFieldOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_NUKEFIELD, occurancy); }
+    public void setRandomClearOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_RANDOMCLEAR, occurancy); }
+    public void setSwitchFieldOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_SWITCHFIELD, occurancy); }
+    public void setClearSpecialOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_CLEARSPECIAL, occurancy); }
+    public void setGravityOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_GRAVITY, occurancy); }
+    public void setQuakeFieldOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_QUAKEFIELD, occurancy); }
+    public void setBlockBombOccurancy(int occurancy) { setSpecialOccurancy(SPECIAL_BLOCKBOMB, occurancy); }
 
 }
