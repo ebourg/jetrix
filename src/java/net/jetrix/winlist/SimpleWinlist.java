@@ -25,13 +25,18 @@ import java.io.*;
 import net.jetrix.winlist.*;
 
 /**
- * A non persistent, in memory winlist.
+ * A standard winlist using the same scoring as the original TetriNET : the
+ * winner gets 3 points if there was 3 or more players (or different teams)
+ * involved in the game, 2 points otherwise; the second gets 1 point if there
+ * was 5 or more players in the game. The winlist is saved in a xxxx.winlist
+ * file.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public class SimpleWinlist implements Winlist
 {
+
     private String id;
     private List scores;
     private boolean initialized = false;
@@ -83,33 +88,68 @@ public class SimpleWinlist implements Winlist
         return scores.subList(0, Math.min(scores.size(), (int) length));
     }
 
-    public synchronized void  saveGameResult(GameResult result)
+    public synchronized void saveGameResult(GameResult result)
     {
         if (!initialized)
         {
             load();
         }
+        System.out.println(result);
 
-        Collection players = result.getGamePlayers();
-        Iterator it = players.iterator();
-        while (it.hasNext())
+        int teamCount = getTeamCount(result);
+        if (teamCount == 1)
         {
-            GamePlayer player = (GamePlayer)it.next();
-            if (player.isWinner())
+            return;
+        }
+        System.out.println("count: " + teamCount);
+
+        // reward the winning player or team
+        Collection winners = result.getPlayersAtRank(1);
+        System.out.println("winners: " + winners);
+        Iterator it = winners.iterator();
+        GamePlayer winner = (GamePlayer) it.next();
+        if (winner.isWinner())
+        {
+            String name = winner.getTeamName() == null ? winner.getName() : winner.getTeamName();
+            int type = winner.getTeamName() == null ? WinlistScore.TYPE_PLAYER : WinlistScore.TYPE_TEAM;
+            WinlistScore score = getScore(name, type);
+            if (score == null)
             {
-                WinlistScore score = getScore(player.getName(), WinlistScore.TYPE_PLAYER);
-                if (score == null)
-                {
-                    score = new WinlistScore();
-                    score.setName(player.getName());
-                    score.setType(WinlistScore.TYPE_PLAYER);
-                    scores.add(score);
-                }
-                score.setScore(score.getScore() + 1);
+                // add a new entry into the winlist
+                score = new WinlistScore();
+                score.setName(name);
+                score.setType(type);
+                scores.add(score);
             }
+            int points = teamCount >= 3 ? 3 : 2;
+            score.setScore(score.getScore() + points);
         }
 
+        // reward the second player or team
+        Collection seconds = result.getPlayersAtRank(2);
+        System.out.println("seconds : " + seconds);
+        it = seconds.iterator();
+        GamePlayer second = (GamePlayer) it.next();
+        if (teamCount >= 5)
+        {
+            String name = second.getTeamName() == null ? second.getName() : second.getTeamName();
+            int type = second.getTeamName() == null ? WinlistScore.TYPE_PLAYER : WinlistScore.TYPE_TEAM;
+            WinlistScore score = getScore(name, type);
+            if (score == null)
+            {
+                // add a new entry into the winlist
+                score = new WinlistScore();
+                score.setName(name);
+                score.setType(type);
+                scores.add(score);
+            }
+            score.setScore(score.getScore() + 1);
+        }
+
+        // sort the winlist
         Collections.sort(scores, new ScoreComparator());
+
+        // save the winlist to the external file
         save();
     }
 
@@ -118,26 +158,34 @@ public class SimpleWinlist implements Winlist
      */
     protected void load()
     {
-        System.out.println("Winlist load");
         if (id != null)
         {
             BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new FileReader(id + ".winlist"));
-                String line = null;
-                while ((line = reader.readLine()) != null)
+            File file = new File(id + ".winlist");
+            if (file.exists())
+            {
+                try
                 {
-                    String[] fields = line.split("\t");
-                    WinlistScore score = new WinlistScore();
-                    score.setName(fields[2]);
-                    score.setScore(Long.parseLong(fields[1]));
-                    score.setType("p".equals(fields[0]) ? WinlistScore.TYPE_PLAYER : WinlistScore.TYPE_TEAM);
-                    scores.add(score);
+                    reader = new BufferedReader(new FileReader(file));
+                    String line = null;
+                    while ((line = reader.readLine()) != null)
+                    {
+                        String[] fields = line.split("\t");
+                        WinlistScore score = new WinlistScore();
+                        score.setName(fields[2]);
+                        score.setScore(Long.parseLong(fields[1]));
+                        score.setType("p".equals(fields[0]) ? WinlistScore.TYPE_PLAYER : WinlistScore.TYPE_TEAM);
+                        scores.add(score);
+                    }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally  {
-                try { if (reader != null) { reader.close(); } } catch (Exception e) { e.printStackTrace(); }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                finally
+                {
+                    try { if (reader != null) { reader.close(); } } catch (Exception e) { e.printStackTrace(); }
+                }
             }
         }
 
@@ -149,11 +197,11 @@ public class SimpleWinlist implements Winlist
      */
     protected void save()
     {
-        System.out.println("Winlist save");
         if (id != null)
         {
             BufferedWriter writer = null;
-            try {
+            try
+            {
                 writer = new BufferedWriter(new FileWriter(id + ".winlist"));
                 Iterator it = scores.iterator();
                 while (it.hasNext())
@@ -165,14 +213,47 @@ public class SimpleWinlist implements Winlist
                     line.append(score.getScore());
                     line.append("\t");
                     line.append(score.getName());
+                    line.append("\n");
+                    writer.write(line.toString());
                 }
                 writer.flush();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
-            } finally {
+            }
+            finally
+            {
                 try { if (writer != null) { writer.close(); } } catch (Exception e) { e.printStackTrace(); }
             }
         }
+    }
+
+    private int getTeamCount(GameResult result)
+    {
+        Map teams = new HashMap();
+
+        int teamCount = 0;
+
+        Iterator players = result.getGamePlayers().iterator();
+
+        while (players.hasNext())
+        {
+            GamePlayer player = (GamePlayer) players.next();
+
+            String team = player.getTeamName();
+
+            if (team == null)
+            {
+                teamCount++;
+            }
+            else
+            {
+                teams.put(team, team);
+            }
+        }
+
+        return teamCount + teams.size();
     }
 
 }
