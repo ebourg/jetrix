@@ -40,16 +40,6 @@ public class ListCommand extends AbstractCommand
         return (new String[]{"list", "l"});
     }
 
-    public String getUsage(Locale locale)
-    {
-        return "/list";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.list.description", locale);
-    }
-
     public void execute(CommandMessage m)
     {
         Client client = (Client) m.getSource();

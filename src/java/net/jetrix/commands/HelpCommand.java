@@ -37,16 +37,6 @@ public class HelpCommand extends AbstractCommand
         return (new String[]{"help", "?", "h"});
     }
 
-    public String getUsage(Locale locale)
-    {
-        return "/help";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.help.description", locale);
-    }
-
     public void execute(CommandMessage message)
     {
         Client client = (Client) message.getSource();

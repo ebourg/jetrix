@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,19 +34,14 @@ import net.jetrix.messages.*;
  */
 public class StartCommand extends AbstractCommand
 {
-    public String[] getAliases()
+    public String getAlias()
     {
-        return (new String[]{"start"});
+        return "start";
     }
 
     public String getUsage(Locale locale)
     {
         return "/start <" + Language.getText("command.params.seconds", locale) + ">";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.start.description", locale);
     }
 
     public void execute(CommandMessage m)

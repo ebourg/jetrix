@@ -38,19 +38,9 @@ public class PauseCommand extends AbstractCommand implements Command
         setAccessLevel(AccessLevel.OPERATOR);
     }
 
-    public String[] getAliases()
+    public String getAlias()
     {
-        return (new String[] { "pause" });
-    }
-
-    public String getUsage(Locale locale)
-    {
-        return "/pause";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.pause.description", locale);
+        return "pause";
     }
 
     public void execute(CommandMessage m)

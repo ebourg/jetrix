@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,11 +40,6 @@ public class LanguageCommand extends AbstractCommand
     public String getUsage(Locale locale)
     {
         return "/language <" + Language.getText("command.params.lancode", locale) + ">";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.language.description", locale);
     }
 
     public void execute(CommandMessage m)

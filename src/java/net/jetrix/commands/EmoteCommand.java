@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,17 +34,12 @@ public class EmoteCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
-        return (new String[]{"me", "emote"});
+        return (new String[]{"emote", "me"});
     }
 
     public String getUsage(Locale locale)
     {
         return "/me";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.emote.description", locale);
     }
 
     public void execute(CommandMessage m)

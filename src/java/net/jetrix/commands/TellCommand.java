@@ -42,11 +42,6 @@ public class TellCommand extends AbstractCommand implements ParameterCommand
                + " <" + Language.getText("command.params.message", locale) + ">";
     }
 
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.tell.description", locale);
-    }
-
     public int getParameterCount()
     {
         return 2;

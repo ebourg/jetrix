@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,11 +42,6 @@ public class TeamMessageCommand extends AbstractCommand implements ParameterComm
         return "/tmsg <" + Language.getText("command.params.message", locale) + ">";
     }
 
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.team_message.description", locale);
-    }
-
     public int getParameterCount()
     {
         return 1;
@@ -60,14 +55,14 @@ public class TeamMessageCommand extends AbstractCommand implements ParameterComm
         {
             // the message can't be sent since the player is not in a team
             PlineMessage response = new PlineMessage();
-            response.setKey("command.team_message.not_in_team");
+            response.setKey("command.tmsg.not_in_team");
             client.send(response);
         }
         else
         {
             // preparing message
             PlineMessage response = new PlineMessage();
-            response.setKey("command.team_message.format", client.getUser().getName(), m.getText());
+            response.setKey("command.tmsg.format", client.getUser().getName(), m.getText());
 
             for (Client target : ClientRepository.getInstance().getClients())
             {

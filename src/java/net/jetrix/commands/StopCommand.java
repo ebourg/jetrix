@@ -36,19 +36,9 @@ public class StopCommand extends AbstractCommand
         setAccessLevel(AccessLevel.OPERATOR);
     }
 
-    public String[] getAliases()
+    public String getAlias()
     {
-        return (new String[] { "stop" });
-    }
-
-    public String getUsage(Locale locale)
-    {
-        return "/stop";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.stop.description", locale);
+        return "stop";
     }
 
     public void execute(CommandMessage m)

@@ -47,11 +47,6 @@ public class TeleportCommand extends AbstractCommand implements ParameterCommand
         return "/teleport <" + Language.getText("command.params.player_name_num", locale) + "> <" + Language.getText("command.params.channel_name_num", locale) + ">";
     }
 
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.teleport.description", locale);
-    }
-
     public int getParameterCount()
     {
         return 2;

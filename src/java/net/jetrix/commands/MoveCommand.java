@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,19 +32,14 @@ import net.jetrix.messages.*;
  */
 public class MoveCommand extends AbstractCommand implements ParameterCommand
 {
-    public String[] getAliases()
+    public String getAlias()
     {
-        return (new String[]{"move"});
+        return "move";
     }
 
     public String getUsage(Locale locale)
     {
         return "/move <" + Language.getText("command.params.player_num", locale) + "> <" + Language.getText("command.params.slot_num", locale) + ">";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.move.description", locale);
     }
 
     public int getParameterCount()

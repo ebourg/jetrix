@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,11 +40,6 @@ public class PetitionCommand extends AbstractCommand implements ParameterCommand
     public String getUsage(Locale locale)
     {
         return "/petition <" + Language.getText("command.params.message", locale) + ">";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.petition.description", locale);
     }
 
     public int getParameterCount()

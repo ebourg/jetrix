@@ -39,17 +39,12 @@ public class AwayCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
-        return new String[] { "afk", "away" };
+        return new String[] { "away", "afk" };
     }
 
     public String getUsage(Locale locale)
     {
         return "/afk <" + Language.getText("command.params.message", locale) + ">";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.away.description", locale);
     }
 
     public void execute(CommandMessage message)

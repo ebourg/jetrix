@@ -33,19 +33,14 @@ import org.apache.commons.lang.*;
  */
 public class IgnoreCommand extends AbstractCommand
 {
-    public String[] getAliases()
+    public String getAlias()
     {
-        return new String[] { "ignore" };
+        return "ignore";
     }
 
     public String getUsage(Locale locale)
     {
         return "/ignore <" + Language.getText("command.params.player_name_num", locale) + ">";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.ignore.description", locale);
     }
 
     public void execute(CommandMessage message)

@@ -36,17 +36,12 @@ public class OperatorCommand extends AbstractCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
-        return (new String[]{"op", "operator"});
+        return (new String[]{"operator", "op"});
     }
 
     public String getUsage(Locale locale)
     {
         return "/op <" + Language.getText("command.params.password", locale) + ">";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.operator.description", locale);
     }
 
     public int getParameterCount()

@@ -43,24 +43,18 @@ public class CommandManagerTest extends TestCase
 
         command1 = new AbstractCommand() {
             public String[] getAliases() { return new String[] { "aaabbbccc" }; }
-            public String getUsage(Locale locale) { return null; }
-            public String getDescription(Locale locale) { return null; }
             public int getAccessLevel() { return AccessLevel.PLAYER; }
             public void execute(CommandMessage m) { }
         };
 
         command2 = new AbstractCommand() {
             public String[] getAliases() { return new String[] { "aaabbbddd" }; }
-            public String getUsage(Locale locale) { return null; }
-            public String getDescription(Locale locale) { return null; }
             public int getAccessLevel() { return AccessLevel.PLAYER; }
             public void execute(CommandMessage m) { }
         };
 
         command3 = new AbstractCommand() {
             public String[] getAliases() { return new String[] { "aaabbbeee" }; }
-            public String getUsage(Locale locale) { return null; }
-            public String getDescription(Locale locale) { return null; }
             public int getAccessLevel() { return AccessLevel.OPERATOR; }
             public void execute(CommandMessage m) { }
         };

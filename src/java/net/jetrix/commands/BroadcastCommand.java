@@ -46,11 +46,6 @@ public class BroadcastCommand extends AbstractCommand implements ParameterComman
         return "/br <" + Language.getText("command.params.message", locale) + ">";
     }
 
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.broadcast.description", locale);
-    }
-
     public int getParameterCount()
     {
         return 1;

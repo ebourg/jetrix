@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +20,6 @@
 package net.jetrix.commands;
 
 import java.io.*;
-import java.util.*;
 
 import net.jetrix.*;
 import net.jetrix.config.*;
@@ -34,19 +33,9 @@ import net.jetrix.messages.*;
  */
 public class MotdCommand extends AbstractCommand
 {
-    public String[] getAliases()
+    public String getAlias()
     {
-        return (new String[]{"motd"});
-    }
-
-    public String getUsage(Locale locale)
-    {
-        return "/motd";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.motd.description", locale);
+        return "motd";
     }
 
     public void execute(CommandMessage m)
@@ -56,6 +45,7 @@ public class MotdCommand extends AbstractCommand
 
         try
         {
+            // send the message of the day line by line
             BufferedReader motd = new BufferedReader(new StringReader(conf.getMessageOfTheDay()));
             String motdline;
             while ((motdline = motd.readLine()) != null)

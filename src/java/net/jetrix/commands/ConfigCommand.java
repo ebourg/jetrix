@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,16 +39,6 @@ public class ConfigCommand extends AbstractCommand
     public String[] getAliases()
     {
         return (new String[]{"config", "conf", "settings"});
-    }
-
-    public String getUsage(Locale locale)
-    {
-        return "/config";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.config.description", locale);
     }
 
     public void execute(CommandMessage m)

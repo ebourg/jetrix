@@ -19,9 +19,10 @@
 
 package net.jetrix.commands;
 
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.logging.*;
 
-import net.jetrix.AccessLevel;
+import net.jetrix.*;
 
 /**
  * Abstract command.
@@ -56,4 +57,36 @@ public abstract class AbstractCommand implements Command
     {
         this.hidden = hidden;
     }
+
+    public String getUsage(Locale locale)
+    {
+        return "/" + getAlias();
+    }
+
+    public String getDescription(Locale locale)
+    {
+        return Language.getText("command." + getAlias() + ".description", locale);
+    }
+
+    /**
+     * Return the command alias. This is a method to be overriden only
+     * by commands with a unique alias.
+     */
+    protected String getAlias()
+    {
+        return null;
+    }
+
+    public String[] getAliases()
+    {
+        if (getAlias() != null)
+        {
+            return new String[] { getAlias() };
+        }
+        else
+        {
+            throw new UnsupportedOperationException("No alias defined for " + getClass());
+        }
+    }
+
 }

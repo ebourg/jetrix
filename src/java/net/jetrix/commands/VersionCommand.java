@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,19 +32,9 @@ import net.jetrix.messages.*;
  */
 public class VersionCommand extends AbstractCommand
 {
-    public String[] getAliases()
+    public String getAlias()
     {
-        return (new String[] { "version" });
-    }
-
-    public String getUsage(Locale locale)
-    {
-        return "/version";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.version.description", locale);
+        return "version";
     }
 
     public void execute(CommandMessage m)

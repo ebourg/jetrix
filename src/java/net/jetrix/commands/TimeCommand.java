@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,16 +36,6 @@ public class TimeCommand extends AbstractCommand
     public String[] getAliases()
     {
         return (new String[] { "time", "date" });
-    }
-
-    public String getUsage(Locale locale)
-    {
-        return "/time";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.time.description", locale);
     }
 
     public void execute(CommandMessage m)

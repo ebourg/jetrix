@@ -45,11 +45,6 @@ public class JoinCommand extends AbstractCommand implements ParameterCommand
                 + " <" + Language.getText("command.params.password", locale) + ">";
     }
 
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.join.description", locale);
-    }
-
     public int getParameterCount()
     {
         return 1;

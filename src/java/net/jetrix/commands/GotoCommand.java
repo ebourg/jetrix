@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,11 +42,6 @@ public class GotoCommand extends AbstractCommand implements ParameterCommand
     public String getUsage(Locale locale)
     {
         return "/goto <" + Language.getText("command.params.player_name", locale) + ">";
-    }
-
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.goto.description", locale);
     }
 
     public int getParameterCount()

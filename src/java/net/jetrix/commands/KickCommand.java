@@ -48,11 +48,6 @@ public class KickCommand extends AbstractCommand implements ParameterCommand
         return "/kick <" + Language.getText("command.params.player_name_num", locale) + ">";
     }
 
-    public String getDescription(Locale locale)
-    {
-        return Language.getText("command.kick.description", locale);
-    }
-
     public int getParameterCount()
     {
         return 1;
