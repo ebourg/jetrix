@@ -81,7 +81,7 @@ Linux you can add this line to your /etc/profile file:</p>
 
 <code>export JAVA_HOME=/usr/java/j2sdk_1.4.2</code>
 
-<p>Then decompress the JetriX archive to the installation directory:</p>
+<p>Then decompress the Jetrix archive to the installation directory:</p>
 
 <code>tar -jxvf jetrix-x.y.z.tar.bz2</code>
 

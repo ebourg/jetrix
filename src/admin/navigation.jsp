@@ -11,7 +11,7 @@
   <script type="text/javascript" src="javascript/xloadtree/xloadtree.js"></script>
   <link type="text/css" rel="stylesheet" href="javascript/xloadtree/xtree.css">
   <link type="text/css" rel="stylesheet" href="style.css">
-  <title>JetriX Admin - Navigation</title>
+  <title>Jetrix Administration - Navigation</title>
 </head>
 <body style="margin: 1em">
 

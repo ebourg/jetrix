@@ -12,12 +12,12 @@
   <meta http-equiv="Content-Type" content="text/xml; charset=iso-8859-1" />
   <meta name="author" content="Emmanuel Bourg" />
   <meta name="email" content="smanux@lfjr.net" />
-  <meta name="description" content="JetriX is a new generation TetriNET server written in Java and designed for maximum scalability and extensibility." />
+  <meta name="description" content="Jetrix is a new generation TetriNET server written in Java and designed for maximum scalability and extensibility." />
   <meta name="keywords" content="jetrix, tetrinet, server, tnet, tetrifast, tfast, tspec, tetris, tetrix, java" />
   <link rel="stylesheet" href="style.css" />
   <link rel="shortcut icon" href="images/favicon.gif" />
   <link rel="alternate" type="application/rss+xml" title="RSS" href="http://sourceforge.net/export/rss2_projnews.php?group_id=52188&amp;rss_fulltext=1" />
-  <title>JetriX TetriNET Server</title>
+  <title>Jetrix TetriNET Server</title>
 </head>
 <body>
 
@@ -26,7 +26,7 @@
 <tbody>
   <tr>
     <td>
-      <a href="http://jetrix.sourceforge.net/"><img src="images/jetrix-logo.png" alt="JetriX" style="float: left" /></a>
+      <a href="http://jetrix.sourceforge.net/"><img src="images/jetrix-logo.png" alt="Jetrix" style="float: left" /></a>
     </td>
     <td align="right" style="padding-right: 0.5em">
       <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=52188&amp;type=2" width="125" height="37" alt="SourceForge.net Logo" /></a>

@@ -1,4 +1,4 @@
-JetriX Changelog
+Jetrix Changelog
 ================
 
 TODO
@@ -175,7 +175,7 @@ Changes in version 0.0.9 (2002-06-23)
 - filter: special block multiplier
 - added the /conf command to display the channel settings
 - added server log files
-- added a debug mode (run JetriX with the -Djetrix.debug=true parameter)
+- added a debug mode (run Jetrix with the -Djetrix.debug=true parameter)
 - now displaying a message upon player disconnection
 - implemented a special block check to prevent forged messages to crash clients
 - added the /version command

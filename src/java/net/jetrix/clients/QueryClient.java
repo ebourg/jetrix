@@ -142,7 +142,7 @@ public class QueryClient extends TetrinetClient
             }
             else if ("version".equals(command.getCommand()))
             {
-                response.setText("JetriX/" + ServerConfig.VERSION + QueryProtocol.EOL);
+                response.setText("Jetrix/" + ServerConfig.VERSION + QueryProtocol.EOL);
             }
 
             send(response);

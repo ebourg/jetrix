@@ -2,7 +2,7 @@
       
 <h1>Query Protocol</h1>
 
-Tetrix first introduced a query protocol to get easily a list of players and channels on TetriNET servers. This protocol consists in 4 commands : <tt>playerquery</tt>, <tt>listchan</tt>, <tt>listuser</tt> and <tt>version</tt>. These commands are sent through the standard tetrinet port 31457 and must be terminated by the <tt>0xFF</tt> character. The line terminator for the response is a line feed <tt>0x0A</tt>. This protocol is not yet supported by JetriX.<br />
+Tetrix first introduced a query protocol to get easily a list of players and channels on TetriNET servers. This protocol consists in 4 commands : <tt>playerquery</tt>, <tt>listchan</tt>, <tt>listuser</tt> and <tt>version</tt>. These commands are sent through the standard tetrinet port 31457 and must be terminated by the <tt>0xFF</tt> character. The line terminator for the response is a line feed <tt>0x0A</tt>. This protocol is not yet supported by Jetrix.<br />
 
 
 <br /><div><b>playerquery</b></div>

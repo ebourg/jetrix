@@ -41,7 +41,7 @@ public class VersionCommand extends AbstractCommand
     {
         Client client = (Client) m.getSource();
 
-        String version1 = "<darkBlue><b>JetriX/" + ServerConfig.VERSION + " (build:@build.time@)";
+        String version1 = "<darkBlue><b>Jetrix/" + ServerConfig.VERSION + " (build:@build.time@)";
         String version2 = "<purple>VM<darkBlue>: " + System.getProperty("java.vm.name") 
                           + " " + System.getProperty("java.vm.version") 
                           + " " + System.getProperty("java.vm.info");

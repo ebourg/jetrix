@@ -16,7 +16,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="http://jetrix.sourceforge.net/images/favicon.gif">
-  <title>JetriX Admin - Field <%= num + 1 %> in #<%= name %></title>
+  <title>Jetrix Administration - Field <%= num + 1 %> in #<%= name %></title>
 </head>
 <body style="background-image: url(images/tiny/background.png); background-repeat: no-repeat; margin: 0">
 

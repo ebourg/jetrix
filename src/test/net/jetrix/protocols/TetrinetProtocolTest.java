@@ -47,8 +47,8 @@ public class TetrinetProtocolTest extends TestCase
     {
         PlineMessage message = new PlineMessage();
         message.setSlot(1);
-        message.setText("Hello JetriX!");
-        assertEquals("pline 1 Hello JetriX!", protocol.translate(message, locale));
+        message.setText("Hello Jetrix!");
+        assertEquals("pline 1 Hello Jetrix!", protocol.translate(message, locale));
     }
 
     public void testGetMessagePline()
