@@ -47,10 +47,11 @@ public class ServerConfig
     private String errorlogPath;
     private String motd;
     private String name;
+    private Locale locale;
 
-    // private ArrayList bans;
-    private ArrayList channels;
-    private ArrayList globalFilters;
+    // private List bans;
+    private List channels;
+    private List globalFilters;
     private boolean running;
 
     public static final String VERSION = "@version@";
@@ -80,6 +81,9 @@ public class ServerConfig
         try
         {
             Digester digester = new Digester();
+            // register the JetriX configuration file DTD
+            URL url = ServerConfig.class.getClassLoader().getResource("tetrinet-server.dtd");
+            digester.register("-//LFJR//Jetrix TetriNET Server//EN", url.toString());
             digester.setValidating(true);
             //digester.setDebug(2);
             digester.push(this);
@@ -89,6 +93,7 @@ public class ServerConfig
             digester.addCallParam("tetrinet-server", 0, "host");
             digester.addCallMethod("tetrinet-server", "setPort", 1, new Class[] {Integer.TYPE});
             digester.addCallParam("tetrinet-server", 0, "port");
+            digester.addCallMethod("tetrinet-server/language", "setLocale", 0);
             digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.TYPE});
             digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.TYPE});
             digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
@@ -206,6 +211,21 @@ public class ServerConfig
     public void setPort(int port)
     {
         this.port = port;
+    }
+
+    public Locale getLocale()
+    {
+        return locale;
+    }
+
+    public void setLocale(Locale locale)
+    {
+        this.locale = locale;
+    }
+
+    public void setLocale(String language)
+    {
+        this.locale = new Locale(language);
     }
 
     public int getTimeout()
