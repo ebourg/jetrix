@@ -84,6 +84,7 @@ public abstract class ClientListener extends AbstractService implements Listener
                 // waiting for connexions
                 socket = serverSocket.accept();
                 socket.setSoTimeout(10000);
+
                 InetAddress address = socket.getInetAddress();
 
                 // log the connection
@@ -162,15 +163,18 @@ public abstract class ClientListener extends AbstractService implements Listener
                     repository.addClient(client);
 
                     // send the message of the day
-                    BufferedReader motd = new BufferedReader(new StringReader(serverConfig.getMessageOfTheDay()));
-                    String motdline;
-                    while ((motdline = motd.readLine()) != null)
+                    if (serverConfig.getMessageOfTheDay() != null)
                     {
-                        PlineMessage m = new PlineMessage();
-                        m.setText("<gray>" + motdline);
-                        client.send(m);
+                        BufferedReader motd = new BufferedReader(new StringReader(serverConfig.getMessageOfTheDay()));
+                        String motdline;
+                        while ((motdline = motd.readLine()) != null)
+                        {
+                            PlineMessage m = new PlineMessage();
+                            m.setText("<gray>" + motdline);
+                            client.send(m);
+                        }
+                        motd.close();
                     }
-                    motd.close();
 
                     // forward the client to the server for channel assignation
                     if (client.supportsAutoJoin()) {
@@ -178,6 +182,9 @@ public abstract class ClientListener extends AbstractService implements Listener
                         m.setClient(client);
                         Server.getInstance().send(m);
                     }
+
+                    // update the server statistics
+                    serverConfig.getStatistics().increaseConnectionCount();
                 }
 
                 // start the client
