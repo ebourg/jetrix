@@ -53,7 +53,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT services (service*)>
 <!ELEMENT service (param*)>
 <!ATTLIST service class CDATA #REQUIRED>
-<!ATTLIST listener auto-start CDATA #IMPLIED>
+<!ATTLIST service auto-start CDATA #IMPLIED>
 
 <!ELEMENT ban %Ban;>
 <!ELEMENT host (#PCDATA)>
