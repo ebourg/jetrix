@@ -1,0 +1,31 @@
+body { color: black; background-color: white; margin: 0; font-family: Arial, Helvetica, Sans Serif }
+a { color: #525d76 }
+a:hover { color: #2B313D }
+
+a img { border-width: 0 }
+
+.menu { margin-left: 0.5em; }
+.menu h1 { font-size: 12pt; font-weight: bold; margin-bottom: 0.2em }
+.menu ul { padding-left: 0.5em; margin-top: 0; margin-left: 0; }
+.menu * li { font-size: 9pt; list-style-type: none }
+
+.content { font-size: 12pt; }
+.content h1 { color: white; font-size: 13pt; background-color: #525d76; text-indent: 0.5em; line-height: 1.3em; } 
+.content h3 { color: #525d76; }
+
+.code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; font-family: monospace; white-space: pre}
+
+code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; }
+
+.blue  { color: blue; }
+.red   { color: red; }
+.gray  { color: gray; }
+.green { color: rgb(0, 128, 128); }
+
+input.thin, textarea.thin { border: 1px solid #c0c0c0; }
+
+table.thin { border-collapse: collapse; border-top: 1px solid #c0c0c0; border-left: 1px solid #c0c0c0; }
+table.thin th { border-bottom: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0; }
+table.thin td { border-bottom: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0; }
+
+div.hr { width: 100%; border-top: 1px solid gray }
