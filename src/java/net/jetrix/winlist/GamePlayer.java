@@ -73,4 +73,9 @@ public class GamePlayer
     {
         this.winner = winner;
     }
+
+    public String toString()
+    {
+        return "[GamePlayer name=" + name + " team=" + teamName + " won=" + winner + " end=" + endTime + "]";
+    }
 }
