@@ -18,4 +18,8 @@ code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; }
 .red  { color: red; }
 .grey  { color: grey; }
 
+input.thin, textarea.thin { border: 1px solid #c0c0c0; }
 
+table.thin { border-collapse: collapse; border-top: 1px solid #c0c0c0; border-left: 1px solid #c0c0c0; }
+table.thin th { border-bottom: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0; }
+table.thin td { border-bottom: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0; }
