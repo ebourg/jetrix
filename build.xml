@@ -10,7 +10,7 @@
   <property name="dist"    value="dist"/>
   <property name="deploy"  value="deploy"/>
   <property file="build.properties" />
-  <property file="jetrix.properties" />
+  <property file="project.properties" />
   <property file="password.properties" />
   
   <path id="classpath.main">
@@ -177,6 +177,7 @@
         <include name="jetty.jar"/>
         <include name="servlet-light.jar"/>
         <include name="jasper-runtime.jar"/>
+        <include name="jcrontab*.jar"/>
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
@@ -345,26 +346,6 @@
 
     <mkdir dir="${doc}/style"/>
     <style in="${build}/style/checkstyle-report.xml" out="${doc}/style/checkstyle-report.html" style="${doc}/checkstyle-noframes.xsl"/>
-  </target>
-
-
-  <!-- Clover -->
-  <taskdef resource="clovertasks"/>
-  
-  <target name="clover">
-    <clover-setup initString="jetrix-coverage.db">
-      <fileset dir=".">
-        <exclude name="**/*Test.java"/>
-      </fileset>
-    </clover-setup>
-  </target>
-
-  <target name="clover.html" depends="clover">
-    <clover-report>
-      <current outfile="${doc}/clover">
-        <format type="html"/> 
-      </current>	 
-    </clover-report>
   </target>
 
 </project>

@@ -2,7 +2,7 @@
       <div class="menu">
         <h1>About JetriX</h1>
         <ul>
-          <li><a href="index.php">Introduction</a></li>
+          <li><a href="index.php">News</a></li>
           <li><a href="features.php">Features</a></li>
           <li><a href="faq.php">FAQ</a></li>
           <li><a href="roadmap.php">Roadmap</a></li>
@@ -19,7 +19,8 @@
         <ul>
           <li><a href="user-guide.php">User Guide</a></li>
           <li><a href="dev-guide.php">Developper Guide</a></li>
-          <li><a href="api/index.html">Javadoc</a></li>
+          <li><a href="docs/apidocs/index.html">Javadoc</a></li>
+          <li><a href="docs/maven-reports.html">Project Reports</a></li>
         </ul>
 
         <h1>Project</h1>
@@ -29,7 +30,8 @@
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466002">Bugs</a></li>
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466005">Feature Requests</a></li>
           <li><a href="changelog.php">Changelog</a></li>
-          <li><a href="http://sourceforge.net/mailarchive/forum.php?forum_id=12998">CVS Commits</a></li>
+          <li><a href="docs/statcvs/commit_log.html">CVS Commits</a></li>
+          <li><a href="contributors.php">Contributors</a></li>
         </ul>
       </div>
       
