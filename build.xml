@@ -43,9 +43,9 @@
     </javac>
   </target>
 
-
   <target name="compile.test" depends="compile" description="Compile JUnit TestCases">
-    <javac srcdir="${src}/test" destdir="${build}/classes" debug="yes">
+    <mkdir dir="${build}/test"/>
+    <javac srcdir="${src}/test" destdir="${build}/test" debug="yes">
       <classpath>
         <pathelement path="${build}/classes" />
         <pathelement location="${lib}/junit.jar"/>
@@ -53,24 +53,24 @@
     </javac>
   </target>
 
-
-  <target name="dist" depends="compile">
+  <target name="jar" depends="compile">
     <!-- Create the distribution directory -->
-    <mkdir dir="${dist}/lib"/>
-    <mkdir dir="${dist}/bin"/>
-
+    <mkdir dir="${dist}/lib"/>    
     <jar jarfile="${dist}/lib/jetrix.jar">
       <manifest>
         <attribute name="Implementation-Title" value="Jetrix TetriNET Server"/>
         <attribute name="Implementation-Version" value="${version}"/>
         <attribute name="Main-Class" value="net.jetrix.Server"/>
-        <attribute name="Class-Path" value=".. commons-collections.jar commons-beanutils.jar commons-digester.jar"/>
       </manifest>
-      <fileset dir="${build}/classes" excludes="**/*Test.class"/>
+      <fileset dir="${build}/classes"/>
       <fileset dir="${src}/etc">
         <include name="tetrinet-server.dtd"/>
       </fileset>
-    </jar>
+    </jar>    
+  </target>
+
+  <target name="dist" depends="jar">
+    <mkdir dir="${dist}/bin"/>
 
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
       <zipfileset prefix="jetrix/" dir="${src}/etc/">
@@ -78,11 +78,13 @@
         <include name="LICENSE" />
         <include name="README" />
         <include name="config.xml" />
+      </zipfileset>
+      <zipfileset prefix="jetrix/" dir="${src}/bin/">
         <include name="jetrix.bat" />
         <include name="jetrix" />
         <include name="update.bat" />
         <include name="update" />
-      </zipfileset>
+      </zipfileset>      
       <zipfileset prefix="jetrix/lib/" dir="${dist}/lib/">
         <include name="jetrix.jar" />
       </zipfileset>
@@ -103,10 +105,12 @@
         <include name="LICENSE" />
         <include name="README" />
         <include name="config.xml" />
+      </tarfileset>
+      <tarfileset prefix="jetrix/" dir="${src}/bin/">
         <include name="jetrix.bat" />
         <include name="update.bat" />
       </tarfileset>
-      <tarfileset prefix="jetrix/" dir="${src}/etc/" mode="755">
+      <tarfileset prefix="jetrix/" dir="${src}/bin/" mode="755">
         <include name="jetrix" />
         <include name="update" />
       </tarfileset>
@@ -125,7 +129,7 @@
     </tar>
 
     <gzip zipfile="${dist}/bin/jetrix-${version}.tar.gz" src="${dist}/bin/jetrix-${version}.tar"/>
-
+    <delete file="${dist}/bin/jetrix-${version}.tar"/>
   </target>
 
 
@@ -164,22 +168,24 @@
   <target name="test" depends="compile.test" description="Runs testcases">
     <junit printsummary="yes" fork="yes" dir="${src}/etc">
       <classpath>
+        <pathelement path="${build}/test" />
         <pathelement path="${build}/classes" />
         <pathelement location="${lib}/commons-digester.jar"/>
         <pathelement location="${lib}/commons-collections.jar"/>
       </classpath>
       <formatter type="xml" />
       <batchtest>
-        <fileset dir="${build}/classes">
+        <fileset dir="${build}/test">
           <include name="**/*Test.class" />
         </fileset>
       </batchtest>
     </junit>
-    <junitreport>
+    <mkdir dir="${doc}/test"/>
+    <junitreport todir="${build}/test">
       <fileset dir=".">
         <include name="TEST-*.xml"/>
       </fileset>
-      <report format="noframes"/>
+      <report format="noframes" todir="${doc}/test"/>
     </junitreport>
     <delete>
       <fileset dir="." includes="TEST*"/>
@@ -228,7 +234,7 @@
              use="false"
              windowtitle="Javadoc JetriX"
              doctitle="JetriX TetriNET Server"
-             bottom="Copyright &#169; 2001-2002 Emmanuel Bourg. All Rights Reserved.">
+             bottom="Copyright &#169; 2001-2003 Emmanuel Bourg. All Rights Reserved.">
       <classpath>
         <fileset dir="${lib}" >
           <include name="*.jar" />
