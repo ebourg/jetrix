@@ -101,7 +101,7 @@ public class CommandManager
      * Return all commands available to clients with the lowest
      * access level.
      */
-    public Iterator getCommands()
+    public Iterator<Command> getCommands()
     {
         return getCommands(AccessLevel.PLAYER);
     }
@@ -110,7 +110,7 @@ public class CommandManager
      * Return all commands available to clients with the specified
      * access level.
      */
-    public Iterator getCommands(final int accessLevel)
+    public Iterator<Command> getCommands(final int accessLevel)
     {
         Predicate availableToLevel = new Predicate()
         {
