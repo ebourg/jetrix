@@ -170,7 +170,6 @@ Welcome on <b>JetriX TetriNET Server</b>!
 
     <channel name="sticks">
       <description>Sticks Only</description>
-      <max-players>1</max-players>
       <settings>
         <special-added>0</special-added>
         <block-occurancy>
