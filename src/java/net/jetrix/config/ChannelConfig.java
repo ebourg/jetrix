@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ public class ChannelConfig
     private String password;
     private String description;
     private int maxPlayers = 6;
+    private int maxSpectators = 50;
     private int accessLevel;
     private boolean persistent;
 
@@ -51,6 +52,14 @@ public class ChannelConfig
     }
 
     /**
+     * Gets game parameters.
+     */
+    public Settings getSettings()
+    {
+        return settings;
+    }
+
+    /**
      * Sets game parameters.
      *
      * @param settings
@@ -58,6 +67,14 @@ public class ChannelConfig
     public void setSettings(Settings settings)
     {
         this.settings = settings;
+    }
+
+    /**
+     * Gets channel name.
+     */
+    public String getName()
+    {
+        return name;
     }
 
     /**
@@ -71,6 +88,14 @@ public class ChannelConfig
     }
 
     /**
+     * Gets the password.
+     */
+    public String getPassword()
+    {
+        return password;
+    }
+
+    /**
      * Sets the password to enter the channel.
      *
      * @param password
@@ -78,6 +103,14 @@ public class ChannelConfig
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    /**
+     * Gets channel description.
+     */
+    public String getDescription()
+    {
+        return description;
     }
 
     /**
@@ -91,6 +124,14 @@ public class ChannelConfig
     }
 
     /**
+     * Gets maximum number of players allowed.
+     */
+    public int getMaxPlayers()
+    {
+        return maxPlayers;
+    }
+
+    /**
      * Sets the maximum number of players allowed at the same time in the channel.
      *
      * @param maxPlayers
@@ -98,6 +139,32 @@ public class ChannelConfig
     public void setMaxPlayers(int maxPlayers)
     {
         this.maxPlayers = maxPlayers;
+    }
+
+    /**
+     * Gets maximum number of spectators allowed.
+     */
+    public int getMaxSpectators()
+    {
+        return maxSpectators;
+    }
+
+    /**
+     * Sets the maximum number of spectators allowed at the same time in the channel.
+     *
+     * @param maxSpectators
+     */
+    public void setMaxSpectators(int maxSpectators)
+    {
+        this.maxSpectators = maxSpectators;
+    }
+
+    /**
+     * Gets the minimum access level required to join the channel.
+     */
+    public int getAccessLevel()
+    {
+        return accessLevel;
     }
 
     /**
@@ -111,69 +178,6 @@ public class ChannelConfig
     }
 
     /**
-     * Sets channel persistence
-     *
-     * @param persistent
-     */
-    public void setPersistent(boolean persistent)
-    {
-        this.persistent = persistent;
-    }
-
-    public void setProperty(String name, String value)
-    {
-        props.setProperty(name, value);
-    }
-
-    /**
-     * Gets game parameters.
-     */
-    public Settings getSettings()
-    {
-        return settings;
-    }
-
-    /**
-     * Gets channel name.
-     */
-    public String getName()
-    {
-        return name;
-    }
-
-    /**
-     * Gets the password.
-     */
-    public String getPassword()
-    {
-        return password;
-    }
-
-    /**
-     * Gets channel description.
-     */
-    public String getDescription()
-    {
-        return description;
-    }
-
-    /**
-     * Gets maximum number of players allowed.
-     */
-    public int getMaxPlayers()
-    {
-        return maxPlayers;
-    }
-
-    /**
-     * Gets the minimum access level required to join the channel.
-     */
-    public int getAccessLevel()
-    {
-        return accessLevel;
-    }
-
-    /**
      * Tell if the channel will vanish once the last player leave
      *
      * @return <tt>true</tt> if the channel is persistent, <tt>false</tt> if not
@@ -184,16 +188,31 @@ public class ChannelConfig
     }
 
     /**
-     * Tell if a password is required to enter the channel.
+     * Sets channel persistence
+     *
+     * @param persistent
      */
-    public boolean isPasswordProtected()
+    public void setPersistent(boolean persistent)
     {
-        return (password == null);
+        this.persistent = persistent;
     }
 
     public String getProperty(String name)
     {
         return props.getProperty(name);
+    }
+
+    public void setProperty(String name, String value)
+    {
+        props.setProperty(name, value);
+    }
+
+    /**
+     * Tell if a password is required to enter the channel.
+     */
+    public boolean isPasswordProtected()
+    {
+        return (password != null);
     }
 
     /**
