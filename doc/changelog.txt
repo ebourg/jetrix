@@ -6,20 +6,22 @@ TODO
 - add password protected channels
 - add an access level check to join channels
 - ban list
-- host count check
-- winner announcement
++ host count check
 - winlists
 - implement the /move command
 - implement the /afk command
 - implement the /omsg command
 - implement the /random /roll command
 - implement the /r /reply command
-- /start : starts the game, can be used by ops or 2nd slot player
-- /stop
-- /pause
-- /countdown <n> : starts the game in n seconds
 - zip files on the patch server
-- turn the admin console into a Jetrix client
++ /snoop
+
+Changes in version 0.1.1 (2003-01-??)
+-------------------------------------
+- new commands : /start, /stop, /pause
+- "/start <n>" will run a countdown for n seconds
+- the admin console can now use all /commands available to the clients
+- winner announcement
 
 Changes in version 0.1.0 (2002-11-16)
 -------------------------------------
