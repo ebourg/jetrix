@@ -256,7 +256,8 @@ public class Server implements Runnable, Destination
                 if (message instanceof AddPlayerMessage)
                 {
                     // looking for a channel with room left
-                    Channel channel = channelManager.getOpenedChannel();
+                    int level = ((AddPlayerMessage) message).getClient().getUser().getAccessLevel();
+                    Channel channel = channelManager.getHomeChannel(level);
 
                     if (channel != null)
                     {

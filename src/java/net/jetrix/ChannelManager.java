@@ -113,6 +113,8 @@ public class ChannelManager
      * Looks for a channel with room left.
      *
      * @return <tt>null</tt> if there is no room left in all available channels
+     *
+     * @deprecated
      */
     public Channel getOpenedChannel()
     {
@@ -121,10 +123,57 @@ public class ChannelManager
         while (it.hasNext() && channel == null)
         {
             Channel channel2 = it.next();
-            if (!channel2.isFull()) channel = channel2;
+            if (!channel2.isFull())
+            {
+                channel = channel2;
+            }
         }
 
         return channel;
+    }
+
+    /**
+     * Return the most suitable home channel for a player newly connected,
+     * that's the first accessible channel with players to play with.
+     *
+     * The channel selected matches the following criteria:
+     * <ul>
+     *   <li>it must be accessible for the specified access level</li>
+     *   <li>it must not be password protected</li>
+     *   <li>it must have room left</li>
+     *   <li>it should not be empty</li>
+     * </ul>
+     *
+     * @since 0.2
+     *
+     * @param level the access level of the player added in the channel
+     */
+    public Channel getHomeChannel(int level)
+    {
+        Channel channel = null;
+        Channel emptyChannel = null;
+
+        Iterator<Channel> it = channels.iterator();
+        while (it.hasNext() && channel == null)
+        {
+            Channel chan = it.next();
+
+            if (chan.getConfig().getAccessLevel() <= level
+                    && !chan.getConfig().isPasswordProtected()
+                    && !chan.isFull())
+            {
+                if (chan.isEmpty())
+                {
+                    emptyChannel = (emptyChannel != null) ? emptyChannel : chan;
+                }
+                else
+                {
+                    channel = chan;
+                }
+            }
+        }
+
+        return channel != null ? channel : emptyChannel;
     }
 
     /**

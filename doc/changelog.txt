@@ -26,7 +26,6 @@ TODO
 - /points to display the score and the rank in the current winlist
 - tetris mode, do a tetris as fast as possible (single player). Show intermediate times vs the best player recorded
 - warn the players before a timeout
-- add the new players to the first non empty and non full channel
 
 Changes in version 0.2 (2004-12-??)
 -----------------------------------
@@ -39,6 +38,7 @@ Player visible changes
 - The name of the player starting or stopping the game is now displayed on the party line
 - the StartFilter can now trigger a countdown before starting the game by specifying a number of seconds in the filter's "countdown" parameter
 - partial support of IRC clients on the the port 31456 (disabled by default)
+- on connecting, the player now joins automatically the first accessible channel with other players
 
 Admin visible changes
 - Jetrix now requires the JRE 1.5 to run
