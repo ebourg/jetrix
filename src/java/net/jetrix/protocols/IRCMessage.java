@@ -61,6 +61,11 @@ public class IRCMessage
 
         StringTokenizer st = new StringTokenizer(line);
 
+        if (!st.hasMoreTokens())
+        {
+            return message;
+        }
+
         // get the first token
         String token = st.nextToken();
 

@@ -141,6 +141,17 @@ public class IRCMessageTest extends TestCase
         assertEquals("param 2", "Hi there!", message.getParameter(1));
     }
 
+    public void testParseEmptyMessage()
+    {
+        String line = "";
+
+        IRCMessage message = IRCMessage.parse(line);
+
+        assertNotNull("message is null", message);
+        assertNull("command", message.getCommand());
+        assertEquals("reply", 0, message.getReply());
+    }
+
     public void testToString()
     {
         IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);
@@ -188,6 +199,6 @@ public class IRCMessageTest extends TestCase
         message.addParameter("#tetrinet");
         message.addParameter(":)");
 
-        assertEquals("message", "PRIVMSG #tetrinet ::)");
+        assertEquals("message", "PRIVMSG #tetrinet ::)", message.toString());
     }
 }
