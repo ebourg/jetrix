@@ -182,7 +182,10 @@
     <copy todir="${build}/bin" filtering="on">
       <fileset dir="${src}/bin" includes="**/*"/>
     </copy>
-    <fixcrlf srcdir="${build}/bin" eol="lf" eof="remove" includes="**/*.sh"/>
+    <fixcrlf srcdir="${build}/bin" eol="lf" eof="remove">
+      <include name="jetrix"/>
+      <include name="update"/>
+    </fixcrlf>
 
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/bin"/>
@@ -259,6 +262,7 @@
         <include name="servlet-light.pack"/>
         <include name="jasper-runtime.pack"/>
         <include name="jcrontab*.pack"/>
+        <include name="systray4j*.pack" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
@@ -329,7 +333,7 @@
 
   </target>
 
-  <target name="dist.all" depends="clean, dist, dist.src, dist.win, doc" description="Build all distributed files"/>
+  <target name="dist.all" depends="clean, dist, dist.src, dist.win" description="Build all distributed files"/>
 
   <target name="deploy" depends="dist">
     <delete dir="${deploy}"/>
