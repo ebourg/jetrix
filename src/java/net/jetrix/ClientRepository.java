@@ -50,6 +50,14 @@ public class ClientRepository
             }
         };
 
+    private static Predicate operatorPredicate = new Predicate() {
+            public boolean evaluate(Object obj)
+            {
+                Client client = (Client)obj;
+                return client.getUser().getAccessLevel() > 0;
+            }
+        };
+
     private ClientRepository()
     {
         FastTreeMap map = new FastTreeMap();
@@ -118,6 +126,14 @@ public class ClientRepository
     public int getSpectatorCount()
     {
         return CollectionUtils.select(clients.values(), spectatorPredicate).size();
+    }
+
+    /**
+     * Return an iterator of operators online in alphabetical order.
+     */
+    public Iterator getOperators()
+    {
+        return new FilterIterator(clients.values().iterator(), operatorPredicate);
     }
 
     /**
