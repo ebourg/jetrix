@@ -158,7 +158,7 @@ public class TetrinetProtocol implements Protocol
         {
             PlineActMessage plineAct = new PlineActMessage();
             plineAct.setSlot(Integer.parseInt(st.nextToken()));
-            plineAct.setText(line.substring(line.indexOf(" ")));
+            plineAct.setText(line.substring("plineact".length() + 3));
             m = plineAct;
             m.setRawMessage(this, line);
         }
@@ -880,7 +880,7 @@ public class TetrinetProtocol implements Protocol
         StringBuffer input = new StringBuffer();
 
         int readChar;
-        while ((readChar = in.read()) != -1 && readChar != 0xFF && readChar != 0x0A && readChar != 0x0D)
+        while ((readChar = in.read()) != -1 && readChar != getEOL() && readChar != 0x0A && readChar != 0x0D)
         {
             if (readChar != 0x0A && readChar != 0x0D)
             {
