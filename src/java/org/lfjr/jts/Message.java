@@ -48,17 +48,20 @@ public class Message
     public static final int MSG_ENDGAME      = 8;
     public static final int MSG_PAUSE        = 9;
     public static final int MSG_RESUME       = 10;
-    public static final int MSG_GMSG         = 11;
-    public static final int MSG_SB           = 12;
-    public static final int MSG_LVL          = 13;
-    public static final int MSG_FIELD        = 14;
-    public static final int MSG_PLAYERLOST   = 15;
-    public static final int MSG_DISCONNECTED = 16;
-    public static final int MSG_NOCONNECTING = 17;
-    public static final int MSG_ADDPLAYER    = 18;
-    public static final int MSG_RESTART      = 19;
-    public static final int MSG_SHUTDOWN     = 20;
-    public static final int MSG_SLASHCMD     = 21;
+    public static final int MSG_INGAME       = 11;
+    public static final int MSG_GMSG         = 12;
+    public static final int MSG_SB           = 13;
+    public static final int MSG_LVL          = 14;
+    public static final int MSG_FIELD        = 15;
+    public static final int MSG_TEAMWON      = 16;
+    public static final int MSG_PLAYERWON    = 17;
+    public static final int MSG_PLAYERLOST   = 18;
+    public static final int MSG_DISCONNECTED = 19;
+    public static final int MSG_NOCONNECTING = 20;
+    public static final int MSG_ADDPLAYER    = 21;
+    public static final int MSG_RESTART      = 22;
+    public static final int MSG_SHUTDOWN     = 23;
+    public static final int MSG_SLASHCMD     = 24;
 
     private Object params[];
     private int type;
@@ -186,6 +189,18 @@ public class Message
 
                 case MSG_ENDGAME:
                   raw = "endgame";
+                  break;
+
+                case MSG_PAUSE:
+                  raw = "pause 1";
+                  break;
+
+                case MSG_RESUME:
+                  raw = "pause 0";
+                  break;
+
+                case MSG_INGAME:
+                  raw = "ingame";
                   break;
 
                 case MSG_PLAYERLOST:
