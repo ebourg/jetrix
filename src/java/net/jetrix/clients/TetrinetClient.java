@@ -36,27 +36,26 @@ import net.jetrix.protocols.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TetrinetClient extends Client
+public class TetrinetClient implements Client
 {
-    private int type;
+    private String type;
     private String version;
     private Protocol protocol;
-
-    // client types
-    public static final int CLIENT_TETRINET  = 0;
-    public static final int CLIENT_TETRIFAST = 1;
-    public static final int CLIENT_TSPEC     = 2;
-
     private Channel channel;
-    private Server server;
     private User user;
-
     private boolean disconnected;
+
+    private Reader in;
+    private Writer out;
+    private Socket socket;
+    private ServerConfig serverConfig;
     private Logger logger = Logger.getLogger("net.jetrix");
 
     public TetrinetClient()
     {
         //this.protocol = new TetrinetProtocol();
+        Server server = Server.getInstance();
+        if (server != null ) serverConfig = server.getConfig();
     }
 
     public TetrinetClient(User user, Socket socket)
@@ -83,6 +82,78 @@ public class TetrinetClient extends Client
     }
 
     /**
+     * Main loop listening and parsing messages sent by the client.
+     */
+    public void run()
+    {
+        logger.fine("Client started " + this);
+
+        try
+        {
+            while (!disconnected && serverConfig.isRunning())
+            {
+                Message m = receiveMessage();
+                if (m == null) continue;
+                channel.sendMessage(m);
+            }
+
+            LeaveMessage leaveNotice = new LeaveMessage();
+            leaveNotice.setSlot(channel.getClientSlot(this));
+            channel.sendMessage(leaveNotice);
+        }
+        catch (IOException e)
+        {
+            DisconnectedMessage m = new DisconnectedMessage();
+            m.setClient(this);
+            channel.sendMessage(m);
+        }
+        finally
+        {
+            try { in.close(); }     catch (IOException e) { e.printStackTrace(); }
+            try { out.close(); }    catch (IOException e) { e.printStackTrace(); }
+            try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
+            ClientRepository.getInstance().removeClient(this);
+        }
+    }
+
+    public void sendMessage(Message m)
+    {
+        if (m.getRawMessage(getProtocol()) != null)
+        {
+            try
+            {
+                synchronized(out)
+                {
+                    out.write(m.getRawMessage(getProtocol()) + (char)255, 0, m.getRawMessage(getProtocol()).length() + 1);
+                    out.flush();
+                }
+
+                logger.finest("> " + m.getRawMessage(getProtocol()));
+            }
+            catch (SocketException e) { logger.fine(e.getMessage()); }
+            catch (Exception e) { e.printStackTrace(); }
+        }
+        else
+        {
+            logger.warning("Message not sent, raw message missing " + m);
+        }
+    }
+
+    public Message receiveMessage() throws IOException
+    {
+        // read raw message from socket
+        String s = readLine();
+        logger.finer("RECV: " + s);
+
+        // build server message
+        Message m = getProtocol().getMessage(s);
+        //m.setRawMessage(getProtocol().getName(), s);
+        m.setSource(this);
+
+        return m;
+    }
+
+    /**
      * Read a line sent by the tetrinet client.
      *
      * @return line sent
@@ -90,7 +161,6 @@ public class TetrinetClient extends Client
     public String readLine() throws IOException
     {
         int readChar;
-        Reader in = getReader();
         StringBuffer input = new StringBuffer();
 
         while ((readChar = in.read()) != -1 && readChar != 255)
@@ -104,6 +174,78 @@ public class TetrinetClient extends Client
         if (readChar == -1) throw new IOException("client disconnected");
 
         return input.toString();
+    }
+
+    public void setSocket(Socket socket)
+    {
+        this.socket = socket;
+        try
+        {
+            in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        }
+        catch(IOException e) { e.printStackTrace(); }
+    }
+
+    public Socket getSocket()
+    {
+        return socket;
+    }
+
+    public InetAddress getInetAddress()
+    {
+        return socket.getInetAddress();
+    }
+
+    public void setChannel(Channel channel)
+    {
+        this.channel = channel;
+    }
+
+    public Channel getChannel()
+    {
+        return channel;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setVersion(String version)
+    {
+        this.version = version;
+    }
+
+    public String getVersion()
+    {
+        return version;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void disconnect()
+    {
+        disconnected = true;
+        try { socket.shutdownOutput(); } catch(Exception e) { e.printStackTrace(); }
+    }
+
+    public String toString()
+    {
+        return "[Client " + getInetAddress() + " type=" + type + "]";
     }
 
 }

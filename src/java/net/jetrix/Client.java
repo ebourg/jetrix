@@ -21,10 +21,6 @@ package net.jetrix;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
-import java.util.logging.*;
-import net.jetrix.config.*;
-import net.jetrix.messages.*;
 
 /**
  * Layer handling communication with a client. Incomming messages are turned
@@ -34,227 +30,58 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public abstract class Client implements Runnable, Destination
+public interface Client extends Runnable, Destination
 {
-    private Socket socket;
-    private Reader in;
-    private Writer out;
-    private ServerConfig serverConfig;
-
-    private int type;
-    private String version;
-
-    // client types
-    public static final int CLIENT_TETRINET  = 0;
-    public static final int CLIENT_TETRIFAST = 1;
-    public static final int CLIENT_TSPEC     = 2;
-
-    private Channel channel;
-    private Server server;
-    private User user;
-
-    private boolean disconnected;
-    private Logger logger = Logger.getLogger("net.jetrix");
-    private static List allowedSpecials;
-
-    public Client()
-    {
-        Server server = Server.getInstance();
-        if (server != null ) serverConfig = server.getConfig();
-    }
-
-    public Client(User user, Socket socket)
-    {
-        this();
-        setSocket(socket);
-        this.user = user;
-    }
-
     /**
      * Return the protocol used by this client.
      */
     public abstract Protocol getProtocol();
 
     /**
-     * Main loop listening and parsing messages sent by the client.
+     * Return the channel this client subscribed to.
      */
-    public void run()
-    {
-        logger.fine("Client started " + this);
+    public Channel getChannel();
 
-        try
-        {
-            String s;
-            Message m;
+    /**
+     * Set the channel.
+     */
+    public void setChannel(Channel channel);
 
-            while ( !disconnected && serverConfig.isRunning() )
-            {
-                // reading raw message from socket
-                s = readLine();
-                logger.finer("RECV: " + s);
+    /**
+     * Return the user associated to this client.
+     */
+    public User getUser();
 
-                try
-                {
-                    // building server message
-                    m = getProtocol().getMessage(s);
-                    if (m == null) continue;
-                    //m.setRawMessage(getProtocol().getName(), s);
-                    m.setSource(this);
+    /**
+     * Return the type of the client.
+     */
+    public String getType();
 
-                    // forwarding message to channel
-                    channel.sendMessage(m);
+    /**
+     * Return the version number of this client.
+     */
+    public String getVersion();
 
-                }
-                catch (NumberFormatException e)
-                {
-                    logger.finer("Bad format message");
-                    e.printStackTrace();
-                }
-                catch (NoSuchElementException e)
-                {
-                    logger.finer("Bad format message");
-                    e.printStackTrace();
-                }
-                catch (IllegalArgumentException e)
-                {
-                    logger.warning(e.getMessage());
-                    e.printStackTrace();
-                }
-            } // end while
-
-            LeaveMessage leaveNotice = new LeaveMessage();
-            leaveNotice.setSlot(channel.getClientSlot(this));
-            channel.sendMessage(leaveNotice);
-        }
-        catch (IOException e)
-        {
-            DisconnectedMessage m = new DisconnectedMessage();
-            m.setClient(this);
-            channel.sendMessage(m);
-        }
-        finally
-        {
-            try { in.close(); }     catch (IOException e) { e.printStackTrace(); }
-            try { out.close(); }    catch (IOException e) { e.printStackTrace(); }
-            try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
-            ClientRepository.getInstance().removeClient(this);
-        }
-    }
+    /**
+     * Return the Internet address of this client.
+     */
+    public InetAddress getInetAddress();
 
     /**
      * Send a message to the client. The raw message property must be set.
      *
      * @param m message to send
      */
-    public void sendMessage(Message m)
-    {
-        if (m.getRawMessage(getProtocol()) != null)
-        {
-            try
-            {
-                synchronized(out)
-                {
-                    out.write(m.getRawMessage(getProtocol()) + (char)255, 0, m.getRawMessage(getProtocol()).length() + 1);
-                    out.flush();
-                }
-
-                logger.finest("> " + m.getRawMessage(getProtocol()));
-            }
-            catch (SocketException e) { logger.fine(e.getMessage()); }
-            catch (Exception e) { e.printStackTrace(); }
-        }
-        else
-        {
-            logger.warning("Message not sent, raw message missing " + m);
-        }
-    }
-
+    public void sendMessage(Message m);
 
     /**
-     * Read a line sent by the tetrinet client.
-     *
-     * @return line sent
+     * Receive a message sent by the client.
      */
-    public abstract String readLine() throws IOException;
-
-    public void setChannel(Channel channel)
-    {
-        this.channel = channel;
-    }
-
-    public Channel getChannel()
-    {
-        return channel;
-    }
-
-    public void setUser(User user)
-    {
-        this.user = user;
-    }
-
-    public User getUser()
-    {
-        return user;
-    }
-
-    public void setSocket(Socket socket)
-    {
-        this.socket = socket;
-        try
-        {
-            in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        }
-        catch(IOException e) { e.printStackTrace(); }
-    }
-
-    public Socket getSocket()
-    {
-        return socket;
-    }
-
-    protected Reader getReader()
-    {
-        return in;
-    }
-
-    protected Writer getWriter()
-    {
-        return out;
-    }
-
-    public void setVersion(String version)
-    {
-        this.version = version;
-    }
-
-    public String getVersion()
-    {
-        return version;
-    }
-
-    public void setType(int type)
-    {
-        this.type = type;
-    }
-
-    public int getType()
-    {
-        return type;
-    }
+    public Message receiveMessage() throws IOException;
 
     /**
-     * Triggers the disconnection of this client.
+     * Trigger the disconnection of this client.
      */
-    public void disconnect()
-    {
-        disconnected = true;
-        try { socket.shutdownOutput(); } catch(Exception e) { e.printStackTrace(); }
-    }
-
-    public String toString()
-    {
-        return "[Client " + socket + " type=" + type + "]";
-    }
+    public void disconnect();
 
 }

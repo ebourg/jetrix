@@ -92,8 +92,8 @@ public class IpCommand implements Command
             else
             {
                 // player found
-                String hostname = target.getSocket().getInetAddress().getHostName();
-                String hostaddress = target.getSocket().getInetAddress().getHostAddress();
+                String hostname = target.getInetAddress().getHostName();
+                String hostaddress = target.getInetAddress().getHostAddress();
                 String message = "<darkBlue>[<red>" + target.getUser().getName() + "</red>] " + hostname;
                 if (!hostname.equals(hostaddress)) message += " (" + hostaddress + ")";
                 PlineMessage reponse = new PlineMessage(message);
