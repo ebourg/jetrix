@@ -57,7 +57,7 @@ public class PingFilter extends MessageFilter
                 out.add(m);
             }
         }
-        else if (m instanceof GmsgMessage)
+        else if (m instanceof GmsgMessage && m.getSource() != null)
         {
             // send back "* PONG" to the player if he just wrote "t"
             GmsgMessage gmsg = (GmsgMessage) m;
