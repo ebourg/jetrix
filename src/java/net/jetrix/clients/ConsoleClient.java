@@ -22,6 +22,7 @@ package net.jetrix.clients;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 import net.jetrix.*;
 import net.jetrix.config.*;
@@ -39,6 +40,8 @@ public class ConsoleClient implements Client
     private Protocol protocol;
     private User user;
     private Channel channel;
+    private Logger log = Logger.getLogger("net.jetrix");
+    private boolean closed = false;
 
     public ConsoleClient()
     {
@@ -58,18 +61,26 @@ public class ConsoleClient implements Client
 
     public void run()
     {
-        while (conf.isRunning())
+        while (conf.isRunning() && !closed)
         {
             try
             {
                 Message message = receiveMessage();
-                if (message == null) continue;
-                Server.getInstance().sendMessage(message);
+
+                if (message != null)
+                {
+                    Server.getInstance().sendMessage(message);
+                }
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
+        }
+
+        if (closed)
+        {
+            log.info("Input stream closed, shutting down the console...");
         }
     }
 
@@ -81,10 +92,15 @@ public class ConsoleClient implements Client
 
     public Message receiveMessage() throws IOException
     {
-        String cmd = in.readLine();
-        Message message = protocol.getMessage(cmd);
+        String line = in.readLine();
+        if (line == null)
+        {
+            closed = true;
+        }
+
+        Message message = protocol.getMessage(line);
         if (message != null) message.setSource(this);
-        
+
         return message;
     }
 
@@ -123,6 +139,8 @@ public class ConsoleClient implements Client
         return null;
     }
 
-    public void disconnect() { }
+    public void disconnect()
+    {
+    }
 
 }
