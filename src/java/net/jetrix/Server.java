@@ -28,12 +28,7 @@ import java.util.logging.*;
 import net.jetrix.clients.*;
 import net.jetrix.config.*;
 import net.jetrix.commands.*;
-import net.jetrix.listeners.*;
 import net.jetrix.messages.*;
-
-import org.mortbay.jetty.*;
-import org.mortbay.http.*;
-import org.mortbay.util.*;
 
 /**
  * Main class, starts server components.
@@ -53,47 +48,53 @@ public class Server implements Runnable, Destination
     private Server()
     {
         System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2003 Emmanuel Bourg\n");
-        instance = this;
 
-        // reading server configuration
+        // spawn the server message queue
+        mq = new MessageQueue();
+
+        // add the stop hook
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run()
+            {
+                if (conf != null) { instance.stop(); }
+            }
+        });
+    }
+
+    /**
+     * Return the unique instance of the server.
+     */
+    public static Server getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new Server();
+        }
+
+        return instance;
+    }
+
+    /**
+     * Server initialization.
+     */
+    private void init()
+    {
+        // read the server configuration
         conf = new ServerConfig();
         conf.load();
         conf.setRunning(true);
 
-        // start the web admin console if available
-        try {
-            System.setProperty("LOG_CLASSES", "org.mortbay.util.OutputStreamLogSink");
-            System.setProperty("LOG_FILE", "log/jetty.log");
-            System.setProperty("LOG_DATE_FORMAT", "[yyyy-MM-dd HH:mm:ss] ");
-
-            Class c = Class.forName("org.mortbay.jetty.Server");
-            org.mortbay.jetty.Server jetty = (org.mortbay.jetty.Server)c.newInstance();
-            jetty.addListener(new InetAddrPort(8080));
-            jetty.addWebApplication("/","./lib/jetrix-admin.war");
-            jetty.start();
-        }
-        catch (Throwable e) { e.printStackTrace(); }
-
-        // preparing logger
+        // prepare the loggers
         prepareLoggers();
 
-        // adding shutdown hook
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() { shutdown(); }
-        });
-
-        // checking new release availability
+        // @todo check the availability of a new release
         // ....
-
-        // spawning server message queue handler
-        mq = new MessageQueue();
-        Thread server = new Thread(this);
-        server.start();
 
         // spawning persistent channels
         channelManager = ChannelManager.getInstance();
-        Iterator it = conf.getChannels();
+        channelManager.clear();
 
+        Iterator it = conf.getChannels();
         while(it.hasNext())
         {
             ChannelConfig cc = (ChannelConfig)it.next();
@@ -108,7 +109,7 @@ public class Server implements Runnable, Destination
         Iterator listeners = conf.getListeners();
         while (listeners.hasNext())
         {
-            ClientListener listener = (ClientListener) listeners.next();
+            Listener listener = (Listener) listeners.next();
             listener.start();
         }
 
@@ -166,8 +167,51 @@ public class Server implements Runnable, Destination
         }
     }
 
+    /**
+     * Start the server.
+     */
+    public void start()
+    {
+        Thread server = new Thread(this);
+        server.start();
+    }
+
+    /**
+     * Stop the server.
+     */
+    protected void stop()
+    {
+        // stop the listeners
+        Iterator listeners = conf.getListeners();
+        while (listeners.hasNext())
+        {
+            Listener listener = (Listener) listeners.next();
+            listener.stop();
+        }
+
+        conf.setRunning(false);
+        disconnectAll();
+    }
+
+    /**
+     * Disconnect all clients from the server.
+     */
+    protected void disconnectAll()
+    {
+        ClientRepository repository = ClientRepository.getInstance();
+
+        Iterator clients = repository.getClients();
+        while (clients.hasNext())
+        {
+            Client client = (Client)clients.next();
+            client.disconnect();
+        }
+    }
+
     public void run()
     {
+        init();
+
         while (conf.isRunning())
         {
             try
@@ -232,54 +276,9 @@ public class Server implements Runnable, Destination
         mq.put(m);
     }
 
-    /**
-     * Return the unique instance of the server.
-     */
-    public static Server getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new Server();
-        }
-
-        return instance;
-    }
-
     public ServerConfig getConfig()
     {
         return conf;
-    }
-
-    /**
-     * Shut the server down.
-     */
-    protected void shutdown()
-    {
-        // stop the listeners
-        Iterator listeners = conf.getListeners();
-        while (listeners.hasNext())
-        {
-            ClientListener listener = (ClientListener) listeners.next();
-            listener.stop();
-        }
-        
-        conf.setRunning(false);
-        disconnectAll();
-    }
-
-    /**
-     * Disconnect all clients from the server.
-     */
-    protected void disconnectAll()
-    {
-        ClientRepository repository = ClientRepository.getInstance();
-
-        Iterator clients = repository.getClients();
-        while (clients.hasNext())
-        {
-            Client client = (Client)clients.next();
-            client.disconnect();
-        }
     }
 
     /**
@@ -307,14 +306,15 @@ public class Server implements Runnable, Destination
         }
 
         URL[] urls = new URL[jars.size()];
-        for (int i = 0; i < jars.size(); i++) urls[i] = (URL)jars.get(i);
+        for (int i = 0; i < jars.size(); i++) urls[i] = (URL) jars.get(i);
 
         URLClassLoader loader = new URLClassLoader(urls, null);
         Thread.currentThread().setContextClassLoader(loader);
 
         // start the server
         Class serverClass = loader.loadClass("net.jetrix.Server");
-        serverClass.getMethod("getInstance", null).invoke(null, null);
+        Object server = serverClass.getMethod("getInstance", null).invoke(null, null);
+        server.getClass().getMethod("start", null).invoke(server, null);
     }
 
 }
