@@ -47,25 +47,10 @@ public class HelpCommand extends AbstractCommand
         header.setKey("command.help.header");
         client.send(header);
 
-        int limit = 20;
-        int i = 0;
-
         // iterate through the commands accessible to the user
         Iterator commands = CommandManager.getInstance().getCommands(client.getUser().getAccessLevel());
         while (commands.hasNext())
         {
-            if (++i % limit == 0)
-            {
-                try
-                {
-                    Thread.sleep(200);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-
             Command command = (Command) commands.next();
 
             if (command.isHidden())
