@@ -108,6 +108,11 @@ public class TetrinetListener extends ClientListener
             return null;
         }
 
+        // send a boggus slot number to avoid disconnection timeout
+        PlayerNumMessage mnum = new PlayerNumMessage();
+        mnum.setSlot(1);
+        client.send(mnum);
+
         return client;
     }
 
