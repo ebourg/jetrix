@@ -14,10 +14,12 @@ What is JetriX ?
 Installing & Running JetriX
 
   You need a JRE 1.4 or higher installed on your server to run JetriX.
-  You can download it here : http://java.sun.com/j2se/1.4/download.html
-  Make sure the JAVA_HOME environnement variable is properly set and 
-  points to your Java installation directory! Unzip the JetriX archive
-  to the installation directory and run the following commands :
+  You can download it here : http://java.sun.com/j2se/1.4.2/download.html
+  If the 'java' command is not in your path, you can set the JAVA_HOME 
+  environnement variable to point to your Java installation directory.
+  
+  Unzip the JetriX archive to the installation directory and run the 
+  following commands :
 
   To start the server,
     Unix    : ./jetrix
