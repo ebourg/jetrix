@@ -36,7 +36,7 @@ public class User
     private int status;
     private boolean registered;
     private boolean playing;
-    private boolean spectator;
+    private int type;
     private Locale locale;
     private Map props;
 
@@ -113,14 +113,24 @@ public class User
         return playing;
     }
 
-    public void setSpectator(boolean playing)
+    public void setSpectator()
     {
-        this.playing = playing;
+        this.type = USER_SPECTATOR;
     }
 
     public boolean isSpectator()
     {
-        return playing;
+        return (type == USER_SPECTATOR);
+    }
+
+    public void setPlayer()
+    {
+        this.type = USER_PLAYER;
+    }
+
+    public boolean isPlayer()
+    {
+        return (type == USER_PLAYER);
     }
 
     public void setLocale(Locale locale)
