@@ -144,7 +144,7 @@ public class ClientRepository
      */
     public Client getClient(String nickname)
     {
-        return (Client)clients.get(nickname.toLowerCase());
+        return (nickname == null) ? null : (Client) clients.get(nickname.toLowerCase());
     }
 
     /**
