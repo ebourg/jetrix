@@ -55,7 +55,7 @@ public class TellCommand implements Command
     public void execute(CommandMessage m)
     {
         String cmd = m.getCommand();
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 2)
         {
@@ -72,7 +72,7 @@ public class TellCommand implements Command
                     target = channel.getClient(slot);
                 }
             }
-            catch (NumberFormatException e) {}
+            catch (NumberFormatException e) { }
 
             if (target == null)
             {

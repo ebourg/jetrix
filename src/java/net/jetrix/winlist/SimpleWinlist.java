@@ -184,7 +184,7 @@ public class SimpleWinlist implements Winlist
 
         // announce the new scores of the winners
         Channel channel = result.getChannel();
-        if (channel != null && "true".equals(config.getParameter("display.score")))
+        if (channel != null && config.getBoolean("display.score", false))
         {
             channel.sendMessage(getGainMessage(score1, previousScore1, previousRank1));
             if (score2 != null)
@@ -233,7 +233,17 @@ public class SimpleWinlist implements Winlist
                 }
                 finally
                 {
-                    try { if (reader != null) { reader.close(); } } catch (Exception e) { e.printStackTrace(); }
+                    try
+                    {
+                        if (reader != null)
+                        {
+                            reader.close();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -273,7 +283,17 @@ public class SimpleWinlist implements Winlist
             }
             finally
             {
-                try { if (writer != null) { writer.close(); } } catch (Exception e) { e.printStackTrace(); }
+                try
+                {
+                    if (writer != null)
+                    {
+                        writer.close();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -296,8 +316,8 @@ public class SimpleWinlist implements Winlist
         }
 
         PlineMessage message = new PlineMessage();
-        message.setKey(key.toString(), new Object[] { score.getName(), new Long(score.getScore() - previousScore),
-                                                      new Long(score.getScore()), new Long(rank), new Long(previousRank - rank) });
+        message.setKey(key.toString(), new Object[]{score.getName(), new Long(score.getScore() - previousScore),
+                                                    new Long(score.getScore()), new Long(rank), new Long(previousRank - rank)});
         return message;
     }
 

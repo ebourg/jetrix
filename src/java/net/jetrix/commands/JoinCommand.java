@@ -34,11 +34,11 @@ import net.jetrix.messages.*;
  */
 public class JoinCommand implements Command
 {
-    private Logger logger = Logger.getLogger("net.jetrix");
+    private Logger log = Logger.getLogger("net.jetrix");
 
     public String[] getAliases()
     {
-        return (new String[] { "join", "j" });
+        return (new String[]{"join", "j"});
     }
 
     public int getAccessLevel()
@@ -49,7 +49,7 @@ public class JoinCommand implements Command
     public String getUsage(Locale locale)
     {
         return "/join <" + Language.getText("command.params.channel_name_num", locale) + ">"
-               + " <" + Language.getText("command.params.password", locale) + ">";
+                + " <" + Language.getText("command.params.password", locale) + ">";
     }
 
     public String getDescription(Locale locale)
@@ -59,7 +59,7 @@ public class JoinCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 1)
         {
@@ -86,8 +86,8 @@ public class JoinCommand implements Command
                 else if (channelConfig.isPasswordProtected() && !channelConfig.getPassword().equals(password))
                 {
                     // wrong password
-                    logger.severe(client.getUser().getName() + "(" + client.getInetAddress() + ") "
-                                  + "attempted to join the protected channel '"  + channelConfig.getName() + "'.");
+                    log.severe(client.getUser().getName() + "(" + client.getInetAddress() + ") "
+                            + "attempted to join the protected channel '" + channelConfig.getName() + "'.");
                     PlineMessage accessDenied = new PlineMessage();
                     accessDenied.setKey("command.join.wrong_password");
                     client.sendMessage(accessDenied);
@@ -103,7 +103,7 @@ public class JoinCommand implements Command
                 {
                     // adding the ADDPLAYER message to the queue of the target channel
                     AddPlayerMessage move = new AddPlayerMessage();
-                    move.setClient((Client)m.getSource());
+                    move.setClient((Client) m.getSource());
                     target.sendMessage(move);
                 }
             }
@@ -113,7 +113,7 @@ public class JoinCommand implements Command
             // not enough parameters
             Locale locale = client.getUser().getLocale();
             String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.channel_name_num", locale) + ">"
-                + " <" + Language.getText("command.params.password", locale) + ">";
+                    + " <" + Language.getText("command.params.password", locale) + ">";
             PlineMessage response = new PlineMessage(message);
             client.sendMessage(response);
         }
@@ -140,6 +140,5 @@ public class JoinCommand implements Command
 
         return channel;
     }
-
 
 }

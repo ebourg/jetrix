@@ -53,7 +53,7 @@ public class StartCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         Channel channel = client.getChannel();
 
         if (channel != null)
@@ -63,7 +63,7 @@ public class StartCommand implements Command
 
             if (m.getParameterCount() > 0)
             {
-                try { delay = Integer.parseInt(m.getParameter(0)); } catch (Exception e) { };
+                delay = m.getIntParameter(0, delay);
             }
 
             // the delay is capped at 20 seconds
@@ -142,7 +142,11 @@ public class StartCommand implements Command
 
                 channel.sendMessage(msg1);
                 channel.sendMessage(msg2);
-                try { sleep(1000); } catch(InterruptedException e) { }
+                try
+                {
+                    sleep(1000);
+                }
+                catch (InterruptedException e) { }
 
                 // cancel the countdown if the game has started
                 if (channel.getGameState() != Channel.GAME_STATE_STOPPED)

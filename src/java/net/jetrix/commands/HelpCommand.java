@@ -34,7 +34,7 @@ public class HelpCommand implements Command
 {
     public String[] getAliases()
     {
-        return (new String[] { "help", "?", "h" });
+        return (new String[]{"help", "?", "h"});
     }
 
     public int getAccessLevel()
@@ -54,7 +54,7 @@ public class HelpCommand implements Command
 
     public void execute(CommandMessage message)
     {
-        Client client = (Client)message.getSource();
+        Client client = (Client) message.getSource();
         Locale locale = client.getUser().getLocale();
 
         // send the header
@@ -71,7 +71,7 @@ public class HelpCommand implements Command
         {
             if (++i >= limit) return;
 
-            Command command = (Command)commands.next();
+            Command command = (Command) commands.next();
 
             // parse the usage string, and color and command and the parameters
             String usage = command.getUsage(locale);

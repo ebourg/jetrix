@@ -55,7 +55,7 @@ public class TeleportCommand implements Command
     public void execute(CommandMessage m)
     {
         String cmd = m.getCommand();
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 2)
         {
@@ -72,7 +72,7 @@ public class TeleportCommand implements Command
                     target = channel.getClient(slot);
                 }
             }
-            catch (NumberFormatException e) {}
+            catch (NumberFormatException e) { }
 
             if (target == null)
             {
@@ -95,7 +95,7 @@ public class TeleportCommand implements Command
 
                 if (channel != null)
                 {
-                    if ( channel.isFull() )
+                    if (channel.isFull())
                     {
                         // sending channel full message
                         PlineMessage channelfull = new PlineMessage();

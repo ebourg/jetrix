@@ -54,7 +54,7 @@ public class TeamMessageCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (client.getUser().getTeam() == null)
         {
@@ -72,7 +72,7 @@ public class TeamMessageCommand implements Command
             Iterator clients = ClientRepository.getInstance().getClients();
             while (clients.hasNext())
             {
-                Client target = (Client)clients.next();
+                Client target = (Client) clients.next();
                 if (client.getUser().getTeam().equals(target.getUser().getTeam()) && client != target)
                 {
                     target.sendMessage(response);

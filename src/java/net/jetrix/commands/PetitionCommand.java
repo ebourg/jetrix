@@ -34,7 +34,7 @@ public class PetitionCommand implements Command
 {
     public String[] getAliases()
     {
-        return (new String[] { "petition", "omsg" });
+        return (new String[]{"petition", "omsg"});
     }
 
     public int getAccessLevel()
@@ -55,7 +55,7 @@ public class PetitionCommand implements Command
     public void execute(CommandMessage m)
     {
         String cmd = m.getCommand();
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 1)
         {
@@ -65,7 +65,7 @@ public class PetitionCommand implements Command
             {
                 PlineMessage petition = new PlineMessage();
                 String message = m.getText();
-                petition.setKey("command.tell.format", new Object[] { client.getUser().getName(), message });
+                petition.setKey("command.tell.format", new Object[]{client.getUser().getName(), message});
 
                 while (operators.hasNext())
                 {

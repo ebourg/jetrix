@@ -56,7 +56,7 @@ public class GotoCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 1)
         {

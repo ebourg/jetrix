@@ -20,6 +20,7 @@
 package net.jetrix.commands;
 
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -33,7 +34,7 @@ public class EmoteCommand implements Command
 {
     public String[] getAliases()
     {
-        return (new String[] { "me", "emote" });
+        return (new String[]{"me", "emote"});
     }
 
     public int getAccessLevel()
@@ -53,7 +54,7 @@ public class EmoteCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         String emote = m.getText();
 
         PlineActMessage response = new PlineActMessage(emote);

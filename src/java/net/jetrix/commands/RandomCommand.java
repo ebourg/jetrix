@@ -55,7 +55,7 @@ public class RandomCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         // get the minimum and maximum values
         int min = 1;
@@ -63,12 +63,8 @@ public class RandomCommand implements Command
 
         if (m.getParameterCount() >= 2)
         {
-            try
-            {
-                min = Integer.parseInt(m.getParameter(0));
-                max = Integer.parseInt(m.getParameter(1));
-            }
-            catch (NumberFormatException e) { /* keep the default values */ }
+            min = m.getIntParameter(0, min);
+            max = m.getIntParameter(1, max);
         }
 
         int result = random.nextInt(Math.abs(max - min) + 1);

@@ -20,6 +20,7 @@
 package net.jetrix.commands;
 
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -33,7 +34,7 @@ public class MoveCommand implements Command
 {
     public String[] getAliases()
     {
-        return (new String[] { "move" });
+        return (new String[]{"move"});
     }
 
     public int getAccessLevel()
@@ -53,22 +54,16 @@ public class MoveCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 2)
         {
             // parse the two slot numbers
-            int slot1 = 0;
-            int slot2 = 0;
+            int slot1 = m.getIntParameter(0, 0);
+            int slot2 = m.getIntParameter(1, 0);
 
-            try
+            if (slot1 >= 1 && slot1 <= 6 && slot2 >= 1 && slot2 <= 6)
             {
-                slot1 = Integer.parseInt(m.getParameter(0));
-                slot2 = Integer.parseInt(m.getParameter(1));
-            }
-            catch (NumberFormatException e) { }
-
-            if (slot1 >= 1 && slot1 <= 6 && slot2 >= 1 && slot2 <= 6) {
                 // send the switch message to the channel
                 PlayerSwitchMessage pswitch = new PlayerSwitchMessage();
                 pswitch.setSlot1(slot1);

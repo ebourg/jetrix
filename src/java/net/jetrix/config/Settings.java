@@ -119,98 +119,74 @@ public class Settings
 
     public int getStartingLevel()
     {
-        if (defaultStartingLevel && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getStartingLevel();
-        else
-            return startingLevel;
+        boolean useDefaultSettings = defaultStartingLevel && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getStartingLevel() : startingLevel;
     }
 
     public int getStackHeight()
     {
-        if (defaultStackHeight && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getStackHeight();
-        else
-            return stackHeight;
+        boolean useDefaultSettings = defaultStackHeight && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getStackHeight() : stackHeight;
     }
 
     public int getLinesPerLevel()
     {
-        if (defaultLinesPerLevel && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getLinesPerLevel();
-        else
-            return linesPerLevel;
+        boolean useDefaultSettings = defaultLinesPerLevel && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getLinesPerLevel() : linesPerLevel;
     }
 
     public int getLinesPerSpecial()
     {
-        if (defaultLinesPerSpecial && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getLinesPerSpecial();
-        else
-            return linesPerSpecial;
+        boolean useDefaultSettings = defaultLinesPerSpecial && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getLinesPerSpecial() : linesPerSpecial;
     }
 
     public int getLevelIncrease()
     {
-        if (defaultLevelIncrease && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getLevelIncrease();
-        else
-            return levelIncrease;
+        boolean useDefaultSettings = defaultLevelIncrease && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getLevelIncrease() : levelIncrease;
     }
 
     public int getSpecialAdded()
     {
-        if (defaultSpecialAdded && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getSpecialAdded();
-        else
-            return specialAdded;
+        boolean useDefaultSettings = defaultSpecialAdded && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getSpecialAdded() : specialAdded;
     }
 
     public int getSpecialCapacity()
     {
-        if (defaultSpecialCapacity && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getSpecialCapacity();
-        else
-            return specialCapacity;
+        boolean useDefaultSettings = defaultSpecialCapacity && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getSpecialCapacity() : specialCapacity;
     }
 
     public boolean getAverageLevels()
     {
-        if (defaultAverageLevels && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getAverageLevels();
-        else
-            return averageLevels;
+        boolean useDefaultSettings = defaultAverageLevels && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getAverageLevels() : averageLevels;
     }
 
     public boolean getClassicRules()
     {
-        if (defaultClassicRules && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getClassicRules();
-        else
-            return classicRules;
+        boolean useDefaultSettings = defaultClassicRules && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getClassicRules() : classicRules;
     }
 
     public boolean getSameBlocks()
     {
-        if (defaultSameBlocks && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getSameBlocks();
-        else
-            return sameBlocks;
+        boolean useDefaultSettings = defaultSameBlocks && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getSameBlocks() : sameBlocks;
     }
 
     public int getBlockOccurancy(int piece)
     {
-        if (defaultBlockOccurancy && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getBlockOccurancy(piece);
-        else
-            return blockOccurancy[piece];
+        boolean useDefaultSettings = defaultBlockOccurancy && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getBlockOccurancy(piece) : blockOccurancy[piece];
     }
 
     public int getSpecialOccurancy(int special)
     {
-        if (defaultSpecialOccurancy && defaultSettings != null && this != defaultSettings)
-            return defaultSettings.getSpecialOccurancy(special);
-        else
-            return specialOccurancy[special];
+        boolean useDefaultSettings = defaultSpecialOccurancy && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getSpecialOccurancy(special) : specialOccurancy[special];
     }
 
     public void setStartingLevel(int startingLevel)
@@ -304,32 +280,44 @@ public class Settings
         int sum = 0;
 
         // computing sum
-        for (int i=0; i<tab.length; i++)
+        for (int i = 0; i < tab.length; i++)
         {
-            if (tab[i]<0) { tab[i]=0; }
+            if (tab[i] < 0)
+            {
+                tab[i] = 0;
+            }
             sum = sum + tab[i];
         }
 
         if (sum != 100)
         {
             // equalization
-            if (sum==0)
+            if (sum == 0)
             {
-                int v = 100/tab.length;
-                for (int i=0; i<tab.length; i++) { tab[i] = v; }
+                int v = 100 / tab.length;
+                for (int i = 0; i < tab.length; i++)
+                {
+                    tab[i] = v;
+                }
             }
             else
             {
-                float f = 100f/sum;
-                for (int i=0; i<tab.length; i++) { tab[i] = (int)(tab[i] * f); }
+                float f = 100f / sum;
+                for (int i = 0; i < tab.length; i++)
+                {
+                    tab[i] = (int) (tab[i] * f);
+                }
             }
 
             // distributing points left
             sum = 0;
-            for (int i=0; i<tab.length; i++) { sum = sum + tab[i]; }
+            for (int i = 0; i < tab.length; i++)
+            {
+                sum = sum + tab[i];
+            }
             int r = 100 - sum;
             int i = 0;
-            while( i < tab.length && r > 0)
+            while (i < tab.length && r > 0)
             {
                 tab[i] = tab[i] + 1;
                 r = r - 1;

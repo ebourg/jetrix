@@ -63,7 +63,7 @@ public class PingCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         User user = client.getUser();
 
         // @todo check if the client use the tetrinet protocol

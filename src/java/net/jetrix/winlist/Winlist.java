@@ -21,7 +21,6 @@ package net.jetrix.winlist;
 
 import java.util.*;
 
-import net.jetrix.winlist.*;
 import net.jetrix.config.*;
 
 /**
@@ -35,19 +34,19 @@ public interface Winlist
     /**
      * Return the id for this winlist.
      */
-    public String getId();
+    String getId();
 
     /**
      * Set the id for this winlist.
      */
-    public void setId(String id);
+    void setId(String id);
 
     /**
      * Initialize the winlist.
      *
      * @param config the winlist configuration
      */
-    public void init(WinlistConfig config);
+    void init(WinlistConfig config);
 
     /**
      * Return the score of the specified player or team
@@ -55,7 +54,7 @@ public interface Winlist
      * @param name the name of the player or team
      * @param type the score type (0: player, 1: team)
      */
-    public Score getScore(String name, int type);
+    Score getScore(String name, int type);
 
     /**
      * Return the score list in the specified range.
@@ -63,11 +62,11 @@ public interface Winlist
      * @param offset the beginning of the range
      * @param length the length of the range
      */
-    public List getScores(long offset, long length);
+    List getScores(long offset, long length);
 
     /**
      * Update the winlist with the specified game result.
      */
-    public void saveGameResult(GameResult result);
+    void saveGameResult(GameResult result);
 
 }

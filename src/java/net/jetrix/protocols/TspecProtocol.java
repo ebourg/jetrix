@@ -50,7 +50,7 @@ public class TspecProtocol extends TetrinetProtocol
 
         if (message instanceof PlineMessage)
         {
-            PlineMessage pline = (PlineMessage)message;
+            PlineMessage pline = (PlineMessage) message;
             pline.setSlot(0);
         }
 
@@ -63,7 +63,7 @@ public class TspecProtocol extends TetrinetProtocol
      */
     public String translate(Message m, Locale locale)
     {
-        if (m instanceof SpectatorListMessage) return translate((SpectatorListMessage)m, locale);
+        if (m instanceof SpectatorListMessage) { return translate((SpectatorListMessage) m, locale); }
         else
         {
             return super.translate(m, locale);
@@ -113,156 +113,6 @@ public class TspecProtocol extends TetrinetProtocol
             return super.translate(m, locale);
         }
     }
-
-    /*public String translate(PlineMessage m)
-    {
-        return null;
-    }
-
-    public String translate(PlineActMessage m)
-    {
-        return null;
-    }
-
-    public String translate(TeamMessage m)
-    {
-        return null;
-    }
-
-    public String translate(JoinMessage m)
-    {
-        return null;
-    }
-
-    public String translate(LeaveMessage m)
-    {
-        return null;
-    }
-
-    public String translate(PlayerNumMessage m)
-    {
-        return null;
-    }
-
-    public String translate(StartGameMessage m)
-    {
-        return null;
-    }
-
-    public String translate(NewGameMessage m)
-    {
-        return null;
-    }
-
-    public String translate(EndGameMessage m)
-    {
-        return null;
-    }
-
-    public String translate(PauseMessage m)
-    {
-        return null;
-    }
-
-    public String translate(ResumeMessage m)
-    {
-        return null;
-    }
-
-    public String translate(GmsgMessage m)
-    {
-        return null;
-    }
-
-    public String translate(LevelMessage m)
-    {
-        return null;
-    }
-
-    public String translate(FieldMessage m)
-    {
-        return null;
-    }
-
-    public String translate(PlayerLostMessage m)
-    {
-        return null;
-    }
-
-    public String translate(DisconnectedMessage m)
-    {
-        return null;
-    }
-
-    public String translate(AddPlayerMessage m)
-    {
-        return null;
-    }
-
-    public String translate(CommandMessage m)
-    {
-        return null;
-    }
-
-    public String translate(OneLineAddedMessage m)
-    {
-        return null;
-    }
-
-    public String translate(TwoLinesAddedMessage m)
-    {
-        return null;
-    }
-
-    public String translate(FourLinesAddedMessage m)
-    {
-        return null;
-    }
-
-    public String translate(AddLineMessage m)
-    {
-        return null;
-    }
-
-    public String translate(ClearLineMessage m)
-    {
-        return null;
-    }
-
-    public String translate(NukeFieldMessage m)
-    {
-        return null;
-    }
-
-    public String translate(RandomClearMessage m)
-    {
-        return null;
-    }
-
-    public String translate(SwitchFieldsMessage m)
-    {
-        return null;
-    }
-
-    public String translate(ClearSpecialsMessage m)
-    {
-        return null;
-    }
-
-    public String translate(GravityMessage m)
-    {
-        return null;
-    }
-
-    public String translate(BlockQuakeMessage m)
-    {
-        return null;
-    }
-
-    public String translate(BlockBombMessage m)
-    {
-        return null;
-    }*/
 
     public String toString()
     {

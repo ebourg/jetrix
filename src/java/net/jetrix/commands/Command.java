@@ -37,27 +37,27 @@ public interface Command
      * a command ("/" or "!"). The first alias in the array is the 
      * default name that will be displayed in the /help list.
      */
-    public String[] getAliases();
+    String[] getAliases();
 
     /**
      * Return the usage of this command, for example
      * <tt>/cmd &lt;param1&gt; &lt;param2&gt;</tt>
      */
-    public String getUsage(Locale locale);
+    String getUsage(Locale locale);
 
     /**
      * Return a description of this command.
      */
-    public String getDescription(Locale locale);
+    String getDescription(Locale locale);
 
     /**
      * Return the required access level to execute this command.
      */
-    public int getAccessLevel();
+    int getAccessLevel();
 
     /**
      * Execute the command.
      */
-    public void execute(CommandMessage message);
+    void execute(CommandMessage message);
 
 }

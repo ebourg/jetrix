@@ -110,8 +110,8 @@ public class GameResult
     /**
      * Return the players that finished the game at the specified rank.
      */
-    public Collection getPlayersAtRank(int rank) {
-
+    public Collection getPlayersAtRank(int rank)
+    {
         Collection players = new ArrayList();
 
         if (rank == 1)

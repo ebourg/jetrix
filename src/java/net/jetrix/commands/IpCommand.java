@@ -20,6 +20,7 @@
 package net.jetrix.commands;
 
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -33,7 +34,7 @@ public class IpCommand implements Command
 {
     public String[] getAliases()
     {
-        return (new String[] { "ip" });
+        return (new String[]{"ip"});
     }
 
     public int getAccessLevel()
@@ -53,7 +54,7 @@ public class IpCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 1)
         {
@@ -70,7 +71,9 @@ public class IpCommand implements Command
                     target = channel.getClient(slot);
                 }
             }
-            catch (NumberFormatException e) {}
+            catch (NumberFormatException e)
+            {
+            }
 
             if (target == null)
             {
@@ -83,7 +86,7 @@ public class IpCommand implements Command
             {
                 // no player found
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", new Object[] { targetName });
+                response.setKey("command.player_not_found", new Object[]{targetName});
                 client.sendMessage(response);
             }
             else

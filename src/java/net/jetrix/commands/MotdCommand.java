@@ -21,6 +21,7 @@ package net.jetrix.commands;
 
 import java.io.*;
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -33,9 +34,10 @@ import net.jetrix.messages.*;
  */
 public class MotdCommand implements Command
 {
+
     public String[] getAliases()
     {
-        return (new String[] { "motd" });
+        return (new String[]{"motd"});
     }
 
     public int getAccessLevel()
@@ -55,14 +57,14 @@ public class MotdCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         ServerConfig conf = Server.getInstance().getConfig();
 
         try
         {
-            BufferedReader motd = new BufferedReader(new StringReader( conf.getMessageOfTheDay() ));
+            BufferedReader motd = new BufferedReader(new StringReader(conf.getMessageOfTheDay()));
             String motdline;
-            while( (motdline = motd.readLine() ) != null )
+            while ((motdline = motd.readLine()) != null)
             {
                 Message response = new PlineMessage("<gray>" + motdline);
                 client.sendMessage(response);

@@ -20,6 +20,7 @@
 package net.jetrix.filter;
 
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -38,10 +39,7 @@ public class StartFilter extends GenericFilter
     public void init(FilterConfig conf)
     {
         // reading parameters
-        try {
-            this.delay = Integer.parseInt(conf.getParameter("delay"));
-        }
-        catch (NumberFormatException e) {}
+        delay = conf.getInt("delay", delay);
 
         timestamp = new long[6];
     }
@@ -55,25 +53,32 @@ public class StartFilter extends GenericFilter
         out.add(m);
 
         // do not check server messages
-        if (slot == 0) { return; }
+        if (slot == 0)
+        {
+            return;
+        }
 
         // can't start if the game isn't stopped
-        if (getChannel().getGameState() != Channel.GAME_STATE_STOPPED) { return; }
+        if (getChannel().getGameState() != Channel.GAME_STATE_STOPPED)
+        {
+            return;
+        }
 
         // check if the text starts with "go"
-        if (text != null && text.toLowerCase().trim().startsWith("go")) {
+        if (text != null && text.toLowerCase().trim().startsWith("go"))
+        {
             // update the timestamp
             long now = System.currentTimeMillis();
-            timestamp[slot-1] = now;
+            timestamp[slot - 1] = now;
 
             // check if everyone said "go" in the given delay
             // AFK players shouldn't be checked
             boolean doStart = true;
             int i = 0;
-            while(i < 6 && doStart)
+            while (i < 6 && doStart)
             {
                 Client player = getChannel().getClient(i + 1);
-                doStart = player == null || ( player != null  && (now - timestamp[i]) <= delay );
+                doStart = player == null || (player != null && (now - timestamp[i]) <= delay);
                 i = i + 1;
             }
 
@@ -86,12 +91,24 @@ public class StartFilter extends GenericFilter
         }
     }
 
-    public String getName() { return "Start Filter"; }
+    public String getName()
+    {
+        return "Start Filter";
+    }
 
-    public String getDescription() { return "Starts the game automatically once everyone said 'go'."; }
+    public String getDescription()
+    {
+        return "Starts the game automatically once everyone said 'go'.";
+    }
 
-    public String getVersion() { return "1.0"; }
+    public String getVersion()
+    {
+        return "1.0";
+    }
 
-    public String getAuthor() { return "Emmanuel Bourg"; }
+    public String getAuthor()
+    {
+        return "Emmanuel Bourg";
+    }
 
 }

@@ -53,7 +53,7 @@ public class BroadcastCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 1)
         {
@@ -64,7 +64,7 @@ public class BroadcastCommand implements Command
             Iterator clients = ClientRepository.getInstance().getClients();
             while (clients.hasNext())
             {
-                Client target = (Client)clients.next();
+                Client target = (Client) clients.next();
                 target.sendMessage(response);
             }
         }

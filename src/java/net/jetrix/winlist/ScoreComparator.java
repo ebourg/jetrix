@@ -34,6 +34,6 @@ public class ScoreComparator implements Comparator
     {
         Score score1 = (Score) o1;
         Score score2 = (Score) o2;
-        return (int)(score2.getScore() - score1.getScore());
+        return (int) (score2.getScore() - score1.getScore());
     }
 }

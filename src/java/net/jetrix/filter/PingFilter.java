@@ -20,6 +20,7 @@
 package net.jetrix.filter;
 
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -32,20 +33,19 @@ import net.jetrix.messages.*;
  */
 public class PingFilter extends MessageFilter
 {
-
     public final void process(Message m, List out)
     {
         if (m instanceof TeamMessage)
         {
-            Client client = (Client)m.getSource();
+            Client client = (Client) m.getSource();
             User user = client.getUser();
 
             if ("true".equals((user.getProperty("command.ping"))))
             {
-                long delay = (System.currentTimeMillis() - ((Long)user.getProperty("command.ping.time")).longValue()) >> 1;
+                long delay = (System.currentTimeMillis() - ((Long) user.getProperty("command.ping.time")).longValue()) >> 1;
 
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.ping.message", new Object[] { new Long(delay) });
+                response.setKey("command.ping.message", new Object[]{new Long(delay)});
                 client.sendMessage(response);
 
                 user.setProperty("command.ping", "false");
@@ -61,12 +61,24 @@ public class PingFilter extends MessageFilter
         }
     }
 
-    public String getName() { return "Ping"; }
+    public String getName()
+    {
+        return "Ping";
+    }
 
-    public String getDescription() { return "Display the ping time."; }
+    public String getDescription()
+    {
+        return "Display the ping time.";
+    }
 
-    public String getVersion() { return "1.0"; }
+    public String getVersion()
+    {
+        return "1.0";
+    }
 
-    public String getAuthor() { return "Emmanuel Bourg"; }
+    public String getAuthor()
+    {
+        return "Emmanuel Bourg";
+    }
 
 }

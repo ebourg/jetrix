@@ -115,10 +115,14 @@ public class ServerConfig
         // a value of "[ALL]" stands for any IP
         if (!"[ALL]".equals(host))
         {
-            try {
+            try
+            {
                 this.host = InetAddress.getByName(host);
             }
-            catch(UnknownHostException e) { e.printStackTrace(); }
+            catch (UnknownHostException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 

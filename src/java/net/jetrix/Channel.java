@@ -574,11 +574,11 @@ public class Channel extends Thread implements Destination
         // send the message of the day
         if (channelConfig.getTopic() != null)
         {
-            BufferedReader topic = new BufferedReader(new StringReader( channelConfig.getTopic() ));
+            BufferedReader topic = new BufferedReader(new StringReader(channelConfig.getTopic()));
             String line = null;
             try
             {
-                while( (line = topic.readLine() ) != null )
+                while ((line = topic.readLine()) != null)
                 {
                     PlineMessage message = new PlineMessage();
                     message.setText("<kaki>" + line);
@@ -586,7 +586,7 @@ public class Channel extends Thread implements Destination
                 }
                 topic.close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -904,7 +904,7 @@ public class Channel extends Thread implements Destination
      */
     public Iterator getSpectators()
     {
-        return new FilterIterator(clients.iterator(), ClientRepository.spectatorPredicate);
+        return new FilterIterator(clients.iterator(), ClientRepository.SPECTATOR_PREDICATE);
     }
 
     /**

@@ -39,8 +39,8 @@ public class TetrisFilter extends GenericFilter
 
     public void init(FilterConfig conf)
     {
-        try { this.tetrisLimit = Integer.parseInt(conf.getParameter("limit")); } catch (Exception e) {}
-        try { this.addToAll = Boolean.getBoolean(conf.getParameter("addToAll")); } catch (Exception e) {}
+        tetrisLimit = conf.getInt("limit", tetrisLimit);
+        addToAll = conf.getBoolean("addToAll", addToAll);
     }
 
     public void onMessage(StartGameMessage m, List out)
@@ -48,7 +48,7 @@ public class TetrisFilter extends GenericFilter
         Arrays.fill(tetrisCount, 0);
 
         GmsgMessage message = new GmsgMessage();
-        message.setKey("filter.tetris.start_message", new Object[] { new Integer(tetrisLimit) });
+        message.setKey("filter.tetris.start_message", new Object[]{new Integer(tetrisLimit)});
 
         out.add(m);
         out.add(message);
@@ -70,7 +70,7 @@ public class TetrisFilter extends GenericFilter
 
             User winner = getChannel().getPlayer(m.getFromSlot());
             PlineMessage announce = new PlineMessage();
-            announce.setKey("channel.player_won", new Object[] { winner.getName() });
+            announce.setKey("channel.player_won", new Object[]{winner.getName()});
             getChannel().sendMessage(announce);
         }
         else
@@ -106,7 +106,7 @@ public class TetrisFilter extends GenericFilter
 
                 if (leaders.size() == 1)
                 {
-                    announce.setKey("filter.tetris.lead", new Object[] { leaders.get(0), new Integer(max) });
+                    announce.setKey("filter.tetris.lead", new Object[]{leaders.get(0), new Integer(max)});
                 }
                 else
                 {
@@ -120,7 +120,7 @@ public class TetrisFilter extends GenericFilter
                             message.append(", ");
                         }
                     }
-                    announce.setKey("filter.tetris.tied", new Object[] { message.toString(), new Integer(max) });
+                    announce.setKey("filter.tetris.tied", new Object[]{message.toString(), new Integer(max)});
                 }
 
                 out.add(announce);
@@ -144,15 +144,24 @@ public class TetrisFilter extends GenericFilter
         }
     }
 
-    public String getName() { return "7 Tetris Mod"; }
+    public String getName()
+    {
+        return "7 Tetris Mod";
+    }
 
     public String getDescription()
     {
         return "Game mod - The first player completing 7 tetris win.";
     }
 
-    public String getVersion() { return "1.0"; }
+    public String getVersion()
+    {
+        return "1.0";
+    }
 
-    public String getAuthor() { return "Emmanuel Bourg"; }
+    public String getAuthor()
+    {
+        return "Emmanuel Bourg";
+    }
 
 }

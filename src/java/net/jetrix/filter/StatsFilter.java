@@ -164,8 +164,8 @@ public class StatsFilter extends GenericFilter
     public void onSpecial(SpecialMessage m)
     {
         if (!(m instanceof OneLineAddedMessage)
-            && !(m instanceof TwoLinesAddedMessage)
-            && !(m instanceof FourLinesAddedMessage))
+                && !(m instanceof TwoLinesAddedMessage)
+                && !(m instanceof FourLinesAddedMessage))
         {
             PlayerStats playerStats = (PlayerStats) stats.get(m.getSlot() - 1);
             playerStats.specialsReceived++;
@@ -179,7 +179,10 @@ public class StatsFilter extends GenericFilter
     {
         out.add(m);
         PlayerStats playerStats = (PlayerStats) stats.get(m.getSlot() - 1);
-        if (playerStats != null) { playerStats.level = m.getLevel(); }
+        if (playerStats != null)
+        {
+            playerStats.level = m.getLevel();
+        }
     }
 
     public void onMessage(LeaveMessage m, List out)
@@ -253,9 +256,9 @@ public class StatsFilter extends GenericFilter
 
                 PlineMessage result = new PlineMessage();
                 result.setText("<purple>" + user.getName() + "</purple> : "
-                        + playerStats.blockCount + " <aqua>blocks @<red>" +  ppm + "</red> bpm, "
+                        + playerStats.blockCount + " <aqua>blocks @<red>" + ppm + "</red> bpm, "
                         + "<black>" + playerStats.linesAdded + "</black> added, "
-                        + "<black>" + playerStats.tetrisCount +"</black> tetris, "
+                        + "<black>" + playerStats.tetrisCount + "</black> tetris, "
                         + "<black>" + playerStats.specialsSent + " / " + playerStats.specialsReceived + "</black> specials");
 
                 out.add(result);
@@ -268,16 +271,25 @@ public class StatsFilter extends GenericFilter
         out.add(time);
     }
 
-    public String getName() { return "Stats Filter"; }
+    public String getName()
+    {
+        return "Stats Filter";
+    }
 
     public String getDescription()
     {
         return "Displays stats about the game (pieces dropped per minute, lines added to all, time played, etc";
     }
 
-    public String getVersion() { return "1.0"; }
+    public String getVersion()
+    {
+        return "1.0";
+    }
 
-    public String getAuthor() { return "Emmanuel Bourg"; }
+    public String getAuthor()
+    {
+        return "Emmanuel Bourg";
+    }
 
     private class PlayerStats
     {
@@ -292,7 +304,7 @@ public class StatsFilter extends GenericFilter
 
         public double getBlocksPerMinute()
         {
-            return (double)blockCount * 60000 / (double)timePlayed;
+            return (double) blockCount * 60000 / (double) timePlayed;
         }
     }
 

@@ -54,11 +54,11 @@ public class ReplyCommand implements Command
     public void execute(CommandMessage m)
     {
         String cmd = m.getCommand();
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 1)
         {
-            String targetName = (String)client.getUser().getProperty("command.tell.reply_to");
+            String targetName = (String) client.getUser().getProperty("command.tell.reply_to");
 
             // aucun message précédent
             if (targetName == null)

@@ -41,7 +41,7 @@ public class TetrixWinlist extends SimpleWinlist
     {
         super.init(config);
 
-        filename = config.getParameter("file");
+        filename = config.getString("file", null);
         if (filename == null)
         {
             filename = "game.winlist" + getId();
@@ -144,7 +144,8 @@ public class TetrixWinlist extends SimpleWinlist
 
             // name
             byte[] name = score.getName().getBytes();
-            for (int i = 0; i < name.length; i++) {
+            for (int i = 0; i < name.length; i++)
+            {
                 struct[i + 1] = name[i];
             }
 

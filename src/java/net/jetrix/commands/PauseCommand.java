@@ -53,7 +53,7 @@ public class PauseCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         Channel channel = client.getChannel();
 
         if (channel != null)

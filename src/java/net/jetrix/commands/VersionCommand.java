@@ -54,7 +54,7 @@ public class VersionCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         String version1 = "<darkBlue><b>JetriX/" + ServerConfig.VERSION + " (build:@build.time@)";
         String version2 = "<purple>VM<darkBlue>: " + System.getProperty("java.vm.name") 

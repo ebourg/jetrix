@@ -20,6 +20,7 @@
 package net.jetrix.filter;
 
 import java.util.*;
+
 import net.jetrix.*;
 
 /**
@@ -35,12 +36,24 @@ public class NoopFilter extends MessageFilter
         out.add(m);
     }
 
-    public String getName() { return "Noop Filter"; }
+    public String getName()
+    {
+        return "Noop Filter";
+    }
 
-    public String getDescription() { return "I'm useless !"; }
+    public String getDescription()
+    {
+        return "I'm useless !";
+    }
 
-    public String getVersion() { return "1.0"; }
+    public String getVersion()
+    {
+        return "1.0";
+    }
 
-    public String getAuthor() { return "Emmanuel Bourg"; }
+    public String getAuthor()
+    {
+        return "Emmanuel Bourg";
+    }
 
 }

@@ -33,11 +33,11 @@ import net.jetrix.messages.*;
  */
 public class KickCommand implements Command
 {
-    private Logger logger = Logger.getLogger("net.jetrix");
+    private Logger log = Logger.getLogger("net.jetrix");
 
     public String[] getAliases()
     {
-        return (new String[] { "kick", "disconnect" });
+        return (new String[]{"kick", "disconnect"});
     }
 
     public int getAccessLevel()
@@ -58,7 +58,7 @@ public class KickCommand implements Command
     public void execute(CommandMessage m)
     {
         String cmd = m.getCommand();
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
 
         if (m.getParameterCount() >= 1)
         {
@@ -75,7 +75,7 @@ public class KickCommand implements Command
                     target = channel.getClient(slot);
                 }
             }
-            catch (NumberFormatException e) {}
+            catch (NumberFormatException e) { }
 
             if (target == null)
             {
@@ -88,13 +88,13 @@ public class KickCommand implements Command
             {
                 // no player found
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", new Object[] { targetName });
+                response.setKey("command.player_not_found", new Object[]{targetName});
                 client.sendMessage(response);
             }
             else
             {
                 // player found
-                logger.info(target.getUser().getName() + " (" + target.getInetAddress() + ") has been kicked by " + client.getUser().getName() + " (" + client.getInetAddress() + ")");
+                log.info(target.getUser().getName() + " (" + target.getInetAddress() + ") has been kicked by " + client.getUser().getName() + " (" + client.getInetAddress() + ")");
                 target.disconnect();
             }
         }

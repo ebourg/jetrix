@@ -21,6 +21,7 @@ package net.jetrix.commands;
 
 import java.util.*;
 import java.util.logging.*;
+
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -33,11 +34,11 @@ import net.jetrix.messages.*;
  */
 public class OperatorCommand implements Command
 {
-    private Logger logger = Logger.getLogger("net.jetrix");
+    private Logger log = Logger.getLogger("net.jetrix");
 
     public String[] getAliases()
     {
-        return (new String[] { "op", "operator" });
+        return (new String[]{"op", "operator"});
     }
 
     public int getAccessLevel()
@@ -58,7 +59,7 @@ public class OperatorCommand implements Command
     public void execute(CommandMessage m)
     {
         String cmd = m.getCommand();
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         ServerConfig conf = Server.getInstance().getConfig();
 
         if (m.getParameterCount() >= 1)
@@ -76,7 +77,7 @@ public class OperatorCommand implements Command
             else
             {
                 // access denied, logging attempt
-                logger.severe(client.getUser().getName() + "(" + client.getInetAddress() + ") attempted to get operator status.");
+                log.severe(client.getUser().getName() + "(" + client.getInetAddress() + ") attempted to get operator status.");
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.operator.denied");
                 client.sendMessage(response);

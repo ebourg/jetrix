@@ -20,6 +20,7 @@
 package net.jetrix.commands;
 
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -34,7 +35,7 @@ public class ListCommand implements Command
 {
     public String[] getAliases()
     {
-        return (new String[] { "list", "l" });
+        return (new String[]{"list", "l"});
     }
 
     public int getAccessLevel()
@@ -54,30 +55,33 @@ public class ListCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         ChannelManager channelManager = ChannelManager.getInstance();
         Locale locale = client.getUser().getLocale();
-        
+
         // get the name of the channel of this player to highlight it
         String playerChannel = new String();
-        if (client.getChannel() != null) playerChannel = client.getChannel().getConfig().getName();        
+        if (client.getChannel() != null) playerChannel = client.getChannel().getConfig().getName();
 
         PlineMessage response = new PlineMessage();
-        response.setKey("command.list.header");        
+        response.setKey("command.list.header");
         client.sendMessage(response);
 
         Iterator it = channelManager.channels();
         int i = 1;
-        while(it.hasNext())
+        while (it.hasNext())
         {
-            Channel channel = (Channel)it.next();
+            Channel channel = (Channel) it.next();
             ChannelConfig conf = channel.getConfig();
 
             String cname = conf.getName();
-            while (cname.length() < 6) cname += " ";
+            while (cname.length() < 6)
+            {
+                cname += " ";
+            }
 
             StringBuffer message = new StringBuffer();
-            message.append("<darkBlue>("+(playerChannel.equals(conf.getName())?"<red>"+i+"</red>":"<purple>"+i+"</purple>")+ ") ");
+            message.append("<darkBlue>(" + (playerChannel.equals(conf.getName()) ? "<red>" + i + "</red>" : "<purple>" + i + "</purple>") + ") ");
             message.append("<purple>" + cname + "</purple>\t");
             if (channel.isFull())
             {
@@ -89,7 +93,7 @@ public class ListCommand implements Command
             }
             else
             {
-                message.append("[<aqua>" + Language.getText("command.list.status.open", locale) + "</aqua><blue>-" + channel.getPlayerCount() + "/"+conf.getMaxPlayers() + "</blue>]");
+                message.append("[<aqua>" + Language.getText("command.list.status.open", locale) + "</aqua><blue>-" + channel.getPlayerCount() + "/" + conf.getMaxPlayers() + "</blue>]");
             }
             if (channel.getGameState() != Channel.GAME_STATE_STOPPED)
             {

@@ -20,12 +20,13 @@
 package net.jetrix.filter;
 
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.config.*;
 
 /**
- * Abstract class defining a channel filter. A filter transforms a given message 
- * into a list of messages. Concrete filters just need to inherit from this 
+ * Abstract class defining a channel filter. A filter transforms a given message
+ * into a list of messages. Concrete filters just need to inherit from this
  * class and implement the process() method.
  *
  * @author Emmanuel Bourg
@@ -53,12 +54,14 @@ public abstract class MessageFilter
     /**
      * Called by the channel to indicate to a filter that the filter is being placed into service.
      */
-    public void init(FilterConfig conf) {}
+    public void init(FilterConfig conf) { }
 
     /**
      * Called by the channel to indicate to a filter that the filter is being taken out of service.
      */
-    public void destroy() {}
+    public void destroy()
+    {
+    }
 
     /**
      * Process a message and outputs messages to the specified List.
@@ -68,22 +71,34 @@ public abstract class MessageFilter
     /**
      * Returns the name of this filter.
      */
-    public String getName() { return "unknown filter"; }
+    public String getName()
+    {
+        return "unknown filter";
+    }
 
     /**
      * Returns a short description of this filter.
      */
-    public String getDescription() { return "no description"; }
+    public String getDescription()
+    {
+        return "no description";
+    }
 
     /**
      * Returns the version of this filter
      */
-    public String getVersion() { return "1.0"; }
+    public String getVersion()
+    {
+        return "1.0";
+    }
 
     /**
      * Returns the author of this filter.
      */
-    public String getAuthor() { return "unknown"; }
+    public String getAuthor()
+    {
+        return "unknown";
+    }
 
     /**
      * Gets the filter property indicated by the specified key.
@@ -118,6 +133,9 @@ public abstract class MessageFilter
      */
     public final void setChannel(Channel channel)
     {
-        if ( !isSingleton() ) { this.channel = channel; }
+        if (!isSingleton())
+        {
+            this.channel = channel;
+        }
     }
 }

@@ -54,7 +54,7 @@ public class WhoCommand implements Command
 
     public void execute(CommandMessage m)
     {
-        Client client = (Client)m.getSource();
+        Client client = (Client) m.getSource();
         ChannelManager channelManager = ChannelManager.getInstance();
 
         PlineMessage response = new PlineMessage();
@@ -64,7 +64,7 @@ public class WhoCommand implements Command
         Iterator it = channelManager.channels();
         while(it.hasNext())
         {
-            Channel channel = (Channel)it.next();
+            Channel channel = (Channel) it.next();
 
             // skipping empty channels
             if (channel.getPlayerCount() > 0)
@@ -88,7 +88,11 @@ public class WhoCommand implements Command
                         if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("</i>");
                         if (user.getAccessLevel() > 0) message.append("</b>");
                     }
-                    if (client == clientInChannel) isInChannel = true;
+
+                    if (client == clientInChannel)
+                    {
+                        isInChannel = true;
+                    }
                 }
 
                 if (isInChannel) channelColor = "<red>";

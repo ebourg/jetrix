@@ -72,7 +72,7 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallMethod("*/block-occurancy/rightz", "setRightZOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/block-occurancy/halfcross", "setHalfCrossOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/block-occurancy/line", "setLineOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/block-occurancy", "normalizeBlockOccurancy", 0, (Class[])null);
+        digester.addCallMethod("*/block-occurancy", "normalizeBlockOccurancy", 0, (Class[]) null);
         digester.addCallMethod("*/special-occurancy/addline", "setAddLineOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/special-occurancy/clearline", "setClearLineOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/special-occurancy/nukefield", "setNukeFieldOccurancy", 0, new Class[] {Integer.TYPE});
@@ -82,7 +82,7 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallMethod("*/special-occurancy/gravity", "setGravityOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/special-occurancy/quakefield", "setQuakeFieldOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/special-occurancy/blockbomb", "setBlockBombOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, (Class[])null);
+        digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, (Class[]) null);
 
         // channel configuration
         digester.addObjectCreate("*/channel", "net.jetrix.config.ChannelConfig");
