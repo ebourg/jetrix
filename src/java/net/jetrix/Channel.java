@@ -641,8 +641,11 @@ public class Channel extends Thread implements Destination
         // send the fields
         for (int i = 0; i < 6; i++)
         {
-            FieldMessage message = new FieldMessage(i + 1, fields[i].getFieldString());
-            client.send(message);
+            if (!fields[i].isEmpty() || previousChannel != null)
+            {
+                FieldMessage message = new FieldMessage(i + 1, fields[i].getFieldString());
+                client.send(message);
+            }
         }
 
         // send the winlist
