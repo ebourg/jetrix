@@ -175,6 +175,7 @@ http://jetrix.sourceforge.net/
   <commands>
     <command class="org.lfjr.jts.commands.BroadcastCommand"/>
     <command class="org.lfjr.jts.commands.ConfigCommand"/>
+    <command class="org.lfjr.jts.commands.EmoteCommand"/>
     <command class="org.lfjr.jts.commands.HelpCommand"/>
     <command class="org.lfjr.jts.commands.JoinCommand"/>
     <command class="org.lfjr.jts.commands.KickCommand"/>
