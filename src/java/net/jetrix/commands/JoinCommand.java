@@ -63,14 +63,16 @@ public class JoinCommand extends AbstractCommand implements ParameterCommand
             password = m.getParameter(1);
         }
 
+        // the specified channel was found ?
         if (channel == null)
         {
+            // no, let's create it if the message comes from an operator
             if (client.getUser().getAccessLevel() >= AccessLevel.OPERATOR)
             {
                 // create the channel
                 ChannelConfig config = new ChannelConfig();
                 config.setSettings(new Settings());
-                config.setName(m.getParameter(0));
+                config.setName(m.getParameter(0).replaceFirst("#", "")); // todo reject empty names
                 config.setDescription("");
                 channel = ChannelManager.getInstance().createChannel(config);
 
