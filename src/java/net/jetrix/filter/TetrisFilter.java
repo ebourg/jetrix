@@ -35,10 +35,12 @@ public class TetrisFilter extends GenericFilter
 {
     private int[] tetrisCount = new int[6];
     private int tetrisLimit = 7;
+    private boolean addToAll = false;
 
     public void init(FilterConfig conf)
     {
         try { this.tetrisLimit = Integer.parseInt(conf.getParameter("limit")); } catch (Exception e) {}
+        try { this.addToAll = Boolean.getBoolean(conf.getParameter("addToAll")); } catch (Exception e) {}
     }
 
     public void onMessage(StartGameMessage m, List out)
@@ -50,10 +52,13 @@ public class TetrisFilter extends GenericFilter
 
     public void onMessage(FourLinesAddedMessage m, List out)
     {
-        int from = m.getFromSlot();
+        int from = m.getFromSlot() - 1;
         tetrisCount[from]++;
 
-        out.add(m);
+        if (addToAll)
+        {
+            out.add(m);
+        }
 
         if (tetrisCount[from] >= tetrisLimit)
         {
@@ -64,6 +69,22 @@ public class TetrisFilter extends GenericFilter
             announce.setKey("channel.player_won", new Object[] { winner.getName() });
 
             out.add(announce);
+        }
+    }
+
+    public void onMessage(TwoLinesAddedMessage m, List out)
+    {
+        if (addToAll)
+        {
+            out.add(m);
+        }
+    }
+
+    public void onMessage(OneLineAddedMessage m, List out)
+    {
+        if (addToAll)
+        {
+            out.add(m);
         }
     }
 
