@@ -32,6 +32,30 @@ import net.jetrix.messages.*;
  */
 public class ConsoleProtocol extends Protocol
 {
+    private static Map styles = new HashMap();
+
+    static
+    {
+        styles.put("red", "");
+        styles.put("black", "");
+        styles.put("green", "");
+        styles.put("lightGreen", "");
+        styles.put("darkBlue", "");
+        styles.put("blue", "");
+        styles.put("cyan", "");
+        styles.put("aqua", "");
+        styles.put("yellow", "");
+        styles.put("kaki", "");
+        styles.put("brown", "");
+        styles.put("lightGray", "");
+        styles.put("gray", "");
+        styles.put("magenta", "");
+        styles.put("purple", "");
+        styles.put("b", "");
+        styles.put("i", "");
+        styles.put("u", "");
+        styles.put("white", "");
+    }
 
     /**
      * Return the name of this protocol
@@ -57,7 +81,7 @@ public class ConsoleProtocol extends Protocol
             String firstWord = st.nextToken();
 
             CommandMessage command = new CommandMessage();
-            command.setCommand(firstWord.substring(1));
+            command.setCommand(firstWord);
             command.setText(line.substring(line.indexOf(" ") + 1));
             while (st.hasMoreTokens()) { command.addParameter(st.nextToken()); }
             m = command;
@@ -88,7 +112,7 @@ public class ConsoleProtocol extends Protocol
 
     public Map getStyles()
     {
-        return null;
+        return styles;
     }
 
     public String toString()
