@@ -95,6 +95,8 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallMethod("*/channel/description", "setDescription", 0);
         digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/channel/max-spectators", "setMaxSpectators", 0, new Class[] {Integer.TYPE});
+        digester.addCallMethod("*/channel/winlist", "setWinlistId", 1);
+        digester.addCallParam("*/channel/winlist", 0, "name");
 
         // filter configuration
         digester.addObjectCreate("*/filter", "net.jetrix.config.FilterConfig");
@@ -111,6 +113,12 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallMethod("tetrinet-server/filter-definitions/alias", "addFilterAlias", 2);
         digester.addCallParam("tetrinet-server/filter-definitions/alias", 0, "name");
         digester.addCallParam("tetrinet-server/filter-definitions/alias", 1, "class");
+
+        // winlists
+        digester.addObjectCreate("tetrinet-server/winlists/winlist", null, "class");
+        digester.addSetNext("tetrinet-server/winlists/winlist", "addWinlist", "net.jetrix.winlist.Winlist");
+        digester.addCallMethod("tetrinet-server/winlists/winlist", "setId", 1);
+        digester.addCallParam("tetrinet-server/winlists/winlist", 0, "name");
 
         // command definitions
         digester.addObjectCreate("*/command", null, "class");
