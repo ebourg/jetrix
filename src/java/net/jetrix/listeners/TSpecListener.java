@@ -32,7 +32,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TSpecListener extends ClientListener
+public class TSpecListener extends TetrinetListener
 {
     public String getName()
     {
@@ -52,10 +52,12 @@ public class TSpecListener extends ClientListener
         {
             init = readLine(socket);
         }
-        catch (IOException e) { e.printStackTrace(); }        
+        catch (IOException e) { e.printStackTrace(); }
+
+        String dec = decode(init);
 
         // init string parsing "team <nickname> <password>"
-        StringTokenizer st = new StringTokenizer(init, " ");
+        StringTokenizer st = new StringTokenizer(dec, " ");
         List tokens = new ArrayList();
 
         while (st.hasMoreTokens())
@@ -71,9 +73,10 @@ public class TSpecListener extends ClientListener
         TetrinetClient client = new TetrinetClient();
         User user = new User();
         user.setName((String)tokens.get(1));
+        user.setSpectator();
         client.setSocket(socket);
         client.setUser(user);
-        client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.TSpecProtocol"));
+        client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.TspecProtocol"));
 
         if (tokens.size() > 3)
         {
