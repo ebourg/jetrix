@@ -141,17 +141,8 @@ public class ServerConfig
         // todo make a backup copy of the previous configuration files
 
         // save the server.xml file
-        PrintWriter out = null;
-
-        try
-        {
-            File file = new File(serverConfigURL.toURI());
-            out = new PrintWriter(file, ENCODING);
-        }
-        catch (URISyntaxException e)
-        {
-            log.log(Level.SEVERE, e.getMessage(), e);
-        }
+        File file = new File(serverConfigURL.getPath());
+        PrintWriter out = new PrintWriter(file, ENCODING);
 
         out.println("<?xml version=\"1.0\"?>");
         out.println("<!DOCTYPE tetrinet-server PUBLIC \"-//LFJR//Jetrix TetriNET Server//EN\" \"http://jetrix.sourceforge.net/dtd/tetrinet-server.dtd\">");
@@ -268,15 +259,8 @@ public class ServerConfig
         out.close();
 
         // save the channels.xml file
-        try
-        {
-            File file = new File(channelsConfigURL.toURI());
-            out = new PrintWriter(file, ENCODING);
-        }
-        catch (URISyntaxException e)
-        {
-            log.log(Level.SEVERE, e.getMessage(), e);
-        }
+        file = new File(channelsConfigURL.getPath());
+        out = new PrintWriter(file, ENCODING);
 
         out.println("<?xml version=\"1.0\"?>");
         out.println("<!DOCTYPE tetrinet-channels PUBLIC \"-//LFJR//Jetrix Channels//EN\" \"http://jetrix.sourceforge.net/dtd/tetrinet-channels.dtd\">");
