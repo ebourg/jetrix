@@ -3,7 +3,6 @@ JetriX Changelog
 
 TODO
 ----
-- ban list
 - implement the /afk command
 - /tmsg (team message)
 - zip files on the patch server
@@ -13,16 +12,21 @@ TODO
 - ignore & friend list
 - complete the tspec support
 - /mute <nick>
-- server advertisement
+- server advertisement on tetrinet.org and tfast.org
+- /ban & /unban
+- display available languages with /lang
 
-Changes in version 0.1.2 (2003-04-??)
+Changes in version 0.1.2 (2003-05-??)
 -------------------------------------
 - new commands : /move, /goto, /petition
 - new game mod : 7tetris
-- basic web administration console availble on port 8080
+- basic web administration console available on port 8080 (read only)
 - basic tspec support
 - implemented the winlists
 - implemented the tetrinetx query protocol
+- the connection timeout is now enabled
+- implemented the ban list (hosts only)
+- italian translation contributed by Claudio Gargiulo
 
 Changes in version 0.1.1 (2003-03-02)
 -------------------------------------
