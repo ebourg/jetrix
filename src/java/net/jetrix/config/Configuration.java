@@ -86,4 +86,14 @@ public class Configuration
         String value = props != null ? props.getProperty(key) : null;
         return value != null ? value : defaultValue;
     }
+
+    /**
+     * Return the underlying Properties.
+     *
+     * @since 0.1.4
+     */
+    public Properties getProperties()
+    {
+        return props;
+    }
 }
