@@ -9,15 +9,15 @@ TODO
 - /help <command name>
 - check for new versions available
 - ignore & friend list
-- complete the tspec support
 - /mute <nick>
 - server advertisement on tetrinet.org and tfast.org
 - /ban & /unban
 - /lfd looking for duel
 
-Changes un version 0.1.3 (2003-12-??)
+Changes un version 0.1.3 (2004-01-??)
 -------------------------------------
 - fixed the query protocol (thanks to ekn for the debugging info)
+- tspec clients can now speak on channels
 - the list of available languages can be displayed with /lang
 - the new score & rank of the winner is now announced in the channel
 - fields are now updated on joining a channel (bug 808507)
@@ -32,6 +32,7 @@ Changes un version 0.1.3 (2003-12-??)
 - web admin: added a field tab in the channel view
 - added a topic to the channels
 - added a "port" attribute to the "listener" element in config.xml
+- spanish translation contributed by Julian Mesa Llopis & Bryan Reynaert
 
 Changes in version 0.1.2 (2003-08-03)
 -------------------------------------
