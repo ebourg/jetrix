@@ -64,11 +64,15 @@ public class FilterManager
     {
         // is there an entry for this class in the hashtable ?
         Object obj = staticFilters.get(classname);
-        if (obj != null) { return (MessageFilter)obj; }
+        if (obj != null)
+        {
+            return (MessageFilter) obj;
+        }
 
         MessageFilter filter = null;
 
-        try {
+        try
+        {
             // checking if the filter is a singleton
             Class filterClass = Class.forName(classname);
             Method isSingletonMethod = filterClass.getMethod("isSingleton", null);
@@ -78,7 +82,10 @@ public class FilterManager
             filter = (MessageFilter) filterClass.newInstance();
 
             // adding filter to the hashtable if it's a singleton
-            if (isSingleton.booleanValue()) { staticFilters.put(classname, filter); }
+            if (isSingleton.booleanValue())
+            {
+                staticFilters.put(classname, filter);
+            }
         }
         catch (Exception e)
         {
