@@ -30,6 +30,7 @@ import java.util.TimerTask;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
+ * @since 0.1.4
  */
 public abstract class ScheduledService extends AbstractService
 {

@@ -47,6 +47,7 @@ import net.jetrix.Server;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
+ * @since 0.1.4
  */
 public class PublishingService extends ScheduledService
 {

@@ -37,6 +37,7 @@ import org.jcrontab.data.CrontabParser;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
+ * @since 0.1.4
  */
 public abstract class CronService extends AbstractService
 {

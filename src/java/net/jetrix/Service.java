@@ -24,6 +24,7 @@ package net.jetrix;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
+ * @since 0.1.4
  */
 public interface Service
 {
