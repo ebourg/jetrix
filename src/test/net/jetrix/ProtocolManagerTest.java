@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,6 +38,15 @@ public class ProtocolManagerTest extends TestCase
 
         assertNotNull("no protocol returned", protocol);
         assertEquals("protocol returned", TetrinetProtocol.class, protocol.getClass());
+    }
+
+    public void testGetCachedProtocol()
+    {
+        ProtocolManager manager = ProtocolManager.getInstance();
+        Protocol protocol1 = manager.getProtocol("net.jetrix.protocols.TetrinetProtocol");
+        Protocol protocol2 = manager.getProtocol("net.jetrix.protocols.TetrinetProtocol");
+
+        assertEquals("the protocol is not cached", protocol1, protocol2);
     }
 
     public void testGetUnknownProtocol()
