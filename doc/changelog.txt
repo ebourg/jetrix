@@ -27,6 +27,7 @@ Changes in version 0.1.2 (2003-06-??)
 - the connection timeout is now enabled
 - implemented the ban list (hosts only)
 - italian translation contributed by Claudio Gargiulo
+- german translation contributed by Mario Meuser
 
 Changes in version 0.1.1 (2003-03-02)
 -------------------------------------
