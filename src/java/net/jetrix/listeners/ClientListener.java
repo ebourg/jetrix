@@ -160,7 +160,7 @@ public abstract class ClientListener implements Listener
             }
             catch (Exception e)
             {
-                try { socket.close(); } catch (IOException ioe) { ioe.printStackTrace(); }
+                try { if (socket != null) socket.close(); } catch (IOException ioe) { ioe.printStackTrace(); }
                 e.printStackTrace();
             }
         }
