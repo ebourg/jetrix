@@ -62,6 +62,7 @@ public class ServerConfig
     private List<Service> services;
     private boolean running;
     private int status;
+    private Statistics statistics;
 
     public static final int STATUS_OPENED = 0;
     public static final int STATUS_LOCKED = 1;
@@ -79,6 +80,7 @@ public class ServerConfig
         globalFilters = new ArrayList<FilterConfig>();
         listeners = new ArrayList<Listener>();
         services = new ArrayList<Service>();
+        statistics = new Statistics();
     }
 
     /**
@@ -377,6 +379,14 @@ public class ServerConfig
     public void addBannedHost(String host)
     {
         Banlist.getInstance().ban(host);
+    }
+
+    /**
+     * Return the server statistics.
+     */
+    public Statistics getStatistics()
+    {
+        return statistics;
     }
 
 }

@@ -378,6 +378,9 @@ public class Channel extends Thread implements Destination
                 winlistMessage.setScores(topScores);
                 sendAll(winlistMessage);
             }
+
+            // update the server statistics
+            serverConfig.getStatistics().increaseGameCount();
         }
     }
 
