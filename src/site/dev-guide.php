@@ -142,8 +142,10 @@ message <tt>"Hello World!"</tt>.
 <h3>Write the command</h3>
 
 Every command is represented by a Java class implementing the 
-<a class="api" href="/api/net/jetrix/commands/Command.html">net.jetrix.commands.Command</a> 
-interface. Let's create our class, <tt>HelloCommand</tt> :
+<a class="api" href="/api/net/jetrix/commands/Command.html">Command</a> 
+interface. Let's create our class, <tt>HelloCommand</tt>, it'll be based on the 
+<a class="api" href="/api/net/jetrix/commands/AbstractCommand.html">AbstractCommand</a> 
+class implementing part of the <tt>Command</tt> interface methods :
 
 <div class="code">
 <span class="blue">import</span> java.util.*;
@@ -151,7 +153,7 @@ interface. Let's create our class, <tt>HelloCommand</tt> :
 <span class="blue">import</span> net.jetrix.messages.*;
 <span class="blue">import</span> net.jetrix.commands.*;
 
-<span class="blue">public class</span> HelloCommand <span class="blue">implements</span> <span class="red">Command</span>
+<span class="blue">public class</span> HelloCommand <span class="blue">extends</span> <span class="red">AbstractCommand</span>
 {
 
 }
@@ -202,12 +204,15 @@ listing, it returns a short description of the command :
 The <tt>getAccessLevel()</tt> defines the minimal access level required to use
 the command. To allow everyone to use the command it should return 
 <tt>AccessLevel.PLAYER</tt>, to restrict it to operators only it would return 
-<tt>AccessLevel.OPERATOR</tt>.
+<tt>AccessLevel.OPERATOR</tt>. The <tt>AbstractCommand</tt> class provides a
+default implementation for this method returning the player access level, so
+you don't have to worry about it. But I you want your command to be used only
+by an operator, change the access level in the constructor :
 
 <div class="code">
-    <span class="blue">public int</span> getAccessLevel()
+    <span class="blue">public </span> HelloCommand()
     {
-        <span class="blue">return</span> <span class="red">AccessLevel</span>.PLAYER;
+        setAccessLevel(<span class="red">AccessLevel</span>.OPERATOR);
     }
 
 </div>
@@ -236,7 +241,7 @@ Our command is complete, let's put all the pieces together :
 <span class="blue">import</span> net.jetrix.messages.*;
 <span class="blue">import</span> net.jetrix.commands.*;
 
-<span class="blue">public class</span> HelloCommand <span class="blue">implements</span> <span class="red">Command</span>
+<span class="blue">public class</span> HelloCommand <span class="blue">extends</span> <span class="red">AbstractCommand</span>
 {
     <span class="blue">public</span> <span class="red">String</span>[] getAliases()
     {
@@ -251,11 +256,6 @@ Our command is complete, let's put all the pieces together :
     <span class="blue">public</span> <span class="red">String</span> getDescription(<span class="red">Locale</span> locale)
     {
         <span class="blue">return</span> <span class="gray">"Display 'Hello World!'"</span>;
-    }
-
-    <span class="blue">public int</span> getAccessLevel()
-    {
-        <span class="blue">return</span> <span class="red">AccessLevel</span>.PLAYER;
     }
 
     <span class="blue">public void</span> execute(<span class="red">CommandMessage</span> message)
