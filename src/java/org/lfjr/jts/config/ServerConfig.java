@@ -20,6 +20,7 @@
 package org.lfjr.jts.config;
 
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
 import javax.xml.parsers.*;
@@ -35,9 +36,7 @@ import org.w3c.dom.*;
  */
 public class ServerConfig
 {
-    private static final ServerConfig instance = new ServerConfig();
-
-    private String host;
+    private InetAddress host;
     private int port;
     private int timeout;
     private int maxChannels;
@@ -58,12 +57,14 @@ public class ServerConfig
     /**
      * Constructor declaration
      */
-    private ServerConfig()
+    public ServerConfig()
     {
-        channels = new ArrayList();
-
-        // bans = new ArrayList();
-
+    	channels = new ArrayList();
+    	// bans = new ArrayList();
+    }
+    
+    public void load()
+    {
         try
         {
             // reading configuration file
@@ -80,6 +81,15 @@ public class ServerConfig
             // reading port
             try { port = Integer.parseInt(root.getAttribute("port")); }
             catch (Exception e) { port = 31457; }
+            
+            // reading host, a value of "[ALL]" stands for any IP
+            if (!"[ALL]".equals(root.getAttribute("host"))) 
+            {
+            	try {
+        	    host = InetAddress.getByName(root.getAttribute("host"));
+        	}
+        	catch(UnknownHostException e) { e.printStackTrace(); }
+            }
 
             NodeList nodes = root.getChildNodes();
             Element defaultSettingsElement = null;
@@ -468,44 +478,104 @@ public class ServerConfig
     }
 
 
-    /**
-     * Parse a &lt;bans&gt; Node
-     *
-     *
-     * @param e bans node
-     */
-    private void parseBanlist(Element e) {}
-
-
-    /**
-     * Return <tt>ServerConfig</tt> unique instance.
-     *
-     *
-     * @return <tt>ServerConfig</tt> singleton
-     */
-    public static ServerConfig getInstance()
+    public InetAddress getHost()
     {
-        return instance;
+        return host;
+    }
+    
+    public void setHost(InetAddress host)
+    {
+        this.host = host;	
     }
 
     public int getPort()
     {
         return port;
     }
-
-    public Settings getDefaultSettings()
+    
+    public void setPort(int port)
     {
-        return defaultSettings;
+        this.port = port;	
     }
 
-    public Iterator getChannels()
+    public int getTimeout()
     {
-        return channels.iterator();
+        return timeout;
+    }
+    
+    public void setTimeout(int timeout)
+    {
+        this.timeout = timeout;	
     }
 
+    public int getMaxChannels()
+    {
+        return maxChannels;
+    }
+    
+    public void setMaxChannels(int maxChannels)
+    {
+        this.maxChannels = maxChannels;	
+    }
+
+    public int getMaxPlayers()
+    {
+        return maxPlayers;
+    }
+    
+    public void setMaxPlayers(int maxChannels)
+    {
+        this.maxPlayers = maxPlayers;	
+    }
+
+    public int getMaxConnexions()
+    {
+        return maxConnexions;
+    }
+    
+    public void setMaxConnexions(int maxChannels)
+    {
+        this.maxConnexions = maxConnexions;	
+    }
+
+    public String getOpPassword()
+    {
+        return oppass;
+    }
+
+    public void setOpPassword(String motd)
+    {
+        this.oppass = oppass;
+    }
+
+    public String getAccessLogPath()
+    {
+        return accesslogPath;
+    }
+
+    public void setAccessLogPath(String motd)
+    {
+        this.accesslogPath = accesslogPath;
+    }
+
+    public String getErrorLogPath()
+    {
+        return motd;
+    }
+
+    public void setErrorLogPath(String errorlogPath)
+    {
+        this.errorlogPath = errorlogPath;
+    }
+    
     public String getMessageOfTheDay()
     {
         return motd;
+    }
+
+    public void setMessageOfTheDay(String motd)
+    {
+        this.motd = motd;
     }
 
     public boolean isRunning()
@@ -518,11 +588,19 @@ public class ServerConfig
         this.running = running;
     }
 
-    /**
-     * Method declaration
-     *
-     */
-    public void save() {}
+    public Settings getDefaultSettings()
+    {
+        return defaultSettings;
+    }
 
+    public void setDefaultSettings(Settings defaultSettings)
+    {
+        this.defaultSettings = defaultSettings;
+    }
+
+    public Iterator getChannels()
+    {
+        return channels.iterator();
+    }
+    
 }
-
