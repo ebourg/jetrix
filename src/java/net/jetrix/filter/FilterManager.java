@@ -21,7 +21,6 @@ package net.jetrix.filter;
 
 import java.util.*;
 import java.lang.reflect.*;
-import net.jetrix.*;
 
 /**
  * Manages channel filters. Filter instances are obtained by calling the
@@ -73,10 +72,10 @@ public class FilterManager
             // checking if the filter is a singleton
             Class filterClass = Class.forName(classname);
             Method isSingletonMethod = filterClass.getMethod("isSingleton", null);
-            Boolean isSingleton = (Boolean)isSingletonMethod.invoke(null, null);
+            Boolean isSingleton = (Boolean) isSingletonMethod.invoke(null, null);
 
             // constructing a new filter
-            filter = (MessageFilter)filterClass.newInstance();
+            filter = (MessageFilter) filterClass.newInstance();
 
             // adding filter to the hashtable if it's a singleton
             if (isSingleton.booleanValue()) { staticFilters.put(classname, filter); }
@@ -102,7 +101,7 @@ public class FilterManager
 
         if (classname != null)
         {
-            return getFilter((String)classname);
+            return getFilter((String) classname);
         }
         else
         {
@@ -114,7 +113,7 @@ public class FilterManager
      * Defines a new alias for a filter.
      *
      * @param name alias of the filter
-     * @param class of the filter
+     * @param classname class of the filter
      */
     public void addFilterAlias(String name, String classname)
     {
