@@ -4,7 +4,7 @@
 <tetrinet-server host="[ALL]" port="31457">
   <name>JetriX TetriNET Server</name>
 
-  <!-- Server language (using an ISO-639 two-letter language code) -->
+  <!-- Server default language (using an ISO-639 two-letter language code) -->
   <language>en</language>
 
   <!-- How many seconds of no activity before timeout occurs -->
@@ -188,7 +188,10 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <command class="net.jetrix.commands.MotdCommand"/>
     <command class="net.jetrix.commands.MoveCommand"/>
     <command class="net.jetrix.commands.OperatorCommand"/>
+    <command class="net.jetrix.commands.PauseCommand"/>
     <command class="net.jetrix.commands.PingCommand"/>
+    <command class="net.jetrix.commands.StartCommand"/>
+    <command class="net.jetrix.commands.StopCommand"/>
     <command class="net.jetrix.commands.SummonCommand"/>
     <command class="net.jetrix.commands.TeleportCommand"/>
     <command class="net.jetrix.commands.TellCommand"/>
