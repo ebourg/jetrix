@@ -30,6 +30,7 @@ import java.util.*;
 public abstract class Message
 {
     private Destination source;
+    private Destination destination;
     private long time;
     private Map rawMessages;
 
@@ -57,6 +58,21 @@ public abstract class Message
     public void setSource(Destination source)
     {
         this.source = source;
+    }
+
+    /**
+     * Return the destination of this message. If the destination is null the
+     * default destination is the current channel of the user.
+     */
+    public Destination getDestination() {
+        return destination;
+    }
+
+    /**
+     * Set the destination of this message (optional).
+     */
+    public void setDestination(Destination destination) {
+        this.destination = destination;
     }
 
     /**
