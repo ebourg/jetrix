@@ -86,6 +86,7 @@ public class ReplyCommand implements Command
                 PlineMessage response = new PlineMessage();
                 String privateMessage = m.getText();
                 response.setKey("command.tell.format", client.getUser().getName(), privateMessage);
+                response.setSource(client);
                 target.send(response);
 
                 target.getUser().setProperty("command.tell.reply_to", client.getUser());

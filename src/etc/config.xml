@@ -232,6 +232,7 @@ your opponents. Good luck!
     <command class="net.jetrix.commands.EmoteCommand"/>
     <command class="net.jetrix.commands.GotoCommand"/>
     <command class="net.jetrix.commands.HelpCommand"/>
+    <command class="net.jetrix.commands.IgnoreCommand"/>
     <command class="net.jetrix.commands.IpCommand"/>
     <command class="net.jetrix.commands.JoinCommand"/>
     <command class="net.jetrix.commands.KickCommand"/>

@@ -91,9 +91,9 @@ public interface Client extends Runnable, Destination
     /**
      * Send a message to the client. The raw message property must be set.
      *
-     * @param m message to send
+     * @param message the message to send
      */
-    void send(Message m);
+    void send(Message message);
 
     /**
      * Receive a message sent by the client.

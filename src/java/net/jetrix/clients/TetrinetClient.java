@@ -141,9 +141,24 @@ public class TetrinetClient implements Client
 
     private long time = 0;
 
-    public void send(Message m)
+    public void send(Message message)
     {
-        String rawMessage = m.getRawMessage(getProtocol(), user.getLocale());
+        // check the ignore list
+        if (message instanceof TextMessage)
+        {
+            Destination source = message.getSource();
+            if (source instanceof Client)
+            {
+                Client client = (Client) source;
+                if (getUser().ignores(client.getUser().getName()))
+                {
+                    log.finest("Message dropped, player " + client.getUser().getName() + " ignored");
+                    return;
+                }
+            }
+        }
+
+        String rawMessage = message.getRawMessage(getProtocol(), user.getLocale());
 
         if (rawMessage != null)
         {
@@ -174,7 +189,7 @@ public class TetrinetClient implements Client
         }
         else
         {
-            log.warning("Message not sent, raw message missing " + m);
+            log.warning("Message not sent, raw message missing " + message);
         }
     }
 

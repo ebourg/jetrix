@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -75,6 +75,7 @@ public class TellCommand implements Command
                 PlineMessage response = new PlineMessage();
                 String privateMessage = m.getText().substring(targetName.length() + 1);
                 response.setKey("command.tell.format", client.getUser().getName(), privateMessage);
+                response.setSource(client);
                 target.send(response);
 
                 target.getUser().setProperty("command.tell.reply_to", client.getUser().getName());

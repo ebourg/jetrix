@@ -38,6 +38,7 @@ public class User
     private int type;
     private Locale locale;
     private Map props;
+    private Set ignoredUsers;
 
     public static final int STATUS_OK  = 0;
     public static final int STATUS_AFK = 1;
@@ -140,6 +141,58 @@ public class User
     public Locale getLocale()
     {
         return locale;
+    }
+
+    /**
+     * Tells if the specified nickname is ignored by this user.
+     *
+     * @param name the name of the user
+     * @return <code></code>
+     * @since 0.1.4
+     */
+    public boolean ignores(String name)
+    {
+        return ignoredUsers == null ? false : ignoredUsers.contains(name.toLowerCase());
+    }
+
+    /**
+     * Add the specified name to the list of ignored users.
+     *
+     * @param name
+     * @since 0.1.4
+     */
+    public void ignore(String name)
+    {
+        if (ignoredUsers == null)
+        {
+            ignoredUsers = new TreeSet();
+        }
+
+        ignoredUsers.add(name.toLowerCase());
+    }
+
+    /**
+     * Remove the specified name from the list of ignored users.
+     *
+     * @param name
+     * @since 0.1.4
+     */
+    public void unignore(String name)
+    {
+        if (ignoredUsers != null)
+        {
+            ignoredUsers.remove(name.toLowerCase());
+        }
+    }
+
+    /**
+     * Return the list of ignored players.
+     *
+     * @since 0.1.4
+     */
+    public Set getIgnoredUsers()
+    {
+        return ignoredUsers == null ? new TreeSet() : ignoredUsers;
     }
 
     /**
