@@ -16,7 +16,7 @@ TODO
 - /ban & /unban
 - display available languages with /lang
 
-Changes in version 0.1.2 (2003-05-??)
+Changes in version 0.1.2 (2003-06-??)
 -------------------------------------
 - new commands : /move, /goto, /petition
 - new game mod : 7tetris
