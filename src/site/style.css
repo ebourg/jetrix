@@ -11,6 +11,7 @@ a img { border-width: 0 }
 
 .content { font-size: 12pt; }
 .content h1 { color: white; font-size: 13pt; background-color: #525d76; text-indent: 0.5em; line-height: 1.3em; } 
+.content h3 { color: #525d76; }
 
 .code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; font-family: monospace; white-space: pre}
 
@@ -18,7 +19,7 @@ code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; }
 
 .blue  { color: blue; }
 .red   { color: red; }
-.grey  { color: grey; }
+.gray  { color: gray; }
 .green { color: rgb(0, 128, 128); }
 
 input.thin, textarea.thin { border: 1px solid #c0c0c0; }
