@@ -22,6 +22,8 @@ package net.jetrix;
 import java.util.*;
 import java.util.logging.*;
 
+import org.apache.commons.collections.*;
+
 import net.jetrix.config.*;
 import net.jetrix.filter.*;
 import net.jetrix.messages.*;
@@ -40,7 +42,7 @@ public class Channel extends Thread implements Destination
     private ServerConfig serverConfig;
     private Logger logger = Logger.getLogger("net.jetrix");
 
-    private MessageQueue mq;
+    private MessageQueue queue;
 
     // game states
     public static final int GAME_STATE_STOPPED = 0;
@@ -104,7 +106,7 @@ public class Channel extends Thread implements Destination
         }
 
         // opening channel message queue
-        mq = new MessageQueue();
+        queue = new MessageQueue();
 
         filters = new ArrayList();
 
@@ -193,7 +195,7 @@ public class Channel extends Thread implements Destination
             try
             {
                 // waiting for new messages
-                l.add(mq.get());
+                l.add(queue.get());
 
                 // filtering message
                 Iterator it = filters.iterator();
@@ -711,7 +713,7 @@ public class Channel extends Thread implements Destination
      */
     public void sendMessage(Message m)
     {
-        mq.put(m);
+        queue.put(m);
     }
 
     /**
@@ -864,10 +866,10 @@ public class Channel extends Thread implements Destination
     /**
      * Return an iterator of spectators observing this channel.
      */
-    /*public Iterator getSpectators()
+    public Iterator getSpectators()
     {
-        return spectators.iterator();
-    }*/
+        return new FilterIterator(clients.iterator(), ClientRepository.spectatorPredicate);
+    }
 
     /**
      * Count how many teams are still fighting for victory. A teamless player
