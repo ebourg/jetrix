@@ -19,17 +19,43 @@
 
 package net.jetrix.protocols;
 
+import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
 /**
- * An abstract protocol to communicate with a client.
+ * Protocol to communicate with IRC clients.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public class IRCProtocol extends Protocol
 {
+    private static Map styles = new HashMap();
+
+    static 
+    {
+        styles.put("red", "\u000304");
+        styles.put("black", "\u000301");
+        styles.put("green", "\u000303");
+        styles.put("lightGreen", "\u000309");
+        styles.put("darkBlue", "\u000302");
+        styles.put("blue", "\u000312");
+        styles.put("cyan", "\u000310");
+        styles.put("aqua", "\u000311");
+        styles.put("yellow", "\u000308");
+        styles.put("kaki", "\u000307");
+        styles.put("brown", "\u000305");
+        styles.put("lightGray", "\u000315");
+        styles.put("gray", "\u000314");
+        styles.put("magenta", "\u000313");
+        styles.put("purple", "\u000306");
+        styles.put("b", "\u0002");
+        styles.put("i", "\u0016");
+        styles.put("u", "\u0037");
+        styles.put("white", "\u000300");
+    }
+
     /**
      * Return the name of this protocol
      */
@@ -204,6 +230,11 @@ public class IRCProtocol extends Protocol
     public String translate(BlockBombMessage m)
     {
         return null;
+    }
+
+    public Map getStyles()
+    {
+        return styles;
     }
 
     public String toString()
