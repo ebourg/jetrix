@@ -26,7 +26,7 @@ import org.lfjr.jts.config.*;
 
 /**
  * Layer handling communication with a client. Incomming messages are turned
- * into a server understandable format and forwarded to the apropriate 
+ * into a server understandable format and forwarded to the apropriate
  * destination for processing (player's channel or main server thread)
  *
  * @author Emmanuel Bourg
@@ -52,7 +52,7 @@ class TetriNETClient extends Thread
 
     public TetriNETClient(TetriNETPlayer player) throws IOException
     {
-    	this.player = player;
+        this.player = player;
         conf = ServerConfig.getInstance();
         socket = player.getSocket();
 
@@ -65,26 +65,27 @@ class TetriNETClient extends Thread
 
     public void run()
     {
-    	System.out.println("Client started "+this);
-    	
+        System.out.println("Client started "+this);
+
         try
         {
-	    String s;
-	    Message m;
+            String s;
+            Message m;
 
             while ( running && conf.isRunning() )
             {
-            	// reading raw message from socket
-            	s = readLine();
-            	StringTokenizer st = new StringTokenizer(s, " ");
-            	String cmd = st.nextToken();
+                // reading raw message from socket
+                s = readLine();
+                StringTokenizer st = new StringTokenizer(s, " ");
+                String cmd = st.nextToken();
 
-            	try
-            	{
+                try
+                {
 
-            	// building server message
-            	m = new Message();
-            	m.setRawMessage(s);
+                // building server message
+                m = new Message();
+                m.setRawMessage(s);
+                m.setSource(this);
 
                 // team <slot> teamname
                 if ("team".equals(cmd))
@@ -195,19 +196,46 @@ class TetriNETClient extends Thread
                     m.setParameters(params);
                 }
 
-                channel.addMessage(m);
+                // any other slash command
+                if ( m.getCode()==Message.MSG_PLINE )
+                {
+                    String text = (String)m.getParameter(1);
+                    if (text.startsWith("/"))
+                    {
+                        m.setType(Message.TYPE_SERVER);
+                        m.setCode(Message.MSG_SLASHCMD);
+                        ArrayList params = new ArrayList();
+                        params.add(m.getParameter(0));
+                        params.add(m.getParameter(1));
+                        
+                        while (st.hasMoreTokens()) params.add(st.nextToken());
+                        m.setParameters(params.toArray());
+                    }                  
+                }
 
-        	}
-		catch (NumberFormatException e)
-		{
-		    System.out.println("Bad format message");
-		    e.printStackTrace();
-		}
-		catch (NoSuchElementException e)
-		{
-		    System.out.println("Bad format message");
-		    e.printStackTrace();
-		}		
+                // forwarding message
+                switch ( m.getType() )
+                {
+                    case Message.TYPE_SERVER:
+                      TetriNETServer.getInstance().addMessage(m);
+                      break;
+                    
+                    default:
+                      channel.addMessage(m);
+                      break;
+                }
+                
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("Bad format message");
+                    e.printStackTrace();
+                }
+                catch (NoSuchElementException e)
+                {
+                    System.out.println("Bad format message");
+                    e.printStackTrace();
+                }
             } // end while
         }
         catch (IOException e)
@@ -237,25 +265,25 @@ class TetriNETClient extends Thread
      * Send message to client. The raw message property must be set.
      *
      * @param m message to send
-     */     
+     */
     public void sendMessage(Message m)
     {
-    	if (m.getRawMessage() != null)
-    	{
+        if (m.getRawMessage() != null)
+        {
 
-    	try
-    	{
-    	    synchronized(out)
-    	    {
+        try
+        {
+            synchronized(out)
+            {
                 out.write(m.getRawMessage() + (char)255, 0, m.getRawMessage().length() + 1);
-                out.flush();                
+                out.flush();
             }
 
             System.out.println("> "+m.getRawMessage());
-	}
-	catch (SocketException e) { System.out.println(e.getMessage()); }
-	catch (Exception e) { /*e.printStackTrace();*/ }
-	
+        }
+        catch (SocketException e) { System.out.println(e.getMessage()); }
+        catch (Exception e) { e.printStackTrace(); }
+
         }
         else { System.out.println("Message not sent, raw message missing "+m); }
     }
@@ -268,51 +296,51 @@ class TetriNETClient extends Thread
      */
     protected String readLine() throws IOException
     {
-	int    readChar;
-	String input = "";
+        int    readChar;
+        String input = "";
 
-	while ((readChar = in.read())!=-1 && readChar!=255)
-	{
-	    if (readChar!=10 && readChar!=13)
-	    {
-	        input += (char) readChar;
-	    }
-	}
+        while ((readChar = in.read())!=-1 && readChar!=255)
+        {
+            if (readChar!=10 && readChar!=13)
+            {
+                input += (char) readChar;
+            }
+        }
 
-	if (readChar==-1) throw new IOException("client disconnected");
+        if (readChar==-1) throw new IOException("client disconnected");
 
-	return input;
+        return input;
     }
 
     public void assignChannel(Channel ch)
     {
         channel = ch;
     }
-    
+
     public Channel getChannel()
     {
-        return channel;	
+        return channel;
     }
 
 
     public TetriNETPlayer getPlayer()
     {
-    	return player;
+        return player;
     }
 
     public void setClientVersion(String v)
     {
-    	clientVersion = v;
+        clientVersion = v;
     }
 /*
     public void setSlot(int s)
     {
-    	slot = s;
+        slot = s;
     }
 
     public int getSlot()
     {
-    	return slot;
+        return slot;
     }
 */
     public void disconnect()
@@ -326,4 +354,3 @@ class TetriNETClient extends Thread
     }
 
 }
-

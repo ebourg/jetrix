@@ -38,12 +38,11 @@ public class Channel extends Thread
     private MessageQueue mq;
 
     private boolean running = true;
-    private boolean persistent = false;
     
     // game states
-    private static final int GAME_STATE_STOPPED = 0;
-    private static final int GAME_STATE_STARTED = 1;    
-    private static final int GAME_STATE_PAUSED  = 2;
+    public static final int GAME_STATE_STOPPED = 0;
+    public static final int GAME_STATE_STARTED = 1;    
+    public static final int GAME_STATE_PAUSED  = 2;
 
     private int gameState;
 
@@ -122,7 +121,8 @@ public class Channel extends Thread
                             StringBuffer screenLayout = new StringBuffer();
                             for (int i=0; i<12*22; i++)
                             {
-                            	screenLayout.append( ( (int)(Math.random()*4+1) ) * (1-jetrixLogo[i]) );
+                                screenLayout.append( ( (int)(Math.random()*4+1) ) * (1-jetrixLogo[i]) );
+                                //screenLayout.append( ( (int)(slot%5+1) ) * (1-jetrixLogo[i]) );
                             }
                             Message endingScreen = new Message(Message.MSG_FIELD);
                             Object paramsending[] = { m.getParameter(0), screenLayout.toString() };
@@ -262,14 +262,14 @@ public class Channel extends Thread
                                                           
                             // sending welcome massage to incomming player
                             Message mwelcome = new Message(Message.MSG_PLINE);
-                            Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + cconf.getName() };
+                            Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + ChatColors.bold + cconf.getName() };
                             mwelcome.setParameters(paramswelcome);                                
                             client.sendMessage(mwelcome);
                             
                             // sending playerlost message if the game has started
                             if (gameState != GAME_STATE_STOPPED)
                             {
-                            	System.out.println("blurp");
+                                System.out.println("blurp");
                                 Message lost = new Message(Message.MSG_PLAYERLOST);
                                 Object paramslost[] = { new Integer(slot+1) };
                                 lost.setParameters(paramslost);
@@ -340,6 +340,11 @@ public class Channel extends Thread
      */
     public boolean isFull()
     {
+        return getNbPlayers() >= cconf.getMaxPlayers();
+    }
+    
+    public int getNbPlayers()
+    {
         int count = 0;
 
         for (int i = 0; i<cconf.getMaxPlayers(); i++)
@@ -350,24 +355,18 @@ public class Channel extends Thread
             }
         }
 
-        return count>=cconf.getMaxPlayers();
+        return count;    	
     }
 
-    /**
-     * Tell if the channel will vanish once the last player leave*
-     *
-     * @return <tt>true</tt> if the channel is persistent, <tt>false</tt> if not
-     */
-    public boolean isPersistent()
+    public ChannelConfig getConfig()
     {
-        return persistent;
+        return cconf;	
     }
     
-    public void setPersistent(boolean persistent)
+    public int getGameState()
     {
-        this.persistent = persistent;
+        return gameState;	
     }
-
 
     public void sortPlayers() {}
 

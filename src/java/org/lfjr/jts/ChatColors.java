@@ -22,7 +22,6 @@ package org.lfjr.jts;
 /**
  * Color codes.
  *
- *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
@@ -30,26 +29,26 @@ public interface ChatColors
 {
     char red         = '\u0014';
     char black       = '\u0004';
-    
-    char green       = '\u000c'; // not sure 
+
+    char green       = '\u000c'; // not sure
     char lightGreen  = '\u000e';
-    
+
     char darkBlue    = '\u0011'; //
     char blue        = '\u0005'; //
-    char cyan        = '\u0003';    
-    
+    char cyan        = '\u0003';
+
     char aqua        = '\u0017'; //
-    
-    char yellow      = '\u0019'; 
-    char kaki        = '\u0012'; //        
+
+    char yellow      = '\u0019';
+    char kaki        = '\u0012'; //
     char brown       = '\u0010';
-     
+
     char lightgray   = '\u000f'; // or \u0015
-    char gray	     = '\u0006'; // or \u000b
-    
+    char gray        = '\u0006'; // or \u000b
+
     char lightPurple = '\u0008'; //
-    char purple      = '\u0013'; //    
-        
+    char purple      = '\u0013'; //
+
     char bold        = '\u0002'; //
     char italic      = '\u0016'; //
 

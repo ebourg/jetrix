@@ -1,17 +1,17 @@
 /**
  * Jetrix TetriNET Server
  * Copyright (C) 2001-2002  Emmanuel Bourg
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -23,7 +23,6 @@ package org.lfjr.jts.config;
 /**
  * Channel configuration.
  *
- *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
@@ -33,6 +32,7 @@ public class ChannelConfig
     protected String name = "noname";
     protected String description;
     protected int maxPlayers = 6;
+    protected boolean persistent;
 
     public ChannelConfig()
     {
@@ -41,15 +41,13 @@ public class ChannelConfig
 
     public ChannelConfig(Settings settings)
     {
-        this.settings = settings;	
+        this.settings = settings;
     }
 
     /**
      * Set game parameters.
      *
-     *
      * @param settings
-     *
      */
     public void setSettings(Settings settings)
     {
@@ -60,9 +58,7 @@ public class ChannelConfig
     /**
      * Set channel name.
      *
-     *
      * @param name
-     *
      */
     public void setName(String name)
     {
@@ -73,9 +69,7 @@ public class ChannelConfig
     /**
      * Set the description shown on entering the channel.
      *
-     *
      * @param description
-     *
      */
     public void setDescription(String description)
     {
@@ -86,9 +80,7 @@ public class ChannelConfig
     /**
      * Set the maximum number of players allowed at the same time in the channel.
      *
-     *
      * @param maxPlayers
-     *
      */
     public void setMaxPlayers(int maxPlayers)
     {
@@ -97,11 +89,20 @@ public class ChannelConfig
 
 
     /**
+     * Set channel persistence
+     *
+     * @param persistent
+     */
+    public void setPersistent(boolean persistent)
+    {
+        this.persistent = persistent;
+    }
+
+
+    /**
      * Get game parameters.
      *
-     *
      * @return
-     *
      */
     public Settings getSettings()
     {
@@ -112,9 +113,7 @@ public class ChannelConfig
     /**
      * Get channel name.
      *
-     *
      * @return
-     *
      */
     public String getName()
     {
@@ -125,9 +124,7 @@ public class ChannelConfig
     /**
      * Get channel description.
      *
-     *
      * @return
-     *
      */
     public String getDescription()
     {
@@ -138,14 +135,21 @@ public class ChannelConfig
     /**
      * Get maximum number of players allowed.
      *
-     *
      * @return
-     *
      */
     public int getMaxPlayers()
     {
         return maxPlayers;
     }
 
-}
+    /**
+     * Tell if the channel will vanish once the last player leave
+     *
+     * @return <tt>true</tt> if the channel is persistent, <tt>false</tt> if not
+     */
+    public boolean isPersistent()
+    {
+        return persistent;
+    }
 
+}

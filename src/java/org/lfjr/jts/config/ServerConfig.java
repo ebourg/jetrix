@@ -29,7 +29,7 @@ import org.w3c.dom.*;
 
 /**
  * Singleton reading and containing the server configuration.
- * 
+ *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
@@ -52,8 +52,8 @@ public class ServerConfig
     // private ArrayList bans;
     private ArrayList channels;
     private boolean running;
-    
-    public static final String VERSION = "0.0.8";    
+
+    public static final String VERSION = "0.0.8";
 
     /**
      * Constructor declaration
@@ -76,11 +76,11 @@ public class ServerConfig
 
             // parsing general parameters
             Element root = doc.getDocumentElement();
-            
+
             // reading port
             try { port = Integer.parseInt(root.getAttribute("port")); }
             catch (Exception e) { port = 31457; }
-            
+
             NodeList nodes = root.getChildNodes();
             Element defaultSettingsElement = null;
             Element channelsElement = null;
@@ -179,10 +179,10 @@ public class ServerConfig
 
     /**
      * Parse a &lt;settings&gt; Node
-     * 
-     * 
+     *
+     *
      * @param e settings node
-     * 
+     *
      * @return a <tt>Settings</tt> object reflecting values found while parsing the settings Node
      */
     private Settings parseSettings(Element e)
@@ -193,11 +193,11 @@ public class ServerConfig
 
     /**
      * Parse a &lt;settings&gt; Node
-     * 
-     * 
+     *
+     *
      * @param e settings node
      * @param s default settings
-     * 
+     *
      * @return a <tt>Settings</tt> object reflecting values found while parsing the settings Node
      */
     private Settings parseSettings(Element e, Settings s)
@@ -414,16 +414,17 @@ public class ServerConfig
 
     /**
      * Parse a &lt;channel&gt; Node
-     * 
-     * 
+     *
+     *
      * @param e
      * @param defaultSettings
-     * 
+     *
      * @return
      */
     private ChannelConfig parseChannel(Element e, Settings defaultSettings)
     {
         ChannelConfig cc = new ChannelConfig();
+        cc.setPersistent(true);
 
         NodeList nodes = e.getChildNodes();
         Element settingsElement = null;
@@ -478,8 +479,8 @@ public class ServerConfig
 
     /**
      * Return <tt>ServerConfig</tt> unique instance.
-     * 
-     * 
+     *
+     *
      * @return <tt>ServerConfig</tt> singleton
      */
     public static ServerConfig getInstance()
@@ -489,37 +490,37 @@ public class ServerConfig
 
     public int getPort()
     {
-        return port;	
+        return port;
     }
-    
+
     public Settings getDefaultSettings()
     {
-        return defaultSettings;	
+        return defaultSettings;
     }
-    
+
     public Iterator getChannels()
     {
-        return channels.iterator();    	
+        return channels.iterator();
     }
 
     public String getMessageOfTheDay()
     {
-        return motd;	
+        return motd;
     }
 
     public boolean isRunning()
     {
-    	return running;
+        return running;
     }
 
     public void setRunning(boolean running)
     {
-    	this.running = running;
+        this.running = running;
     }
 
     /**
      * Method declaration
-     * 
+     *
      */
     public void save() {}
 

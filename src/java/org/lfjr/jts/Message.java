@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- 
+
 package org.lfjr.jts;
 
 /**
@@ -51,106 +51,111 @@ public class Message
     public static final int MSG_NOCONNECTING = 16;
     public static final int MSG_ADDPLAYER    = 17;
     public static final int MSG_RESTART      = 18;
-    public static final int MSG_SHUTDOWN     = 19;  
+    public static final int MSG_SHUTDOWN     = 19;
     public static final int MSG_SLASHCMD     = 20;
-                                   		
+
     private Object params[];
     private int type;
     private int code;
     private String raw;
     private Object source; // (server, channel, client) should use a dedicated interface ()
-      		
+
     public Message()
     {
-    	type = MSG_UNKNOWN;
-    }   
-    
+        type = MSG_UNKNOWN;
+    }
+
     public Message(int code)
     {
-        this.code = code;    	
+        this.code = code;
     }
-    
+
     public int getType()
     {
-    	return type;
+        return type;
     }
-    
+
     public int getCode()
     {
-    	return code;
+        return code;
     }
-    
+
     public String getRawMessage()
     {
-    	if (raw==null)
-    	{
-    	    switch (code)
-    	    {
-    	        case MSG_PLINE:
-    	        Integer slot = (Integer)getParameter(0);
-    	        String message = (String)getParameter(1);
-    	        raw = "pline " + slot + " " + message;
-    	        break;
-    	        
-    	        case MSG_PLAYERJOIN:
-    	        slot = (Integer)getParameter(0);
-    	        String playername = (String)getParameter(1);
-    	        raw = "playerjoin " + slot + " " + playername;
-    	        break;
-    	        
-    	        case MSG_TEAM:
-    	        slot = (Integer)getParameter(0);
-    	        Object team = getParameter(1);
-    	        raw = "team " + slot + ( (team==null)?"":" "+team );
-    	        break;
-    	        
-    	        case MSG_PLAYERNUM:
-    	        slot = (Integer)getParameter(0);
-    	        raw = "playernum " + slot;
-    	        break;
-    	        
-    	        case MSG_PLAYERLOST:
-    	        slot = (Integer)getParameter(0);
-    	        raw = "playerlost " + slot;
-    	        break;
-    	        
-    	        case MSG_FIELD:
-    	        slot = (Integer)getParameter(0);
-    	        String layout = (String)getParameter(1);
-    	        raw = "f " + slot + " " + layout;
-    	        break;
-    	        
-    	    }
-    	}
-    	
-    	return raw;    	
+        if (raw==null)
+        {
+            switch (code)
+            {
+                case MSG_PLINE:
+                  Integer slot = (Integer)getParameter(0);
+                  String message = (String)getParameter(1);
+                  raw = "pline " + slot + " " + message;
+                  break;
+
+                case MSG_PLAYERJOIN:
+                  slot = (Integer)getParameter(0);
+                  String playername = (String)getParameter(1);
+                  raw = "playerjoin " + slot + " " + playername;
+                  break;
+
+                case MSG_TEAM:
+                  slot = (Integer)getParameter(0);
+                  Object team = getParameter(1);
+                  raw = "team " + slot + ( (team==null)?"":" "+team );
+                  break;
+
+                case MSG_PLAYERNUM:
+                  slot = (Integer)getParameter(0);
+                  raw = "playernum " + slot;
+                  break;
+
+                case MSG_PLAYERLOST:
+                  slot = (Integer)getParameter(0);
+                  raw = "playerlost " + slot;
+                  break;
+
+                case MSG_FIELD:
+                  slot = (Integer)getParameter(0);
+                  String layout = (String)getParameter(1);
+                  raw = "f " + slot + " " + layout;
+                  break;
+
+            }
+        }
+
+        return raw;
     }
-    
+
     public Object[] getParameters()
     {
-    	return params;
+        return params;
     }
-    
+
     public Object getParameter(int i)
     {
-        return params[i];	
+        return params[i];
     }
-    
+
     public int getNbParameters()
     {
-    	return params.length;
-    }   
+        return params.length;
+    }
+    
+    public Object getSource()
+    {
+        return source;	
+    }
 
     public void setType(int type)
     {
-    	this.type = type;
-    }    
-    
+        this.type = type;
+    }
+
     public void setCode(int code)
     {
-    	this.code = code;
-    }    
-    
+        this.code = code;
+    }
+
     public void setRawMessage(String raw)
     {
         this.raw = raw;
@@ -158,11 +163,16 @@ public class Message
 
     public void setParameters(Object[] params)
     {
-    	this.params = params;
+        this.params = params;
     }
     
+    public void setSource(Object source)
+    {
+        this.source = source;
+    }    
+
     public String toString()
     {
-    	return "[Message type="+type+" code="+code+" params="+params+"]";
-    }    	  
+        return "[Message type="+type+" code="+code+" params="+params+"]";
+    }
 }
