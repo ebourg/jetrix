@@ -14,6 +14,10 @@ TODO
 - /ban & /unban
 - /lfd looking for duel
 
+Changes in version 0.1.4 (2004-04-01)
+-------------------------------------
+- portuguese translation contributed by Vítor Melo
+
 Changes in version 0.1.3 (2004-01-20)
 -------------------------------------
 - fixed the query protocol (thanks to ekn for the debugging info)
