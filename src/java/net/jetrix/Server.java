@@ -31,6 +31,10 @@ import net.jetrix.commands.*;
 import net.jetrix.listeners.*;
 import net.jetrix.messages.*;
 
+import org.mortbay.jetty.*;
+import org.mortbay.http.*;
+import org.mortbay.util.*;
+
 /**
  * Main class, starts server components.
  *
@@ -55,6 +59,16 @@ public class Server implements Runnable, Destination
         conf = new ServerConfig();
         conf.load();
         conf.setRunning(true);
+
+        // start the web admin console if available
+        try {
+            Class c = Class.forName("org.mortbay.jetty.Server");
+            org.mortbay.jetty.Server jetty = (org.mortbay.jetty.Server)c.newInstance();
+            jetty.addListener(new InetAddrPort(8080));
+            jetty.addWebApplication("/","./lib/jetrix-admin.war");
+            jetty.start();
+        }
+        catch (Throwable e) { e.printStackTrace(); }
 
         // preparing logger
         prepareLoggers();
@@ -279,6 +293,7 @@ public class Server implements Runnable, Destination
         for (int i = 0; i < jars.size(); i++) urls[i] = (URL)jars.get(i);
 
         URLClassLoader loader = new URLClassLoader(urls, null);
+        Thread.currentThread().setContextClassLoader(loader);
 
         // start the server
         Class serverClass = loader.loadClass("net.jetrix.Server");
