@@ -60,12 +60,12 @@
           <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_GRAVITY) %>" name="gravity" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
         <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/o.png" alt="O"></td>
+          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/q.png" alt="Q"></td>
           <td>Quake Field</td>
           <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_QUAKEFIELD) %>" name="quakeField" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>        
         <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/q.png" alt="Q"></td>
+          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/o.png" alt="O"></td>
           <td>Block Bomb</td>
           <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialOccurancy(Settings.SPECIAL_BLOCKBOMB) %>" name="blockBomb" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
