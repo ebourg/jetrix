@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: net.jetrix.Server
-Class-Path: .. commons-digester.jar commons-collections.jar commons-beanutils.jar

@@ -60,7 +60,13 @@
     <mkdir dir="${dist}/lib"/>
     <mkdir dir="${dist}/bin"/>
 
-    <jar jarfile="${dist}/lib/jetrix.jar" manifest="${src}/etc/MANIFEST.MF">
+    <jar jarfile="${dist}/lib/jetrix.jar">
+      <manifest>
+        <attribute name="Implementation-Title" value="Jetrix TetriNET Server"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Main-Class" value="net.jetrix.Server"/>
+        <attribute name="Class-Path" value=".. commons-collections.jar commons-beanutils.jar commons-digester.jar"/>
+      </manifest>
       <fileset dir="${build}/classes" excludes="**/*Test.class"/>
       <fileset dir="${src}/etc">
         <include name="tetrinet-server.dtd"/>
