@@ -175,9 +175,9 @@ public class TetrinetClient implements Client
         int readChar;
         StringBuffer input = new StringBuffer();
 
-        while ((readChar = in.read()) != -1 && readChar != 255)
+        while ((readChar = in.read()) != -1 && readChar != 0xFF && readChar != 0x0A && readChar != 0x0D)
         {
-            if (readChar != 10 && readChar != 13)
+            if (readChar != 0x0A && readChar != 0x0D)
             {
                 input.append((char)readChar);
             }
@@ -193,8 +193,8 @@ public class TetrinetClient implements Client
         this.socket = socket;
         try
         {
-            in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            in  = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
+            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "ISO-8859-1"));
         }
         catch(IOException e) { e.printStackTrace(); }
     }

@@ -201,15 +201,16 @@ public class TetrinetListener extends ClientListener
 
     public String readLine(Socket socket) throws IOException
     {
-        int readChar;
-        Reader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         StringBuffer input = new StringBuffer();
+        Reader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
 
-        while ((readChar = in.read()) != -1 && readChar != 255)
+        int readChar;
+        while ((readChar = in.read()) != -1 && readChar != 0xFF && readChar != 0x0A && readChar != 0x0D)
         {
-            if (readChar != 10 && readChar != 13)
+            System.out.println("read: " + readChar);
+            if (readChar != 0x0A && readChar != 0x0D)
             {
-                input.append((char)readChar);
+                input.append((char) readChar);
             }
         }
 
