@@ -115,10 +115,15 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallParam("tetrinet-server/filter-definitions/alias", 1, "class");
 
         // winlists
-        digester.addObjectCreate("tetrinet-server/winlists/winlist", null, "class");
-        digester.addSetNext("tetrinet-server/winlists/winlist", "addWinlist", "net.jetrix.winlist.Winlist");
-        digester.addCallMethod("tetrinet-server/winlists/winlist", "setId", 1);
+        digester.addObjectCreate("tetrinet-server/winlists/winlist", "net.jetrix.config.WinlistConfig");
+        digester.addSetNext("tetrinet-server/winlists/winlist", "addWinlist", "net.jetrix.config.WinlistConfig");
+        digester.addCallMethod("tetrinet-server/winlists/winlist", "setName", 1);
         digester.addCallParam("tetrinet-server/winlists/winlist", 0, "name");
+        digester.addCallMethod("tetrinet-server/winlists/winlist", "setClassname", 1);
+        digester.addCallParam("tetrinet-server/winlists/winlist", 0, "class");
+        digester.addCallMethod("tetrinet-server/winlists/winlist/param", "setParameter", 2);
+        digester.addCallParam("tetrinet-server/winlists/winlist/param", 0, "name");
+        digester.addCallParam("tetrinet-server/winlists/winlist/param", 1, "value");
 
         // command definitions
         digester.addObjectCreate("*/command", null, "class");

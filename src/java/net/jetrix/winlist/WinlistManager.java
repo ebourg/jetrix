@@ -20,6 +20,9 @@
 package net.jetrix.winlist;
 
 import java.util.*;
+import java.util.logging.*;
+
+import net.jetrix.config.*;
 
 /**
  * Winlist manager.
@@ -31,6 +34,8 @@ public class WinlistManager
 {
     private static WinlistManager instance = new WinlistManager();
     private Map winlists;
+
+    private Logger log = Logger.getLogger("net.jetrix");
 
     private WinlistManager()
     {
@@ -47,6 +52,27 @@ public class WinlistManager
         if (winlist != null && winlist.getId() != null)
         {
             winlists.put(winlist.getId(), winlist);
+            log.fine("registered winlist " + winlist.getId());
+        }
+    }
+
+    public void addWinlist(WinlistConfig config)
+    {
+        if (config != null && config.getName() != null && config.getClassname() != null)
+        {
+            try
+            {
+                Class cls = Class.forName(config.getClassname());
+                Winlist winlist = (Winlist) cls.newInstance();
+                winlist.setId(config.getName());
+                winlist.init(config);
+
+                addWinlist(winlist);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 

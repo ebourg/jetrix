@@ -21,8 +21,11 @@ package net.jetrix.winlist;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.*;
 
 import net.jetrix.messages.*;
+import net.jetrix.config.*;
+import net.jetrix.*;
 
 /**
  * A standard winlist using the same scoring as the original TetriNET : the
@@ -38,8 +41,11 @@ public class SimpleWinlist implements Winlist
 {
     private String id;
     protected List scores;
-    private boolean initialized = false;
-    private boolean persistent = true;
+    protected boolean initialized = false;
+    protected boolean persistent = true;
+
+    protected Logger log = Logger.getLogger("net.jetrix");
+    protected WinlistConfig config;
 
     public SimpleWinlist()
     {
@@ -54,6 +60,11 @@ public class SimpleWinlist implements Winlist
     public void setId(String id)
     {
         this.id = id;
+    }
+
+    public void init(WinlistConfig config)
+    {
+        this.config = config;
     }
 
     public boolean isPersistent()
@@ -172,10 +183,14 @@ public class SimpleWinlist implements Winlist
         Collections.sort(scores, new ScoreComparator());
 
         // announce the new scores of the winners
-        result.getChannel().sendMessage(getGainMessage(score1, previousScore1, previousRank1));
-        if (score2 != null)
+        Channel channel = result.getChannel();
+        if (channel != null && "true".equals(config.getParameter("display.score")))
         {
-            result.getChannel().sendMessage(getGainMessage(score2, previousScore2, previousRank2));
+            channel.sendMessage(getGainMessage(score1, previousScore1, previousRank1));
+            if (score2 != null)
+            {
+                channel.sendMessage(getGainMessage(score2, previousScore2, previousRank2));
+            }
         }
 
         // save the winlist to the external file
@@ -190,6 +205,8 @@ public class SimpleWinlist implements Winlist
      */
     protected void load()
     {
+        log.fine("loading winlist " + getId());
+
         if (id != null)
         {
             BufferedReader reader = null;

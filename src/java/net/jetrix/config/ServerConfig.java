@@ -275,9 +275,9 @@ public class ServerConfig
         FilterManager.getInstance().addFilterAlias(name, classname);
     }
 
-    public void addWinlist(Winlist winlist)
+    public void addWinlist(WinlistConfig config)
     {
-        WinlistManager.getInstance().addWinlist(winlist);
+        WinlistManager.getInstance().addWinlist(config);
     }
 
     public void addCommand(Command command)

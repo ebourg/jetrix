@@ -22,6 +22,7 @@ package net.jetrix.winlist;
 import java.util.*;
 
 import net.jetrix.winlist.*;
+import net.jetrix.config.*;
 
 /**
  * A winlist ranking players and teams.
@@ -40,6 +41,13 @@ public interface Winlist
      * Set the id for this winlist.
      */
     public void setId(String id);
+
+    /**
+     * Initialize the winlist.
+     *
+     * @param config the winlist configuration
+     */
+    public void init(WinlistConfig config);
 
     /**
      * Return the score of the specified player or team
