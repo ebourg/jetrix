@@ -39,7 +39,7 @@ public abstract class MessageFilter
     protected FilterConfig config;
 
     /**
-     * Indicates if the filter is a slingleton or not. A filter should be
+     * Indicates if the filter is shared or not. A shared filter should be
      * a singleton if it's independant from the channel context (for example:
      * a color stripper or a profanity filter). By default a filter is not
      * a singleton. This method must be overwritten to return true if the
@@ -47,13 +47,14 @@ public abstract class MessageFilter
      *
      * @return <tt>false</tt>
      */
-    public static boolean isSingleton()
+    public boolean isShared()
     {
         return false;
     }
 
     /**
-     * Called by the channel to indicate to a filter that the filter is being placed into service.
+     * Called by the channel to indicate to a filter that the filter is being
+     * placed into service.
      */
     public void init() { }
 
@@ -74,7 +75,8 @@ public abstract class MessageFilter
     }
 
     /**
-     * Called by the channel to indicate to a filter that the filter is being taken out of service.
+     * Called by the channel to indicate to a filter that the filter is being
+     * taken out of service.
      */
     public void destroy()
     {
@@ -150,7 +152,7 @@ public abstract class MessageFilter
      */
     public final void setChannel(Channel channel)
     {
-        if (!isSingleton())
+        if (!isShared())
         {
             this.channel = channel;
         }

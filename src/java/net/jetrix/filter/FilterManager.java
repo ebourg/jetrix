@@ -53,7 +53,7 @@ public class FilterManager
 
     /**
      * Returns a filter of the specified class. If the filter is declared as
-     * a singleton, the instance will be stored and returned on further calls
+     * a shared, the instance will be stored and returned on further calls
      * for the same filter.
      *
      * @param classname Classname of the filter to return
@@ -73,16 +73,11 @@ public class FilterManager
 
         try
         {
-            // checking if the filter is a singleton
-            Class filterClass = Class.forName(classname);
-            Method isSingletonMethod = filterClass.getMethod("isSingleton");
-            Boolean isSingleton = (Boolean) isSingletonMethod.invoke(null);
+            // create a new filter
+            filter = (MessageFilter) Class.forName(classname).newInstance();
 
-            // constructing a new filter
-            filter = (MessageFilter) filterClass.newInstance();
-
-            // adding filter to the hashtable if it's a singleton
-            if (isSingleton.booleanValue())
+            // add the filter to the hashtable if it's a shared filter
+            if (filter.isShared())
             {
                 staticFilters.put(classname, filter);
             }
