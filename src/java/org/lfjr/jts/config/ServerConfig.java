@@ -79,6 +79,7 @@ public class ServerConfig
         try
         {
             Digester digester = new Digester();
+            digester.setValidating(true);
             //digester.setDebug(2);
             digester.push(this);
 
