@@ -58,12 +58,12 @@ public class FilterConfig
         return classname;
     }
 
-    public void setProperty(String name, String value)
+    public void setParameter(String name, String value)
     {
         props.setProperty(name, value);
     }
 
-    public String getProperty(String name)
+    public String getParameter(String name)
     {
         return props.getProperty(name);
     }

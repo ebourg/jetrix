@@ -144,7 +144,7 @@ public class ServerConfig
             digester.addCallParam("*/filter", 0, "name");
             digester.addCallMethod("*/filter", "setClassname", 1);
             digester.addCallParam("*/filter", 0, "class");
-            digester.addCallMethod("*/filter/param", "setProperty", 2);
+            digester.addCallMethod("*/filter/param", "setParameter", 2);
             digester.addCallParam("*/filter/param", 0, "name");
             digester.addCallParam("*/filter/param", 1, "value");
 
