@@ -20,7 +20,6 @@
 package net.jetrix.messages;
 
 import java.util.*;
-import net.jetrix.*;
 
 /**
  * A /command.
@@ -28,10 +27,9 @@ import net.jetrix.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class CommandMessage extends Message
+public class CommandMessage extends PlineMessage
 {
     private String command;
-    private String text;
     private List parameters;
 
     public CommandMessage()
@@ -49,19 +47,9 @@ public class CommandMessage extends Message
         this.command = command;
     }
 
-    public String getText()
-    {
-        return text;
-    }
-
-    public void setText(String text)
-    {
-        this.text = text;
-    }
-
     public String getParameter(int i)
     {
-        return (String)parameters.get(i);
+        return (String) parameters.get(i);
     }
 
     public void addParameter(String obj)
