@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -52,12 +52,7 @@ public class TetrinetClient implements Client
     private ServerConfig serverConfig;
     private Logger logger = Logger.getLogger("net.jetrix");
 
-    public TetrinetClient()
-    {
-        //this.protocol = new TetrinetProtocol();
-        Server server = Server.getInstance();
-        if (server != null ) serverConfig = server.getConfig();
-    }
+    public TetrinetClient() { }
 
     public TetrinetClient(User user, Socket socket)
     {
@@ -88,6 +83,9 @@ public class TetrinetClient implements Client
     public void run()
     {
         logger.fine("Client started " + this);
+        
+        Server server = Server.getInstance();
+        if (server != null) serverConfig = server.getConfig();        
 
         try
         {
