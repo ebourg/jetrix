@@ -1,3 +1,3 @@
 @echo off
 
-java -server -jar lib/jetrix-@version@.jar
+java -jar lib/jetrix-@version@.jar
