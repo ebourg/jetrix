@@ -21,6 +21,8 @@ package net.jetrix.services;
 
 import net.jetrix.Service;
 
+import java.util.logging.Logger;
+
 /**
  * An abstract Service.
  *
@@ -31,6 +33,7 @@ import net.jetrix.Service;
 public abstract class AbstractService implements Service
 {
     protected boolean autoStart = true;
+    protected Logger log = Logger.getLogger("net.jetrix");
 
     public boolean isAutoStart()
     {
