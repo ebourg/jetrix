@@ -47,17 +47,18 @@ public class Message
     public static final int MSG_NEWGAME      = 7;
     public static final int MSG_ENDGAME      = 8;
     public static final int MSG_PAUSE        = 9;
-    public static final int MSG_GMSG         = 10;
-    public static final int MSG_SB           = 11;
-    public static final int MSG_LVL          = 12;
-    public static final int MSG_FIELD        = 13;
-    public static final int MSG_PLAYERLOST   = 14;
-    public static final int MSG_DISCONNECTED = 15;
-    public static final int MSG_NOCONNECTING = 16;
-    public static final int MSG_ADDPLAYER    = 17;
-    public static final int MSG_RESTART      = 18;
-    public static final int MSG_SHUTDOWN     = 19;
-    public static final int MSG_SLASHCMD     = 20;
+    public static final int MSG_RESUME       = 10;
+    public static final int MSG_GMSG         = 11;
+    public static final int MSG_SB           = 12;
+    public static final int MSG_LVL          = 13;
+    public static final int MSG_FIELD        = 14;
+    public static final int MSG_PLAYERLOST   = 15;
+    public static final int MSG_DISCONNECTED = 16;
+    public static final int MSG_NOCONNECTING = 17;
+    public static final int MSG_ADDPLAYER    = 18;
+    public static final int MSG_RESTART      = 19;
+    public static final int MSG_SHUTDOWN     = 20;
+    public static final int MSG_SLASHCMD     = 21;
 
     private Object params[];
     private int type;
@@ -159,7 +160,14 @@ public class Message
 
                 case MSG_STARTGAME:
                     Settings s = (Settings)getParameter(1);
-                    raw = "newgame " + s.getStackHeight() + " " + s.getStartingLevel() + " " + s.getLinesPerLevel() + " " + s.getLevelIncrease() + " " + s.getLinesPerSpecial() + " " + s.getSpecialAdded() + " " + s.getSpecialCapacity() + " ";
+                    raw = "newgame " + s.getStackHeight() 
+                          + " " + s.getStartingLevel()
+                          + " " + s.getLinesPerLevel() 
+                          + " " + s.getLevelIncrease()
+                          + " " + s.getLinesPerSpecial() 
+                          + " " + s.getSpecialAdded()
+                          + " " + s.getSpecialCapacity() + " ";
+
                     for (int i = 0; i<7; i++)
                     {
                         for (int j = 0; j<s.getBlockOccurancy(i); j++) { raw = raw + (i + 1); }
@@ -172,7 +180,8 @@ public class Message
                         for (int j = 0; j<s.getSpecialOccurancy(i); j++) { raw = raw + (i + 1); }
                     }
 
-                    raw += " " + (s.getAverageLevels() ? "1" : "0") + " " + (s.getClassicRules() ? "1" : "0");
+                    raw += " " + (s.getAverageLevels() ? "1" : "0")
+                         + " " + (s.getClassicRules()  ? "1" : "0");
                     break;
 
                 case MSG_ENDGAME:
@@ -225,11 +234,17 @@ public class Message
         }
     }
 
+    /**
+     * Returns the parameter at the specified position as a string.
+     */
     public String getStringParameter(int index)
     {
         return (String)getParameter(index);
     }
 
+    /**
+     * Returns the parameter at the specified position as an integer.
+     */
     public int getIntParameter(int index)
     {
         return ( (Integer)getParameter(index) ).intValue();
