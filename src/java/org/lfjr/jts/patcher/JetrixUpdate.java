@@ -24,7 +24,13 @@ import java.net.*;
 import java.util.*;
 import java.util.zip.*;
 
-public class JTSUpdate
+/**
+ * Jetrix Update - downloads new files from the patch server.
+ *
+ * @author Emmanuel Bourg
+ * @version $Revision$, $Date$
+ */
+public class JetrixUpdate
 {
     static Vector update = new Vector();
     static String basedir = "http://tetrinet.lfjr.net/jetrix/autoupdate/";  // should read this from a property file
@@ -70,7 +76,7 @@ public class JTSUpdate
 
     public static void getUpdate() throws IOException
     {	    	    	
-	URL updateList = new URL(basedir+"update");
+	URL updateList = new URL(basedir+"update.crc");
 	
 	System.out.println("Connecting to update server...");
 	
@@ -184,6 +190,5 @@ public class JTSUpdate
 	
 	br.close();
     }
-
     
 }

@@ -23,8 +23,7 @@ import java.io.*;
 import java.util.zip.*;
 
 /**
- * Computes released files' CRC32 and write them into the update file.
- * 
+ * Computes released files' CRC32 and write them into the update.crc file.
  * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -45,7 +44,7 @@ public class UpdateList
             path = ".";
         }
         
-        out = new PrintWriter(new FileWriter(path + File.separator + "update"), true);
+        out = new PrintWriter(new FileWriter(path + File.separator + "update.crc"), true);
 
         browseDirectory(new File(path));
 
@@ -120,4 +119,3 @@ public class UpdateList
     }
 
 }
-
