@@ -24,8 +24,9 @@ import net.jetrix.*;
 import net.jetrix.config.*;
 
 /**
- * Abstract class defining a channel filter. Filters just need to inherit
- * from this class and implement the process() method.
+ * Abstract class defining a channel filter. A filter transforms a given message 
+ * into a list of messages. Concrete filters just need to inherit from this 
+ * class and implement the process() method.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
