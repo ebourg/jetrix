@@ -29,8 +29,10 @@ import java.io.*;
  */
 public class MessageQueue
 {
-    private MessageQueue.Node head, tail;
-    private Object putLock, getLock;
+    private MessageQueue.Node head;
+    private MessageQueue.Node tail;
+    private Object putLock;
+    private Object getLock;
     private boolean closed;
 
     /**
