@@ -41,17 +41,18 @@ public class ClientListener extends Thread
 
     public ClientListener()
     {
-        serverConfig = TetriNETServer.getInstance().getConfig();
+        TetriNETServer server = TetriNETServer.getInstance();
+        if (server != null ) serverConfig = server.getConfig();
     }
 
     public void run()
     {
         logger = Logger.getLogger("net.jetrix");
-        
+
         try
         {
             serverSocket = new ServerSocket(serverConfig.getPort(), 50, serverConfig.getHost());
-            logger.info("Listening at tetrinet port " + serverConfig.getPort() 
+            logger.info("Listening at tetrinet port " + serverConfig.getPort()
                 + ( (serverConfig.getHost() != null)?", bound to " + serverConfig.getHost():"") );
         }
         catch (IOException e)
@@ -69,29 +70,39 @@ public class ClientListener extends Thread
                 socket = serverSocket.accept();
 
                 // logging connexion
-                // ....
-                logger.info("Incoming player: " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
+                logger.info("Incoming client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
 
-                // checking if server is full
-                // ....
-                /*if (si.nbClient>=si.MAX_CLIENT)
-                {
-                    System.out.println("Server full, client rejected.");
-                    sendMessage("noconnecting Server is full!");
-                    socket.close();
-                }
-                else continue*/
-
-                // validating client
                 TetriNETPlayer player = new TetriNETPlayer();
                 TetriNETClient client = new TetriNETClient(player, socket);
+
+                // checking if server is full
+                ClientRepository repository = ClientRepository.getInstance();
+                if (repository.getClientCount() >= serverConfig.getMaxPlayers())
+                {
+                    logger.info("Server full, client rejected (" + socket.getInetAddress().getHostAddress() + ").");
+                    Message m = new Message(Message.MSG_NOCONNECTING);
+                    m.setParameters(new Object[] { "Server is full!" });
+                    client.sendMessage(m);
+                    socket.close();
+                    continue;
+                }
+
+                // validating client
                 initializeConnexion(client);
 
-                //si.playerList.addElement(client);
-                //si.incClient();
-
                 // testing name unicity
-                // ....
+                if (repository.getClient(player.getName()) == null)
+                {
+                    repository.addClient(client);
+                }
+                else
+                {
+                    Message m = new Message(Message.MSG_NOCONNECTING);
+                    m.setParameters(new Object[] { "Nickname already in use!" });
+                    client.sendMessage(m);
+                    socket.close();
+                    continue;
+                }
 
                 // testing concurrent connexions from the same host
                 // ....
@@ -99,14 +110,9 @@ public class ClientListener extends Thread
                 // testing ban list
                 // ....
 
-                //System.out.println("Client accepted, " + si.nbClient + " client(s) online.");
+                logger.fine("Client accepted (" + socket.getInetAddress().getHostAddress() + ")");
 
-                /*Message m = new Message(Message.MSG_PLINE);
-                Object params[] = { new Integer(0), ChatColors.bold+"Welcome to Jetrix TetriNET Server "+ServerConfig.VERSION+" !" };
-                m.setParameters(params);
-                client.sendMessage(m);*/
-
-                // sending message of the day
+                // sending the message of the day
                 BufferedReader motd = new BufferedReader(new StringReader( serverConfig.getMessageOfTheDay() ));
                 String motdline;
                 while( (motdline = motd.readLine() ) != null )
@@ -162,7 +168,7 @@ public class ClientListener extends Thread
 
     private void initializeConnexion(TetriNETClient client) throws UnknownEncryptionException
     {
-        String init="", dec;
+        String init = new String();
         Vector tokens = new Vector();
 
         try
@@ -171,7 +177,7 @@ public class ClientListener extends Thread
         }
         catch (IOException e) { e.printStackTrace(); }
 
-        dec = decode(init);
+        String dec = decode(init);
 
         // init string parsing "tetrisstart <nickname> <version>"
         StringTokenizer st = new StringTokenizer(dec, " ");
@@ -189,7 +195,7 @@ public class ClientListener extends Thread
         }
 
         client.getPlayer().setName((String)tokens.elementAt(1));
-        client.setClientVersion((String)tokens.elementAt(2));
+        client.setVersion((String)tokens.elementAt(2));
     }
 
 
@@ -213,7 +219,7 @@ public class ClientListener extends Thread
 
         try
         {
-            for (int i = 0; i<dec.length; i++)
+            for (int i = 0; i < dec.length; i++)
             {
                 dec[i] = Integer.parseInt(initString.substring(i * 2, i * 2 + 2), 16);
             }
@@ -226,22 +232,22 @@ public class ClientListener extends Thread
         char[] data = "tetrisstar".toCharArray();
         int[]  hashString = new int[data.length];
 
-        for (int i = 0; i<data.length; i++)
+        for (int i = 0; i < data.length; i++)
         {
             hashString[i] = ((data[i] + dec[i]) % 255) ^ dec[i + 1];
         }
 
         int hashLength = 5;
 
-        for (int i = 5; i==hashLength && i>0; i--)
+        for (int i = 5; i == hashLength && i > 0; i--)
         {
-            for (int j = 0; j<data.length - hashLength; j++)
+            for (int j = 0; j < data.length - hashLength; j++)
             {
                 if (hashString[j] != hashString[j + hashLength]) { hashLength--; }
             }
         }
 
-        if (hashLength==0)
+        if (hashLength == 0)
         {
             throw new UnknownEncryptionException("Invalid Init String: decoding failed");
         }
@@ -255,4 +261,51 @@ public class ClientListener extends Thread
 
         return s.replace((char)0, (char)255);
     }
+
+    protected String encode(String nickname, int[] ip)
+    {
+        StringBuffer result = new StringBuffer();
+        int offset = 128;
+        result.append(Integer.toHexString(offset));
+        
+        char[] x = new Integer(54 * ip[0] + 41 * ip[1] + 29 * ip[2] + 17 * ip[3]).toString().toCharArray();        
+        char[] s = ("tetristart " + nickname + " 1.13").toCharArray();
+        
+        result.append(arrayToHex(xor(shift(s, offset), x)));
+        
+        return result.toString().toUpperCase();
+    }
+
+    protected char[] xor(char[] array, char[] offset)
+    {
+        for (int i = 0; i < array.length; i++)
+        {
+            array[i] = (char)( array[i] ^ offset[i % offset.length] );
+        }
+        
+        return array;
+    }
+    
+    protected char[] shift(char[] array, int offset)
+    {
+        for (int i = 0; i < array.length; i++)
+        {
+            array[i] = (char)( (char)(array[i] + offset) % 256 );
+        }
+        
+        return array;	
+    }
+
+    protected String arrayToHex(char[] array)
+    {
+        StringBuffer result = new StringBuffer();
+        
+        for (int i = 0; i < array.length; i++)
+        {
+            result.append(Integer.toHexString(array[i]));
+        }
+        
+        return result.toString();
+    }
+
 }
