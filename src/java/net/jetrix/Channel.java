@@ -54,7 +54,7 @@ public class Channel extends Thread implements Destination
     /** slot/player mapping */
     private List slots;
 
-    private ArrayList filters;
+    private List filters;
 
     // JetriX logo
     private short jetrixLogo[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0};
@@ -103,6 +103,8 @@ public class Channel extends Thread implements Destination
     {
         FilterManager filterManager = FilterManager.getInstance();
         MessageFilter filter;
+        
+        // add the filter to the channel config if it isn't a global filter
 
         try
         {
@@ -123,12 +125,24 @@ public class Channel extends Thread implements Destination
             // adding filter to the list
             filters.add(filter);
 
-            logger.info("["+channelConfig.getName()+"] loaded filter " + filter.getName() + " " + filter.getVersion());
+            logger.fine("["+channelConfig.getName()+"] loaded filter " + filter.getName() + " " + filter.getVersion());
         }
         catch (FilterException e)
         {
             e.printStackTrace();
         }
+    }
+
+    public void removeFilter(String filterName)
+    {
+        // remove the filter from the filter list
+        
+        // remove the filter from the channel config
+    }
+    
+    public Iterator getFilters()
+    {
+        return filters.iterator();
     }
 
     /**
