@@ -46,6 +46,7 @@ public abstract class GenericFilter extends MessageFilter
         // message dispatching
         if (m instanceof SpecialMessage)           { onMessage((SpecialMessage) m, out); }
         else if (m instanceof FieldMessage)        { onMessage((FieldMessage) m, out); }
+        else if (m instanceof CommandMessage)      { onMessage((CommandMessage) m, out); }
         else if (m instanceof PlineMessage)        { onMessage((PlineMessage) m, out); }
         else if (m instanceof LevelMessage)        { onMessage((LevelMessage) m, out); }
         else if (m instanceof PlayerLostMessage)   { onMessage((PlayerLostMessage) m, out); }
@@ -185,16 +186,6 @@ public abstract class GenericFilter extends MessageFilter
     }
 
     public void onMessage(PlayerWonMessage m, List<Message> out)
-    {
-        out.add(m);
-    }
-
-    public void onMessage(DisconnectedMessage m, List<Message> out)
-    {
-        out.add(m);
-    }
-
-    public void onMessage(AddPlayerMessage m, List<Message> out)
     {
         out.add(m);
     }
