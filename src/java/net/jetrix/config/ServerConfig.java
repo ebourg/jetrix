@@ -234,6 +234,11 @@ public class ServerConfig
         this.running = running;
     }
 
+    public Settings getDefaultSettings()
+    {
+        return Settings.getDefaultSettings();
+    }
+
     public void setDefaultSettings(Settings defaultSettings)
     {
         Settings.setDefaultSettings(defaultSettings);
