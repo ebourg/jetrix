@@ -116,6 +116,10 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addObjectCreate("*/command", null, "class");
         digester.addSetNext("*/command", "addCommand", "net.jetrix.commands.Command");
         digester.addCallMethod("*/filter/access-level", "setAccessLevel", 0,  new Class[] {Integer.TYPE});
+        
+        // listeners
+        digester.addObjectCreate("*/listener", null, "class");
+        digester.addSetNext("*/listener", "addListener", "net.jetrix.ClientListener");
     }
 
 }
