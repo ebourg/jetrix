@@ -164,7 +164,7 @@ public abstract class GenericFilter extends MessageFilter
      * specials filtered and allow custom processing for all specials
      * (lines added, blockbomb switchs, etc...).
      */
-    public void onSpecial(Message m) { }
+    public void onSpecial(SpecialMessage m) { }
 
     public void onMessage(LevelMessage m, List out)
     {
