@@ -187,7 +187,7 @@ public class Server implements Runnable, Destination
     /**
      * Stop the server.
      */
-    protected void stop()
+    public void stop()
     {
         config.setRunning(false);
 
@@ -222,7 +222,7 @@ public class Server implements Runnable, Destination
     /**
      * Disconnect all clients from the server.
      */
-    protected void disconnectAll()
+    private void disconnectAll()
     {
         ClientRepository repository = ClientRepository.getInstance();
 
