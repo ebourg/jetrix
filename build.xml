@@ -108,22 +108,22 @@
     <mkdir dir="${dist}/bin"/>
 
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
-      <zipfileset prefix="jetrix/" dir="${src}/etc/">
+      <zipfileset prefix="jetrix-${version}/" dir="${src}/etc/">
         <include name="news.txt" />
         <include name="LICENSE" />
         <include name="README" />
         <include name="config.xml" />
       </zipfileset>
-      <zipfileset prefix="jetrix/" dir="${src}/bin/">
+      <zipfileset prefix="jetrix-${version}/" dir="${src}/bin/">
         <include name="jetrix.bat" />
         <include name="jetrix" />
         <include name="update.bat" />
         <include name="update" />
       </zipfileset>
-      <zipfileset prefix="jetrix/lib/" dir="${dist}/lib/">
+      <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
         <include name="jetrix.jar" />
       </zipfileset>
-      <zipfileset prefix="jetrix/lib/" dir="${lib}">
+      <zipfileset prefix="jetrix-${version}/lib/" dir="${lib}">
         <include name="commons-digester.jar" />
         <include name="commons-collections.jar" />
         <include name="commons-beanutils.jar" />
@@ -131,34 +131,34 @@
         <include name="servlet-light.jar"/>
         <include name="jasper-runtime.jar"/>
       </zipfileset>
-      <zipfileset prefix="jetrix/lib/" dir="${dist}/webapp/">
+      <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
       </zipfileset>
-      <zipfileset prefix="jetrix/lang/" dir="${src}/lang/">
+      <zipfileset prefix="jetrix-${version}/lang/" dir="${src}/lang/">
         <include name="*.properties" />
       </zipfileset>
-      <zipfileset prefix="jetrix/log/" dir="${src}/etc/log/"/>
+      <zipfileset prefix="jetrix-${version}/log/" dir="${src}/etc/log/"/>
     </zip>
 
     <tar destfile="${dist}/bin/jetrix-${version}.tar">
-      <tarfileset prefix="jetrix/" dir="${src}/etc/">
+      <tarfileset prefix="jetrix-${version}/" dir="${src}/etc/">
         <include name="news.txt" />
         <include name="LICENSE" />
         <include name="README" />
         <include name="config.xml" />
       </tarfileset>
-      <tarfileset prefix="jetrix/" dir="${src}/bin/">
+      <tarfileset prefix="jetrix-${version}/" dir="${src}/bin/">
         <include name="jetrix.bat" />
         <include name="update.bat" />
       </tarfileset>
-      <tarfileset prefix="jetrix/" dir="${src}/bin/" mode="755">
+      <tarfileset prefix="jetrix-${version}/" dir="${src}/bin/" mode="755">
         <include name="jetrix" />
         <include name="update" />
       </tarfileset>
-      <tarfileset prefix="jetrix/lib/" dir="${dist}/lib/">
+      <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
         <include name="jetrix.jar" />
       </tarfileset>
-      <tarfileset prefix="jetrix/lib/" dir="${lib}">
+      <tarfileset prefix="jetrix-${version}/lib/" dir="${lib}">
         <include name="commons-digester.jar" />
         <include name="commons-collections.jar" />
         <include name="commons-beanutils.jar" />
@@ -166,13 +166,13 @@
         <include name="servlet-light.jar"/>
         <include name="jasper-runtime.jar"/>
       </tarfileset>
-      <tarfileset prefix="jetrix/lib/" dir="${dist}/webapp/">
+      <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
       </tarfileset>
-      <tarfileset prefix="jetrix/lang/" dir="${src}/lang/">
+      <tarfileset prefix="jetrix-${version}/lang/" dir="${src}/lang/">
         <include name="*.properties" />
       </tarfileset>
-      <tarfileset prefix="jetrix/log/" dir="${src}/etc/log/"/>
+      <tarfileset prefix="jetrix-${version}/log/" dir="${src}/etc/log/"/>
     </tar>
 
     <gzip zipfile="${dist}/bin/jetrix-${version}.tar.gz" src="${dist}/bin/jetrix-${version}.tar"/>
@@ -214,12 +214,15 @@
 
 
   <target name="test" depends="compile.test" description="Runs testcases">
-    <junit printsummary="yes" fork="yes" dir="${src}/etc">
+    <junit printsummary="withOutAndErr" showoutput="yes" fork="yes" dir="${src}/etc">
       <classpath>
         <pathelement path="${build}/test" />
         <pathelement path="${build}/classes" />
-        <pathelement location="${lib}/commons-digester.jar"/>
+        <pathelement path="${src}/etc" />
+        <pathelement location="${lib}/commons-beanutils.jar"/>
         <pathelement location="${lib}/commons-collections.jar"/>
+        <pathelement location="${lib}/commons-digester.jar"/>
+        <pathelement location="${lib}/jetty.jar"/>
       </classpath>
       <formatter type="xml" />
       <batchtest todir="${build}/test">
@@ -246,11 +249,10 @@
 
 
   <target name="run" depends="deploy">
-    <java dir="${deploy}/jetrix" jar="${deploy}/jetrix/lib/jetrix.jar" fork="yes">
+    <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix.jar" fork="yes">
       <sysproperty key="jetrix.debug" value="true"/>
     </java>
   </target>
-
 
   <target name="update" depends="deploy" description="Uploads JetriX to the patch server">
     <!-- Installing -->
