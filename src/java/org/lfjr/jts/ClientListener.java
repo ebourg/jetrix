@@ -74,6 +74,7 @@ public class ClientListener extends Thread
 
                 TetriNETPlayer player = new TetriNETPlayer();
                 TetriNETClient client = new TetriNETClient(player, socket);
+                player.setLocale(serverConfig.getLocale());
 
                 // checking if server is full
                 ClientRepository repository = ClientRepository.getInstance();
