@@ -577,8 +577,7 @@ public class Channel extends Thread implements Destination
             sendAll(mjoin);
 
             // send a boggus slot number for gtetrinet
-            PlayerNumMessage mnum = new PlayerNumMessage();
-            mnum.setSlot(1);
+            PlayerNumMessage mnum = new PlayerNumMessage(1);
             client.send(mnum);
         }
         else
@@ -603,8 +602,7 @@ public class Channel extends Thread implements Destination
                 sendAll(mjoin, client);
 
                 // send the slot number assigned to the new player
-                PlayerNumMessage mnum = new PlayerNumMessage();
-                mnum.setSlot(slot + 1);
+                PlayerNumMessage mnum = new PlayerNumMessage(slot + 1);
                 client.send(mnum);
             }
         }
@@ -780,8 +778,7 @@ public class Channel extends Thread implements Destination
                 mjoin.setName(player1.getUser().getName());
                 sendAll(mjoin);
 
-                PlayerNumMessage mnum = new PlayerNumMessage();
-                mnum.setSlot(m.getSlot2());
+                PlayerNumMessage mnum = new PlayerNumMessage(m.getSlot2());
                 player1.send(mnum);
             }
 
@@ -792,8 +789,7 @@ public class Channel extends Thread implements Destination
                 mjoin.setName(player2.getUser().getName());
                 sendAll(mjoin);
 
-                PlayerNumMessage mnum = new PlayerNumMessage();
-                mnum.setSlot(m.getSlot1());
+                PlayerNumMessage mnum = new PlayerNumMessage(m.getSlot1());
                 player2.send(mnum);
             }
         }

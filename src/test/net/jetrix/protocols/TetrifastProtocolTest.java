@@ -46,8 +46,7 @@ public class TetrifastProtocolTest extends TestCase {
 
     public void testTranslatePlayerNum()
     {
-        PlayerNumMessage message = new PlayerNumMessage();
-        message.setSlot(1);
+        PlayerNumMessage message = new PlayerNumMessage(1);
         assertEquals(")#)(!@(*3 1", protocol.translate(message, locale));
     }
 
