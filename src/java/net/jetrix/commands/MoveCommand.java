@@ -21,11 +21,10 @@ package net.jetrix.commands;
 
 import java.util.*;
 import net.jetrix.*;
-import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
 /**
- * Move a player to a new slot or switch tow players.
+ * Move a player to a new slot or switch two players.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -58,8 +57,34 @@ public class MoveCommand implements Command
     {
         Client client = (Client)m.getSource();
 
-        PlineMessage response = new PlineMessage();
-        response.setText("<darkBlue>/move is not implemented yet");
-        client.sendMessage(response);
+        if (m.getParameterCount() >= 2)
+        {
+            // parse the two slot numbers
+            int slot1 = 0;
+            int slot2 = 0;
+
+            try
+            {
+                slot1 = Integer.parseInt(m.getParameter(0));
+                slot2 = Integer.parseInt(m.getParameter(1));
+            }
+            catch (NumberFormatException e) { }
+
+            if (slot1 >= 1 && slot1 <= 6 && slot2 >= 1 && slot2 <= 6) {
+                // send the switch message to the channel
+                PlayerSwitchMessage pswitch = new PlayerSwitchMessage();
+                pswitch.setSlot1(slot1);
+                pswitch.setSlot2(slot2);
+                client.getChannel().sendMessage(pswitch);
+            }
+        }
+        else
+        {
+            // not enough parameters
+            Locale locale = client.getUser().getLocale();
+            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_num", locale) + "> <" + Language.getText("command.params.slot_num", locale) + ">";
+            PlineMessage response = new PlineMessage(message);
+            client.sendMessage(response);
+        }
     }
 }
