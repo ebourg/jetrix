@@ -39,6 +39,7 @@
       <classpath>
         <pathelement location="${lib}/commons-digester.jar"/>
         <pathelement location="${lib}/commons-collections.jar"/>
+        <pathelement location="${lib}/jetty.jar"/>
       </classpath>
     </javac>
   </target>
@@ -53,9 +54,27 @@
     </javac>
   </target>
 
-  <target name="jar" depends="compile">
+  <target name="compile.jsp" depends="compile" description="Compile the JSP pages">
+    <mkdir dir="${build}/jsp"/>
+    <jspc destdir="${build}/jsp" verbose="1" srcdir="${src}/admin">
+      <classpath>
+        <pathelement location="${lib}/jasper-compiler.jar"/>
+        <pathelement location="${lib}/jasper-runtime.jar"/>
+        <pathelement location="${ant.home}/lib/ant.jar"/>
+        <pathelement location="${lib}/servlet.jar"/>
+      </classpath>
+    </jspc>
+    <javac srcdir="${build}/jsp" destdir="${build}/jsp" debug="yes">
+      <classpath>
+        <pathelement path="${build}/classes/"/>
+        <pathelement location="${lib}/servlet.jar"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile.jsp">
     <!-- Create the distribution directory -->
-    <mkdir dir="${dist}/lib"/>    
+    <mkdir dir="${dist}/lib"/>
     <jar jarfile="${dist}/lib/jetrix.jar">
       <manifest>
         <attribute name="Implementation-Title" value="Jetrix TetriNET Server"/>
@@ -66,7 +85,21 @@
       <fileset dir="${src}/etc">
         <include name="tetrinet-server.dtd"/>
       </fileset>
-    </jar>    
+    </jar>
+    
+    <mkdir dir="${dist}/webapp"/>
+    <war destfile="${dist}/webapp/jetrix-admin.war" webxml="${src}/admin//WEB-INF/web.xml">
+      <fileset dir="${src}/admin">
+        <exclude name="WEB-INF/web.xml"/>
+        <exclude name="**/*.jsp"/>
+      </fileset>
+	  <fileset dir="${src}/site">
+        <include name="style.css"/>
+      </fileset>      
+      <classes dir="${build}/jsp">
+        <include name="**/*.class"/>        
+      </classes>
+    </war>        
   </target>
 
   <target name="dist" depends="jar">
@@ -84,7 +117,7 @@
         <include name="jetrix" />
         <include name="update.bat" />
         <include name="update" />
-      </zipfileset>      
+      </zipfileset>
       <zipfileset prefix="jetrix/lib/" dir="${dist}/lib/">
         <include name="jetrix.jar" />
       </zipfileset>
@@ -92,6 +125,13 @@
         <include name="commons-digester.jar" />
         <include name="commons-collections.jar" />
         <include name="commons-beanutils.jar" />
+        <include name="jetty.jar"/>
+        <include name="servlet.jar"/>
+        <include name="jasper-runtime.jar"/>
+        <include name="jasper-compiler.jar"/>
+      </zipfileset>
+      <zipfileset prefix="jetrix/lib/" dir="${dist}/webapp/">
+        <include name="*.war" />
       </zipfileset>
       <zipfileset prefix="jetrix/lang/" dir="${src}/lang/">
         <include name="*.properties" />
@@ -130,6 +170,7 @@
 
     <gzip zipfile="${dist}/bin/jetrix-${version}.tar.gz" src="${dist}/bin/jetrix-${version}.tar"/>
     <delete file="${dist}/bin/jetrix-${version}.tar"/>
+
   </target>
 
 
@@ -238,7 +279,7 @@
         </fileset>
       </classpath>
       <link href="http://java.sun.com/j2se/1.4.1/docs/api/"/>
-      <link href="http://jakarta.apache.org/commons/digester/api"/>      
+      <link href="http://jakarta.apache.org/commons/digester/api"/>
     </javadoc>
     <zip zipfile="${dist}/doc/api.zip">
       <zipfileset dir="${doc}" includes="api/**"/>
