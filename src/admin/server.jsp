@@ -173,7 +173,7 @@
 
 <%
     CommandManager commandManager = CommandManager.getInstance();
-    Iterator commands = commandManager.getCommands(AccessLevel.ADMINISTRATOR);
+    Iterator<Command> commands = commandManager.getCommands(AccessLevel.ADMINISTRATOR);
 %>
 
     <table class="thin">
@@ -185,7 +185,7 @@
         <th></th>
       </tr>
 <%  while (commands.hasNext()) {
-        Command command = (Command) commands.next();
+        Command command = commands.next();
         String usage = command.getUsage(conf.getLocale());
         usage = usage.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
@@ -199,12 +199,12 @@
         <td><%= usage %></td>
         <td><%= command.getDescription(conf.getLocale()) %></td>
         <td><%= command.getAccessLevel() %></td>
-        <td><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
+        <td><a href="/servlet/<%= ServerAction.class.getName() %>?action=command.remove&command=<%= command.getClass().getName() %>"><img src="images/delete16.png" alt="Remove" title="Remove" border="0" ></a></td>
       </tr>
 <%  } %>
     </table>
 
-    list, add, remove
+    <%-- todo UI to add a new command --%>
 
   </div>
   <div class="tab-page" style="height: 400px">
