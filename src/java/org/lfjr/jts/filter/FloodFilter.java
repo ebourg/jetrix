@@ -37,8 +37,8 @@ public class FloodFilter extends AbstractFilter
     
     public FloodFilter()
     {
-    	timestamp = new long[6][capacity];
-    	index = new int[6];
+        timestamp = new long[6][capacity];
+        index = new int[6];
     }
     
     public void process(Message m, List out)
@@ -46,12 +46,12 @@ public class FloodFilter extends AbstractFilter
         if (m.getType()==Message.TYPE_CHANNEL && m.getCode()==Message.MSG_PLINE) {
             int slot = ((Integer)m.getParameter(1)).intValue();
             if (slot>0 && isRateExceeded(slot-1, new Date())) {
-            	Message warning = new Message();
-            	Integer from = new Integer(0);
-            	String text = ChatColors.red+"Flood blocked from slot "+slot;
+                Message warning = new Message();
+                Integer from = new Integer(0);
+                String text = ChatColors.red+"Flood blocked from slot "+slot;
                 Object[] params = { from, text };
                 warning.setParameters(params);
-            	out.add(warning);
+                out.add(warning);
             } else {
                 out.add(m);
             }
@@ -63,8 +63,8 @@ public class FloodFilter extends AbstractFilter
     /**
      * Records a message timestamp and checks the data rate.
      *
-     * @param slot	message source slot
-     * @param d	message timestamp
+     * @param slot      message source slot
+     * @param d         message timestamp
      *
      * @return <tt>true</tt> if over <tt>capacity</tt> messages in less than the <tt>delay</tt> specified
      */
@@ -78,9 +78,9 @@ public class FloodFilter extends AbstractFilter
         return (t - t1) < delay;
     }
 
-    public String getDisplayName() { return "Flood Filter"; }
+    public String getName() { return "Flood Filter"; }
 
-    public String getShortDescription() { return "Blocks exceeding messages on pline"; }
+    public String getDescription() { return "Blocks exceeding messages on pline"; }
 
     public String getVersion() { return "1.0"; }
 

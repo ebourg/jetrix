@@ -35,9 +35,9 @@ public class NoopFilter extends AbstractFilter
         out.add(m);	
     }
 
-    public String getDisplayName() { return "Noop Filter"; }
+    public String getName() { return "Noop Filter"; }
 
-    public String getShortDescription() { return "I'm useless !"; }
+    public String getDescription() { return "I'm useless !"; }
 
     public String getVersion() { return "1.0"; }
 

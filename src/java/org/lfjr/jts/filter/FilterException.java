@@ -19,42 +19,27 @@
 
 package org.lfjr.jts.filter;
 
-import java.util.*;
-import org.lfjr.jts.*;
-
 /**
- * Default implementation for the MessageFilter interface.
- * 
+ * This exception is thrown by <tt>FilterManager.getFilter(String)</tt> to
+ * indicate that the creation of a filter threw a checked exception.
+ *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public abstract class AbstractFilter implements MessageFilter
+public class FilterException extends Exception
 {
-    private Properties props;
-    
-    public AbstractFilter()
+    public FilterException()
     {
-        props = new Properties();	
-    }
-	
-    public abstract void process(Message m, List out);
-
-    public String getDisplayName() { return "unknown filter"; }
-
-    public String getShortDescription() { return "no description"; }
-
-    public String getVersion() { return "1.0"; }
-
-    public String getAuthor() { return "unknown"; }
-    
-    public String getProperty(String key)
-    {
-        return props.getProperty(key);
-    }
-    
-    public void setProperty(String key, String value)
-    {
-        props.setProperty(key, value);	
+        super();
     }
 
+    public FilterException(String s)
+    {
+        super(s);
+    }
+
+    public FilterException(Throwable t)
+    {
+        super(t);
+    }
 }

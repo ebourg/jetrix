@@ -23,25 +23,100 @@ import java.util.*;
 import org.lfjr.jts.*;
 
 /**
- * Interface for channel filters.
- * 
+ * Abstract class defining a channel filter. Filters just need to inherit
+ * from this class and implement the process() method.
+ *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public interface MessageFilter
+public abstract class MessageFilter
 {
-    public void process(Message m, List out);
+    private Properties props;
+    private Channel channel;
 
-    public String getDisplayName();
+    private MessageFilter()
+    {
+        props = new Properties();
+    }
 
-    public String getShortDescription();
+    /**
+     * Indicates if the filter is a slingleton or not. A filter should be
+     * a singleton if it's independant from the channel context (for example:
+     * a color stripper or a profanity filter). By default a filter is not
+     * a singleton. This method must be overwritten to return true if the
+     * filter is meant to be instanciated only once.
+     *
+     * @return <tt>false</tt>
+     */
+    public static boolean isSingleton()
+    {
+        return false;
+    }
 
-    public String getVersion();
+    /**
+     * Called by the channel to indicate to a filter that the filter is being placed into service.
+     */
+    public void init() {}
 
-    public String getAuthor();
-    
-    public String getProperty(String key);
-    
-    public void setProperty(String key, String value);
+    /**
+     * Called by the channel to indicate to a filter that the filter is being taken out of service.
+     */
+    public void destroy() {}
 
+    /**
+     * Process a message and outputs messages to the specified List.
+     */
+    public abstract void process(Message m, List out);
+
+    /**
+     * Returns the name of this filter.
+     */
+    public static String getName() { return "unknown filter"; }
+
+    /**
+     * Returns a short description of this filter.
+     */
+    public static String getDescription() { return "no description"; }
+
+    /**
+     * Returns the version of this filter
+     */
+    public static String getVersion() { return "1.0"; }
+
+    /**
+     * Returns the author of this filter.
+     */
+    public static String getAuthor() { return "unknown"; }
+
+    /**
+     * Gets the filter property indicated by the specified key.
+     */
+    public final String getProperty(String key)
+    {
+        return props.getProperty(key);
+    }
+
+    /**
+     * Sets the filter property indicated by the specified key.
+     */
+    public final void setProperty(String key, String value)
+    {
+        props.setProperty(key, value);
+    }
+
+    /**
+     * Returns the channel this filter applies on.
+     */
+    public final Channel getChannel()
+    {
+        return this.channel;
+    }
+
+    /**
+     * Sets the channel this channel applies on.
+     */
+    public final void setChannel(Channel channel)
+    {
+        if ( !isSingleton() ) { this.channel = channel; }
+    }
 }
