@@ -46,8 +46,12 @@ public class TetrisFilter extends GenericFilter
     public void onMessage(StartGameMessage m, List out)
     {
         Arrays.fill(tetrisCount, 0);
+
+        GmsgMessage message = new GmsgMessage();
+        message.setKey("filter.tetris.start_message", new Object[] { new Integer(tetrisLimit) });
+
         out.add(m);
-        out.add(new GmsgMessage("The first player to complete " + tetrisLimit + " tetris win !"));
+        out.add(message);
     }
 
     public void onMessage(FourLinesAddedMessage m, List out)
@@ -68,16 +72,16 @@ public class TetrisFilter extends GenericFilter
             PlineMessage announce = new PlineMessage();
             announce.setKey("channel.player_won", new Object[] { winner.getName() });
             getChannel().sendMessage(announce);
-        } else {
+        }
+        else
+        {
             // get the highest tetris count
-            int maxSlot = 0;
             int max = 0;
             for (int i = 0; i < 6; i++)
             {
                 if (tetrisCount[i] > max)
                 {
                     max = tetrisCount[i];
-                    maxSlot = i;
                 }
             }
 
@@ -98,12 +102,15 @@ public class TetrisFilter extends GenericFilter
                 }
 
                 // announce the leaders
-                StringBuffer message = new StringBuffer();
+                GmsgMessage announce = new GmsgMessage();
+
                 if (leaders.size() == 1)
                 {
-                    String name = (String) leaders.get(0);
-                    message.append(name + " leads with " + max + " tetris");
-                } else {
+                    announce.setKey("filter.tetris.lead", new Object[] { leaders.get(0), new Integer(max) });
+                }
+                else
+                {
+                    StringBuffer message = new StringBuffer();
                     Iterator it = leaders.iterator();
                     while (it.hasNext())
                     {
@@ -113,11 +120,9 @@ public class TetrisFilter extends GenericFilter
                             message.append(", ");
                         }
                     }
-                    message.append(" are tied for the lead with " + max + " tetris");
+                    announce.setKey("filter.tetris.tied", new Object[] { message.toString(), new Integer(max) });
                 }
 
-                GmsgMessage announce = new GmsgMessage();
-                announce.setText(message.toString());
                 out.add(announce);
             }
         }
