@@ -43,15 +43,17 @@ public abstract class ScheduledService extends AbstractService
      */
     protected void init() { }
 
-    public void start() {
-        if (!isRunning()) {
+    public void start()
+    {
+        if (!isRunning())
+        {
             init();
 
             TimerTask task = new TimerTask()
             {
                 public void run()
                 {
-                    getTask().run();
+                    ScheduledService.this.run();
                 }
             };
 
@@ -61,24 +63,32 @@ public abstract class ScheduledService extends AbstractService
         }
     }
 
-    public void stop() {
+    public void stop()
+    {
         // stop the timer
-        if (isRunning()) {
+        if (isRunning())
+        {
             timer.cancel();
             timer = null;
         }
     }
 
+    /**
+     * Check is the service is running.
+     */
     public boolean isRunning()
     {
         return timer != null;
     }
 
     /**
-     * Return the task to run.
+     * Execute the task
      */
-    protected abstract Runnable getTask();
+    protected abstract void run();
 
+    /**
+     * Get the time in milliseconds between successive executions of the task.
+     */
     public long getPeriod()
     {
         return period;
@@ -92,6 +102,9 @@ public abstract class ScheduledService extends AbstractService
         this.period = period;
     }
 
+    /**
+     * Get the delay in milliseconds before the task is first executed.
+     */
     public long getDelay()
     {
         return delay;

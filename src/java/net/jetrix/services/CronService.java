@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 
 import org.jcrontab.data.CalendarBuilder;
 import org.jcrontab.data.CrontabEntryBean;
@@ -37,13 +38,12 @@ import org.jcrontab.data.CrontabParser;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
- * @since 0.1.4
+ * @since 0.2
  */
 public abstract class CronService extends AbstractService
 {
     protected String pattern;
     private Timer timer;
-    private Runnable task;
     private CrontabEntryBean cron;
 
     public void setPattern(String pattern)
@@ -56,8 +56,10 @@ public abstract class CronService extends AbstractService
      */
     protected void init() { }
 
-    public void start() {
-        if (!isRunning()) {
+    public void start()
+    {
+        if (!isRunning())
+        {
             init();
 
             // parse the cron pattern
@@ -69,11 +71,9 @@ public abstract class CronService extends AbstractService
             }
             catch (CrontabEntryException e)
             {
-                e.printStackTrace();
+                log.log(Level.SEVERE, "Unable to start the service", e);
                 return;
             }
-
-            task = getTask();
 
             // start the timer
             timer = new Timer();
@@ -81,9 +81,11 @@ public abstract class CronService extends AbstractService
         }
     }
 
-    public void stop() {
+    public synchronized void stop()
+    {
         // stop the timer
-        if (isRunning()) {
+        if (isRunning())
+        {
             timer.cancel();
             timer = null;
         }
@@ -95,22 +97,35 @@ public abstract class CronService extends AbstractService
     }
 
     /**
-     * Return the task to run.
+     * Do the task
      */
-    protected abstract Runnable getTask();
+    protected abstract void run();
 
-    private class Task extends TimerTask
+    /**
+     * Schedule the next execution of the task.
+     */
+    private synchronized void scheduleNext()
     {
-        public void run()
+        if (timer != null)
         {
-            task.run();
-            scheduleNext();
+            timer.cancel();
         }
-    }
+        else
+        {
+            return;
+        }
 
-    private void scheduleNext()
-    {
-        timer.schedule(new Task(), getNextExecutionDate());
+        TimerTask task = new TimerTask()
+        {
+            public void run()
+            {
+                CronService.this.run();
+                scheduleNext();
+            }
+        };
+
+        timer = new Timer();
+        timer.schedule(task, getNextExecutionDate());
     }
 
     /**
@@ -121,7 +136,9 @@ public abstract class CronService extends AbstractService
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, 1);
         Date date = new CalendarBuilder().buildCalendar(cron, calendar.getTime());
-        System.out.println(date);
+
+        log.fine("Next execution of '" + getName() + "' on " + date);
+
         return date;
     }
 }

@@ -78,66 +78,60 @@ public class PublishingService extends ScheduledService
         return "Publishing service";
     }
 
-    protected Runnable getTask()
+    protected void run()
     {
-        return new Runnable()
+        // get the server address
+        String host = getPublishedAddress();
+
+        if (host == null)
         {
-            public void run()
-            {
-                // get the server address
-                String host = getPublishedAddress();
+            log.warning("The server address cannot be published, please specify the hostname in the server configuration.");
+            return;
+        }
 
-                if (host == null)
-                {
-                    log.warning("The server address cannot be published, please specify the hostname in the server configuration.");
-                    return;
-                }
+        log.info("Publishing server address to online directories... (" + host + ")");
 
-                log.info("Publishing server address to online directories... (" + host + ")");
+        // publishing to tfast.org
+        try
+        {
+            String url = "http://www.tfast.org/en/add.php";
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("ip", host);
+            params.put("desc", Server.getInstance().getConfig().getName());
+            post(url, params);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-                // publishing to tfast.org
-                try
-                {
-                    String url = "http://www.tfast.org/en/add.php";
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("ip", host);
-                    params.put("desc", Server.getInstance().getConfig().getName());
-                    post(url, params);
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
+        // publishing to tetrinet.org
+        try
+        {
+            String url = "http://slummy.tetrinet.org/grav/slummy_addsvr.pl";
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("qname", host);
+            params.put("submit_bt", "Add Server");
+            post(url, params);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-                // publishing to tetrinet.org
-                try
-                {
-                    String url = "http://slummy.tetrinet.org/grav/slummy_addsvr.pl";
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("qname", host);
-                    params.put("submit_bt", "Add Server");
-                    post(url, params);
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-
-                // publishing to tsrv.com
-                try
-                {
-                    String url = "http://dieterdhoker.mine.nu:8280/cgi-bin/TSRV/submitserver.pl";
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("hostname", host);
-                    params.put("description", Server.getInstance().getConfig().getName());
-                    post(url, params);
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        };
+        // publishing to tsrv.com
+        try
+        {
+            String url = "http://dieterdhoker.mine.nu:8280/cgi-bin/TSRV/submitserver.pl";
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("hostname", host);
+            params.put("description", Server.getInstance().getConfig().getName());
+            post(url, params);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
