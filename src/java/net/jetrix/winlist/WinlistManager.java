@@ -52,6 +52,6 @@ public class WinlistManager
 
     public Winlist getWinlist(String id)
     {
-        return (Winlist) winlists.get(id);
+        return (id == null) ? null : (Winlist) winlists.get(id);
     }
 }
