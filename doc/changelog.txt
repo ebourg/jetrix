@@ -25,6 +25,7 @@ Changes un version 0.1.3 (2003-11-??)
 - implemented the tetrinet 1.14 block synchronization protocol
 - the /join command now accepts a partial channel name as argument
 - reduced the size of the jetrix distribution by 25%
+- the channel settings can be changed from the administration console
 
 Changes in version 0.1.2 (2003-08-03)
 -------------------------------------
