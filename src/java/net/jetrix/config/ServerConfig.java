@@ -410,6 +410,7 @@ public class ServerConfig
                 {
                     String description = config.getDescription();
                     description = description.contains("<") ? "<![CDATA[" + description + "]]>" : description;
+                    description = description.replaceAll("&", "&amp;");
                     out.println("      <description>" + description + "</description>");
                 }
 
