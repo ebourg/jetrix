@@ -1,5 +1,5 @@
 <?
-    if (preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT'])) {
+    if (preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT']) || preg_match("/google/", $_SERVER['HTTP_USER_AGENT'])) {
         header("Content-Type: text/html");
     } else {
         header("Content-Type: application/xhtml+xml");
