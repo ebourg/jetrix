@@ -21,6 +21,7 @@ package net.jetrix;
 
 import java.util.*;
 import java.util.logging.*;
+
 import net.jetrix.config.*;
 import net.jetrix.filter.*;
 import net.jetrix.messages.*;
@@ -34,20 +35,21 @@ import net.jetrix.winlist.*;
  */
 public class Channel extends Thread implements Destination
 {
+
     private ChannelConfig channelConfig;
     private ServerConfig serverConfig;
     private Logger logger = Logger.getLogger("net.jetrix");
 
     private MessageQueue mq;
 
-    private boolean running = true;
-
     // game states
     public static final int GAME_STATE_STOPPED = 0;
     public static final int GAME_STATE_STARTED = 1;
-    public static final int GAME_STATE_PAUSED  = 2;
+    public static final int GAME_STATE_PAUSED = 2;
 
     private int gameState;
+    private boolean running = true;
+    private GameResult result;
 
     /** set of clients connected to this channel */
     private Set clients;
@@ -59,28 +61,28 @@ public class Channel extends Thread implements Destination
 
     // JetriX logo
     // @todo move the logo to an external file
-    private short jetrixLogo[] = {0,0,0,0,0,0,0,0,0,0,0,0,
-                                  0,0,0,0,0,0,1,1,0,1,1,0,
-                                  0,0,0,0,0,0,0,0,1,0,0,0,
-                                  0,0,0,0,0,0,1,1,0,1,1,0,
-                                  0,0,0,0,0,0,0,0,0,0,0,0,
-                                  0,0,0,0,0,0,1,1,1,1,1,0,
-                                  0,0,0,0,0,0,0,0,0,0,0,0,
-                                  0,0,0,0,0,0,1,1,0,1,1,0,
-                                  0,0,0,0,0,0,1,0,1,0,0,0,
-                                  0,0,0,0,0,0,1,1,1,1,1,0,
-                                  0,0,0,0,0,0,0,0,0,0,0,0,
-                                  0,0,0,0,0,0,1,0,0,0,0,0,
-                                  0,0,0,0,0,0,1,1,1,1,1,0,
-                                  0,0,0,0,0,0,1,0,0,0,0,0,
-                                  0,0,0,0,0,0,0,0,0,0,0,0,
-                                  0,0,0,0,0,0,1,0,0,0,1,0,
-                                  0,0,0,0,0,0,1,0,1,0,1,0,
-                                  0,0,0,0,0,0,1,1,1,1,1,0,
-                                  0,0,0,0,0,0,0,0,0,0,0,0,
-                                  0,0,0,0,0,0,1,1,1,1,1,0,
-                                  0,0,0,0,0,0,0,0,0,0,1,0,
-                                  0,0,0,0,0,0,0,0,0,1,1,0};
+    private short jetrixLogo[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0};
 
     public Channel()
     {
@@ -90,7 +92,7 @@ public class Channel extends Thread implements Destination
     public Channel(ChannelConfig channelConfig)
     {
         this.channelConfig = channelConfig;
-        this.serverConfig  = Server.getInstance().getConfig();
+        this.serverConfig = Server.getInstance().getConfig();
         this.gameState = GAME_STATE_STOPPED;
         this.clients = new HashSet();
         this.slots = new ArrayList(6);
@@ -112,11 +114,17 @@ public class Channel extends Thread implements Destination
 
         // global filters
         Iterator it = serverConfig.getGlobalFilters();
-        while ( it.hasNext() ) { addFilter( (FilterConfig)it.next() ); }
+        while (it.hasNext())
+        {
+            addFilter((FilterConfig) it.next());
+        }
 
         // channel filters
         it = channelConfig.getFilters();
-        while ( it.hasNext() ) { addFilter( (FilterConfig)it.next() ); }
+        while (it.hasNext())
+        {
+            addFilter((FilterConfig) it.next());
+        }
     }
 
     /**
@@ -126,7 +134,7 @@ public class Channel extends Thread implements Destination
     {
         FilterManager filterManager = FilterManager.getInstance();
         MessageFilter filter;
-        
+
         // add the filter to the channel config if it isn't a global filter
 
         try
@@ -148,7 +156,7 @@ public class Channel extends Thread implements Destination
             // adding filter to the list
             filters.add(filter);
 
-            logger.fine("["+channelConfig.getName()+"] loaded filter " + filter.getName() + " " + filter.getVersion());
+            logger.fine("[" + channelConfig.getName() + "] loaded filter " + filter.getName() + " " + filter.getVersion());
         }
         catch (FilterException e)
         {
@@ -163,7 +171,7 @@ public class Channel extends Thread implements Destination
 
         // remove the filter from the channel config
     }
-    
+
     public Iterator getFilters()
     {
         return filters.iterator();
@@ -185,19 +193,25 @@ public class Channel extends Thread implements Destination
             try
             {
                 // waiting for new messages
-                l.add( mq.get() );
+                l.add(mq.get());
 
                 // filtering message
                 Iterator it = filters.iterator();
-                while ( it.hasNext() )
+                while (it.hasNext())
                 {
-                    MessageFilter filter = (MessageFilter)it.next();
+                    MessageFilter filter = (MessageFilter) it.next();
                     int size = l.size();
-                    for (int i = 0; i<size; i++) { filter.process( (Message)l.removeFirst(), l ); }
+                    for (int i = 0; i < size; i++)
+                    {
+                        filter.process((Message) l.removeFirst(), l);
+                    }
                 }
 
                 // processing message(s)
-                while ( !l.isEmpty() ) { process( (Message)l.removeFirst() ); }
+                while (!l.isEmpty())
+                {
+                    process((Message) l.removeFirst());
+                }
             }
             catch (Exception e)
             {
@@ -264,13 +278,14 @@ public class Channel extends Thread implements Destination
     {
         int slot = m.getSlot();
         Client client = getClient(slot);
+        User user = client.getUser();
         sendAll(m);
 
         // sending closing screen
         StringBuffer screenLayout = new StringBuffer();
-        for (int i = 0; i < 12*22; i++)
+        for (int i = 0; i < 12 * 22; i++)
         {
-            screenLayout.append( ( (int)(Math.random() * 4 + 1) ) * (1 - jetrixLogo[i]) );
+            screenLayout.append(((int) (Math.random() * 4 + 1)) * (1 - jetrixLogo[i]));
             //screenLayout.append( ( (int)(slot%5+1) ) * (1-jetrixLogo[i]) );
         }
         FieldMessage endingScreen = new FieldMessage();
@@ -278,16 +293,22 @@ public class Channel extends Thread implements Destination
         endingScreen.setField(screenLayout.toString());
         sendAll(endingScreen);
 
-        boolean wasPlaying = client.getUser().isPlaying();
-        client.getUser().setPlaying(false);
+        boolean wasPlaying = user.isPlaying();
+        user.setPlaying(false);
+
+        // update the game result
+        if (wasPlaying)
+        {
+            result.update(user, false);
+        }
 
         // check for the end of the game
         if (wasPlaying && countRemainingTeams() <= 1)
         {
-            //gameState = Channel.GAME_STATE_STOPPED;
             Message endgame = new EndGameMessage();
             sendMessage(endgame);
-            
+            result.setEndTime(new Date());
+
             // looking for the slot of the winner
             slot = 0;
             for (int i = 0; i < slots.size(); i++)
@@ -297,27 +318,41 @@ public class Channel extends Thread implements Destination
                 if (client != null && client.getUser().isPlaying())
                 {
                     slot = i + 1;
+                    // update the result of the game
+                    result.update(client.getUser(), true);
                 }
             }
-            
+
             // announcing the winner
             if (slot != 0)
             {
                 PlayerWonMessage playerwon = new PlayerWonMessage();
                 playerwon.setSlot(slot);
                 sendMessage(playerwon);
-                
+
                 User winner = getPlayer(slot);
                 PlineMessage announce = new PlineMessage();
                 if (winner.getTeam() == null)
                 {
-                    announce.setKey("channel.player_won", new Object[] { winner.getName() });
+                    announce.setKey("channel.player_won", new Object[]{winner.getName()});
                 }
                 else
                 {
-                    announce.setKey("channel.team_won", new Object[] { winner.getTeam() });
+                    announce.setKey("channel.team_won", new Object[]{winner.getTeam()});
                 }
                 sendMessage(announce);
+            }
+
+            // update the winlist with the final result
+            Winlist winlist = WinlistManager.getInstance().getWinlist(channelConfig.getWinlistId());
+            if (winlist != null)
+            {
+                winlist.saveGameResult(result);
+
+                List topScores = winlist.getScores(0, 10);
+                WinlistMessage winlistMessage = new WinlistMessage();
+                winlistMessage.setScores(topScores);
+                sendAll(winlistMessage);
             }
         }
     }
@@ -325,7 +360,7 @@ public class Channel extends Thread implements Destination
     private void process(SpecialMessage m)
     {
         // specials are not forwarded in pure mode
-        if ( channelConfig.getSettings().getLinesPerSpecial() >0 )
+        if (channelConfig.getSettings().getLinesPerSpecial() > 0)
         {
             int slot = m.getFromSlot();
             sendAll(m, slot);
@@ -350,12 +385,16 @@ public class Channel extends Thread implements Destination
             // change the channel state
             gameState = GAME_STATE_STARTED;
 
+            // initialiaze the game result
+            result = new GameResult();
+            result.setStartTime(new Date());
+
             // change the game state of the players
             Iterator it = slots.iterator();
             while (it.hasNext())
             {
-                Client client = (Client)it.next();
-                if (client != null)
+                Client client = (Client) it.next();
+                if (client != null && client.getUser().isPlayer())
                 {
                     client.getUser().setPlaying(true);
                 }
@@ -395,7 +434,7 @@ public class Channel extends Thread implements Destination
         removeClient(client);
 
         PlineMessage disconnected = new PlineMessage();
-        disconnected.setKey("channel.disconnected", new Object[] { client.getUser().getName() });
+        disconnected.setKey("channel.disconnected", new Object[]{client.getUser().getName()});
         sendAll(disconnected);
     }
 
@@ -431,18 +470,19 @@ public class Channel extends Thread implements Destination
 
             // send a message to the previous channel announcing what channel the player joined
             PlineMessage announce = new PlineMessage();
-            announce.setKey("channel.join_notice", new Object[] { client.getUser().getName(), channelConfig.getName() });
+            announce.setKey("channel.join_notice", new Object[]{client.getUser().getName(), channelConfig.getName()});
             previousChannel.sendMessage(announce);
 
             // clear the game status of the player
             if (client.getUser().isPlaying())
             {
+                client.getUser().setPlaying(false);
                 client.sendMessage(new EndGameMessage());
             }
         }
 
         // add the client to the channel
-        clients.add(client);      
+        clients.add(client);
 
         if (client.getUser().isSpectator())
         {
@@ -455,7 +495,7 @@ public class Channel extends Thread implements Destination
         {
             // looking for the first free slot
             int slot = 0;
-            for (slot = 0; slot < slots.size() && slots.get(slot) != null; slot++);
+            for (slot = 0; slot < slots.size() && slots.get(slot) != null; slot++) ;
 
             if (slot >= 6)
             {
@@ -482,7 +522,7 @@ public class Channel extends Thread implements Destination
         // send the list of players
         for (int i = 0; i < slots.size(); i++)
         {
-            Client resident = (Client)slots.get(i);
+            Client resident = (Client) slots.get(i);
             if (resident != null && resident != client)
             {
                 // players...
@@ -511,7 +551,7 @@ public class Channel extends Thread implements Destination
 
         // send a welcome message to the incomming client
         PlineMessage mwelcome = new PlineMessage();
-        mwelcome.setKey("channel.welcome", new Object[] { client.getUser().getName(), channelConfig.getName() });
+        mwelcome.setKey("channel.welcome", new Object[]{client.getUser().getName(), channelConfig.getName()});
         client.sendMessage(mwelcome);
 
         // send the list of spectators
@@ -519,13 +559,13 @@ public class Channel extends Thread implements Destination
         Iterator it = clients.iterator();
         while (it.hasNext())
         {
-            Client c = (Client)it.next();
+            Client c = (Client) it.next();
             if (c.getUser().isSpectator())
             {
                 specnames.add(c.getUser().getName());
             }
         }
-        
+
         if (specnames.size() > 0)
         {
             SpectatorListMessage spectators = new SpectatorListMessage();
@@ -603,29 +643,29 @@ public class Channel extends Thread implements Destination
 
     public void process(Message m)
     {
-        logger.finest("[" + channelConfig.getName() + "] Processing " +  m);
+        logger.finest("[" + channelConfig.getName() + "] Processing " + m);
 
-        if (m instanceof CommandMessage) process((CommandMessage)m);
-        else if (m instanceof FieldMessage) process((FieldMessage)m);
-        else if (m instanceof SpecialMessage) process((SpecialMessage)m);
-        else if (m instanceof LevelMessage) process((LevelMessage)m);
-        else if (m instanceof PlayerLostMessage) process((PlayerLostMessage)m);
-        else if (m instanceof TeamMessage) process((TeamMessage)m);
-        else if (m instanceof PlineMessage) process((PlineMessage)m);
-        else if (m instanceof GmsgMessage) process((GmsgMessage)m);
-        else if (m instanceof PlineActMessage) process((PlineActMessage)m);
-        else if (m instanceof PauseMessage) process((PauseMessage)m);
-        else if (m instanceof ResumeMessage) process((ResumeMessage)m);
-        else if (m instanceof StartGameMessage) process((StartGameMessage)m);
-        else if (m instanceof StopGameMessage) process((StopGameMessage)m);
-        else if (m instanceof EndGameMessage) process((EndGameMessage)m);
-        else if (m instanceof DisconnectedMessage) process((DisconnectedMessage)m);
-        else if (m instanceof PlayerSwitchMessage) process((PlayerSwitchMessage)m);
+        if (m instanceof CommandMessage) process((CommandMessage) m);
+        else if (m instanceof FieldMessage) process((FieldMessage) m);
+        else if (m instanceof SpecialMessage) process((SpecialMessage) m);
+        else if (m instanceof LevelMessage) process((LevelMessage) m);
+        else if (m instanceof PlayerLostMessage) process((PlayerLostMessage) m);
+        else if (m instanceof TeamMessage) process((TeamMessage) m);
+        else if (m instanceof PlineMessage) process((PlineMessage) m);
+        else if (m instanceof GmsgMessage) process((GmsgMessage) m);
+        else if (m instanceof PlineActMessage) process((PlineActMessage) m);
+        else if (m instanceof PauseMessage) process((PauseMessage) m);
+        else if (m instanceof ResumeMessage) process((ResumeMessage) m);
+        else if (m instanceof StartGameMessage) process((StartGameMessage) m);
+        else if (m instanceof StopGameMessage) process((StopGameMessage) m);
+        else if (m instanceof EndGameMessage) process((EndGameMessage) m);
+        else if (m instanceof DisconnectedMessage) process((DisconnectedMessage) m);
+        else if (m instanceof PlayerSwitchMessage) process((PlayerSwitchMessage) m);
         //else if (m instanceof LeaveMessage) process((LeaveMessage)m);
-        else if (m instanceof AddPlayerMessage) process((AddPlayerMessage)m);
+        else if (m instanceof AddPlayerMessage) process((AddPlayerMessage) m);
         else
         {
-            logger.finest("[" + channelConfig.getName() + "] Message not processed " +  m);
+            logger.finest("[" + channelConfig.getName() + "] Message not processed " + m);
         }
     }
 
@@ -648,11 +688,20 @@ public class Channel extends Thread implements Destination
                 leave.setSlot(slot + 1);
             }
 
+            // update the result of the game
+            if (gameState != GAME_STATE_STOPPED && client.getUser().isPlaying())
+            {
+                result.update(client.getUser(), false);
+            }
+
             sendAll(leave);
         }
 
         // stop the game if the channel is now empty
-        if (isEmpty() && running) { gameState = GAME_STATE_STOPPED; }
+        if (isEmpty() && running)
+        {
+            gameState = GAME_STATE_STOPPED;
+        }
     }
 
     /**
@@ -676,7 +725,7 @@ public class Channel extends Thread implements Destination
         Iterator it = clients.iterator();
         while (it.hasNext())
         {
-            Client client = (Client)it.next();
+            Client client = (Client) it.next();
             client.sendMessage(m);
         }
     }
@@ -705,7 +754,7 @@ public class Channel extends Thread implements Destination
         Iterator it = clients.iterator();
         while (it.hasNext())
         {
-            Client client = (Client)it.next();
+            Client client = (Client) it.next();
             if (client != c)
             {
                 client.sendMessage(m);
@@ -783,9 +832,9 @@ public class Channel extends Thread implements Destination
     {
         Client client = null;
 
-        if (slot >= 1 && slot <= slots.size() )
+        if (slot >= 1 && slot <= slots.size())
         {
-            client = (Client)slots.get(slot - 1);
+            client = (Client) slots.get(slot - 1);
         }
 
         return client;
@@ -836,9 +885,9 @@ public class Channel extends Thread implements Destination
 
         for (int i = 0; i < slots.size(); i++)
         {
-            Client client = (Client)slots.get(i);
+            Client client = (Client) slots.get(i);
 
-            if ( client != null && client.getUser().isPlaying() )
+            if (client != null && client.getUser().isPlaying())
             {
                 String team = client.getUser().getTeam();
 
