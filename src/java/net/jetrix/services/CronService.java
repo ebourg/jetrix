@@ -119,10 +119,6 @@ public abstract class CronService extends AbstractService
     {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, 1);
-        Date date = new CalendarBuilder().buildCalendar(cron, calendar.getTime());
-
-        System.out.println("next date: " + date);
-
-        return date;
+        return new CalendarBuilder().buildCalendar(cron, calendar.getTime());
     }
 }
