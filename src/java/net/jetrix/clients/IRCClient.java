@@ -22,20 +22,26 @@ package net.jetrix.clients;
 /**
  * Layer handling the communication with an IRC client.
  *
- * @since 0.1.4
+ * @since 0.2
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public class IRCClient extends TetrinetClient
- {
+{
 
     public boolean supportsMultipleChannels() 
     {
         return true;
     }
 
-    public boolean supportsAutoJoin() {
+    public boolean supportsAutoJoin()
+    {
+        return false;
+    }
+
+    protected boolean isAsynchronous()
+    {
         return false;
     }
 }

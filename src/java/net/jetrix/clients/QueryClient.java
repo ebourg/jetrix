@@ -187,7 +187,13 @@ public class QueryClient extends TetrinetClient
         }
     }
 
-    public boolean supportsAutoJoin() {
+    public boolean supportsAutoJoin()
+    {
+        return false;
+    }
+
+    protected boolean isAsynchronous()
+    {
         return false;
     }
 

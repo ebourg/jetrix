@@ -22,7 +22,9 @@ package net.jetrix.clients;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.*;
+
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -52,11 +54,19 @@ public class TetrinetClient implements Client
     protected Socket socket;
     protected ServerConfig serverConfig;
     protected Logger log = Logger.getLogger("net.jetrix");
+    protected BlockingQueue<Message> queue;
 
-    public TetrinetClient() { }
+    public TetrinetClient()
+    {
+        if (isAsynchronous())
+        {
+            queue = new LinkedBlockingQueue<Message>();
+        }
+    }
 
     public TetrinetClient(User user)
     {
+        this();
         this.user = user;
     }
 
@@ -91,6 +101,12 @@ public class TetrinetClient implements Client
         if (log.isLoggable(Level.FINE))
         {
             log.fine("Client started " + this);
+        }
+
+        if (isAsynchronous())
+        {
+            // start the message sender thread
+            new MessageSender("sender-" + user.getName()).start();
         }
 
         connectionTime = new Date();
@@ -136,14 +152,13 @@ public class TetrinetClient implements Client
         }
         finally
         {
+            disconnect();
             try { in.close(); }     catch (IOException e) { e.printStackTrace(); }
             try { out.close(); }    catch (IOException e) { e.printStackTrace(); }
             try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
             ClientRepository.getInstance().removeClient(this);
         }
     }
-
-    private long time = 0;
 
     public void send(Message message)
     {
@@ -166,6 +181,23 @@ public class TetrinetClient implements Client
             }
         }
 
+        if (isAsynchronous())
+        {
+            // add to the queue
+            queue.add(message);
+        }
+        else
+        {
+            // write directly
+            write(message);
+        }
+    }
+
+    /**
+     * Write the message on the output stream.
+     */
+    private void write(Message message)
+    {
         String rawMessage = message.getRawMessage(getProtocol(), user.getLocale());
 
         if (rawMessage != null)
@@ -174,12 +206,6 @@ public class TetrinetClient implements Client
             {
                 synchronized (out)
                 {
-                    long now = System.currentTimeMillis();
-                    if (now - time == 0) {
-                        Thread.sleep(1);
-                    }
-                    time = now;
-
                     out.write(rawMessage + getProtocol().getEOL(), 0, rawMessage.length() + 1);
                     out.flush();
                 }
@@ -293,7 +319,8 @@ public class TetrinetClient implements Client
         return false;
     }
 
-    public boolean supportsAutoJoin() {
+    public boolean supportsAutoJoin()
+    {
         return true;
     }
 
@@ -340,6 +367,13 @@ public class TetrinetClient implements Client
     public void disconnect()
     {
         disconnected = true;
+
+        // notify the message sender thread
+        if (queue != null)
+        {
+            queue.add(new ShutdownMessage());
+        }
+
         try
         {
             socket.shutdownOutput();
@@ -350,9 +384,78 @@ public class TetrinetClient implements Client
         }
     }
 
+    /**
+     * Tells if the messages are sent asynchroneously to the client.
+     *
+     * @since 0.2
+     */
+    protected boolean isAsynchronous()
+    {
+        return true;
+    }
+
     public String toString()
     {
         return "[Client " + getInetAddress() + " type=" + type + "]";
+    }
+
+    /**
+     * A thread sending the message to the client asynchroneously.
+     *
+     * @since 0.2
+     */
+    private class MessageSender extends Thread
+    {
+        private int index;
+        private long timestamp[];
+        private int capacity = 10;
+        private int delay = 100;
+
+        public MessageSender(String name)
+        {
+            super(name);
+
+            timestamp = new long[capacity];
+        }
+
+        public void run()
+        {
+            while (!disconnected)
+            {
+                try
+                {
+                    // take the message
+                    Message message = queue.take();
+
+                    if (disconnected)
+                    {
+                        return;
+                    }
+
+                    // delay
+                    if (isRateExceeded(System.currentTimeMillis()))
+                    {
+                        sleep(10);
+                    }
+
+                    // write the message
+                    write(message);
+                }
+                catch (InterruptedException e)
+                {
+                    log.log(Level.WARNING, e.getMessage(), e);
+                }
+            }
+        }
+
+        private boolean isRateExceeded(long t)
+        {
+            long t1 = timestamp[index];
+            timestamp[index] = t;
+            index = (index + 1) % capacity;
+
+            return (t - t1) < delay;
+        }
     }
 
 }
