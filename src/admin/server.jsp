@@ -3,6 +3,7 @@
 <%@ page import="net.jetrix.commands.*"%>
 <%@ page import="net.jetrix.config.*"%>
 <%@ page import="net.jetrix.filter.*"%>
+<%@ page import="java.net.*"%>
 <%@ page import="java.text.*"%>
 <%@ page import="java.util.*"%>
 
@@ -47,7 +48,29 @@
       </tr>
       <tr>
         <td>Host</td>
-        <td><input class="thin" type="text" value="<%= conf.getHost() != null ? conf.getHost().toString() : "*" %>"></td>
+        <td>
+          <select name="host">
+            <option value="[ALL]">All Interfaces</option>
+
+<%
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements())
+            {
+                NetworkInterface network = interfaces.nextElement();
+
+                Enumeration<InetAddress> addresses = network.getInetAddresses();
+                while (addresses.hasMoreElements())
+                {
+                    InetAddress address = addresses.nextElement();
+%>
+            <option value="<%= address.getHostAddress() %>" <%= address.equals(conf.getHost()) ? "selected" : "" %>><%= address.getHostAddress() %> <%= address.getHostAddress().equals(address.getHostName()) ? "" : " (" + address.getHostName() + ")" %></option>
+<%
+                }
+            }
+%>
+          </select>
+
+        </td>
       </tr>
       <tr>
         <td>Max Players</td>

@@ -620,19 +620,23 @@ public class ServerConfig
         this.host = host;
     }
 
-    public void setHost(String host)
+    public void setHost(String hostname)
     {
         // a value of "[ALL]" stands for any IP
-        if (!"[ALL]".equals(host))
+        if (!"[ALL]".equals(hostname))
         {
             try
             {
-                this.host = InetAddress.getByName(host);
+                host = InetAddress.getByName(hostname);
             }
             catch (UnknownHostException e)
             {
                 log.log(Level.WARNING, e.getMessage(), e);
             }
+        }
+        else
+        {
+            host = null;
         }
     }
 

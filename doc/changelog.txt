@@ -27,7 +27,8 @@ TODO
 - tetris mode, do a tetris as fast as possible (single player). Show intermediate times vs the best player recorded
 - warn the players before a timeout
 - ip based language detection (using geoip)
-- web admin: select the network interface
+- store the "time played" and the "time logged" for registered users
+- add a help button on the webadmin redirecting to the SF forum
 
 
 Changes in version 0.2 (2004-12-??)
@@ -62,6 +63,7 @@ Admin visible changes
 - web admin: erasing a value on the settings screen will now reset it to the default value
 - web admin: added basic server statistics (uptime, game count and connection count)
 - web admin: commands can be removed
+- web admin: the ip bound to the server can be changed on the 'General' tab, the ip available are automatically detected and listed
 - the server now checks the availability of a new release at startup
 - a system tray icon is displayed on windows platforms
 - a native executable is provided on windows to run the server without the DOS console
