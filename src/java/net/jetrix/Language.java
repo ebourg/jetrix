@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,6 +32,7 @@ public class Language
 {
     private static Language instance = new Language();
     private Map bundles;
+    private static String resource = "jetrix";
 
     private Language()
     {
@@ -54,7 +55,7 @@ public class Language
      */
     public ResourceBundle load(Locale locale)
     {
-        ResourceBundle bundle = PropertyResourceBundle.getBundle("jetrix", locale);
+        ResourceBundle bundle = PropertyResourceBundle.getBundle(resource, locale);
         bundles.put(locale, bundle);
         return bundle;
     }
@@ -81,7 +82,7 @@ public class Language
         ResourceBundle bundle = instance.getResourceBundle(locale);
         if (bundle == null)
         {
-            bundle = PropertyResourceBundle.getBundle("jetrix", locale);
+            bundle = PropertyResourceBundle.getBundle(resource, locale);
         }
         return (bundle != null && bundle.getLocale().equals(locale));
     }
@@ -138,11 +139,57 @@ public class Language
      * parameters with an array of arguments.
      *
      * @param key the text key in the resource bundle
+     * @param arguments the array of arguments
      * @param locale the locale of the message
      */
     public static String getText(String key, Object[] arguments, Locale locale)
     {
         return MessageFormat.format(getText(key, locale), arguments);
+    }
+
+    /**
+     * Return the specified localized text for a given locale and replace the
+     * parameters with the specified arguments.
+     *
+     * @param key the text key in the resource bundle
+     * @param arg0 first argument
+     * @param locale the locale of the message
+     */
+    public static String getText(String key, Object arg0, Locale locale)
+    {
+        Object arguments = new Object[] { arg0 };
+        return getText(key, arguments, locale);
+    }
+
+    /**
+     * Return the specified localized text for a given locale and replace the
+     * parameters with the specified arguments.
+     *
+     * @param key the text key in the resource bundle
+     * @param arg0 first argument
+     * @param arg1 second argument
+     * @param locale the locale of the message
+     */
+    public static String getText(String key, Object arg0, Object arg1, Locale locale)
+    {
+        Object arguments = new Object[] { arg0, arg1 };
+        return getText(key, arguments, locale);
+    }
+
+    /**
+     * Return the specified localized text for a given locale and replace the
+     * parameters with the specified arguments.
+     *
+     * @param key the text key in the resource bundle
+     * @param arg0 first argument
+     * @param arg1 second argument
+     * @param arg2 third argument
+     * @param locale the locale of the message
+     */
+    public static String getText(String key, Object arg0, Object arg1, Object arg2, Locale locale)
+    {
+        Object arguments = new Object[] { arg0, arg1, arg2 };
+        return getText(key, arguments, locale);
     }
 
 }
