@@ -40,6 +40,10 @@
         <td width="80%"><%= ServerConfig.VERSION %></td>
       </tr>
       <tr>
+        <td>Name</td>
+        <td><input class="thin" type="text" name="name" value="<%= conf.getName() != null ? conf.getName() : "" %>"></td>
+      </tr>
+      <tr>
         <td>Host</td>
         <td><input class="thin" type="text" value="<%= conf.getHost() != null ? conf.getHost().toString() : "*" %>"></td>
       </tr>

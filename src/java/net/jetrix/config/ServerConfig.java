@@ -40,6 +40,7 @@ import net.jetrix.commands.*;
  */
 public class ServerConfig
 {
+    private String name;
     private InetAddress host;
     private int timeout;
     private int maxChannels;
@@ -98,6 +99,16 @@ public class ServerConfig
         {
             e.printStackTrace();
         }
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public InetAddress getHost()

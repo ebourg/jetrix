@@ -33,6 +33,7 @@ public class ConfigRuleSet extends RuleSetBase
     public void addRuleInstances(Digester digester)
     {
         // server parameters
+        digester.addCallMethod("tetrinet-server/name", "setName", 0);
         digester.addCallMethod("tetrinet-server", "setHost", 1);
         digester.addCallParam("tetrinet-server", 0, "host");
         digester.addCallMethod("tetrinet-server/language", "setLocale", 0);
