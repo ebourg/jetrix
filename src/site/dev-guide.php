@@ -410,7 +410,7 @@ has been reached. If so the game is stopped and the winner is announced.</p>
 directory of the jetrix distribution). Then compile the command with :</p>
 
 <div class="code">
-javac -cp jetrix.jar TetrisFilter.java
+javac -classpath jetrix.jar TetrisFilter.java
 
 </div>
 
