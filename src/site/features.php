@@ -21,7 +21,7 @@
 
 <ul>
   <li class="done"> multiple channels</li>
-  <li class="done"> 28 commands (<a href="user-guide.php#section4">reference</a>)</li>
+  <li class="done"> 30 commands (<a href="user-guide.php#section4">reference</a>)</li>
   <li class="done"> partial command invocation (<tt>/j</tt> for <tt>/join</tt>, <tt>/br</tt> for <tt>/broadcast</tt>, etc...)</li>  
   <li class="done"> password protected channels</li>
   <li class="done"> authentication level restricted channels</li>
@@ -74,6 +74,8 @@
   <li class="done"> Anti flood filter</li>
   <li class="planned"> Bad words filter</li>
   <li class="planned"> Idle channel</li>
+  <li class="partial"> Ignore list</li>
+  <li class="planned"> Friends list</li>
 </ul>
 
 <h2>Administration</h2>
@@ -123,9 +125,10 @@
 <ul>
   <li class="done"> automatic advertisement to server directories (tfast.org, tetrinet.org, tsrv.com)</li>
   <li class="partial"> automatic update</li>
-  <li class="planned">Run as a service on Windows</li>
-  <li class="planned">Run as a daemon on Unix/Linux</li>
-  <li class="done">Windows installer</li>
+  <li class="done"> notification of new versions</li>
+  <li class="planned"> run as a service on Windows</li>
+  <li class="planned"> run as a daemon on Unix/Linux</li>
+  <li class="done"> Windows installer</li>
 </ul>
 
 <? include("footer.inc.php") ?>
