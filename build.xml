@@ -221,7 +221,7 @@
   <target name="doc">
     <mkdir dir="${doc}/api"/>
     <mkdir dir="${dist}/doc"/>
-    <javadoc packagenames="net.jetrix,net.jetrix.config,net.jetrix.patcher,net.jetrix.filter,net.jetrix.commands,net.jetrix.messages,net.jetrix.clients,net.jetrix.protocols,net.jetrix.listeners"
+    <javadoc packagenames="net.jetrix.*"
              sourcepath="${src}/java"
              classpath="${src}/java"
              destdir="${doc}/api"
@@ -231,6 +231,11 @@
              windowtitle="Javadoc JetriX"
              doctitle="JetriX TetriNET Server"
              bottom="Copyright &#169; 2001-2002 Emmanuel Bourg. All Rights Reserved.">
+      <classpath>
+        <fileset dir="${lib}" >
+          <include name="*.jar" />
+        </fileset>
+      </classpath>
       <link href="http://java.sun.com/j2se/1.4.1/docs/api/"/>
     </javadoc>
     <zip zipfile="${dist}/doc/api.zip">
