@@ -19,7 +19,7 @@
         <ul>
           <li><a href="user-guide.php">User Guide</a></li>
           <li><a href="dev-guide.php">Developper Guide</a></li>
-          <li><a href="docs/apidocs/index.html">Javadoc</a></li>
+          <li><a href="javadoc.php">Javadoc</a></li>
           <li><a href="docs/maven-reports.html">Project Reports</a></li>
         </ul>
 
