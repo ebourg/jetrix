@@ -21,6 +21,8 @@ package net.jetrix;
 
 import java.util.*;
 import java.util.logging.*;
+import java.io.BufferedReader;
+import java.io.StringReader;
 
 import org.apache.commons.collections.*;
 
@@ -48,6 +50,7 @@ public class Channel extends Thread implements Destination
     public static final int GAME_STATE_STARTED = 1;
     public static final int GAME_STATE_PAUSED = 2;
 
+    private boolean open;
     private int gameState;
     private boolean running = true;
     private GameResult result;
@@ -567,6 +570,27 @@ public class Channel extends Thread implements Destination
         PlineMessage mwelcome = new PlineMessage();
         mwelcome.setKey("channel.welcome", new Object[]{client.getUser().getName(), channelConfig.getName()});
         client.sendMessage(mwelcome);
+
+        // send the message of the day
+        if (channelConfig.getTopic() != null)
+        {
+            BufferedReader topic = new BufferedReader(new StringReader( channelConfig.getTopic() ));
+            String line = null;
+            try
+            {
+                while( (line = topic.readLine() ) != null )
+                {
+                    PlineMessage message = new PlineMessage();
+                    message.setText("<kaki>" + line);
+                    client.sendMessage(message);
+                }
+                topic.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
 
         // send the list of spectators
         List specnames = new ArrayList();

@@ -99,10 +99,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT blockbomb (#PCDATA)>
 
 <!ELEMENT channels (channel*)>
-<!ELEMENT channel (description?, password?, access-level?, max-players?,
-  max-spectators?, winlist?, settings?, class?, filters?)>
+<!ELEMENT channel (description?, topic?, password?, access-level?,
+  max-players?, max-spectators?, winlist?, settings?, class?, filters?)>
 <!ATTLIST channel name CDATA #REQUIRED>
 <!ELEMENT description (#PCDATA)>
+<!ELEMENT topic (#PCDATA)>
 <!ELEMENT password (#PCDATA)>
 <!ELEMENT access-level (#PCDATA)>
 <!ELEMENT max-spectators (#PCDATA)>

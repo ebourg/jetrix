@@ -33,6 +33,7 @@ public class ChannelConfig
     private String name = "noname";
     private String password;
     private String description;
+    private String topic;
     private int maxPlayers = 6;
     private int maxSpectators = 50;
     private int accessLevel;
@@ -97,8 +98,6 @@ public class ChannelConfig
 
     /**
      * Sets the password to enter the channel.
-     *
-     * @param password
      */
     public void setPassword(String password)
     {
@@ -115,12 +114,24 @@ public class ChannelConfig
 
     /**
      * Sets the description shown on entering the channel.
-     *
-     * @param description
      */
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    /**
+     * Return the topic.
+     */
+    public String getTopic() {
+        return topic;
+    }
+
+    /**
+     * Set the topic.
+     */
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     /**

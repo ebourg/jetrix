@@ -198,6 +198,15 @@ Welcome on <b>JetriX TetriNET Server</b>!
 
     <channel name="7Tetris">
       <description>7 tetris to win!</description>
+      <topic>
+<![CDATA[
+<b>
+Welcome to the 7 tetris channel! The first player completing 7 tetris
+win. There is no special in this game, and the lines are not added to
+your opponents. Good luck!
+<b>
+]]>
+      </topic>
       <settings>
         <special-added>0</special-added>
       </settings>
