@@ -212,11 +212,10 @@
     <java classname="net.jetrix.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
 
     <!-- Uploading to patch server -->
-    <ftp server="${ftp.host}" remotedir="/vsite/tetrinet/public_html/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes">
+    <ftp server="${ftp.host}" remotedir="/vsite/tetrinet/public_html/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes" ignoreNoncriticalErrors="yes">
       <fileset dir="${deploy}/jetrix"/>
     </ftp>
   </target>
-
 
   <target name="doc">
     <mkdir dir="${doc}/api"/>
@@ -237,6 +236,7 @@
         </fileset>
       </classpath>
       <link href="http://java.sun.com/j2se/1.4.1/docs/api/"/>
+      <link href="http://jakarta.apache.org/commons/digester/api"/>      
     </javadoc>
     <zip zipfile="${dist}/doc/api.zip">
       <zipfileset dir="${doc}" includes="api/**"/>
