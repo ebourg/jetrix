@@ -18,29 +18,35 @@
   <li><a href="#section3">Web Administration</a></li>
   <li><a href="#section4">Command Reference</a>
     <ul>
+      <li><a href="#section4-away">Away</a></li>
       <li><a href="#section4-broadcast">Broadcast</a></li>
       <li><a href="#section4-config">Config</a></li>
       <li><a href="#section4-emote">Emote</a></li>
       <li><a href="#section4-goto">Goto</a></li>
       <li><a href="#section4-help">Help</a></li>
+      <li><a href="#section4-ignore">Ignore</a></li>
       <li><a href="#section4-ip">Ip</a></li>
       <li><a href="#section4-join">Join</a></li>
       <li><a href="#section4-kick">Kick</a></li>
       <li><a href="#section4-language">Language</a></li>
       <li><a href="#section4-list">List</a></li>
+      <li><a href="#section4-mode">Mode</a></li>
       <li><a href="#section4-motd">Motd</a></li>
       <li><a href="#section4-move">Move</a></li>
       <li><a href="#section4-operator">Operator</a></li>
       <li><a href="#section4-pause">Pause</a></li>
+      <li><a href="#section4-petition">Petition</a></li>
       <li><a href="#section4-ping">Ping</a></li>
       <li><a href="#section4-random">Random</a></li>
       <li><a href="#section4-reply">Reply</a></li>
+      <li><a href="#section4-speclist">Speclist</a></li>
       <li><a href="#section4-start">Start</a></li>
       <li><a href="#section4-stop">Stop</a></li>
       <li><a href="#section4-summon">Summon</a></li>
       <li><a href="#section4-teleport">Teleport</a></li>
       <li><a href="#section4-tell">Tell</a></li>
       <li><a href="#section4-time">Time</a></li>
+      <li><a href="#section4-tmsg">Tmsg</a></li>
       <li><a href="#section4-version">Version</a></li>
       <li><a href="#section4-who">Who</a></li>
     </ul>
@@ -53,20 +59,20 @@
 
 <ul>
   <li>Linux, Windows, Solaris or MacOS X</li>
-  <li>Java Runtime Environnement 1.4.x or higher</li>
+  <li>Java Runtime Environnement 1.5.x or higher</li>
   <li>32 Mb RAM</li>
   <li>5 Mb hard drive space</li>
 </ul>
 
 <h3>Running &amp; Upgrading</h3>
 
-<p>You need a JRE 1.4 or higher installed on your server to run JetriX. You can
+<p>You need a JRE 1.5 or higher installed on your server to run Jetrix. You can
 download it here :</p>
 
-<a href="http://java.sun.com/j2se/1.4/download.html">http://java.sun.com/j2se/1.4/download.html</a>
+<a href="http://java.sun.com/j2se/1.5.0/download.jsp">http://java.sun.com/j2se/1.5.0/download.jsp</a>
 
 <p>Make sure the <tt>JAVA_HOME</tt> environnement variable is properly set !
-Unzip the JetriX archive to the installation directory and run the following
+Unzip the Jetrix archive to the installation directory and run the following
 commands in the jetrix directory:</p>
 
 <ul>
@@ -93,12 +99,8 @@ commands in the jetrix directory:</p>
 <p>An administration console is integrated to Jetrix, you can use it with any
 modern browser to change most of the configuration without restarting the 
 server. The console is available on the port 8080 of your server. You'll be 
-prompted for a username and a password, just type in <tt>operator</tt> and the 
-operator password to enter (<tt>jetrixpass</tt> by default).</p>
-
-<p>NOTE: This is still a prototype, the changes made to the configuration will 
-not survive a server restart with the current version (0.1.3). The full 
-persistence of the configuration is planned for a future release.</p>
+prompted for a username and a password, just type in <tt>admin</tt> and the
+administrator password to enter (<tt>adminpass</tt> by default).</p>
 
 <h1><a id="section4"></a>Command Reference</h1>
 

@@ -21,7 +21,7 @@
 
 <ul>
   <li class="done"> multiple channels</li>
-  <li class="done"> 30 commands (<a href="user-guide.php#section4">reference</a>)</li>
+  <li class="done"> 31 commands (<a href="user-guide.php#section4">reference</a>)</li>
   <li class="done"> partial command invocation (<tt>/j</tt> for <tt>/join</tt>, <tt>/br</tt> for <tt>/broadcast</tt>, etc...)</li>  
   <li class="done"> password protected channels</li>
   <li class="done"> authentication level restricted channels</li>
@@ -43,16 +43,14 @@
   <li class="done"> Block synchronization protocol (1.14)</li>
   <li class="done"> TSpec clients</li>
   <li class="done"> Query protocol</li>
-  <li class="planned"> IRC clients</li>
-  <li class="planned"> Flash clients</li>
-  <li class="planned"> Java Applet clients</li>
+  <li class="partial"> IRC clients</li>
 </ul>
 
 <h2>Gaming</h2>
 
 <ul>
   <li class="done"> game statistics (dropping rate, specials used, tetris...)</li>
-  <li class="planned"> individual statistics</li>
+  <li class="planned"> individual statistics (games played, average skill, time logged, time played...)</li>
   <li class="planned"> game recording and playback</li>
   <li class="done"> multiplayer "7Tetris" channel</li>
   <li class="planned"> puzzle channels</li>
@@ -66,6 +64,7 @@
   <li class="done"> specials blocked in pure mode</li>
   <li class="planned"> piece droppping rate control</li>
   <li class="planned"> forged messages detection</li>
+  <li class="planned"> block early "add to all" messages</li>
 </ul>
 
 <h2>Chatting</h2>
@@ -73,7 +72,7 @@
 <ul>
   <li class="done"> Anti flood filter</li>
   <li class="planned"> Bad words filter</li>
-  <li class="planned"> Idle channel</li>
+  <li class="done"> Idle channel</li>
   <li class="partial"> Ignore list</li>
   <li class="planned"> Friends list</li>
 </ul>
@@ -81,11 +80,10 @@
 <h2>Administration</h2>
 
 <ul>
-  <li class="done"> shell based administration</li>
-  <li class="partial"> web based administration</li>
-  <li class="planned"> administration from any client</li>
+  <li class="partial"> web administration console</li>
   <li class="done"> XML based configuration files</li>
   <li class="planned"> hot reconfiguration (no server restart needed)</li>
+  <li class="partial"> administration from the system shell</li>
 </ul>
 
 <h2>Internationalization</h2>
@@ -96,11 +94,10 @@
   <li class="done"> English support</li>
   <li class="done"> French support</li>
   <li class="done"> German support</li>
+  <li class="done"> Dutch support</li>
   <li class="done"> Spanish support</li>
   <li class="done"> Portuguese support</li>
   <li class="partial"> Italian support</li>
-  <li class="partial"> Dutch support</li>
-  <li class="planned"> Japaneese support</li>
 </ul>
 
 <h2>Security</h2>
