@@ -21,6 +21,7 @@ package net.jetrix.winlist;
 
 import junit.framework.TestCase;
 import net.jetrix.User;
+import net.jetrix.config.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.winlist.SimpleWinlist.
@@ -117,6 +118,46 @@ public class SimpleWinlistTest extends TestCase {
         Score score2 = winlist.getScore("user2", Score.TYPE_PLAYER);
         assertNotNull("score of the 2nd player", score2);
         assertEquals("score of the 1st player", 1, score2.getScore());
+    }
+
+    public void testSaveLoad()
+    {
+        WinlistConfig config = new WinlistConfig();
+        SimpleWinlist winlist = getWinlist();
+        winlist.setId("test");
+        winlist.init(config);
+
+        // add two scores to the list
+        Score score1 = new Score();
+        score1.setName("LFJR");
+        score1.setScore(4321);
+        score1.setType(Score.TYPE_TEAM);
+
+        Score score2 = new Score();
+        score2.setName("Smanux");
+        score2.setScore(1234);
+        score2.setType(Score.TYPE_PLAYER);
+
+        winlist.scores.add(score1);
+        winlist.scores.add(score2);
+
+        // save the list
+        winlist.save();
+
+        // read the list
+        SimpleWinlist winlist2 = getWinlist();
+        winlist2.setId("test");
+        winlist2.init(config);
+        winlist2.load();
+
+        assertEquals("winlist size", winlist.scores.size(), winlist2.scores.size());
+        assertTrue("score 1 missing", winlist2.scores.contains(score1));
+        assertTrue("score 2 missing", winlist2.scores.contains(score2));
+    }
+
+    protected SimpleWinlist getWinlist()
+    {
+        return new SimpleWinlist();
     }
 
 }
