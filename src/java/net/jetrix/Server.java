@@ -249,7 +249,10 @@ public class Server implements Runnable, Destination
                 // fetching next message waiting in the queue
                 Message message = queue.take();
 
-                log.finest("[server] processing " + message);
+                if (log.isLoggable(Level.FINEST))
+                {
+                    log.finest("[server] processing " + message);
+                }
 
                 // processing message
 
@@ -260,13 +263,19 @@ public class Server implements Runnable, Destination
 
                     if (channel != null)
                     {
-                        log.finest("[server] assigning client to channel " + channel);
+                        if (log.isLoggable(Level.FINEST))
+                        {
+                            log.finest("[server] assigning client to channel " + channel);
+                        }
                         channel.send(message);
                     }
                     else
                     {
                         // send server full message or create a new channel
-                        log.finest("[server] no available channels!");
+                        if (log.isLoggable(Level.FINEST))
+                        {
+                            log.finest("[server] no available channels!");
+                        }
                     }
                 }
                 else if (message instanceof CommandMessage)

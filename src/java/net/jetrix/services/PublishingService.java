@@ -148,7 +148,10 @@ public class PublishingService extends ScheduledService
      */
     protected void post(String url, Map<String, String> parameters) throws IOException
     {
-        log.fine("posting to: " + url);
+        if (log.isLoggable(Level.FINE))
+        {
+            log.fine("posting to: " + url);
+        }
 
         URL location = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) location.openConnection();

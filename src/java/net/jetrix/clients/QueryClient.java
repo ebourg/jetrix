@@ -21,6 +21,7 @@ package net.jetrix.clients;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.*;
 
 import net.jetrix.*;
 import net.jetrix.config.*;
@@ -35,17 +36,22 @@ import net.jetrix.protocols.*;
  */
 public class QueryClient extends TetrinetClient
 {
-
     private Message firstMessage;
 
     public void run()
     {
-        log.fine("Client started " + this);
+        if (log.isLoggable(Level.FINE))
+        {
+            log.fine("Client started " + this);
+        }
 
         connectionTime = new Date();
 
         Server server = Server.getInstance();
-        if (server != null) serverConfig = server.getConfig();
+        if (server != null)
+        {
+            serverConfig = server.getConfig();
+        }
 
         try
         {
@@ -67,7 +73,10 @@ public class QueryClient extends TetrinetClient
             try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
         }
 
-        log.fine("Client disconnected (" + getInetAddress().getHostAddress() + ")");
+        if (log.isLoggable(Level.FINE))
+        {
+            log.fine("Client disconnected (" + getInetAddress().getHostAddress() + ")");
+        }
     }
 
     private void process(Message m)
@@ -164,11 +173,17 @@ public class QueryClient extends TetrinetClient
             out.write(rawMessage + QueryProtocol.EOL, 0, rawMessage.length() + 1);
             out.flush();
 
-            log.finest("> " + rawMessage);
+            if (log.isLoggable(Level.FINEST))
+            {
+                log.finest("> " + rawMessage);
+            }
         }
         catch (Exception e)
         {
-            log.fine(e.getMessage());
+            if (log.isLoggable(Level.FINE))
+            {
+                log.fine(e.getMessage());
+            }
         }
     }
 

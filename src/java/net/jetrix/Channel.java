@@ -770,7 +770,10 @@ public class Channel extends Thread implements Destination
 
     public void process(Message m)
     {
-        log.finest("[" + channelConfig.getName() + "] Processing " + m);
+        if (log.isLoggable(Level.FINEST))
+        {
+            log.finest("[" + channelConfig.getName() + "] Processing " + m);
+        }
 
         if (m instanceof CommandMessage) process((CommandMessage) m);
         else if (m instanceof FieldMessage) process((FieldMessage) m);
@@ -793,7 +796,10 @@ public class Channel extends Thread implements Destination
         else if (m instanceof AddPlayerMessage) process((AddPlayerMessage) m);
         else
         {
-            log.finest("[" + channelConfig.getName() + "] Message not processed " + m);
+            if (log.isLoggable(Level.FINEST))
+            {
+                log.finest("[" + channelConfig.getName() + "] Message not processed " + m);
+            }
         }
     }
 

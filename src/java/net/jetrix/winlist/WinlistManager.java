@@ -55,7 +55,10 @@ public class WinlistManager
         if (winlist != null && winlist.getId() != null)
         {
             winlists.put(winlist.getId(), winlist);
-            log.fine("registered winlist " + winlist.getId());
+            if (log.isLoggable(Level.FINE))
+            {
+                log.fine("registered winlist " + winlist.getId());
+            }
         }
     }
 

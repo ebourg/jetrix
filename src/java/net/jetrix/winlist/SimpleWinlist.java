@@ -221,7 +221,10 @@ public class SimpleWinlist implements Winlist
      */
     protected void load()
     {
-        log.fine("loading winlist " + getId());
+        if (log.isLoggable(Level.FINE))
+        {
+            log.fine("loading winlist " + getId());
+        }
 
         if (id != null)
         {

@@ -88,7 +88,10 @@ public class TetrinetClient implements Client
      */
     public void run()
     {
-        log.fine("Client started " + this);
+        if (log.isLoggable(Level.FINE))
+        {
+            log.fine("Client started " + this);
+        }
 
         connectionTime = new Date();
 
@@ -153,7 +156,11 @@ public class TetrinetClient implements Client
                 Client client = (Client) source;
                 if (getUser().ignores(client.getUser().getName()))
                 {
-                    log.finest("Message dropped, player " + client.getUser().getName() + " ignored");
+                    if (log.isLoggable(Level.FINEST))
+                    {
+                        log.finest("Message dropped, player " + client.getUser().getName() + " ignored");
+                    }
+                    
                     return;
                 }
             }
@@ -177,11 +184,17 @@ public class TetrinetClient implements Client
                     out.flush();
                 }
 
-                log.finest("> " + rawMessage);
+                if (log.isLoggable(Level.FINEST))
+                {
+                    log.finest("> " + rawMessage);
+                }
             }
             catch (SocketException e)
             {
-                log.fine(e.getMessage());
+                if (log.isLoggable(Level.FINE))
+                {
+                    log.fine(e.getMessage());
+                }
             }
             catch (Exception e)
             {
@@ -199,7 +212,10 @@ public class TetrinetClient implements Client
         // read raw message from socket
         String line = readLine();
         lastMessageTime = System.currentTimeMillis();
-        log.finer("RECV: " + line);
+        if (log.isLoggable(Level.FINER))
+        {
+            log.finer("RECV: " + line);
+        }
 
         // build server message
         Message message = getProtocol().getMessage(line);
