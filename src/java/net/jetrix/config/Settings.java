@@ -52,6 +52,11 @@ public class Settings
     private boolean defaultClassicRules;
     private boolean defaultSameBlocks;
 
+    private boolean defaultSuddenDeathTime;
+    private boolean defaultSuddenDeathMessage;
+    private boolean defaultSuddenDeathLinesAdded;
+    private boolean defaultSuddenDeathDelay;
+
     private int startingLevel;
     private int stackHeight;
     private int linesPerLevel;
@@ -64,6 +69,19 @@ public class Settings
     private boolean averageLevels;
     private boolean classicRules;
     private boolean sameBlocks;
+
+    /** The time in seconds before the sudden death mode starts. */
+    private int suddenDeathTime;
+
+    /** The message displayed when the sudden death mode starts. */
+    private String suddenDeathMessage;
+
+    /** The delay in seconds between lines additions in sudden death mode. */
+    private int suddenDeathDelay;
+
+    /** The number of lines added in sudden death mode. */
+    private int suddenDeathLinesAdded;
+
 
     /**
      * Creates a new Settings objects using default settings.
@@ -98,6 +116,10 @@ public class Settings
             defaultAverageLevels = true;
             defaultClassicRules = true;
             defaultSameBlocks = true;
+            defaultSuddenDeathTime = true;
+            defaultSuddenDeathMessage = true;
+            defaultSuddenDeathDelay = true;
+            defaultSuddenDeathLinesAdded = true;
         }
     }
 
@@ -371,5 +393,53 @@ public class Settings
     public void setGravityOccurancy(int occurancy) { setOccurancy(GRAVITY, occurancy); }
     public void setQuakeFieldOccurancy(int occurancy) { setOccurancy(QUAKEFIELD, occurancy); }
     public void setBlockBombOccurancy(int occurancy) { setOccurancy(BLOCKBOMB, occurancy); }
+
+    public int getSuddenDeathTime()
+    {
+        boolean useDefaultSettings = defaultSuddenDeathTime && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getSuddenDeathTime() : suddenDeathTime;
+    }
+
+    public void setSuddenDeathTime(int suddenDeathTime)
+    {
+        this.suddenDeathTime = suddenDeathTime;
+        defaultSuddenDeathTime = false;
+    }
+
+    public String getSuddenDeathMessage()
+    {
+        boolean useDefaultSettings = defaultSuddenDeathMessage && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getSuddenDeathMessage() : suddenDeathMessage;
+    }
+
+    public void setSuddenDeathMessage(String suddenDeathMessage)
+    {
+        this.suddenDeathMessage = suddenDeathMessage;
+        defaultSuddenDeathMessage = false;
+    }
+
+    public int getSuddenDeathLinesAdded()
+    {
+        boolean useDefaultSettings = defaultSuddenDeathLinesAdded && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getSuddenDeathLinesAdded() : suddenDeathLinesAdded;
+    }
+
+    public void setSuddenDeathLinesAdded(int suddenDeathLinesAdded)
+    {
+        this.suddenDeathLinesAdded = suddenDeathLinesAdded;
+        defaultSuddenDeathLinesAdded = false;
+    }
+
+    public int getSuddenDeathDelay()
+    {
+        boolean useDefaultSettings = defaultSuddenDeathDelay && defaultSettings != null && this != defaultSettings;
+        return useDefaultSettings ? defaultSettings.getSuddenDeathDelay() : suddenDeathDelay;
+    }
+
+    public void setSuddenDeathDelay(int suddenDeathDelay)
+    {
+        this.suddenDeathDelay = suddenDeathDelay;
+        defaultSuddenDeathDelay = false;
+    }
 
 }
