@@ -62,7 +62,7 @@ public abstract class Protocol
     {
         // to be optimized later
         Map styles = getStyles();
-        if (styles == null) return null;
+        if (styles == null) return text;
         
         Iterator keys = styles.keySet().iterator();
         while (keys.hasNext())
