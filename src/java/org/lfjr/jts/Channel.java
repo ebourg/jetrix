@@ -170,8 +170,12 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_SB:
-                            slot = ((Integer)m.getParameter(2)).intValue();
-                            sendAll(m, slot);
+                            // specials are not forwarded in pure mode
+                            if ( cconf.getSettings().getLinesPerSpecial() >0 )
+                            {
+                                slot = ((Integer)m.getParameter(2)).intValue();
+                                sendAll(m, slot);
+                            }
                             break;
 
                         case Message.MSG_LVL:
