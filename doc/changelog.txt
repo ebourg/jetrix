@@ -18,9 +18,11 @@ TODO
 - /stop
 - /pause
 - /countdown <n> : starts the game in n seconds
+- zip files on the patch server
+- turn the admin console into a Jetrix client
 
-Changes in version 0.1.0 (2002-11-??)
---------------------------------------
+Changes in version 0.1.0 (2002-11-16)
+-------------------------------------
 - added support for tetrifast clients
 - new commands : /teleport, /summon, /ping and /ip
 - level change is now working
