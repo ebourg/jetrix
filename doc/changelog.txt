@@ -4,7 +4,6 @@ JetriX Changelog
 TODO
 ----
 - implement the /afk command
-- /tmsg (team message)
 - zip files on the patch server
 + /snoop
 - /help <command name>
@@ -18,7 +17,7 @@ TODO
 
 Changes in version 0.1.2 (2003-06-??)
 -------------------------------------
-- new commands : /move, /goto, /petition
+- new commands : /move, /goto, /petition, /tmsg
 - new game mod : 7tetris
 - basic web administration console available on port 8080 (read only)
 - basic tspec support
