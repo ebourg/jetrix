@@ -133,7 +133,14 @@ public class CommandManager
             // check the access level
             if (client.getUser().getAccessLevel() >= command.getAccessLevel())
             {
-                command.execute(m);
+                try
+                {
+                    command.execute(m);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
             else
             {
