@@ -53,9 +53,6 @@ public class Server implements Runnable, Destination
         conf.load();
         conf.setRunning(true);
 
-        // loading localized strings
-        //Language.load(conf.getLocale());
-
         // preparing logger
         logger = Logger.getLogger("net.jetrix");
         logger.setUseParentHandlers(false);
@@ -132,7 +129,7 @@ public class Server implements Runnable, Destination
         }
 
         // starting server console
-        new ServerConsole();
+        (new Thread(new ConsoleClient())).start();
 
         // starting client listeners
         (new Thread(new TetrinetListener())).start();
