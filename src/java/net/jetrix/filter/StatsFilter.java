@@ -117,7 +117,7 @@ public class StatsFilter extends GenericFilter
         // ignore the empty field message sent on using specials
         if (m.getField() != null)
         {
-            // increasing block count for the updated slot
+            // increase the block count for the updated slot
             PlayerStats playerStats = stats.get(m.getSlot() - 1);
             if (playerStats != null && (stopWatch.getTime() > 1500))
             {
@@ -131,38 +131,31 @@ public class StatsFilter extends GenericFilter
     public void onMessage(OneLineAddedMessage m, List<Message> out)
     {
         out.add(m);
-        PlayerStats playerStats = stats.get(m.getFromSlot() - 1);
-        if (playerStats != null)
-        {
-            playerStats.linesAdded++;
-            // remove 1 block count from any player in an opposite team
-            removeBlock(m);
-        }
+
+        updateStats(m, 1);
+
+        // remove 1 block count from any player in an opposite team
+        removeBlock(m);
     }
 
     public void onMessage(TwoLinesAddedMessage m, List<Message> out)
     {
         out.add(m);
-        PlayerStats playerStats = stats.get(m.getFromSlot() - 1);
-        if (playerStats != null)
-        {
-            playerStats.linesAdded += 2;
-            // remove 1 block count from any player in an opposite team
-            removeBlock(m);
-        }
+
+        updateStats(m, 2);
+
+        // remove 1 block count from any player in an opposite team
+        removeBlock(m);
     }
 
     public void onMessage(FourLinesAddedMessage m, List<Message> out)
     {
         out.add(m);
-        PlayerStats playerStats = stats.get(m.getFromSlot() - 1);
-        if (playerStats != null)
-        {
-            playerStats.linesAdded += 4;
-            playerStats.tetrisCount++;
-            // remove 1 block count from any player in an opposite team
-            removeBlock(m);
-        }
+
+        updateStats(m, 4);
+
+        // remove 1 block count from any player in an opposite team
+        removeBlock(m);
     }
 
     public void onSpecial(SpecialMessage m)
@@ -198,7 +191,6 @@ public class StatsFilter extends GenericFilter
 
     public void onMessage(PlayerLostMessage m, List<Message> out)
     {
-        long now = System.currentTimeMillis();
         out.add(m);
         PlayerStats playerStats = stats.get(m.getSlot() - 1);
         if (playerStats != null)
@@ -209,29 +201,57 @@ public class StatsFilter extends GenericFilter
     }
 
     /**
-     * Decrease the bloc count of players receiving an add to all message since
-     * they will send back a field message assimilated by mistake as a bloc fall.
+     * Decrease the block count of players receiving an add to all message since
+     * they will send back a field message assimilated by mistake as a block fall.
      */
-    private void removeBlock(SpecialMessage m)
+    private void removeBlock(SpecialMessage message)
     {
-        int slot = m.getFromSlot();
+        int slot = message.getFromSlot();
 
-        if (slot > 0)
+        // find the team of the player sending the message;
+        String team = null;
+
+        if (message.getSource() != null && message.getSource() instanceof Client)
         {
-            Client fromClient = (Client) m.getSource();
+            Client client = (Client) message.getSource();
+            team = client.getUser().getTeam();
+        }
 
-            for (int i = 1; i <= 6; i++)
+        // check all players...
+        for (int i = 1; i <= 6; i++)
+        {
+            Client client = getChannel().getClient(i);
+            if (i != slot && client != null)
             {
-                Client client = getChannel().getClient(i);
-                if (i != slot && client != null)
-                {
-                    User user = client.getUser();
+                User user = client.getUser();
 
-                    if (user.isPlaying() && (user.getTeam() == null || !user.getTeam().equals(fromClient.getUser().getTeam())))
-                    {
-                        PlayerStats playerStats = stats.get(i - 1);
-                        playerStats.blockCount--;
-                    }
+                // ...still playing, and team-less or in a different team from the sender
+                if (user.isPlaying() && (user.getTeam() == null || !user.getTeam().equals(team)))
+                {
+                    PlayerStats playerStats = stats.get(i - 1);
+                    playerStats.blockCount--;
+                }
+            }
+        }
+    }
+
+    /**
+     * Update the stats of the player sending the specified message.
+     *
+     * @param message
+     * @param lines
+     */
+    private void updateStats(SpecialMessage message, int lines)
+    {
+        if (message.getFromSlot() > 0) // ignore messages sent by the server
+        {
+            PlayerStats playerStats = stats.get(message.getFromSlot() - 1);
+            if (playerStats != null)
+            {
+                playerStats.linesAdded += lines;
+                if (lines == 4)
+                {
+                    playerStats.tetrisCount++;
                 }
             }
         }
