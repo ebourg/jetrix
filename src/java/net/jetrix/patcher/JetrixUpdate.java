@@ -44,7 +44,7 @@ public class JetrixUpdate
     {
         getUpdate();
 
-        for (int i=0; i<update.size(); i++)
+        for (int i = 0; i < update.size(); i++)
         {
             StringTokenizer st = new StringTokenizer((String)update.elementAt(i), " \t");
             String fileName = st.nextToken();
@@ -53,7 +53,7 @@ public class JetrixUpdate
 
             long localSum = getFileCRC32(fileName);
 
-            if (chksum!=localSum)
+            if (chksum != localSum)
             {
                 downloadFile(fileName, chksum);
                 if (fileName.equals(newsFileName)) displayNews = true;
@@ -76,7 +76,7 @@ public class JetrixUpdate
 
     public static void getUpdate() throws IOException
     {
-        URL updateList = new URL(basedir+"update.crc");
+        URL updateList = new URL(basedir + "update.crc");
 
         System.out.println("Connecting to update server...");
 
@@ -87,7 +87,7 @@ public class JetrixUpdate
 
         String line = br.readLine();
 
-        while (line!=null)
+        while (line != null)
         {
             update.addElement(line);
             line = br.readLine();
@@ -102,13 +102,13 @@ public class JetrixUpdate
         HttpURLConnection conn = (HttpURLConnection)updateList.openConnection();
         BufferedInputStream bis = new BufferedInputStream( conn.getInputStream() );
 
-        File localFile = new File(filename+".new");
+        File localFile = new File(filename + ".new");
         File parent = localFile.getParentFile();
         if (parent != null) { parent.mkdirs(); }
 
         FileOutputStream fos = new FileOutputStream(localFile);
 
-        System.out.print("Receiving "+filename);
+        System.out.print("Receiving " + filename);
 
         int b = bis.read();
 
@@ -125,17 +125,17 @@ public class JetrixUpdate
         // CRC Check
         long downloadedFileCRC = getFileCRC32(localFile);
 
-        String blank = new String(new char[50-filename.length()]);
+        String blank = new String(new char[50 - filename.length()]);
 
         if (downloadedFileCRC != remoteFileCRC)
         {
-            System.out.println(blank+"  [FAILED]");
+            System.out.println(blank + "  [FAILED]");
             downloadFailed = true;
             localFile.delete();
         }
         else
         {
-            System.out.println(blank+"  [  OK  ]");
+            System.out.println(blank + "  [  OK  ]");
             localFile.renameTo( new File(filename));
         }
     }
