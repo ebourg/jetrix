@@ -22,7 +22,7 @@ package net.jetrix.clients;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import net.jetrix.*;
 import net.jetrix.protocols.*;
@@ -75,7 +75,8 @@ public class ConsoleClient implements Client
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                log.log(Level.SEVERE, e.getMessage(), e);
+                closed = true;
             }
         }
 
