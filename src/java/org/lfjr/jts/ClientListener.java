@@ -146,7 +146,7 @@ public class ClientListener extends Thread
                 m.setParameters(params2);
                 TetriNETServer.getInstance().addMessage(m);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }

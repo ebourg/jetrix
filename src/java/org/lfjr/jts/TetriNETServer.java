@@ -88,7 +88,7 @@ public class TetriNETServer implements Runnable
                 // fetching next message waiting in the queue
                 Message m = mq.get();
 
-                System.out.println("Server: processing "+m);
+                //System.out.println("Server: processing "+m);
 
                 // processing message
                 switch(m.getCode())
@@ -124,7 +124,7 @@ public class TetriNETServer implements Runnable
                         if ("/list".equalsIgnoreCase(cmd))
                         {
                             Message response = new Message(Message.MSG_PLINE);
-                            Object params[] = { new Integer(0), ChatColors.darkBlue+"TetriNET Channel Lister - (Type "+ChatColors.red+"/join "+ChatColors.purple+"#channelname"+ChatColors.darkBlue+")" };
+                            Object params[] = { new Integer(0), ChatColors.darkBlue+"TetriNET Channel Lister - (Type "+ChatColors.red+"/join "+ChatColors.purple+"channelname"+ChatColors.darkBlue+")" };
                             response.setParameters(params);
                             client.sendMessage(response);
 

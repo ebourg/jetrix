@@ -82,14 +82,14 @@ public class Channel extends Thread
                 Message m = mq.get();
                 int slot;
 
-                System.out.println("Channel["+cconf.getName()+"]: processing "+m);
+                //System.out.println("Channel["+cconf.getName()+"]: processing "+m);
 
                     switch(m.getCode())
                     {
                         case Message.MSG_SLASHCMD:
                             String cmd = m.getStringParameter(1);
                             //System.out.println("Commande : "+cmd);
-                            if ("/join".equalsIgnoreCase(cmd))
+                            if ("/join".equalsIgnoreCase(cmd) || "/j".equalsIgnoreCase(cmd))
                             {
                                 //System.out.println("changement de channel detecte");
                                 Channel target = ChannelManager.getInstance().getChannel(m.getStringParameter(2));
@@ -190,22 +190,25 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_FIELD:
-                            //slot = m.getIntParameter(0);
-                            //sendAll(m, slot);
-                            sendAll(m);
+                            slot = m.getIntParameter(0);
+                            sendAll(m, slot);
+                            //sendAll(m);
                             break;
 
                         case Message.MSG_STARTGAME:
-                            gameState = GAME_STATE_STARTED;
-                            for (int i=0; i<playerList.length; i++)
+                            if (gameState == GAME_STATE_STOPPED)
                             {
-                                if(playerList[i] != null)
+                                gameState = GAME_STATE_STARTED;
+                                for (int i=0; i<playerList.length; i++)
                                 {
-                                    client = (TetriNETClient)playerList[i];
-                                    client.getPlayer().setPlaying(true);
+                                    if(playerList[i] != null)
+                                    {
+                                        client = (TetriNETClient)playerList[i];
+                                        client.getPlayer().setPlaying(true);
+                                    }
                                 }
+                                sendAll(m);
                             }
-                            sendAll(m);
                             break;
 
                         case Message.MSG_ENDGAME:
@@ -238,7 +241,7 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_PLAYERLEAVE:
-                            System.out.println("player leaving channel " + cconf.getName());
+                            //System.out.println("player leaving channel " + cconf.getName());
                             slot = m.getIntParameter(0);
                             playerList[slot-1] = null;
                             sendAll(m);
@@ -260,7 +263,7 @@ public class Channel extends Thread
                             else
                             {
                                 // leaving a previous channel
-                                System.out.println("leaving a previous channel");
+                                //System.out.println("leaving a previous channel");
                                 Channel previousChannel = client.getChannel();
 
                                 // notice to players in the previous channel
@@ -268,6 +271,11 @@ public class Channel extends Thread
                                 leave.setParameters(new Object[] { new Integer(previousChannel.getPlayerSlot(client)) });
                                 previousChannel.addMessage(leave);
                                 client.setChannel(this);
+                                
+                                // sending message to the previous channel announcing what channel the player joined
+                                Message leave2 = new Message(Message.MSG_PLINE);
+                                leave2.setParameters(new Object[] { new Integer(0), ChatColors.gray + client.getPlayer().getName()+" has joined channel " + ChatColors.bold + cconf.getName() });
+                                previousChannel.addMessage(leave2);
 
                                 // ending running game
                                 if (previousChannel.getGameState() != Channel.GAME_STATE_STOPPED)

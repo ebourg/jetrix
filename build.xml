@@ -49,10 +49,6 @@
       <zipfileset prefix="jetrix/lib/" dir="${dist}/lib/">
         <include name="jetrix.jar" />
       </zipfileset>
-      <zipfileset prefix="jetrix/lib/" dir="${lib}/">
-        <!--<include name="crimson.jar" />-->
-        <!--<include name="jaxp.jar" />-->
-      </zipfileset>
     </zip>
   </target>
 
@@ -95,7 +91,7 @@
   </target>
 
 
-  <target name="update" depends="dist">
+  <target name="update" depends="deploy">
     <!-- Installing -->
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>
@@ -105,7 +101,7 @@
     <java classname="org.lfjr.jts.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
 
     <!-- Uploading to patch server -->
-    <ftp server="${ftp.host}" remotedir="/site/tetrinet/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes">
+    <ftp server="${ftp.host}" remotedir="/vsite/tetrinet/public_html/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes">
       <fileset dir="${deploy}/jetrix"/>
     </ftp>
   </target>

@@ -32,30 +32,30 @@ public class ChannelManager
 {
     private Vector channels;
     private static ChannelManager instance = new ChannelManager();
-    
-    private ChannelManager()    
+
+    private ChannelManager()
     {
         channels = new Vector();
     }
-    
+
     public static ChannelManager getInstance()
     {
-        return instance;	
+        return instance;
     }
-    
+
     public Channel createChannel()
     {
         return createChannel("jetrix");
-    }    
-    
+    }
+
     public Channel createChannel(String name)
     {
-    	Settings defaultSettings = TetriNETServer.getInstance().getConfig().getDefaultSettings();
+        Settings defaultSettings = TetriNETServer.getInstance().getConfig().getDefaultSettings();
         ChannelConfig cc = new ChannelConfig(defaultSettings);
         cc.setName("jetrix");
         return createChannel(cc);
     }
-    
+
     public Channel createChannel(ChannelConfig conf)
     {
         Channel ch = new Channel(conf);
@@ -63,19 +63,25 @@ public class ChannelManager
         channels.addElement(ch);
         return ch;
     }
-    
+
     public void removeChannel(String name) {}
-    
+
+    /**
+     * Returns the number of existing channels.
+     */
     public int getChannelCount()
     {
-        return channels.size();	
+        return channels.size();
     }
-    
+
+    /**
+     * Returns an iterator over the channels available.
+     */
     public Iterator channels()
     {
-        return channels.iterator();	
+        return channels.iterator();
     }
-        
+
     /**
      * Looks for a channel with room left.
      *
@@ -90,20 +96,31 @@ public class ChannelManager
             Channel channel2 = (Channel)it.next();
             if (!channel2.isFull()) channel = channel2;
         }
-        
+
         return channel;
     }
-    
+
+    /**
+     * Returns the channel with the specified name. Leading # are removed
+     * from the name before searching.
+     *
+     * @param name  name of the channel to find
+     *
+     * @return instance of the specified channel, <tt>null</tt> if not found
+     */
     public Channel getChannel(String name)
     {
         Channel channel = null;
+        // stripping leading #
+        name = name.replaceFirst("#", "");
+
         Iterator it = channels();
         while( it.hasNext() && channel==null)
         {
             Channel channel2 = (Channel)it.next();
             if (channel2.getConfig().getName().equalsIgnoreCase(name)) channel = channel2;
         }
-        
-        return channel;    	
+
+        return channel;
     }
 }

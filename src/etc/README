@@ -1,8 +1,8 @@
-Java TetriNET Server - http://sourceforge.net/projects/jts/
+JetriX TetriNET Server - http://sourceforge.net/projects/jts/
 ----------------------------------------------------------------------
 
-The server is not yet stable and is missing key features, please be 
-patient, the project is just starting :)
+The server is not quite stable but is missing key features, please be 
+patient, the project is still young :)
 
 For any questions, comments, flames, you can contact me at :
 
@@ -21,7 +21,4 @@ To start the server :
 To download the latest release
 
     java JTSUpdate
-
-
-
 

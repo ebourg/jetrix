@@ -260,7 +260,7 @@ class TetriNETClient extends Thread
                 out.flush();
             }
 
-            System.out.println("> "+m.getRawMessage());
+            //System.out.println("> "+m.getRawMessage());
         }
         catch (SocketException e) { System.out.println(e.getMessage()); }
         catch (Exception e) { e.printStackTrace(); }

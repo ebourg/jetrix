@@ -55,5 +55,17 @@ Smanux
 - les bonus fonctionnent enfin correctement, les "add to all" ne sont
   plus envoyés à l'expéditeur
 
+Smanux
+
+
+26 Mars 2002
+----------------------------------------------------------------------
+
+La version 0.0.8 est enfin prete ! Le multichannel est implémenté, la 
+création dynamique de channels n'est toutefois pas encore possible. Le
+serveur ne vérifie pas l'unicité des pseudo pour le moment, la partie
+gestion des utilisateur reste entierement à développer (/who, /op, 
+/kick, /ban...). Les premiers essais sont très prometteurs en termes
+de stabilité. Notez qu'a partir de cette version le JRE 1.4 est requis.
 
 Smanux
