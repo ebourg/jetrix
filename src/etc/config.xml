@@ -45,8 +45,8 @@ http://jetrix.sourceforge.net/
   <!-- Global filters -->
   <default-filters>
     <filter name="flood">
-      <param name="capacity" value="5"/>
-      <param name="delay" value="1000"/>
+      <param name="capacity" value="8"/>
+      <param name="delay" value="5000"/>
     </filter>
     <filter name="start">
       <param name="delay" value="10000"/>
