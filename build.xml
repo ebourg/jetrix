@@ -59,15 +59,9 @@
     </javac>
   </target>
 
-  <target name="compile.jsp" depends="compile" description="Compile the JSP pages">
-    <mkdir dir="${build}/jsp/src"/>
-    <mkdir dir="${build}/jsp/java"/>
-    <copy todir="${build}/jsp/src">
-      <fileset dir="${src}/admin">
-        <include name="**/*.jsp"/>
-      </fileset>
-    </copy>
-    <jspc destdir="${build}/jsp/java" verbose="1" srcdir="${build}/jsp/src">
+  <target name="compile.jsp" depends="compile" description="Compile the JSP pages">       
+    <mkdir dir="${build}/jsp"/>
+    <jspc destdir="${build}/jsp" verbose="10" srcdir="${src}/admin">
       <classpath>
         <path refid="classpath.main"/>
         <pathelement location="${ant.home}/lib/ant.jar"/>
