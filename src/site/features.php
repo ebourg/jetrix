@@ -40,7 +40,7 @@
   <li class="done"> multiple clients &amp; protocols supported</li>
   <li class="done"> TetriNET clients</li>
   <li class="done"> TetriFast clients</li>
-  <li class="partial"> Block synchronization protocol (1.14)</li>
+  <li class="done"> Block synchronization protocol (1.14)</li>
   <li class="done"> TSpec clients</li>
   <li class="done"> Query protocol</li>
   <li class="planned"> IRC clients</li>
@@ -94,6 +94,7 @@
   <li class="done"> French support</li>
   <li class="done"> German support</li>
   <li class="done"> Spanish support</li>
+  <li class="done"> Portuguese support</li>
   <li class="partial"> Italian support</li>
   <li class="partial"> Dutch support</li>
   <li class="planned"> Japaneese support</li>
@@ -118,7 +119,7 @@
 <h2>Misc</h2>
 
 <ul>
-  <li class="planned"> automatic advertisement to server directories (tfast.org, tetrinet.org)</li>
+  <li class="done"> automatic advertisement to server directories (tfast.org, tetrinet.org, tsrv.com)</li>
   <li class="partial"> automatic update</li>
 </ul>
 
