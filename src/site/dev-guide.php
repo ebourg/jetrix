@@ -135,14 +135,15 @@ Returns the version of the server. The response is terminated by the string "<tt
 <h2><a id="section3-1"></a>Commands</h2>
 
 Jetrix has been designed to allow the addition of new commands like <tt>/who</tt>
-or <tt>/list</tt> easily. This document will show you the steps to follow in 
-order tocreate a simple <tt>/hello</tt> command that will just display the 
+or <tt>/list</tt> easily. This section will show you the steps to follow in 
+order to create a simple <tt>/hello</tt> command that will just display the 
 message <tt>"Hello World!"</tt>.
 
 <h3>Write the command</h3>
 
-Every command is represented by a Java class implementing the net.jetrix.commands.Command interface.
-Let's create our class, HelloCommand :
+Every command is represented by a Java class implementing the 
+<a class="api" href="/api/net/jetrix/commands/Command.html">net.jetrix.commands.Command</a> 
+interface. Let's create our class, <tt>HelloCommand</tt> :
 
 <div class="code">
 <span class="blue">import</span> java.util.*;
@@ -321,10 +322,12 @@ In this mod the first player to complete 7 tetris win.</p>
 
 <h3>Write the filter</h3>
 
-<p>Filters extend the base class <tt>MessageFilter</tt>, this class defines a
-<tt>process(Message m, List out)</tt> method that must be overridden to implement
-the behaviour of the filter. A higher level filter <tt>GenericFilter</tt> with
-process methods for all message types is provided, we will use it for our filter.</p>
+<p>Filters extend the base class <a class="api" href="/api/net/jetrix/filter/MessageFilter.html">MessageFilter</a>, 
+this class defines a <tt>process(Message m, List out)</tt> method that must be 
+overridden to implement the behaviour of the filter. A higher level filter 
+<a class="api" href="/api/net/jetrix/filter/GenericFilter.html">GenericFilter</a> 
+with process methods for all message types is provided, we will use it for our 
+filter.</p>
 
 <p>Let's create our class :</p>
 

@@ -17,6 +17,8 @@ a img { border-width: 0 }
 
 code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; }
 
+.api { font-family: monospace; text-decoration: none }
+
 .blue  { color: blue; }
 .red   { color: red; }
 .gray  { color: gray; }
