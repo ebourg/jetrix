@@ -62,6 +62,9 @@
 
     <jar jarfile="${dist}/lib/jetrix.jar" basedir="${build}/classes" manifest="${src}/etc/MANIFEST.MF">
       <fileset dir="${build}/classes" excludes="**/*Test.class"/>
+      <fileset dir="${src}/etc">
+        <include name="tetrinet-server.dtd"/>
+      </fileset>
     </jar>
 
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
@@ -208,7 +211,7 @@
   <target name="doc">
     <mkdir dir="${doc}/api"/>
     <mkdir dir="${dist}/doc"/>
-    <javadoc packagenames="org.lfjr.jts,org.lfjr.jts.config,org.lfjr.jts.patcher,org.lfjr.jts.filter"
+    <javadoc packagenames="org.lfjr.jts,org.lfjr.jts.config,org.lfjr.jts.patcher,org.lfjr.jts.filter,org.lfjr.jts.commands"
              sourcepath="${src}/java"
              classpath="${src}/java"
              destdir="${doc}/api"
@@ -218,8 +221,7 @@
              windowtitle="Javadoc JetriX"
              doctitle="JetriX TetriNET Server"
              bottom="Copyright &#169; 2001-2002 Emmanuel Bourg. All Rights Reserved.">
-      <link href="http://java.sun.com/j2se/1.4/docs/api/"/>
-      <!--<link href="http://java.sun.com/j2ee/tutorial/api/"/>-->
+      <link href="http://java.sun.com/j2se/1.4.1/docs/api/"/>
     </javadoc>
     <zip zipfile="${dist}/doc/api.zip">
       <zipfileset dir="${doc}" includes="api/**"/>
