@@ -32,7 +32,7 @@ import org.lfjr.jts.config.*;
  */
 public class OperatorCommand implements Command
 {
-    private int accessLevel = 1;
+    private int accessLevel = 0;
     private Logger logger = Logger.getLogger("net.jetrix");
 
     public String[] getAliases()
