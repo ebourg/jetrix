@@ -34,7 +34,7 @@ import net.jetrix.config.*;
  */
 public class ConsoleClient implements Client
 {
-    private BufferedReader dis = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     private ServerConfig conf;
     private Protocol protocol;
     private User user;
@@ -62,9 +62,9 @@ public class ConsoleClient implements Client
         {
             try
             {
-                Message m = receiveMessage();
-                if (m == null) continue;
-                Server.getInstance().sendMessage(m);
+                Message message = receiveMessage();
+                if (message == null) continue;
+                Server.getInstance().sendMessage(message);
             }
             catch (Exception e)
             {
@@ -81,11 +81,11 @@ public class ConsoleClient implements Client
 
     public Message receiveMessage() throws IOException
     {
-        String cmd = dis.readLine();
-        Message m = protocol.getMessage(cmd);
-        if (m != null) m.setSource(this);
+        String cmd = in.readLine();
+        Message message = protocol.getMessage(cmd);
+        if (message != null) message.setSource(this);
         
-        return m;
+        return message;
     }
 
     public InetAddress getInetAddress()
