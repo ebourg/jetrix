@@ -25,6 +25,8 @@ import net.jetrix.config.*;
 
 import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Game mod : The first player completing 7 tetris win.
  *
@@ -110,17 +112,8 @@ public class TetrisFilter extends GenericFilter
                 }
                 else
                 {
-                    StringBuffer message = new StringBuffer();
-                    Iterator it = leaders.iterator();
-                    while (it.hasNext())
-                    {
-                        message.append(it.next());
-                        if (it.hasNext())
-                        {
-                            message.append(", ");
-                        }
-                    }
-                    announce.setKey("filter.tetris.tied", message.toString(), new Integer(max));
+                    String leadersList = StringUtils.join(leaders.iterator(), ", ");
+                    announce.setKey("filter.tetris.tied", leadersList, max);
                 }
 
                 out.add(announce);

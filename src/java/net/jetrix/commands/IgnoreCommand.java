@@ -23,6 +23,7 @@ import java.util.*;
 
 import net.jetrix.*;
 import net.jetrix.messages.*;
+import org.apache.commons.lang.*;
 
 /**
  * Manage the ignore list.
@@ -72,19 +73,7 @@ public class IgnoreCommand implements Command
             }
             else
             {
-                StringBuffer buffer = new StringBuffer();
-
-                Iterator it = ignoredUsers.iterator();
-                while (it.hasNext())
-                {
-                    buffer.append(it.next());
-                    if (it.hasNext())
-                    {
-                        buffer.append(", ");
-                    }
-                }
-
-                response.setKey("command.ignore.list", buffer);
+                response.setKey("command.ignore.list", StringUtils.join(ignoredUsers.iterator(), ", "));
             }
         }
         else
