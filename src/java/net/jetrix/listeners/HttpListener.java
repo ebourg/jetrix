@@ -60,7 +60,7 @@ public class HttpListener implements Listener
         try
         {
             jetty.addListener(new InetAddrPort(getPort()));
-            jetty.addWebApplication("/", "./lib/jetrix-admin.war");
+            jetty.addWebApplication("/", "./lib/jetrix-admin-@version@.war");
         }
         catch (IOException e)
         {
