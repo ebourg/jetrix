@@ -34,8 +34,8 @@ public class ChannelConfig
     private String password;
     private String description;
     private String topic;
-    private int maxPlayers = 6;
-    private int maxSpectators = 50;
+    private int maxPlayers = PLAYER_CAPACITY;
+    private int maxSpectators = SPECTATOR_CAPACITY;
     private int accessLevel;
     private boolean persistent;
     private String winlistId;
@@ -46,6 +46,12 @@ public class ChannelConfig
 
     /** channel filter definitions */
     private List<FilterConfig> filters;
+
+    /** Default spectator capacity */
+    public static final int SPECTATOR_CAPACITY = 50;
+
+    /** Default player capacity */
+    public static final int PLAYER_CAPACITY = 6;
 
     public ChannelConfig()
     {
