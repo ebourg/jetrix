@@ -130,6 +130,16 @@ public abstract class ClientListener implements Listener
                     continue;
                 }
 
+                // validate the name
+                String name = user.getName();
+                if (!(client instanceof QueryClient) && (name == null || "server".equals(name.toLowerCase()) || name.indexOf("\u00a0") != -1))
+                {
+                    Message m = new NoConnectingMessage("Invalid name!");
+                    client.sendMessage(m);
+                    socket.close();
+                    continue;
+                }
+
                 logger.fine("Client accepted (" + address + ")");
                 socket.setSoTimeout(serverConfig.getTimeout() * 1000);
 
