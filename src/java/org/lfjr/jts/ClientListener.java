@@ -88,7 +88,7 @@ public class ClientListener extends Thread
 		// testing name unicity
 		// ....
 		
-		// testing concurrent connexions
+		// testing concurrent connexions from the same host
 		// ....
 		
 		// testing ban list

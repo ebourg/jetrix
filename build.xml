@@ -105,8 +105,7 @@
     <!-- Uploading to patch server -->
     <ftp server="${ftp.host}" remotedir="/site/tetrinet/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes">
       <fileset dir="${deploy}/jetrix"/>
-    </ftp>    
-    
+    </ftp>
   </target>  
 
 

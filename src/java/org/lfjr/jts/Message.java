@@ -30,7 +30,7 @@ public class Message
 {
     public static final int TYPE_SERVER  = 0; // disconnected, / commands, noconnecting
     public static final int TYPE_CHANNEL = 1; // pline, plineact, playerjoin, team, playerleave, startgame
-    public static final int TYPE_INGAME  = 2; // sb, lvl, playerlost, pause, newgame, endgame, gmsg
+    public static final int TYPE_INGAME  = 2; // f, sb, lvl, playerlost, pause, newgame, endgame, gmsg
 
     public static final int MSG_UNKNOWN      = -1;       
     public static final int MSG_PLINE        = 0;
@@ -45,13 +45,14 @@ public class Message
     public static final int MSG_GMSG         = 9;
     public static final int MSG_SB           = 10;
     public static final int MSG_LVL          = 11;
-    public static final int MSG_PLAYERLOST   = 12;
-    public static final int MSG_DISCONNECTED = 13;
-    public static final int MSG_NOCONNECTING = 14;
-    public static final int MSG_ADDPLAYER    = 15;
-    public static final int MSG_RESTART      = 16;
-    public static final int MSG_SHUTDOWN     = 17;  
-    public static final int MSG_SLASHCMD     = 18;
+    public static final int MSG_FIELD        = 12;
+    public static final int MSG_PLAYERLOST   = 13;
+    public static final int MSG_DISCONNECTED = 14;
+    public static final int MSG_NOCONNECTING = 15;
+    public static final int MSG_ADDPLAYER    = 16;
+    public static final int MSG_RESTART      = 17;
+    public static final int MSG_SHUTDOWN     = 18;  
+    public static final int MSG_SLASHCMD     = 19;
                                    		
     private Object params[];
     private int type;
@@ -64,9 +65,9 @@ public class Message
     	type = MSG_UNKNOWN;
     }   
     
-    public Message(int type)
+    public Message(int code)
     {
-        this.type = type;    	
+        this.code = code;    	
     }
     
     public int getType()

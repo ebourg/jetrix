@@ -33,19 +33,20 @@ import org.lfjr.jts.config.*;
 public class Channel extends Thread
 {
     private ChannelConfig cconf;
+    private ServerConfig conf;
 
     private MessageQueue mq;
 
     private boolean running = true;
     private boolean persistent = false;
 
-    private static final int GAME_STATE_PAUSED = 0;
-    private static final int GAME_STATE_STARTED = 1;
-    private static final int GAME_STATE_STOPPED = 2;
+    private static final int GAME_STATE_STOPPED = 0;
+    private static final int GAME_STATE_STARTED = 1;    
+    private static final int GAME_STATE_PAUSED = 2;
 
-    private int             gameState = GAME_STATE_STOPPED;
+    private int gameState;
 
-    Vector          listeJoueurs = new Vector(6);
+    Vector listeJoueurs = new Vector(6);
 
     public Channel()
     {
@@ -55,20 +56,21 @@ public class Channel extends Thread
     public Channel(ChannelConfig cconf)
     {
     	this.cconf = cconf;
+    	
+    	// opening channel message queue
         mq = new MessageQueue();
 
-        for (int i = 0; i<6; i++)
+        for (int i = 0; i<cconf.getMaxPlayers(); i++)
         {
             listeJoueurs.addElement(null);
         }
-
-        //start();
     }
 
     public void run()
     {
+    	System.out.println("Channel "+cconf.getName()+" opened");
 
-        while (running)
+        while (running && conf.isRunning())
         {
             /*
 
@@ -387,8 +389,8 @@ public class Channel extends Thread
             */
 
         }
-
-        System.out.println("closing channel : " + this);
+	
+	System.out.println("Channel "+cconf.getName()+" closed");
     }
 
 
