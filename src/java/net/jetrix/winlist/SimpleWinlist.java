@@ -200,6 +200,17 @@ public class SimpleWinlist implements Winlist
         }
     }
 
+    public void clear()
+    {
+        scores.clear();
+        save();
+    }
+
+    public int size()
+    {
+        return scores.size();
+    }
+
     /**
      * Load the winlist from a file.
      */

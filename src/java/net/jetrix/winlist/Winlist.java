@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2003-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +25,8 @@ import net.jetrix.config.*;
 
 /**
  * A winlist ranking players and teams.
+ *
+ * @since 0.1.2
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -68,5 +70,19 @@ public interface Winlist
      * Update the winlist with the specified game result.
      */
     void saveGameResult(GameResult result);
+
+    /**
+     * Remove all entries in the winlist
+     *
+     * @since 0.1.4
+     */
+    void clear();
+
+    /**
+     * Return the number of entries in the winlist
+     *
+     * @since 0.1.4
+     */
+    int size();
 
 }

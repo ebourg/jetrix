@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -165,6 +165,42 @@ public class SimpleWinlistTest extends TestCase {
         assertEquals("winlist size", winlist.scores.size(), winlist2.scores.size());
         assertTrue("score 1 missing", winlist2.scores.contains(score1));
         assertTrue("score 2 missing", winlist2.scores.contains(score2));
+    }
+
+    public void testClear()
+    {
+        SimpleWinlist winlist = getWinlist();
+        winlist.setId("test");
+        winlist.init(new WinlistConfig());
+
+        // add two scores to the list
+        Score score = new Score();
+        score.setName("LFJR");
+        score.setScore(4321);
+        score.setType(Score.TYPE_TEAM);
+
+        winlist.scores.add(score);
+
+        assertNotNull("score not found", winlist.getScore(score.getName(), score.getType()));
+
+        winlist.clear();
+
+        assertNull("score not cleared", winlist.getScore(score.getName(), score.getType()));
+    }
+
+    public void testSize()
+    {
+        SimpleWinlist winlist = getWinlist();
+
+        // add two scores to the list
+        Score score = new Score();
+        score.setName("LFJR");
+        score.setScore(4321);
+        score.setType(Score.TYPE_TEAM);
+
+        winlist.scores.add(score);
+
+        assertEquals("size of the winlist", 1, winlist.size());
     }
 
     protected SimpleWinlist getWinlist()

@@ -61,6 +61,7 @@ Developper visible changes
 - renamed the Destination.sendMessage() method to send()
 - Commands requiring a minimum number of parameters can now implement the ParameterCommand interface, the server will validate automatically the number of input parameters.
 - code ported to Java 5.0 !
+- added a clear() and a size() method to the Winlist interface
 
 
 Changes in version 0.1.3 (2004-01-20)
