@@ -74,7 +74,7 @@ public class BroadcastCommand implements Command
         {
             // not enough parameters
             PlineMessage response = new PlineMessage();
-            String message = Color.red + m.getCommand() + Color.blue + " <message>";
+            String message = "<red>" + m.getCommand() + "<blue> <message>";
             response.setText(message);
             client.sendMessage(response);
         }

@@ -75,25 +75,25 @@ public class WhoCommand implements Command
                 ChannelConfig conf = channel.getConfig();
 
                 boolean isInChannel = false;
-                String channelColor = Color.purple;
+                String channelColor = "<purple>";
                 StringBuffer message = new StringBuffer();
-                message.append("[" + conf.getName() + "] " + Color.darkBlue);
+                message.append("[" + conf.getName() + "] <darkBlue>");
 
                 for (int i = 1; i <= 6; i++)
                 {
                     Client clientInChannel = channel.getPlayer(i);
                     if (clientInChannel != null)
                     {
-                        if (clientInChannel.getPlayer().getAccessLevel() > 0) message.append(Color.bold);
-                        if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append(Color.italic);
+                        if (clientInChannel.getPlayer().getAccessLevel() > 0) message.append("<b>");
+                        if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("<i>");
                         message.append(" " + clientInChannel.getPlayer().getName());
-                        if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append(Color.italic);
-                        if (clientInChannel.getPlayer().getAccessLevel() > 0) message.append(Color.bold);
+                        if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("</i>");
+                        if (clientInChannel.getPlayer().getAccessLevel() > 0) message.append("</b>");
                     }
                     if (client == clientInChannel) isInChannel = true;
                 }
 
-                if (isInChannel) channelColor = Color.red;
+                if (isInChannel) channelColor = "<red>";
 
                 Message response2 = new PlineMessage(channelColor + message.toString());
                 client.sendMessage(response2);

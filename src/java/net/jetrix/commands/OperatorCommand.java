@@ -87,7 +87,7 @@ public class OperatorCommand implements Command
         {
             // not enough parameters
             PlineMessage response = new PlineMessage();
-            response.setText(Color.red + cmd + Color.blue + " <password>");
+            response.setText("<red>" + cmd + "<blue> <password>");
             client.sendMessage(response);
         }
     }

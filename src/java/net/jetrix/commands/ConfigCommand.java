@@ -81,7 +81,7 @@ public class ConfigCommand implements Command
         configLines[16] = "<darkBlue>" + Language.getText("command.config.rules.classic_rules", locale) + "	: " + "<blue>" + (s.getClassicRules()?Language.getText("common.yes", locale):Language.getText("common.no", locale));
         configLines[17] = "<darkBlue>" + Language.getText("command.config.rules.average_levels", locale) + "	: " + "<blue>" + (s.getAverageLevels()?Language.getText("common.yes", locale):Language.getText("common.no", locale));
         //configLines[18] = "";
-        //configLines[19] = "<darkBlue>" + "<b>" + "Filters" + "<b>" + "  (type " + Color.red + "/filter" + Color.red + " for details)";
+        //configLines[19] = "<darkBlue>" + "<b>" + "Filters" + "<b>" + "  (type <red>/filter</red> for details)";
         //configLines[20] = "<darkBlue>" + "start, flood, amplifier";
 
         for (int i = 0; i < configLines.length; i++)

@@ -99,7 +99,7 @@ public class KickCommand implements Command
         {
             // not enough parameters
             PlineMessage response = new PlineMessage();
-            response.setText(Color.red + cmd + Color.blue + " <playername|playernumber>");
+            response.setText("<red>" + cmd + "<blue> <playername|playernumber>");
             client.sendMessage(response);
         }
     }

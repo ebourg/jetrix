@@ -103,7 +103,7 @@ public class IpCommand implements Command
         else
         {
             // not enough parameters
-            String message = Color.red + cmd + Color.blue + " <player name|number>";
+            String message = "<red>" + cmd + "<blue> <player name|number>";
             PlineMessage response = new PlineMessage(message);
             client.sendMessage(response);
         }

@@ -82,7 +82,7 @@ public class LanguageCommand implements Command
         else
         {
             // not enough parameters
-            String message = Color.red + m.getCommand() + Color.blue + " <lancode>";
+            String message = "<red>" + m.getCommand() + "<blue> <lancode>";
             PlineMessage response = new PlineMessage(message);
             client.sendMessage(response);
         }

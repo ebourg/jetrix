@@ -59,7 +59,7 @@ public class MoveCommand implements Command
         Client client = (Client)m.getSource();
 
         PlineMessage response = new PlineMessage();
-        response.setText(Color.darkBlue + "/move is not implemented yet");
+        response.setText("<darkBlue>/move is not implemented yet");
         client.sendMessage(response);
     }
 }

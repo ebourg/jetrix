@@ -122,7 +122,7 @@ public class SummonCommand implements Command
         {
             // not enough parameters
             PlineMessage response = new PlineMessage();
-            String message = Color.red + cmd + Color.blue + " <player name>";
+            String message = "<red>" + cmd + "<blue> <player name>";
             response.setText(message);
             client.sendMessage(response);
         }

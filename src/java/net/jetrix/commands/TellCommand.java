@@ -103,7 +103,7 @@ public class TellCommand implements Command
         {
             // not enough parameters
             PlineMessage response = new PlineMessage();
-            String message = Color.red + cmd + Color.blue + " <playername|playernumber> <message>";
+            String message = "<red>" + cmd + "<blue><playername|playernumber> <message>";
             response.setText(message);
             client.sendMessage(response);
         }
