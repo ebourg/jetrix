@@ -17,44 +17,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package org.lfjr.jts;
+package org.lfjr.jts.filter;
+
+import java.util.*;
+import org.lfjr.jts.*;
 
 /**
- * Color codes.
- *
- *
+ * Interface for channel filters.
+ * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public interface ChatColors
+public interface MessageFilter
 {
-    char red         = '\u0014';
-    char black       = '\u0004';
-    
-    char green       = '\u000c'; // not sure 
-    char lightGreen  = '\u000e';
-    
-    char darkBlue    = '\u0011'; //
-    char blue        = '\u0005'; //
-    char cyan        = '\u0003';    
-    
-    char aqua        = '\u0017'; //
-    
-    char yellow      = '\u0019'; 
-    char kaki        = '\u0012'; //        
-    char brown       = '\u0010';
-     
-    char lightgray   = '\u000f'; // or \u0015
-    char gray	     = '\u0006'; // or \u000b
-    
-    char lightPurple = '\u0008'; //
-    char purple      = '\u0013'; //    
-        
-    char bold        = '\u0002'; //
-    char italic      = '\u0016'; //
+    public void process(Message m, List output);
 
-    char white = '\u0018'; //
+    public String getDisplayName();
 
-    char[] slots = { darkBlue, kaki, brown, aqua, green, purple  };
+    public String getShortDescription();
+
+    public String getVersion();
+
+    public String getAuthor();
 
 }
