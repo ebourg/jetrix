@@ -48,6 +48,7 @@ public class TetrinetClient implements Client
     protected Date connectionTime;
     protected long lastMessageTime;
     protected boolean disconnected;
+    private boolean running;
 
     protected Reader in;
     protected Writer out;
@@ -102,6 +103,8 @@ public class TetrinetClient implements Client
         {
             log.fine("Client started " + this);
         }
+
+        running = true;
 
         if (isAsynchronous())
         {
@@ -181,7 +184,7 @@ public class TetrinetClient implements Client
             }
         }
 
-        if (isAsynchronous())
+        if (isAsynchronous() && running)
         {
             // add to the queue
             queue.add(message);
