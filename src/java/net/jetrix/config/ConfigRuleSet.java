@@ -120,6 +120,9 @@ public class ConfigRuleSet extends RuleSetBase
         // listeners
         digester.addObjectCreate("*/listener", null, "class");
         digester.addSetNext("*/listener", "addListener", "net.jetrix.Listener");
+
+        // banlist
+        digester.addCallMethod("tetrinet-server/ban/host", "addBannedHost", 0);
     }
 
 }

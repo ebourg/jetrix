@@ -132,7 +132,7 @@
         <td><%= filterConfig.getName() %></td>
         <td><%= filterConfig.getClassname() %></td>
         <td></td>
-        <td><input type="button" value="Remove"></td>
+        <td><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
       </tr>
 <%  } %>
     </table>
@@ -171,7 +171,7 @@
         <td><%= usage %></td>
         <td><%= command.getDescription(conf.getLocale()) %></td>
         <td><%= command.getAccessLevel() %></td>
-        <td><input type="button" value="remove"></td>
+        <td><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
       </tr>
 <%  } %>
     </table>
@@ -182,7 +182,34 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Ban List</h2>
 
-    user/team/host, add, remove
+<%  Iterator banlist = Banlist.getInstance().getBanlist(); %>
+
+    <table class="thin" style="width: 400px">
+      <tr>
+        <th>Pattern</th>
+        <th>Type</th>
+        <th></th>
+      </tr>
+<%  while (banlist.hasNext()) { %>
+      <tr>
+        <td><%= banlist.next() %></td>
+        <td width="50" align="center">Host</td>
+        <td width="50"><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
+      </tr>
+<%  } %>
+      <tr>
+        <td><input type="text" name="pattern" style="thin"></td>
+        <td width="50" align="center">
+          <select name="type">
+            <option value="0">Host</option>
+            <option value="1">Nickname</option>
+            <option value="2">Team</option>
+          </select>
+        </td>
+        <td width="50"><input type="button" value="Add"></td>
+      </tr>
+    </table>
+
 
   </div>
   <div class="tab-page" style="height: 400px">

@@ -288,4 +288,9 @@ public class ServerConfig
         return listeners.iterator();
     }
 
+    public void addBannedHost(String host)
+    {
+        Banlist.getInstance().ban(host);
+    }
+
 }
