@@ -129,13 +129,13 @@ public class GameResult
         }
         else
         {
-            // sort by date
+            // sort by date (reverse order)
             Collections.sort(gamePlayers, new Comparator() {
                 public int compare(Object o1, Object o2)
                 {
                     GamePlayer player1 = (GamePlayer) o1;
                     GamePlayer player2 = (GamePlayer) o2;
-                    return player1.getEndTime().compareTo(player2.getEndTime());
+                    return player2.getEndTime().compareTo(player1.getEndTime());
                 }
             });
 
