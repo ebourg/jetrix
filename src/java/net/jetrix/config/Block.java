@@ -26,6 +26,8 @@ import java.util.Locale;
 /**
  * Block enumeration.
  *
+ * @since 0.1.4
+ * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
