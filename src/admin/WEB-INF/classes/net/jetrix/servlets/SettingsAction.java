@@ -19,17 +19,14 @@
 
 package net.jetrix.servlets;
 
-import static net.jetrix.config.Block.*;
-import static net.jetrix.config.Special.*;
-
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-
 import net.jetrix.*;
 import net.jetrix.config.*;
 
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.lang.reflect.*;
+import java.util.*;
 
 /**
  * Action Servlet handling the server and channels settings changes.
@@ -43,63 +40,156 @@ public class SettingsAction extends HttpServlet
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         Collection errors = new ArrayList();
-        Settings settings = new Settings();
 
-        // validation
-        settings.setOccurancy(ADDLINE, Integer.parseInt(request.getParameter("addLine")));
-        settings.setOccurancy(CLEARLINE, Integer.parseInt(request.getParameter("clearLine")));
-        settings.setOccurancy(NUKEFIELD, Integer.parseInt(request.getParameter("nukeField")));
-        settings.setOccurancy(RANDOMCLEAR, Integer.parseInt(request.getParameter("randomClear")));
-        settings.setOccurancy(SWITCHFIELD, Integer.parseInt(request.getParameter("switchField")));
-        settings.setOccurancy(CLEARSPECIAL, Integer.parseInt(request.getParameter("clearSpecial")));
-        settings.setOccurancy(GRAVITY, Integer.parseInt(request.getParameter("gravity")));
-        settings.setOccurancy(QUAKEFIELD, Integer.parseInt(request.getParameter("quakeField")));
-        settings.setOccurancy(BLOCKBOMB, Integer.parseInt(request.getParameter("blockBomb")));
+        // todo: validation
 
-        settings.setOccurancy(LINE, Integer.parseInt(request.getParameter("line")));
-        settings.setOccurancy(SQUARE, Integer.parseInt(request.getParameter("square")));
-        settings.setOccurancy(LEFTL,  Integer.parseInt(request.getParameter("leftL")));
-        settings.setOccurancy(RIGHTL, Integer.parseInt(request.getParameter("rightL")));
-        settings.setOccurancy(LEFTZ, Integer.parseInt(request.getParameter("leftZ")));
-        settings.setOccurancy(RIGHTZ, Integer.parseInt(request.getParameter("rightZ")));
-        settings.setOccurancy(HALFCROSS, Integer.parseInt(request.getParameter("halfcross")));
-
-        settings.setStartingLevel(Integer.parseInt(request.getParameter("startingLevel")));
-        settings.setStartingLevel(Integer.parseInt(request.getParameter("stackHeight")));
-        settings.setLinesPerLevel(Integer.parseInt(request.getParameter("linesPerLevel")));
-        settings.setLinesPerSpecial(Integer.parseInt(request.getParameter("linesPerSpecial")));
-        settings.setLevelIncrease(Integer.parseInt(request.getParameter("levelIncrease")));
-        settings.setSpecialAdded(Integer.parseInt(request.getParameter("specialAdded")));
-        settings.setSpecialCapacity(Integer.parseInt(request.getParameter("specialCapacity")));
-        settings.setAverageLevels(Boolean.valueOf(request.getParameter("averageLevels")).booleanValue());
-        settings.setClassicRules(Boolean.valueOf(request.getParameter("classicRules")).booleanValue());
-        settings.setSameBlocks(Boolean.valueOf(request.getParameter("sameBlocks")).booleanValue());
-
-        settings.setSuddenDeathTime(Integer.parseInt(request.getParameter("suddenDeathTime")));
-        settings.setSuddenDeathMessage(request.getParameter("suddenDeathMessage"));
-        settings.setSuddenDeathDelay(Integer.parseInt(request.getParameter("suddenDeathDelay")));
-        settings.setSuddenDeathLinesAdded(Integer.parseInt(request.getParameter("suddenDeathLinesAdded")));
+        // get the settings to update
+        String channelName = request.getParameter("channel");
+        Settings settings = null;
 
         if (errors.isEmpty())
         {
-            settings.normalizeBlockOccurancy();
-            settings.normalizeSpecialOccurancy();
-
-            // update the settings
-            String channelName = request.getParameter("channel");
             if (channelName != null)
             {
                 // channel settings
                 Channel channel = ChannelManager.getInstance().getChannel(channelName);
-                channel.getConfig().setSettings(settings);
-                response.sendRedirect("/channel.jsp?name=" + channelName);
+                settings = channel.getConfig().getSettings();
             }
             else
             {
                 // server settings
-                Settings.setDefaultSettings(settings);
-                response.sendRedirect("/server.jsp");
+                settings = Settings.getDefaultSettings();
             }
         }
+
+        // update the special occurancies
+        boolean resetSpecials = true;
+        for (Special special : Special.values())
+        {
+            String value = request.getParameter(special.getCode());
+            resetSpecials = resetSpecials && (value == null || "".equals(value.trim()));
+
+            if (value != null && !"".equals(value.trim()) && !value.equals(String.valueOf(settings.getOccurancy(special))))
+            {
+                settings.setOccurancy(special, Integer.parseInt(value));
+            }
+        }
+
+        settings.setDefaultSpecialOccurancy(resetSpecials);
+
+        // update the block occurancies
+        boolean resetBlocks = true;
+        for (Block block : Block.values())
+        {
+            String value = request.getParameter(block.getCode());
+            resetBlocks = resetBlocks && (value == null || "".equals(value.trim()));
+
+            if (value != null && !"".equals(value.trim()) && !value.equals(String.valueOf(settings.getOccurancy(block))))
+            {
+                settings.setOccurancy(block, Integer.parseInt(request.getParameter(block.getCode())));
+            }
+        }
+
+        settings.setDefaultSpecialOccurancy(resetSpecials);
+
+        // normalize the occurancies
+        settings.normalizeBlockOccurancy();
+        settings.normalizeSpecialOccurancy();
+
+        // update the game settings
+        updateSettingsField(settings, "startingLevel", request);
+        updateSettingsField(settings, "stackHeight", request);
+        updateSettingsField(settings, "linesPerLevel", request);
+        updateSettingsField(settings, "linesPerSpecial", request);
+        updateSettingsField(settings, "levelIncrease", request);
+        updateSettingsField(settings, "specialAdded", request);
+        updateSettingsField(settings, "specialCapacity", request);
+        updateSettingsField(settings, "averageLevels", request);
+        updateSettingsField(settings, "classicRules", request);
+        updateSettingsField(settings, "sameBlocks", request);
+
+        // update the sudden death settings
+        updateSettingsField(settings, "suddenDeathTime", request);
+        updateSettingsField(settings, "suddenDeathMessage", request);
+        updateSettingsField(settings, "suddenDeathDelay", request);
+        updateSettingsField(settings, "suddenDeathLinesAdded", request);
+
+
+        // redirection
+        if (settings != Settings.getDefaultSettings())
+        {
+            // channel settings
+            response.sendRedirect("/channel.jsp?name=" + channelName);
+        }
+        else
+        {
+            // server settings
+            response.sendRedirect("/server.jsp");
+        }
+
     }
+
+    /**
+     * Update the settings field with the value in the request. The field is
+     * set only if the value in the request is different from the current value.
+     * If the value is empty the field is reset to the default value.
+     *
+     * @param settings the Settings object to update
+     * @param field    the name of the field to update
+     * @param request  the request containing the field value
+     */
+    private void updateSettingsField(Settings settings, String field, HttpServletRequest request)
+    {
+        String value = request.getParameter(field);
+
+        field = field.substring(0, 1).toUpperCase() + field.substring(1);
+
+        try
+        {
+            if (value == null || "".equals(value.trim()))
+            {
+                // reset the field to the default value
+                Method method = Settings.class.getMethod("setDefault" + field, Boolean.TYPE);
+                method.invoke(settings, Boolean.TRUE);
+            }
+            else
+            {
+                // update the field if necessary
+                Method getter = Settings.class.getMethod("get" + field);
+                Object oldValue = getter.invoke(settings);
+
+                // find the type of the field
+                Class type = null;
+
+                Object newValue = null;
+                if (oldValue instanceof String)
+                {
+                    newValue = value.trim();
+                    type = String.class;
+                }
+                else if (oldValue instanceof Integer)
+                {
+                    newValue = Integer.parseInt(value.trim());
+                    type = Integer.TYPE;
+                }
+                else if (oldValue instanceof Boolean)
+                {
+                    newValue = Boolean.valueOf(value);
+                    type = Boolean.TYPE;
+                }
+
+                if (!oldValue.equals(newValue))
+                {
+                    // set the new value
+                    Method setter = Settings.class.getMethod("set" + field, type);
+                    setter.invoke(settings, newValue);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

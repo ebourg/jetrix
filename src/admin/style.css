@@ -30,3 +30,6 @@ table.thin { background-color: #c0c0c0; border-spacing: 1px }
 table.thin tbody { background-color: white }
 
 div.hr { width: 100%; border-top: 1px solid gray }
+
+.default { color: gray; }
+.default:focus { color: black; }

@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -123,76 +123,80 @@ public class Settings
         }
     }
 
+    /**
+     * Returns the default Settings object.
+     */
+    public static Settings getDefaultSettings()
+    {
+        return defaultSettings;
+    }
+
+    /**
+     * Sets the default Settings object.
+     */
+    public static void setDefaultSettings(Settings defaultSettings)
+    {
+        Settings.defaultSettings = defaultSettings;
+    }
+
     public int getStartingLevel()
     {
-        boolean useDefaultSettings = defaultStartingLevel && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getStartingLevel() : startingLevel;
+        return isDefaultStartingLevel() ? defaultSettings.getStartingLevel() : startingLevel;
     }
 
     public int getStackHeight()
     {
-        boolean useDefaultSettings = defaultStackHeight && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getStackHeight() : stackHeight;
+        return isDefaultStackHeight() ? defaultSettings.getStackHeight() : stackHeight;
     }
 
     public int getLinesPerLevel()
     {
-        boolean useDefaultSettings = defaultLinesPerLevel && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getLinesPerLevel() : linesPerLevel;
+        return isDefaultLinesPerLevel() ? defaultSettings.getLinesPerLevel() : linesPerLevel;
     }
 
     public int getLinesPerSpecial()
     {
-        boolean useDefaultSettings = defaultLinesPerSpecial && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getLinesPerSpecial() : linesPerSpecial;
+        return isDefaultLinesPerSpecial() ? defaultSettings.getLinesPerSpecial() : linesPerSpecial;
     }
 
     public int getLevelIncrease()
     {
-        boolean useDefaultSettings = defaultLevelIncrease && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getLevelIncrease() : levelIncrease;
+        return isDefaultLevelIncrease() ? defaultSettings.getLevelIncrease() : levelIncrease;
     }
 
     public int getSpecialAdded()
     {
-        boolean useDefaultSettings = defaultSpecialAdded && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getSpecialAdded() : specialAdded;
+        return isDefaultSpecialAdded() ? defaultSettings.getSpecialAdded() : specialAdded;
     }
 
     public int getSpecialCapacity()
     {
-        boolean useDefaultSettings = defaultSpecialCapacity && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getSpecialCapacity() : specialCapacity;
+        return isDefaultSpecialCapacity() ? defaultSettings.getSpecialCapacity() : specialCapacity;
     }
 
     public boolean getAverageLevels()
     {
-        boolean useDefaultSettings = defaultAverageLevels && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getAverageLevels() : averageLevels;
+        return isDefaultAverageLevels() ? defaultSettings.getAverageLevels() : averageLevels;
     }
 
     public boolean getClassicRules()
     {
-        boolean useDefaultSettings = defaultClassicRules && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getClassicRules() : classicRules;
+        return isDefaultClassicRules() ? defaultSettings.getClassicRules() : classicRules;
     }
 
     public boolean getSameBlocks()
     {
-        boolean useDefaultSettings = defaultSameBlocks && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getSameBlocks() : sameBlocks;
+        return isDefaultSameBlocks() ? defaultSettings.getSameBlocks() : sameBlocks;
     }
 
     public int getOccurancy(Block piece)
     {
-        boolean useDefaultSettings = defaultBlockOccurancy && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getOccurancy(piece) : blockOccurancy[piece.getValue()];
+        return isDefaultBlockOccurancy() ? defaultSettings.getOccurancy(piece) : blockOccurancy[piece.getValue()];
     }
 
     public int getOccurancy(Special special)
     {
-        boolean useDefaultSettings = defaultSpecialOccurancy && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getOccurancy(special) : specialOccurancy[special.getValue()];
+        return isDefaultSpecialOccurancy() ? defaultSettings.getOccurancy(special) : specialOccurancy[special.getValue()];
     }
 
     public void setStartingLevel(int startingLevel)
@@ -254,6 +258,52 @@ public class Settings
         this.sameBlocks = sameBlocks;
         defaultSameBlocks = false;
     }
+
+
+    public int getSuddenDeathTime()
+    {
+        return isDefaultSuddenDeathTime() ? defaultSettings.getSuddenDeathTime() : suddenDeathTime;
+    }
+
+    public void setSuddenDeathTime(int suddenDeathTime)
+    {
+        this.suddenDeathTime = suddenDeathTime;
+        defaultSuddenDeathTime = false;
+    }
+
+    public String getSuddenDeathMessage()
+    {
+        return isDefaultSuddenDeathMessage() ? defaultSettings.getSuddenDeathMessage() : suddenDeathMessage;
+    }
+
+    public void setSuddenDeathMessage(String suddenDeathMessage)
+    {
+        this.suddenDeathMessage = suddenDeathMessage;
+        defaultSuddenDeathMessage = false;
+    }
+
+    public int getSuddenDeathLinesAdded()
+    {
+        return isDefaultSuddenDeathLinesAdded() ? defaultSettings.getSuddenDeathLinesAdded() : suddenDeathLinesAdded;
+    }
+
+    public void setSuddenDeathLinesAdded(int suddenDeathLinesAdded)
+    {
+        this.suddenDeathLinesAdded = suddenDeathLinesAdded;
+        defaultSuddenDeathLinesAdded = false;
+    }
+
+    public int getSuddenDeathDelay()
+    {
+        return isDefaultSuddenDeathDelay() ? defaultSettings.getSuddenDeathDelay() : suddenDeathDelay;
+    }
+
+    public void setSuddenDeathDelay(int suddenDeathDelay)
+    {
+        this.suddenDeathDelay = suddenDeathDelay;
+        defaultSuddenDeathDelay = false;
+    }
+
 
     /**
      * Set the occurancy of a block.
@@ -359,23 +409,6 @@ public class Settings
         normalize(specialOccurancy);
     }
 
-    /**
-     * Returns the default Settings object.
-     */
-    public static Settings getDefaultSettings()
-    {
-        return defaultSettings;
-    }
-
-    /**
-     * Sets the default Settings object.
-     */
-    public static void setDefaultSettings(Settings defaultSettings)
-    {
-        Settings.defaultSettings = defaultSettings;
-    }
-
-
     public void setLineOccurancy(int occurancy) { setOccurancy(LINE, occurancy); }
     public void setSquareOccurancy(int occurancy) { setOccurancy(SQUARE, occurancy); }
     public void setLeftLOccurancy(int occurancy) { setOccurancy(LEFTL, occurancy); }
@@ -383,6 +416,14 @@ public class Settings
     public void setLeftZOccurancy(int occurancy) { setOccurancy(LEFTZ, occurancy); }
     public void setRightZOccurancy(int occurancy) { setOccurancy(RIGHTZ, occurancy); }
     public void setHalfCrossOccurancy(int occurancy) { setOccurancy(HALFCROSS, occurancy); }
+
+    public int getLineOccurancy() { return getOccurancy(LINE); }
+    public int getSquareOccurancy() { return getOccurancy(SQUARE); }
+    public int getLeftLOccurancy() { return getOccurancy(LEFTL); }
+    public int getRightLOccurancy() { return getOccurancy(RIGHTL); }
+    public int getLeftZOccurancy() { return getOccurancy(LEFTZ); }
+    public int getRightZOccurancy() { return getOccurancy(RIGHTZ); }
+    public int getHalfCrossOccurancy() { return getOccurancy(HALFCROSS); }
 
     public void setAddLineOccurancy(int occurancy) { setOccurancy(ADDLINE, occurancy); }
     public void setClearLineOccurancy(int occurancy) { setOccurancy(CLEARLINE, occurancy); }
@@ -394,52 +435,174 @@ public class Settings
     public void setQuakeFieldOccurancy(int occurancy) { setOccurancy(QUAKEFIELD, occurancy); }
     public void setBlockBombOccurancy(int occurancy) { setOccurancy(BLOCKBOMB, occurancy); }
 
-    public int getSuddenDeathTime()
+    public int getAddLineOccurancy() { return getOccurancy(ADDLINE); }
+    public int getClearLineOccurancy() { return getOccurancy(CLEARLINE); }
+    public int getNukeFieldOccurancy() { return getOccurancy(NUKEFIELD); }
+    public int getRandomClearOccurancy() { return getOccurancy(RANDOMCLEAR); }
+    public int getSwitchFieldOccurancy() { return getOccurancy(SWITCHFIELD); }
+    public int getClearSpecialOccurancy() { return getOccurancy(CLEARSPECIAL); }
+    public int getGravityOccurancy() { return getOccurancy(GRAVITY); }
+    public int getQuakeFieldOccurancy() { return getOccurancy(QUAKEFIELD); }
+    public int getBlockBombOccurancy() { return getOccurancy(BLOCKBOMB); }
+
+    public boolean isDefaultBlockOccurancy()
     {
-        boolean useDefaultSettings = defaultSuddenDeathTime && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getSuddenDeathTime() : suddenDeathTime;
+        return defaultBlockOccurancy && defaultSettings != null && this != defaultSettings;
     }
 
-    public void setSuddenDeathTime(int suddenDeathTime)
+    public void setDefaultBlockOccurancy(boolean defaultBlockOccurancy)
     {
-        this.suddenDeathTime = suddenDeathTime;
-        defaultSuddenDeathTime = false;
+        this.defaultBlockOccurancy = defaultBlockOccurancy;
     }
 
-    public String getSuddenDeathMessage()
+    public boolean isDefaultSpecialOccurancy()
     {
-        boolean useDefaultSettings = defaultSuddenDeathMessage && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getSuddenDeathMessage() : suddenDeathMessage;
+        return defaultSpecialOccurancy && defaultSettings != null && this != defaultSettings;
     }
 
-    public void setSuddenDeathMessage(String suddenDeathMessage)
+    public void setDefaultSpecialOccurancy(boolean defaultSpecialOccurancy)
     {
-        this.suddenDeathMessage = suddenDeathMessage;
-        defaultSuddenDeathMessage = false;
+        this.defaultSpecialOccurancy = defaultSpecialOccurancy;
     }
 
-    public int getSuddenDeathLinesAdded()
+    public boolean isDefaultStartingLevel()
     {
-        boolean useDefaultSettings = defaultSuddenDeathLinesAdded && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getSuddenDeathLinesAdded() : suddenDeathLinesAdded;
+        return defaultStartingLevel && defaultSettings != null && this != defaultSettings;
     }
 
-    public void setSuddenDeathLinesAdded(int suddenDeathLinesAdded)
+    public void setDefaultStartingLevel(boolean defaultStartingLevel)
     {
-        this.suddenDeathLinesAdded = suddenDeathLinesAdded;
-        defaultSuddenDeathLinesAdded = false;
+        this.defaultStartingLevel = defaultStartingLevel;
     }
 
-    public int getSuddenDeathDelay()
+    public boolean isDefaultStackHeight()
     {
-        boolean useDefaultSettings = defaultSuddenDeathDelay && defaultSettings != null && this != defaultSettings;
-        return useDefaultSettings ? defaultSettings.getSuddenDeathDelay() : suddenDeathDelay;
+        return defaultStackHeight && defaultSettings != null && this != defaultSettings;
     }
 
-    public void setSuddenDeathDelay(int suddenDeathDelay)
+    public void setDefaultStackHeight(boolean defaultStackHeight)
     {
-        this.suddenDeathDelay = suddenDeathDelay;
-        defaultSuddenDeathDelay = false;
+        this.defaultStackHeight = defaultStackHeight;
+    }
+
+    public boolean isDefaultLinesPerLevel()
+    {
+        return defaultLinesPerLevel && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultLinesPerLevel(boolean defaultLinesPerLevel)
+    {
+        this.defaultLinesPerLevel = defaultLinesPerLevel;
+    }
+
+    public boolean isDefaultLinesPerSpecial()
+    {
+        return defaultLinesPerSpecial && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultLinesPerSpecial(boolean defaultLinesPerSpecial)
+    {
+        this.defaultLinesPerSpecial = defaultLinesPerSpecial;
+    }
+
+    public boolean isDefaultLevelIncrease()
+    {
+        return defaultLevelIncrease && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultLevelIncrease(boolean defaultLevelIncrease)
+    {
+        this.defaultLevelIncrease = defaultLevelIncrease;
+    }
+
+    public boolean isDefaultSpecialAdded()
+    {
+        return defaultSpecialAdded && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultSpecialAdded(boolean defaultSpecialAdded)
+    {
+        this.defaultSpecialAdded = defaultSpecialAdded;
+    }
+
+    public boolean isDefaultSpecialCapacity()
+    {
+        return defaultSpecialCapacity && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultSpecialCapacity(boolean defaultSpecialCapacity)
+    {
+        this.defaultSpecialCapacity = defaultSpecialCapacity;
+    }
+
+    public boolean isDefaultAverageLevels()
+    {
+        return defaultAverageLevels && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultAverageLevels(boolean defaultAverageLevels)
+    {
+        this.defaultAverageLevels = defaultAverageLevels;
+    }
+
+    public boolean isDefaultClassicRules()
+    {
+        return defaultClassicRules && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultClassicRules(boolean defaultClassicRules)
+    {
+        this.defaultClassicRules = defaultClassicRules;
+    }
+
+    public boolean isDefaultSameBlocks()
+    {
+        return defaultSameBlocks && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultSameBlocks(boolean defaultSameBlocks)
+    {
+        this.defaultSameBlocks = defaultSameBlocks;
+    }
+
+    public boolean isDefaultSuddenDeathTime()
+    {
+        return defaultSuddenDeathTime && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultSuddenDeathTime(boolean defaultSuddenDeathTime)
+    {
+        this.defaultSuddenDeathTime = defaultSuddenDeathTime;
+    }
+
+    public boolean isDefaultSuddenDeathMessage()
+    {
+        return defaultSuddenDeathMessage && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultSuddenDeathMessage(boolean defaultSuddenDeathMessage)
+    {
+        this.defaultSuddenDeathMessage = defaultSuddenDeathMessage;
+    }
+
+    public boolean isDefaultSuddenDeathLinesAdded()
+    {
+        return defaultSuddenDeathLinesAdded && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultSuddenDeathLinesAdded(boolean defaultSuddenDeathLinesAdded)
+    {
+        this.defaultSuddenDeathLinesAdded = defaultSuddenDeathLinesAdded;
+    }
+
+    public boolean isDefaultSuddenDeathDelay()
+    {
+        return defaultSuddenDeathDelay && defaultSettings != null && this != defaultSettings;
+    }
+
+    public void setDefaultSuddenDeathDelay(boolean defaultSuddenDeathDelay)
+    {
+        this.defaultSuddenDeathDelay = defaultSuddenDeathDelay;
     }
 
 }

@@ -19,25 +19,56 @@
 
 package net.jetrix.config;
 
+import net.jetrix.Language;
+
+import java.util.Locale;
+
 /**
+ * Special blocks enumeration.
  *
- * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public enum Special
 {
-    ADDLINE(0), CLEARLINE(1), NUKEFIELD(2), RANDOMCLEAR(3), SWITCHFIELD(4), CLEARSPECIAL(5), GRAVITY(6), QUAKEFIELD(7), BLOCKBOMB(8);
+    ADDLINE(0, "a", "addline"),
+    CLEARLINE(1, "c", "clearline"),
+    NUKEFIELD(2, "n", "nuke"),
+    RANDOMCLEAR(3, "r", "random"),
+    SWITCHFIELD(4, "s", "switch"),
+    CLEARSPECIAL(5, "b", "clear_special"),
+    GRAVITY(6, "g", "gravity"),
+    QUAKEFIELD(7, "q", "quake"),
+    BLOCKBOMB(8, "o", "blockbomb");
 
     private int value;
+    private String letter;
+    private String code;
 
-    Special(int value)
+    Special(int value, String letter, String code)
     {
         this.value = value;
+        this.letter = letter;
+        this.code = code;
     }
 
     public int getValue()
     {
         return value;
+    }
+
+    public String getLetter()
+    {
+        return letter;
+    }
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public String getName(Locale locale)
+    {
+        return Language.getText("command.config.specials." + code, locale);
     }
 }

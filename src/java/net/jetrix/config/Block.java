@@ -19,25 +19,47 @@
 
 package net.jetrix.config;
 
+import net.jetrix.Language;
+
+import java.util.Locale;
+
 /**
- *
+ * Block enumeration.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public enum Block
 {
-    LINE(0), SQUARE(1), LEFTL(2), RIGHTL(3), LEFTZ(4), RIGHTZ(5), HALFCROSS(6);
+    LINE(0, "line"),
+    SQUARE(1, "square"),
+    LEFTL(2, "leftl"),
+    RIGHTL(3, "rightl"),
+    LEFTZ(4, "leftz"),
+    RIGHTZ(5, "rightz"),
+    HALFCROSS(6, "halfcross");
 
     private int value;
+    private String code;
 
-    Block(int value)
+    Block(int value, String code)
     {
         this.value = value;
+        this.code = code;
     }
 
     public int getValue()
     {
         return value;
+    }
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public String getName(Locale locale)
+    {
+        return Language.getText("command.config.blocks." + code, locale);
     }
 }

@@ -1,4 +1,5 @@
-<%@ page import="net.jetrix.config.*"%>
+<%@ page import="net.jetrix.config.*,
+                 java.util.Locale"%>
 
 <%
     Settings settings = (Settings) request.getAttribute("settings");
@@ -24,55 +25,17 @@
           <th width="70%" colspan="2">Special</th>
           <th width="30%">Occurancy</th>
         </tr>
+<%  for (Special special : Special.values()) { %>
         <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/a.png" alt="A"></td>
-          <td>Add Line</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.ADDLINE) %>" name="addLine" style="width: 30px" onchange="updateSpecials()"> %</td>
+          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/<%= special.getLetter() %>.png" alt="<%= special.getLetter().toUpperCase() %>"></td>
+          <td><%= special.getName(Locale.ENGLISH) %></td>
+          <td align="center"><input class="thin <%= settings.isDefaultSpecialOccurancy() ? "default" : "" %>" type="text" value="<%= settings.getOccurancy(special) %>" name="<%= special.getCode() %>" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
-        <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/c.png" alt="C"></td>
-          <td>Clear Line</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.CLEARLINE) %>" name="clearLine" style="width: 30px" onchange="updateSpecials()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/n.png" alt="N"></td>
-          <td>Nuke Field</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.NUKEFIELD) %>" name="nukeField" style="width: 30px" onchange="updateSpecials()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/r.png" alt="R"></td>
-          <td>Random Clear</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.RANDOMCLEAR) %>" name="randomClear" style="width: 30px" onchange="updateSpecials()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/s.png" alt="S"></td>
-          <td>Switch Field</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.SWITCHFIELD) %>" name="switchField" style="width: 30px" onchange="updateSpecials()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/b.png" alt="B"></td>
-          <td>Clear Specials</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.CLEARSPECIAL) %>" name="clearSpecial" style="width: 30px" onchange="updateSpecials()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/g.png" alt="G"></td>
-          <td>Gravity</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.GRAVITY) %>" name="gravity" style="width: 30px" onchange="updateSpecials()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/q.png" alt="Q"></td>
-          <td>Quake Field</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.QUAKEFIELD) %>" name="quakeField" style="width: 30px" onchange="updateSpecials()"> %</td>
-        </tr>        
-        <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/o.png" alt="O"></td>
-          <td>Block Bomb</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Special.BLOCKBOMB) %>" name="blockBomb" style="width: 30px" onchange="updateSpecials()"> %</td>
-        </tr>
+<%  } %>
         <tr>
           <td colspan="2" align="right"><b>Total :</b> </td>
           <td align="center"><span id="specials.total">100</span> %</td>
-        </tr>        
+        </tr>
       </table>
 
     </td>
@@ -86,34 +49,12 @@
           <th width="70%">Special</th>
           <th width="30%">Occurancy</th>
         </tr>
+<%  for (Block block : Block.values()) { %>
         <tr>
-          <td align="center" width="10%"><img src="/images/blocks/line.png" alt="Line"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.LINE) %>" name="line" style="width: 30px" onchange="updateBlocks()"> %</td>
+          <td align="center" width="10%"><img src="/images/blocks/<%= block.getCode() %>.png" alt="<%= block.getName(Locale.ENGLISH) %>"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultBlockOccurancy() ? "default" : "" %>" type="text" value="<%= settings.getOccurancy(block) %>" name="<%= block.getCode() %>" style="width: 30px" onchange="updateBlocks()"> %</td>
         </tr>
-        <tr>
-          <td align="center" width="10%"><img src="/images/blocks/square.png" alt="Square"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.SQUARE) %>" name="square" style="width: 30px" onchange="updateBlocks()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" width="10%"><img src="/images/blocks/leftl.png" alt="Left L"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.LEFTL) %>" name="leftL" style="width: 30px" onchange="updateBlocks()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" width="10%"><img src="/images/blocks/rightl.png" alt="Right L"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.RIGHTL) %>" name="rightL" style="width: 30px" onchange="updateBlocks()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" width="10%"><img src="/images/blocks/leftz.png" alt="Left Z"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.LEFTZ) %>" name="leftZ" style="width: 30px" onchange="updateBlocks()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" width="10%"><img src="/images/blocks/rightz.png" alt="Right Z"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.RIGHTZ) %>" name="rightZ" style="width: 30px" onchange="updateBlocks()"> %</td>
-        </tr>
-        <tr>
-          <td align="center" width="10%"><img src="/images/blocks/halfcross.png" alt="Half Cross"></td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getOccurancy(Block.HALFCROSS) %>" name="halfcross" style="width: 30px" onchange="updateBlocks()"> %</td>
-        </tr>
+<%  } %>
         <tr>
           <td align="right"><b>Total :</b> </td>
           <td align="center"><span id="blocks.total">100</span> %</td>
@@ -129,19 +70,19 @@
         </tr>
         <tr>
           <td>Time (seconds)</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSuddenDeathTime() %>" name="suddenDeathTime" style="width: 95%"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultSuddenDeathTime() ? "default" : "" %>" type="text" value="<%= settings.getSuddenDeathTime() %>" name="suddenDeathTime" style="width: 95%"></td>
         </tr>
         <tr>
           <td>Message</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSuddenDeathMessage() %>" name="suddenDeathMessage" style="width: 95%"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultSuddenDeathMessage() ? "default" : "" %>" type="text" value="<%= settings.getSuddenDeathMessage() %>" name="suddenDeathMessage" style="width: 95%"></td>
         </tr>
         <tr>
           <td>Delay (seconds)</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSuddenDeathDelay() %>" name="suddenDeathDelay" style="width: 95%"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultSuddenDeathDelay() ? "default" : "" %>" type="text" value="<%= settings.getSuddenDeathDelay() %>" name="suddenDeathDelay" style="width: 95%"></td>
         </tr>
         <tr>
           <td>Lines Added</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSuddenDeathLinesAdded() %>" name="suddenDeathLinesAdded" style="width: 95%"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultSuddenDeathLinesAdded() ? "default" : "" %>" type="text" value="<%= settings.getSuddenDeathLinesAdded() %>" name="suddenDeathLinesAdded" style="width: 95%"></td>
         </tr>
       </table>
 
@@ -158,31 +99,31 @@
         </tr>
         <tr>
           <td>Starting Level</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getStartingLevel() %>" name="startingLevel" style="width: 30px"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultStartingLevel() ? "default" : "" %>" type="text" value="<%= settings.getStartingLevel() %>" name="startingLevel" style="width: 30px"></td>
         </tr>
         <tr>
           <td>Stack Height</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getStackHeight() %>" name="stackHeight" style="width: 30px"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultStackHeight() ? "default" : "" %>" type="text" value="<%= settings.getStackHeight() %>" name="stackHeight" style="width: 30px"></td>
         </tr>
         <tr>
           <td>Lines per Level</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getLinesPerLevel() %>" name="linesPerLevel" style="width: 30px"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultLinesPerLevel() ? "default" : "" %>" type="text" value="<%= settings.getLinesPerLevel() %>" name="linesPerLevel" style="width: 30px"></td>
         </tr>
         <tr>
           <td>Lines per Special</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getLinesPerSpecial() %>" name="linesPerSpecial" style="width: 30px"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultLinesPerSpecial() ? "default" : "" %>" type="text" value="<%= settings.getLinesPerSpecial() %>" name="linesPerSpecial" style="width: 30px"></td>
         </tr>
         <tr>
           <td>Level Increase</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getLevelIncrease() %>" name="levelIncrease" style="width: 30px"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultLevelIncrease() ? "default" : "" %>" type="text" value="<%= settings.getLevelIncrease() %>" name="levelIncrease" style="width: 30px"></td>
         </tr>
         <tr>
           <td>Specials Added</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialAdded() %>" name="specialAdded" style="width: 30px"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultSpecialAdded() ? "default" : "" %>" type="text" value="<%= settings.getSpecialAdded() %>" name="specialAdded" style="width: 30px"></td>
         </tr>
         <tr>
           <td>Specials Capacity</td>
-          <td align="center"><input class="thin" type="text" value="<%= settings.getSpecialCapacity() %>" name="specialCapacity" style="width: 30px"></td>
+          <td align="center"><input class="thin <%= settings.isDefaultSpecialCapacity() ? "default" : "" %>" type="text" value="<%= settings.getSpecialCapacity() %>" name="specialCapacity" style="width: 30px"></td>
         </tr>
         <tr>
           <td>Average Levels</td>

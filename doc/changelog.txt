@@ -10,16 +10,20 @@ TODO
 - /mute <nick>
 - /ban & /unban
 - /lfd looking for duel
-- sudden death
 - run as a service on Windows (using Java Service Wrapper)
 - run as a service on Linux (init.d script)
 - change dynamically the access level and the aliases of a command
 - add and remove filters from the administration console
 - java web start demo
+- per channel commands
+- hidden commands
+- winlist management in the admin console
+
 
 Changes in version 0.1.4 (2004-??-??)
 -------------------------------------
 - new commands: /afk (away from keyboard), /ignore (ignore list)
+- Added the sudden death mode
 - portuguese translation contributed by Vítor Melo
 - the name of the server can now be configured from the administration console
 - implemented the services
@@ -38,6 +42,10 @@ Changes in version 0.1.4 (2004-??-??)
 - code ported to Java 5.0 !
 - the StartFilter can now trigger a countdown before starting the game by specifying a number of seconds in the filter's "countdown" parameter
 - the idle time is now displayed on the user page of the administration console
+- added basic server statistics on the administration console (uptime, game count and connection count)
+- implemented the "Shutdown" button on the "Server" page of the administration console
+- default values on the settings screen are now displayed in gray
+- erasing a value on the settings screen will now reset it to the default value
 
 Changes in version 0.1.3 (2004-01-20)
 -------------------------------------
