@@ -57,6 +57,7 @@
   <li class="done"> multiplayer "7Tetris" channel</li>
   <li class="planned"> puzzle channels</li>
   <li class="planned"> "all around" channel</li>
+  <li class="planned"> sudden death</li>
 </ul>
 
 <h2>Anti cheating</h2>
@@ -104,6 +105,7 @@
 
 <ul>
   <li class="planned"> player authentication</li>
+  <li class="planned"> pluggable authentication modules (support for LDAP, Unix, NT or custom authentication systems)</li>
   <li class="done"> limitation on simultaneous connections from the same host (default to 3)</li>
   <li class="planned"> connection frequency check</li>
   <li class="done"> host ban list</li>

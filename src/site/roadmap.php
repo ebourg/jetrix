@@ -20,6 +20,7 @@ to the version 1.0.
 <ul>
   <li>Dynamic channel creation</li>
   <li>Full web administration</li>
+  <li>Sudden death</li>
 </ul>
 
 <h2>JetriX 0.2</h2>

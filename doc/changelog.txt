@@ -11,6 +11,7 @@ TODO
 - /mute <nick>
 - /ban & /unban
 - /lfd looking for duel
+- sudden death
 
 Changes in version 0.1.4 (2004-??-??)
 -------------------------------------
