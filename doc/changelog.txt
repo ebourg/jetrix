@@ -12,13 +12,11 @@ TODO
 - /ban & /unban
 - /lfd looking for duel
 - sudden death
-- windows installer
-- system tray
 - run as a service on windows (using Java Service Wrapper)
 
 Changes in version 0.1.4 (2004-??-??)
 -------------------------------------
-- new commands: /afk
+- new commands: /afk (away from keyboard)
 - portuguese translation contributed by Vítor Melo
 - the name of the server can now be configured from the administration console
 - implemented the services
@@ -27,6 +25,9 @@ Changes in version 0.1.4 (2004-??-??)
 - the address of the server is now automatically published on tetrinet.org, tfast.org & tsrv.com server lists
 - renamed the Destination.sendMessage() method to send()
 - operators can now create new channels dynamically with the /join command
+- a system tray icon is now displayed on windows platforms
+- a native executable is now provided on windows to run the server without the DOS console
+- a windows installer is now available
 
 Changes in version 0.1.3 (2004-01-20)
 -------------------------------------

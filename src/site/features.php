@@ -125,7 +125,7 @@
   <li class="partial"> automatic update</li>
   <li class="planned">Run as a service on Windows</li>
   <li class="planned">Run as a daemon on Unix/Linux</li>
-  <li class="planned">Windows installer</li>
+  <li class="done">Windows installer</li>
 </ul>
 
 <? include("footer.inc.php") ?>
