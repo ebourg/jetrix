@@ -153,7 +153,7 @@ public class PublishingService extends ScheduledService
         conn.setRequestMethod("POST");
 
         // prepare the request body
-        StringBuffer params = new StringBuffer();
+        StringBuilder params = new StringBuilder();
         Iterator<String> keys = parameters.keySet().iterator();
         while (keys.hasNext())
         {

@@ -227,7 +227,7 @@ public class CommandManager
         usage = usage.trim();
         int i = usage.indexOf(" ");
 
-        StringBuffer colorized = new StringBuffer();
+        StringBuilder colorized = new StringBuilder();
         colorized.append("<red>");
 
         if (i > -1)

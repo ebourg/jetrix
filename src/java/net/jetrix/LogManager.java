@@ -90,7 +90,7 @@ class LogManager
 
         public synchronized String format(LogRecord record)
         {
-            StringBuffer message = new StringBuffer();
+            StringBuilder message = new StringBuilder();
 
             // display the timestamp
             date.setTime(record.getMillis());

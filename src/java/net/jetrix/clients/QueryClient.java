@@ -89,7 +89,7 @@ public class QueryClient extends TetrinetClient
             if ("listuser".equals(command.getCommand()))
             {
                 // "<nick>" "<team>" "<version>" <slot> <state> <auth> "<channelname>"
-                StringBuffer message = new StringBuffer();
+                StringBuilder message = new StringBuilder();
                 for (Client client : ClientRepository.getInstance().getClients())
                 {
                     User user = client.getUser();
@@ -116,7 +116,7 @@ public class QueryClient extends TetrinetClient
             else if ("listchan".equals(command.getCommand()))
             {
                 // "<name>" "<description>" <playernum> <playermax> <priority> <status>
-                StringBuffer message = new StringBuffer();
+                StringBuilder message = new StringBuilder();
                 for (Channel channel : ChannelManager.getInstance().channels())
                 {
                     ChannelConfig config = channel.getConfig();

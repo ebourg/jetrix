@@ -59,7 +59,7 @@ public class LogoFilter extends GenericFilter
     public void onMessage(PlayerLostMessage m, List<Message> out)
     {
         // send closing screen
-        StringBuffer screenLayout = new StringBuffer();
+        StringBuilder screenLayout = new StringBuilder();
         for (int i = 0; i < 12 * 22; i++)
         {
             screenLayout.append(((int) (Math.random() * 5 + 1)) * (1 - jetrixLogo[i]));

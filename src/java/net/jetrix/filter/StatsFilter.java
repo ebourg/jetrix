@@ -275,7 +275,7 @@ public class StatsFilter extends GenericFilter
                 // display the stats
                 String bpm = df.format(playerStats.getBlocksPerMinute());
 
-                StringBuffer text = new StringBuffer();
+                StringBuilder text = new StringBuilder();
                 text.append("<purple>" + user.getName() + "</purple> : ");
                 text.append(playerStats.blockCount + " <aqua>blocks @<red>" + bpm + "</red> bpm, ");
                 text.append("<black>" + playerStats.linesAdded + "</black> added, ");

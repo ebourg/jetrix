@@ -138,7 +138,7 @@ public class IRCMessage
 
     public String getPrefix()
     {
-        StringBuffer prefix = new StringBuffer();
+        StringBuilder prefix = new StringBuilder();
         prefix.append(nick);
 
         if (user != null)
@@ -244,7 +244,7 @@ public class IRCMessage
      */
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         // prefix
         if (nick != null)

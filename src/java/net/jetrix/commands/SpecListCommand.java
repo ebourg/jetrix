@@ -41,7 +41,7 @@ public class SpecListCommand extends AbstractCommand
     {
         Client client = (Client) m.getSource();
 
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         Iterator specators = client.getChannel().getSpectators();
         while (specators.hasNext())
         {

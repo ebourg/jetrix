@@ -312,7 +312,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(PlineMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("pline ");
         message.append(m.getSlot());
         message.append(" ");
@@ -322,7 +322,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(PlineActMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("plineact ");
         message.append(m.getSlot());
         message.append(" ");
@@ -332,7 +332,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(TeamMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("team ");
         message.append(m.getSlot());
         if (m.getName() != null)
@@ -354,7 +354,7 @@ public class TetrinetProtocol implements Protocol
         }
         else
         {
-            StringBuffer message = new StringBuffer();
+            StringBuilder message = new StringBuilder();
             message.append("playerjoin ");
             message.append(m.getSlot());
             message.append(" ");
@@ -374,7 +374,7 @@ public class TetrinetProtocol implements Protocol
         }
         else
         {
-            StringBuffer message = new StringBuffer();
+            StringBuilder message = new StringBuilder();
             message.append("playerleave ");
             message.append(m.getSlot());
             return message.toString();
@@ -383,7 +383,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(PlayerNumMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("playernum ");
         message.append(m.getSlot());
         return message.toString();
@@ -391,7 +391,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(StartGameMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("startgame 1 ");
         message.append(m.getSlot());
         return message.toString();
@@ -399,7 +399,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(StopGameMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("startgame 0 ");
         message.append(m.getSlot());
         return message.toString();
@@ -408,7 +408,7 @@ public class TetrinetProtocol implements Protocol
     public String translate(NewGameMessage m)
     {
         Settings s = m.getSettings();
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("newgame ");
         message.append(s.getStackHeight());
         message.append(" ");
@@ -489,7 +489,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(GmsgMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("gmsg ");
         message.append(m.getText(locale));
         return message.toString();
@@ -497,7 +497,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(LevelMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("lvl ");
         message.append(m.getSlot());
         message.append(" ");
@@ -507,7 +507,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(FieldMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("f ");
         message.append(m.getSlot());
         if (m.getField() != null)
@@ -520,7 +520,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(PlayerLostMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("playerlost ");
         message.append(m.getSlot());
         return message.toString();
@@ -528,7 +528,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(PlayerWonMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("playerwon ");
         message.append(m.getSlot());
         return message.toString();
@@ -536,7 +536,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(NoConnectingMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("noconnecting ");
         message.append(m.getText());
         return message.toString();
@@ -544,7 +544,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(OneLineAddedMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" cs1 ");
@@ -554,7 +554,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(TwoLinesAddedMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" cs2 ");
@@ -564,7 +564,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(FourLinesAddedMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" cs4 ");
@@ -574,7 +574,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(AddLineMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" a ");
@@ -584,7 +584,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(ClearLineMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" c ");
@@ -594,7 +594,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(NukeFieldMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" n ");
@@ -604,7 +604,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(RandomClearMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" r ");
@@ -614,7 +614,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(SwitchFieldsMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" s ");
@@ -624,7 +624,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(ClearSpecialsMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" b ");
@@ -634,7 +634,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(GravityMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" g ");
@@ -644,7 +644,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(BlockQuakeMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" q ");
@@ -654,7 +654,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(BlockBombMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
         message.append(" o ");
@@ -672,7 +672,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(SmsgMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         String name = ((Client) m.getSource()).getUser().getName();
 
         PlineMessage pline = new PlineMessage();
@@ -684,7 +684,7 @@ public class TetrinetProtocol implements Protocol
 
     public String translate(WinlistMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("winlist");
 
         for (Score score : m.getScores())
@@ -784,7 +784,7 @@ public class TetrinetProtocol implements Protocol
         }
 
         // decode the string
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
 
         for (int i = 1; i < dec.length; i++)
         {
@@ -842,7 +842,7 @@ public class TetrinetProtocol implements Protocol
         char[] data = ((tetrifast ? "tetrifaster " : "tetrisstart ") + nickname + " " + version).toCharArray();
 
         // build the encoded string
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         char offset = 0x80;
         result.append(toHex(offset));
 
@@ -877,7 +877,7 @@ public class TetrinetProtocol implements Protocol
      */
     public String readLine(Reader in) throws IOException
     {
-        StringBuffer input = new StringBuffer();
+        StringBuilder input = new StringBuilder();
 
         int readChar;
         while ((readChar = in.read()) != -1 && readChar != getEOL() && readChar != 0x0A && readChar != 0x0D)

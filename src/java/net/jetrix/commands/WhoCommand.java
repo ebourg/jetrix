@@ -55,7 +55,7 @@ public class WhoCommand extends AbstractCommand
 
                 boolean isInChannel = false;
                 String channelColor = "<purple>";
-                StringBuffer message = new StringBuffer();
+                StringBuilder message = new StringBuilder();
                 message.append("[" + conf.getName() + "] <darkBlue>");
 
                 for (int i = 1; i <= 6; i++)

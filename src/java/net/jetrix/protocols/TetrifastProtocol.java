@@ -36,7 +36,7 @@ public class TetrifastProtocol extends TetrinetProtocol
 
     public String translate(PlayerNumMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append(")#)(!@(*3 ");
         message.append(m.getSlot());
         return message.toString();
@@ -44,7 +44,7 @@ public class TetrifastProtocol extends TetrinetProtocol
 
     public String translate(NewGameMessage m)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("*******");
         message.append(super.translate(m).substring(7));
         return message.toString();

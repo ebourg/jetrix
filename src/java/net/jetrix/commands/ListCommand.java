@@ -65,7 +65,7 @@ public class ListCommand extends AbstractCommand
                 cname += " ";
             }
 
-            StringBuffer message = new StringBuffer();
+            StringBuilder message = new StringBuilder();
             message.append("<darkBlue>(" + (playerChannel.equals(conf.getName()) ? "<red>" + i + "</red>" : "<purple>" + i + "</purple>") + ") ");
             message.append("<purple>" + cname + "</purple>\t");
             if (channel.isFull())

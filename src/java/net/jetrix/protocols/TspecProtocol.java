@@ -95,7 +95,7 @@ public class TspecProtocol extends TetrinetProtocol
 
     public String translate(SpectatorListMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("speclist #");
         message.append(m.getChannel());
 
@@ -110,7 +110,7 @@ public class TspecProtocol extends TetrinetProtocol
 
     public String translate(SmsgMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         String name = ((Client) m.getSource()).getUser().getName();
 
         if (m.isPrivate())
@@ -132,7 +132,7 @@ public class TspecProtocol extends TetrinetProtocol
     {
         if (m.getSlot() == 0)
         {
-            StringBuffer message = new StringBuffer();
+            StringBuilder message = new StringBuilder();
             message.append("specjoin ");
             message.append(m.getName());
             return message.toString();
@@ -147,7 +147,7 @@ public class TspecProtocol extends TetrinetProtocol
     {
         if (m.getSlot() == 0)
         {
-            StringBuffer message = new StringBuffer();
+            StringBuilder message = new StringBuilder();
             message.append("specleave ");
             message.append(m.getName());
             return message.toString();

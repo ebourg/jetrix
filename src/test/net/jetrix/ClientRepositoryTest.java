@@ -93,7 +93,7 @@ public class ClientRepositoryTest extends TestCase
         addClients();
 
         // looking for players
-        StringBuffer playerList = new StringBuffer();
+        StringBuilder playerList = new StringBuilder();
         Iterator players = repository.getPlayers();
         while (players.hasNext())
         {
@@ -103,7 +103,7 @@ public class ClientRepositoryTest extends TestCase
         }
 
         // looking for spectators
-        StringBuffer spectatorList = new StringBuffer();
+        StringBuilder spectatorList = new StringBuilder();
         Iterator spectators = repository.getSpectators();
         while (spectators.hasNext())
         {

@@ -107,7 +107,7 @@ public class ConsoleProtocol implements Protocol
 
     public String translate(TextMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append(applyStyle(m.getText(locale)));
         return message.toString();
     }

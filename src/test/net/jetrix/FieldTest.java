@@ -39,7 +39,7 @@ public class FieldTest extends TestCase
 
     public void testFullUpdate()
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("000000000000");
         buffer.append("000000000000");
         buffer.append("000000000000");
@@ -118,7 +118,7 @@ public class FieldTest extends TestCase
 
     public void testGetFieldString()
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("100000000001");
         buffer.append("000000000000");
         buffer.append("000000000000");

@@ -67,7 +67,7 @@ public class QueryProtocol implements Protocol
 
     public String translate(PlineMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append(m.getText());
 
         // add the response terminator except for playerquery
@@ -81,7 +81,7 @@ public class QueryProtocol implements Protocol
 
     public String translate(NoConnectingMessage m, Locale locale)
     {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("noconnecting ");
         message.append(m.getText());
         return message.toString();

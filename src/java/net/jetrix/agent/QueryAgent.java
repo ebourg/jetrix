@@ -200,7 +200,7 @@ public class QueryAgent implements Agent
             return new ArrayList<String>();
         }
 
-        StringBuffer token = new StringBuffer();
+        StringBuilder token = new StringBuilder();
         boolean quote = false;
 
         for (int i = 0; i < s.length(); i++)
@@ -212,7 +212,7 @@ public class QueryAgent implements Agent
                 if (quote)
                 {
                     tokens.add(token.toString());
-                    token = new StringBuffer();
+                    token = new StringBuilder();
                 }
 
                 quote = !quote;
@@ -226,7 +226,7 @@ public class QueryAgent implements Agent
                 else if (token.length() > 0)
                 {
                     tokens.add(token.toString());
-                    token = new StringBuffer();
+                    token = new StringBuilder();
                 }
             }
             else

@@ -222,7 +222,7 @@
         String usage = command.getUsage(conf.getLocale());
         usage = usage.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
-        StringBuffer aliases = new StringBuffer();
+        Appendable aliases = new StringBuilder();
         for (int i = 0; i < command.getAliases().length; i++) {
             if (i > 0) { aliases.append(", "); }
             aliases.append(command.getAliases()[i]);
