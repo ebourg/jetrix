@@ -217,9 +217,13 @@ public class Channel extends Thread implements Destination
 
     private void process(TeamMessage m)
     {
-        int slot = m.getSlot();
-        getPlayer(slot).setTeam(m.getName());
-        sendAll(m, slot);
+        Client client = (Client) m.getSource();
+        if (client.getUser().isPlayer())
+        {
+            int slot = m.getSlot();
+            getPlayer(slot).setTeam(m.getName());
+            sendAll(m, slot);
+        }
     }
 
     private void process(GmsgMessage m)
@@ -377,7 +381,14 @@ public class Channel extends Thread implements Destination
         // update the field of the player
         fields[slot - 1].update(m);
 
-        sendAll(m, slot);
+        if (m.getSource() != null)
+        {
+            sendAll(m, slot);
+        }
+        else
+        {
+            sendAll(m);
+        }
     }
 
     private void process(StartGameMessage m)
@@ -511,6 +522,11 @@ public class Channel extends Thread implements Destination
             JoinMessage mjoin = new JoinMessage();
             mjoin.setName(client.getUser().getName());
             sendAll(mjoin, client);
+
+            // send a boggus slot number for gtetrinet
+            PlayerNumMessage mnum = new PlayerNumMessage();
+            mnum.setSlot(1);
+            client.sendMessage(mnum);
         }
         else
         {
