@@ -15,6 +15,10 @@ TODO
 - change dynamically the access level and the aliases of a command
 - add and remove filters from the administration console
 - java web start demo
+- feature matrix similar to http://damagecontrol.codehaus.org/Continuous+Integration+Server+Feature+Matrix
+- deploy as a web application
+- JRobin integration for server and channels statistics
+- AliasFilter to replace "gg" by "good game" on the pline
 - per channel commands
 - hidden commands
 - winlist management in the admin console
@@ -22,30 +26,41 @@ TODO
 
 Changes in version 0.1.4 (2004-??-??)
 -------------------------------------
+
+Player visible changes
 - new commands: /afk (away from keyboard), /ignore (ignore list)
 - Added the sudden death mode
 - portuguese translation contributed by Vítor Melo
-- the name of the server can now be configured from the administration console
-- implemented the services
-- a listener can now be disabled at startup by setting the auto-start attribute to false
-- listeners and services can be started/stopped from the administration console
-- the address of the server is now automatically published on tetrinet.org, tfast.org & tsrv.com server lists
-- renamed the Destination.sendMessage() method to send()
 - operators can now create new channels dynamically with the /join command
+- The name of the player starting or stopping the game is now displayed on the party line
+- the StartFilter can now trigger a countdown before starting the game by specifying a number of seconds in the filter's "countdown" parameter
+- partial support of IRC clients on the the port 31456
+
+Admin visible changes
+- Jetrix now requires the JRE 1.5 to run
+- the configuration file config.xml has been split in two files : server.xml and channels.xml
+- a listener can now be disabled at startup by setting the auto-start attribute to false
+- the address of the server is now automatically published on tetrinet.org, tfast.org & tsrv.com server lists
+- the server now checks the availability of a new release at startup
+- the server can be locked from the admin console, once locked new connections will be rejected
+- web admin: the name of the server can now be configured
+- web admin: the idle time is now displayed on the user page
+- web admin: listeners and services can be started/stopped
+- web admin: implemented the "Shutdown" button on the "Server" page
+- web admin: default values on the settings screen are now displayed in gray
+- web admin: erasing a value on the settings screen will now reset it to the default value
+- web admin: added basic server statistics (uptime, game count and connection count)
 - a system tray icon is displayed on windows platforms
 - a native executable is provided on windows to run the server without the DOS console
 - a windows installer is available
-- the server now checks the availability of a new release at startup
-- the server can be locked from the admin console, once locked new connections will be rejected
-- Commands requiring a minimum number of parameters can now implement the ParameterCommand interface, the server will validate automatically the input parameters.
-- The name of the player starting or stopping the game is now displayed on the party line
+- reduced the size of the binary distribution by 35%
+
+Developper visible changes
+- added the services interface (net.jetrix.Service)
+- renamed the Destination.sendMessage() method to send()
+- Commands requiring a minimum number of parameters can now implement the ParameterCommand interface, the server will validate automatically the number of input parameters.
 - code ported to Java 5.0 !
-- the StartFilter can now trigger a countdown before starting the game by specifying a number of seconds in the filter's "countdown" parameter
-- the idle time is now displayed on the user page of the administration console
-- added basic server statistics on the administration console (uptime, game count and connection count)
-- implemented the "Shutdown" button on the "Server" page of the administration console
-- default values on the settings screen are now displayed in gray
-- erasing a value on the settings screen will now reset it to the default value
+
 
 Changes in version 0.1.3 (2004-01-20)
 -------------------------------------
