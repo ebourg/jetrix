@@ -43,16 +43,17 @@ public class ClientRepositoryTest extends TestCase
         User user2 = new User("Smanux");
         User user3 = new User("Jetrix");
         User user4 = new User("Test");
+        user4.setSpectator();
 
         client1 = new TetrinetClient();
         client2 = new TetrinetClient();
         client3 = new TetrinetClient();
-        //client4 = new TSpecClient();
+        client4 = new TetrinetClient();
 
         ((TetrinetClient)client1).setUser(user1);
         ((TetrinetClient)client2).setUser(user2);
         ((TetrinetClient)client3).setUser(user3);
-        //((TSpecClient)client4).setUser(user4);
+        ((TetrinetClient)client4).setUser(user4);
     }
 
     /**
@@ -78,6 +79,12 @@ public class ClientRepositoryTest extends TestCase
         assertEquals(client1, repository.getClient(client1.getUser().getName()));
         assertEquals("non case sensitive search", client1, repository.getClient(client1.getUser().getName().toUpperCase()));
         assertEquals("non case sensitive search", client1, repository.getClient(client1.getUser().getName().toLowerCase()));
+    }
+
+    public void testGetClientNull()
+    {
+        // lookup on a null name
+        assertEquals(null, repository.getClient(null));
     }
 
     public void testGetClients()
@@ -157,10 +164,11 @@ public class ClientRepositoryTest extends TestCase
 
         ((TetrinetClient)client1).setSocket(socket1);
         ((TetrinetClient)client2).setSocket(socket1);
-        ((TetrinetClient)client3).setSocket(socket2);
+        ((TetrinetClient)client3).setSocket(socket1);
+        ((TetrinetClient)client4).setSocket(socket2);
 
         // testing
-        assertEquals(ip1 + " count", 2, repository.getHostCount(ip1));
+        assertEquals(ip1 + " count", 3, repository.getHostCount(ip1));
         assertEquals(ip2 + " count", 1, repository.getHostCount(ip2));
         assertEquals(localhost + " count", 0, repository.getHostCount(localhost));
     }
