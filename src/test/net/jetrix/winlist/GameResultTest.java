@@ -71,14 +71,14 @@ public class GameResultTest extends TestCase
         User user3 = new User("user3");
         User user4 = new User("user4");
 
-        result.update(user1a, true);
-        result.update(user1b, true);
-        Thread.sleep(100);
-        result.update(user2, false);
+        result.update(user4, false);
         Thread.sleep(100);
         result.update(user3, false);
         Thread.sleep(100);
-        result.update(user4, false);
+        result.update(user2, false);
+        Thread.sleep(100);
+        result.update(user1b, true);
+        result.update(user1a, true);
 
         // test the result
         Collection rank1 = result.getPlayersAtRank(1);

@@ -46,8 +46,8 @@ public class SimpleWinlistTest extends TestCase {
         User user1 = new User("user1");
         User user2 = new User("user2");
 
-        result.update(user1, true);
         result.update(user2, false);
+        result.update(user1, true);
 
         winlist.saveGameResult(result);
 
@@ -64,8 +64,8 @@ public class SimpleWinlistTest extends TestCase {
         User user2 = new User("user2");
         user1.setTeam("team1");
 
-        result.update(user1, true);
         result.update(user2, false);
+        result.update(user1, true);
 
         winlist.saveGameResult(result);
 
@@ -84,9 +84,9 @@ public class SimpleWinlistTest extends TestCase {
         User user2 = new User("user2");
         User user3 = new User("user3");
 
-        result.update(user1, true);
-        result.update(user2, false);
         result.update(user3, false);
+        result.update(user2, false);
+        result.update(user1, true);
 
         winlist.saveGameResult(result);
 
@@ -99,25 +99,37 @@ public class SimpleWinlistTest extends TestCase {
         assertEquals("score of the 1st player", 3, score1.getScore());
     }
 
-    public void testSaveGameResult4()
+    public void testSaveGameResult4() throws Exception
     {
         User user1 = new User("user1");
         User user2 = new User("user2");
         User user3 = new User("user3");
         User user4 = new User("user4");
         User user5 = new User("user5");
+        User user6 = new User("user6");
 
-        result.update(user1, true);
-        result.update(user2, false);
-        result.update(user3, false);
-        result.update(user4, false);
+        result.update(user6, false);
+        Thread.sleep(100);
         result.update(user5, false);
+        Thread.sleep(100);
+        result.update(user4, false);
+        Thread.sleep(100);
+        result.update(user3, false);
+        Thread.sleep(100);
+        result.update(user2, false);
+        Thread.sleep(100);
+        result.update(user1, true);
 
         winlist.saveGameResult(result);
 
         Score score2 = winlist.getScore("user2", Score.TYPE_PLAYER);
-        assertNotNull("score of the 2nd player", score2);
+        assertNotNull("score of the 2nd player null", score2);
         assertEquals("score of the 1st player", 1, score2.getScore());
+
+        assertNull("score of the 3rd player not null", winlist.getScore("user3", Score.TYPE_PLAYER));
+        assertNull("score of the 4th player not null", winlist.getScore("user4", Score.TYPE_PLAYER));
+        assertNull("score of the 5th player not null", winlist.getScore("user5", Score.TYPE_PLAYER));
+        assertNull("score of the 6th player not null", winlist.getScore("user6", Score.TYPE_PLAYER));
     }
 
     public void testSaveLoad()
