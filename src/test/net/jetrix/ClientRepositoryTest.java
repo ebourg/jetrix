@@ -28,7 +28,7 @@ import net.jetrix.clients.*;
  * JUnit TestCase for the class net.jetrix.ClientRepository
  *
  * @author Emmanuel Bourg
- * @version $Revision, $Date$
+ * @version $Revision$, $Date$
  */
 public class ClientRepositoryTest extends TestCase
 {
@@ -165,9 +165,20 @@ public class ClientRepositoryTest extends TestCase
         assertEquals(localhost + " count", 0, repository.getHostCount(localhost));
     }
 
-    public static Test suite()
+    public void testConcurrentModification()
     {
-        return new TestSuite(ClientRepositoryTest.class);
+        repository.addClient(client1);
+        Iterator clients = repository.getClients();
+        repository.addClient(client2);
+        
+        try 
+        {
+        	clients.next();
+        }
+        catch (ConcurrentModificationException e)
+        {
+        	fail("Can't read and write in the client list concurrently");
+        }
     }
 
 }
