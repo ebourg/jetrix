@@ -19,6 +19,7 @@
 
 package net.jetrix.commands;
 
+import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -42,14 +43,14 @@ public class EmoteCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
         return "/me";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Display an emote.";
+        return Language.getText("command.emote.description", locale);
     }
 
     public void execute(CommandMessage m)

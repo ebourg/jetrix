@@ -20,7 +20,6 @@
 package net.jetrix.commands;
 
 import java.util.*;
-
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -45,14 +44,14 @@ public class TeleportCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/teleport <player name|number> <channel name|number>";
+        return "/teleport <" + Language.getText("command.params.player_name_num", locale) + "> <" + Language.getText("command.params.channel_name_num", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Teleport a player to another channel.";
+        return Language.getText("command.teleport.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -87,9 +86,9 @@ public class TeleportCommand implements Command
             if (target == null)
             {
                 // no player found
-                String message = Color.red + "Player " + targetName + " cannot be found on the server.";
-                PlineMessage reponse = new PlineMessage(message);
-                client.sendMessage(reponse);
+                PlineMessage response = new PlineMessage();
+                response.setKey("command.player_not_found", new Object[] { targetName });
+                client.sendMessage(response);
             }
             else
             {
@@ -102,7 +101,7 @@ public class TeleportCommand implements Command
                     {
                         // sending channel full message
                         PlineMessage channelfull = new PlineMessage();
-                        channelfull.setText(Color.darkBlue+"That channel is "+Color.red+"FULL"+Color.darkBlue+"!");
+                        channelfull.setKey("command.join.full");
                         client.sendMessage(channelfull);
                     }
                     else
@@ -112,9 +111,8 @@ public class TeleportCommand implements Command
                         channel.addMessage(move);
 
                         PlineMessage teleported = new PlineMessage();
-                        String msg = target.getPlayer().getName() + " has been teleported to channel "
-                                     + Color.bold + channel.getConfig().getName();
-                        teleported.setText(Color.gray + msg);
+                        Object[] params = new Object[] { target.getPlayer().getName(), channel.getConfig().getName() };
+                        teleported.setKey("command.teleport.message", params);
                         client.sendMessage(teleported);
                     }
                 }

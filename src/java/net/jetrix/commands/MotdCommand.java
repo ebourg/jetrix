@@ -20,6 +20,7 @@
 package net.jetrix.commands;
 
 import java.io.*;
+import java.util.*;
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -44,14 +45,14 @@ public class MotdCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
         return "/motd";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Display the message of the day.";
+        return Language.getText("command.motd.description", locale);
     }
 
     public void execute(CommandMessage m)

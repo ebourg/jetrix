@@ -43,9 +43,9 @@ public class PingFilter extends MessageFilter
             if ("true".equals((player.getProperty("command.ping"))))
             {
                 long delay = (System.currentTimeMillis() - ((Long)player.getProperty("command.ping.time")).longValue()) >> 1;
-                String message = Color.darkBlue + "Your ping time is " + Color.bold + delay + "ms";
 
-                PlineMessage response = new PlineMessage(message);
+                PlineMessage response = new PlineMessage();
+                response.setKey("command.ping.message", new Object[] { new Long(delay) });
                 client.sendMessage(response);
 
                 player.setProperty("command.ping", "false");

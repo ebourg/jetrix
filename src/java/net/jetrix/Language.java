@@ -64,9 +64,14 @@ public class Language
         String text = null;
         try
         {
-            text = instance.getResourceBundle(locale).getString(key);
+            ResourceBundle bundle = instance.getResourceBundle(locale);
+            if (bundle == null)
+            {
+                bundle = instance.load(locale);
+            }
+            text = bundle.getString(key);
         }
-        catch (MissingResourceException e)
+        catch (Exception e)
         {
             text = "["+key+"]";
         }

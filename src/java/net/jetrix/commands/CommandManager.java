@@ -125,7 +125,7 @@ public class CommandManager
         if (command == null)
         {
             PlineMessage response = new PlineMessage();
-            response.setText(Color.red + "Invalid /command!");
+            response.setKey("command.invalid");
             client.sendMessage(response);
         }
         else
@@ -139,7 +139,7 @@ public class CommandManager
             {
                 // denying access
                 PlineMessage response = new PlineMessage();
-                response.setText(Color.red + "You don't have access to this command.");
+                response.setKey("command.denied");
                 client.sendMessage(response);
             }
         }

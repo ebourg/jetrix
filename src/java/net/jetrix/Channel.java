@@ -318,9 +318,8 @@ public class Channel extends Thread
         leaveNotice.setSlot(slot);
         sendAll(leaveNotice);
 
-        String disconnectedMessage = Color.gray + client.getPlayer().getName() + " has been disconnected.";
         PlineMessage disconnected = new PlineMessage();
-        disconnected.setText(disconnectedMessage);
+        disconnected.setKey("channel.disconnected", new Object[] { client.getPlayer().getName() });
         sendAll(disconnected);
 
         // stopping the game if the channel is now empty
@@ -360,8 +359,7 @@ public class Channel extends Thread
 
             // sending message to the previous channel announcing what channel the player joined
             PlineMessage leave2 = new PlineMessage();
-            String leaveMessage = Color.gray + client.getPlayer().getName()+" has joined channel " + Color.bold + channelConfig.getName();
-            leave2.setText(leaveMessage);
+            leave2.setKey("channel.join_notice", new Object[] { client.getPlayer().getName(), channelConfig.getName() });
             previousChannel.addMessage(leave2);
 
             // ending running game
@@ -430,8 +428,7 @@ public class Channel extends Thread
 
             // sending welcome massage to incomming player
             PlineMessage mwelcome = new PlineMessage();
-            String welcomeText = Color.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + Color.bold + channelConfig.getName();
-            mwelcome.setText(welcomeText);
+            mwelcome.setKey("channel.welcome", new Object[] { client.getPlayer().getName(), channelConfig.getName() });
             client.sendMessage(mwelcome);
 
             // sending playerlost message if the game has started

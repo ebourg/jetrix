@@ -19,6 +19,7 @@
 
 package net.jetrix.commands;
 
+import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -42,14 +43,14 @@ public class IpCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/ip <player name|number>";
+        return "/ip <" + Language.getText("command.params.player_name_num", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Display the IP of a player.";
+        return Language.getText("command.ip.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -84,17 +85,16 @@ public class IpCommand implements Command
             if (target == null)
             {
                 // no player found
-                String message = Color.red + "Player " + targetName + " cannot be found on the server.";
-                PlineMessage reponse = new PlineMessage(message);
-                client.sendMessage(reponse);
+                PlineMessage response = new PlineMessage();
+                response.setKey("command.player_not_found", new Object[] { targetName });
+                client.sendMessage(response);
             }
             else
             {
                 // player found
                 String hostname = target.getSocket().getInetAddress().getHostName();
                 String hostaddress = target.getSocket().getInetAddress().getHostAddress();
-                String message = Color.darkBlue + "[" + Color.red + target.getPlayer().getName()
-                                 + Color.red + "] " + hostname;
+                String message = "<darkBlue>[<red>" + target.getPlayer().getName() + "</red>] " + hostname;
                 if (!hostname.equals(hostaddress)) message += " (" + hostaddress + ")";
                 PlineMessage reponse = new PlineMessage(message);
                 client.sendMessage(reponse);

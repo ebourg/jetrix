@@ -20,7 +20,6 @@
 package net.jetrix.commands;
 
 import java.util.*;
-
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -54,14 +53,14 @@ public class PingCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
         return "/ping";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Display the ping to the server.";
+        return Language.getText("command.ping.description", locale);
     }
 
     public void execute(CommandMessage m)

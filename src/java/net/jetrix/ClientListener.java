@@ -94,6 +94,7 @@ public abstract class ClientListener implements Runnable
                 Client client = getClient(socket);
                 Player player = client.getPlayer();
                 player.setLocale(serverConfig.getLocale());
+                client.getProtocol().setLocale(player.getLocale());
 
                 // checking if server is full
                 ClientRepository repository = ClientRepository.getInstance();
@@ -133,7 +134,7 @@ public abstract class ClientListener implements Runnable
                 while( (motdline = motd.readLine() ) != null )
                 {
                     PlineMessage m = new PlineMessage();
-                    m.setText(Color.gray + motdline);
+                    m.setText("<gray>" + motdline);
                     client.sendMessage(m);
                 }
                 motd.close();

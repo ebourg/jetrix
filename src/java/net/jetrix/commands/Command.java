@@ -19,6 +19,7 @@
 
 package net.jetrix.commands;
 
+import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -41,12 +42,12 @@ public interface Command
      * Return the usage of this command, for example
      * <tt>/cmd &lt;param1&gt; &lt;param2&gt;</tt>
      */
-    public String getUsage();
+    public String getUsage(Locale locale);
 
     /**
      * Return a description of this command.
      */
-    public String getDescription();
+    public String getDescription(Locale locale);
 
     /**
      * Return the required access level to execute this command.

@@ -43,14 +43,14 @@ public class BroadcastCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/br <message>";
+        return "/br <" + Language.getText("command.params.message", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Send a message to all clients on the server.";
+        return Language.getText("command.broadcast.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -61,12 +61,7 @@ public class BroadcastCommand implements Command
         {
             // preparing message
             PlineMessage response = new PlineMessage();
-
-            String messageBody = m.getText();
-            String message = Color.bold + Color.red + "[Broadcast from " + Color.purple
-                             + client.getPlayer().getName() + Color.red + "] "
-                             + Color.darkBlue + messageBody;
-            response.setText(message);
+            response.setKey("command.broadcast.message", new Object[] { client.getPlayer().getName(), m.getText() });
 
             Iterator clients = ClientRepository.getInstance().getClients();
             while (clients.hasNext())

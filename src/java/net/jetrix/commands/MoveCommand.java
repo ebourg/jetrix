@@ -44,14 +44,14 @@ public class MoveCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/move <playernum> <slotnum>";
+        return "/move <" + Language.getText("command.params.player_num", locale) + "> <" + Language.getText("command.params.slot_num", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Move a player to a new slot.";
+        return Language.getText("command.move.description", locale);
     }
 
     public void execute(CommandMessage m)

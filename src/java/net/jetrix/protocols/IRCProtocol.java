@@ -28,7 +28,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class IRCProtocol implements Protocol
+public class IRCProtocol extends Protocol
 {
     /**
      * Return the name of this protocol

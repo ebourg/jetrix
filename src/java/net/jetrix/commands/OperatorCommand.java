@@ -19,6 +19,7 @@
 
 package net.jetrix.commands;
 
+import java.util.*;
 import java.util.logging.*;
 import net.jetrix.*;
 import net.jetrix.config.*;
@@ -45,14 +46,14 @@ public class OperatorCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/op <password>";
+        return "/op <" + Language.getText("command.params.password", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Gain authenticated operator status.";
+        return Language.getText("command.operator.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -70,7 +71,7 @@ public class OperatorCommand implements Command
                 // access granted
                 client.getPlayer().setAccessLevel(1);
                 PlineMessage response = new PlineMessage();
-                response.setText(Color.red + "Operator level granted.");
+                response.setKey("command.operator.granted");
                 client.sendMessage(response);
             }
             else
@@ -78,7 +79,7 @@ public class OperatorCommand implements Command
                 // access denied, logging attempt
                 logger.severe(client.getPlayer().getName() + "(" + client.getSocket().getInetAddress() + ") attempted to get operator status.");
                 PlineMessage response = new PlineMessage();
-                response.setText(Color.red + "Invalid Password! (Attempt logged)");
+                response.setKey("command.operator.denied");
                 client.sendMessage(response);
             }
         }

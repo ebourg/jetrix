@@ -44,14 +44,14 @@ public class JoinCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/join <channel name|channel number";
+        return "/join <" + Language.getText("command.params.channel_name_num", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Join or create a channel.";
+        return Language.getText("command.join.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -65,7 +65,7 @@ public class JoinCommand implements Command
             {
                 // sending channel full message
                 PlineMessage channelfull = new PlineMessage();
-                channelfull.setText(Color.darkBlue + "That channel is " + Color.red + "FULL" + Color.red + "!");
+                channelfull.setKey("command.join.full");
                 client.sendMessage(channelfull);
             }
             else

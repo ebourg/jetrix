@@ -44,14 +44,14 @@ public class WhoCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
         return "/who";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "List all players connected to the server.";
+        return Language.getText("command.who.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -60,7 +60,8 @@ public class WhoCommand implements Command
         Client client = (Client)m.getSource();
         ChannelManager channelManager = ChannelManager.getInstance();
 
-        PlineMessage response = new PlineMessage(Color.darkBlue + "Channel\t\tNickname(s)");
+        PlineMessage response = new PlineMessage();
+        response.setKey("command.who.header");        
         client.sendMessage(response);
 
         Iterator it = channelManager.channels();

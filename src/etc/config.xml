@@ -3,7 +3,7 @@
 
 <tetrinet-server host="[ALL]" port="31457">
   <name>JetriX TetriNET Server</name>
-  
+
   <!-- Server language (using an ISO-639 two-letter language code) -->
   <language>en</language>
 
@@ -29,12 +29,13 @@
   <error-log  path="log/error%g.log" />
 
   <!-- Message Of The Day -->
-  <motd>
-Welcome on the experimental JetriX TetriNET Server !
-http://jetrix.sourceforge.net/
-------------------------------------------------
-  </motd>
-  
+  <motd><![CDATA[
+<b>
+Welcome on <b>JetriX TetriNET Server</b>!
+<u><blue>http://jetrix.sourceforge.net/</blue></u>
+<b>
+  ]]></motd>
+
   <!-- Channel filters -->
   <filter-definitions>
     <alias name="flood" class="net.jetrix.filter.FloodFilter"/>
@@ -51,7 +52,7 @@ http://jetrix.sourceforge.net/
     </filter>
     <filter name="start">
       <param name="delay" value="10000"/>
-    </filter>    
+    </filter>
     <filter name="ping"/>
   </default-filters>
 
@@ -139,7 +140,7 @@ http://jetrix.sourceforge.net/
     </channel>
 
     <channel name="SnS">
-      <description>Sticks [i]and[/i] Squares</description>
+      <description><![CDATA[Sticks <i>and</i> Squares]]></description>
       <settings>
         <special-added>0</special-added>
         <block-occurancy>
@@ -153,7 +154,7 @@ http://jetrix.sourceforge.net/
       <description>The TetriNET Theatre</description>
       <class>org.lfjr.jetrix.channel.PlayBack</class>
     </channel>
-    
+
     <channel name="laboratory">
       <description>Silly tests here</description>
       <filters>

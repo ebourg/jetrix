@@ -44,14 +44,14 @@ public class ListCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
         return "/list";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "List available channels.";
+        return Language.getText("command.list.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -60,7 +60,7 @@ public class ListCommand implements Command
         ChannelManager channelManager = ChannelManager.getInstance();
 
         PlineMessage response = new PlineMessage();
-        response.setText(Color.darkBlue+"TetriNET Channel Lister - (Type "+Color.red+"/join "+Color.purple+"channelname"+Color.darkBlue+")");
+        response.setKey("command.list.header");        
         client.sendMessage(response);
 
         Iterator it = channelManager.channels();
@@ -72,14 +72,36 @@ public class ListCommand implements Command
 
             String cname = conf.getName();
             while (cname.length() < 6) cname += " ";
+            String playerChannel = client.getChannel().getConfig().getName();
+            Locale locale = client.getPlayer().getLocale();
 
-            String message = Color.darkBlue+"("+(client.getChannel().getConfig().getName().equals(conf.getName())?Color.red:Color.purple)+i+Color.darkBlue+") " + Color.purple + cname + "\t"
-                             + (channel.isFull()?Color.darkBlue+"["+Color.red+"FULL"+Color.darkBlue+"]       ":Color.darkBlue+"["+Color.aqua+"OPEN"+Color.blue+"-" + channel.getPlayerCount() + "/"+conf.getMaxPlayers() + Color.darkBlue + "]")
-                             + (channel.getGameState()!=Channel.GAME_STATE_STOPPED?Color.gray+" {INGAME} ":"                  ")
-                             + Color.black + conf.getDescription();
+            StringBuffer message = new StringBuffer();
+            message.append("<darkBlue>("+(playerChannel.equals(conf.getName())?"<red>"+i+"</red>":"<purple>"+i+"</purple>")+ ") ");
+            message.append("<purple>" + cname + "</purple>\t");
+            if (channel.isFull())
+            {
+                message.append("[<red>" + Language.getText("command.list.status.full", locale) + "</red>]");
+                for (int j = 0; j < 11 - Language.getText("command.list.status.full", locale).length(); j++)
+                {
+                    message.append(" ");
+                }
+            }
+            else
+            {
+                message.append("[<aqua>" + Language.getText("command.list.status.open", locale) + "</aqua><blue>-" + channel.getPlayerCount() + "/"+conf.getMaxPlayers() + "</blue>]");
+            }
+            if (channel.getGameState() != Channel.GAME_STATE_STOPPED)
+            {
+                message.append(" <gray>{" + Language.getText("command.list.status.ingame", locale) + "}</gray> ");
+            }
+            else
+            {
+                message.append("                  ");
+            }
+            message.append("<black>" + conf.getDescription());
 
             PlineMessage response2 = new PlineMessage();
-            response2.setText(message);
+            response2.setText(message.toString());
             client.sendMessage(response2);
 
             i = i + 1;

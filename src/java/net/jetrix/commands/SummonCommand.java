@@ -20,7 +20,6 @@
 package net.jetrix.commands;
 
 import java.util.*;
-
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -45,14 +44,14 @@ public class SummonCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/summon <player name>";
+        return "/summon <" + Language.getText("command.params.player_name", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Summon a player to the current channel.";
+        return Language.getText("command.summon.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -75,9 +74,9 @@ public class SummonCommand implements Command
             if (target == null)
             {
                 // no player found
-                String message = Color.red + "Player " + targetName + " cannot be found on the server.";
-                PlineMessage reponse = new PlineMessage(message);
-                client.sendMessage(reponse);
+                PlineMessage response = new PlineMessage();
+                response.setKey("command.player_not_found", new Object[] { targetName });
+                client.sendMessage(response);
             }
             else
             {
@@ -87,24 +86,20 @@ public class SummonCommand implements Command
                 if (target == client)
                 {
                     PlineMessage cantsummon = new PlineMessage();
-                    String msg = "You can't summon yourself!";
-                    cantsummon.setText(Color.gray + msg);
+                    cantsummon.setKey("command.summon.yourself");
                     client.sendMessage(cantsummon);
                 }
                 else if (channel == target.getChannel())
                 {
                     PlineMessage cantsummon = new PlineMessage();
-                    String msg = target.getPlayer().getName() + " is already in your channel!";
-                    cantsummon.setText(Color.gray + msg);
+                    cantsummon.setKey("command.summon.same_channel", new Object[] { target.getPlayer().getName() });
                     client.sendMessage(cantsummon);
                 }
                 else if (channel.isFull())
                 {
                     // sending channel full message
                     PlineMessage channelfull = new PlineMessage();
-                    String msg = Color.darkBlue + "Your channel is "
-                                 + Color.red+"FULL" + Color.darkBlue + "!";
-                    channelfull.setText(msg);
+                    channelfull.setKey("command.summon.full");
                     client.sendMessage(channelfull);
                 }
                 else
@@ -114,13 +109,11 @@ public class SummonCommand implements Command
                     channel.addMessage(move);
 
                     PlineMessage summoned1 = new PlineMessage();
-                    String msg = target.getPlayer().getName() + " has been summoned";
-                    summoned1.setText(Color.gray + msg);
+                    summoned1.setKey("command.summon.summoned", new Object[] { target.getPlayer().getName() });
                     client.sendMessage(summoned1);
 
                     PlineMessage summoned2 = new PlineMessage();
-                    msg = "You have been summoned by " + client.getPlayer().getName() + "!";
-                    summoned2.setText(Color.gray + msg);
+                    summoned2.setKey("command.summon.summoned_by", new Object[] { client.getPlayer().getName() });
                     target.sendMessage(summoned2);
                 }
             }

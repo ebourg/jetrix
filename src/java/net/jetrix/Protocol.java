@@ -19,14 +19,18 @@
 
 package net.jetrix;
 
+import java.util.*;
+
 /**
  * A protocol to communicate with a client.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public interface Protocol
+public abstract class Protocol
 {
+    private Locale locale;
+
     /**
      * Return the name of this protocol
      */
@@ -42,6 +46,22 @@ public interface Protocol
      * Translate the specified message into a string that will be sent
      * to a client using this protocol.
      */
-    public String translate(Message m);
+    public abstract String translate(Message m);
+
+    /**
+     * Set the locale to be used for textual messages.
+     */
+    public void setLocale(Locale locale)
+    {
+        this.locale = locale;
+    }
+
+    /**
+     * Return the locale.
+     */
+    public Locale getLocale()
+    {
+        return locale;
+    }
 
 }

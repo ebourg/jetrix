@@ -44,23 +44,23 @@ public class VersionCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
         return "/version";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Display the version of the server.";
+        return Language.getText("command.version.description", locale);
     }
 
     public void execute(CommandMessage m)
     {
         Client client = (Client)m.getSource();
 
-        String version1 = Color.darkBlue + "" + Color.bold + "JetriX/" + ServerConfig.VERSION + " (build:@build.time@)";
-        String version2 = Color.purple+"VM"+Color.darkBlue+": " + System.getProperty("java.vm.name") + " " + System.getProperty("java.vm.version") + " " + System.getProperty("java.vm.info");
-        String version3 = Color.purple+"OS"+Color.darkBlue+": " + System.getProperty("os.name") + " " + System.getProperty("os.version") +"; " + System.getProperty("os.arch");
+        String version1 = "<darkBlue><bold>JetriX/" + ServerConfig.VERSION + " (build:@build.time@)";
+        String version2 = "<purple>VM<darkBlue>: " + System.getProperty("java.vm.name") + " " + System.getProperty("java.vm.version") + " " + System.getProperty("java.vm.info");
+        String version3 = "<purple>OS<darkBlue>:" + System.getProperty("os.name") + " " + System.getProperty("os.version") +"; " + System.getProperty("os.arch");
 
         client.sendMessage(new PlineMessage(version1));
         client.sendMessage(new PlineMessage(version2));

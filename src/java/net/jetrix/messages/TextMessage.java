@@ -65,7 +65,7 @@ public abstract class TextMessage extends ChannelMessage
 
             if (s == null)
             {
-                //s = Language.getText(key, params);
+                s = Language.getText(key, params, locale);
                 texts.put(locale, s);
             }
 
@@ -79,7 +79,12 @@ public abstract class TextMessage extends ChannelMessage
         this.key = null;
     }
 
-    public void setText(String key, Object[] params)
+    public void setKey(String key)
+    {
+        this.key = key;
+    }
+
+    public void setKey(String key, Object[] params)
     {
         this.key = key;
         this.params = params;

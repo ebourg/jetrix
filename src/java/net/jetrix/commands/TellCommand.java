@@ -19,6 +19,7 @@
 
 package net.jetrix.commands;
 
+import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -42,14 +43,14 @@ public class TellCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/tell <playername|playernum> <message>";
+        return "/tell <" + Language.getText("command.params.player_name_num", locale) + "> <" + Language.getText("command.params.message", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Send a private message to a player.";
+        return Language.getText("command.tell.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -84,17 +85,16 @@ public class TellCommand implements Command
             if (target == null)
             {
                 // no player found
-                PlineMessage reponse = new PlineMessage();
-                String message = Color.red + "Player " + targetName + " cannot be found on the server.";
-                reponse.setText(message);
-                client.sendMessage(reponse);
+                PlineMessage response = new PlineMessage();
+                response.setKey("command.player_not_found", new Object[] { targetName });
+                client.sendMessage(response);
             }
             else
             {
                 // player found
                 PlineMessage reponse = new PlineMessage();
                 String privateMessage = m.getText().substring(targetName.length() + 1);
-                String message = Color.aqua + "{" + client.getPlayer().getName() + "} " + Color.darkBlue + privateMessage;
+                String message = "<aqua>{" + client.getPlayer().getName() + "}</aqua> <darkBlue>" + privateMessage;
                 reponse.setText(message);
                 target.sendMessage(reponse);
             }

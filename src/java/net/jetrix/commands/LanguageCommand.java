@@ -43,14 +43,14 @@ public class LanguageCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
-        return "/language <lancode>";
+        return "/language <" + Language.getText("command.params.lancode", locale) + ">";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Set the language of the user.";
+        return Language.getText("command.language.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -65,14 +65,17 @@ public class LanguageCommand implements Command
             if (Language.isSupported(l))
             {
                 client.getPlayer().setLocale(l);
-                String message = Color.gray + "Language changed to " + Color.bold + l.getDisplayLanguage(l);
-                PlineMessage response = new PlineMessage(message);
+                client.getProtocol().setLocale(l);
+
+                PlineMessage response = new PlineMessage();
+                response.setKey("command.language.changed", new Object[] { l.getDisplayLanguage(l) });
                 client.sendMessage(response);
             }
             else
             {
                 client.getPlayer().setLocale(l);
-                PlineMessage response = new PlineMessage(Color.gray + "Language not supported");
+                PlineMessage response = new PlineMessage();
+                response.setKey("command.language.not_supported");
                 client.sendMessage(response);
             }
         }

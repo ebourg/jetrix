@@ -30,14 +30,58 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TetrinetProtocol implements Protocol
+public class TetrinetProtocol extends Protocol
 {
+    private static Map styles = new HashMap();
+    
+    static 
+    {
+        styles.put("red", "\u0014");
+        styles.put("black", "\u0004");
+        styles.put("green", "\u000c");
+        styles.put("lightGreen", "\u000e");
+        styles.put("darkBlue", "\u0011");
+        styles.put("blue", "\u0005");
+        styles.put("cyan", "\u0003");
+        styles.put("aqua", "\u0017");
+        styles.put("yellow", "\u0019");
+        styles.put("kaki", "\u0012");
+        styles.put("brown", "\u0010");
+        styles.put("lightGray", "\u000f");
+        styles.put("gray", "\u0006");
+        styles.put("magenta", "\u0008");
+        styles.put("purple", "\u0013");
+        styles.put("b", "\u0002");
+        styles.put("i", "\u0016");
+        styles.put("u", "\u001f");
+        styles.put("white", "\u0018");
+    }
+
+    public String applyStyle(String text)
+    {
+        // to be optimized later
+        Iterator keys = styles.keySet().iterator();
+        while (keys.hasNext())
+        {
+            String key = (String)keys.next();
+            text = text.replaceAll("<" + key + ">", getStyle(key));
+            text = text.replaceAll("</" + key + ">", getStyle(key));
+        }
+        return text;
+    }
+	
     /**
      * Return the name of this protocol
      */
     public String getName()
     {
         return "tetrinet";
+    }
+
+    public String getStyle(String code)
+    {
+        String style = (String)styles.get(code);
+        return (style != null) ? style : "";
     }
 
     /**
@@ -269,7 +313,7 @@ public class TetrinetProtocol implements Protocol
         message.append("pline ");
         message.append(m.getSlot());
         message.append(" ");
-        message.append(m.getText());
+        message.append(applyStyle(m.getText(getLocale())));
         return message.toString();
     }
 
@@ -279,7 +323,7 @@ public class TetrinetProtocol implements Protocol
         message.append("plineact ");
         message.append(m.getSlot());
         message.append(" ");
-        message.append(m.getText());
+        message.append(m.getText(getLocale()));
         return message.toString();
     }
 
@@ -408,7 +452,7 @@ public class TetrinetProtocol implements Protocol
     {
         StringBuffer message = new StringBuffer();
         message.append("gmsg ");
-        message.append(m.getText());
+        message.append(m.getText(getLocale()));
         return message.toString();
     }
 

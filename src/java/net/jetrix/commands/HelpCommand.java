@@ -44,14 +44,14 @@ public class HelpCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
         return "/help";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "List all commands available.";
+        return Language.getText("command.help.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -60,7 +60,7 @@ public class HelpCommand implements Command
         CommandManager commandManager = CommandManager.getInstance();
 
         PlineMessage header = new PlineMessage();
-        header.setText(Color.bold + Color.darkBlue + "Commands available on the server :");
+        header.setKey("command.help.header");
         client.sendMessage(header);
 
         Iterator commands = commandManager.getCommands(client.getPlayer().getAccessLevel());
@@ -69,15 +69,15 @@ public class HelpCommand implements Command
             Command command = (Command)commands.next();
 
             PlineMessage ligne1 = new PlineMessage();
-            String usage = command.getUsage();
+            String usage = command.getUsage(client.getPlayer().getLocale());
             String line1Body;
             int space = usage.indexOf(" ");
             if (space == -1)
-                line1Body = Color.red + usage;
+                line1Body = "<red>" + usage;
             else
-                line1Body = Color.red + usage.substring(0, space) + Color.aqua + usage.substring(space);
+                line1Body = "<red>" + usage.substring(0, space) + "<aqua>" + usage.substring(space);
             ligne1.setText(line1Body);
-            PlineMessage ligne2 = new PlineMessage("         " + command.getDescription());
+            PlineMessage ligne2 = new PlineMessage("         " + command.getDescription(client.getPlayer().getLocale()));
             client.sendMessage(ligne1);
             client.sendMessage(ligne2);
         }

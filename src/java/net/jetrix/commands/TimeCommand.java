@@ -45,14 +45,14 @@ public class TimeCommand implements Command
         return accessLevel;
     }
 
-    public String getUsage()
+    public String getUsage(Locale locale)
     {
         return "/time";
     }
 
-    public String getDescription()
+    public String getDescription(Locale locale)
     {
-        return "Display the server's time.";
+        return Language.getText("command.time.description", locale);
     }
 
     public void execute(CommandMessage m)
@@ -62,9 +62,8 @@ public class TimeCommand implements Command
         ServerConfig conf = Server.getInstance().getConfig();
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
 
-        String message = Color.darkBlue + "Server time is " + Color.purple + df.format(new Date())
-                         + Color.darkBlue + " [" + TimeZone.getDefault().getDisplayName(locale) + "]";
-        Message response = new PlineMessage(message);
+        PlineMessage response = new PlineMessage();
+        response.setKey("command.time.message", new Object[] { df.format(new Date()), TimeZone.getDefault().getDisplayName(locale) });
         client.sendMessage(response);
     }
 }
