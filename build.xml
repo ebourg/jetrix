@@ -3,7 +3,7 @@
 
   <property name="build.compiler" value="jikes"/>
   <property name="compile.debug"    value="true"/>
-  <property name="compile.optimize" value="true"/>
+  <property name="compile.optimize" value="false"/>
   <property name="src"     value="src"/>
   <property name="lib"     value="lib"/>
   <property name="doc"     value="doc"/>
@@ -57,9 +57,12 @@
   <target name="dist" depends="compile">
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
+    <mkdir dir="${dist}/bin"/>
+
     <jar jarfile="${dist}/lib/jetrix.jar" basedir="${build}/classes" manifest="${src}/etc/MANIFEST.MF">
       <fileset dir="${build}/classes" excludes="**/*Test.class"/>
     </jar>
+
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
       <zipfileset prefix="jetrix/" dir="${src}/etc/">
         <include name="news.txt" />
@@ -80,7 +83,40 @@
         <include name="commons-beanutils.jar" />
         <include name="commons-logging.jar" />
       </zipfileset>
+      <zipfileset prefix="jetrix/lang/" dir="${src}/lang/">
+        <include name="*.properties" />
+      </zipfileset>
     </zip>
+
+    <tar destfile="${dist}/bin/jetrix-${version}.tar">
+      <tarfileset prefix="jetrix/" dir="${src}/etc/">
+        <include name="news.txt" />
+        <include name="LICENSE" />
+        <include name="README" />
+        <include name="config.xml" />
+        <include name="jetrix.bat" />
+        <include name="update.bat" />
+      </tarfileset>
+      <tarfileset prefix="jetrix/" dir="${src}/etc/" mode="755">
+        <include name="jetrix" />      
+        <include name="update" />      
+      </tarfileset>
+      <tarfileset prefix="jetrix/lib/" dir="${dist}/lib/">
+        <include name="jetrix.jar" />
+      </tarfileset>
+      <tarfileset prefix="jetrix/lib/" dir="${lib}">
+        <include name="commons-digester.jar" />
+        <include name="commons-collections.jar" />
+        <include name="commons-beanutils.jar" />
+        <include name="commons-logging.jar" />
+      </tarfileset>
+      <tarfileset prefix="jetrix/lang/" dir="${src}/lang/">
+        <include name="*.properties" />
+      </tarfileset>
+    </tar>
+
+    <gzip zipfile="${dist}/bin/jetrix-${version}.tar.gz" src="${dist}/bin/jetrix-${version}.tar"/>
+
   </target>
 
 
@@ -160,6 +196,7 @@
 
   <target name="clean">
     <!-- Delete the ${build} directory tree -->
+    <delete dir="${dist}"/>
     <delete dir="${build}"/>
     <delete dir="${deploy}"/>
   </target>
