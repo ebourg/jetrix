@@ -42,6 +42,7 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <alias name="start" class="net.jetrix.filter.StartFilter"/>
     <alias name="amplifier" class="net.jetrix.filter.AmplifierFilter"/>
     <alias name="ping" class="net.jetrix.filter.PingFilter"/>
+    <alias name="7tetris" class="net.jetrix.filter.TetrisFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -150,10 +151,19 @@ Welcome on <b>JetriX TetriNET Server</b>!
       </settings>
     </channel>
 
+    <channel name="7Tetris">
+      <description>7 tetris to win!</description>
+      <filters>
+        <filter name="7tetris"/>
+      </filters>
+    </channel>
+
+<!--
     <channel name="theatre">
       <description>The TetriNET Theatre</description>
       <class>org.lfjr.jetrix.channel.PlayBack</class>
     </channel>
+-->
 
     <channel name="laboratory">
       <description>Silly tests here</description>
@@ -179,6 +189,7 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <command class="net.jetrix.commands.BroadcastCommand"/>
     <command class="net.jetrix.commands.ConfigCommand"/>
     <command class="net.jetrix.commands.EmoteCommand"/>
+    <command class="net.jetrix.commands.GotoCommand"/>
     <command class="net.jetrix.commands.HelpCommand"/>
     <command class="net.jetrix.commands.IpCommand"/>
     <command class="net.jetrix.commands.JoinCommand"/>
@@ -189,6 +200,7 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <command class="net.jetrix.commands.MoveCommand"/>
     <command class="net.jetrix.commands.OperatorCommand"/>
     <command class="net.jetrix.commands.PauseCommand"/>
+    <command class="net.jetrix.commands.PetitionCommand"/>
     <command class="net.jetrix.commands.PingCommand"/>
     <command class="net.jetrix.commands.RandomCommand"/>
     <command class="net.jetrix.commands.ReplyCommand"/>
