@@ -124,6 +124,14 @@ public class ChannelManager
         return channel;
     }
 
+    /**
+     * Clear the channel list.
+     */
+    public void clear()
+    {
+        channels.clear();
+    }
+
     public Channel getChannel(int num)
     {
         return ((num >= 0 && num < channels.size()) ? (Channel)channels.get(num) : null);
