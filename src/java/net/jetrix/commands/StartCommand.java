@@ -49,7 +49,7 @@ public class StartCommand extends AbstractCommand
         Client client = (Client) m.getSource();
         Channel channel = client.getChannel();
 
-        if (channel != null)
+        if (channel != null && channel.getGameState() == STOPPED)
         {
             // delay in seconds for the countdown
             int delay = 0;
