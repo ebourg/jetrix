@@ -5,6 +5,10 @@ TODO
 ----
 - add password protected channels
 - add an access level check to join channels
+- ban list
+- host count check
+- winner announcement
+- winlists
 - implement the /move command
 - implement the /afk command
 - implement the /omsg command
@@ -20,6 +24,9 @@ Changes in version 0.1.0 (2002-10-??)
 - added support for tetrifast clients
 - new commands : /teleport, /summon, /ping and /ip
 - level change is now working
+- full internationalization support
+- added french support
+- made the colors & styles protocol independant
 
 Changes in version 0.0.10 (2002-09-28)
 --------------------------------------
