@@ -104,6 +104,7 @@ public class TetrinetProtocol implements Protocol
                     if (firstWord.startsWith("/") && !firstWord.startsWith("//"))
                     {
                         CommandMessage command = new CommandMessage();
+                        command.setSlot(Integer.parseInt(slot));
                         command.setCommand(firstWord.substring(1));
                         command.setText(line.substring(line.indexOf(" ", 9) + 1));
                         while (st.hasMoreTokens()) { command.addParameter(st.nextToken()); }
@@ -255,7 +256,7 @@ public class TetrinetProtocol implements Protocol
         {
             FieldMessage field = new FieldMessage();
             field.setSlot(Integer.parseInt(st.nextToken()));
-            field.setField((st.hasMoreTokens())?st.nextToken():null);
+            field.setField((st.hasMoreTokens()) ? st.nextToken() : null);
             m = field;
             m.setRawMessage(this, line);
         }
