@@ -56,7 +56,7 @@ public class ModeCommand extends AbstractCommand
 
     public String getUsage(Locale locale)
     {
-        return "/mode <0-" + modes.length + ">";
+        return "/\" + getAlias() + \" <0-" + modes.length + ">";
     }
 
     public void updateSetting(Settings settings, int[] mode)
@@ -77,10 +77,12 @@ public class ModeCommand extends AbstractCommand
 
         if (message.getParameterCount() < 1)
         {
+            Locale locale = client.getUser().getLocale();
+
             // display all modes available
             for (int i = 0; i < modes.length; i++)
             {
-                Message tmode = new PlineMessage("<red>/" + getAlias() + " <darkBlue>" + i + "</darkBlue> : " + modes[i]);
+                Message tmode = new PlineMessage("<red>/" + getAlias() + " <darkBlue>" + i + "</darkBlue> : " + Language.getText("command.mode.message" + i, locale));
                 client.send(tmode);
             }
         }
