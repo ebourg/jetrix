@@ -29,5 +29,16 @@ import net.jetrix.*;
  */
 public class GmsgMessage extends TextMessage
 {
+    public GmsgMessage() { }
 
+    public GmsgMessage(String text)
+    {
+        this(0, text);
+    }
+
+    public GmsgMessage(int slot, String text)
+    {
+        setSlot(slot);
+        setText(text);
+    }
 }
