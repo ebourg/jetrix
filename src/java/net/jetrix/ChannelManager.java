@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,12 +30,12 @@ import net.jetrix.config.*;
  */
 public class ChannelManager
 {
-    private Vector channels;
+    private List channels;
     private static ChannelManager instance = new ChannelManager();
 
     private ChannelManager()
     {
-        channels = new Vector();
+        channels = new ArrayList();
     }
 
     public static ChannelManager getInstance()
@@ -59,7 +59,7 @@ public class ChannelManager
     {
         Channel ch = new Channel(conf);
         ch.start();
-        channels.addElement(ch);
+        channels.add(ch);
         return ch;
     }
 
@@ -110,6 +110,7 @@ public class ChannelManager
     public Channel getChannel(String name)
     {
         Channel channel = null;
+        
         // stripping leading #
         name = name.replaceFirst("#", "");
 
@@ -122,4 +123,10 @@ public class ChannelManager
 
         return channel;
     }
+
+    public Channel getChannel(int num)
+    {
+        return ((num >= 0 && num < channels.size()) ? (Channel)channels.get(num) : null);
+    }
+
 }
