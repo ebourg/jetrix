@@ -69,13 +69,11 @@ public class QueryProtocol implements Protocol
     {
         StringBuffer message = new StringBuffer();
         message.append(m.getText());
-        message.append(EOL);
 
         // add the response terminator except for playerquery
-        //if (!m.getText().startsWith("Number"))
+        if (!m.getText().startsWith("Number"))
         {
             message.append(OK);
-            message.append(EOL);
         }
 
         return message.toString();
