@@ -34,7 +34,7 @@ public class ClientRepository
     private static ClientRepository instance = new ClientRepository();
     private Map clients;
 
-    private static Predicate playerPredicate = new Predicate() {
+    public static final Predicate playerPredicate = new Predicate() {
             public boolean evaluate(Object obj)
             {
                 Client client = (Client)obj;
@@ -42,7 +42,7 @@ public class ClientRepository
             }
         };
 
-    private static Predicate spectatorPredicate = new Predicate() {
+    public static final Predicate spectatorPredicate = new Predicate() {
             public boolean evaluate(Object obj)
             {
                 Client client = (Client)obj;
@@ -50,7 +50,7 @@ public class ClientRepository
             }
         };
 
-    private static Predicate operatorPredicate = new Predicate() {
+    public static final Predicate operatorPredicate = new Predicate() {
             public boolean evaluate(Object obj)
             {
                 Client client = (Client)obj;
