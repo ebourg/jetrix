@@ -122,6 +122,23 @@
 	</table>
 
   </div>
+  <div class="tab-page" style="height: 400px">
+    <h2 class="tab">Fields</h2>
+
+    <table class="thin" cellpadding="3">
+      <tr>
+<%  for (int i = 0; i < 6; i++) { %>
+        <td><%= i + 1 %>: <%= channel.getPlayer(i + 1) != null ? channel.getPlayer(i + 1).getName() : "(empty)" %></td>
+<%  } %>
+      </tr>
+      <tr>
+<%  for (int i = 0; i < 6; i++) { %>
+        <td><iframe src="field.jsp?name=<%= conf.getName() %>&num=<%= i %>" width="96" height="176" frameborder="no"></iframe></td>
+<%  } %>
+      </tr>
+    </table>
+
+  </div>
 </div>
 
 <script type="text/javascript">setupAllTabs();</script>
