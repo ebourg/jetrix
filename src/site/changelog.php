@@ -3,6 +3,18 @@
 <h1>Changelog</h1>
 
 <pre>
+Changes in version 0.1.1 (2003-03-02)
+-------------------------------------
+- new commands : /start, /stop, /pause, /random, /reply
+- "/start <n>" will run a countdown for n seconds
+- the admin console can now use all /commands available to the clients
+- the winner is announced at the end of the game
+- any jar or class in the ./lib directory is now loaded at startup
+- the number of concurrent connections from the same host can be limited (the default value is 2)
+- channel access can now be restricted by access level
+- channels can now be protected by a password
+- the /join command now accepts channel numbers as argument
+
 Changes in version 0.1.0 (2002-11-16)
 -------------------------------------
 - added support for tetrifast clients

@@ -14,8 +14,11 @@ TODO
 - /help <command name>
 - check for new versions available
 - ignore & friend list
+- complete the tspec support
+- /mute <nick>
+- /goto <nick>
 
-Changes in version 0.1.1 (2003-02-??)
+Changes in version 0.1.1 (2003-03-02)
 -------------------------------------
 - new commands : /start, /stop, /pause, /random, /reply
 - "/start <n>" will run a countdown for n seconds

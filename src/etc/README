@@ -14,13 +14,12 @@ Features planned for JetriX 1.0
 
   * multi channel
   * multi client : tetrinet & tetrifast
-  * Pluggable and extensible filter system
+  * Pluggable and extensible filter & command system
   * player authentication
   * game recording & playback
   * interface to external ladder systems
   * TSpec support
   * IRC support
-  * default filters : anti-flood, badwords, team message coloring, ppm counter...
   * internationalization
   * XML based configuration files
   * Web based administration
