@@ -30,7 +30,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ConsoleProtocol extends Protocol
+public class ConsoleProtocol implements Protocol
 {
     private static Map styles = new HashMap();
 
@@ -113,6 +113,24 @@ public class ConsoleProtocol extends Protocol
     public Map getStyles()
     {
         return styles;
+    }
+
+    public String applyStyle(String text)
+    {
+        // to be optimized later
+        Map styles = getStyles();
+        if (styles == null) return text;
+        
+        Iterator keys = styles.keySet().iterator();
+        while (keys.hasNext())
+        {
+            String key = (String)keys.next();
+            String value = (String)styles.get(key);
+            if (value == null) { value = ""; }
+            text = text.replaceAll("<" + key + ">", value);
+            text = text.replaceAll("</" + key + ">", value);
+        }
+        return text;
     }
 
     public String toString()

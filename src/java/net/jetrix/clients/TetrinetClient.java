@@ -29,9 +29,10 @@ import net.jetrix.messages.*;
 import net.jetrix.protocols.*;
 
 /**
- * Layer handling communication with a client. Incomming messages are turned
- * into a server understandable format and forwarded to the apropriate
- * destination for processing (player's channel or main server thread)
+ * Layer handling communication with a tetrinet or tetrifast client. Incomming 
+ * messages are turned into a server understandable format and forwarded to the 
+ * apropriate destination for processing (the player's channel or  the main 
+ * server thread)
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$

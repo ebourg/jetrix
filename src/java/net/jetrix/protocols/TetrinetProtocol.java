@@ -30,7 +30,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TetrinetProtocol extends Protocol
+public class TetrinetProtocol implements Protocol
 {
     private static Map styles = new HashMap();
 
@@ -625,9 +625,30 @@ public class TetrinetProtocol extends Protocol
         return message.toString();
     }
 
+    /**
+     * Return the map of the color and style codes for this protocol.
+     */
     public Map getStyles()
     {
         return styles;
+    }
+
+    public String applyStyle(String text)
+    {
+        // to be optimized later
+        Map styles = getStyles();
+        if (styles == null) return text;
+        
+        Iterator keys = styles.keySet().iterator();
+        while (keys.hasNext())
+        {
+            String key = (String)keys.next();
+            String value = (String)styles.get(key);
+            if (value == null) { value = ""; }
+            text = text.replaceAll("<" + key + ">", value);
+            text = text.replaceAll("</" + key + ">", value);
+        }
+        return text;
     }
 
     public String toString()

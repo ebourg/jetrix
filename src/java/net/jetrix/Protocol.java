@@ -22,23 +22,33 @@ package net.jetrix;
 import java.util.*;
 
 /**
- * A protocol to communicate with a client.
+ * A protocol to communicate with a client. A protocol is responsible for
+ * transforming the messages in string format comming for a client into the
+ * corresponding server {@link net.jetrix.Message}, as well as performing the
+ * reverse operation.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public abstract class Protocol
+public interface Protocol
 {
     /**
-     * Return the name of this protocol
+     * Return the name of this protocol.
+     *
+     * @return the name of this protocol
      */
-    public abstract String getName();
+    public String getName();
 
     /**
      * Parse the specified string and return the corresponding server
      * message for this protocol.
+     *
+     * @param message the client message to parse
+     *
+     * @return the {@link net.jetrix.Message} equivalent of the specified
+     *     String or null if the protocol cannot understand the message.
      */
-    public abstract Message getMessage(String line);
+    public Message getMessage(String message);
 
     /**
      * Translate the specified message into a string that will be sent
@@ -46,34 +56,22 @@ public abstract class Protocol
      *
      * @param m the message to translate
      * @param locale the locale used for internationalized text messages
+     *
+     * @return the String equivalent in this protocol for the specified
+     *     {@link net.jetrix.Message} or null if it can't be translated.
      */
-    public abstract String translate(Message m, Locale locale);
+    public String translate(Message m, Locale locale);
 
     /**
-     * Return the map of the color and style codes for this protocol.
+     * Transform the style tags (<tt>&lt;blue&gt;</tt>, <tt>&lt;u&gt;</tt>,
+     * etc...) contained in the specified string into the style codes of this
+     * protocol.
+     *
+     * @param text the string to transform
+     *
+     * @return the stylized representation of the specified string for
+     *     this protocol.
      */
-    public abstract Map getStyles();
-
-    /**
-     * Transform the style tags (&lt;blue&gt;, &lt;u&gt;, etc...) in the specified string
-     * into the style codes of this protocol.
-     */
-    public String applyStyle(String text)
-    {
-        // to be optimized later
-        Map styles = getStyles();
-        if (styles == null) return text;
-        
-        Iterator keys = styles.keySet().iterator();
-        while (keys.hasNext())
-        {
-            String key = (String)keys.next();
-            String value = (String)styles.get(key);
-            if (value == null) { value = ""; }
-            text = text.replaceAll("<" + key + ">", value);
-            text = text.replaceAll("</" + key + ">", value);
-        }
-        return text;
-    }
+    public String applyStyle(String text);
 
 }
