@@ -22,6 +22,7 @@ package org.lfjr.jts;
 import java.io.*;
 import java.util.*;
 import org.lfjr.jts.config.*;
+import org.lfjr.jts.filter.*;
 
 /**
  * Game channel
@@ -69,21 +70,99 @@ public class Channel extends Thread
         mq = new MessageQueue();
 
         filters = new ArrayList();
+
+        /**
+         * Loading filters
+         */
+
+        // global filters
+        Iterator it = conf.getGlobalFilters();
+        while ( it.hasNext() ) { addFilter( (FilterConfig)it.next() ); }
+
+        // channel filters
+        it = cconf.getFilters();
+        while ( it.hasNext() ) { addFilter( (FilterConfig)it.next() ); }
     }
 
+    /**
+     * Enable a new filter for this channel.
+     */
+    public void addFilter(FilterConfig filterConfig)
+    {
+        FilterManager filterManager = FilterManager.getInstance();
+        MessageFilter filter;
+        //System.out.println(filterConfig.toString());
+
+        try
+        {
+            // getting filter instance
+            if (filterConfig.getClassname()!=null)
+            {
+                filter = filterManager.getFilter(filterConfig.getClassname());
+            }
+            else
+            {
+                filter = filterManager.getFilterByName(filterConfig.getName());
+            }
+
+            // initializing filter
+            filter.setChannel(this);
+            filter.init(filterConfig);
+
+            // adding filter to the list
+            filters.add(filter);
+
+            System.out.println("["+cconf.getName()+"] loaded filter " + filter.getName() + " " + filter.getVersion());
+        }
+        catch (FilterException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Main loop. The channel listens for incomming messages until the server
+     * or the channel closes. Every message is first passed through the
+     * registered filters and then handled by the channel.
+     */
     public void run()
     {
-        System.out.println("Channel "+cconf.getName()+" opened");
+        System.out.println("Channel " + cconf.getName() + " opened");
 
         while (running && conf.isRunning())
         {
+            LinkedList l = new LinkedList();
+
             try
             {
-                Message m = mq.get();
-                int slot;
+                l.add( mq.get() );
 
+                // filtering message
+                Iterator it = filters.iterator();
+                while ( it.hasNext() )
+                {
+                    MessageFilter filter = (MessageFilter)it.next();
+                    int size = l.size();
+                    for (int i = 0; i<size; i++) { filter.process( (Message)l.removeFirst(), l ); }
+                }
+
+                // processing message(s)
+                while ( !l.isEmpty() ) { process( (Message)l.removeFirst() ); }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+
+        System.out.println("Channel " + cconf.getName() + " closed");
+    }
+
+    public void process(Message m)
+    {
                 //System.out.println("Channel["+cconf.getName()+"]: processing "+m);
-
+                int slot;
                     switch(m.getCode())
                     {
                         case Message.MSG_SLASHCMD:
@@ -271,7 +350,7 @@ public class Channel extends Thread
                                 leave.setParameters(new Object[] { new Integer(previousChannel.getPlayerSlot(client)) });
                                 previousChannel.addMessage(leave);
                                 client.setChannel(this);
-                                
+
                                 // sending message to the previous channel announcing what channel the player joined
                                 Message leave2 = new Message(Message.MSG_PLINE);
                                 leave2.setParameters(new Object[] { new Integer(0), ChatColors.gray + client.getPlayer().getName()+" has joined channel " + ChatColors.bold + cconf.getName() });
@@ -353,17 +432,8 @@ public class Channel extends Thread
                             }
                             break;
                 }
-
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-
-        System.out.println("Channel "+cconf.getName()+" closed");
     }
+
 
     /**
      * Add a message to the channel MessageQueue.
@@ -530,5 +600,6 @@ public class Channel extends Thread
         //System.out.println("joueurs seuls : " + nbTeamsLeft + " - equipes : " + playingTeams.size() + " - " + playingTeams);
         return nbTeamsLeft + playingTeams.size();
     }
+
 
 }
