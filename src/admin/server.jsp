@@ -109,7 +109,7 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Settings</h2>
 
-    <jsp:include page="settings.jsp"/>
+    <jsp:include page="/servlet/org.apache.jsp.settings_jsp"/>
 
   </div>
   <div class="tab-page" style="height: 400px">
@@ -197,7 +197,7 @@
         <th></th>
       </tr>
 <%  while (listeners.hasNext()) {
-        ClientListener listener = (ClientListener) listeners.next();  %>
+        Listener listener = (Listener) listeners.next();  %>
       <tr>
         <td><%= listener.getName() %></td>
         <td width="50" align="center"><%= listener.getPort() %></td>

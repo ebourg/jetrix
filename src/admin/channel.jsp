@@ -74,7 +74,7 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Settings</h2>
     
-    <jsp:include page="settings.jsp"/>
+    <jsp:include page="/servlet/org.apache.jsp.settings_jsp"/>
 
   </div>
   <div class="tab-page" style="height: 400px">
