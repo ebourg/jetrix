@@ -27,23 +27,23 @@ package org.lfjr.jts;
  */
 public interface ChatColors
 {
-    public static final char red         = '\u0014';
-    public static final char black       = '\u0004';
-    public static final char green       = '\u000c';
-    public static final char lightGreen  = '\u000e';
-    public static final char darkBlue    = '\u0011';
-    public static final char blue        = '\u0005';
-    public static final char cyan        = '\u0003';
-    public static final char aqua        = '\u0017';
-    public static final char yellow      = '\u0019';
-    public static final char kaki        = '\u0012';
-    public static final char brown       = '\u0010';
-    public static final char lightgray   = '\u000f';
-    public static final char gray        = '\u0006';
-    public static final char magenta     = '\u0008';
-    public static final char purple      = '\u0013';
-    public static final char bold        = '\u0002';
-    public static final char italic      = '\u0016';
-    public static final char underline   = '\u001f';
-    public static final char white       = '\u0018';
+    public static final String red         = "\u0014";
+    public static final String black       = "\u0004";
+    public static final String green       = "\u000c";
+    public static final String lightGreen  = "\u000e";
+    public static final String darkBlue    = "\u0011";
+    public static final String blue        = "\u0005";
+    public static final String cyan        = "\u0003";
+    public static final String aqua        = "\u0017";
+    public static final String yellow      = "\u0019";
+    public static final String kaki        = "\u0012";
+    public static final String brown       = "\u0010";
+    public static final String lightgray   = "\u000f";
+    public static final String gray        = "\u0006";
+    public static final String magenta     = "\u0008";
+    public static final String purple      = "\u0013";
+    public static final String bold        = "\u0002";
+    public static final String italic      = "\u0016";
+    public static final String underline   = "\u001f";
+    public static final String white       = "\u0018";
 }
