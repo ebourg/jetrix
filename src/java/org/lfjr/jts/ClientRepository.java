@@ -128,6 +128,14 @@ public class ClientRepository
     }
 
     /**
+     * Return an iterator of all clients online in alphabetical order.
+     */
+    public Iterator getClients()
+    {
+        return clients.values().iterator();
+    }
+
+    /**
      * Return the number of clients connected to this server.
      */
     public int getClientCount()
