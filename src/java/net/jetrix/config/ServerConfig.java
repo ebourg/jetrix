@@ -23,9 +23,11 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.apache.commons.digester.*;
+
+import net.jetrix.*;
 import net.jetrix.filter.*;
 import net.jetrix.commands.*;
-import org.apache.commons.digester.*;
 
 /**
  * Server configuration. This objet reads and retains server parameters,
@@ -51,6 +53,7 @@ public class ServerConfig
     // private List bans;
     private List channels;
     private List globalFilters;
+    private List listeners;
     private boolean running;
 
     public static final String VERSION = "@version@";
@@ -63,6 +66,7 @@ public class ServerConfig
     {
         channels = new ArrayList();
         globalFilters = new ArrayList();
+        listeners = new ArrayList();
         // bans = new ArrayList();
         port = DEFAULT_PORT;
     }
@@ -272,6 +276,16 @@ public class ServerConfig
     public void addCommand(Command command)
     {
         CommandManager.getInstance().addCommand(command);
+    }
+
+    public void addListener(ClientListener listener)
+    {
+        listeners.add(listener);
+    }
+
+    public Iterator getListeners()
+    {
+        return listeners.iterator();
     }
 
 }
