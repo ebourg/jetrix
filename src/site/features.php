@@ -41,7 +41,7 @@
   <li class="done"> TetriNET clients</li>
   <li class="done"> TetriFast clients</li>
   <li class="partial"> Block synchronization protocol (1.14)</li>
-  <li class="partial"> TSpec clients</li>
+  <li class="done"> TSpec clients</li>
   <li class="done"> Query protocol</li>
   <li class="planned"> IRC clients</li>
   <li class="planned"> Flash clients</li>
