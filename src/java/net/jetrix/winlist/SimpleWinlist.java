@@ -20,6 +20,7 @@
 package net.jetrix.winlist;
 
 import java.util.*;
+import java.io.*;
 
 import net.jetrix.winlist.*;
 
@@ -33,6 +34,7 @@ public class SimpleWinlist implements Winlist
 {
     private String id;
     private List scores;
+    private boolean initialized = false;
 
     public SimpleWinlist()
     {
@@ -49,8 +51,13 @@ public class SimpleWinlist implements Winlist
         this.id = id;
     }
 
-    public WinlistScore getScore(String name, int type)
+    public synchronized WinlistScore getScore(String name, int type)
     {
+        if (!initialized)
+        {
+            load();
+        }
+
         WinlistScore score = null;
 
         WinlistScore example = new WinlistScore();
@@ -66,13 +73,23 @@ public class SimpleWinlist implements Winlist
         return score;
     }
 
-    public List getScores(long offset, long length)
+    public synchronized List getScores(long offset, long length)
     {
+        if (!initialized)
+        {
+            load();
+        }
+
         return scores.subList(0, Math.min(scores.size(), (int) length));
     }
 
-    public void saveGameResult(GameResult result)
+    public synchronized void  saveGameResult(GameResult result)
     {
+        if (!initialized)
+        {
+            load();
+        }
+
         Collection players = result.getGamePlayers();
         Iterator it = players.iterator();
         while (it.hasNext())
@@ -93,6 +110,69 @@ public class SimpleWinlist implements Winlist
         }
 
         Collections.sort(scores, new ScoreComparator());
+        save();
+    }
+
+    /**
+     * Load the winlist from a file.
+     */
+    protected void load()
+    {
+        System.out.println("Winlist load");
+        if (id != null)
+        {
+            BufferedReader reader = null;
+            try {
+                reader = new BufferedReader(new FileReader(id + ".winlist"));
+                String line = null;
+                while ((line = reader.readLine()) != null)
+                {
+                    String[] fields = line.split("\t");
+                    WinlistScore score = new WinlistScore();
+                    score.setName(fields[2]);
+                    score.setScore(Long.parseLong(fields[1]));
+                    score.setType("p".equals(fields[0]) ? WinlistScore.TYPE_PLAYER : WinlistScore.TYPE_TEAM);
+                    scores.add(score);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally  {
+                try { if (reader != null) { reader.close(); } } catch (Exception e) { e.printStackTrace(); }
+            }
+        }
+
+        initialized = true;
+    }
+
+    /**
+     * Save the winlist to a file.
+     */
+    protected void save()
+    {
+        System.out.println("Winlist save");
+        if (id != null)
+        {
+            BufferedWriter writer = null;
+            try {
+                writer = new BufferedWriter(new FileWriter(id + ".winlist"));
+                Iterator it = scores.iterator();
+                while (it.hasNext())
+                {
+                    WinlistScore score = (WinlistScore) it.next();
+                    StringBuffer line = new StringBuffer();
+                    line.append(score.getType() == WinlistScore.TYPE_PLAYER ? "p" : "t");
+                    line.append("\t");
+                    line.append(score.getScore());
+                    line.append("\t");
+                    line.append(score.getName());
+                }
+                writer.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try { if (writer != null) { writer.close(); } } catch (Exception e) { e.printStackTrace(); }
+            }
+        }
     }
 
 }
