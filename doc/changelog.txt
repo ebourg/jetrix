@@ -22,6 +22,7 @@ Changes in version 0.1.1 (2003-01-??)
 - "/start <n>" will run a countdown for n seconds
 - the admin console can now use all /commands available to the clients
 - winner announcement
+- any jar or class in the ./lib directory is now loaded at startup
 
 Changes in version 0.1.0 (2002-11-16)
 -------------------------------------
