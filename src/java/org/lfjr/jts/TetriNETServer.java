@@ -24,6 +24,7 @@ import java.text.*;
 import java.util.*;
 import java.util.logging.*;
 import org.lfjr.jts.config.*;
+import org.lfjr.jts.commands.*;
 
 /**
  * Main class, starts server components.
@@ -56,7 +57,7 @@ public class TetriNETServer implements Runnable
         // preparing logger        
         logger = Logger.getLogger("net.jetrix");
         logger.setUseParentHandlers(false);
-        logger.setLevel(Level.ALL);
+        logger.setLevel(Level.INFO);
         
         ConsoleHandler consoleHandler = new ConsoleHandler();
         String debug = System.getProperty("jetrix.debug");
@@ -180,155 +181,7 @@ public class TetriNETServer implements Runnable
                         break;
 
                     case Message.MSG_SLASHCMD:
-                        String cmd = m.getStringParameter(1);
-                        TetriNETClient client = (TetriNETClient)m.getSource();
-
-                        if ("/list".equalsIgnoreCase(cmd))
-                        {
-                            Message response = new Message(Message.MSG_PLINE);
-                            Object params[] = { new Integer(0), ChatColors.darkBlue+"TetriNET Channel Lister - (Type "+ChatColors.red+"/join "+ChatColors.purple+"channelname"+ChatColors.darkBlue+")" };
-                            response.setParameters(params);
-                            client.sendMessage(response);
-
-                            Iterator it = channelManager.channels();
-                            int i = 1;
-                            while(it.hasNext())
-                            {
-                                Channel channel = (Channel)it.next();
-                                ChannelConfig conf = channel.getConfig();
-
-                                String cname = conf.getName();
-                                while (cname.length() < 6) cname += " ";
-
-                                String message = ChatColors.darkBlue+"("+(client.getChannel().getConfig().getName().equals(conf.getName())?ChatColors.red:ChatColors.purple)+i+ChatColors.darkBlue+") " + ChatColors.purple + cname + "\t"
-                                                 + (channel.isFull()?ChatColors.darkBlue+"["+ChatColors.red+"FULL"+ChatColors.darkBlue+"]       ":ChatColors.darkBlue+"["+ChatColors.aqua+"OPEN"+ChatColors.blue+"-" + channel.getPlayerCount() + "/"+conf.getMaxPlayers() + ChatColors.darkBlue + "]")
-                                                 + (channel.getGameState()!=Channel.GAME_STATE_STOPPED?ChatColors.gray+" {INGAME} ":"                  ")
-                                                 + ChatColors.black + conf.getDescription();
-
-                                Message response2 = new Message(Message.MSG_PLINE);
-                                Object params2[] = { new Integer(0), message };
-                                response2.setParameters(params2);
-                                client.sendMessage(response2);
-
-                                i = i + 1;
-                            }
-                        }
-                        else if ("/version".equalsIgnoreCase(cmd))
-                        {
-                            String version1 = ChatColors.darkBlue + "" + ChatColors.bold + "JetriX/" + ServerConfig.VERSION + " (build:@build.time@)";
-                            String version2 = ChatColors.purple+"VM"+ChatColors.darkBlue+": " + System.getProperty("java.vm.name") + " " + System.getProperty("java.vm.version") + " " + System.getProperty("java.vm.info");
-                            String version3 = ChatColors.purple+"OS"+ChatColors.darkBlue+": " + System.getProperty("os.name") + " " + System.getProperty("os.version") +"; " + System.getProperty("os.arch");
-                                                        
-                            Message response1 = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), version1 });
-                            Message response2 = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), version2 });
-                            Message response3 = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), version3 });
-                            client.sendMessage(response1);
-                            client.sendMessage(response2);
-                            client.sendMessage(response3);
-                        }
-                        else if ("/tell".equalsIgnoreCase(cmd)
-                                 || "/msg".equalsIgnoreCase(cmd)
-                                 || "/cmsg".equalsIgnoreCase(cmd))
-                        {
-                            if (m.getParameterCount() > 3)
-                            {
-                                String targetName = m.getStringParameter(2);
-                                TetriNETClient target = null;
-                                
-                                // checking if the second parameter is a slot number
-                                try
-                                {
-                                    int slot = Integer.parseInt(targetName);
-                                    if (slot >= 1 && slot <= 6)
-                                    {
-                                        Channel channel = client.getChannel();
-                                        target = channel.getPlayer(slot);
-                                    }
-                                }
-                                catch (NumberFormatException e) {}
-                                
-                                if (target == null)
-                                {
-                                    // target is still null, the second parameter is a playername
-                                    ClientRepository repository = ClientRepository.getInstance();
-                                    target = repository.getClient(targetName);
-                                }
-                            
-                                if (target == null)
-                                {
-                            	    // no player found
-                            	    Message reponse = new Message(Message.MSG_PLINE);
-                            	    String message = ChatColors.red + "Player " + targetName + " cannot be found on the server.";
-                            	    reponse.setParameters(new Object[] { new Integer(0), message });
-                            	    client.sendMessage(reponse);
-                                }
-                                else
-                                {
-                                    // player found
-                                    Message reponse = new Message(Message.MSG_PLINE);
-                                    String privateMessage = m.getRawMessage().substring(cmd.length() + targetName.length() + 10);
-                                    String message = ChatColors.aqua + "{" + client.getPlayer().getName() + "} " + ChatColors.darkBlue + privateMessage;
-                                    reponse.setParameters(new Object[] { new Integer(0), message });
-                            	    target.sendMessage(reponse);
-                                }
-                            }
-                            else
-                            {
-                                // not enough parameters
-                                Message response = new Message(Message.MSG_PLINE);
-                                String message = ChatColors.red + cmd + ChatColors.blue + " <playername|playernumber> <message>";
-                                response.setParameters(new Object[] { new Integer(0), message });
-                                client.sendMessage(response);
-                            }
-                        }                     
-                        else if ("/who".equalsIgnoreCase(cmd))
-                        {
-                            Message response = new Message(Message.MSG_PLINE);
-                            Object params[] = { new Integer(0), ChatColors.darkBlue + "Channel\t\tNickname(s)" };
-                            response.setParameters(params);
-                            client.sendMessage(response);
-
-                            Iterator it = channelManager.channels();
-                            while(it.hasNext())
-                            {
-                                Channel channel = (Channel)it.next();
-                                
-                                // skipping empty channels
-                                if (channel.getPlayerCount() > 0)
-                                {
-                                    ChannelConfig conf = channel.getConfig();
-                                    
-                                    boolean isInChannel = false;
-                                    String channelColor = ChatColors.purple;
-                                    StringBuffer message = new StringBuffer();
-                                    message.append("[" + conf.getName() + "] " + ChatColors.darkBlue);
-                                
-                                    for (int i = 1; i <= 6; i++)
-                                    {
-                                        TetriNETClient clientInChannel = channel.getPlayer(i);
-                                        if (clientInChannel != null) message.append(" " + clientInChannel.getPlayer().getName());
-                                        if (client == clientInChannel) isInChannel = true;
-                                    }
-                                    
-                                    if (isInChannel) channelColor = ChatColors.red;
-                                
-                                    Message response2 = new Message(Message.MSG_PLINE);
-                                    Object params2[] = { new Integer(0), channelColor + message.toString() };
-                                    response2.setParameters(params2);
-                                    client.sendMessage(response2);
-                                }
-                            }
-                        }
-                        else if ("/op".equalsIgnoreCase(cmd))
-                        {
-                            Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), ChatColors.darkBlue+"/op is not implemented yet" });
-                            client.sendMessage(response);
-                        }
-                        else
-                        {
-                            Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), ChatColors.red+"Invalid /COMMAND" });
-                            client.sendMessage(response);
-                        }
+                        CommandManager.getInstance().execute(m);
                         break;
                 }
             }
@@ -338,7 +191,6 @@ public class TetriNETServer implements Runnable
             }
         }
     }
-
 
     /**
      * Add a message to the server message queue.
@@ -369,4 +221,5 @@ public class TetriNETServer implements Runnable
     {
         new TetriNETServer();
     }
+
 }
