@@ -16,7 +16,7 @@ SilentInstall silent
 AutoCloseWindow true
 ShowInstDetails nevershow
 
-!define ARGS "-Djava.library.path=lib -jar lib/jetrix-@version@.jar"
+!define ARGS "-Djava.library.path=lib -jar lib/jetrix-launcher-@version@.jar"
 
 Section ""
   Call GetJRE
