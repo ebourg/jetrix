@@ -59,20 +59,21 @@ public class LanguageCommand implements Command
 
         if (m.getParameterCount() >= 1)
         {
+            // read the specified locale
             String language = m.getParameter(0);
-            Locale l = new Locale(language);
+            Locale locale = new Locale(language);
 
-            if (Language.isSupported(l))
+            if (Language.isSupported(locale))
             {
-                client.getUser().setLocale(l);
+                // change the locale
+                client.getUser().setLocale(locale);
 
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.language.changed", new Object[] { l.getDisplayLanguage(l) });
+                response.setKey("command.language.changed", new Object[] { locale.getDisplayLanguage(locale) });
                 client.sendMessage(response);
             }
             else
             {
-                client.getUser().setLocale(l);
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.language.not_supported");
                 client.sendMessage(response);
@@ -80,10 +81,23 @@ public class LanguageCommand implements Command
         }
         else
         {
-            // not enough parameters
-            String message = "<red>" + m.getCommand() + "<blue> <lancode>";
-            PlineMessage response = new PlineMessage(message);
-            client.sendMessage(response);
+            // list all available locales
+            String[] languages = Locale.getISOLanguages();
+
+            PlineMessage header = new PlineMessage();
+            header.setKey("command.language.available");
+            client.sendMessage(header);
+
+            for (int i = 0; i < languages.length; i++)
+            {
+                Locale locale = new Locale(languages[i]);
+                if (Language.isSupported(locale))
+                {
+                    PlineMessage line = new PlineMessage();
+                    line.setKey("command.language.list_format", new Object[] {locale.getLanguage(), locale.getDisplayLanguage(client.getUser().getLocale())});
+                    client.sendMessage(line);
+                }
+            }
         }
     }
 
