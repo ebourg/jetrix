@@ -2,6 +2,8 @@
 <project name="Jetrix TetriNET Server" default="dist" basedir=".">
 
   <property name="build.compiler" value="jikes"/>
+  <property name="compile.debug"    value="true"/>
+  <property name="compile.optimize" value="true"/>
   <property name="src"     value="src"/>
   <property name="lib"     value="lib"/>
   <property name="doc"     value="doc"/>
@@ -14,15 +16,27 @@
 
   <target name="init">
     <!-- Create the time stamp -->
-    <tstamp/>
+    <tstamp>
+      <format property="build.time" pattern="yyyyMMddHH"/>
+    </tstamp>
+    <!-- Filters -->
+    <filter token="version" value="${version}"/>
+    <filter token="build.time" value="${build.time}"/>
     <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
+    <mkdir dir="${build}/java"/>
+    <mkdir dir="${build}/classes"/>
   </target>
 
+  <target name="prepare" depends="init">
+    <copy todir="${build}/java" filtering="on">
+      <fileset dir="${src}/java" includes="**/*.java"/>
+    </copy>
+  </target>
 
-  <target name="compile" depends="init">
+  <target name="compile" depends="prepare">
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}/java" destdir="${build}" debug="yes">
+    <javac srcdir="${build}/java" destdir="${build}/classes" debug="${compile.debug}" optimize="${compile.optimize}">
       <classpath>
         <pathelement location="${lib}/commons-digester.jar"/>
       </classpath>
@@ -31,9 +45,9 @@
 
 
   <target name="compiletest" depends="compile" description="Compile JUnit TestCases">
-    <javac srcdir="${src}/test" destdir="${build}" debug="yes">
+    <javac srcdir="${src}/test" destdir="${build}/classes" debug="yes">
       <classpath>
-        <pathelement path="${build}" />      
+        <pathelement path="${build}/classes" />
         <pathelement location="${lib}/junit.jar"/>
       </classpath>
     </javac>
@@ -43,7 +57,9 @@
   <target name="dist" depends="compile">
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
-    <jar jarfile="${dist}/lib/jetrix.jar" basedir="${build}" manifest="${src}/etc/MANIFEST.MF" />
+    <jar jarfile="${dist}/lib/jetrix.jar" basedir="${build}/classes" manifest="${src}/etc/MANIFEST.MF">
+      <fileset dir="${build}/classes" excludes="**/*Test.class"/>
+    </jar>
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
       <zipfileset prefix="jetrix/" dir="${src}/etc/">
         <include name="news.txt" />
@@ -62,6 +78,7 @@
         <include name="commons-digester.jar" />
         <include name="commons-collections.jar" />
         <include name="commons-beanutils.jar" />
+        <include name="commons-logging.jar" />
       </zipfileset>
     </zip>
   </target>
@@ -70,11 +87,11 @@
   <target name="test" depends="compiletest" description="Runs testcases">
     <junit printsummary="yes" fork="yes" dir="${src}/etc">
       <classpath>
-        <pathelement path="${build}" />
+        <pathelement path="${build}/classes" />
       </classpath>
       <formatter type="xml" />
       <batchtest>
-        <fileset dir="${build}">
+        <fileset dir="${build}/classes">
           <include name="**/*Test.class" />
         </fileset>
       </batchtest>
