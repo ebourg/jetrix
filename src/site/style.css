@@ -10,6 +10,12 @@ a:hover { color: #2B313D }
 .content { font-size: 12pt; }
 .content h1 { color: white; font-size: 13pt; background-color: #525d76; text-indent: 0.5em; line-height: 1.3em; } 
 
-.code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; font-family: monospace; }
+.code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; font-family: monospace; white-space: pre}
 
 code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; }
+
+.blue { color: blue; }
+.red  { color: red; }
+.grey  { color: grey; }
+
+
