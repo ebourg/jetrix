@@ -173,14 +173,19 @@ http://jetrix.sourceforge.net/
 
   <!-- Server commands -->
   <commands>
-    <command class="org.lfjr.jts.ConfigCommand"/>
-    <command class="org.lfjr.jts.JoinCommand"/>
-    <command class="org.lfjr.jts.ListCommand"/>
-    <command class="org.lfjr.jts.MoveCommand"/>
-    <command class="org.lfjr.jts.OperatorCommand"/>
-    <command class="org.lfjr.jts.TellCommand"/>
-    <command class="org.lfjr.jts.VersionCommand"/>
-    <command class="org.lfjr.jts.WhoCommand"/>
+    <command class="org.lfjr.jts.commands.BroadcastCommand"/>
+    <command class="org.lfjr.jts.commands.ConfigCommand"/>
+    <command class="org.lfjr.jts.commands.HelpCommand"/>
+    <command class="org.lfjr.jts.commands.JoinCommand"/>
+    <command class="org.lfjr.jts.commands.KickCommand"/>
+    <command class="org.lfjr.jts.commands.ListCommand"/>
+    <command class="org.lfjr.jts.commands.MotdCommand"/>
+    <command class="org.lfjr.jts.commands.MoveCommand"/>
+    <command class="org.lfjr.jts.commands.OperatorCommand"/>
+    <command class="org.lfjr.jts.commands.TellCommand"/>
+    <command class="org.lfjr.jts.commands.TimeCommand"/>
+    <command class="org.lfjr.jts.commands.VersionCommand"/>
+    <command class="org.lfjr.jts.commands.WhoCommand"/>
   </commands>
 
   <ban>
