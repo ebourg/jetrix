@@ -21,6 +21,7 @@ package org.lfjr.jts.filter;
 
 import java.util.*;
 import org.lfjr.jts.*;
+import org.lfjr.jts.config.*;
 
 /**
  * Anti spam over pline filter
@@ -28,33 +29,30 @@ import org.lfjr.jts.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class FloodFilter extends MessageFilter
+public class FloodFilter extends GenericFilter
 {
     private long timestamp[][];
     private int index[];
     private int capacity = 5;
     private int delay = 1000;
     
-    public FloodFilter()
+    public void init(FilterConfig conf)
     {
+        // reading parameters
+        try { this.capacity = Integer.parseInt(conf.getParameter("capacity")); } catch (Exception e) {}
+        try { this.delay = Integer.parseInt(conf.getParameter("delay")); } catch (Exception e) {}
+        
         timestamp = new long[6][capacity];
         index = new int[6];
     }
     
-    public void process(Message m, List out)
+    public void onPline(Message m, List out)
     {
-        if (m.getType()==Message.TYPE_CHANNEL && m.getCode()==Message.MSG_PLINE) {
-            int slot = ((Integer)m.getParameter(1)).intValue();
-            if (slot>0 && isRateExceeded(slot-1, new Date())) {
-                Message warning = new Message();
-                Integer from = new Integer(0);
-                String text = ChatColors.red+"Flood blocked from slot "+slot;
-                Object[] params = { from, text };
-                warning.setParameters(params);
-                out.add(warning);
-            } else {
-                out.add(m);
-            }
+        int slot = ((Integer)m.getParameter(1)).intValue();
+        if (slot>0 && isRateExceeded(slot-1, new Date())) {
+            Message warning = new Message(Message.MSG_PLINE, new Object [] 
+                              { new Integer(0), ChatColors.red + "Flood blocked from slot " + slot });
+            out.add(warning);
         } else {
             out.add(m);
         }
@@ -68,7 +66,7 @@ public class FloodFilter extends MessageFilter
      *
      * @return <tt>true</tt> if over <tt>capacity</tt> messages in less than the <tt>delay</tt> specified
      */
-    public boolean isRateExceeded(int slot, Date d)
+    private boolean isRateExceeded(int slot, Date d)
     {
         long t = d.getTime();
         long t1 = timestamp[slot][index[slot]];
