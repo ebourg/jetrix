@@ -52,32 +52,47 @@ public class HelpCommand implements Command
         return Language.getText("command.help.description", locale);
     }
 
-    public void execute(CommandMessage m)
+    public void execute(CommandMessage message)
     {
-        Client client = (Client)m.getSource();
-        CommandManager commandManager = CommandManager.getInstance();
+        Client client = (Client)message.getSource();
+        Locale locale = client.getUser().getLocale();
 
+        // send the header
         PlineMessage header = new PlineMessage();
         header.setKey("command.help.header");
         client.sendMessage(header);
 
-        Iterator commands = commandManager.getCommands(client.getUser().getAccessLevel());
+        int limit = 20;
+        int i = 0;
+
+        // iterate through the commands accessible to the user
+        Iterator commands = CommandManager.getInstance().getCommands(client.getUser().getAccessLevel());
         while (commands.hasNext())
         {
+            if (++i >= limit) return;
+
             Command command = (Command)commands.next();
 
-            PlineMessage ligne1 = new PlineMessage();
-            String usage = command.getUsage(client.getUser().getLocale());
+            // parse the usage string, and color and command and the parameters
+            String usage = command.getUsage(locale);
             String line1Body;
             int space = usage.indexOf(" ");
             if (space == -1)
+            {
                 line1Body = "<red>" + usage;
+            }
             else
+            {
                 line1Body = "<red>" + usage.substring(0, space) + "<aqua>" + usage.substring(space);
-            ligne1.setText(line1Body);
-            PlineMessage ligne2 = new PlineMessage("         " + command.getDescription(client.getUser().getLocale()));
-            client.sendMessage(ligne1);
-            client.sendMessage(ligne2);
+            }
+
+            // build the lines
+            PlineMessage line1 = new PlineMessage(line1Body);
+            PlineMessage line2 = new PlineMessage("         " + command.getDescription(locale));
+
+            // send the lines
+            client.sendMessage(line1);
+            client.sendMessage(line2);
         }
     }
 }
