@@ -41,7 +41,7 @@ Admin visible changes
 - web admin: added basic server statistics (uptime, game count and connection count)
 - web admin: commands can be removed
 - web admin: the ip bound to the server can be changed on the 'General' tab, the ip available are automatically detected and listed
-- web admin: added an "Idle allowed" parameter on the channel page, it maps to the &tl;idle> element in the channels.xml file
+- web admin: added an "Idle allowed" parameter on the channel page, it maps to the &lt;idle> element in the channels.xml file
 - web admin: added a drop down list to select the winlist on the channel page
 - web admin: added the 'Description' field on the channel page
 - the server now checks the availability of a new release and display a message on startup and in the server administration page
