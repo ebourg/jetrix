@@ -1,4 +1,5 @@
 <%@ page import="net.jetrix.*"%>
+<%@ page import="net.jetrix.servlets.*"%>
 <%@ page import="net.jetrix.commands.*"%>
 <%@ page import="net.jetrix.config.*"%>
 <%@ page import="net.jetrix.filter.*"%>
@@ -16,6 +17,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <script type="text/javascript" src="javascript/tabpane/js/tabpane.js"></script>
+  <script type="text/javascript" src="javascript/server.js"></script>
   <link type="text/css" rel="stylesheet" href="javascript/tabpane/css/luna/tab.css">
   <link type="text/css" rel="stylesheet" href="style.css">
   <title>JetriX Admin - Server</title>
@@ -31,7 +33,7 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">General</h2>
 
-    <form id="general" action="/servlet/net.jetrix.servlets.ServerAction">
+    <form id="general" action="/servlet/<%= ServerAction.class.getName() %>">
     <input type="hidden" name="action" value="general">
 
     <table class="thin" style="width: 600px">
@@ -95,7 +97,7 @@
     <br>
 
     <input type="submit" value="Save Changes">
-    <input type="button" value="Shutdown">
+    <input type="button" value="Shutdown" onclick="shutdown()">
 
     </form>
 
@@ -216,12 +218,12 @@
     }
     </script>
 
-    <form id="banlist.remove" action="/servlet/net.jetrix.servlets.ServerAction">
+    <form id="banlist.remove" action="/servlet/<%= ServerAction.class.getName() %>">
       <input type="hidden" name="action" value="banlist.remove">
       <input type="hidden" name="pattern" value="">
     </form>
 
-    <form id="banlist" action="/servlet/net.jetrix.servlets.ServerAction">
+    <form id="banlist" action="/servlet/<%= ServerAction.class.getName() %>">
     <input type="hidden" name="action" value="banlist.add">
 
 <%  Iterator banlist = Banlist.getInstance().getBanlist(); %>
@@ -282,7 +284,7 @@
         <td width="70" align="center"><%= listener.isRunning() ? "Started" : "Stopped" %></td>
         <td width="70" align="center"><%= listener.isAutoStart() ? "yes" : "no" %></td>
         <td width="50">
-          <form id="listener" action="/servlet/net.jetrix.servlets.ServerAction">
+          <form id="listener" action="/servlet/<%= ServerAction.class.getName() %>">
             <input type="hidden" name="index"  value="<%= i %>">
 <%      if (listener.isRunning()) { %>
             <input type="hidden" name="action" value="listener.stop">
@@ -321,7 +323,7 @@
         <td width="70" align="center"><%= service.isRunning() ? "Started" : "Stopped" %></td>
         <td width="70" align="center"><%= service.isAutoStart() ? "yes" : "no" %></td>
         <td width="50">
-          <form id="listener" action="/servlet/net.jetrix.servlets.ServerAction">
+          <form id="listener" action="/servlet/<%= ServerAction.class.getName() %>">
             <input type="hidden" name="index"  value="<%= i %>">
 <%      if (service.isRunning()) { %>
             <input type="hidden" name="action" value="service.stop">
@@ -347,23 +349,15 @@
     <table class="thin" style="width: 400px">
       <tr>
         <td width="30%">Uptime</td>
-        <td>
-<%
-    // todo store the start time somewhere
-    long startTime = System.currentTimeMillis();
-    long elaspsed = System.currentTimeMillis() - startTime;
-    long days = elaspsed / 24 * 3600 * 1000;
-%>
-          <%= days %> day<%= days > 1 ? "s" : "" %>
-        </td>
+        <td><%= conf.getStatistics().getUpTime() %> day<%= conf.getStatistics().getUpTime() > 1 ? "s" : "" %></td>
       </tr>
       <tr>
         <td>Number of Connections</td>
-        <td>1234</td>
+        <td><%= conf.getStatistics().getConnectionCount() %></td>
       </tr>
       <tr>
         <td>Games Played</td>
-        <td>1234</td>
+        <td><%= conf.getStatistics().getGameCount() %></td>
       </tr>
     </table>
 
@@ -428,7 +422,7 @@
 
     <br>
 
-    <form id="gc" action="/servlet/net.jetrix.servlets.ServerAction">
+    <form id="gc" action="/servlet/<%= ServerAction.class.getName() %>">
       <input type="hidden" name="action" value="gc">
       <input type="submit" value="Run the Garbage Collector">
     </form>

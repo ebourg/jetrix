@@ -55,6 +55,10 @@ public class ServerAction extends HttpServlet
             config.setMessageOfTheDay(request.getParameter("motd"));
             config.setStatus(Integer.parseInt(request.getParameter("status")));
         }
+        else if ("shutdown".equals(action))
+        {
+            Server.getInstance().stop();
+        }
         else if ("listener.start".equals(action))
         {
             int index = Integer.parseInt(request.getParameter("index"));
