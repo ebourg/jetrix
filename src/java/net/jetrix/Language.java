@@ -73,7 +73,7 @@ public class Language
         }
         catch (Exception e)
         {
-            text = "["+key+"]";
+            text = "[" + locale + ":" + key + "]";
         }
 
         return text;
