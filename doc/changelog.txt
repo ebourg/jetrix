@@ -40,10 +40,10 @@ Admin visible changes
 - the configuration file config.xml has been split in two files : server.xml and channels.xml
 - a listener can now be disabled at startup by setting the auto-start attribute to false
 - the address of the server is now automatically published on tetrinet.org, tfast.org & tsrv.com server lists
-- the server now checks the availability of a new release at startup
 - the server can be locked from the admin console, once locked new connections will be rejected
 - commands can be hidden from the /help list by specifying a "hidden" atribute on the <command> element
 - the access level of a command can be overridden by adding an "access-level" attribute on the <command> attribute
+- web admin: changes made to the configuration are now automatically saved to the disk !
 - web admin: the name of the server can now be configured
 - web admin: the idle time is now displayed on the user page
 - web admin: listeners and services can be started/stopped
@@ -52,16 +52,17 @@ Admin visible changes
 - web admin: erasing a value on the settings screen will now reset it to the default value
 - web admin: added basic server statistics (uptime, game count and connection count)
 - web admin: commands can be removed
+- the server now checks the availability of a new release at startup
 - a system tray icon is displayed on windows platforms
 - a native executable is provided on windows to run the server without the DOS console
 - a windows installer is available
 - reduced the size of the binary distribution by 35%
 
 Developper visible changes
+- code ported to Java 5.0 !
 - added the services interface (net.jetrix.Service)
 - renamed the Destination.sendMessage() method to send()
 - Commands requiring a minimum number of parameters can now implement the ParameterCommand interface, the server will validate automatically the number of input parameters.
-- code ported to Java 5.0 !
 - added a clear() and a size() method to the Winlist interface
 - added an AbstractCommand class to reduce the code needed to implement a new Command
 - Localized messages can now have localized parameters by prefixing the parameter with "key:" : Language.getText("key", "key:paramKey");
