@@ -50,7 +50,7 @@ public class ChannelManager
     
     public Channel createChannel(String name)
     {
-    	Settings defaultSettings = ServerConfig.getInstance().getDefaultSettings();
+    	Settings defaultSettings = TetriNETServer.getInstance().getConfig().getDefaultSettings();
         ChannelConfig cc = new ChannelConfig(defaultSettings);
         cc.setName("jetrix");
         return createChannel(cc);

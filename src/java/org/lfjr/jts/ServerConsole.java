@@ -45,7 +45,7 @@ class ServerConsole extends Thread
      */
     public ServerConsole()
     {
-        conf = ServerConfig.getInstance();
+        conf = TetriNETServer.getInstance().getConfig();
         start();
     }
 

@@ -39,14 +39,14 @@ public class ClientListener extends Thread
 
     public ClientListener()
     {
-        conf = ServerConfig.getInstance();
+        conf = TetriNETServer.getInstance().getConfig();
     }
 
     public void run()
     {
         try
         {
-            s = new ServerSocket(conf.getPort());
+            s = new ServerSocket(conf.getPort(), 50, conf.getHost());            
         }
         catch (IOException e)
         {
@@ -79,7 +79,7 @@ public class ClientListener extends Thread
                 // validating client
                 TetriNETPlayer player = new TetriNETPlayer(socket);
                 TetriNETClient client = new TetriNETClient(player);
-                initialiseConnexion(client);
+                initializeConnexion(client);
 
                 //si.playerList.addElement(client);
                 //si.incClient();
@@ -154,7 +154,7 @@ public class ClientListener extends Thread
     }
 
 
-    private void initialiseConnexion(TetriNETClient client) throws UnknownEncryptionException
+    private void initializeConnexion(TetriNETClient client) throws UnknownEncryptionException
     {
         String init="", dec;
         Vector tokens = new Vector();
@@ -178,8 +178,7 @@ public class ClientListener extends Thread
         if (tokens.size()>3)
         {
             Message m = new Message(Message.MSG_NOCONNECTING);
-            Object[] params = { "No space allowed in nickname !" };
-            m.setParameters(params);
+            m.setParameters(new Object[] { "No space allowed in nickname !" });
             client.sendMessage(m);
         }
 
@@ -189,8 +188,7 @@ public class ClientListener extends Thread
 
 
     /**
-     * Decode TetriNET client initialization string
-     *
+     * Decodes TetriNET client initialization string
      *
      * @param initString initialization string
      *

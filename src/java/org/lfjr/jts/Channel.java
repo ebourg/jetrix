@@ -62,7 +62,7 @@ public class Channel extends Thread
     public Channel(ChannelConfig cconf)
     {
         this.cconf = cconf;
-        conf = ServerConfig.getInstance();
+        conf = TetriNETServer.getInstance().getConfig();
 
         // opening channel message queue
         mq = new MessageQueue();
@@ -90,20 +90,19 @@ public class Channel extends Thread
                             System.out.println("Commande : "+cmd);
                             if ("/join".equalsIgnoreCase(cmd))
                             {
-                            	System.out.println("changement de channel detecte");
-                            	Channel target = ChannelManager.getInstance().getChannel((String)m.getParameter(2));
-                            	if (target!=null)
-                            	{
-                            	    System.out.println("channel cible trouve : "+target);
-                            	    if ( target.isFull() )
-                            	    {
-                            	    	System.out.println("channel complet !");
-                            	    }
-                            	    else
-                            	    {
-                            	        Message move = new Message(Message.MSG_ADDPLAYER);
-                            	        Object[] params = { m.getSource() };
-                            	        move.setParameters(params);
+                                System.out.println("changement de channel detecte");
+                                Channel target = ChannelManager.getInstance().getChannel((String)m.getParameter(2));
+                                if (target!=null)
+                                {
+                                    System.out.println("channel cible trouve : "+target);
+                                    if ( target.isFull() )
+                                    {
+                                        System.out.println("channel complet !");
+                                    }
+                                    else
+                                    {
+                                        Message move = new Message(Message.MSG_ADDPLAYER);
+                            	        move.setParameters(new Object[] { m.getSource() });
                             	        target.addMessage(move);
                             	    }
                             	}
@@ -155,8 +154,7 @@ public class Channel extends Thread
                                 //screenLayout.append( ( (int)(slot%5+1) ) * (1-jetrixLogo[i]) );
                             }
                             Message endingScreen = new Message(Message.MSG_FIELD);
-                            Object paramsending[] = { m.getParameter(0), screenLayout.toString() };
-                            endingScreen.setParameters(paramsending);
+                            endingScreen.setParameters(new Object[] { m.getParameter(0), screenLayout.toString() });
                             sendAll(endingScreen);
 
                             break;
@@ -240,7 +238,7 @@ public class Channel extends Thread
 
                         case Message.MSG_ADDPLAYER:
                             client = (TetriNETClient)m.getParameter(0);
-                           
+
                             if (client.getChannel()==null)
                             {
                                 // first channel assigned
@@ -252,27 +250,25 @@ public class Channel extends Thread
                                 // leaving a previous channel
                                 System.out.println("leaving a previous channel");
                                 Channel previousChannel = client.getChannel();
-                                
+
                                 // notice to players in the previous channel
                                 Message leave = new Message(Message.MSG_PLAYERLEAVE);
-                                Object params[] = { new Integer(previousChannel.getPlayerSlot(client)) };
-                                leave.setParameters(params);
+                                leave.setParameters(new Object[] { new Integer(previousChannel.getPlayerSlot(client)) });
                                 previousChannel.addMessage(leave);
                                 client.setChannel(this);
-                                
+
                                 // ending running game
                                 if (previousChannel.getGameState() != Channel.GAME_STATE_STOPPED);
                                 {
                                     Message endgame = new Message(Message.MSG_ENDGAME);
                                     client.sendMessage(endgame);
-                                }                                
-                                
+                                }
+
                                 // clearing player list
                                 for (int j=1; j<=6; j++)
                                 {
                                     Message clear = new Message(Message.MSG_PLAYERLEAVE);
-                                    Object params2[] = { new Integer(j) };
-                                    clear.setParameters(params2);
+                                    clear.setParameters(new Object[] { new Integer(j) });
                                     client.sendMessage(clear);
                                 }
                             }
@@ -291,14 +287,12 @@ public class Channel extends Thread
 
                                 // sending new player notice to other players in the channel
                                 Message mjoin = new Message(Message.MSG_PLAYERJOIN);
-                                Object paramsjoin[] = { new Integer(slot+1), client.getPlayer().getName() };
-                                mjoin.setParameters(paramsjoin);
+                                mjoin.setParameters(new Object[] { new Integer(slot+1), client.getPlayer().getName() });
                                 sendAll(mjoin, slot+1);
 
                                 // sending slot number to incomming player
                                 Message mnum = new Message(Message.MSG_PLAYERNUM);
-                                Object paramsnum[] = { new Integer(slot+1) };
-                                mnum.setParameters(paramsnum);
+                                mnum.setParameters(new Object[] { new Integer(slot+1) });
                                 client.sendMessage(mnum);
 
                                 // sending player and team list to incomming player
@@ -310,22 +304,20 @@ public class Channel extends Thread
 
                                         // players...
                                         Message mjoin2 = new Message(Message.MSG_PLAYERJOIN);
-                                        Object paramsjoin2[] = { new Integer(i+1), resident.getPlayer().getName() };
-                                        mjoin2.setParameters(paramsjoin2);
+                                        mjoin2.setParameters(new Object[] { new Integer(i+1), resident.getPlayer().getName() });
                                         client.sendMessage(mjoin2);
 
                                         // ...and teams
                                         Message mteam = new Message(Message.MSG_TEAM);
-                                        Object paramsteam[] = { new Integer(i+1), resident.getPlayer().getTeam() };
-                                        mteam.setParameters(paramsteam);
+                                        mteam.setParameters(new Object[] { new Integer(i+1), resident.getPlayer().getTeam() });
                                         client.sendMessage(mteam);
                                     }
                                 }
 
                                 // sending welcome massage to incomming player
                                 Message mwelcome = new Message(Message.MSG_PLINE);
-                                Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + ChatColors.bold + cconf.getName() };
-                                mwelcome.setParameters(paramswelcome);
+                                String welcomeText = ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + ChatColors.bold + cconf.getName();
+                                mwelcome.setParameters(new Object[] { new Integer(0), welcomeText });
                                 client.sendMessage(mwelcome);
 
                                 // sending playerlost message if the game has started
@@ -333,8 +325,7 @@ public class Channel extends Thread
                                 {
                                     System.out.println("blurp");
                                     Message lost = new Message(Message.MSG_PLAYERLOST);
-                                    Object paramslost[] = { new Integer(slot+1) };
-                                    lost.setParameters(paramslost);
+                                    lost.setParameters(new Object[] { new Integer(slot+1) });
                                     sendAll(lost);
                                 }
                             }

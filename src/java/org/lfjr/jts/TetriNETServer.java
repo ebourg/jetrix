@@ -42,9 +42,11 @@ public class TetriNETServer implements Runnable
     private TetriNETServer()
     {
         System.out.println("Jetrix TetriNET Server " + VERSION + ", Copyright (C) 2001-2002 Emmanuel Bourg\n");
+        instance = this;
 
         // reading server configuration
-        conf = ServerConfig.getInstance();
+        conf = new ServerConfig();
+        conf.load();
         conf.setRunning(true);
 
         // checking new release availability
@@ -72,8 +74,6 @@ public class TetriNETServer implements Runnable
         // starting client listener
         ClientListener cl = new ClientListener();
         cl.start();
-
-        instance = this;
 
         System.out.println("Server started...");
     }
@@ -119,27 +119,27 @@ public class TetriNETServer implements Runnable
 
                     case Message.MSG_SLASHCMD:
                         String cmd = (String)m.getParameter(1);
-                        TetriNETClient client = (TetriNETClient)m.getSource(); 
+                        TetriNETClient client = (TetriNETClient)m.getSource();
 
                         if ("/list".equalsIgnoreCase(cmd))
-                        {                                                                          
+                        {
                             Message response = new Message(Message.MSG_PLINE);
                             Object params[] = { new Integer(0), ChatColors.darkBlue+"TetriNET Channel Lister - (Type "+ChatColors.red+"/join "+ChatColors.purple+"#channelname"+ChatColors.darkBlue+")" };
                             response.setParameters(params);
-                            client.sendMessage(response);                         	
-                        	
+                            client.sendMessage(response);
+
                             Iterator it = channelManager.channels();
                             int i=1;
                             while(it.hasNext())
                             {
                                 Channel channel = (Channel)it.next();
                                 ChannelConfig conf = channel.getConfig();
-                                
+
                                 String cname = conf.getName();
                                 while (cname.length()<6) cname += " ";
-                                
+
                                 String message = ChatColors.darkBlue+"("+(client.getChannel().getConfig().getName().equals(conf.getName())?ChatColors.red:ChatColors.purple)+i+ChatColors.darkBlue+") " + ChatColors.purple + cname + "\t"
-                                                 + (channel.isFull()?ChatColors.darkBlue+"["+ChatColors.red+"FULL"+ChatColors.darkBlue+"]       ":ChatColors.darkBlue+"["+ChatColors.aqua+"OPEN"+ChatColors.blue+"-" + channel.getNbPlayers() + "/"+conf.getMaxPlayers() + ChatColors.darkBlue + "]") 
+                                                 + (channel.isFull()?ChatColors.darkBlue+"["+ChatColors.red+"FULL"+ChatColors.darkBlue+"]       ":ChatColors.darkBlue+"["+ChatColors.aqua+"OPEN"+ChatColors.blue+"-" + channel.getNbPlayers() + "/"+conf.getMaxPlayers() + ChatColors.darkBlue + "]")
                                                  + (channel.getGameState()!=Channel.GAME_STATE_STOPPED?ChatColors.gray+" {INGAME} ":"                  ")
                                                  + ChatColors.black + conf.getDescription();
 
@@ -147,7 +147,7 @@ public class TetriNETServer implements Runnable
                                 Object params2[] = { new Integer(0), message };
                                 response2.setParameters(params2);
                                 client.sendMessage(response2);
-                                
+
                                 i = i + 1;
                             }
                         }
@@ -156,7 +156,7 @@ public class TetriNETServer implements Runnable
                             Message response = new Message(Message.MSG_PLINE);
                             Object params[] = { new Integer(0), ChatColors.red+"Invalid /COMMAND" };
                             response.setParameters(params);
-                            client.sendMessage(response);                            
+                            client.sendMessage(response);
                         }
                         break;
                 }
@@ -182,6 +182,11 @@ public class TetriNETServer implements Runnable
     public static TetriNETServer getInstance()
     {
         return instance;
+    }
+
+    public ServerConfig getConfig()
+    {
+        return conf;
     }
 
     /**

@@ -53,7 +53,7 @@ class TetriNETClient extends Thread
     public TetriNETClient(TetriNETPlayer player) throws IOException
     {
         this.player = player;
-        conf = ServerConfig.getInstance();
+        conf = TetriNETServer.getInstance().getConfig();
         socket = player.getSocket();
 
         in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
