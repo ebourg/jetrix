@@ -261,9 +261,16 @@ your opponents. Good luck!
   <listeners>
     <listener class="net.jetrix.listeners.TetrinetListener"/>
     <listener class="net.jetrix.listeners.TSpecListener"/>
-    <listener class="net.jetrix.listeners.IRCListener" port="31456"/>
+    <listener class="net.jetrix.listeners.IRCListener" port="31456" auto-start="false"/>
     <listener class="net.jetrix.listeners.HttpListener" port="8080"/>
   </listeners>
+
+  <!-- Services -->
+  <services>
+    <service class="net.jetrix.services.PublishingService">
+      <!--<param name="host" value="tetrinet.yourhostname.net"/>-->
+    </service>
+  </services>
 
   <ban>
     <!-- Cheating from host 1cust007.tnt2.billgates.da.uu.net -->
