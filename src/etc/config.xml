@@ -219,6 +219,7 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <listener class="net.jetrix.listeners.TetrinetListener"/>
     <listener class="net.jetrix.listeners.TSpecListener"/>
     <listener class="net.jetrix.listeners.IRCListener"/>
+    <listener class="net.jetrix.listeners.HttpListener"/>
   </listeners>
 
   <ban>
