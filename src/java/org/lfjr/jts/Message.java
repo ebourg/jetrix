@@ -137,7 +137,7 @@ public class Message
                   Integer slot = (Integer)getParameter(0);
                   String message = (String)getParameter(1);
                   raw = "pline " + slot + " " + message;
-                  //for (int i=1; i<getNbParameters(); i++) { raw += " " + (String)getParameter(i); }
+                  //for (int i=1; i<getParameterCount(); i++) { raw += " " + (String)getParameter(i); }
                   break;
 
                 case MSG_PLAYERJOIN:
@@ -239,7 +239,7 @@ public class Message
      */
     public Object getParameter(int index)
     {
-        if (params != null && !(index < 0 || index >= getNbParameters()))
+        if (params != null && !(index < 0 || index >= getParameterCount()))
         {
             return params[index];
         }
@@ -268,16 +268,9 @@ public class Message
     /**
      * Returns the number of parameters associated with this message.
      */
-    public int getNbParameters()
+    public int getParameterCount()
     {
-        if (params != null)
-        {
-            return params.length;
-        }
-        else
-        {
-            return 0;
-        }
+        return (params != null)?params.length:0;
     }
 
     /**
