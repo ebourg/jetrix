@@ -175,4 +175,15 @@ public class CommandManagerTest extends TestCase
         assertEquals("<red>/usage <blue>param1 param2", commandManager.colorizeUsage("/usage param1 param2"));
     }
 
+    public void testRemoveCommand()
+    {
+        commandManager.addCommand(new HelpCommand());
+
+        assertNotNull("help command not found", commandManager.getCommand("help"));
+
+        commandManager.removeCommand(new HelpCommand());
+
+        assertNull("help command not removed", commandManager.getCommand("help"));
+    }
+
 }

@@ -25,11 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
-import net.jetrix.config.ServerConfig;
-import net.jetrix.Server;
-import net.jetrix.Banlist;
-import net.jetrix.Listener;
-import net.jetrix.Service;
+import net.jetrix.*;
+import net.jetrix.commands.*;
+import net.jetrix.config.*;
 
 /**
  * Action Servlet handling actions on the server.
@@ -82,6 +80,19 @@ public class ServerAction extends HttpServlet
             int index = Integer.parseInt(request.getParameter("index"));
             Service service = (Service) config.getServices().get(index);
             service.stop();
+        }
+        else if ("command.remove".equals(action))
+        {
+            try
+            {
+                Class cls = Class.forName(request.getParameter("command"));
+                Command command = (Command) cls.newInstance();
+                CommandManager.getInstance().removeCommand(command);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         else if ("banlist.add".equals(action))
         {

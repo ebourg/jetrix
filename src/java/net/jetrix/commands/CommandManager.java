@@ -35,7 +35,11 @@ import net.jetrix.messages.*;
 public class CommandManager
 {
     private static CommandManager instance = new CommandManager();
+
+    /** aliases->commands Map */
     private Map<String, Command> commands;
+
+    /** Set of commands sorted alphabetically by the main alias */
     private Map<String, Command> commandSet;
 
     private CommandManager()
@@ -54,13 +58,15 @@ public class CommandManager
      */
     public void addCommand(Command command)
     {
-        String aliases[] = command.getAliases();
-        for (int i = 0; i < aliases.length; i++)
+        for (String alias : command.getAliases())
         {
-            addCommandAlias(command, aliases[i]);
+            addCommandAlias(command, alias);
         }
 
-        if (aliases.length > 0) commandSet.put(command.getAliases()[0], command);
+        if (command.getAliases().length > 0)
+        {
+            commandSet.put(command.getAliases()[0], command);
+        }
     }
 
     /**
@@ -69,6 +75,30 @@ public class CommandManager
     public void addCommandAlias(Command command, String alias)
     {
         commands.put(alias.toLowerCase(), command);
+    }
+
+    /**
+     * Remove a command.
+     */
+    public void removeCommand(Command command)
+    {
+        Iterator<String> aliases = commands.keySet().iterator();
+        while (aliases.hasNext())
+        {
+            if (commands.get(aliases.next()).getClass().equals(command.getClass()))
+            {
+                aliases.remove();
+            }
+        }
+
+        Iterator<Command> cmds = commandSet.values().iterator();
+        while (cmds.hasNext())
+        {
+            if (cmds.next().getClass().equals(command.getClass()))
+            {
+                cmds.remove();
+            }
+        }
     }
 
     /**
@@ -83,10 +113,10 @@ public class CommandManager
 
         if (command == null)
         {
-            Iterator aliases = commands.keySet().iterator();
+            Iterator<String> aliases = commands.keySet().iterator();
             while (command == null && aliases.hasNext())
             {
-                String name = (String) aliases.next();
+                String name = aliases.next();
                 if (name.startsWith(alias))
                 {
                     command = commands.get(name);
