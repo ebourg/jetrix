@@ -243,8 +243,8 @@ public class TetrinetClient implements Client
         this.socket = socket;
         try
         {
-            in  = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
-            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "ISO-8859-1"));
+            in  = new BufferedReader(new InputStreamReader(socket.getInputStream(), ServerConfig.ENCODING));
+            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), ServerConfig.ENCODING));
         }
         catch (IOException e)
         {
