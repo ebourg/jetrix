@@ -39,7 +39,7 @@ public class ServerRuleSet extends RuleSetBase
         digester.addCallParam("tetrinet-server", 0, "host");
         digester.addCallMethod("tetrinet-server/language", "setLocale", 0);
         digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.TYPE});
+        digester.addCallMethod("tetrinet-server/max-channels", "setMaxChannels", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("tetrinet-server/max-connections", "setMaxConnections", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("tetrinet-server/op-password", "setOpPassword", 0);
