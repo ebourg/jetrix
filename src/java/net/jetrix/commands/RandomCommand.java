@@ -19,6 +19,8 @@
 
 package net.jetrix.commands;
 
+import static java.lang.Math.*;
+
 import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
@@ -53,15 +55,18 @@ public class RandomCommand extends AbstractCommand
 
         if (m.getParameterCount() >= 2)
         {
-            min = m.getIntParameter(0, min);
-            max = m.getIntParameter(1, max);
+            int a = m.getIntParameter(0, min);
+            int b = m.getIntParameter(1, max);
+
+            min = min(a, b);
+            max = max(a, b);
         }
 
-        int result = random.nextInt(Math.abs(max - min) + 1);
+        int result = random.nextInt(abs(max - min) + 1);
 
         // display the result
         PlineMessage response = new PlineMessage();
-        response.setKey("command.random.result", client.getUser().getName(), new Integer(min), new Integer(max), new Integer(result + min));
+        response.setKey("command.random.result", client.getUser().getName(), min, max, (result + min));
         client.getChannel().send(response);
     }
 }
