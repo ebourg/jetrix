@@ -16,9 +16,10 @@ a img { border-width: 0 }
 
 code { margin: 1em 2em; border: 1px solid #c0c0c0; background-color: #f0f0f0; }
 
-.blue { color: blue; }
-.red  { color: red; }
+.blue  { color: blue; }
+.red   { color: red; }
 .grey  { color: grey; }
+.green { color: rgb(0, 128, 128); }
 
 input.thin, textarea.thin { border: 1px solid #c0c0c0; }
 
