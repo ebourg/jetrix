@@ -22,6 +22,8 @@ package net.jetrix.protocols;
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
+import java.util.*;
+
 /**
  * An abstract protocol to communicate with a client.
  *
@@ -44,19 +46,45 @@ public class TspecProtocol extends TetrinetProtocol
      */
     public Message getMessage(String line)
     {
-        return null;
+        Message message = super.getMessage(line);
+
+        if (message instanceof PlineMessage)
+        {
+            PlineMessage pline = (PlineMessage)message;
+            pline.setSlot(0);
+        }
+
+        return message;
     }
 
     /**
      * Translate the specified message into a string that will be sent
      * to a client using this protocol.
      */
-    public String translate(Message m)
+    public String translate(Message m, Locale locale)
     {
-        return null;
+        if (m instanceof SpectatorListMessage) return translate((SpectatorListMessage)m);
+        else
+        {
+            return super.translate(m, locale);
+        }
     }
 
-    public String translate(PlineMessage m)
+    public String translate(SpectatorListMessage m)
+    {
+        StringBuffer message = new StringBuffer();
+        message.append("speclist #");
+        message.append(m.getChannel());
+        Iterator specators = m.getSpectators().iterator();
+        while (specators.hasNext())
+        {
+            message.append(" ");
+            message.append(specators.next());
+        }
+        return message.toString();
+    }
+
+    /*public String translate(PlineMessage m)
     {
         return null;
     }
@@ -204,7 +232,7 @@ public class TspecProtocol extends TetrinetProtocol
     public String translate(BlockBombMessage m)
     {
         return null;
-    }
+    }*/
 
     public String toString()
     {
