@@ -56,6 +56,7 @@ public class ServerConfig
     private List channels;
     private List globalFilters;
     private List listeners;
+    private List services;
     private boolean running;
 
     public static final String VERSION = "@version@";
@@ -68,6 +69,7 @@ public class ServerConfig
         channels = new ArrayList();
         globalFilters = new ArrayList();
         listeners = new ArrayList();
+        services = new ArrayList();
         // bans = new ArrayList();
     }
 
@@ -295,6 +297,16 @@ public class ServerConfig
     public Iterator getListeners()
     {
         return listeners.iterator();
+    }
+
+    public void addService(Service service)
+    {
+        services.add(service);
+    }
+
+    public Iterator getServices()
+    {
+        return services.iterator();
     }
 
     public void addBannedHost(String host)

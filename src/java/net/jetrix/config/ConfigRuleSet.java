@@ -133,9 +133,14 @@ public class ConfigRuleSet extends RuleSetBase
         
         // listeners
         digester.addObjectCreate("*/listener", null, "class");
-        digester.addCallMethod("*/listener", "setPort", 1, new Class[] {Integer.TYPE});
-        digester.addCallParam("*/listener", 0, "port");
+        digester.addSetProperties("*/listener");
         digester.addSetNext("*/listener", "addListener", "net.jetrix.Listener");
+
+        // services
+        digester.addObjectCreate("*/service", null, "class");
+        digester.addSetProperties("*/service");
+        digester.addSetProperty("*/service/param", "name", "value");
+        digester.addSetNext("*/service", "addService", "net.jetrix.Service");
 
         // banlist
         digester.addCallMethod("tetrinet-server/ban/host", "addBannedHost", 0);

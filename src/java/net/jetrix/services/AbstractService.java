@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,39 +17,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.jetrix;
+package net.jetrix.services;
+
+import net.jetrix.Service;
 
 /**
- * A service bound to a port.
+ * An abstract Service.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public interface Listener extends Runnable, Service
+public abstract class AbstractService implements Service
 {
-    /**
-     * Return the name of the listener.
-     */
-    String getName();
+    protected boolean autoStart = true;
 
-    /**
-     * Return the listening port.
-     */
-    int getPort();
+    public boolean isAutoStart()
+    {
+        return autoStart;
+    }
 
-    /**
-     * Set the port used the next time the listener is started.
-     */
-    void setPort(int port);
-
-    /**
-     * Start the listener.
-     */
-    void start();
-
-    /**
-     * Stop the listener.
-     */
-    void stop();
-
+    public void setAutoStart(boolean autoStart)
+    {
+        this.autoStart = autoStart;
+    }
 }

@@ -24,6 +24,7 @@ import java.net.*;
 import java.util.logging.*;
 
 import net.jetrix.*;
+import net.jetrix.services.AbstractService;
 import net.jetrix.clients.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -34,7 +35,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public abstract class ClientListener implements Listener
+public abstract class ClientListener extends AbstractService implements Listener
 {
     private ServerSocket serverSocket;
     private Socket socket;
@@ -218,6 +219,11 @@ public abstract class ClientListener implements Listener
         {
             e.printStackTrace();
         }
+    }
+
+    public boolean isRunning()
+    {
+        return running;
     }
 
     public String toString()

@@ -26,6 +26,7 @@ import org.mortbay.http.*;
 import org.mortbay.util.*;
 
 import net.jetrix.*;
+import net.jetrix.services.AbstractService;
 
 /**
  * Web administration console.
@@ -33,7 +34,7 @@ import net.jetrix.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class HttpListener implements Listener
+public class HttpListener extends AbstractService implements Listener
 {
     private org.mortbay.jetty.Server jetty;
     private Logger log = Logger.getLogger("net.jetrix");
@@ -117,4 +118,8 @@ public class HttpListener implements Listener
 
     public void run() { }
 
+    public boolean isRunning()
+    {
+        return jetty.isStarted();
+    }
 }

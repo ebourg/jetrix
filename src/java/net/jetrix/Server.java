@@ -112,9 +112,24 @@ public class Server implements Runnable, Destination
         while (listeners.hasNext())
         {
             Listener listener = (Listener) listeners.next();
-            listener.start();
+            if (listener.isAutoStart())
+            {
+                listener.start();
+            }
         }
-        
+
+        // start the services
+        Iterator services = config.getServices();
+        while (services.hasNext())
+        {
+            Service service = (Service) services.next();
+            if (service.isAutoStart())
+            {
+                log.info("Starting service " + service.getName());
+                service.start();
+            }
+        }
+
         // start the server console
         (new Thread(new ConsoleClient())).start();
 
@@ -202,6 +217,14 @@ public class Server implements Runnable, Destination
         {
             Listener listener = (Listener) listeners.next();
             listener.stop();
+        }
+
+        // stop the services
+        Iterator services = config.getServices();
+        while (services.hasNext())
+        {
+            Service service = (Service) listeners.next();
+            service.stop();
         }
 
         config.setRunning(false);

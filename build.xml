@@ -38,6 +38,7 @@
     <copy todir="${build}/java" filtering="on">
       <fileset dir="${src}/java" includes="**/*.java"/>
     </copy>
+    <fixcrlf srcdir="${build}/java" eol="lf" eof="remove" includes="**/*.java"/>
   </target>
 
   <target name="compile" depends="prepare">
@@ -111,7 +112,8 @@
     <copy todir="${build}/bin" filtering="on">
       <fileset dir="${src}/bin" includes="**/*"/>
     </copy>
-  
+    <fixcrlf srcdir="${build}/bin" eol="lf" eof="remove" includes="**/*.sh"/>
+
     <mkdir dir="${dist}/bin"/>
 
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
@@ -139,6 +141,7 @@
         <include name="jetty.jar"/>
         <include name="servlet-light.jar"/>
         <include name="jasper-runtime.jar"/>
+        <include name="jcrontab*.jar"/>
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war" />

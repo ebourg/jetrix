@@ -268,13 +268,17 @@
       <tr>
         <th>Name</th>
         <th>Port</th>
+        <th>Status</th>
+        <th>Auto Start</th>
         <th></th>
       </tr>
 <%  while (listeners.hasNext()) {
         Listener listener = (Listener) listeners.next();  %>
       <tr>
         <td><%= listener.getName() %></td>
-        <td width="50" align="center"><%= listener.getPort() %></td>
+        <td width="70" align="center"><%= listener.getPort() %></td>
+        <td width="70" align="center"><%= listener.isRunning() ? "Started" : "Stopped" %></td>
+        <td width="70" align="center"><%= listener.isAutoStart() ? "yes" : "no" %></td>
         <td width="50"><input type="button" value="Stop"></td>
       </tr>
 <%  } %>
