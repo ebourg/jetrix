@@ -107,15 +107,15 @@ Welcome on <b>JetriX TetriNET Server</b>!
     </block-occurancy>
 
     <special-occurancy>
-      <addline>32</addline>
-      <clearline>18</clearline>
+      <addline>31</addline>
+      <clearline>21</clearline>
       <nukefield>1</nukefield>
-      <randomclear>11</randomclear>
-      <switchfield>3</switchfield>
+      <randomclear>13</randomclear>
+      <switchfield>1</switchfield>
       <clearspecial>14</clearspecial>
       <gravity>1</gravity>
-      <quakefield>6</quakefield>
-      <blockbomb>14</blockbomb>
+      <quakefield>7</quakefield>
+      <blockbomb>11</blockbomb>
     </special-occurancy>
 
   </default-settings>
