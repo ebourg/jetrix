@@ -681,9 +681,9 @@ public class TetrinetProtocol implements Protocol
         Iterator scores = m.getScores().iterator();
         while (scores.hasNext())
         {
-            WinlistScore score = (WinlistScore) scores.next();
+            Score score = (Score) scores.next();
             message.append(" ");
-            message.append(score.getType() == WinlistScore.TYPE_PLAYER ? "p" : "t");
+            message.append(score.getType() == Score.TYPE_PLAYER ? "p" : "t");
             message.append(score.getName());
             message.append(";");
             message.append(score.getScore());

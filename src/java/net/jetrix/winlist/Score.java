@@ -25,7 +25,7 @@ package net.jetrix.winlist;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class WinlistScore
+public class Score
 {
     private String name;
     private int type;
@@ -67,9 +67,9 @@ public class WinlistScore
     public boolean equals(Object o)
     {
         if (this == o) return true;
-        if (!(o instanceof WinlistScore)) return false;
+        if (!(o instanceof Score)) return false;
 
-        final WinlistScore score = (WinlistScore) o;
+        final Score score = (Score) o;
 
         if (type != score.type) return false;
         if (!name.equals(score.name)) return false;

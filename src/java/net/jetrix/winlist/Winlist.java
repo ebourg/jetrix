@@ -31,8 +31,14 @@ import net.jetrix.winlist.*;
  */
 public interface Winlist
 {
+    /**
+     * Return the id for this winlist.
+     */
     public String getId();
 
+    /**
+     * Set the id for this winlist.
+     */
     public void setId(String id);
 
     /**
@@ -41,7 +47,7 @@ public interface Winlist
      * @param name the name of the player or team
      * @param type the score type (0: player, 1: team)
      */
-    public WinlistScore getScore(String name, int type);
+    public Score getScore(String name, int type);
 
     /**
      * Return the score list in the specified range.

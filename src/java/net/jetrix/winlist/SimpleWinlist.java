@@ -36,10 +36,10 @@ import net.jetrix.winlist.*;
  */
 public class SimpleWinlist implements Winlist
 {
-
     private String id;
     private List scores;
     private boolean initialized = false;
+    private boolean persistent = true;
 
     public SimpleWinlist()
     {
@@ -56,23 +56,33 @@ public class SimpleWinlist implements Winlist
         this.id = id;
     }
 
-    public synchronized WinlistScore getScore(String name, int type)
+    public boolean isPersistent()
     {
-        if (!initialized)
+        return persistent;
+    }
+
+    public void setPersistent(boolean persistent)
+    {
+        this.persistent = persistent;
+    }
+
+    public synchronized Score getScore(String name, int type)
+    {
+        if (!initialized && persistent)
         {
             load();
         }
 
-        WinlistScore score = null;
+        Score score = null;
 
-        WinlistScore example = new WinlistScore();
+        Score example = new Score();
         example.setName(name);
         example.setType(type);
 
         int i = scores.indexOf(example);
         if (i != -1)
         {
-            score = (WinlistScore) scores.get(i);
+            score = (Score) scores.get(i);
         }
 
         return score;
@@ -80,7 +90,7 @@ public class SimpleWinlist implements Winlist
 
     public synchronized List getScores(long offset, long length)
     {
-        if (!initialized)
+        if (!initialized && persistent)
         {
             load();
         }
@@ -90,12 +100,12 @@ public class SimpleWinlist implements Winlist
 
     public synchronized void saveGameResult(GameResult result)
     {
-        if (!initialized)
+        if (!initialized && persistent)
         {
             load();
         }
 
-        int teamCount = getTeamCount(result);
+        int teamCount = result.getTeamCount();
         if (teamCount == 1)
         {
             return;
@@ -108,12 +118,12 @@ public class SimpleWinlist implements Winlist
         if (winner.isWinner())
         {
             String name = winner.getTeamName() == null ? winner.getName() : winner.getTeamName();
-            int type = winner.getTeamName() == null ? WinlistScore.TYPE_PLAYER : WinlistScore.TYPE_TEAM;
-            WinlistScore score = getScore(name, type);
+            int type = winner.getTeamName() == null ? Score.TYPE_PLAYER : Score.TYPE_TEAM;
+            Score score = getScore(name, type);
             if (score == null)
             {
                 // add a new entry into the winlist
-                score = new WinlistScore();
+                score = new Score();
                 score.setName(name);
                 score.setType(type);
                 scores.add(score);
@@ -129,12 +139,12 @@ public class SimpleWinlist implements Winlist
         if (teamCount >= 5)
         {
             String name = second.getTeamName() == null ? second.getName() : second.getTeamName();
-            int type = second.getTeamName() == null ? WinlistScore.TYPE_PLAYER : WinlistScore.TYPE_TEAM;
-            WinlistScore score = getScore(name, type);
+            int type = second.getTeamName() == null ? Score.TYPE_PLAYER : Score.TYPE_TEAM;
+            Score score = getScore(name, type);
             if (score == null)
             {
                 // add a new entry into the winlist
-                score = new WinlistScore();
+                score = new Score();
                 score.setName(name);
                 score.setType(type);
                 scores.add(score);
@@ -146,7 +156,10 @@ public class SimpleWinlist implements Winlist
         Collections.sort(scores, new ScoreComparator());
 
         // save the winlist to the external file
-        save();
+        if (persistent)
+        {
+            save();
+        }
     }
 
     /**
@@ -167,10 +180,10 @@ public class SimpleWinlist implements Winlist
                     while ((line = reader.readLine()) != null)
                     {
                         String[] fields = line.split("\t");
-                        WinlistScore score = new WinlistScore();
+                        Score score = new Score();
                         score.setName(fields[2]);
                         score.setScore(Long.parseLong(fields[1]));
-                        score.setType("p".equals(fields[0]) ? WinlistScore.TYPE_PLAYER : WinlistScore.TYPE_TEAM);
+                        score.setType("p".equals(fields[0]) ? Score.TYPE_PLAYER : Score.TYPE_TEAM);
                         scores.add(score);
                     }
                 }
@@ -202,9 +215,9 @@ public class SimpleWinlist implements Winlist
                 Iterator it = scores.iterator();
                 while (it.hasNext())
                 {
-                    WinlistScore score = (WinlistScore) it.next();
+                    Score score = (Score) it.next();
                     StringBuffer line = new StringBuffer();
-                    line.append(score.getType() == WinlistScore.TYPE_PLAYER ? "p" : "t");
+                    line.append(score.getType() == Score.TYPE_PLAYER ? "p" : "t");
                     line.append("\t");
                     line.append(score.getScore());
                     line.append("\t");
@@ -223,33 +236,6 @@ public class SimpleWinlist implements Winlist
                 try { if (writer != null) { writer.close(); } } catch (Exception e) { e.printStackTrace(); }
             }
         }
-    }
-
-    private int getTeamCount(GameResult result)
-    {
-        Map teams = new HashMap();
-
-        int teamCount = 0;
-
-        Iterator players = result.getGamePlayers().iterator();
-
-        while (players.hasNext())
-        {
-            GamePlayer player = (GamePlayer) players.next();
-
-            String team = player.getTeamName();
-
-            if (team == null)
-            {
-                teamCount++;
-            }
-            else
-            {
-                teams.put(team, team);
-            }
-        }
-
-        return teamCount + teams.size();
     }
 
 }
