@@ -72,4 +72,23 @@ public class LogoFilter extends GenericFilter
         out.add(endingScreen);
     }
 
+    public String getName()
+    {
+        return "Logo Filter";
+    }
+
+    public String getDescription()
+    {
+        return "Display a custom field when a player lose.";
+    }
+
+    public String getVersion()
+    {
+        return "1.0";
+    }
+
+    public String getAuthor()
+    {
+        return "Emmanuel Bourg";
+    }
 }
