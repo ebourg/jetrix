@@ -11,14 +11,15 @@ TODO
 - implement the /move command
 - implement the /afk command
 - implement the /omsg command
-- implement the /random /roll command
-- implement the /r /reply command
+- /tmsg (team message)
++ implement the /reply command
 - zip files on the patch server
 + /snoop
+- /help <command name>
 
 Changes in version 0.1.1 (2003-01-??)
 -------------------------------------
-- new commands : /start, /stop, /pause
+- new commands : /start, /stop, /pause, /random
 - "/start <n>" will run a countdown for n seconds
 - the admin console can now use all /commands available to the clients
 - winner announcement
