@@ -17,35 +17,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.jetrix;
+package net.jetrix.listeners;
 
 import java.io.*;
 import java.net.*;
 import java.util.logging.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
+import net.jetrix.*;
 
 /**
- * Abstract Listener waiting for incomming connections.
+ * Abstract Listener waiting for incomming clients.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public abstract class ClientListener implements Runnable
+public abstract class ClientListener implements Listener
 {
     private ServerSocket serverSocket;
     private Socket socket;
     private Logger logger;
-
-    /**
-     * Return the name of the listener.
-     */
-    public abstract String getName();
-
-    /**
-     * Return the listening port.
-     */
-    public abstract int getPort();
+    private boolean running;
 
     /**
      * Initialize a client from a socket.
@@ -61,6 +53,7 @@ public abstract class ClientListener implements Runnable
     {
         logger = Logger.getLogger("net.jetrix");
         ServerConfig serverConfig = Server.getInstance().getConfig();
+        running = true;
 
         try
         {            
@@ -68,13 +61,18 @@ public abstract class ClientListener implements Runnable
             logger.info("Listening at " + getName() + " port " + getPort()
                 + ( (serverConfig.getHost() != null)?", bound to " + serverConfig.getHost():"") );
         }
+        catch (BindException e)
+        {
+            logger.severe("Unable to bind " + getName() + " listener at port " + getPort());
+            running = false;
+        }
         catch (IOException e)
         {
             logger.severe("Cannot open ServerSocket");
             e.printStackTrace();
         }
 
-        while (serverConfig.isRunning())
+        while (serverConfig.isRunning() && running)
         {
             try
             {
@@ -123,7 +121,6 @@ public abstract class ClientListener implements Runnable
                     continue;
                 }
 
-
                 // testing ban list
                 // ....
 
@@ -171,6 +168,7 @@ public abstract class ClientListener implements Runnable
         try 
         {
             logger.info("Stopping listener " + getName());
+            running = false;
             serverSocket.close();
         }
         catch (IOException e)
