@@ -146,7 +146,7 @@ public abstract class GenericFilter extends MessageFilter
     private void onMessage(SpecialMessage m, List<Message> out)
     {
         // message pre-processing
-        onSpecial(m);
+        onSpecial(m, out);
 
         // message dispatching
         if (m instanceof OneLineAddedMessage)        { onMessage((OneLineAddedMessage) m, out); }
@@ -168,7 +168,7 @@ public abstract class GenericFilter extends MessageFilter
      * specials filtered and allow custom processing for all specials
      * (lines added, blockbomb switchs, etc...).
      */
-    public void onSpecial(SpecialMessage m) { }
+    public void onSpecial(SpecialMessage m, List<Message> out) { }
 
     public void onMessage(LevelMessage m, List<Message> out)
     {

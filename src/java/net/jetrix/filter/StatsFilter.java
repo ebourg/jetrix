@@ -25,7 +25,6 @@ import java.util.*;
 import java.text.*;
 
 import net.jetrix.*;
-import net.jetrix.config.*;
 import net.jetrix.messages.*;
 import org.apache.commons.lang.time.StopWatch;
 
@@ -114,15 +113,11 @@ public class StatsFilter extends GenericFilter
 
     public void onMessage(FieldMessage m, List<Message> out)
     {
-        // ignore the empty field message sent on using specials
-        if (m.getField() != null)
+        // increase the block count for the updated slot
+        PlayerStats playerStats = stats.get(m.getSlot() - 1);
+        if (playerStats != null && (stopWatch.getTime() > 1500))
         {
-            // increase the block count for the updated slot
-            PlayerStats playerStats = stats.get(m.getSlot() - 1);
-            if (playerStats != null && (stopWatch.getTime() > 1500))
-            {
-                playerStats.blockCount++;
-            }
+            playerStats.blockCount++;
         }
 
         out.add(m);
@@ -158,15 +153,20 @@ public class StatsFilter extends GenericFilter
         removeBlock(m);
     }
 
-    public void onSpecial(SpecialMessage m)
+    public void onSpecial(SpecialMessage m, List<Message> out)
     {
         if (!(m instanceof OneLineAddedMessage)
                 && !(m instanceof TwoLinesAddedMessage)
                 && !(m instanceof FourLinesAddedMessage))
         {
+            // add a special received by the target
             PlayerStats playerStats = stats.get(m.getSlot() - 1);
             playerStats.specialsReceived++;
 
+            // remove 2 blocks count from the target
+            playerStats.blockCount = playerStats.blockCount - 2;
+
+            // add a special sent by the sender
             playerStats = stats.get(m.getFromSlot() - 1);
             playerStats.specialsSent++;
         }
@@ -288,7 +288,7 @@ public class StatsFilter extends GenericFilter
 
         // display the total game time
         PlineMessage time = new PlineMessage();
-        time.setText("<brown>Total game time: <black>" + (stopWatch.getTime() / 1000) + "</black> seconds");
+        time.setText("<brown>Total game time: <black>" + df.format(stopWatch.getTime() / 1000f) + "</black> seconds"); // todo i18n
         out.add(time);
     }
 
