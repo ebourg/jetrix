@@ -95,6 +95,7 @@ public class Message
                   Integer slot = (Integer)getParameter(0);
                   String message = (String)getParameter(1);
                   raw = "pline " + slot + " " + message;
+                  //for (int i=1; i<getNbParameters(); i++) { raw += " " + (String)getParameter(i); }
                   break;
 
                 case MSG_PLAYERJOIN:
@@ -120,7 +121,7 @@ public class Message
 
                 case MSG_STARTGAME:
                     Settings s = (Settings)getParameter(1);
-                    String raw = "newgame " + s.getStackHeight() + " " + s.getStartingLevel() + " " + s.getLinesPerLevel() + " " + s.getLevelIncrease() + " " + s.getLinesPerSpecial() + " " + s.getSpecialAdded() + " " + s.getSpecialCapacity() + " ";
+                    raw = "newgame " + s.getStackHeight() + " " + s.getStartingLevel() + " " + s.getLinesPerLevel() + " " + s.getLevelIncrease() + " " + s.getLinesPerSpecial() + " " + s.getSpecialAdded() + " " + s.getSpecialCapacity() + " ";
                     for (int i = 0; i<7; i++)
                     {
                         for (int j = 0; j<s.getBlockOccurancy(i); j++) { raw = raw + (i + 1); }
@@ -213,6 +214,18 @@ public class Message
 
     public String toString()
     {
-        return "[Message type="+type+" code="+code+" params="+params+"]";
+        StringBuffer paramsView = new StringBuffer();
+        paramsView.append("{");
+        if (params != null)
+        {
+            for (int i=0; i<params.length; i++)	
+            {
+                paramsView.append(params[i]);
+                if (i!=params.length-1) paramsView.append("; ");
+            }
+        }
+        paramsView.append("}");
+        
+        return "[Message type="+type+" code="+code+" params="+paramsView+"]";
     }
 }

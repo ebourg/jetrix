@@ -97,7 +97,10 @@ public class Channel extends Thread
                                     System.out.println("channel cible trouve : "+target);
                                     if ( target.isFull() )
                                     {
-                                        System.out.println("channel complet !");
+                                        // sending channel full message
+                                        Message channelfull = new Message(Message.MSG_PLINE);
+                                        channelfull.setParameters(new Object[] { new Integer(0), ChatColors.darkBlue+"That channel is "+ChatColors.red+"FULL"+ChatColors.darkBlue+"!" });
+                                        ((TetriNETClient)m.getSource()).sendMessage(channelfull);
                                     }
                                     else
                                     {
@@ -156,6 +159,13 @@ public class Channel extends Thread
                             Message endingScreen = new Message(Message.MSG_FIELD);
                             endingScreen.setParameters(new Object[] { m.getParameter(0), screenLayout.toString() });
                             sendAll(endingScreen);
+                            
+                            // check for end of game
+                            if (countRemainingTeams() <= 1)
+                            {
+                                Message endgame = new Message(Message.MSG_ENDGAME);
+                                sendAll(endgame);                                
+                            }                            
 
                             break;
 
@@ -178,7 +188,7 @@ public class Channel extends Thread
                             gameState = GAME_STATE_STARTED;
                             for (int i=0; i<playerList.length; i++)
                             {
-                                if(playerList[i]!=null)
+                                if(playerList[i] != null)
                                 {
                                     client = (TetriNETClient)playerList[i];
                                     client.getPlayer().setPlaying(true);
@@ -213,10 +223,14 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_PLAYERLEAVE:
-                            System.out.println("player leaving channel "+this);
+                            System.out.println("player leaving channel " + cconf.getName());
                             slot = ((Integer)m.getParameter(0)).intValue();
-                            playerList[slot-1]=null;
+                            playerList[slot-1] = null;
                             sendAll(m);
+
+                            // stopping the game if the channel is now empty
+                            if (isEmpty() && running) { gameState = GAME_STATE_STOPPED; }
+
                             break;
 
                         case Message.MSG_ADDPLAYER:
@@ -250,9 +264,12 @@ public class Channel extends Thread
                                 // clearing player list
                                 for (int j=1; j<=6; j++)
                                 {
-                                    Message clear = new Message(Message.MSG_PLAYERLEAVE);
-                                    clear.setParameters(new Object[] { new Integer(j) });
-                                    client.sendMessage(clear);
+                                    if (previousChannel.getPlayer(j)!=null)
+                                    {
+                                        Message clear = new Message(Message.MSG_PLAYERLEAVE);
+                                        clear.setParameters(new Object[] { new Integer(j) });
+                                        client.sendMessage(clear);
+                                    }
                                 }
                             }
 
@@ -378,6 +395,11 @@ public class Channel extends Thread
         return getNbPlayers() >= cconf.getMaxPlayers();
     }
 
+    public boolean isEmpty()
+    {
+        return getNbPlayers() == 0;
+    }
+
     /**
      * Returns the number of players currently in this chanel.
      *
@@ -424,6 +446,64 @@ public class Channel extends Thread
         }
 
         return slot;
+    }
+
+    /**
+     * Returns the client in the specified slot.
+     *
+     * @param slot slot number between 1 and 6
+     *
+     * @return <tt>null</tt> if there is no client in the specified slot, or if the number is out of range
+     */
+    public TetriNETClient getPlayer(int slot)
+    {
+        TetriNETClient client = null;
+
+        if (slot>=1 && slot <=6) client = playerList[slot-1];
+
+        return client;
+    }
+
+    /**
+     * Count how many teams are still fighting for victory. A teamless player
+     * is considered as a separate team. The game ends when there is one team
+     * left in game OR when the last player loose if only one team took part
+     * in the game.
+     *
+     * @return number of teams still playing
+     */
+    private int countRemainingTeams()
+    {
+        //System.out.println("controle des equipes encore en lice");
+        Hashtable playingTeams = new Hashtable();
+
+        int nbTeamsLeft = 0;
+
+        for (int i = 0; i<playerList.length; i++)
+        {
+            TetriNETClient client = playerList[i];
+            
+            //if (client != null) System.out.println("checking ["+i+"]" + client.getPlayer().getName() + " " + (client.getPlayer().isPlaying()?"playing":"not playing") );
+
+            if ( client != null && client.getPlayer().isPlaying() )
+            {
+                String team = client.getPlayer().getTeam();                                
+
+                if (team == null || "".equals(team))
+                {
+                    nbTeamsLeft++;
+                    //System.out.println("un joueur sans equipe : " + client.getPlayer().getName());
+                }
+                else
+                {
+                    playingTeams.put(team, team);
+                    //System.out.println("un joueur avec equipe : " + client.getPlayer().getName() + " - " + client.getPlayer().getTeam());
+                }
+            }
+        }
+
+        //System.out.println("joueurs seuls : " + nbTeamsLeft + " - equipes : " + playingTeams.size() + " - " + playingTeams);
+        return nbTeamsLeft + playingTeams.size();
     }
 
 }

@@ -44,7 +44,7 @@ http://sourceforge.net/projects/jts/
     <level-increase>1</level-increase>
 
     <!-- Lines to make to get a special block -->
-    <lines-per-special>1</lines-per-special>
+    <lines-per-special>2</lines-per-special>
 
     <!-- Number of special blocks added each time -->
     <special-added>1</special-added>

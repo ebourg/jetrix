@@ -41,13 +41,13 @@ public class Settings
     private boolean averageLevels;
     private boolean classicRules;
 
-    public static final int BLOCK_LEFTL     = 0;
-    public static final int BLOCK_LEFTZ     = 1;
-    public static final int BLOCK_SQUARE    = 2;
-    public static final int BLOCK_RIGHTL    = 3;
-    public static final int BLOCK_RIGHTZ    = 4;
-    public static final int BLOCK_HALFCROSS = 5;
-    public static final int BLOCK_LINE      = 6;
+    public static final int BLOCK_LINE      = 0;
+    public static final int BLOCK_SQUARE    = 1;
+    public static final int BLOCK_LEFTL     = 2;    
+    public static final int BLOCK_RIGHTL    = 3;        
+    public static final int BLOCK_LEFTZ     = 4;        
+    public static final int BLOCK_RIGHTZ    = 5;
+    public static final int BLOCK_HALFCROSS = 6;    
 
     public static final int SPECIAL_ADDLINE      = 0;
     public static final int SPECIAL_CLEARLINE    = 1;

@@ -75,10 +75,11 @@ class TetriNETClient extends Thread
                 // reading raw message from socket
                 s = readLine();
                 StringTokenizer st = new StringTokenizer(s, " ");
-                String cmd = st.nextToken();
-
+                
                 try
                 {
+                	
+                String cmd = st.nextToken();
 
                 // building server message
                 m = new Message();
@@ -102,8 +103,8 @@ class TetriNETClient extends Thread
                     m.setCode(Message.MSG_PLINE);
 
                     Integer slot = new Integer(st.nextToken());
-                    //String text = (st.hasMoreTokens())?st.nextToken():"";
-                    Object[] params = { slot, s.substring(7).trim() };
+                    String text = (st.hasMoreTokens())?st.nextToken():"";
+                    Object[] params = { slot, text };
                     m.setParameters(params);
                 }
                 // gmsg playername+text
@@ -130,7 +131,7 @@ class TetriNETClient extends Thread
                 {
                     m.setType(Message.TYPE_CHANNEL);
                     m.setCode("1".equals(st.nextToken())?Message.MSG_STARTGAME:Message.MSG_ENDGAME);
-                    if (Message.MSG_ENDGAME == m.getCode()) m.setRawMessage("endgame");
+                    if (Message.MSG_ENDGAME == m.getCode()) m.setRawMessage("endgame"); else m.setRawMessage(null);
 
                     Integer slot = new Integer(st.nextToken());
                     Object[] params = { slot, channel.getConfig().getSettings() };
