@@ -140,12 +140,14 @@
         <include>**/*Test.java</include>
       </includes>
       <resources>
-        <ressource>
+        <resource>
           <directory>src/etc</directory>
+          <targetPath>/</targetPath>
           <includes>
             <include>*.xml</include>
+            <include>*.dtd</include>
           </includes>
-        </ressource>
+        </resource>
         <ressource>
           <directory>src/lang</directory>
           <includes>
@@ -154,6 +156,7 @@
         </ressource>
       </resources>
     </unitTest>
+
   </build>
 
   <reports>
