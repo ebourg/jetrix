@@ -180,6 +180,7 @@ http://jetrix.sourceforge.net/
     <command class="org.lfjr.jts.commands.IpCommand"/>
     <command class="org.lfjr.jts.commands.JoinCommand"/>
     <command class="org.lfjr.jts.commands.KickCommand"/>
+    <command class="org.lfjr.jts.commands.LanguageCommand"/>
     <command class="org.lfjr.jts.commands.ListCommand"/>
     <command class="org.lfjr.jts.commands.MotdCommand"/>
     <command class="org.lfjr.jts.commands.MoveCommand"/>
