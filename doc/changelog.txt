@@ -45,6 +45,7 @@ Player visible changes
 - on connecting, the player now joins automatically the first accessible channel with other players
 - Added a flow control to prevent players using the windows client from being disconnected when they are flooded
 - The server now responds "PONG" when a player send just "t" in an ingame message.
+- It's now possible to remain idle forever on the #admins channel
 
 Admin visible changes
 - Jetrix now requires the JRE 1.5 to run
@@ -65,6 +66,7 @@ Admin visible changes
 - web admin: added basic server statistics (uptime, game count and connection count)
 - web admin: commands can be removed
 - web admin: the ip bound to the server can be changed on the 'General' tab, the ip available are automatically detected and listed
+- web admin: added an "Idle allowed" parameter on the channel page, it maps to the <idle> element in the channels.xml file
 - the server now checks the availability of a new release at startup
 - a system tray icon is displayed on windows platforms
 - a native executable is provided on windows to run the server without the DOS console

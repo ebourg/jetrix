@@ -25,11 +25,13 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.*;
+import java.net.*;
 
 import net.jetrix.config.*;
 import net.jetrix.filter.*;
 import net.jetrix.messages.*;
 import net.jetrix.winlist.*;
+import net.jetrix.clients.TetrinetClient;
 
 import org.apache.commons.collections.*;
 
@@ -696,6 +698,20 @@ public class Channel extends Thread implements Destination
             if (gameState == PAUSED)
             {
                 client.send(new PauseMessage());
+            }
+        }
+
+        // adjust the timeout
+        if (client instanceof TetrinetClient)
+        {
+            int timeout = getConfig().isIdleAllowed() ? 0 : serverConfig.getTimeout() * 1000;
+            try
+            {
+                ((TetrinetClient) client).getSocket().setSoTimeout(timeout);
+            }
+            catch (SocketException e)
+            {
+                log.log(Level.WARNING, "Unable to change the timeout", e);
             }
         }
     }
