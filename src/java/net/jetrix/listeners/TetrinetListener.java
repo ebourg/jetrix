@@ -87,11 +87,11 @@ public class TetrinetListener extends ClientListener
         client.setVersion((String)tokens.get(2));
         if (((String)tokens.get(0)).equals("tetrisstart"))
         {
-            client.setProtocol(new TetrinetProtocol());
+            client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.TetrinetProtocol"));
         }
         else if (((String)tokens.get(0)).equals("tetrifaster"))
         {
-            client.setProtocol(new TetrifastProtocol());
+            client.setProtocol(ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.TetrifastProtocol"));
         }
         else
         {
