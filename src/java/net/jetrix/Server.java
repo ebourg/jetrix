@@ -20,9 +20,11 @@
 package net.jetrix;
 
 import java.io.*;
+import java.net.*;
 import java.text.*;
 import java.util.*;
 import java.util.logging.*;
+
 import net.jetrix.clients.*;
 import net.jetrix.config.*;
 import net.jetrix.commands.*;
@@ -46,7 +48,7 @@ public class Server implements Runnable, Destination
 
     private Server()
     {
-        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2002 Emmanuel Bourg\n");
+        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2003 Emmanuel Bourg\n");
         instance = this;
 
         // reading server configuration
@@ -207,8 +209,16 @@ public class Server implements Runnable, Destination
         mq.put(m);
     }
 
+    /**
+     * Return the unique instance of the server.
+     */
     public static Server getInstance()
     {
+        if (instance == null)
+        {
+            instance = new Server();
+        }
+        
         return instance;
     }
 
@@ -242,13 +252,37 @@ public class Server implements Runnable, Destination
     }
 
     /**
-     * Server entry point.
+     * Server entry point. All classes, jar and zip files in the lib
+     * subdirectory are automatically added to the classpath.
      *
      * @param args start parameters
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        new Server();
+        // build the list of JARs in the ./lib directory
+        File repository = new File("lib/");
+        List jars = new ArrayList();
+        jars.add(repository.toURL());
+        jars.add(new File("lang/").toURL());
+
+        File[] files = repository.listFiles();
+        for (int i = 0; i < files.length; i++)
+        {
+            String filename = files[i].getAbsolutePath();
+            if (filename.endsWith(".jar") || filename.endsWith(".zip"))
+            {
+                jars.add(files[i].toURL());
+            }
+        }
+
+        URL[] urls = new URL[jars.size()];
+        for (int i = 0; i < jars.size(); i++) urls[i] = (URL)jars.get(i);
+
+        URLClassLoader loader = new URLClassLoader(urls, null);
+
+        // start the server
+        Class serverClass = loader.loadClass("net.jetrix.Server");
+        serverClass.getMethod("getInstance", null).invoke(null, null);
     }
 
 }
