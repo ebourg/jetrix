@@ -20,7 +20,7 @@
   <max-connexions>2</max-connexions>
 
   <!-- Typing /op <thispassword> will give player op status -->
-  <op-password>jtspass</op-password>
+  <op-password>jetrixpass</op-password>
 
   <!-- Access Log, where requests are logged to -->
   <access-log path="log/access%g.log" />
@@ -37,9 +37,9 @@ http://jetrix.sourceforge.net/
   
   <!-- Channel filters -->
   <filter-definitions>
-    <alias name="noop"  class="org.lfjr.jts.filter.NoopFilter"/>
     <alias name="flood" class="org.lfjr.jts.filter.FloodFilter"/>
     <alias name="start" class="org.lfjr.jts.filter.StartFilter"/>
+    <alias name="amplifier" class="org.lfjr.jts.filter.AmplifierFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -155,12 +155,33 @@ http://jetrix.sourceforge.net/
     <channel name="laboratory">
       <description>Silly tests here</description>
       <filters>
-        <filter name="noop"/>
+        <filter name="amplifier"/>
       </filters>
+    </channel>
+
+    <channel name="private">
+      <description>Protected channel</description>
+      <password>sesame</password>
+    </channel>
+
+    <channel name="admins">
+      <description>Administrators' Lair</description>
+      <access-level>1</access-level>
     </channel>
 
   </channels>
 
+  <!-- Server commands -->
+  <commands>
+    <command class="org.lfjr.jts.ConfigCommand"/>
+    <command class="org.lfjr.jts.JoinCommand"/>
+    <command class="org.lfjr.jts.ListCommand"/>
+    <command class="org.lfjr.jts.MoveCommand"/>
+    <command class="org.lfjr.jts.OperatorCommand"/>
+    <command class="org.lfjr.jts.TellCommand"/>
+    <command class="org.lfjr.jts.VersionCommand"/>
+    <command class="org.lfjr.jts.WhoCommand"/>
+  </commands>
 
   <ban>
     <!-- Cheating from host 1cust007.tnt2.billgates.da.uu.net -->
