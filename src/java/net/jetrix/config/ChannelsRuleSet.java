@@ -21,6 +21,7 @@ package net.jetrix.config;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.RuleSetBase;
+import org.apache.commons.digester.Rule;
 
 /**
  * RuleSet for processing the content of a channel configuration file.
@@ -53,24 +54,21 @@ public class ChannelsRuleSet extends RuleSetBase
         digester.addCallMethod("*/classic-rules", "setClassicRules", 0, new Class[] {Boolean.TYPE});
         digester.addCallMethod("*/average-levels", "setAverageLevels", 0, new Class[] {Boolean.TYPE});
         digester.addCallMethod("*/same-blocks", "setSameBlocks", 0, new Class[] {Boolean.TYPE});
-        digester.addCallMethod("*/block-occurancy/leftl", "setLeftLOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/block-occurancy/leftz", "setLeftZOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/block-occurancy/square", "setSquareOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/block-occurancy/rightl", "setRightLOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/block-occurancy/rightz", "setRightZOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/block-occurancy/halfcross", "setHalfCrossOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/block-occurancy/line", "setLineOccurancy", 0, new Class[] {Integer.TYPE});
+
+        for (Block block : Block.values())
+        {
+            digester.addRule("*/block-occurancy/" + block.getCode(), new OccurancyRule(digester, block));
+        }
+
         digester.addCallMethod("*/block-occurancy", "normalizeBlockOccurancy", 0, (Class[]) null);
-        digester.addCallMethod("*/special-occurancy/addline", "setAddLineOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy/clearline", "setClearLineOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy/nukefield", "setNukeFieldOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy/randomclear", "setRandomClearOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy/switchfield", "setSwitchFieldOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy/clearspecial", "setClearSpecialOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy/gravity", "setGravityOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy/quakefield", "setQuakeFieldOccurancy", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("*/special-occurancy/blockbomb", "setBlockBombOccurancy", 0, new Class[] {Integer.TYPE});
+
+        for (Special special : Special.values())
+        {
+            digester.addRule("*/special-occurancy/" + special.getCode(), new OccurancyRule(digester, special));
+        }
+
         digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, (Class[]) null);
+
         digester.addCallMethod("*/sudden-death/time", "setSuddenDeathTime", 0, new Class[] { Integer.TYPE });
         digester.addCallMethod("*/sudden-death/message", "setSuddenDeathMessage", 0);
         digester.addCallMethod("*/sudden-death/delay", "setSuddenDeathDelay", 0, new Class[] { Integer.TYPE });
@@ -117,6 +115,46 @@ public class ChannelsRuleSet extends RuleSetBase
         digester.addCallMethod("tetrinet-channels/winlists/winlist/param", "setParameter", 2);
         digester.addCallParam("tetrinet-channels/winlists/winlist/param", 0, "name");
         digester.addCallParam("tetrinet-channels/winlists/winlist/param", 1, "value");
+    }
+
+    /**
+     * Custom rule to set the block and special occurancies.
+     */
+    private class OccurancyRule extends Rule
+    {
+        private Block block;
+        private Special special;
+
+        public OccurancyRule(Digester digester, Block block)
+        {
+            super(digester);
+            this.block = block;
+        }
+
+        public OccurancyRule(Digester digester, Special special)
+        {
+            super(digester);
+            this.special = special;
+        }
+
+        public void body(String body) throws Exception
+        {
+            // get the settings on the stack
+            Settings settings = (Settings) digester.peek();
+
+            // get the value of the occurancy
+            int value = Integer.parseInt(body);
+
+            // set the value
+            if (special == null)
+            {
+                settings.setOccurancy(block, value);
+            }
+            else
+            {
+                settings.setOccurancy(special, value);
+            }
+        }
     }
 
 }
