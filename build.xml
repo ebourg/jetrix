@@ -58,8 +58,7 @@
     <mkdir dir="${build}/jsp"/>
     <jspc destdir="${build}/jsp" verbose="1" srcdir="${src}/admin">
       <classpath>
-        <pathelement location="${lib}/jasper-compiler.jar"/>
-        <pathelement location="${lib}/jasper-runtime.jar"/>
+        <pathelement location="${lib}/jasper.jar"/>
         <pathelement location="${ant.home}/lib/ant.jar"/>
         <pathelement location="${lib}/servlet.jar"/>
       </classpath>
@@ -126,9 +125,8 @@
         <include name="commons-collections.jar" />
         <include name="commons-beanutils.jar" />
         <include name="jetty.jar"/>
-        <include name="servlet.jar"/>
+        <include name="servlet-light.jar"/>
         <include name="jasper-runtime.jar"/>
-        <include name="jasper-compiler.jar"/>
       </zipfileset>
       <zipfileset prefix="jetrix/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
@@ -161,7 +159,13 @@
         <include name="commons-digester.jar" />
         <include name="commons-collections.jar" />
         <include name="commons-beanutils.jar" />
+        <include name="jetty.jar"/>
+        <include name="servlet-light.jar"/>
+        <include name="jasper-runtime.jar"/>
       </tarfileset>
+      <tarfileset prefix="jetrix/lib/" dir="${dist}/webapp/">
+        <include name="*.war" />
+      </tarfileset>      
       <tarfileset prefix="jetrix/lang/" dir="${src}/lang/">
         <include name="*.properties" />
       </tarfileset>
