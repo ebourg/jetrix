@@ -57,6 +57,14 @@ public class LanguageTest extends TestCase
         assertEquals("welcome message in french", frenchText, Language.getText("channel.welcome", Locale.FRENCH, params));
     }
 
+    public void testGetTestWithLocalizedParameter()
+    {
+        String englishText = "<gray>Game started by <b>yes</b>";
+        String frenchText = "<gray>Partie démarrée par <b>oui</b>";
+        assertEquals("localized message in english", englishText, Language.getText("channel.game.started-by", Locale.ENGLISH, "key:common.yes"));
+        assertEquals("localized message in french", frenchText, Language.getText("channel.game.started-by", Locale.FRENCH, "key:common.yes"));
+    }
+
     public void testGetMissingText()
     {
         Language language = Language.getInstance();

@@ -146,7 +146,21 @@ public class Language
      */
     public static String getText(String key, Locale locale, Object ... arguments)
     {
-        return MessageFormat.format(getText(key, locale), arguments);
+        // localize the arguments
+        Object[] arguments2 = new Object[arguments.length];
+        for (int i = 0; i < arguments.length; i++)
+        {
+            if (arguments[i] instanceof String && ((String) arguments[i]).startsWith("key:"))
+            {
+                arguments2[i] = getText(((String) arguments[i]).substring(4), locale);
+            }
+            else
+            {
+                arguments2[i] = arguments[i];
+            }
+        }
+
+        return MessageFormat.format(getText(key, locale), arguments2);
     }
 
 }

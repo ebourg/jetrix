@@ -21,7 +21,7 @@ TODO
 - AliasFilter to replace "gg" by "good game" on the pline
 - per channel commands
 - winlist management in the admin console
-
+- display the team winlist for players with a team, and the player winlist for those with no team
 
 Changes in version 0.1.4 (2004-??-??)
 -------------------------------------
@@ -33,7 +33,7 @@ Player visible changes
 - operators can now create new channels dynamically with the /join command
 - The name of the player starting or stopping the game is now displayed on the party line
 - the StartFilter can now trigger a countdown before starting the game by specifying a number of seconds in the filter's "countdown" parameter
-- partial support of IRC clients on the the port 31456
+- partial support of IRC clients on the the port 31456 (disabled by default)
 
 Admin visible changes
 - Jetrix now requires the JRE 1.5 to run
@@ -63,6 +63,8 @@ Developper visible changes
 - Commands requiring a minimum number of parameters can now implement the ParameterCommand interface, the server will validate automatically the number of input parameters.
 - code ported to Java 5.0 !
 - added a clear() and a size() method to the Winlist interface
+- added an AbstractCommand class to reduce the code needed to implement a new Command
+- Localized messages can now have localized parameters by prefixing the parameter with "key:" : Language.getText("key", "key:paramKey");
 
 
 Changes in version 0.1.3 (2004-01-20)
