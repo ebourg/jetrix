@@ -36,7 +36,7 @@ import net.jetrix.*;
 public class HttpListener implements Listener
 {
     private org.mortbay.jetty.Server jetty;
-    private Logger logger = Logger.getLogger("net.jetrix");
+    private Logger log = Logger.getLogger("net.jetrix");
     private boolean initialized;
     private int port = 8080;
 
@@ -94,11 +94,11 @@ public class HttpListener implements Listener
                 initialized = true;
             }
             jetty.start();
-            logger.info("Web administration console started on port " + getPort());
+            log.info("Web administration console started on port " + getPort());
         }
         catch (MultiException e)
         {
-            logger.log(Level.SEVERE, "Unable to start the Web administration console on port " + getPort(), e);
+            log.log(Level.SEVERE, "Unable to start the Web administration console on port " + getPort(), e);
         }
     }
 
@@ -107,7 +107,7 @@ public class HttpListener implements Listener
         try
         {
             jetty.stop();
-            logger.info("Web administration console stopped");
+            log.info("Web administration console stopped");
         }
         catch (InterruptedException e)
         {

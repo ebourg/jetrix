@@ -39,7 +39,7 @@ public abstract class ClientListener implements Listener
     private ServerSocket serverSocket;
     private Socket socket;
     protected int port;
-    private Logger logger;
+    private Logger log;
     private boolean running;
 
     /**
@@ -54,7 +54,7 @@ public abstract class ClientListener implements Listener
      */
     public final void run()
     {
-        logger = Logger.getLogger("net.jetrix");
+        log = Logger.getLogger("net.jetrix");
         ServerConfig serverConfig = Server.getInstance().getConfig();
         running = true;
 
@@ -62,17 +62,17 @@ public abstract class ClientListener implements Listener
         {
             // bind the listener to the host & port
             serverSocket = new ServerSocket(getPort(), 50, serverConfig.getHost());
-            logger.info("Listening at " + getName() + " port " + getPort()
+            log.info("Listening at " + getName() + " port " + getPort()
                     + ((serverConfig.getHost() != null) ? ", bound to " + serverConfig.getHost() : ""));
         }
         catch (BindException e)
         {
-            logger.severe("Unable to bind " + getName() + " listener at port " + getPort());
+            log.severe("Unable to bind " + getName() + " listener at port " + getPort());
             running = false;
         }
         catch (IOException e)
         {
-            logger.severe("Cannot open ServerSocket");
+            log.severe("Cannot open ServerSocket");
             e.printStackTrace();
         }
 
@@ -86,13 +86,13 @@ public abstract class ClientListener implements Listener
                 InetAddress address = socket.getInetAddress();
 
                 // log the connection
-                logger.info("Incoming client " + address.getHostAddress() + ":" + socket.getPort());
+                log.info("Incoming client " + address.getHostAddress() + ":" + socket.getPort());
 
                 // test the ban list
                 if (Banlist.getInstance().isBanned(address))
                 {
                     socket.close();
-                    logger.info("Banned host, client rejected (" + address + ")");
+                    log.info("Banned host, client rejected (" + address + ")");
                     continue;
                 }
 
@@ -105,7 +105,7 @@ public abstract class ClientListener implements Listener
                 if (repository.getClientCount() >= serverConfig.getMaxPlayers()
                         && !(client instanceof QueryClient))
                 {
-                    logger.info("Server full, client rejected (" + address + ").");
+                    log.info("Server full, client rejected (" + address + ").");
                     Message m = new NoConnectingMessage("Server is full!");
                     client.sendMessage(m);
                     socket.close();
@@ -116,7 +116,7 @@ public abstract class ClientListener implements Listener
                 int maxConnections = serverConfig.getMaxConnections();
                 if (maxConnections > 0 && repository.getHostCount(address) >= maxConnections)
                 {
-                    logger.info("Too many connections from host, client rejected (" + address + ").");
+                    log.info("Too many connections from host, client rejected (" + address + ").");
                     Message m = new NoConnectingMessage("Too many connections from your host!");
                     client.sendMessage(m);
                     socket.close();
@@ -142,7 +142,7 @@ public abstract class ClientListener implements Listener
                     continue;
                 }
 
-                logger.fine("Client accepted (" + address + ")");
+                log.fine("Client accepted (" + address + ")");
                 socket.setSoTimeout(serverConfig.getTimeout() * 1000);
 
                 if (!(client instanceof QueryClient))
@@ -210,7 +210,7 @@ public abstract class ClientListener implements Listener
     {
         try
         {
-            logger.info("Stopping listener " + getName());
+            log.info("Stopping listener " + getName());
             running = false;
             serverSocket.close();
         }
