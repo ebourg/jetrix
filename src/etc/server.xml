@@ -4,7 +4,7 @@
 <tetrinet-server host="[ALL]">
 
   <!-- Server name -->
-  <name>JetriX TetriNET Server</name>
+  <name>Jetrix TetriNET Server</name>
 
   <!-- Server default language (using an ISO-639 two-letter language code) -->
   <language>en</language>
@@ -46,6 +46,8 @@
     <service class="net.jetrix.services.PublishingService">
       <!--<param name="host" value="tetrinet.yourhostname.net"/>-->
     </service>
+    <service class="net.jetrix.services.GhostbusterService"/>
+    <service class="net.jetrix.services.VersionService"/>
   </services>
 
   <!-- Server commands -->
