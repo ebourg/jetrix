@@ -21,6 +21,8 @@ package net.jetrix.winlist;
 
 import java.util.*;
 
+import net.jetrix.*;
+
 /**
  * The result of a game.
  *
@@ -71,5 +73,27 @@ public class GameResult
     public void setGamePlayers(Collection gamePlayers)
     {
         this.gamePlayers = gamePlayers;
+    }
+
+    public void addGamePlayer(GamePlayer gamePlayer)
+    {
+        if (gamePlayers == null)
+        {
+            gamePlayers = new ArrayList();
+        }
+        gamePlayers.add(gamePlayer);
+    }
+
+    /**
+     * Update the result of the game by indicating if the specified user won or not.
+     */
+    public void update(User user, boolean isWinner)
+    {
+        GamePlayer player = new GamePlayer();
+        player.setName(user.getName());
+        player.setTeamName(user.getTeam());
+        player.setWinner(isWinner);
+        player.setEndTime(new Date());
+        addGamePlayer(player);
     }
 }
