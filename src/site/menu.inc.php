@@ -20,7 +20,7 @@
           <li><a href="architecture.php">Architecture</a></li>
           <li><a href="api/index.html">Javadoc</a></li>
           <li><a href="command-guide.php">Command guide</a></li>
-          <li><a href="soon.php">Filter guide</a></li>
+          <li><a href="filter-guide.php">Filter guide</a></li>
           <li><a href="soon.php">Login procedure</a></li>
           <li><a href="query-protocol.php">Query protocol</a></li>
           <li><a href="soon.php">Colors</a></li>
