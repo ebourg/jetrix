@@ -80,7 +80,7 @@ The TetriFast protocol use two different messages :
 Tetrix first introduced a query protocol to get easily a list of players and
 channels on TetriNET servers. This protocol consists in 4 commands :
 <tt>playerquery</tt>, <tt>listchan</tt>, <tt>listuser</tt> and <tt>version</tt>.
-These commands are sent through the standard tetrinet port 31457 and must be
+These commands are sent through the standard tetrinet port 31457 (TCP) and must be
 terminated by the <tt>0xFF</tt> character. The line terminator for the response
 is a line feed <tt>0x0A</tt>.<br />
 
