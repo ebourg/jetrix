@@ -6,7 +6,7 @@
         echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
     }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD xhtml 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/xml; charset=iso-8859-1" />
@@ -43,9 +43,9 @@
   </tr>
   <tr>
     <!-- left side menu -->
-    <td style="width: 20%; white-space: nowrap" valign="top">
+    <td style="width: 150px; white-space: nowrap" valign="top">
       <? include("menu.inc.php"); ?>
       <a href="http://www.opensource.org/"><img src="images/opensource-110x95.png" alt="Open Source" /></a>
     </td>
-    <td style="width: 80%" align="left" valign="top">
+    <td align="left" valign="top">
       <div class="content">
