@@ -63,6 +63,7 @@ public class ServerConfig
         channels = new ArrayList();
         globalFilters = new ArrayList();
         // bans = new ArrayList();
+        port = DEFAULT_PORT;
     }
 
     /**
@@ -84,12 +85,12 @@ public class ServerConfig
             // server parameters
             digester.addCallMethod("tetrinet-server", "setHost", 1);
             digester.addCallParam("tetrinet-server", 0, "host");
-            digester.addCallMethod("tetrinet-server", "setPort", 1, new Class[] {Integer.class});
+            digester.addCallMethod("tetrinet-server", "setPort", 1, new Class[] {Integer.TYPE});
             digester.addCallParam("tetrinet-server", 0, "port");
-            digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.class});
-            digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.class});
-            digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.class});
-            digester.addCallMethod("tetrinet-server/max-connexions", "setMaxConnexions", 0, new Class[] {Integer.class});
+            digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("tetrinet-server/max-connexions", "setMaxConnexions", 0, new Class[] {Integer.TYPE});
             digester.addCallMethod("tetrinet-server/op-password", "setOpPassword", 0);
             digester.addCallMethod("tetrinet-server/motd", "setMessageOfTheDay", 0);
             digester.addCallMethod("tetrinet-server/access-log", "setAccessLogPath", 1);
@@ -106,32 +107,32 @@ public class ServerConfig
             digester.addSetNext("*/channel/settings", "setSettings", "org.lfjr.jts.config.Settings");
 
             // any game settings
-            digester.addCallMethod("*/starting-level", "setStartingLevel", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/lines-per-level", "setLinesPerLevel", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/level-increase", "setLevelIncrease", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/lines-per-special", "setLinesPerSpecial", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-added", "setSpecialAdded", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-capacity", "setSpecialCapacity", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/classic-rules", "setClassicRules", 0, new Class[] {Boolean.class});
-            digester.addCallMethod("*/average-levels", "setAverageLevels", 0, new Class[] {Boolean.class});
-            digester.addCallMethod("*/block-occurancy/leftl", "setLeftLOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/block-occurancy/leftz", "setLeftZOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/block-occurancy/square", "setSquareOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/block-occurancy/rightl", "setRightLOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/block-occurancy/rightz", "setRightZOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/block-occurancy/halfcross", "setHalfCrossOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/block-occurancy/line", "setLineOccurancy", 0, new Class[] {Integer.class});
-            //digester.addCallMethod("*/block-occurancy", "normalizeBlockOccurancy", 1, new Class[] {} );
-            digester.addCallMethod("*/special-occurancy/addline", "setAddLineOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-occurancy/clearline", "setClearLineOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-occurancy/nukefield", "setNukeFieldOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-occurancy/randomclear", "setRandomClearOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-occurancy/switchfield", "setSwitchFieldOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-occurancy/clearspecial", "setClearSpecialOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-occurancy/gravity", "setGravityOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-occurancy/quakefield", "setQuakeFieldOccurancy", 0, new Class[] {Integer.class});
-            digester.addCallMethod("*/special-occurancy/blockbomb", "setBlockBombOccurancy", 0, new Class[] {Integer.class});
-            //digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, new Class[] {});
+            digester.addCallMethod("*/starting-level", "setStartingLevel", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/lines-per-level", "setLinesPerLevel", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/level-increase", "setLevelIncrease", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/lines-per-special", "setLinesPerSpecial", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-added", "setSpecialAdded", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-capacity", "setSpecialCapacity", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/classic-rules", "setClassicRules", 0, new Class[] {Boolean.TYPE});
+            digester.addCallMethod("*/average-levels", "setAverageLevels", 0, new Class[] {Boolean.TYPE});
+            digester.addCallMethod("*/block-occurancy/leftl", "setLeftLOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/block-occurancy/leftz", "setLeftZOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/block-occurancy/square", "setSquareOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/block-occurancy/rightl", "setRightLOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/block-occurancy/rightz", "setRightZOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/block-occurancy/halfcross", "setHalfCrossOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/block-occurancy/line", "setLineOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/block-occurancy", "normalizeBlockOccurancy", 0, (Class[])null);
+            digester.addCallMethod("*/special-occurancy/addline", "setAddLineOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy/clearline", "setClearLineOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy/nukefield", "setNukeFieldOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy/randomclear", "setRandomClearOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy/switchfield", "setSwitchFieldOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy/clearspecial", "setClearSpecialOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy/gravity", "setGravityOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy/quakefield", "setQuakeFieldOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy/blockbomb", "setBlockBombOccurancy", 0, new Class[] {Integer.TYPE});
+            digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, (Class[])null);
 
             // channel configuration
             digester.addObjectCreate("*/channel", "org.lfjr.jts.config.ChannelConfig");
@@ -139,7 +140,7 @@ public class ServerConfig
             digester.addCallMethod("*/channel", "setName", 1);
             digester.addCallParam("*/channel", 0, "name");
             digester.addCallMethod("*/channel/description", "setDescription", 0);
-            digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.class});
+            digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
 
             // filter configuration
             digester.addObjectCreate("*/filter", "org.lfjr.jts.config.FilterConfig");
@@ -198,12 +199,6 @@ public class ServerConfig
         this.port = port;
     }
 
-    public void setPort(Integer port)
-    {
-        try { this.port = port.intValue(); }
-        catch (Exception e) { this.port = DEFAULT_PORT; }
-    }
-
     public int getTimeout()
     {
         return timeout;
@@ -212,11 +207,6 @@ public class ServerConfig
     public void setTimeout(int timeout)
     {
         this.timeout = timeout;
-    }
-
-    public void setTimeout(Integer timeout)
-    {
-        this.timeout = timeout.intValue();
     }
 
     public int getMaxChannels()
@@ -229,11 +219,6 @@ public class ServerConfig
         this.maxChannels = maxChannels;
     }
 
-    public void setMaxChannels(Integer maxChannels)
-    {
-        this.maxChannels = maxChannels.intValue();
-    }
-
     public int getMaxPlayers()
     {
         return maxPlayers;
@@ -244,11 +229,6 @@ public class ServerConfig
         this.maxPlayers = maxPlayers;
     }
 
-    public void setMaxPlayers(Integer maxPlayers)
-    {
-        this.maxPlayers = maxPlayers.intValue();
-    }
-
     public int getMaxConnexions()
     {
         return maxConnexions;
@@ -257,11 +237,6 @@ public class ServerConfig
     public void setMaxConnexions(int maxConnexions)
     {
         this.maxConnexions = maxConnexions;
-    }
-
-    public void setMaxConnexions(Integer maxConnexions)
-    {
-        this.maxConnexions = maxConnexions.intValue();
     }
 
     public String getOpPassword()
