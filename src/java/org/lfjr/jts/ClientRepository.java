@@ -1,0 +1,155 @@
+/**
+ * Jetrix TetriNET Server
+ * Copyright (C) 2001-2002  Emmanuel Bourg
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+package org.lfjr.jts;
+
+import java.net.*;
+import java.util.*;
+import org.apache.commons.collections.*;
+
+/**
+ * Repository of clients connected to the server.
+ *
+ * @author Emmanuel Bourg
+ * @version $Revision$, $Date$
+ */
+public class ClientRepository
+{
+    private static ClientRepository instance = new ClientRepository();
+    private Map clients;
+
+    private static Predicate playerPredicate = new Predicate() {
+            public boolean evaluate(Object obj)
+            {
+                TetriNETClient client = (TetriNETClient)obj;
+                boolean isPlayer =
+                    client.getType() == TetriNETClient.CLIENT_TETRINET
+                    || client.getType() == TetriNETClient.CLIENT_TETRIFAST;
+                return isPlayer;
+            }
+        };
+
+    private static Predicate spectatorPredicate = new Predicate() {
+            public boolean evaluate(Object obj)
+            {
+                TetriNETClient client = (TetriNETClient)obj;
+                boolean isSpec = client.getType() == TetriNETClient.CLIENT_TSPEC;
+                return isSpec;
+            }
+        };
+
+    private ClientRepository()
+    {
+        clients = new TreeMap();
+    }
+
+    public static ClientRepository getInstance()
+    {
+        return instance;
+    }
+
+    /**
+     * Add a client into the repository.
+     *
+     * @param client the client to add
+     */
+    public void addClient(TetriNETClient client)
+    {
+        clients.put(client.getPlayer().getName(), client);
+    }
+
+    /**
+     * Remove a client from the repository.
+     *
+     * @param client the client to remove
+     */
+    public void removeClient(TetriNETClient client)
+    {
+        clients.remove(client.getPlayer().getName());
+    }
+
+    /**
+     * Return an iterator of players online in alphabetical order.
+     */
+    public Iterator getPlayers()
+    {
+        return new FilterIterator(clients.values().iterator(), playerPredicate);
+    }
+
+    /**
+     * Return the number of players connected to this server.
+     */
+    public int getPlayerCount()
+    {
+        return CollectionUtils.select(clients.values(), playerPredicate).size();
+    }
+
+    /**
+     * Return an iterator of spectators online in alphabetical order.
+     */
+    public Iterator getSpectators()
+    {
+        return new FilterIterator(clients.values().iterator(), spectatorPredicate);
+    }
+
+    /**
+     * Return the number of spectators connected to this server.
+     */
+    public int getSpectatorCount()
+    {
+        return CollectionUtils.select(clients.values(), spectatorPredicate).size();
+    }
+
+    /**
+     * Return the client of the player or spectator with
+     * the specified nickname.
+     *
+     * @param nickname nickname of the client to return
+     */
+    public TetriNETClient getClient(String nickname)
+    {
+        return (TetriNETClient)clients.get(nickname);
+    }
+
+    /**
+     * Return the number of clients connected to this server.
+     */
+    public int getClientCount()
+    {
+        return clients.size();
+    }
+
+    /**
+     * Return the number of clients connected from the specified
+     * internet address.
+     *
+     * @param address
+     */
+    public int getHostCount(InetAddress address)
+    {
+        int count = 0;
+        return count;
+    }
+
+    public void clear()
+    {
+        clients.clear();	
+    }
+
+}
