@@ -252,14 +252,14 @@ public class ClientListener extends Thread
             throw new UnknownEncryptionException("Invalid Init String: decoding failed");
         }
 
-        String s = "";
+        StringBuffer s = new StringBuffer();
 
         for (int i = 1; i<dec.length; i++)
         {
-            s += (char)(((dec[i] ^ hashString[(i - 1) % hashLength]) + 255 - dec[i - 1]) % 255);
+            s.append( (char)(((dec[i] ^ hashString[(i - 1) % hashLength]) + 255 - dec[i - 1]) % 255) );
         }
 
-        return s.replace((char)0, (char)255);
+        return s.toString().replace((char)0, (char)255);
     }
 
     protected String encode(String nickname, int[] ip)
