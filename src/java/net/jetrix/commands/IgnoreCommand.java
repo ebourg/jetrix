@@ -31,16 +31,11 @@ import org.apache.commons.lang.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class IgnoreCommand implements Command
+public class IgnoreCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return new String[] { "ignore" };
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

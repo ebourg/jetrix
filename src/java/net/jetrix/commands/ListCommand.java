@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,16 +33,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ListCommand implements Command
+public class ListCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[]{"list", "l"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

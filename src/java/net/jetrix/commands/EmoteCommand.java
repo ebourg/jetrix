@@ -30,16 +30,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class EmoteCommand implements Command
+public class EmoteCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[]{"me", "emote"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,16 +30,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class HelpCommand implements Command
+public class HelpCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[]{"help", "?", "h"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)
@@ -72,6 +67,11 @@ public class HelpCommand implements Command
             if (++i >= limit) return;
 
             Command command = (Command) commands.next();
+
+            if (command.isHidden())
+            {
+                continue;
+            }
 
             // parse the usage string, and color and command and the parameters
             String usage = command.getUsage(locale);

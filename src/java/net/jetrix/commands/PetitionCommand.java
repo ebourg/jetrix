@@ -30,16 +30,11 @@ import java.util.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class PetitionCommand implements ParameterCommand
+public class PetitionCommand extends AbstractCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
         return (new String[]{"petition", "omsg"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

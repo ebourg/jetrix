@@ -30,16 +30,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class LanguageCommand implements Command
+public class LanguageCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[]{"language", "lang"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,11 +42,15 @@ public interface Command
     /**
      * Return the usage of this command, for example
      * <tt>/cmd &lt;param1&gt; &lt;param2&gt;</tt>
+     *
+     * @param locale the locale to be used for the usage
      */
     String getUsage(Locale locale);
 
     /**
      * Return a description of this command.
+     *
+     * @param locale the locale to be used for the description
      */
     String getDescription(Locale locale);
 
@@ -54,6 +58,31 @@ public interface Command
      * Return the required access level to execute this command.
      */
     int getAccessLevel();
+
+    /**
+     * Set the access level required to execute this command.
+     *
+     * @since 0.1.4
+     *
+     * @param level the access level
+     */
+    void setAccessLevel(int level);
+
+    /**
+     * Tells if the command is hidden from the /help list.
+     *
+     * @since 0.1.4
+     */
+    boolean isHidden();
+
+    /**
+     * Change the hidden status of the command on the /help list.
+     *
+     * @since 0.1.4
+     *
+     * @param hidden
+     */
+    void setHidden(boolean hidden);
 
     /**
      * Execute the command.

@@ -29,18 +29,13 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class RandomCommand implements Command
+public class RandomCommand extends AbstractCommand
 {
     private Random random = new Random();
 
     public String[] getAliases()
     {
         return (new String[] { "random", "roll" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

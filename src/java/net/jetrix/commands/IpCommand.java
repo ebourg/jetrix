@@ -30,16 +30,16 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class IpCommand implements ParameterCommand
+public class IpCommand extends AbstractCommand implements ParameterCommand
 {
+    public IpCommand()
+    {
+        setAccessLevel(AccessLevel.OPERATOR);
+    }
+
     public String[] getAliases()
     {
         return (new String[]{"ip"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.OPERATOR;
     }
 
     public String getUsage(Locale locale)

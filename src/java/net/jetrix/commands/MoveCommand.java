@@ -30,16 +30,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class MoveCommand implements ParameterCommand
+public class MoveCommand extends AbstractCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
         return (new String[]{"move"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

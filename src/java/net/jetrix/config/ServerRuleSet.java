@@ -51,7 +51,7 @@ public class ServerRuleSet extends RuleSetBase
         // command definitions
         digester.addObjectCreate("*/command", null, "class");
         digester.addSetNext("*/command", "addCommand", "net.jetrix.commands.Command");
-        digester.addCallMethod("*/filter/access-level", "setAccessLevel", 0,  new Class[] {Integer.TYPE});
+        digester.addSetProperties("*/command");
 
         // listeners
         digester.addObjectCreate("*/listener", null, "class");

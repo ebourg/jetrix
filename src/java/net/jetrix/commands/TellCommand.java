@@ -29,16 +29,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TellCommand implements ParameterCommand
+public class TellCommand extends AbstractCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
         return (new String[] { "tell", "msg", "cmsg", "send" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

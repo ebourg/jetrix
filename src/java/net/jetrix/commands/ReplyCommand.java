@@ -29,16 +29,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ReplyCommand implements ParameterCommand
+public class ReplyCommand extends AbstractCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
         return (new String[] { "reply", "r" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

@@ -30,16 +30,11 @@ import net.jetrix.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class SpecListCommand implements Command
+public class SpecListCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return new String[] { "speclist", "slist" };
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

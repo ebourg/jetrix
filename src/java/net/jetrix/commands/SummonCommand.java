@@ -29,16 +29,16 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class SummonCommand implements ParameterCommand
+public class SummonCommand extends AbstractCommand implements ParameterCommand
 {
+    public SummonCommand()
+    {
+        setAccessLevel(AccessLevel.OPERATOR);
+    }
+
     public String[] getAliases()
     {
         return (new String[] { "summon" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.OPERATOR;
     }
 
     public String getUsage(Locale locale)

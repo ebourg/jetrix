@@ -30,16 +30,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class VersionCommand implements Command
+public class VersionCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[] { "version" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

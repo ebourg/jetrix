@@ -39,16 +39,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class PingCommand implements Command
+public class PingCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[] { "ping" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

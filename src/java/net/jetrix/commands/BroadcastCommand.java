@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,16 +29,16 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class BroadcastCommand implements ParameterCommand
+public class BroadcastCommand extends AbstractCommand implements ParameterCommand
 {
+    public BroadcastCommand()
+    {
+        setAccessLevel(AccessLevel.OPERATOR);
+    }
+
     public String[] getAliases()
     {
         return (new String[] { "broadcast", "br", "gmsg", "shout" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.OPERATOR;
     }
 
     public String getUsage(Locale locale)

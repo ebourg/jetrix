@@ -31,16 +31,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TimeCommand implements Command
+public class TimeCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[] { "time", "date" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

@@ -30,16 +30,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class WhoCommand implements Command
+public class WhoCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[] { "who", "w", "cwho" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

@@ -32,17 +32,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class MotdCommand implements Command
+public class MotdCommand extends AbstractCommand
 {
-
     public String[] getAliases()
     {
         return (new String[]{"motd"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

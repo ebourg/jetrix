@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2004  Emmanuel Bourg
+ * Copyright (C) 2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,7 +35,7 @@ import net.jetrix.Client;
  * @version $Revision$, $Date$
  * @since 0.1.4
  */
-public class AwayCommand implements Command
+public class AwayCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
@@ -50,11 +50,6 @@ public class AwayCommand implements Command
     public String getDescription(Locale locale)
     {
         return Language.getText("command.away.description", locale);
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public void execute(CommandMessage message)

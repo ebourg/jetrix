@@ -30,16 +30,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TeamMessageCommand implements ParameterCommand
+public class TeamMessageCommand extends AbstractCommand implements ParameterCommand
 {
     public String[] getAliases()
     {
         return (new String[] { "tmsg", "gu" });
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

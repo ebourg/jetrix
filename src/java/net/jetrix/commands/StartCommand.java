@@ -32,16 +32,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class StartCommand implements Command
+public class StartCommand extends AbstractCommand
 {
     public String[] getAliases()
     {
         return (new String[]{"start"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)

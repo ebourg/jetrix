@@ -41,8 +41,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ATTLIST error-log path CDATA #REQUIRED>
 
 <!ELEMENT commands (command*)>
-<!ELEMENT command (access-level?)>
 <!ATTLIST command class CDATA #REQUIRED>
+<!ATTLIST command hidden CDATA #IMPLIED>
+<!ATTLIST command access-level CDATA #IMPLIED>
 
 <!ELEMENT listeners (listener*)>
 <!ELEMENT listener EMPTY>

@@ -32,18 +32,11 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class JoinCommand implements ParameterCommand
+public class JoinCommand extends AbstractCommand implements ParameterCommand
 {
-    private Logger log = Logger.getLogger("net.jetrix");
-
     public String[] getAliases()
     {
         return (new String[]{"join", "j"});
-    }
-
-    public int getAccessLevel()
-    {
-        return AccessLevel.PLAYER;
     }
 
     public String getUsage(Locale locale)
