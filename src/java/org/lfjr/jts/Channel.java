@@ -161,6 +161,7 @@ public class Channel extends Thread
 
     public void process(Message m)
     {
+        logger.finest("[" + channelConfig.getName() + "] Processing " +  m);
         int slot;
 
         switch(m.getCode())
@@ -190,7 +191,11 @@ public class Channel extends Thread
 
             case Message.MSG_PLINEACT:
                 slot = m.getIntParameter(0);
-                sendAll(m, slot);
+                if (m.getSource() == null)
+                    // forged by the server, send to all
+                    sendAll(m);
+                else
+                    sendAll(m, slot);
                 break;
 
             case Message.MSG_PAUSE:
@@ -278,20 +283,13 @@ public class Channel extends Thread
             case Message.MSG_DISCONNECTED:
                 // searching player slot
                 client = (TetriNETClient)m.getParameter(0);
-
-                slot = 0;
-                int i = 0;
-                while(i < playerList.length && slot == 0)
-                {
-                    if (playerList[i] == client) { slot = i; }
-                    i++;
-                }
+                slot = getPlayerSlot(client);
 
                 // removing player from channel members
-                playerList[slot] = null;
+                playerList[slot - 1] = null;
 
                 // sending notification to players
-                Message leaveNotice = new Message(Message.MSG_PLAYERLEAVE, new Object[] { new Integer(slot+1) });
+                Message leaveNotice = new Message(Message.MSG_PLAYERLEAVE, new Object[] { new Integer(slot) });
                 sendAll(leaveNotice);
                 
                 String disconnectedMessage = ChatColors.gray + client.getPlayer().getName() + " has been disconnected.";
@@ -381,7 +379,7 @@ public class Channel extends Thread
                     client.sendMessage(mnum);
 
                     // sending player and team list to incomming player
-                    for (i = 0; i < playerList.length; i++)
+                    for (int i = 0; i < playerList.length; i++)
                     {
                         if (playerList[i]!=null && i!=slot)
                         {
