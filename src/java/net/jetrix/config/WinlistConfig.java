@@ -19,19 +19,16 @@
 
 package net.jetrix.config;
 
-import java.util.*;
-
 /**
  * Winlist configuration.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class WinlistConfig
+public class WinlistConfig extends Configuration
 {
     private String name;
     private String classname;
-    private Properties props;
 
     public void setName(String name)
     {
@@ -51,20 +48,6 @@ public class WinlistConfig
     public String getClassname()
     {
         return classname;
-    }
-
-    public void setParameter(String name, String value)
-    {
-        if (props == null)
-        {
-            props = new Properties();
-        }
-        props.setProperty(name, value);
-    }
-
-    public String getParameter(String name)
-    {
-        return props != null ? props.getProperty(name) : null;
     }
 
     public String toString()
