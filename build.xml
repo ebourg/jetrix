@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<project name="Java TetriNET Server" default="dist" basedir=".">
+<project name="Jetrix TetriNET Server" default="dist" basedir=".">
 
   <property name="build.compiler" value="jikes"/>
   <property name="src"     value="src"/>

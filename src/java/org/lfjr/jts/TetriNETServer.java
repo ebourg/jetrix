@@ -1,5 +1,5 @@
 /**
- * Java TetriNET Server
+ * Jetrix TetriNET Server
  * Copyright (C) 2001  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
@@ -20,12 +20,11 @@
 package org.lfjr.jts;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 import org.lfjr.jts.config.*;
 
 /**
- * Serveur TetriNET. Démarre le serveur, l'écoute des connexions et la console serveur.
+ * Main class, starts server components.
  *
  *
  * @author Emmanuel Bourg
@@ -34,23 +33,22 @@ import org.lfjr.jts.config.*;
 public class TetriNETServer implements Runnable
 {
     ServerConfig conf;
-    ServerSocket s;
-    Socket socket;
+    MessageQueue mq;
     
-    Vector channelList = new Vector();
-    
-    boolean running = true;
+    Vector channelList = new Vector();    
 
     public TetriNETServer()
     {
-    	System.out.println("Java TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001 Emmanuel Bourg\n");
+    	System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001 Emmanuel Bourg\n");
     	
     	// reading server configuration
-    	// (replace with the new ServerConfig implementation when ready)
     	conf = ServerConfig.getInstance();
+    	conf.setRunning(true);
     	
     	// spawning server message queue handler
-    	// ...
+    	mq = new MessageQueue();
+    	Thread server = new Thread(this);
+    	server.start();    	
     	
     	// spawning persistent channels
     	Iterator it = conf.getChannels();
@@ -63,250 +61,55 @@ public class TetriNETServer implements Runnable
     	    ch.start();
     	    channelList.addElement(ch);    		
     	}		    	
-
     	
     	// starting server console
         new ServerConsole();    	
     	
     	// starting client listener
-
-    	Thread server = new Thread(this);
-    	server.start();
-
+    	ClientListener cl = new ClientListener();
+    	cl.start();
+    	
         System.out.println("Server started...");
     }
 
 
     public void run()
     {
-        try
+        while (conf.isRunning())
         {
-            s = new ServerSocket(conf.getPort());
-            //s.setSoTimeout(1000);
-
-            //start();
-        }
-        catch (IOException e)
-        {
-            System.out.println("Cannot open ServerSocket");
-            running = false;
-            e.printStackTrace();
-        }
-
-
-        while (running)
-        {
-            try
+            //try
             {
-                // waiting for connexions
-                socket = s.accept();
-
-                //System.out.println("New client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
-                
-                // validation du client
-                TetriNETPlayer player = new TetriNETPlayer(socket);
-                
-                TetriNETClient client = new TetriNETClient(player);
-                
-		/*if (si.nbClient>=si.MAX_CLIENT)
-		{
-		    System.out.println("Server full, client rejected.");
-		    sendMessage("noconnecting Server is full!");
-		    socket.close();
-		}
-		else*/
-		{
-		//si.playerList.addElement(client);
-		//si.incClient();
-		
-		//System.out.println("Client accepted, " + si.nbClient + " client(s) online.");
-		initialiseConnexion(client);
-                
-                /** @todo tester l'unicité du pseudo sur le serveur */
-                
-                Message m = new Message(Message.MSG_PLINE);
-                Object params[] = { new Integer(0), ChatColors.bold+"Welcome on Java TetriNET Server "+ServerConfig.VERSION+" !" };
-                m.setParameters(params);
-		client.sendMessage(m);
-		
-		// sending MOTD
-		
-		BufferedReader motd = new BufferedReader(new StringReader( conf.getMessageOfTheDay() ));		
-		String motdline;
-		while( (motdline = motd.readLine() ) != null )
-		{
-		    m = new Message(Message.MSG_PLINE);
-		    Object params2[] = { new Integer(0), ChatColors.gray + motdline };
-		    m.setParameters(params2);
-		    client.sendMessage(m);
-		}
-		motd.close();		
-		
-		
-		// assignation dans un channel
-		
-		/* Cherche un channel avec de la place ou en crée un  */
-		
-		Channel ch = null;
-		
-		Enumeration e = channelList.elements();
-		
-		while( e.hasMoreElements() && ch==null)
-                {
-         	    Channel ch2 = (Channel)e.nextElement();
-         	    
-         	    if (!ch2.isFull()) ch = ch2;         	    
-         	}
- 		
-		if (ch==null) 
-		{
-		    ch = new Channel();
-		    ch.start();
-		}
-		
-		channelList.addElement(ch);
-		
-		//ch.addClient(client);
-		client.assignChannel(ch);
-		client.start();
-		
-		m = new Message(Message.MSG_ADDPLAYER);
-		Object[] params2 = { client };	
-		m.setParameters(params2);
-		ch.addMessage(m);	
-		
-		              
-		}                
-                		                                                
-            }
-            catch (IOException e)
+            	Message m = mq.get();
+            }            
+            //catch (IOException e)
             {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }
 
 
     /**
-     * Point d'entrée du serveur.
+     * Add a message to the server message queue.
      *
      *
      * @param args Arguments de démarrage du serveur.
-     *
      */
+    protected void addMessage(Message m)
+    {
+        mq.put(m);
+    }
 
+    
+    /**
+     * Server entry point.
+     *
+     *
+     * @param args start parameters
+     */
     public static void main(String[] args)
     {
     	new TetriNETServer();
-    }
-
-
-    private void initialiseConnexion(TetriNETClient client) throws UnknownEncryptionException
-    {
-        String init="", dec;
-        Vector tokens = new Vector();
-	
-	try {
-        init = client.readLine();
-	}
-	catch (IOException e) { e.printStackTrace(); }
-
-        dec = decode(init);
-
-        //System.out.println(dec);
-
-        // init string parsing "tetrisstart <nickname> <version>"
-        StringTokenizer st = new StringTokenizer(dec, " ");
-
-        while (st.hasMoreTokens())
-        {
-            tokens.addElement(st.nextToken());
-        }
-
-	/*
-        for (int i = 0; i<tokens.size(); i++)
-        {
-            System.out.println(tokens.elementAt(i));
-        }*/
-
-        if (tokens.size()>3)
-        {
-            Message m = new Message(Message.MSG_NOCONNECTING);
-            Object[] params = { "No space allowed in nickname !" };
-            m.setParameters(params);
-            client.sendMessage(m);
-        }
-                
-        client.getPlayer().setName((String)tokens.elementAt(1));
-        client.setClientVersion((String)tokens.elementAt(2));
-    }
-
-
-
-    /**
-     * Décode la chaîne d'initialisation du client TetriNET.
-     *
-     *
-     * @param initString Chaîne d'initialisation
-     *
-     * @return Chaîne décodée
-     *
-     * @throws UnknownEncryptionException
-     *
-     * @see
-     */
-    public String decode(String initString) throws UnknownEncryptionException
-    {
-        if (initString.length() % 2 != 0)
-        {
-            throw new UnknownEncryptionException("Invalid Init String: odd length");
-        }
-
-        int[] dec = new int[initString.length() / 2];
-
-        try
-        {
-            for (int i = 0; i<dec.length; i++)
-            {
-                dec[i] = Integer.parseInt(initString.substring(i * 2, i * 2 + 2), 16);
-            }
-        }
-        catch (NumberFormatException e)
-        {
-            throw new UnknownEncryptionException("Invalid Init String: illegal characters");
-        }
-
-        char[] data = "tetrisstar".toCharArray();
-        int[]  hashString = new int[data.length];
-
-        for (int i = 0; i<data.length; i++)
-        {
-            hashString[i] = ((data[i] + dec[i]) % 255) ^ dec[i + 1];
-        }
-
-        int hashLength = 5;
-
-        for (int i = 5; i==hashLength && i>0; i--)
-        {
-            for (int j = 0; j<data.length - hashLength; j++)
-            {
-                if (hashString[j] != hashString[j + hashLength]) { hashLength--; }
-            }
-        }
-
-        if (hashLength==0)
-        {
-            throw new UnknownEncryptionException("Invalid Init String: decoding failed");
-        }
-
-        String s = "";
-
-        for (int i = 1; i<dec.length; i++)
-        {
-            s += (char)(((dec[i] ^ hashString[(i - 1) % hashLength]) + 255 - dec[i - 1]) % 255);
-        }
-
-        return s.replace((char)0, (char)255);
     }
 
 

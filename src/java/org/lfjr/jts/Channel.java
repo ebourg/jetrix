@@ -1,5 +1,5 @@
 /**
- * Java TetriNET Server
+ * Jetrix TetriNET Server
  * Copyright (C) 2001  Emmanuel Bourg
  * 
  * This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ public class Channel extends Thread
 {
     private ChannelConfig cconf;
 
-    private MessageQueue    mq;
+    private MessageQueue mq;
 
     private boolean running = true;
     private boolean persistent = false;

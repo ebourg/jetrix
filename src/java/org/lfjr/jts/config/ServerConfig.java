@@ -1,5 +1,5 @@
 /**
- * Java TetriNET Server
+ * Jetrix TetriNET Server
  * Copyright (C) 2001  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
@@ -52,6 +52,7 @@ public class ServerConfig
     private Settings defaultSettings;
     // private ArrayList bans;
     private ArrayList channels;
+    private boolean running;
 
     public static final String VERSION = "0.0.8";
 
@@ -507,6 +508,16 @@ public class ServerConfig
     public String getMessageOfTheDay()
     {
         return motd;	
+    }
+
+    public boolean isRunning()
+    {
+    	return running;
+    }
+
+    public void setRunning(boolean running)
+    {
+    	this.running = running;
     }
 
     /**
