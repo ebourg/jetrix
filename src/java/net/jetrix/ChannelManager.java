@@ -22,6 +22,7 @@ package net.jetrix;
 import java.util.*;
 
 import net.jetrix.config.*;
+import net.jetrix.messages.ShutdownMessage;
 
 /**
  * Manages Channels
@@ -80,7 +81,16 @@ public class ChannelManager
      */
     public void removeChannel(String name)
     {
-        throw new UnsupportedOperationException("removeChannel not implemented yet");
+        // get the channel
+        Channel channel = getChannel(name);
+
+        // unregister the channel
+        channels.remove(channel);
+        channelMap.remove(name.toLowerCase());
+
+        // close it as soon as the last client leaves
+        channel.getConfig().setPersistent(false);
+        channel.send(new ShutdownMessage());
     }
 
     /**

@@ -169,7 +169,7 @@ public class Channel extends Thread implements Destination
     {
         log.info("Channel " + channelConfig.getName() + " opened");
 
-        while (running && serverConfig.isRunning())
+        while (running && serverConfig.isRunning() && (getConfig().isPersistent() || !clients.isEmpty()))
         {
             LinkedList<Message> list = new LinkedList<Message>();
 
@@ -830,6 +830,12 @@ public class Channel extends Thread implements Destination
         if (isEmpty() && running)
         {
             gameState = STOPPED;
+        }
+
+        // stop the channel if it's not persistent
+        if (clients.isEmpty() && !getConfig().isPersistent())
+        {
+            send(new ShutdownMessage());
         }
     }
 
