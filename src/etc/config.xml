@@ -34,10 +34,10 @@ http://sourceforge.net/projects/jts/
   
   <!-- Channel filters -->
   <filter-definitions>
-    <filter name="noop"  class="org.lfjr.jts.filter.NoopFilter"/>
-    <filter name="flood" class="org.lfjr.jts.filter.FloodFilter"/>
-    <filter name="echo"  class="org.lfjr.jts.filter.EchoFilter"/>
-  </filter-definitions>
+    <alias name="noop"  class="org.lfjr.jts.filter.NoopFilter"/>
+    <alias name="flood" class="org.lfjr.jts.filter.FloodFilter"/>
+    <alias name="echo"  class="org.lfjr.jts.filter.EchoFilter"/>
+  </filter-definitions>-->
 
   <!-- Global filters -->
   <default-filters>

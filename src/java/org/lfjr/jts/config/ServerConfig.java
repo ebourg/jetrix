@@ -48,6 +48,7 @@ public class ServerConfig
 
     // private ArrayList bans;
     private ArrayList channels;
+    private ArrayList globalFilters;
     private boolean running;
 
     public static final String VERSION = "@version@";
@@ -58,8 +59,9 @@ public class ServerConfig
      */
     public ServerConfig()
     {
-    	channels = new ArrayList();
-    	// bans = new ArrayList();
+        channels = new ArrayList();
+        globalFilters = new ArrayList();
+        // bans = new ArrayList();
     }
 
     public void load()
@@ -72,13 +74,13 @@ public class ServerConfig
         try
         {
             Digester digester = new Digester();
-            //digester.setDebug(1);
+            //digester.setDebug(2);
             digester.push(this);
 
             // server parameters
             digester.addCallMethod("tetrinet-server", "setHost", 1);
             digester.addCallParam("tetrinet-server", 0, "host");
-            digester.addCallMethod("tetrinet-server", "setPort", 1);
+            digester.addCallMethod("tetrinet-server", "setPort", 1, new Class[] {Integer.class});
             digester.addCallParam("tetrinet-server", 0, "port");
             digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.class});
             digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.class});
@@ -86,9 +88,9 @@ public class ServerConfig
             digester.addCallMethod("tetrinet-server/max-connexions", "setMaxConnexions", 0, new Class[] {Integer.class});
             digester.addCallMethod("tetrinet-server/op-password", "setOpPassword", 0);
             digester.addCallMethod("tetrinet-server/motd", "setMessageOfTheDay", 0);
-            digester.addCallMethod("tetrinet-server", "setAccessLogPath", 1);
+            digester.addCallMethod("tetrinet-server/access-log", "setAccessLogPath", 1);
             digester.addCallParam("tetrinet-server/access-log", 0, "path");
-            digester.addCallMethod("tetrinet-server", "setErrorLogPath", 1);
+            digester.addCallMethod("tetrinet-server/error-log", "setErrorLogPath", 1);
             digester.addCallParam("tetrinet-server/error-log", 0, "path");
 
             // default game settings
@@ -135,6 +137,17 @@ public class ServerConfig
             digester.addCallMethod("*/channel/description", "setDescription", 0);
             digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.class});
 
+            // filter configuration
+            digester.addObjectCreate("*/filter", "org.lfjr.jts.config.FilterConfig");
+            digester.addSetNext("*/filter", "addFilter", "org.lfjr.jts.config.FilterConfig");
+            digester.addCallMethod("*/filter", "setName", 1);
+            digester.addCallParam("*/filter", 0, "name");
+            digester.addCallMethod("*/filter", "setClassname", 1);
+            digester.addCallParam("*/filter", 0, "class");
+            digester.addCallMethod("*/filter/param", "setProperty", 2);
+            digester.addCallParam("*/filter/param", 0, "name");
+            digester.addCallParam("*/filter/param", 1, "value");
+
             digester.parse(new File(filename));
 
         }
@@ -160,7 +173,7 @@ public class ServerConfig
         if (!"[ALL]".equals(host))
         {
             try {
-        	this.host = InetAddress.getByName(host);
+                this.host = InetAddress.getByName(host);
             }
             catch(UnknownHostException e) { e.printStackTrace(); }
         }
@@ -306,4 +319,15 @@ public class ServerConfig
     {
         channels.add(cconf);
     }
+
+    public Iterator getGlobalFilters()
+    {
+        return globalFilters.iterator();
+    }
+
+    public void addFilter(FilterConfig fconf)
+    {
+        globalFilters.add(fconf);
+    }
+
 }

@@ -38,9 +38,13 @@ public class ChannelConfig
     /** extended properties */
     private Properties props;
 
+    /** channel filter definitions */
+    private ArrayList filters;
+
     public ChannelConfig()
     {
         props = new Properties();
+        filters = new ArrayList();
     }
 
     public ChannelConfig(Settings settings)
@@ -168,6 +172,16 @@ public class ChannelConfig
     public String getProperty(String name)
     {
         return props.getProperty(name);
+    }
+
+    public Iterator getFilters()
+    {
+        return filters.iterator();
+    }
+
+    public void addFilter(FilterConfig fconf)
+    {
+        filters.add(fconf);
     }
 
 }
