@@ -3,6 +3,26 @@
 <h1>Changelog</h1>
 
 <pre>
+Changes in version 0.1.3 (2004-01-20)
+-------------------------------------
+- fixed the query protocol (thanks to ekn for the debugging info)
+- tspec clients can now speak on channels
+- the list of available languages can be displayed with /lang
+- the new score & rank of the winner is now announced in the channel
+- fields are now updated on joining a channel (bug 808507)
+- Jetrix can now read and write tetrinetx winlists
+- winlists now accept initialization parameters like filters
+- implemented the new tetrinet 1.14 block synchronization protocol
+- the /join command now accepts a partial channel name as argument
+- reduced the size of the jetrix distribution by 25%
+- web admin: channel settings editing implemented
+- web admin: basic server parameters implemented
+- web admin: kick/ban implemented
+- web admin: added a field tab in the channel view
+- added a topic to the channels
+- added a "port" attribute to the "listener" element in config.xml
+- spanish translation contributed by Julian Mesa Llopis & Bryan Reynaert
+
 Changes in version 0.1.2 (2003-08-03)
 -------------------------------------
 - new commands : /move, /goto, /petition, /tmsg, /speclist
