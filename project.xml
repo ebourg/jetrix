@@ -28,7 +28,8 @@
 
   <url>http://jetrix.sourceforge.net</url>
   <issueTrackingUrl>https://sourceforge.net/tracker/?group_id=52188&amp;atid=466002</issueTrackingUrl>
-  <siteAddress>jetrix.sourceforge.net</siteAddress>
+  <siteAddress>shell.sourceforge.net</siteAddress>
+  <siteDirectory>/home/groups/j/je/jetrix/htdocs/docs/</siteDirectory>
 
   <repository>
     <connection>scm:cvs:pserver:anonymous@cvs1.sourceforge.net:/cvsroot/jetrix:jetrix</connection>
@@ -115,6 +116,14 @@
     </contributor>
   </contributors>
 
+  <licenses>
+    <license>
+      <name>GNU General Public License, Version 2</name>
+      <url>/doc/license.txt</url>
+      <distribution>manual</distribution>
+    </license>
+  </licenses>
+
   <dependencies>
     <dependency>
       <id>commons-collections</id>
@@ -199,10 +208,10 @@
     <!--<report>maven-statcvs-plugin</report>-->
     <report>maven-changes-plugin</report>
     <report>maven-javadoc-plugin</report>
-    <report>maven-jxr-plugin</report>
+    <!--<report>maven-jxr-plugin</report>-->
     <report>maven-junit-report-plugin</report>
     <report>maven-clover-plugin</report>
-    <report>maven-checkstyle-plugin</report>
+    <!--<report>maven-checkstyle-plugin</report>-->
     <report>maven-pmd-plugin</report>
     <report>maven-simian-plugin</report>
   </reports>
