@@ -5,7 +5,7 @@
   </tr>
   <tr>
     <td colspan="2">
-      <hr noshade="" size="1">
+      <div class="hr"></div>
     </td>
   </tr>
 </tbody>

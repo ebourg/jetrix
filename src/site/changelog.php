@@ -6,7 +6,7 @@
 Changes in version 0.1.1 (2003-03-02)
 -------------------------------------
 - new commands : /start, /stop, /pause, /random, /reply
-- "/start <n>" will run a countdown for n seconds
+- "/start &lt;n&gt;" will run a countdown for n seconds
 - the admin console can now use all /commands available to the clients
 - the winner is announced at the end of the game
 - any jar or class in the ./lib directory is now loaded at startup
@@ -23,7 +23,7 @@ Changes in version 0.1.0 (2002-11-16)
 - full internationalization support
 - added french support
 - added dutch support (contributed by Tim Van Wassenhove)
-- made the colors & styles protocol independant
+- made the colors &amp; styles protocol independant
 
 Changes in version 0.0.10 (2002-09-28)
 --------------------------------------

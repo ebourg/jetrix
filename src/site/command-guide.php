@@ -132,11 +132,11 @@ To make your class available to Jetrix just copy it into the <tt>jetrix/lib</tt>
 
 Now we are ready to try the command ! Start Jetrix and log into the server. On typing <tt>/help</tt> you'll notice that the new command is automatically listed :
 
-<div style="margin: 1em"><img src="images/command-guide1.png" alt="HelloCommand - command listing"></div>
+<div style="margin: 1em"><img src="images/command-guide1.png" alt="HelloCommand - command listing" /></div>
 
 To use the command just type <tt>/hello</tt> or <tt>/hi</tt>, you can also use a partial name like <tt>/hel</tt> and mix upper and lower cases :
 
-<div style="margin: 1em"><img src="images/command-guide2.png" alt="HelloCommand - usage"></div>
+<div style="margin: 1em"><img src="images/command-guide2.png" alt="HelloCommand - usage" /></div>
 
 Congratulations ! You have completed your first custom command :) If you create a useful command feel free to submit it to the Jetrix project to make it available to all Jetrix users, just send the code to <a href="mailto:smanux@lfjr.net">smanux@lfjr.net</a>.
 
