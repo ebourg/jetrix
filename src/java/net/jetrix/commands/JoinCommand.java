@@ -93,7 +93,7 @@ public class JoinCommand implements Command
                     accessDenied.setKey("command.join.wrong_password");
                     client.sendMessage(accessDenied);
                 }
-                else if (target.isFull())
+                else if (target.isFull() && client.getUser().isPlayer())
                 {
                     // sending channel full message
                     PlineMessage channelfull = new PlineMessage();
