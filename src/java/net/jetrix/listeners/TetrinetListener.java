@@ -51,7 +51,8 @@ public class TetrinetListener extends ClientListener
     public Client getClient(Socket socket) throws Exception
     {
         // read the first line sent by the client
-        String init = readLine(socket);
+        TetrinetProtocol protocol1 = (TetrinetProtocol) protocolManager.getProtocol(TetrinetProtocol.class);
+        String init = protocol1.readLine(new InputStreamReader(socket.getInputStream()));
 
         // test if the client is using the query protocol
         Protocol protocol = protocolManager.getProtocol(QueryProtocol.class);
@@ -110,28 +111,6 @@ public class TetrinetListener extends ClientListener
         }
 
         return client;
-    }
-
-    public String readLine(Socket socket) throws IOException
-    {
-        StringBuffer input = new StringBuffer();
-        InputStream in = socket.getInputStream();
-
-        int readChar;
-        while ((readChar = in.read()) != -1 && readChar != 0xFF && readChar != 0x0A && readChar != 0x0D)
-        {
-            if (readChar != 0x0A && readChar != 0x0D)
-            {
-                input.append((char) readChar);
-            }
-        }
-
-        if (readChar == -1)
-        {
-            throw new IOException("client disconnected - " + socket.getInetAddress().getHostAddress());
-        }
-
-        return input.toString();
     }
 
 }

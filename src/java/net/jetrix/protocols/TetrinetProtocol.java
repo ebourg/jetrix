@@ -867,6 +867,34 @@ public class TetrinetProtocol implements Protocol
         return h.length() > 1 ? h : "0" + h;
     }
 
+    /**
+     * Read a line as defined in the TetriNET protocol (that's ending with a
+     * 0xFF character). 0xOA and 0xOD are also accepted as EOL characters.
+     *
+     * @param in the stream to be read
+     * @throws IOException thrown if the stream is closed
+     */
+    public String readLine(Reader in) throws IOException
+    {
+        StringBuffer input = new StringBuffer();
+
+        int readChar;
+        while ((readChar = in.read()) != -1 && readChar != 0xFF && readChar != 0x0A && readChar != 0x0D)
+        {
+            if (readChar != 0x0A && readChar != 0x0D)
+            {
+                input.append((char) readChar);
+            }
+        }
+
+        if (readChar == -1)
+        {
+            throw new IOException("End of stream");
+        }
+
+        return input.toString();
+    }
+
     public String toString()
     {
         return "[Protocol name=" + getName() + "]";

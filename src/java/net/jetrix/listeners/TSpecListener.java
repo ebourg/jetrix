@@ -48,20 +48,12 @@ public class TSpecListener extends TetrinetListener
 
     public Client getClient(Socket socket) throws Exception
     {
-        String init = null;
-
-        try
-        {
-            init = readLine(socket);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        TetrinetProtocol protocol = (TetrinetProtocol) ProtocolManager.getInstance().getProtocol(TetrinetProtocol.class);
+        String init = protocol.readLine(new InputStreamReader(socket.getInputStream()));
 
         String dec = TetrinetProtocol.decode(init);
 
-        // init string parsing "team <nickname> <password>"
+        // init string parsing "tetristart <nickname> <version>"
         StringTokenizer st = new StringTokenizer(dec, " ");
         List<String> tokens = new ArrayList<String>();
 

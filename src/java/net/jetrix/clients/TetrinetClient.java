@@ -26,6 +26,7 @@ import java.util.concurrent.*;
 import java.util.logging.*;
 
 import net.jetrix.*;
+import net.jetrix.protocols.TetrinetProtocol;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
@@ -243,7 +244,7 @@ public class TetrinetClient implements Client
     public Message receiveMessage() throws IOException
     {
         // read raw message from socket
-        String line = readLine();
+        String line = ((TetrinetProtocol) protocol).readLine(in);
         lastMessageTime = System.currentTimeMillis();
         if (log.isLoggable(Level.FINER))
         {
@@ -259,32 +260,6 @@ public class TetrinetClient implements Client
         }
 
         return message;
-    }
-
-    /**
-     * Read a line sent by the tetrinet client.
-     *
-     * @return line sent
-     */
-    public String readLine() throws IOException
-    {
-        int readChar;
-        StringBuffer input = new StringBuffer();
-
-        while ((readChar = in.read()) != -1 && readChar != 0xFF && readChar != 0x0A && readChar != 0x0D)
-        {
-            if (readChar != 0x0A && readChar != 0x0D)
-            {
-                input.append((char) readChar);
-            }
-        }
-
-        if (readChar == -1)
-        {
-            throw new IOException("client disconnected - " + socket.getInetAddress().getHostAddress());
-        }
-
-        return input.toString();
     }
 
     public void setSocket(Socket socket)
