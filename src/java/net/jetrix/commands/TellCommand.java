@@ -45,7 +45,8 @@ public class TellCommand implements Command
 
     public String getUsage(Locale locale)
     {
-        return "/tell <" + Language.getText("command.params.player_name_num", locale) + "> <" + Language.getText("command.params.message", locale) + ">";
+        return "/tell <" + Language.getText("command.params.player_name_num", locale) + ">"
+               + " <" + Language.getText("command.params.message", locale) + ">";
     }
 
     public String getDescription(Locale locale)
@@ -92,11 +93,11 @@ public class TellCommand implements Command
             else
             {
                 // player found
-                PlineMessage reponse = new PlineMessage();
+                PlineMessage response = new PlineMessage();
                 String privateMessage = m.getText().substring(targetName.length() + 1);
-                reponse.setKey("command.tell.format", new Object[] { client.getUser().getName(), privateMessage });
-                target.sendMessage(reponse);
-                
+                response.setKey("command.tell.format", new Object[] { client.getUser().getName(), privateMessage });
+                target.sendMessage(response);
+
                 target.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
             }
         }
@@ -104,7 +105,7 @@ public class TellCommand implements Command
         {
             // not enough parameters
             PlineMessage response = new PlineMessage();
-            String message = "<red>" + cmd + "<blue><playername|playernumber> <message>";
+            String message = "<red>" + cmd + " <blue><playername|playernumber> <message>";
             response.setText(message);
             client.sendMessage(response);
         }
