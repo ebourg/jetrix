@@ -78,6 +78,13 @@
           </td>
         </tr>
         <tr>
+          <td>Idle Allowed</td>
+          <td>
+            <label><input type="radio" value="true"  name="idle" <%= conf.isIdleAllowed() ? "checked" : "" %>> Yes</label>
+            <label><input type="radio" value="false" name="idle" <%= conf.isIdleAllowed() ? "" : "checked" %>> No</label>
+          </td>
+        </tr>
+        <tr>
           <td valign="top">Topic</td>
           <td><textarea class="thin" name="topic" rows="5" cols="20" style="width: 100%"><%= conf.getTopic() == null ? "" : conf.getTopic() %></textarea></td>
         </tr>

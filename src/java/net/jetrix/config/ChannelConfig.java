@@ -39,6 +39,7 @@ public class ChannelConfig
     private int accessLevel;
     private boolean persistent;
     private String winlistId;
+    private boolean idleAllowed;
 
     /** extended properties */
     private Properties props;
@@ -256,4 +257,13 @@ public class ChannelConfig
         filters.add(fconf);
     }
 
+    public boolean isIdleAllowed()
+    {
+        return idleAllowed;
+    }
+
+    public void setIdleAllowed(boolean idleAllowed)
+    {
+        this.idleAllowed = idleAllowed;
+    }
 }
