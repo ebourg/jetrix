@@ -18,6 +18,10 @@
         <servlet-class>org.apache.jsp.user_jsp</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>settings</servlet-name>
+        <servlet-class>org.apache.jsp.settings_jsp</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>navigation</servlet-name>
         <servlet-class>org.apache.jsp.navigation_jsp</servlet-class>
     </servlet>
@@ -41,6 +45,10 @@
     <servlet-mapping>
         <servlet-name>user</servlet-name>
         <url-pattern>/user.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>settings</servlet-name>
+        <url-pattern>/settings.jsp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>navigation</servlet-name>
