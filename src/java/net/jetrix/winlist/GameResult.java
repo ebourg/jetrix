@@ -33,7 +33,7 @@ public class GameResult
 {
     private Date startTime;
     private Date endTime;
-    private Collection gamePlayers;
+    private List gamePlayers;
 
     /**
      * Return the date of the beginning of the game.
@@ -70,11 +70,6 @@ public class GameResult
         return gamePlayers;
     }
 
-    public void setGamePlayers(Collection gamePlayers)
-    {
-        this.gamePlayers = gamePlayers;
-    }
-
     public void addGamePlayer(GamePlayer gamePlayer)
     {
         if (gamePlayers == null)
@@ -95,5 +90,57 @@ public class GameResult
         player.setWinner(isWinner);
         player.setEndTime(new Date());
         addGamePlayer(player);
+    }
+
+    /**
+     * Return the players that finished the game at the specified rank.
+     */
+    public Collection getPlayersAtRank(int rank) {
+
+        Collection players = new ArrayList();
+
+        if (rank == 1)
+        {
+            // look for the winners
+            Iterator it = gamePlayers.iterator();
+            while (it.hasNext())
+            {
+                GamePlayer player = (GamePlayer) it.next();
+                if (player.isWinner())
+                {
+                    players.add(player);
+                }
+            }
+        }
+        else
+        {
+            // sort by date
+            Collections.sort(gamePlayers, new Comparator() {
+                public int compare(Object o1, Object o2)
+                {
+                    GamePlayer player1 = (GamePlayer) o1;
+                    GamePlayer player2 = (GamePlayer) o2;
+                    return player1.getEndTime().compareTo(player2.getEndTime());
+                }
+            });
+
+            // find the player at the specified rank
+            int i = 1;
+            Iterator it = gamePlayers.iterator();
+            while (it.hasNext() && i < rank)
+            {
+                GamePlayer player = (GamePlayer) it.next();
+                if (!player.isWinner())
+                {
+                    i++;
+                    if (i == rank)
+                    {
+                        players.add(player);
+                    }
+                }
+            }
+        }
+
+        return players;
     }
 }
