@@ -46,11 +46,13 @@ public class Channel extends Thread
 
     private int gameState;
 
-    TetriNETClient[] listeJoueurs = new TetriNETClient[6];
+    private TetriNETClient[] listeJoueurs = new TetriNETClient[6];
+    
+    private ArrayList filters; 
 
     public Channel()
     {
-        this(new ChannelConfig());
+        this(new ChannelConfig());        
     }
 
     public Channel(ChannelConfig cconf)
@@ -60,6 +62,8 @@ public class Channel extends Thread
     	
     	// opening channel message queue
         mq = new MessageQueue();
+        
+        filters = new ArrayList();
     }
 
     public void run()
@@ -72,6 +76,8 @@ public class Channel extends Thread
             {
                 Message m = mq.get();
                 int slot;
+                
+                System.out.println("Channel["+cconf.getName()+"]: processing "+m);
                 
             	switch(m.getCode())
             	{
@@ -162,56 +168,54 @@ public class Channel extends Thread
             	        m.setRawMessage("playerleave " + slot);
             	        
             	        sendAll(m);
-            	        break;        	          	                	                		            		
-            	}         
-            	       
-                /*     
-                else if ("server".equals(cmd))
-                {
-                    // server command
-                    String svrcmd = stringtokenizer.nextToken();
+            	        break;
+            	        
+            	    case Message.MSG_ADDPLAYER:
+            	        client = (TetriNETClient)m.getParameter(0);
+            	        if (client.getChannel()==null)
+            	        {
+            	            // first channel assigned
+            	            client.assignChannel(this);
+            	            client.start();	
+            	        }
+            	        else
+            	        {
+            	            // leaving a previous channel
+            	            // ...
+            	        }
+            	        
+            	        // looking for the first free slot
+                        for (slot=0; slot<6 && listeJoueurs[slot]!=null; slot++);
 
-                    if ("addclient".equals(svrcmd))
-                    {
-                        System.out.println("new client, thanks !");
-
-                        int i2;
-
-                        for (i2 = 0; i2<6 && listeJoueurs.elementAt(i2)!=null; i2++);
-
-                        if (i2>=6)
+                        if (slot>=6)
                         {
-                            //System.out.println("arf, plus de place ! On fait quoi ? " + this);
+                            System.out.println("Panic, no slot available");
                         }
                         else
                         {
-                            TetriNETClient tetrinetclient2 = (TetriNETClient) incomingClients.pop();
-
-                            listeJoueurs.setElementAt(tetrinetclient2, i2);
-                            tetrinetclient2.sendMessage("pline 0 \022Hello " + tetrinetclient2.getNickname() + ", you are in channel " + this);
-                            tetrinetclient2.sendMessage("playernum " + (i2 + 1));
-                            tetrinetclient2.setSlot(i2 + 1);
-
-                            int l4 = 0;
-
-                            while (l4<listeJoueurs.size())
-                            {
-                                TetriNETClient tetrinetclient11 = (TetriNETClient) listeJoueurs.elementAt(l4);
-
-                                if (tetrinetclient11!=null && l4!=i2)
-                                {
-                                    tetrinetclient11.sendMessage("playerjoin " + (i2 + 1) + " " + tetrinetclient2.getNickname());
-                                    tetrinetclient2.sendMessage("playerjoin " + (l4 + 1) + " " + tetrinetclient11.getNickname());
-                                    tetrinetclient2.sendMessage("team " + (l4 + 1) + " " + tetrinetclient11.getTeam());
-                                }
-
-                                l4++;
-                            }
-                        }
-                    }
-                }
-
-                */
+                            listeJoueurs[slot]= client;
+                            
+            	            Message mjoin = new Message(Message.MSG_PLAYERJOIN);
+            	            mjoin.setRawMessage("playerjoin "+(slot+1)+" "+client.getPlayer().getName());
+            	            listeJoueurs[0]=client;
+            	        
+            	            Message mteam = new Message(Message.MSG_TEAM);
+            	            mteam.setRawMessage("team " + (slot+1) + " " + client.getPlayer().getTeam());
+            	        
+            	            Message mgame = new Message(Message.MSG_STARTGAME);
+            	            mgame.setRawMessage("playernum " + (slot+1) );
+            	            
+            	            Message mwelcome = new Message(Message.MSG_PLINE);
+            	            mwelcome.setRawMessage("pline 0 \022Hello " + client.getPlayer().getName() + ", you are in channel " + this);
+            	            
+            	            client.sendMessage(mwelcome);
+            	            sendAll(mjoin);
+            	            sendAll(mteam);
+            	            client.sendMessage(mgame);
+                        }	        
+            	        
+            	        break;       	          	                	                		            		
+            	}         
 
             }
             catch (Exception e)

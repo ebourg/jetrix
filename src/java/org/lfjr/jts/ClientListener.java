@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- 
+
 package org.lfjr.jts;
 
 import java.io.*;
@@ -27,20 +27,19 @@ import org.lfjr.jts.config.*;
 /**
  * Listens for incomming connexion.
  *
- *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public class ClientListener extends Thread
 {
     private ServerConfig conf;
-    
+
     private ServerSocket s;
-    private Socket socket;    
-    
+    private Socket socket;
+
     public ClientListener()
     {
-        conf = ServerConfig.getInstance();	
+        conf = ServerConfig.getInstance();
     }
 
     public void run()
@@ -62,11 +61,11 @@ public class ClientListener extends Thread
             {
                 // waiting for connexions
                 socket = s.accept();
-                
+
                 // logging connexion
                 // ....
-                //System.out.println("New client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
-                
+                System.out.println("New client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
+
                 // checking if server is full
                 // ....
 		/*if (si.nbClient>=si.MAX_CLIENT)
@@ -75,79 +74,77 @@ public class ClientListener extends Thread
 		    sendMessage("noconnecting Server is full!");
 		    socket.close();
 		}
-		else continue*/                
-                
+		else continue*/
+
                 // validating client
-                TetriNETPlayer player = new TetriNETPlayer(socket);                
+                TetriNETPlayer player = new TetriNETPlayer(socket);
                 TetriNETClient client = new TetriNETClient(player);
                 initialiseConnexion(client);
-                
+
 		//si.playerList.addElement(client);
 		//si.incClient();
-		
+
 		// testing name unicity
 		// ....
-		
+
 		// testing concurrent connexions from the same host
 		// ....
-		
+
 		// testing ban list
 		// ....
-		
+
 		//System.out.println("Client accepted, " + si.nbClient + " client(s) online.");
-		                                
-                Message m = new Message(Message.MSG_PLINE);
+
+                /*Message m = new Message(Message.MSG_PLINE);
                 Object params[] = { new Integer(0), ChatColors.bold+"Welcome to Jetrix TetriNET Server "+ServerConfig.VERSION+" !" };
                 m.setParameters(params);
-		client.sendMessage(m);
-		
-		// sending message of the day		
-		BufferedReader motd = new BufferedReader(new StringReader( conf.getMessageOfTheDay() ));		
+		client.sendMessage(m);*/
+
+		// sending message of the day
+		BufferedReader motd = new BufferedReader(new StringReader( conf.getMessageOfTheDay() ));
 		String motdline;
 		while( (motdline = motd.readLine() ) != null )
 		{
-		    m = new Message(Message.MSG_PLINE);
+		    Message m = new Message(Message.MSG_PLINE);
 		    Object params2[] = { new Integer(0), ChatColors.gray + motdline };
 		    m.setParameters(params2);
 		    client.sendMessage(m);
 		}
-		motd.close();		
-		
-		
+		motd.close();
+
+
 		// channel assignation
 		// (looks for a default channel with room left, creates one if needed)
 		// ....
-		
+
 		/*
 		Channel ch = null;
-		
+
 		Enumeration e = channelList.elements();
-		
+
 		while( e.hasMoreElements() && ch==null)
                 {
          	    Channel ch2 = (Channel)e.nextElement();
-         	    
-         	    if (!ch2.isFull()) ch = ch2;         	    
+         	    if (!ch2.isFull()) ch = ch2;
          	}
- 		
-		if (ch==null) 
+
+		if (ch==null)
 		{
 		    ch = new Channel();
 		    ch.start();
 		}
-		
+
 		channelList.addElement(ch);
-		
+
 		//ch.addClient(client);
 		client.assignChannel(ch);
-		client.start();
+		client.start();*/
 		
-		m = new Message(Message.MSG_ADDPLAYER);
-		Object[] params2 = { client };	
+		// forwarding client to server for channel assignation
+		Message m = new Message(Message.MSG_ADDPLAYER);
+		Object[] params2 = { client };
 		m.setParameters(params2);
-		ch.addMessage(m);
-		*/	        
-                		                                                
+		TetriNETServer.getInstance().addMessage(m);
             }
             catch (IOException e)
             {
@@ -155,14 +152,14 @@ public class ClientListener extends Thread
             }
         }
     }
-    
+
 
     private void initialiseConnexion(TetriNETClient client) throws UnknownEncryptionException
     {
         String init="", dec;
         Vector tokens = new Vector();
-	
-	try 
+
+	try
 	{
             init = client.readLine();
 	}
@@ -185,7 +182,7 @@ public class ClientListener extends Thread
             m.setParameters(params);
             client.sendMessage(m);
         }
-                
+
         client.getPlayer().setName((String)tokens.elementAt(1));
         client.setClientVersion((String)tokens.elementAt(2));
     }

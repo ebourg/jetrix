@@ -23,24 +23,38 @@ import java.util.*;
 import org.lfjr.jts.*;
 
 /**
- * A dummy filter forward incomming messages with no change.
+ * Default implementation for the MessageFilter interface.
  * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class NoopFilter extends AbstractFilter
+public abstract class AbstractFilter implements MessageFilter
 {
-    public void process(Message m, List out)
+    private Properties props;
+    
+    public AbstractFilter()
     {
-        out.add(m);	
+        props = new Properties();	
     }
+	
+    public abstract void process(Message m, List out);
 
-    public String getDisplayName() { return "Noop Filter"; }
+    public String getDisplayName() { return "unknown filter"; }
 
-    public String getShortDescription() { return "I'm useless !"; }
+    public String getShortDescription() { return "no description"; }
 
     public String getVersion() { return "1.0"; }
 
-    public String getAuthor() { return "Emmanuel Bourg"; }
+    public String getAuthor() { return "unknown"; }
+    
+    public String getProperty(String key)
+    {
+        return props.getProperty(key);
+    }
+    
+    public void setProperty(String key, String value)
+    {
+        props.setProperty(key, value);	
+    }
 
 }

@@ -28,7 +28,7 @@ import org.lfjr.jts.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class FloodFilter implements MessageFilter
+public class FloodFilter extends AbstractFilter
 {
     private long timestamp[][];
     private int index[];
@@ -72,7 +72,7 @@ public class FloodFilter implements MessageFilter
     {
         long t = d.getTime();
         long t1 = timestamp[slot][index[slot]];
-        timestamp[index[slot]] = t;
+        timestamp[slot][index[slot]] = t;
         index[slot] = (index[slot] + 1) % capacity;
         
         return (t - t1) < delay;

@@ -76,6 +76,11 @@ public class ServerConfig
 
             // parsing general parameters
             Element root = doc.getDocumentElement();
+            
+            // reading port
+            try { port = Integer.parseInt(root.getAttribute("port")); }
+            catch (Exception e) { port = 31457; }
+            
             NodeList nodes = root.getChildNodes();
             Element defaultSettingsElement = null;
             Element channelsElement = null;

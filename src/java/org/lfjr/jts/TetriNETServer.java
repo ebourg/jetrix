@@ -26,14 +26,14 @@ import org.lfjr.jts.config.*;
 /**
  * Main class, starts server components.
  *
- *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public class TetriNETServer implements Runnable
 {
-    ServerConfig conf;
-    MessageQueue mq;
+    private ServerConfig conf;
+    private MessageQueue mq;
+    private static TetriNETServer instance;
     
     private static final String VERSION = "0.0.8";
     
@@ -53,19 +53,19 @@ public class TetriNETServer implements Runnable
     	// spawning server message queue handler
     	mq = new MessageQueue();
     	Thread server = new Thread(this);
-    	server.start();    	
+    	server.start();
     	
     	// spawning persistent channels
     	Iterator it = conf.getChannels();
     	
     	while(it.hasNext())
     	{
-    	    ChannelConfig cc = (ChannelConfig)	it.next();
+    	    ChannelConfig cc = (ChannelConfig)it.next();
     	    Channel ch = new Channel(cc);
     	    ch.setPersistent(true);
     	    ch.start();
-    	    channelList.addElement(ch);    		
-    	}		    	
+    	    channelList.addElement(ch);
+    	}
     	
     	// starting server console
         new ServerConsole();    	
@@ -73,6 +73,8 @@ public class TetriNETServer implements Runnable
     	// starting client listener
     	ClientListener cl = new ClientListener();
     	cl.start();
+    	
+    	instance = this;
     	
         System.out.println("Server started...");
     }
@@ -84,12 +86,36 @@ public class TetriNETServer implements Runnable
         {
             try
             {
-            	// fetching message waiting in the queue
+            	// fetching next message waiting in the queue
             	Message m = mq.get();
+            	
+            	System.out.println("Server: processing "+m);
             	
             	// processing message
             	switch(m.getCode())
             	{
+            	    case Message.MSG_ADDPLAYER:
+            	        // looking for a channel with room left
+            	        TetriNETClient client = (TetriNETClient)m.getParameter(0);
+            	        Channel ch = null;
+            	        Enumeration e = channelList.elements();
+            	        while( e.hasMoreElements() && ch==null)
+            	        {
+            	            Channel ch2 = (Channel)e.nextElement();
+            	            if (!ch2.isFull()) ch = ch2;
+            	        }
+            	               
+            	        if (ch!=null)
+            	        {
+		            ch.addMessage(m);
+		        }
+		        else
+		        {
+		            // send server full message or create a new channel
+		        }
+            	        
+            	        
+            	    break;
             	    case Message.MSG_RESTART:
             	    break;	
             		
@@ -102,9 +128,7 @@ public class TetriNETServer implements Runnable
             	    
             	    case Message.MSG_SLASHCMD:
             	    break;           	                		
-            		
-            	}
-            	            	
+            	}   	
             }            
             catch (IOException e)
             {
@@ -117,7 +141,6 @@ public class TetriNETServer implements Runnable
     /**
      * Add a message to the server message queue.
      *
-     *
      * @param args Arguments de démarrage du serveur.
      */
     protected void addMessage(Message m)
@@ -125,10 +148,13 @@ public class TetriNETServer implements Runnable
         mq.put(m);
     }
 
+    public static TetriNETServer getInstance()
+    {
+        return instance;	
+    }
     
     /**
      * Server entry point.
-     *
      *
      * @param args start parameters
      */

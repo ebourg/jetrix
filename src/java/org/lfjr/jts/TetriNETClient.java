@@ -64,6 +64,8 @@ class TetriNETClient extends Thread
 
     public void run()
     {
+    	System.out.println("Client started "+this);
+    	
         try
         {
 	    String s;
@@ -250,7 +252,7 @@ class TetriNETClient extends Thread
 	catch (Exception e) { /*e.printStackTrace();*/ }
 	
         }
-        else { System.out.println("Message no sent, raw message missing ("+m+")"); }
+        else { System.out.println("Message not sent, raw message missing "+m); }
     }
 
 
@@ -280,6 +282,11 @@ class TetriNETClient extends Thread
     public void assignChannel(Channel ch)
     {
         channel = ch;
+    }
+    
+    public Channel getChannel()
+    {
+        return channel;	
     }
 
 

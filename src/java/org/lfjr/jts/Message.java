@@ -22,7 +22,6 @@ package org.lfjr.jts;
 /**
  * Internal message sent between server, channels and client handlers.
  *
- *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
@@ -32,7 +31,7 @@ public class Message
     public static final int TYPE_CHANNEL = 1; // pline, plineact, playerjoin, team, playerleave, startgame
     public static final int TYPE_INGAME  = 2; // f, sb, lvl, playerlost, pause, newgame, endgame, gmsg
 
-    public static final int MSG_UNKNOWN      = -1;       
+    public static final int MSG_UNKNOWN      = -1;
     public static final int MSG_PLINE        = 0;
     public static final int MSG_PLINEACT     = 1;
     public static final int MSG_TEAM         = 2;
@@ -82,7 +81,17 @@ public class Message
     
     public String getRawMessage()
     {
-    	return raw;
+    	if (raw==null)
+    	{
+    	    if (type==MSG_PLINE)
+    	    {
+    	        Integer slot = (Integer)getParameter(0);
+    	        String message = (String)getParameter(1);
+    	        raw = "pline "+slot+" "+message;
+    	    }
+    	}
+    	
+    	return raw;    	
     }
     
     public Object[] getParameters()
@@ -118,5 +127,10 @@ public class Message
     public void setParameters(Object[] params)
     {
     	this.params = params;
-    }    
+    }
+    
+    public String toString()
+    {
+    	return "[Message type="+type+" code="+code+" params="+params+"]";
+    }    	  
 }
