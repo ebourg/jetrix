@@ -201,6 +201,13 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <command class="net.jetrix.commands.VersionCommand"/>
     <command class="net.jetrix.commands.WhoCommand"/>
   </commands>
+  
+  <!-- Client listeners -->
+  <listeners>
+    <listener class="net.jetrix.listeners.TetrinetListener"/>
+    <listener class="net.jetrix.listeners.TSpecListener"/>
+    <listener class="net.jetrix.listeners.IRCListener"/>
+  </listeners>
 
   <ban>
     <!-- Cheating from host 1cust007.tnt2.billgates.da.uu.net -->
