@@ -130,24 +130,17 @@ public class TetriNETServer implements Runnable
 		client.sendMessage(m);
 		
 		// sending MOTD
-		/*
-		try
-		{
-		BufferedReader motd = new BufferedReader(new FileReader("game.motd"));
 		
-		String motdline = motd.readLine();
-		while( motdline != null )
+		BufferedReader motd = new BufferedReader(new StringReader( conf.getMessageOfTheDay() ));		
+		String motdline;
+		while( (motdline = motd.readLine() ) != null )
 		{
-		    player.sendMessage("pline 0 " + ChatColors.gray + motdline);
-		    motdline = motd.readLine();
+		    m = new Message(Message.MSG_PLINE);
+		    Object params2[] = { new Integer(0), ChatColors.gray + motdline };
+		    m.setParameters(params2);
+		    client.sendMessage(m);
 		}
-		motd.close();
-	 	}
-		catch (FileNotFoundException e) 
-		{
-		    player.sendMessage("pline 0 MOTD missing");
-		}
-		*/
+		motd.close();		
 		
 		
 		// assignation dans un channel
@@ -173,7 +166,7 @@ public class TetriNETServer implements Runnable
 		
 		channelList.addElement(ch);
 		
-		ch.addClient(client);
+		//ch.addClient(client);
 		client.assignChannel(ch);
 		client.start();
 		

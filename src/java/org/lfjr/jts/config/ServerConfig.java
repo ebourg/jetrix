@@ -501,8 +501,12 @@ public class ServerConfig
     
     public Iterator getChannels()
     {
-        return channels.iterator();
-    	
+        return channels.iterator();    	
+    }
+
+    public String getMessageOfTheDay()
+    {
+        return motd;	
     }
 
     /**
