@@ -21,6 +21,7 @@ package org.lfjr.jts.filter;
 
 import java.util.*;
 import org.lfjr.jts.*;
+import org.lfjr.jts.config.*;
 
 /**
  * Abstract class defining a channel filter. Filters just need to inherit
@@ -56,7 +57,7 @@ public abstract class MessageFilter
     /**
      * Called by the channel to indicate to a filter that the filter is being placed into service.
      */
-    public void init() {}
+    public void init(FilterConfig conf) {}
 
     /**
      * Called by the channel to indicate to a filter that the filter is being taken out of service.
