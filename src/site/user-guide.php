@@ -79,7 +79,7 @@ download it here :</p>
 environnement variable pointing to your Java directory. For example on
 Linux you can add this line to your /etc/profile file:</p>
 
-<code>export JAVA_HOME=/usr/java/j2sdk_1.4.2</code>
+<code>export JAVA_HOME=/usr/java/jre_1.5.0</code>
 
 <p>Then decompress the Jetrix archive to the installation directory:</p>
 
