@@ -19,7 +19,6 @@
 
 package net.jetrix.messages;
 
-import net.jetrix.*;
 import net.jetrix.config.*;
 
 /**
@@ -31,6 +30,7 @@ import net.jetrix.config.*;
 public class NewGameMessage extends ChannelMessage
 {
     private Settings settings;
+    private int seed;
 
     public NewGameMessage() { }
 
@@ -53,6 +53,19 @@ public class NewGameMessage extends ChannelMessage
     public void setSettings(Settings settings)
     {
         this.settings = settings;
+    }
+
+    /**
+     * Return the seed for the client's random number generator.
+     */
+    public int getSeed()
+    {
+        return seed;
+    }
+
+    public void setSeed(int seed)
+    {
+        this.seed = seed;
     }
 
 }

@@ -434,6 +434,7 @@ public class TetrinetProtocol implements Protocol
         message.append(s.getSpecialCapacity());
         message.append(" ");
 
+        // blocks frequency
         for (int i = 0; i < 7; i++)
         {
             for (int j = 0; j < s.getBlockOccurancy(i); j++)
@@ -444,6 +445,7 @@ public class TetrinetProtocol implements Protocol
 
         message.append(" ");
 
+        // specials frequency
         for (int i = 0; i < 9; i++)
         {
             for (int j = 0; j < s.getSpecialOccurancy(i); j++)
@@ -456,6 +458,20 @@ public class TetrinetProtocol implements Protocol
         message.append(s.getAverageLevels() ? "1" : "0");
         message.append(" ");
         message.append(s.getClassicRules()  ? "1" : "0");
+
+        // extended parameter for 1.14 clients
+        if (s.getSameBlocks() == true)
+        {
+            message.append(" ");
+            String hexstring = Integer.toHexString(m.getSeed()).toUpperCase();
+            // padding to 8 digits
+            for (int i = hexstring.length(); i < 8; i++ )
+            {
+                message.append("0");
+            }
+
+            message.append(hexstring);
+        }
 
         return message.toString();
     }

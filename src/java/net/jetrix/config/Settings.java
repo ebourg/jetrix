@@ -47,6 +47,7 @@ public class Settings
     private boolean defaultSpecialCapacity;
     private boolean defaultAverageLevels;
     private boolean defaultClassicRules;
+    private boolean defaultSameBlocks;
 
     private int startingLevel;
     private int stackHeight;
@@ -59,6 +60,7 @@ public class Settings
     private int specialOccurancy[];
     private boolean averageLevels;
     private boolean classicRules;
+    private boolean sameBlocks;
 
     public static final int BLOCK_LINE      = 0;
     public static final int BLOCK_SQUARE    = 1;
@@ -111,12 +113,13 @@ public class Settings
             defaultSpecialCapacity = true;
             defaultAverageLevels = true;
             defaultClassicRules = true;
+            defaultSameBlocks = true;
         }
     }
 
     public int getStartingLevel()
     {
-        if (defaultStartingLevel && defaultSettings!=null && this!=defaultSettings)
+        if (defaultStartingLevel && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getStartingLevel();
         else
             return startingLevel;
@@ -124,7 +127,7 @@ public class Settings
 
     public int getStackHeight()
     {
-        if (defaultStackHeight && defaultSettings!=null && this!=defaultSettings)
+        if (defaultStackHeight && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getStackHeight();
         else
             return stackHeight;
@@ -132,7 +135,7 @@ public class Settings
 
     public int getLinesPerLevel()
     {
-        if (defaultLinesPerLevel && defaultSettings!=null && this!=defaultSettings)
+        if (defaultLinesPerLevel && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getLinesPerLevel();
         else
             return linesPerLevel;
@@ -140,7 +143,7 @@ public class Settings
 
     public int getLinesPerSpecial()
     {
-        if (defaultLinesPerSpecial && defaultSettings!=null && this!=defaultSettings)
+        if (defaultLinesPerSpecial && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getLinesPerSpecial();
         else
             return linesPerSpecial;
@@ -148,7 +151,7 @@ public class Settings
 
     public int getLevelIncrease()
     {
-        if (defaultLevelIncrease && defaultSettings!=null && this!=defaultSettings)
+        if (defaultLevelIncrease && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getLevelIncrease();
         else
             return levelIncrease;
@@ -156,7 +159,7 @@ public class Settings
 
     public int getSpecialAdded()
     {
-        if (defaultSpecialAdded && defaultSettings!=null && this!=defaultSettings)
+        if (defaultSpecialAdded && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getSpecialAdded();
         else
             return specialAdded;
@@ -164,7 +167,7 @@ public class Settings
 
     public int getSpecialCapacity()
     {
-        if (defaultSpecialCapacity && defaultSettings!=null && this!=defaultSettings)
+        if (defaultSpecialCapacity && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getSpecialCapacity();
         else
             return specialCapacity;
@@ -172,7 +175,7 @@ public class Settings
 
     public boolean getAverageLevels()
     {
-        if (defaultAverageLevels && defaultSettings!=null && this!=defaultSettings)
+        if (defaultAverageLevels && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getAverageLevels();
         else
             return averageLevels;
@@ -180,15 +183,23 @@ public class Settings
 
     public boolean getClassicRules()
     {
-        if (defaultClassicRules && defaultSettings!=null && this!=defaultSettings)
+        if (defaultClassicRules && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getClassicRules();
         else
             return classicRules;
     }
 
+    public boolean getSameBlocks()
+    {
+        if (defaultSameBlocks && defaultSettings != null && this != defaultSettings)
+            return defaultSettings.getSameBlocks();
+        else
+            return sameBlocks;
+    }
+
     public int getBlockOccurancy(int piece)
     {
-        if (defaultBlockOccurancy && defaultSettings!=null && this!=defaultSettings)
+        if (defaultBlockOccurancy && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getBlockOccurancy(piece);
         else
             return blockOccurancy[piece];
@@ -196,7 +207,7 @@ public class Settings
 
     public int getSpecialOccurancy(int special)
     {
-        if (defaultSpecialOccurancy && defaultSettings!=null && this!=defaultSettings)
+        if (defaultSpecialOccurancy && defaultSettings != null && this != defaultSettings)
             return defaultSettings.getSpecialOccurancy(special);
         else
             return specialOccurancy[special];
@@ -254,6 +265,12 @@ public class Settings
     {
         this.classicRules = classicRules;
         defaultClassicRules = false;
+    }
+
+    public void setSameBlocks(boolean sameBlocks)
+    {
+        this.sameBlocks = sameBlocks;
+        defaultSameBlocks = false;
     }
 
     public void setBlockOccurancy(int piece, int occurancy)
