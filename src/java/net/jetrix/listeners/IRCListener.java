@@ -84,7 +84,7 @@ public class IRCListener extends ClientListener
     public String readLine(Socket socket) throws IOException
     {
         int readChar;
-        Reader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        Reader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
         StringBuffer input = new StringBuffer();
 
         while ((readChar = in.read()) != -1 && readChar != 255)
