@@ -284,18 +284,6 @@ public class Server implements Runnable, Destination
                 {
                     log.info("[server] Message not processed " + message);
                 }
-
-                /*switch(message.getCode())
-                {
-                    case Message.MSG_ADDPLAYER:
-                    case Message.MSG_RESTART:
-                    case Message.MSG_SHUTDOWN:
-                        config.setRunning(false);
-                        break;
-
-                    case Message.MSG_UNKNOWN:
-                    case Message.MSG_COMMAND:
-                }*/
             }
             catch (InterruptedException e)
             {
@@ -330,7 +318,7 @@ public class Server implements Runnable, Destination
      */
     public static void main(String[] args)
     {
-        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2004 Emmanuel Bourg\n");
+        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2005 Emmanuel Bourg\n");
         Server server = Server.getInstance();
         server.start();
     }
