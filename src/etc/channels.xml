@@ -42,7 +42,12 @@ Welcome on <b>JetriX TetriNET Server</b>!
   <!-- Winlists -->
   <winlists>
     <winlist name="default" class="net.jetrix.winlist.SimpleWinlist">
-      <param name="file" value="game.winlist11"/>
+      <param name="display.score" value="true"/>
+    </winlist>
+    <winlist name="pure" class="net.jetrix.winlist.SimpleWinlist">
+      <param name="display.score" value="true"/>
+    </winlist>
+    <winlist name="duel" class="net.jetrix.winlist.SimpleWinlist">
       <param name="display.score" value="true"/>
     </winlist>
   </winlists>
