@@ -29,6 +29,7 @@ public class FilterConfig extends Configuration
 {
     private String name;
     private String classname;
+    private boolean global;
 
     public void setName(String name)
     {
@@ -48,6 +49,16 @@ public class FilterConfig extends Configuration
     public String getClassname()
     {
         return classname;
+    }
+
+    public boolean isGlobal()
+    {
+        return global;
+    }
+
+    public void setGlobal(boolean global)
+    {
+        this.global = global;
     }
 
     public String toString()
