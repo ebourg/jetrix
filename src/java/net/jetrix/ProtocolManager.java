@@ -32,11 +32,11 @@ import java.util.*;
 public class ProtocolManager
 {
     private static ProtocolManager instance = new ProtocolManager();
-    private Map<Class, Protocol> protocols;
+    private Map<Class<? extends Protocol>, Protocol> protocols;
 
     private ProtocolManager()
     {
-        protocols = new HashMap<Class, Protocol>();
+        protocols = new HashMap<Class<? extends Protocol>, Protocol>();
     }
 
     /**
@@ -55,21 +55,21 @@ public class ProtocolManager
      *
      * @return Protocol of the specified class.
      */
-    public synchronized Protocol getProtocol(Class cls)
+    public synchronized <P extends Protocol> P  getProtocol(Class<P> cls)
     {
         // is there an entry for this class in the hashtable ?
         Object obj = protocols.get(cls);
         if (obj != null)
         {
-            return (Protocol) obj;
+            return (P) obj;
         }
 
-        Protocol protocol = null;
+        P protocol = null;
 
         try
         {
             // constructing a new protocol
-            protocol = (Protocol) cls.newInstance();
+            protocol = cls.newInstance();
 
             // adding the protocol to the hashtable
             protocols.put(cls, protocol);
