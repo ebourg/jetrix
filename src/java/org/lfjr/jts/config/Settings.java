@@ -80,11 +80,11 @@ public class Settings
 
 
     /**
-     * Creates a new Settings objects ignoring default settings.
+     * Creates a new Settings objects using default settings.
      */
     public Settings()
     {
-        this(false);
+        this(true);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Settings
 
     public int getStartingLevel()
     {
-    	if (defaultStartingLevel && defaultSettings!=null && this!=defaultSettings)
+        if (defaultStartingLevel && defaultSettings!=null && this!=defaultSettings)
             return defaultSettings.getStartingLevel();
         else
             return startingLevel;
@@ -124,7 +124,7 @@ public class Settings
 
     public int getStackHeight()
     {
-    	if (defaultStackHeight && defaultSettings!=null && this!=defaultSettings)
+        if (defaultStackHeight && defaultSettings!=null && this!=defaultSettings)
             return defaultSettings.getStackHeight();
         else
             return stackHeight;
@@ -132,7 +132,7 @@ public class Settings
 
     public int getLinesPerLevel()
     {
-    	if (defaultLinesPerLevel && defaultSettings!=null && this!=defaultSettings)
+        if (defaultLinesPerLevel && defaultSettings!=null && this!=defaultSettings)
             return defaultSettings.getLinesPerLevel();
         else
             return linesPerLevel;
@@ -140,7 +140,7 @@ public class Settings
 
     public int getLinesPerSpecial()
     {
-    	if (defaultLinesPerSpecial && defaultSettings!=null && this!=defaultSettings)
+        if (defaultLinesPerSpecial && defaultSettings!=null && this!=defaultSettings)
             return defaultSettings.getLinesPerSpecial();
         else
             return linesPerSpecial;
@@ -148,7 +148,7 @@ public class Settings
 
     public int getLevelIncrease()
     {
-    	if (defaultLevelIncrease && defaultSettings!=null && this!=defaultSettings)
+        if (defaultLevelIncrease && defaultSettings!=null && this!=defaultSettings)
             return defaultSettings.getLevelIncrease();
         else
             return levelIncrease;
@@ -156,7 +156,7 @@ public class Settings
 
     public int getSpecialAdded()
     {
-    	if (defaultSpecialAdded && defaultSettings!=null && this!=defaultSettings)
+        if (defaultSpecialAdded && defaultSettings!=null && this!=defaultSettings)
             return defaultSettings.getSpecialAdded();
         else
             return specialAdded;
@@ -164,7 +164,7 @@ public class Settings
 
     public int getSpecialCapacity()
     {
-    	if (defaultSpecialCapacity && defaultSettings!=null && this!=defaultSettings)
+        if (defaultSpecialCapacity && defaultSettings!=null && this!=defaultSettings)
             return defaultSettings.getSpecialCapacity();
         else
             return specialCapacity;
@@ -172,7 +172,7 @@ public class Settings
 
     public boolean getAverageLevels()
     {
-    	if (defaultAverageLevels && defaultSettings!=null && this!=defaultSettings)
+        if (defaultAverageLevels && defaultSettings!=null && this!=defaultSettings)
             return defaultSettings.getAverageLevels();
         else
             return averageLevels;
@@ -204,101 +204,101 @@ public class Settings
 
     public void setStartingLevel(int startingLevel)
     {
-    	this.startingLevel = startingLevel;
-    	defaultStartingLevel = false;
+        this.startingLevel = startingLevel;
+        defaultStartingLevel = false;
     }
 
     public void setStartingLevel(Integer startingLevel)
     {
-    	setStartingLevel(startingLevel.intValue());
+        setStartingLevel(startingLevel.intValue());
     }
 
     public void setStackHeight(int stackHeight)
     {
-    	this.stackHeight = stackHeight;
-    	defaultStackHeight = false;
+        this.stackHeight = stackHeight;
+        defaultStackHeight = false;
     }
 
     public void setStackHeight(Integer stackHeight)
     {
-    	setStackHeight(stackHeight.intValue());
+        setStackHeight(stackHeight.intValue());
     }
 
     public void setLinesPerLevel(int linesPerLevel)
     {
-    	this.linesPerLevel = linesPerLevel;
-    	defaultLinesPerLevel = false;
+        this.linesPerLevel = linesPerLevel;
+        defaultLinesPerLevel = false;
     }
 
-    public void setLinesPerLevel(Integer linesPerLevel) 
-    { 
-    	setLinesPerLevel(linesPerLevel.intValue());
+    public void setLinesPerLevel(Integer linesPerLevel)
+    {
+        setLinesPerLevel(linesPerLevel.intValue());
     }
 
     public void setLinesPerSpecial(int linesPerSpecial)
     {
-    	this.linesPerSpecial = linesPerSpecial;
-    	defaultLinesPerSpecial = false;
+        this.linesPerSpecial = linesPerSpecial;
+        defaultLinesPerSpecial = false;
     }
 
     public void setLinesPerSpecial(Integer linesPerSpecial)
     {
-    	setLinesPerSpecial(linesPerSpecial.intValue());
+        setLinesPerSpecial(linesPerSpecial.intValue());
     }
 
     public void setLevelIncrease(int levelIncrease)
     {
-    	this.levelIncrease = levelIncrease;
-    	defaultLevelIncrease = false;
+        this.levelIncrease = levelIncrease;
+        defaultLevelIncrease = false;
     }
 
     public void setLevelIncrease(Integer levelIncrease)
     {
-    	setLevelIncrease(levelIncrease.intValue());
+        setLevelIncrease(levelIncrease.intValue());
     }
 
     public void setSpecialAdded(int specialAdded)
     {
-    	this.specialAdded = specialAdded;
-    	defaultSpecialAdded = false;
+        this.specialAdded = specialAdded;
+        defaultSpecialAdded = false;
     }
 
     public void setSpecialAdded(Integer specialAdded)
     {
-    	setSpecialAdded(specialAdded.intValue());
+        setSpecialAdded(specialAdded.intValue());
     }
 
     public void setSpecialCapacity(int specialCapacity)
     {
-    	this.specialCapacity = specialCapacity;
-    	defaultSpecialCapacity = false;
+        this.specialCapacity = specialCapacity;
+        defaultSpecialCapacity = false;
     }
 
     public void setSpecialCapacity(Integer specialCapacity)
     {
-    	setSpecialCapacity(specialCapacity.intValue());
+        setSpecialCapacity(specialCapacity.intValue());
     }
 
     public void setAverageLevels(boolean averageLevels)
     {
-    	this.averageLevels = averageLevels;
-    	defaultAverageLevels = false;
+        this.averageLevels = averageLevels;
+        defaultAverageLevels = false;
     }
 
     public void setAverageLevels(Boolean averageLevels)
     {
-    	setAverageLevels(averageLevels.booleanValue());
+        setAverageLevels(averageLevels.booleanValue());
     }
 
     public void setClassicRules(boolean classicRules)
     {
-    	this.classicRules = classicRules;
-    	defaultClassicRules = false;
+        this.classicRules = classicRules;
+        defaultClassicRules = false;
     }
 
     public void setClassicRules(Boolean classicRules)
     {
-    	setClassicRules(classicRules.booleanValue());
+        setClassicRules(classicRules.booleanValue());
     }
 
     public void setBlockOccurancy(int piece, int occurancy)
@@ -306,7 +306,7 @@ public class Settings
         if (defaultBlockOccurancy)
         {
             defaultBlockOccurancy = false;
-            clearBlockOccurancy();
+            Arrays.fill(blockOccurancy, 0);
         }
 
         blockOccurancy[piece] = occurancy;
@@ -317,22 +317,11 @@ public class Settings
         if (defaultSpecialOccurancy)
         {
             defaultSpecialOccurancy = false;
-            clearSpecialOccurancy();
+            Arrays.fill(specialOccurancy, 0);
         }
 
         specialOccurancy[special] = occurancy;
     }
-
-    public void clearBlockOccurancy()
-    {
-        Arrays.fill(blockOccurancy, 0);
-    }
-
-    public void clearSpecialOccurancy()
-    {
-        Arrays.fill(specialOccurancy, 0);
-    }
-
 
     /**
      * Normalize array values to get a sum equals to 100.
@@ -388,11 +377,17 @@ public class Settings
         normalize(specialOccurancy);
     }
 
+    /**
+     * Returns the default Settings object.
+     */
     public static Settings getDefaultSettings()
     {
         return defaultSettings;
     }
 
+    /**
+     * Sets the default Settings object.
+     */
     public static void setDefaultSettings(Settings defaultSettings)
     {
         Settings.defaultSettings = defaultSettings;
