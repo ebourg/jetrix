@@ -31,7 +31,7 @@ import net.jetrix.messages.*;
  */
 public class StartCommand implements Command
 {
-    private int accessLevel = 1;
+    private int accessLevel = 0;
 
     public String[] getAliases()
     {
@@ -45,7 +45,7 @@ public class StartCommand implements Command
 
     public String getUsage(Locale locale)
     {
-        return "/start";
+        return "/start <" + Language.getText("command.params.seconds", locale) + ">";
     }
 
     public String getDescription(Locale locale)
@@ -60,11 +60,115 @@ public class StartCommand implements Command
 
         if (channel != null)
         {
-            StartGameMessage start = new StartGameMessage();
-            start.setSlot(channel.getClientSlot(client));
-            start.setSource(client);
-            channel.sendMessage(start);
+            // delay in seconds for the countdown
+            int delay = 0;
+
+            if (m.getParameterCount() > 0)
+            {
+                try { delay = Integer.parseInt(m.getParameter(0)); } catch (Exception e) { };
+            }
+
+            // the delay is capped at 20 seconds
+            delay = Math.min(delay, 20);
+
+            if (delay > 0)
+            {
+                (new StartCommand.CountDown(channel, delay)).start();
+            }
+            else
+            {
+                StartGameMessage start = new StartGameMessage();
+                start.setSlot(channel.getClientSlot(client));
+                start.setSource(client);
+                channel.sendMessage(start);
+            }
         }
     }
+
+    /**
+     * A countdown thread to delay the beginning of the game.
+     */
+    private static class CountDown extends Thread
+    {
+        private Channel channel;
+        private int delay;
+        /** */
+        private static Map countdowns = new HashMap();
+
+        /**
+         * Construct a new game countdown.
+         *
+         * @param channel the channel where game will start
+         * @param delay the delay in seconds for this countdown
+         */
+        public CountDown(Channel channel, int delay)
+        {
+            this.channel = channel;
+            this.delay = delay;
+        }
+
+        public void run()
+        {
+            // don't start the countdown is the game has already started
+            if (channel.getGameState() != Channel.GAME_STATE_STOPPED) return;
+
+            // don't start the countdown if another one is already running
+            if (countdowns.get(channel) != null) return;
+            countdowns.put(channel, this);
+
+            PlineMessage getready1 = new PlineMessage();
+            GmsgMessage  getready2 = new GmsgMessage();
+            getready1.setKey("command.start.get_ready");
+            getready2.setKey("command.start.get_ready.gmsg");
+            channel.sendMessage(getready1);
+            channel.sendMessage(getready2);
+
+            // start the count down...
+            for (int i = delay; i > 0; i--)
+            {
+                PlineMessage msg1 = new PlineMessage();
+                GmsgMessage  msg2 = new GmsgMessage();
+
+                // plural or singular ? :)
+                if (i > 1)
+                {
+                    Object[] params = new Object[] { new Integer(i)};
+                    msg1.setKey("command.start.seconds", params);
+                    msg2.setKey("command.start.seconds.gmsg", params);
+                }
+                else
+                {
+                    msg1.setKey("command.start.second");
+                    msg2.setKey("command.start.second.gmsg");
+                }
+
+                channel.sendMessage(msg1);
+                channel.sendMessage(msg2);
+                try { sleep(1000); } catch(InterruptedException e) { }
+
+                // cancel the countdown if the game has started
+                if (channel.getGameState() != Channel.GAME_STATE_STOPPED)
+                {
+                    countdowns.put(channel, null);
+                    return;
+                }
+            }
+
+            // announce "GO!"
+            PlineMessage go1 = new PlineMessage();
+            GmsgMessage  go2 = new GmsgMessage();
+            go1.setKey("command.start.go");
+            go2.setKey("command.start.go.gmsg");
+            channel.sendMessage(go1);
+            channel.sendMessage(go2);
+
+            // start the game
+            StartGameMessage start = new StartGameMessage();
+            channel.sendMessage(start);
+
+            countdowns.put(channel, null);
+        }
+    }
+
 
 }
