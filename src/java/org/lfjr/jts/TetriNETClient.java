@@ -137,14 +137,16 @@ class TetriNETClient extends Thread
                     Object[] params = { slot, channel.getConfig().getSettings() };
                     m.setParameters(params);
                 }
-                // pause <slot>
+                // pause <0 = resume | 1 = pause> <playernumber>
                 else if ("pause".equals(cmd))
                 {
                     m.setType(Message.TYPE_CHANNEL);
-                    m.setCode(Message.MSG_PAUSE);
+                    String pause = st.nextToken();
+                    m.setCode("1".equals(pause)?Message.MSG_PAUSE:Message.MSG_RESUME);
 
-                    Integer slot = new Integer(st.nextToken());
-                    m.setParameters(new Object[] { slot });
+                    m.setRawMessage(null);
+                    //Integer slot = new Integer(st.nextToken());
+                    m.setParameters(new Object[] { pause });
                 }
                 // playerlost <slot>
                 else if ("playerlost".equals(cmd))
@@ -155,7 +157,7 @@ class TetriNETClient extends Thread
                     Integer slot = new Integer(st.nextToken());
                     m.setParameters(new Object[] { slot });
                 }
-                // lvl <slot> <level> (not sure on this one)
+                // lvl <playernumber> <level>
                 else if ("lvl".equals(cmd))
                 {
                     m.setType(Message.TYPE_CHANNEL);
