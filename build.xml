@@ -259,7 +259,7 @@
 
 
   <target name="run" depends="deploy">
-    <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-${version}.jar" fork="yes">
+    <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-${version}.jar" fork="true">
       <sysproperty key="jetrix.debug" value="true"/>
     </java>
   </target>
@@ -312,7 +312,38 @@
     <delete dir="${build}"/>
     <delete dir="${deploy}"/>
   </target>
-  
+
+  <target name="checkstyle">
+    <taskdef name="checkstyle" classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
+      <classpath>
+        <fileset dir="${ant.home}/lib">
+          <include name="checkstyle-2.4.jar"/>
+          <include name="antlr.jar"/>
+          <include name="jakarta-regexp-1.2.jar"/>
+        </fileset>
+      </classpath>
+    </taskdef>
+
+    <mkdir dir="${build}/style"/>
+    <checkstyle failOnViolation="false">
+      <property key="checkstyle.maxlinelen" value="200"/>
+      <property key="checkstyle.javadoc.scope" value="nothing"/>
+      <property key="checkstyle.allow.protected" value="true"/>
+      <property key="checkstyle.header.file" value="${doc}/license.txt"/>
+      <property key="checkstyle.lcurly.type" value="nl"/>
+      <property key="checkstyle.lcurly.method" value="nl"/>
+      <property key="checkstyle.lcurly.other" value="nl"/>
+      <property key="checkstyle.rcurly" value="alone"/>
+      <property key="checkstyle.ignore.imports" value="true"/>
+      <formatter type="xml" tofile="${build}/style/checkstyle-report.xml"/>
+      <fileset dir="${src}/java" includes="**/*.java"/>
+    </checkstyle>
+
+    <mkdir dir="${doc}/style"/>
+    <style in="${build}/style/checkstyle-report.xml" out="${doc}/style/checkstyle-report.html" style="${doc}/checkstyle-noframes.xsl"/>
+  </target>
+
+
   <!-- Clover -->
   <taskdef resource="clovertasks"/>
   

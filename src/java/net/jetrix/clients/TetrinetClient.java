@@ -50,7 +50,7 @@ public class TetrinetClient implements Client
     protected Writer out;
     protected Socket socket;
     protected ServerConfig serverConfig;
-    protected Logger logger = Logger.getLogger("net.jetrix");
+    protected Logger log = Logger.getLogger("net.jetrix");
 
     public TetrinetClient() { }
 
@@ -82,12 +82,15 @@ public class TetrinetClient implements Client
      */
     public void run()
     {
-        logger.fine("Client started " + this);
+        log.fine("Client started " + this);
         
         connectionTime = new Date();
         
         Server server = Server.getInstance();
-        if (server != null) serverConfig = server.getConfig();        
+        if (server != null)
+        {
+            serverConfig = server.getConfig();
+        }
 
         try
         {
@@ -127,6 +130,8 @@ public class TetrinetClient implements Client
         }
     }
 
+    private long time = 0;
+
     public void sendMessage(Message m)
     {
         String rawMessage = m.getRawMessage(getProtocol(), user.getLocale());
@@ -135,20 +140,32 @@ public class TetrinetClient implements Client
         {
             try
             {
-                synchronized(out)
+                synchronized (out)
                 {
-                    out.write(rawMessage + (char)255, 0, rawMessage.length() + 1);
+                    long now = System.currentTimeMillis();
+                    if (now - time == 0) {
+                        Thread.sleep(1);
+                    }
+                    time = now;
+
+                    out.write(rawMessage + (char) 255, 0, rawMessage.length() + 1);
                     out.flush();
                 }
 
-                logger.finest("> " + rawMessage);
+                log.finest("> " + rawMessage);
             }
-            catch (SocketException e) { logger.fine(e.getMessage()); }
-            catch (Exception e) { logger.log(Level.INFO, getUser().toString(), e); }
+            catch (SocketException e)
+            {
+                log.fine(e.getMessage());
+            }
+            catch (Exception e)
+            {
+                log.log(Level.INFO, getUser().toString(), e);
+            }
         }
         else
         {
-            logger.warning("Message not sent, raw message missing " + m);
+            log.warning("Message not sent, raw message missing " + m);
         }
     }
 
@@ -156,12 +173,15 @@ public class TetrinetClient implements Client
     {
         // read raw message from socket
         String line = readLine();
-        logger.finer("RECV: " + line);
+        log.finer("RECV: " + line);
 
         // build server message
         Message message = getProtocol().getMessage(line);
         //message.setRawMessage(getProtocol(), line);
-        if (message != null) message.setSource(this);
+        if (message != null)
+        {
+            message.setSource(this);
+        }
 
         return message;
     }
@@ -180,11 +200,14 @@ public class TetrinetClient implements Client
         {
             if (readChar != 0x0A && readChar != 0x0D)
             {
-                input.append((char)readChar);
+                input.append((char) readChar);
             }
         }
 
-        if (readChar == -1) throw new IOException("client disconnected");
+        if (readChar == -1)
+        {
+            throw new IOException("client disconnected");
+        }
 
         return input.toString();
     }
@@ -197,7 +220,10 @@ public class TetrinetClient implements Client
             in  = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "ISO-8859-1"));
         }
-        catch(IOException e) { e.printStackTrace(); }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public Socket getSocket()
@@ -258,7 +284,14 @@ public class TetrinetClient implements Client
     public void disconnect()
     {
         disconnected = true;
-        try { socket.shutdownOutput(); } catch(Exception e) { e.printStackTrace(); }
+        try
+        {
+            socket.shutdownOutput();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public String toString()

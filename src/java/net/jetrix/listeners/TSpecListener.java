@@ -52,7 +52,10 @@ public class TSpecListener extends TetrinetListener
         {
             init = readLine(socket);
         }
-        catch (IOException e) { e.printStackTrace(); }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         String dec = decode(init);
 
@@ -72,7 +75,7 @@ public class TSpecListener extends TetrinetListener
 
         TetrinetClient client = new TetrinetClient();
         User user = new User();
-        user.setName((String)tokens.get(1));
+        user.setName((String) tokens.get(1));
         user.setSpectator();
         client.setSocket(socket);
         client.setUser(user);

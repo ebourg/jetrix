@@ -52,7 +52,10 @@ public class IRCListener extends ClientListener
         {
             init = readLine(socket);
         }
-        catch (IOException e) { e.printStackTrace(); }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         // init string parsing "NICK <nickname>"
         StringTokenizer st = new StringTokenizer(init, " ");
@@ -65,7 +68,7 @@ public class IRCListener extends ClientListener
 
         TetrinetClient client = new TetrinetClient();
         User user = new User();
-        user.setName((String)tokens.get(1));
+        user.setName((String) tokens.get(1));
         user.setSpectator();
         client.setSocket(socket);
         client.setUser(user);
@@ -91,11 +94,14 @@ public class IRCListener extends ClientListener
         {
             if (readChar != 10 && readChar != 13)
             {
-                input.append((char)readChar);
+                input.append((char) readChar);
             }
         }
 
-        if (readChar == -1) throw new IOException("client disconnected");
+        if (readChar == -1)
+        {
+            throw new IOException("client disconnected");
+        }
 
         return input.toString();
     }

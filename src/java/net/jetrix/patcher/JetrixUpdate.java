@@ -32,33 +32,46 @@ import java.util.zip.*;
  */
 public class JetrixUpdate
 {
-    static Vector update = new Vector();
-    static String basedir = "http://tetrinet.lfjr.net/jetrix/autoupdate/";  // should read this from a property file
-    static String newsFileName = "news.txt";
+    private Vector update = new Vector();
+    private String basedir = "http://tetrinet.lfjr.net/jetrix/autoupdate/";  // should read this from a property file
+    private String newsFileName = "news.txt";
 
-    static boolean downloadFailed = false;
-    static boolean displayNews = false;
+    private boolean downloadFailed = false;
+    private boolean displayNews = false;
 
-    public static void main(String[] argv) throws IOException
+    public static void main(String[] argv) throws Exception
+    {
+        JetrixUpdate jetrixUpdate = new JetrixUpdate();
+        jetrixUpdate.run();
+    }
+
+    public void run() throws Exception
     {
         getUpdate();
 
         for (int i = 0; i < update.size(); i++)
         {
-            StringTokenizer st = new StringTokenizer((String)update.elementAt(i), " \t");
+            StringTokenizer st = new StringTokenizer((String) update.elementAt(i), " \t");
             String fileName = st.nextToken();
-            long chksum     = Long.parseLong(st.nextToken());
+            long chksum = Long.parseLong(st.nextToken());
 
             long localSum = getFileCRC32(fileName);
 
             if (chksum != localSum)
             {
                 downloadFile(fileName, chksum);
-                if (fileName.equals(newsFileName)) displayNews = true;
+                if (fileName.equals(newsFileName))
+                {
+                    displayNews = true;
+                }
             }
         }
 
-        if (displayNews) displayNews();
+        if (displayNews)
+        {
+            displayNews();
+        }
+        
         if (downloadFailed)
         {
             System.out.println("\nDownload failed. Please run again this update.\nContact the update server administrator if the problem persists.");
@@ -67,17 +80,16 @@ public class JetrixUpdate
         {
             System.out.println("\nUpdate completed");
         }
-
     }
 
 
-    public static void getUpdate() throws IOException
+    private void getUpdate() throws IOException
     {
         URL updateList = new URL(basedir + "update.crc");
 
         System.out.println("Connecting to update server...");
 
-        HttpURLConnection conn = (HttpURLConnection)updateList.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) updateList.openConnection();
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
         System.out.println("Reading update file...");
@@ -92,16 +104,19 @@ public class JetrixUpdate
     }
 
 
-    public static void downloadFile(String filename, long remoteFileCRC) throws IOException
+    private void downloadFile(String filename, long remoteFileCRC) throws IOException
     {
-        URL updateList = new URL(basedir+filename.replace('\\','/'));
+        URL updateList = new URL(basedir + filename.replace('\\', '/'));
 
-        HttpURLConnection conn = (HttpURLConnection)updateList.openConnection();
-        BufferedInputStream bis = new BufferedInputStream( conn.getInputStream() );
+        HttpURLConnection conn = (HttpURLConnection) updateList.openConnection();
+        BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
 
         File localFile = new File(filename + ".new");
         File parent = localFile.getParentFile();
-        if (parent != null) { parent.mkdirs(); }
+        if (parent != null)
+        {
+            parent.mkdirs();
+        }
 
         FileOutputStream fos = new FileOutputStream(localFile);
 
@@ -109,7 +124,7 @@ public class JetrixUpdate
 
         int b = bis.read();
 
-        while (b!=-1)
+        while (b != -1)
         {
             fos.write(b);
             b = bis.read();
@@ -132,16 +147,16 @@ public class JetrixUpdate
         else
         {
             System.out.println(blank + "  [  OK  ]");
-            localFile.renameTo( new File(filename));
+            localFile.renameTo(new File(filename));
         }
     }
 
     /**
      * Return the CRC32 value of the specified file.
      */
-    public static long getFileCRC32(File f) throws IOException
+    private long getFileCRC32(File f) throws IOException
     {
-        if ( f.exists() && f.isFile() )
+        if (f.exists() && f.isFile())
         {
             FileInputStream fis = new FileInputStream(f);
 
@@ -149,7 +164,7 @@ public class JetrixUpdate
 
             int b = fis.read();
 
-            while(b != -1)
+            while (b != -1)
             {
                 b = fis.read();
                 check.update(b);
@@ -168,7 +183,7 @@ public class JetrixUpdate
     /**
      * Return the CRC32 value of the specified file.
      */
-    public static long getFileCRC32(String filename) throws IOException
+    private long getFileCRC32(String filename) throws IOException
     {
         File f = new File(filename);
         return getFileCRC32(f);
@@ -177,11 +192,11 @@ public class JetrixUpdate
     /**
      * Display the content of the news file.
      */
-    public static void displayNews() throws IOException
+    private void displayNews() throws IOException
     {
         System.out.println("\n");
 
-        BufferedReader br = new BufferedReader(new FileReader(newsFileName) );
+        BufferedReader br = new BufferedReader(new FileReader(newsFileName));
 
         String line = br.readLine();
 

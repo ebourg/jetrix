@@ -40,7 +40,7 @@ public class QueryClient extends TetrinetClient
 
     public void run()
     {
-        logger.fine("Client started " + this);
+        log.fine("Client started " + this);
 
         connectionTime = new Date();
 
@@ -67,7 +67,7 @@ public class QueryClient extends TetrinetClient
             try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
         }
 
-        logger.fine("Client disconnected (" + getInetAddress().getHostAddress() + ")");
+        log.fine("Client disconnected (" + getInetAddress().getHostAddress() + ")");
     }
 
     private void process(Message m)
@@ -168,11 +168,11 @@ public class QueryClient extends TetrinetClient
             out.write(rawMessage + QueryProtocol.EOL, 0, rawMessage.length() + 1);
             out.flush();
 
-            logger.finest("> " + rawMessage);
+            log.finest("> " + rawMessage);
         }
         catch (Exception e)
         {
-            logger.fine(e.getMessage());
+            log.fine(e.getMessage());
         }
     }
 

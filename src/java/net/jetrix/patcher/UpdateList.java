@@ -56,8 +56,6 @@ public class UpdateList
      * Recurse through directories and output files CRCs
      *
      * @param directory base directory
-     *
-     * @throws IOException
      */
     public static void browseDirectory(File directory) throws IOException
     {
@@ -71,7 +69,10 @@ public class UpdateList
             {
                 String name = f.toString().substring(path.toString().length() + 1);
 
-                if (!"update".equals(name) ) out.println(name + "\t" + getFileCRC32(f) + "\t" + f.length());
+                if (!"update".equals(name))
+                {
+                    out.println(name + "\t" + getFileCRC32(f) + "\t" + f.length());
+                }
             }
             else
             {
@@ -84,17 +85,15 @@ public class UpdateList
     /**
      * Compute CRC32 for the specified file.
      *
-     * @param f
+     * @param file
      *
      * @return CRC32
-     *
-     * @throws IOException
      */
-    static public long getFileCRC32(File f) throws IOException
+    public static long getFileCRC32(File file) throws IOException
     {
-        if (f.exists() && f.isFile())
+        if (file.exists() && file.isFile())
         {
-            FileInputStream fis = new FileInputStream(f);
+            FileInputStream fis = new FileInputStream(file);
 
             CRC32 check = new CRC32();
 

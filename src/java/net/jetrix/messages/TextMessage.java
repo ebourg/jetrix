@@ -20,6 +20,7 @@
 package net.jetrix.messages;
 
 import net.jetrix.*;
+
 import java.util.*;
 
 /**
@@ -68,9 +69,12 @@ public abstract class TextMessage extends ChannelMessage
         }
         else
         {
-            if (texts == null) { texts = new HashMap(); }
+            if (texts == null)
+            {
+                texts = new HashMap();
+            }
 
-            String s = (String)texts.get(locale);
+            String s = (String) texts.get(locale);
 
             if (s == null)
             {
@@ -114,16 +118,19 @@ public abstract class TextMessage extends ChannelMessage
         else
         {
             // use the caching on the (protocol, locale) combo
-            if (rawMessages == null) { rawMessages = new HashMap(); }
+            if (rawMessages == null)
+            {
+                rawMessages = new HashMap();
+            }
 
-            Map i18nMessages = (Map)rawMessages.get(protocol);
+            Map i18nMessages = (Map) rawMessages.get(protocol);
             if (i18nMessages == null)
             {
                 i18nMessages = new HashMap();
                 rawMessages.put(protocol, i18nMessages);
             }
 
-            String cachedMessage = (String)i18nMessages.get(locale);
+            String cachedMessage = (String) i18nMessages.get(locale);
             if (cachedMessage == null)
             {
                 cachedMessage = protocol.translate(this, locale);

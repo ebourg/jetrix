@@ -30,8 +30,8 @@ import net.jetrix.*;
  */
 public class PlayerSwitchMessage extends Message
 {
-    public int slot1;
-    public int slot2;
+    private int slot1;
+    private int slot2;
 
     public int getSlot1()
     {

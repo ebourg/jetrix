@@ -22,6 +22,7 @@ package net.jetrix.listeners;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+
 import net.jetrix.*;
 import net.jetrix.clients.*;
 import net.jetrix.messages.*;
@@ -83,10 +84,10 @@ public class TetrinetListener extends ClientListener
 
         TetrinetClient client = new TetrinetClient();
         User user = new User();
-        user.setName((String)tokens.get(1));
+        user.setName((String) tokens.get(1));
         client.setSocket(socket);
         client.setUser(user);
-        client.setVersion((String)tokens.get(2));
+        client.setVersion((String) tokens.get(2));
         if ((tokens.get(0)).equals("tetrisstart"))
         {
             client.setProtocol(protocolManager.getProtocol("net.jetrix.protocols.TetrinetProtocol"));
@@ -143,7 +144,7 @@ public class TetrinetListener extends ClientListener
 
         // tetrinet test
         char[] data = "tetrisstar".toCharArray();
-        int[]  hashString = new int[data.length];
+        int[] hashString = new int[data.length];
 
         for (int i = 0; i < data.length; i++)
         {
@@ -156,7 +157,10 @@ public class TetrinetListener extends ClientListener
         {
             for (int j = 0; j < data.length - hashLength; j++)
             {
-                if (hashString[j] != hashString[j + hashLength]) { hashLength--; }
+                if (hashString[j] != hashString[j + hashLength])
+                {
+                    hashLength--;
+                }
             }
         }
 
@@ -177,7 +181,10 @@ public class TetrinetListener extends ClientListener
             {
                 for (int j = 0; j < data.length - hashLength; j++)
                 {
-                    if (hashString[j] != hashString[j + hashLength]) { hashLength--; }
+                    if (hashString[j] != hashString[j + hashLength])
+                    {
+                        hashLength--;
+                    }
                 }
             }
         }
@@ -190,12 +197,12 @@ public class TetrinetListener extends ClientListener
 
         StringBuffer s = new StringBuffer();
 
-        for (int i = 1; i<dec.length; i++)
+        for (int i = 1; i < dec.length; i++)
         {
-            s.append( (char)(((dec[i] ^ hashString[(i - 1) % hashLength]) + 255 - dec[i - 1]) % 255) );
+            s.append((char) (((dec[i] ^ hashString[(i - 1) % hashLength]) + 255 - dec[i - 1]) % 255));
         }
 
-        return s.toString().replace((char)0, (char)255);
+        return s.toString().replace((char) 0, (char) 255);
     }
 
     public String readLine(Socket socket) throws IOException
@@ -212,7 +219,10 @@ public class TetrinetListener extends ClientListener
             }
         }
 
-        if (readChar == -1) throw new IOException("client disconnected");
+        if (readChar == -1)
+        {
+            throw new IOException("client disconnected");
+        }
 
         return input.toString();
     }
@@ -235,7 +245,7 @@ public class TetrinetListener extends ClientListener
     {
         for (int i = 0; i < array.length; i++)
         {
-            array[i] = (char)( array[i] ^ offset[i % offset.length] );
+            array[i] = (char) (array[i] ^ offset[i % offset.length]);
         }
 
         return array;
@@ -245,7 +255,7 @@ public class TetrinetListener extends ClientListener
     {
         for (int i = 0; i < array.length; i++)
         {
-            array[i] = (char)( (char)(array[i] + offset) % 256 );
+            array[i] = (char) ((char) (array[i] + offset) % 256);
         }
 
         return array;

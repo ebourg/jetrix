@@ -63,7 +63,7 @@ public abstract class ClientListener implements Listener
             // bind the listener to the host & port
             serverSocket = new ServerSocket(getPort(), 50, serverConfig.getHost());
             logger.info("Listening at " + getName() + " port " + getPort()
-                + ( (serverConfig.getHost() != null)?", bound to " + serverConfig.getHost():"") );
+                    + ((serverConfig.getHost() != null) ? ", bound to " + serverConfig.getHost() : ""));
         }
         catch (BindException e)
         {
@@ -103,7 +103,7 @@ public abstract class ClientListener implements Listener
                 // check if the server is full
                 ClientRepository repository = ClientRepository.getInstance();
                 if (repository.getClientCount() >= serverConfig.getMaxPlayers()
-                    && !(client instanceof QueryClient))
+                        && !(client instanceof QueryClient))
                 {
                     logger.info("Server full, client rejected (" + address + ").");
                     Message m = new NoConnectingMessage("Server is full!");
@@ -151,9 +151,9 @@ public abstract class ClientListener implements Listener
                     repository.addClient(client);
 
                     // send the message of the day
-                    BufferedReader motd = new BufferedReader(new StringReader( serverConfig.getMessageOfTheDay() ));
+                    BufferedReader motd = new BufferedReader(new StringReader(serverConfig.getMessageOfTheDay()));
                     String motdline;
-                    while( (motdline = motd.readLine() ) != null )
+                    while ((motdline = motd.readLine()) != null)
                     {
                         PlineMessage m = new PlineMessage();
                         m.setText("<gray>" + motdline);
@@ -172,7 +172,14 @@ public abstract class ClientListener implements Listener
             }
             catch (Exception e)
             {
-                try { if (socket != null) socket.close(); } catch (IOException ioe) { ioe.printStackTrace(); }
+                try
+                {
+                    if (socket != null) socket.close();
+                }
+                catch (IOException ioe)
+                {
+                    ioe.printStackTrace();
+                }
                 e.printStackTrace();
             }
         }
