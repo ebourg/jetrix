@@ -22,9 +22,14 @@ TODO
 - per channel commands
 - winlist management in the admin console
 - display the team winlist for players with a team, and the player winlist for those with no team
+- display the number of players & spectators online on logging onto the server
+- /points to display the score and the rank in the current winlist
+- tetris mode, do a tetris as fast as possible (single player). Show intermediate times vs the best player recorded
+- warn the players before a timeout
+- add the new players to the first non empty and non full channel
 
-Changes in version 0.1.4 (2004-??-??)
--------------------------------------
+Changes in version 0.2 (2004-12-??)
+-----------------------------------
 
 Player visible changes
 - new commands: /afk (away from keyboard), /ignore (ignore list), /mode (pre configured settings)
