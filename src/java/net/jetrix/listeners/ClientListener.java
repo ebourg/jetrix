@@ -80,10 +80,19 @@ public abstract class ClientListener implements Listener
             {
                 // waiting for connexions
                 socket = serverSocket.accept();
-                socket.setSoTimeout(3000);
+                socket.setSoTimeout(10000);
+                InetAddress address = socket.getInetAddress();
 
                 // log the connection
-                logger.info("Incoming client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
+                logger.info("Incoming client " + address.getHostAddress() + ":" + socket.getPort());
+
+                // test the ban list
+                if (Banlist.getInstance().isBanned(address))
+                {
+                    socket.close();
+                    logger.info("Banned host, client rejected (" + address + ")");
+                    continue;
+                }
 
                 Client client = getClient(socket);
                 User user = client.getUser();
@@ -94,7 +103,7 @@ public abstract class ClientListener implements Listener
                 if (repository.getClientCount() >= serverConfig.getMaxPlayers()
                     && !(client instanceof QueryClient))
                 {
-                    logger.info("Server full, client rejected (" + socket.getInetAddress().getHostAddress() + ").");
+                    logger.info("Server full, client rejected (" + address + ").");
                     Message m = new NoConnectingMessage("Server is full!");
                     client.sendMessage(m);
                     socket.close();
@@ -103,9 +112,9 @@ public abstract class ClientListener implements Listener
 
                 // test concurrent connections from the same host
                 int maxConnections = serverConfig.getMaxConnections();
-                if (maxConnections > 0 && repository.getHostCount(client.getInetAddress()) >= maxConnections)
+                if (maxConnections > 0 && repository.getHostCount(address) >= maxConnections)
                 {
-                    logger.info("Too many connections from host, client rejected (" + socket.getInetAddress().getHostAddress() + ").");
+                    logger.info("Too many connections from host, client rejected (" + address + ").");
                     Message m = new NoConnectingMessage("Too many connections from your host!");
                     client.sendMessage(m);
                     socket.close();
@@ -121,10 +130,7 @@ public abstract class ClientListener implements Listener
                     continue;
                 }
 
-                // testing ban list
-                // ....
-
-                logger.fine("Client accepted (" + socket.getInetAddress().getHostAddress() + ")");
+                logger.fine("Client accepted (" + address + ")");
                 socket.setSoTimeout(serverConfig.getTimeout() * 1000);
 
                 if (!(client instanceof QueryClient))
