@@ -50,8 +50,7 @@ public class ChannelManager
 
     public Channel createChannel(String name)
     {
-        Settings defaultSettings = Settings.getDefaultSettings();
-        ChannelConfig cc = new ChannelConfig(defaultSettings);
+        ChannelConfig cc = new ChannelConfig();
         cc.setName("jetrix");
         return createChannel(cc);
     }
