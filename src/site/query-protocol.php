@@ -37,7 +37,7 @@ nick         the name of the player
 team         the team name of the player
 version      the version of the client used, usually "1.13"
 slot         the slot used in the channel (1-6)
-state        the state of the player (0: nor playing, 1: playing, 2: lost)
+state        the state of the player (0: not playing, 1: playing, 2: lost)
 auth         the authentication level (1: normal, 2: channel operator, 3: operator)
 channel      the name of the channel
 </pre>
