@@ -66,6 +66,7 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallMethod("*/special-capacity", "setSpecialCapacity", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/classic-rules", "setClassicRules", 0, new Class[] {Boolean.TYPE});
         digester.addCallMethod("*/average-levels", "setAverageLevels", 0, new Class[] {Boolean.TYPE});
+        digester.addCallMethod("*/same-blocks", "setSameBlocks", 0, new Class[] {Boolean.TYPE});
         digester.addCallMethod("*/block-occurancy/leftl", "setLeftLOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/block-occurancy/leftz", "setLeftZOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/block-occurancy/square", "setSquareOccurancy", 0, new Class[] {Integer.TYPE});

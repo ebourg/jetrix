@@ -67,7 +67,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 <!ELEMENT default-settings (starting-level, lines-per-level, level-increase,
   lines-per-special, special-added, special-capacity, classic-rules,
-  average-levels, block-occurancy, special-occurancy)>
+  average-levels, same-blocks, block-occurancy, special-occurancy)>
 <!ELEMENT starting-level (#PCDATA)>
 <!ELEMENT lines-per-level (#PCDATA)>
 <!ELEMENT level-increase (#PCDATA)>
@@ -76,6 +76,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT special-capacity (#PCDATA)>
 <!ELEMENT classic-rules (#PCDATA)>
 <!ELEMENT average-levels (#PCDATA)>
+<!ELEMENT same-blocks (#PCDATA)>
 
 <!ELEMENT block-occurancy %Block;>
 <!ELEMENT leftl (#PCDATA)>
@@ -107,7 +108,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT max-spectators (#PCDATA)>
 <!ELEMENT settings (starting-level?, lines-per-level?, level-increase?,
   lines-per-special?, special-added?, special-capacity?, classic-rules?,
-  average-levels?, block-occurancy?, special-occurancy?)>
+  average-levels?, same-blocks?, block-occurancy?, special-occurancy?)>
 <!ELEMENT class (#PCDATA)>
 <!ELEMENT filters (filter)>
 

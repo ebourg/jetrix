@@ -58,7 +58,7 @@ public class ConfigCommand implements Command
         Locale locale = client.getUser().getLocale();
 
         Settings s = client.getChannel().getConfig().getSettings();
-        String configLines[] = new String[18];
+        String configLines[] = new String[19];
 
         configLines[0]  = "<darkBlue>" + "<b>" + Language.getText("command.config.blocks", locale) + "			" + Language.getText("command.config.specials", locale);
         configLines[1]  = "<darkBlue>" + Language.getText("command.config.blocks.leftl", locale)+"	: <purple>"+s.getBlockOccurancy(Settings.BLOCK_LEFTL)+"%</purple>		(<purple>A</purple>) "+Language.getText("command.config.specials.add_line", locale)+"	: "+"<purple>"+s.getSpecialOccurancy(Settings.SPECIAL_ADDLINE)+"%";
@@ -78,6 +78,7 @@ public class ConfigCommand implements Command
         configLines[15] = "<darkBlue>" + Language.getText("command.config.rules.special_capacity", locale) + "	: " + "<blue>" + s.getSpecialCapacity();
         configLines[16] = "<darkBlue>" + Language.getText("command.config.rules.classic_rules", locale) + "	: " + "<blue>" + (s.getClassicRules()?Language.getText("common.yes", locale):Language.getText("common.no", locale));
         configLines[17] = "<darkBlue>" + Language.getText("command.config.rules.average_levels", locale) + "	: " + "<blue>" + (s.getAverageLevels()?Language.getText("common.yes", locale):Language.getText("common.no", locale));
+        configLines[18] = "<darkBlue>" + Language.getText("command.config.rules.same_blocks", locale) + "	: " + "<blue>" + (s.getSameBlocks()?Language.getText("common.yes", locale):Language.getText("common.no", locale));
         //configLines[18] = "";
         //configLines[19] = "<darkBlue>" + "<b>" + "Filters" + "<b>" + "  (type <red>/filter</red> for details)";
         //configLines[20] = "<darkBlue>" + "start, flood, amplifier";

@@ -164,6 +164,13 @@
             <label><input type="radio" value="false" name="classicRules"> No</label>
           </td>
         </tr>
+        <tr>
+          <td>Same Blocks</td>
+          <td align="center">
+            <label><input type="radio" value="true"  name="sameBlocks"> Yes</label>
+            <label><input type="radio" value="false" name="sameBlocks"> No</label>
+          </td>
+        </tr>
       </table>
 
 
