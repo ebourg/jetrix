@@ -282,6 +282,7 @@ public class TetrinetProtocol implements Protocol
         else if (m instanceof SpectatorListMessage) { return translate((SpectatorListMessage) m, locale); }
         else if (m instanceof SmsgMessage)          { return translate((SmsgMessage) m, locale); }
         else if (m instanceof WinlistMessage)       { return translate((WinlistMessage) m, locale); }
+        else if (m instanceof NoopMessage)          { return translate((NoopMessage) m); }
         else
         {
             return null;
@@ -694,6 +695,11 @@ public class TetrinetProtocol implements Protocol
             message.append(score.getScore());
         }
         return message.toString();
+    }
+
+    public String translate(NoopMessage m)
+    {
+        return "";
     }
 
     /**
