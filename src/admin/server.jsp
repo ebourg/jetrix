@@ -30,15 +30,18 @@
 
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">General</h2>
-    
-    <table class="thin">
+
+    <form id="general" action="/servlet/net.jetrix.servlets.ServerAction">
+    <input type="hidden" name="action" value="general">
+
+    <table class="thin" style="width: 600px">
       <tr>
-        <td>Version</td>
-        <td><%= ServerConfig.VERSION %></td>
+        <td width="20%">Version</td>
+        <td width="80%"><%= ServerConfig.VERSION %></td>
       </tr>
       <tr>
         <td>Host</td>
-        <td><input class="thin" type="text" value="<%= conf.getHost() %>"></td>
+        <td><input class="thin" type="text" value="<%= conf.getHost() != null ? conf.getHost().toString() : "*" %>"></td>
       </tr>
       <tr>
         <td>Port</td>
@@ -46,30 +49,51 @@
       </tr>
       <tr>
         <td>Max Players</td>
-        <td><input class="thin" type="text" value="<%= conf.getMaxPlayers() %>"></td>
+        <td><input class="thin" type="text" name="maxPlayers" value="<%= conf.getMaxPlayers() %>"></td>
       </tr>
       <tr>
         <td>Max Connections</td>
-        <td><input class="thin" type="text" value="<%= conf.getMaxConnections() %>"></td>
+        <td><input class="thin" type="text" name="maxConnections" value="<%= conf.getMaxConnections() %>"></td>
       </tr>
       <tr>
         <td>Operator Password</td>
-        <td><input class="thin" type="text" value="<%= conf.getOpPassword() %>"></td>
+        <td><input class="thin" type="text" name="opPassword" value="<%= conf.getOpPassword() != null ? conf.getOpPassword() : "" %>"></td>
       </tr>
       <tr>
         <td>Locale</td>
-        <td><input class="thin" type="text" value="<%= conf.getLocale() %>"></td>
+        <td>
+<%  Iterator locales = Language.getLocales().iterator(); %>
+          <select class="thin" name="locale">
+<%  while (locales.hasNext()) {
+        Locale locale = (Locale) locales.next(); %>
+            <option value="<%= locale.getLanguage() %>" <%= conf.getLocale().equals(locale) ? "selected" : "" %>>
+              <%= locale.getLanguage().toUpperCase() %> - <%= locale.getDisplayLanguage() %>
+            </option>
+<%  } %>
+          </select>
+        </td>
       </tr>
+        <tr>
+          <td>Status</td>
+          <td>
+            <label><input type="radio" value="opened" name="status"> Opened</label>
+            <label><input type="radio" value="closed" name="status"> Closed</label>
+          </td>
+        </tr>
       <tr>
         <td valign="top">Message of the day</td>
-        <td><textarea class="thin" style="width: 500px; height: 150px"><%= conf.getMessageOfTheDay() %></textarea></td>
+        <td><textarea class="thin" name="motd" cols="20" rows="5" style="width: 100%"><%= conf.getMessageOfTheDay() %></textarea></td>
       </tr>
     </table>
-    
-    <br>
-    
 
-    start/stop, open/closed
+    <br>
+
+    <input type="submit" value="Save Changes">
+    <input type="button" value="Shutdown">
+
+    </form>
+
+    <br>
 
   </div>
   <div class="tab-page" style="height: 400px">
@@ -194,7 +218,7 @@
 <%  while (banlist.hasNext()) {
         Banlist.Entry entry = (Banlist.Entry) banlist.next(); %>
       <tr>
-        <td><%= entry.pattern %></td>
+        <td><%= entry.pattern.pattern() %></td>
         <td><%= entry.expiration != null ? entry.expiration.toString() : "" %></td>
         <td width="50" align="center">Host</td>
         <td width="50"><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
@@ -236,9 +260,9 @@
       </tr>
 <%  } %>
     </table>
-    
+
     <br>
-    
+
     <input type="button" value="Add">
 
   </div>
@@ -248,7 +272,15 @@
     <table class="thin" style="width: 400px">
       <tr>
         <td width="30%">Uptime</td>
-        <td></td>
+        <td>
+<%
+    // todo store the start time somewhere
+    long startTime = System.currentTimeMillis();
+    long elaspsed = System.currentTimeMillis() - startTime;
+    long days = elaspsed / 24 * 3600 * 1000;
+%>
+          <%= days %> day<%= days > 1 ? "s" : "" %>
+        </td>
       </tr>
       <tr>
         <td>Number of Connections</td>
@@ -259,8 +291,8 @@
         <td>1234</td>
       </tr>
     </table>
-        
-  </div>  
+
+  </div>
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">System</h2>
 
@@ -318,10 +350,13 @@
         <td><%= df.format(runtime.freeMemory()/1024d/1024d) %> Mb</td>
       </tr>
     </table>
-    
+
     <br>
-    
-    <input type="button" value="Run the Garbage Collector">
+
+    <form id="gc" action="/servlet/net.jetrix.servlets.ServerAction">
+      <input type="hidden" name="action" value="gc">
+      <input type="submit" value="Run the Garbage Collector">
+    </form>
 
   </div>
 </div>
