@@ -183,6 +183,8 @@ http://jetrix.sourceforge.net/
     <command class="org.lfjr.jts.commands.MotdCommand"/>
     <command class="org.lfjr.jts.commands.MoveCommand"/>
     <command class="org.lfjr.jts.commands.OperatorCommand"/>
+    <command class="org.lfjr.jts.commands.SummonCommand"/>
+    <command class="org.lfjr.jts.commands.TeleportCommand"/>
     <command class="org.lfjr.jts.commands.TellCommand"/>
     <command class="org.lfjr.jts.commands.TimeCommand"/>
     <command class="org.lfjr.jts.commands.VersionCommand"/>
