@@ -23,6 +23,8 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 import java.util.logging.*;
+import java.net.URL;
+import java.net.HttpURLConnection;
 
 import net.jetrix.clients.*;
 import net.jetrix.commands.*;
@@ -136,9 +138,6 @@ public class Server implements Runnable, Destination
             menu.showIcon();
         }
 
-        // @todo check the availability of a new release
-        // ....
-
         // spawning persistent channels
         channelManager = ChannelManager.getInstance();
         channelManager.clear();
@@ -172,6 +171,13 @@ public class Server implements Runnable, Destination
                 log.info("Starting service " + service.getName());
                 service.start();
             }
+        }
+
+        // check the availability of a new release
+        String latestVersion = getLatestVersion();
+        if (latestVersion != null && ServerConfig.VERSION.compareTo(latestVersion) < 0)
+        {
+            log.warning("A new version is available (" + latestVersion + "), download it on http://jetrix.sf.net now!");
         }
 
         // start the server console
@@ -240,6 +246,42 @@ public class Server implements Runnable, Destination
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Return the version of the latest release. The version of the last stable
+     * release is stored on the Jetrix site (http://jetrix.sf.net/version.php),
+     * this file is build dynamically everyday and reuse the version specified
+     * in the project.properties file.
+     */
+    private String getLatestVersion()
+    {
+        String version = null;
+
+        try
+        {
+            URL url = new URL("http://jetrix.sourceforge.net/version.php");
+
+            HttpURLConnection conn = null;
+            try
+            {
+                conn = (HttpURLConnection) url.openConnection();
+
+                // read the first line of the file
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                version = in.readLine();
+            }
+            finally
+            {
+                conn.disconnect();
+            }
+        }
+        catch (IOException e)
+        {
+            // too bad...
+        }
+
+        return version;
     }
 
     /**
