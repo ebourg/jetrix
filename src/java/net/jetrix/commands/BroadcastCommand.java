@@ -73,8 +73,9 @@ public class BroadcastCommand implements Command
         else
         {
             // not enough parameters
+            Locale locale = client.getUser().getLocale();
             PlineMessage response = new PlineMessage();
-            String message = "<red>" + m.getCommand() + "<blue> <message>";
+            String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.message", locale) + ">";
             response.setText(message);
             client.sendMessage(response);
         }
