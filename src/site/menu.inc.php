@@ -1,6 +1,6 @@
 
       <div class="menu">
-        <h1>About JetriX</h1>
+        <h1>About Jetrix</h1>
         <ul>
           <li><a href="index.php">News</a></li>
           <li><a href="features.php">Features</a></li>
@@ -13,6 +13,7 @@
         <ul>
           <li><a href="http://sourceforge.net/project/showfiles.php?group_id=52188">Binaries</a></li>
           <li><a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/jetrix/">Source Code</a></li>
+          <li><a href="http://tetrinet.fr/jetrix/nightly/jetrix-@version@.tar.bz2">Nightly Build</a></li>
         </ul>
 
         <h1>Documentation</h1>
