@@ -89,6 +89,13 @@ public interface Client extends Runnable, Destination
     Date getConnectionTime();
 
     /**
+     * Return the time in miliseconds of inactivity.
+     *
+     * @since 0.1.4
+     */
+    long getIdleTime();
+
+    /**
      * Send a message to the client. The raw message property must be set.
      *
      * @param message the message to send

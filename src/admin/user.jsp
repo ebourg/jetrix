@@ -89,11 +89,15 @@
         <td><%= client.getConnectionTime() %></td>
       </tr>
       <tr>
+        <td>Idle Time</td>
+        <td><%= client.getIdleTime() / 1000 %> second<%= client.getIdleTime() > 2000 ? "s" : "" %></td>
+      </tr>
+      <tr>
         <td>Games Played</td>
         <td>1234</td>
       </tr>
     </table>
-  
+
   </div>
 </div>
 

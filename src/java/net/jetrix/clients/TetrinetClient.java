@@ -44,6 +44,7 @@ public class TetrinetClient implements Client
     private Channel channel;
     private User user;
     protected Date connectionTime;
+    protected long lastMessageTime;
     protected boolean disconnected;
 
     protected Reader in;
@@ -197,6 +198,7 @@ public class TetrinetClient implements Client
     {
         // read raw message from socket
         String line = readLine();
+        lastMessageTime = System.currentTimeMillis();
         log.finer("RECV: " + line);
 
         // build server message
@@ -312,6 +314,11 @@ public class TetrinetClient implements Client
     public Date getConnectionTime()
     {
         return connectionTime;
+    }
+
+    public long getIdleTime()
+    {
+        return System.currentTimeMillis() - lastMessageTime;
     }
 
     public void disconnect()

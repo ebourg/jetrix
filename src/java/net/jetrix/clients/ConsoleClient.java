@@ -148,6 +148,11 @@ public class ConsoleClient implements Client
         return null;
     }
 
+    public long getIdleTime()
+    {
+        return 0;
+    }
+
     public void disconnect()
     {
     }
