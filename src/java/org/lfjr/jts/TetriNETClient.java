@@ -40,7 +40,7 @@ class TetriNETClient extends Thread
 
     private String clientVersion;
 
-    private int slot;
+    //private int slot;
 
     private Channel channel;
     private TetriNETServer server;
@@ -131,6 +131,7 @@ class TetriNETClient extends Thread
                 {
                     m.setType(Message.TYPE_CHANNEL);
                     m.setCode("1".equals(st.nextToken())?Message.MSG_STARTGAME:Message.MSG_ENDGAME);
+                    if (Message.MSG_ENDGAME == m.getCode()) m.setRawMessage("endgame");
 
                     Integer slot = new Integer(st.nextToken());
                     Object[] params = { slot };
@@ -205,7 +206,7 @@ class TetriNETClient extends Thread
         {
             Message m = new Message();
             m.setCode(Message.MSG_DISCONNECTED);
-            Object[] params = { new Integer(slot) };
+            Object[] params = { this };
             channel.addMessage(m);
         }
         finally
@@ -275,7 +276,7 @@ class TetriNETClient extends Thread
     {
     	clientVersion = v;
     }
-
+/*
     public void setSlot(int s)
     {
     	slot = s;
@@ -285,7 +286,7 @@ class TetriNETClient extends Thread
     {
     	return slot;
     }
-
+*/
     public void disconnect()
     {
         running = false;
