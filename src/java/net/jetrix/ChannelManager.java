@@ -65,6 +65,7 @@ public class ChannelManager
     public Channel createChannel(ChannelConfig config, boolean start)
     {
         Channel channel = new Channel(config);
+        channel.setName("channel: " + config.getName());
         if (start)
         {
             channel.start();

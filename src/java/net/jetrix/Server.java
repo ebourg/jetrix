@@ -180,7 +180,7 @@ public class Server implements Runnable, Destination
      */
     public void start()
     {
-        Thread server = new Thread(this);
+        Thread server = new Thread(this, "server");
         server.start();
     }
 

@@ -181,7 +181,7 @@ public abstract class ClientListener extends AbstractService implements Listener
                 }
 
                 // start the client
-                (new Thread(client)).start();
+                (new Thread(client, "client: " + client.getUser().getName())).start();
             }
             catch (Exception e)
             {
@@ -213,7 +213,7 @@ public abstract class ClientListener extends AbstractService implements Listener
      */
     public void start()
     {
-        (new Thread(this)).start();
+        (new Thread(this, "listener: " + getName())).start();
     }
 
     /**

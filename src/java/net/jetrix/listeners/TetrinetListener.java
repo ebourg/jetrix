@@ -61,7 +61,7 @@ public class TetrinetListener extends ClientListener
             QueryClient client = new QueryClient();
             client.setProtocol(protocol);
             client.setSocket(socket);
-            client.setUser(new User());
+            client.setUser(new User("query"));
             client.setFirstMessage(message);
             return client;
         }
