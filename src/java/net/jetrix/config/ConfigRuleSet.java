@@ -41,7 +41,7 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("tetrinet-server/max-connexions", "setMaxConnexions", 0, new Class[] {Integer.TYPE});
+        digester.addCallMethod("tetrinet-server/max-connections", "setMaxConnections", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("tetrinet-server/op-password", "setOpPassword", 0);
         digester.addCallMethod("tetrinet-server/motd", "setMessageOfTheDay", 0);
         digester.addCallMethod("tetrinet-server/access-log", "setAccessLogPath", 1);

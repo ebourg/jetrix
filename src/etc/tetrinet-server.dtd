@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ENTITY % Ban "(host | nick | team)*">
 
 <!ELEMENT tetrinet-server (name?, language?, timeout?, max-channels?,
-  max-players?, max-connexions?, op-password, access-log, error-log, motd,
+  max-players?, max-connections?, op-password, access-log, error-log, motd,
   filter-definitions?, default-filters?, default-settings, channels, commands, ban?)>
 <!ATTLIST tetrinet-server host CDATA #IMPLIED>
 <!ATTLIST tetrinet-server port CDATA #IMPLIED>
@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT timeout (#PCDATA)>
 <!ELEMENT max-channels (#PCDATA)>
 <!ELEMENT max-players (#PCDATA)>
-<!ELEMENT max-connexions (#PCDATA)>
+<!ELEMENT max-connections (#PCDATA)>
 <!ELEMENT op-password (#PCDATA)>
 
 <!ELEMENT access-log EMPTY>

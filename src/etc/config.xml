@@ -16,8 +16,8 @@
   <!-- Maximum number or players on server -->
   <max-players>50</max-players>
 
-  <!-- Maximum number of simultaneous connexions allowed from the same IP -->
-  <max-connexions>2</max-connexions>
+  <!-- Maximum number of simultaneous connections allowed from the same IP -->
+  <max-connections>2</max-connections>
 
   <!-- Typing /op <thispassword> will give player op status -->
   <op-password>jetrixpass</op-password>

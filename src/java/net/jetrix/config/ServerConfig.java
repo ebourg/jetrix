@@ -41,7 +41,7 @@ public class ServerConfig
     private int timeout;
     private int maxChannels;
     private int maxPlayers;
-    private int maxConnexions;
+    private int maxConnections;
     private String oppass;
     private String accesslogPath;
     private String errorlogPath;
@@ -175,14 +175,14 @@ public class ServerConfig
         this.maxPlayers = maxPlayers;
     }
 
-    public int getMaxConnexions()
+    public int getMaxConnections()
     {
-        return maxConnexions;
+        return maxConnections;
     }
 
-    public void setMaxConnexions(int maxConnexions)
+    public void setMaxConnections(int maxConnections)
     {
-        this.maxConnexions = maxConnexions;
+        this.maxConnections = maxConnections;
     }
 
     public String getOpPassword()
