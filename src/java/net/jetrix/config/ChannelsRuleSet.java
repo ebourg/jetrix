@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,38 +19,23 @@
 
 package net.jetrix.config;
 
-import org.apache.commons.digester.*;
+import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.RuleSetBase;
 
 /**
- * RuleSet for processing the content of a jetrix configuration file.
+ * RuleSet for processing the content of a channel configuration file.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ConfigRuleSet extends RuleSetBase
+public class ChannelsRuleSet extends RuleSetBase
 {
 
     public void addRuleInstances(Digester digester)
     {
-        // server parameters
-        digester.addCallMethod("tetrinet-server/name", "setName", 0);
-        digester.addCallMethod("tetrinet-server", "setHost", 1);
-        digester.addCallParam("tetrinet-server", 0, "host");
-        digester.addCallMethod("tetrinet-server/language", "setLocale", 0);
-        digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("tetrinet-server/max-connections", "setMaxConnections", 0, new Class[] {Integer.TYPE});
-        digester.addCallMethod("tetrinet-server/op-password", "setOpPassword", 0);
-        digester.addCallMethod("tetrinet-server/motd", "setMessageOfTheDay", 0);
-        digester.addCallMethod("tetrinet-server/access-log", "setAccessLogPath", 1);
-        digester.addCallParam("tetrinet-server/access-log", 0, "path");
-        digester.addCallMethod("tetrinet-server/error-log", "setErrorLogPath", 1);
-        digester.addCallParam("tetrinet-server/error-log", 0, "path");
-
         // default game settings
-        digester.addObjectCreate("tetrinet-server/default-settings", "net.jetrix.config.Settings");
-        digester.addSetNext("tetrinet-server/default-settings", "setDefaultSettings", "net.jetrix.config.Settings");
+        digester.addObjectCreate("tetrinet-channels/default-settings", "net.jetrix.config.Settings");
+        digester.addSetNext("tetrinet-channels/default-settings", "setDefaultSettings", "net.jetrix.config.Settings");
 
         // channel settings
         digester.addObjectCreate("*/channel/settings", "net.jetrix.config.Settings");
@@ -84,6 +69,10 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallMethod("*/special-occurancy/quakefield", "setQuakeFieldOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/special-occurancy/blockbomb", "setBlockBombOccurancy", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, (Class[]) null);
+        digester.addCallMethod("*/sudden-death/time", "setSuddenDeathTime", 0, new Class[] { Integer.TYPE });
+        digester.addCallMethod("*/sudden-death/message", "setSuddenDeathMessage", 0);
+        digester.addCallMethod("*/sudden-death/delay", "setSuddenDeathDelay", 0, new Class[] { Integer.TYPE });
+        digester.addCallMethod("*/sudden-death/lines-added", "setSuddenDeathLinesAdded", 0, new Class[] { Integer.TYPE });
 
         // channel configuration
         digester.addObjectCreate("*/channel", "net.jetrix.config.ChannelConfig");
@@ -111,43 +100,20 @@ public class ConfigRuleSet extends RuleSetBase
         digester.addCallParam("*/filter/param", 1, "value");
 
         // filter definitions
-        digester.addCallMethod("tetrinet-server/filter-definitions/alias", "addFilterAlias", 2);
-        digester.addCallParam("tetrinet-server/filter-definitions/alias", 0, "name");
-        digester.addCallParam("tetrinet-server/filter-definitions/alias", 1, "class");
+        digester.addCallMethod("tetrinet-channels/filter-definitions/alias", "addFilterAlias", 2);
+        digester.addCallParam("tetrinet-channels/filter-definitions/alias", 0, "name");
+        digester.addCallParam("tetrinet-channels/filter-definitions/alias", 1, "class");
 
         // winlists
-        digester.addObjectCreate("tetrinet-server/winlists/winlist", "net.jetrix.config.WinlistConfig");
-        digester.addSetNext("tetrinet-server/winlists/winlist", "addWinlist", "net.jetrix.config.WinlistConfig");
-        digester.addCallMethod("tetrinet-server/winlists/winlist", "setName", 1);
-        digester.addCallParam("tetrinet-server/winlists/winlist", 0, "name");
-        digester.addCallMethod("tetrinet-server/winlists/winlist", "setClassname", 1);
-        digester.addCallParam("tetrinet-server/winlists/winlist", 0, "class");
-        digester.addCallMethod("tetrinet-server/winlists/winlist/param", "setParameter", 2);
-        digester.addCallParam("tetrinet-server/winlists/winlist/param", 0, "name");
-        digester.addCallParam("tetrinet-server/winlists/winlist/param", 1, "value");
-
-        // command definitions
-        digester.addObjectCreate("*/command", null, "class");
-        digester.addSetNext("*/command", "addCommand", "net.jetrix.commands.Command");
-        digester.addCallMethod("*/filter/access-level", "setAccessLevel", 0,  new Class[] {Integer.TYPE});
-        
-        // listeners
-        digester.addObjectCreate("*/listener", null, "class");
-        digester.addSetProperties("*/listener");
-        digester.addCallMethod("*/listener", "setAutoStart", 1, new Class[] {Boolean.TYPE});
-        digester.addCallParam("*/listener", 0, "auto-start");
-        digester.addSetNext("*/listener", "addListener", "net.jetrix.Listener");
-
-        // services
-        digester.addObjectCreate("*/service", null, "class");
-        digester.addSetProperties("*/service");
-        digester.addCallMethod("*/service", "setAutoStart", 1, new Class[] {Boolean.TYPE});
-        digester.addCallParam("*/service", 0, "auto-start");
-        digester.addSetProperty("*/service/param", "name", "value");
-        digester.addSetNext("*/service", "addService", "net.jetrix.Service");
-
-        // banlist
-        digester.addCallMethod("tetrinet-server/ban/host", "addBannedHost", 0);
+        digester.addObjectCreate("tetrinet-channels/winlists/winlist", "net.jetrix.config.WinlistConfig");
+        digester.addSetNext("tetrinet-channels/winlists/winlist", "addWinlist", "net.jetrix.config.WinlistConfig");
+        digester.addCallMethod("tetrinet-channels/winlists/winlist", "setName", 1);
+        digester.addCallParam("tetrinet-channels/winlists/winlist", 0, "name");
+        digester.addCallMethod("tetrinet-channels/winlists/winlist", "setClassname", 1);
+        digester.addCallParam("tetrinet-channels/winlists/winlist", 0, "class");
+        digester.addCallMethod("tetrinet-channels/winlists/winlist/param", "setParameter", 2);
+        digester.addCallParam("tetrinet-channels/winlists/winlist/param", 0, "name");
+        digester.addCallParam("tetrinet-channels/winlists/winlist/param", 1, "value");
     }
 
 }

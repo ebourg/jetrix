@@ -41,6 +41,8 @@ import net.jetrix.commands.*;
  */
 public class ServerConfig
 {
+    public static final String ENCODING = "ISO-8859-1";
+
     private String name;
     private InetAddress host;
     private int timeout;
@@ -80,33 +82,67 @@ public class ServerConfig
     }
 
     /**
-     * Load the default configuration file <tt>config.xml</tt>.
+     * Load the configuration.
      */
     public void load()
-    {
-        load("config.xml");
-    }
-
-    /**
-     * Load the content of the specified configuration file in this object.
-     */
-    public void load(String filename)
     {
         try
         {
             Digester digester = new Digester();
-            // register the JetriX configuration file DTD
-            URL url = ServerConfig.class.getClassLoader().getResource("tetrinet-server.dtd");
+
+            // register the Jetrix server configuration file DTD
+            URL url = findResource("tetrinet-server.dtd");
             digester.register("-//LFJR//Jetrix TetriNET Server//EN", url.toString());
+
+            // register the Jetrix channels configuration file DTD
+            url = findResource("tetrinet-channels.dtd");
+            digester.register("-//LFJR//Jetrix Channels//EN", url.toString());
+
+            // enable the document validation
             digester.setValidating(true);
-            digester.addRuleSet(new ConfigRuleSet());
+
+            // add the rule sets
+            digester.addRuleSet(new ServerRuleSet());
+            digester.addRuleSet(new ChannelsRuleSet());
+
+            // parse the server configuration
             digester.push(this);
-            digester.parse(new InputSource(new InputStreamReader(new FileInputStream(filename), "ISO-8859-1")));
+            Reader reader = new InputStreamReader(findResource("server.xml").openStream(), ENCODING);
+            digester.parse(new InputSource(reader));
+            reader.close();
+
+            // parse the channel configuration
+            digester.push(this);
+            reader = new InputStreamReader(findResource("channels.xml").openStream(), ENCODING);
+            digester.parse(new InputSource(reader));
+            reader.close();
         }
         catch (Exception e)
         {
             log.log(Level.SEVERE, e.getMessage(), e);
         }
+    }
+
+    /**
+     * Locate the specified resource by searching in the classpath and in
+     * the current directory.
+     *
+     * @param name the name of the resource
+     * @return the URL of the resource, or null if it cannot be found
+     * @since 0.1.4
+     */
+    private URL findResource(String name) throws MalformedURLException
+    {
+        ClassLoader loader = ServerConfig.class.getClassLoader();
+        URL url = loader.getResource(name);
+
+        if (url == null)
+        {
+            File file = new File(name);
+            url = file.toURL();
+        }
+
+        return url;
     }
 
     public String getName()

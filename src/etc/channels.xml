@@ -1,32 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE tetrinet-server PUBLIC "-//LFJR//Jetrix TetriNET Server//EN" "http://jetrix.sourceforge.net/dtd/tetrinet-server.dtd">
+<!DOCTYPE tetrinet-channels PUBLIC "-//LFJR//Jetrix Channels//EN" "http://jetrix.sourceforge.net/dtd/tetrinet-channels.dtd">
 
-<tetrinet-server host="[ALL]">
-  <name>JetriX TetriNET Server</name>
-
-  <!-- Server default language (using an ISO-639 two-letter language code) -->
-  <language>en</language>
-
-  <!-- How many seconds of no activity before timeout occurs -->
-  <timeout>1000</timeout>
-
-  <!-- How many channels should be available on server -->
-  <max-channels>8</max-channels>
-
-  <!-- Maximum number or players on server -->
-  <max-players>50</max-players>
-
-  <!-- Maximum number of simultaneous connections allowed from the same IP -->
-  <max-connections>3</max-connections>
-
-  <!-- Typing /op <thispassword> will give player op status -->
-  <op-password>jetrixpass</op-password>
-
-  <!-- Access Log, where requests are logged to -->
-  <access-log path="log/access%g.log" />
-
-  <!-- Error Log, where errors are logged to -->
-  <error-log  path="log/error%g.log" />
+<tetrinet-channels>
 
   <!-- Message Of The Day -->
   <motd><![CDATA[
@@ -119,6 +94,13 @@ Welcome on <b>JetriX TetriNET Server</b>!
       <quakefield>7</quakefield>
       <blockbomb>11</blockbomb>
     </special-occurancy>
+
+    <sudden-death>
+      <time>300</time>
+      <message>Hurry Up! SUDDEN DEATH enabled!</message>
+      <delay>5</delay>
+      <lines-added>1</lines-added>
+    </sudden-death>
 
   </default-settings>
 
@@ -224,74 +206,4 @@ your opponents. Good luck!
 
   </channels>
 
-  <!-- Server commands -->
-  <commands>
-    <command class="net.jetrix.commands.AwayCommand"/>
-    <command class="net.jetrix.commands.BroadcastCommand"/>
-    <command class="net.jetrix.commands.ConfigCommand"/>
-    <command class="net.jetrix.commands.EmoteCommand"/>
-    <command class="net.jetrix.commands.GotoCommand"/>
-    <command class="net.jetrix.commands.HelpCommand"/>
-    <command class="net.jetrix.commands.IgnoreCommand"/>
-    <command class="net.jetrix.commands.IpCommand"/>
-    <command class="net.jetrix.commands.JoinCommand"/>
-    <command class="net.jetrix.commands.KickCommand"/>
-    <command class="net.jetrix.commands.LanguageCommand"/>
-    <command class="net.jetrix.commands.ListCommand"/>
-    <command class="net.jetrix.commands.MotdCommand"/>
-    <command class="net.jetrix.commands.MoveCommand"/>
-    <command class="net.jetrix.commands.OperatorCommand"/>
-    <command class="net.jetrix.commands.PauseCommand"/>
-    <command class="net.jetrix.commands.PetitionCommand"/>
-    <command class="net.jetrix.commands.PingCommand"/>
-    <command class="net.jetrix.commands.RandomCommand"/>
-    <command class="net.jetrix.commands.ReplyCommand"/>
-    <command class="net.jetrix.commands.SpecListCommand"/>
-    <command class="net.jetrix.commands.StartCommand"/>
-    <command class="net.jetrix.commands.StopCommand"/>
-    <command class="net.jetrix.commands.SummonCommand"/>
-    <command class="net.jetrix.commands.TeamMessageCommand"/>
-    <command class="net.jetrix.commands.TeleportCommand"/>
-    <command class="net.jetrix.commands.TellCommand"/>
-    <command class="net.jetrix.commands.TimeCommand"/>
-    <command class="net.jetrix.commands.VersionCommand"/>
-    <command class="net.jetrix.commands.WhoCommand"/>
-  </commands>
-
-  <!-- Client listeners -->
-  <listeners>
-    <listener class="net.jetrix.listeners.TetrinetListener"/>
-    <listener class="net.jetrix.listeners.TSpecListener"/>
-    <listener class="net.jetrix.listeners.IRCListener" port="31456"/>
-    <listener class="net.jetrix.listeners.HttpListener" port="8080"/>
-  </listeners>
-
-  <!-- Services -->
-  <services>
-    <service class="net.jetrix.services.PublishingService">
-      <!--<param name="host" value="tetrinet.yourhostname.net"/>-->
-    </service>
-    <service class="net.jetrix.services.HappyNewYearService"/>
-  </services>
-
-  <ban>
-    <!-- Cheating from host 1cust007.tnt2.billgates.da.uu.net -->
-    <host>*.tnt*.billgates.da.uu.net</host>
-
-    <!-- Flooding from 192.168.33.200. Ban all C class IP block -->
-    <host>192.168.33.*</host>
-
-    <!-- Ban all hostname contain the word foobar -->
-    <host>*foobar*</host>
-
-    <!-- Ban IP block from 192.168.10.0 to 192.168.19.255 -->
-    <host>192.168.1?.*</host>
-
-    <!-- Ban nickname -->
-    <nick>billgates</nick>
-
-    <!-- Ban team -->
-    <team>Flying Cucumbers</team>
-  </ban>
-
-</tetrinet-server>
+</tetrinet-channels>

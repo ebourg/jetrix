@@ -90,6 +90,7 @@
       <fileset dir="${build}/classes"/>
       <fileset dir="${src}/etc">
         <include name="tetrinet-server.dtd"/>
+        <include name="tetrinet-channels.dtd"/>
       </fileset>
       <fileset dir="${src}/etc/icons">
         <include name="jetrix.ico"/>
@@ -124,7 +125,8 @@
         <include name="news.txt" />
         <include name="LICENSE" />
         <include name="README" />
-        <include name="config.xml" />
+        <include name="server.xml" />
+        <include name="channels.xml" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/" dir="${build}/bin/">
         <include name="jetrix.bat" />
@@ -161,7 +163,8 @@
         <include name="news.txt" />
         <include name="LICENSE" />
         <include name="README" />
-        <include name="config.xml" />
+        <include name="server.xml" />
+        <include name="channels.xml" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/" dir="${build}/bin/">
         <include name="jetrix.bat" />

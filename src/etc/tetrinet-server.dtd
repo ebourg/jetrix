@@ -1,6 +1,6 @@
 <!--
 Jetrix TetriNET Server
-Copyright (C) 2001-2002  Emmanuel Bourg
+Copyright (C) 2001-2004  Emmanuel Bourg
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,18 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 
-<!-- JetriX configuration DTD ($Revision$, $Date$) -->
+<!-- Jetrix Server Configuration DTD ($Revision$, $Date$) -->
 
-<!ENTITY % Block "(leftl | leftz | square | rightl | rightz | halfcross
-  | line)*">
-<!ENTITY % Special "(addline | clearline | nukefield | randomclear
-  | switchfield | clearspecial | gravity | quakefield | blockbomb)*">
 <!ENTITY % Ban "(host | nick | team)*">
 
 <!ELEMENT tetrinet-server (name?, language?, timeout?, max-channels?,
-  max-players?, max-connections?, op-password, access-log, error-log, motd,
-  filter-definitions?, default-filters?, winlists?, default-settings, channels,
-  commands, listeners, services?, ban?)>
+  max-players?, max-connections?, op-password, access-log, error-log,
+  listeners, services?, commands, ban?)>
 <!ATTLIST tetrinet-server host CDATA #IMPLIED>
 
 <!ELEMENT name (#PCDATA)>
@@ -44,73 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 <!ELEMENT error-log EMPTY>
 <!ATTLIST error-log path CDATA #REQUIRED>
-
-<!ELEMENT motd (#PCDATA)>
-
-<!ELEMENT filter-definitions (alias*)>
-<!ELEMENT alias EMPTY>
-<!ATTLIST alias name CDATA #REQUIRED>
-<!ATTLIST alias class CDATA #REQUIRED>
-
-<!ELEMENT default-filters (filter*)>
-<!ELEMENT filter (param*)>
-<!ATTLIST filter name CDATA #REQUIRED>
-<!ELEMENT param EMPTY>
-<!ATTLIST param name CDATA #REQUIRED>
-<!ATTLIST param value CDATA #REQUIRED>
-
-<!ELEMENT winlists (winlist*)>
-<!ELEMENT winlist (param*)>
-<!ATTLIST winlist name CDATA #REQUIRED>
-<!ATTLIST winlist class CDATA #IMPLIED>
-
-<!ELEMENT default-settings (starting-level, lines-per-level, level-increase,
-  lines-per-special, special-added, special-capacity, classic-rules,
-  average-levels, same-blocks, block-occurancy, special-occurancy)>
-<!ELEMENT starting-level (#PCDATA)>
-<!ELEMENT lines-per-level (#PCDATA)>
-<!ELEMENT level-increase (#PCDATA)>
-<!ELEMENT lines-per-special (#PCDATA)>
-<!ELEMENT special-added (#PCDATA)>
-<!ELEMENT special-capacity (#PCDATA)>
-<!ELEMENT classic-rules (#PCDATA)>
-<!ELEMENT average-levels (#PCDATA)>
-<!ELEMENT same-blocks (#PCDATA)>
-
-<!ELEMENT block-occurancy %Block;>
-<!ELEMENT leftl (#PCDATA)>
-<!ELEMENT leftz (#PCDATA)>
-<!ELEMENT square (#PCDATA)>
-<!ELEMENT rightl (#PCDATA)>
-<!ELEMENT rightz (#PCDATA)>
-<!ELEMENT halfcross (#PCDATA)>
-<!ELEMENT line (#PCDATA)>
-
-<!ELEMENT special-occurancy %Special;>
-<!ELEMENT addline (#PCDATA)>
-<!ELEMENT clearline (#PCDATA)>
-<!ELEMENT nukefield (#PCDATA)>
-<!ELEMENT randomclear (#PCDATA)>
-<!ELEMENT switchfield (#PCDATA)>
-<!ELEMENT clearspecial (#PCDATA)>
-<!ELEMENT gravity (#PCDATA)>
-<!ELEMENT quakefield (#PCDATA)>
-<!ELEMENT blockbomb (#PCDATA)>
-
-<!ELEMENT channels (channel*)>
-<!ELEMENT channel (description?, topic?, password?, access-level?,
-  max-players?, max-spectators?, winlist?, settings?, class?, filters?)>
-<!ATTLIST channel name CDATA #REQUIRED>
-<!ELEMENT description (#PCDATA)>
-<!ELEMENT topic (#PCDATA)>
-<!ELEMENT password (#PCDATA)>
-<!ELEMENT access-level (#PCDATA)>
-<!ELEMENT max-spectators (#PCDATA)>
-<!ELEMENT settings (starting-level?, lines-per-level?, level-increase?,
-  lines-per-special?, special-added?, special-capacity?, classic-rules?,
-  average-levels?, same-blocks?, block-occurancy?, special-occurancy?)>
-<!ELEMENT class (#PCDATA)>
-<!ELEMENT filters (filter)>
 
 <!ELEMENT commands (command*)>
 <!ELEMENT command (access-level?)>
