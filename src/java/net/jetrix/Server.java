@@ -34,7 +34,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class Server implements Runnable
+public class Server implements Runnable, Destination
 {
     private static Server instance;
 
@@ -162,7 +162,7 @@ public class Server implements Runnable
                     if (ch != null)
                     {
                         logger.finest("[server] assigning client to channel " + ch);
-                        ch.addMessage(m);
+                        ch.sendMessage(m);
                     }
                     else
                     {
@@ -204,7 +204,7 @@ public class Server implements Runnable
      *
      * @param args Arguments de démarrage du serveur.
      */
-    public void addMessage(Message m)
+    public void sendMessage(Message m)
     {
         mq.put(m);
     }

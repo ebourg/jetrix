@@ -34,7 +34,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public abstract class Client implements Runnable
+public abstract class Client implements Runnable, Destination
 {
     private Socket socket;
     private Reader in;
@@ -102,7 +102,7 @@ public abstract class Client implements Runnable
                     m.setSource(this);
 
                     // forwarding message to channel
-                    channel.addMessage(m);
+                    channel.sendMessage(m);
 
                 }
                 catch (NumberFormatException e)
@@ -124,13 +124,13 @@ public abstract class Client implements Runnable
 
             LeaveMessage leaveNotice = new LeaveMessage();
             leaveNotice.setSlot(channel.getPlayerSlot(this));
-            channel.addMessage(leaveNotice);
+            channel.sendMessage(leaveNotice);
         }
         catch (IOException e)
         {
             DisconnectedMessage m = new DisconnectedMessage();
             m.setClient(this);
-            channel.addMessage(m);
+            channel.sendMessage(m);
         }
         finally
         {

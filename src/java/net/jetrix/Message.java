@@ -30,7 +30,7 @@ import net.jetrix.config.*;
  */
 public abstract class Message
 {
-    private Object source;
+    private Destination source;
     private Date date;
     private Map rawMessages;
 
@@ -44,9 +44,10 @@ public abstract class Message
     }
 
     /**
-     * Return the source of this message.
+     * Return the source of this message. The source is a Destination accepting
+     * replies to this message.
      */
-    public Object getSource()
+    public Destination getSource()
     {
         return source;
     }
@@ -54,7 +55,7 @@ public abstract class Message
     /**
      * Set the source of this message.
      */
-    public void setSource(Object source)
+    public void setSource(Destination source)
     {
         this.source = source;
     }

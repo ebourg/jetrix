@@ -106,7 +106,7 @@ public class SummonCommand implements Command
                 {
                     // adding the ADDPLAYER message to the queue of the target channel
                     AddPlayerMessage move = new AddPlayerMessage(target);
-                    channel.addMessage(move);
+                    channel.sendMessage(move);
 
                     PlineMessage summoned1 = new PlineMessage();
                     summoned1.setKey("command.summon.summoned", new Object[] { target.getPlayer().getName() });

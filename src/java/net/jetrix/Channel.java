@@ -32,7 +32,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class Channel extends Thread
+public class Channel extends Thread implements Destination
 {
     private ChannelConfig channelConfig;
     private ServerConfig serverConfig;
@@ -164,7 +164,7 @@ public class Channel extends Thread
     private void process(CommandMessage m)
     {
         // forwards the command to the server
-        Server.getInstance().addMessage(m);
+        Server.getInstance().sendMessage(m);
     }
 
     private void process(TeamMessage m)
@@ -354,13 +354,13 @@ public class Channel extends Thread
             // notice to players in the previous channel
             LeaveMessage leave = new LeaveMessage();
             leave.setSlot(previousChannel.getPlayerSlot(client));
-            previousChannel.addMessage(leave);
+            previousChannel.sendMessage(leave);
             client.setChannel(this);
 
             // sending message to the previous channel announcing what channel the player joined
             PlineMessage leave2 = new PlineMessage();
             leave2.setKey("channel.join_notice", new Object[] { client.getPlayer().getName(), channelConfig.getName() });
-            previousChannel.addMessage(leave2);
+            previousChannel.sendMessage(leave2);
 
             // ending running game
             if (previousChannel.getGameState() != Channel.GAME_STATE_STOPPED)
@@ -480,13 +480,12 @@ public class Channel extends Thread
 
     }
 
-
     /**
      * Add a message to the channel MessageQueue.
      *
      * @param m message to add
      */
-    public void addMessage(Message m)
+    public void sendMessage(Message m)
     {
         mq.put(m);
     }

@@ -142,7 +142,7 @@ public abstract class ClientListener implements Runnable
                 // forwarding client to server for channel assignation
                 AddPlayerMessage m = new AddPlayerMessage();
                 m.setClient(client);
-                Server.getInstance().addMessage(m);
+                Server.getInstance().sendMessage(m);
             }
             catch (Exception e)
             {

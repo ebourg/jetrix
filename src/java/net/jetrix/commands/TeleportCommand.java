@@ -108,7 +108,7 @@ public class TeleportCommand implements Command
                     {
                         // adding the ADDPLAYER message to the queue of the target channel
                         AddPlayerMessage move = new AddPlayerMessage(target);
-                        channel.addMessage(move);
+                        channel.sendMessage(move);
 
                         PlineMessage teleported = new PlineMessage();
                         Object[] params = new Object[] { target.getPlayer().getName(), channel.getConfig().getName() };

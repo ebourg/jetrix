@@ -73,7 +73,7 @@ public class JoinCommand implements Command
                 // adding the ADDPLAYER message to the queue of the target channel
                 AddPlayerMessage move = new AddPlayerMessage();
                 move.setClient((Client)m.getSource());
-                target.addMessage(move);
+                target.sendMessage(move);
             }
         }
     }
