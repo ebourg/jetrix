@@ -60,7 +60,7 @@ public class QueryAgent implements Agent
     public void send(String message) throws IOException
     {
         out.write(message);
-        out.write(QueryProtocol.TERMINATOR);
+        out.write(0xFF);
         out.flush();
     }
 
