@@ -20,6 +20,7 @@
 package net.jetrix;
 
 import java.util.*;
+
 import net.jetrix.config.*;
 
 /**
@@ -31,11 +32,13 @@ import net.jetrix.config.*;
 public class ChannelManager
 {
     private List channels;
+    private Map channelMap;
     private static ChannelManager instance = new ChannelManager();
 
     private ChannelManager()
     {
         channels = new ArrayList();
+        channelMap = new TreeMap();
     }
 
     public static ChannelManager getInstance()
@@ -43,27 +46,41 @@ public class ChannelManager
         return instance;
     }
 
-    public Channel createChannel()
+    /**
+     * Create a channel and start it immediately.
+     *
+     * @param config the channel configuration
+     */
+    public Channel createChannel(ChannelConfig config)
     {
-        return createChannel("jetrix");
+        return createChannel(config, true);
     }
 
-    public Channel createChannel(String name)
+    /**
+     * Create a channel initialized with the specified configuration.
+     *
+     * @param config the channel configuration
+     * @param start  initial state
+     */
+    public Channel createChannel(ChannelConfig config, boolean start)
     {
-        ChannelConfig cc = new ChannelConfig();
-        cc.setName("jetrix");
-        return createChannel(cc);
+        Channel channel = new Channel(config);
+        if (start)
+        {
+            channel.start();
+        }
+        channels.add(channel);
+        channelMap.put(config.getName().toLowerCase(), channel);
+        return channel;
     }
 
-    public Channel createChannel(ChannelConfig conf)
+    /**
+     * Remove a channel.
+     */
+    public void removeChannel(String name)
     {
-        Channel ch = new Channel(conf);
-        ch.start();
-        channels.add(ch);
-        return ch;
+        throw new UnsupportedOperationException("removeChannel not implemented yet");
     }
-
-    public void removeChannel(String name) {}
 
     /**
      * Returns the number of existing channels.
@@ -90,9 +107,9 @@ public class ChannelManager
     {
         Channel channel = null;
         Iterator it = channels();
-        while( it.hasNext() && channel==null)
+        while (it.hasNext() && channel == null)
         {
-            Channel channel2 = (Channel)it.next();
+            Channel channel2 = (Channel) it.next();
             if (!channel2.isFull()) channel = channel2;
         }
 
@@ -100,25 +117,48 @@ public class ChannelManager
     }
 
     /**
-     * Returns the channel with the specified name. Leading # are removed
-     * from the name before searching.
+     * Return the channel with the specified name. The leading # is removed from
+     * the name before searching. The name is not case sensitive.
      *
-     * @param name  name of the channel to find
-     *
-     * @return instance of the specified channel, <tt>null</tt> if not found
+     * @param name the name of the channel to find
+     * @return
      */
     public Channel getChannel(String name)
     {
-        Channel channel = null;
-        
-        // stripping leading #
-        name = name.replaceFirst("#", "");
+        return getChannel(name, false);
+    }
 
-        Iterator it = channels();
-        while( it.hasNext() && channel==null)
+    /**
+     * Returns the channel with the specified name. The leading # is removed from
+     * the name before searching. The name is not case sensitive. If no channel
+     * matches the name specified, it can return the first channel starting
+     * with the name if the <code>partial</code> parameter is set to
+     * <code>true</code>.
+     *
+     * @param name    the name of the channel to find
+     * @param partial use the partial name matching
+     *
+     * @return instance of the specified channel, <tt>null</tt> if not found
+     */
+    public Channel getChannel(String name, boolean partial)
+    {
+        // stripping leading #
+        name = name.replaceFirst("#", "").toLowerCase();
+
+        Channel channel = (Channel) channelMap.get(name);
+
+        if (channel == null && partial)
         {
-            Channel channel2 = (Channel)it.next();
-            if (channel2.getConfig().getName().equalsIgnoreCase(name)) channel = channel2;
+            // match a partial name
+            Iterator names = channelMap.keySet().iterator();
+            while (channel == null && names.hasNext())
+            {
+                String name2 = (String) names.next();
+                if (name2.startsWith(name))
+                {
+                    channel = (Channel) channelMap.get(name2);
+                }
+            }
         }
 
         return channel;
@@ -130,11 +170,15 @@ public class ChannelManager
     public void clear()
     {
         channels.clear();
+        channelMap.clear();
     }
 
+    /**
+     * Get a channel by number in the list.
+     */
     public Channel getChannel(int num)
     {
-        return ((num >= 0 && num < channels.size()) ? (Channel)channels.get(num) : null);
+        return ((num >= 0 && num < channels.size()) ? (Channel) channels.get(num) : null);
     }
 
 }
