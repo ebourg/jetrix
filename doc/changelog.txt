@@ -20,12 +20,15 @@ Changes un version 0.1.3 (2003-11-??)
 - fixed the query protocol (thanks to ekn for the debugging info)
 - the list of available languages can be displayed with /lang
 - the new score & rank of the winner is now announced in the channel
-- can read and write tetrinetx winlists
+- Jetrix can now read and write tetrinetx winlists
 - winlists now accept initialization parameters like filters
 - implemented the tetrinet 1.14 block synchronization protocol
 - the /join command now accepts a partial channel name as argument
 - reduced the size of the jetrix distribution by 25%
-- the channel settings can be changed from the administration console
+- web admin: channel settings editing implemented
+- web admin: basic server parameters implemented
+- web admin: kick/ban implemented
+- added a topic to the channels
 
 Changes in version 0.1.2 (2003-08-03)
 -------------------------------------
