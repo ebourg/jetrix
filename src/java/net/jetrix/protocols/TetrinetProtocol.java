@@ -80,7 +80,7 @@ public class TetrinetProtocol extends Protocol
         {
             TeamMessage team = new TeamMessage();
             team.setSlot(Integer.parseInt(st.nextToken()));
-            team.setName(st.hasMoreTokens()?st.nextToken():"");
+            team.setName(st.hasMoreTokens()?st.nextToken():null);
             m = team;
             m.setRawMessage(this, line);
         }
