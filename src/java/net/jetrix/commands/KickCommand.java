@@ -70,7 +70,7 @@ public class KickCommand implements Command
                 // no player found
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.player_not_found", targetName);
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
@@ -84,7 +84,7 @@ public class KickCommand implements Command
             // not enough parameters
             PlineMessage response = new PlineMessage();
             response.setText("<red>" + cmd + "<blue> <playername|playernumber>");
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 

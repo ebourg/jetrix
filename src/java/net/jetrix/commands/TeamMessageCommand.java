@@ -61,7 +61,7 @@ public class TeamMessageCommand implements Command
             // the message can't be sent since the player is not in a team
             PlineMessage response = new PlineMessage();
             response.setKey("command.team_message.not_in_team");
-            client.sendMessage(response);
+            client.send(response);
         }
         else if (m.getParameterCount() >= 1)
         {
@@ -75,7 +75,7 @@ public class TeamMessageCommand implements Command
                 Client target = (Client) clients.next();
                 if (client.getUser().getTeam().equals(target.getUser().getTeam()) && client != target)
                 {
-                    target.sendMessage(response);
+                    target.send(response);
                 }
             }
         }
@@ -86,7 +86,7 @@ public class TeamMessageCommand implements Command
             PlineMessage response = new PlineMessage();
             String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.message", locale) + ">";
             response.setText(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 }

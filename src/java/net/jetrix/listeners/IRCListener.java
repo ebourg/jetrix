@@ -77,7 +77,7 @@ public class IRCListener extends ClientListener
         if (tokens.size() > 3)
         {
             Message m = new NoConnectingMessage("No space allowed in nickname !");
-            client.sendMessage(m);
+            client.send(m);
             return null;
         }
 

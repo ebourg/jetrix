@@ -59,7 +59,7 @@ public class WhoCommand implements Command
 
         PlineMessage response = new PlineMessage();
         response.setKey("command.who.header");        
-        client.sendMessage(response);
+        client.send(response);
 
         Iterator it = channelManager.channels();
         while(it.hasNext())
@@ -98,7 +98,7 @@ public class WhoCommand implements Command
                 if (isInChannel) channelColor = "<red>";
 
                 Message response2 = new PlineMessage(channelColor + message.toString());
-                client.sendMessage(response2);
+                client.send(response2);
             }
         }
     }

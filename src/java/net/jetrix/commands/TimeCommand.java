@@ -61,6 +61,6 @@ public class TimeCommand implements Command
 
         PlineMessage response = new PlineMessage();
         response.setKey("command.time.message", df.format(new Date()), TimeZone.getDefault().getDisplayName(locale));
-        client.sendMessage(response);
+        client.send(response);
     }
 }

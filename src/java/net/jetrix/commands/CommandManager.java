@@ -136,7 +136,7 @@ public class CommandManager
         {
             PlineMessage response = new PlineMessage();
             response.setKey("command.invalid");
-            client.sendMessage(response);
+            client.send(response);
         }
         else
         {
@@ -157,7 +157,7 @@ public class CommandManager
                 // denying access
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.denied");
-                client.sendMessage(response);
+                client.send(response);
             }
         }
     }

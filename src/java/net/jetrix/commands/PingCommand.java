@@ -78,6 +78,6 @@ public class PingCommand implements Command
         user.setProperty("command.ping", "true");
         user.setProperty("command.ping.time", new Long(System.currentTimeMillis()));
 
-        client.sendMessage(response);
+        client.send(response);
     }
 }

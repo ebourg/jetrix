@@ -72,6 +72,6 @@ public class RandomCommand implements Command
         // display the result
         PlineMessage response = new PlineMessage();
         response.setKey("command.random.result", client.getUser().getName(), new Integer(min), new Integer(max), new Integer(result + min));
-        client.getChannel().sendMessage(response);
+        client.getChannel().send(response);
     }
 }

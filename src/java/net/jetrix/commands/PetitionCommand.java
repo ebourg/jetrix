@@ -70,20 +70,20 @@ public class PetitionCommand implements Command
                 while (operators.hasNext())
                 {
                     Client operator = (Client) operators.next();
-                    operator.sendMessage(petition);
+                    operator.send(petition);
                     operator.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
                 }
 
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.petition.sent");
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
                 // no operator online
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.petition.no_operator");
-                client.sendMessage(response);
+                client.send(response);
             }
         }
         else
@@ -93,7 +93,7 @@ public class PetitionCommand implements Command
             PlineMessage response = new PlineMessage();
             String message = "<red>" + cmd + " <blue><" + Language.getText("command.params.message", locale) + ">";
             response.setText(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 }

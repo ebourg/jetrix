@@ -21,6 +21,7 @@ Changes in version 0.1.4 (2004-??-??)
 - a listener can now be disabled at startup by setting the auto-start attribute to false
 - listeners and services can be started/stopped from the administration console
 - the address of the server is now automatically published on tetrinet.org, tfast.org & tsrv.com server lists
+- renamed the Destination.sendMessage() method to send()
 
 Changes in version 0.1.3 (2004-01-20)
 -------------------------------------

@@ -70,7 +70,7 @@ public class GotoCommand implements Command
                 // no player found
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.player_not_found", targetName);
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
@@ -82,40 +82,40 @@ public class GotoCommand implements Command
                 {
                     PlineMessage cantgoto = new PlineMessage();
                     cantgoto.setKey("command.goto.yourself");
-                    client.sendMessage(cantgoto);
+                    client.send(cantgoto);
                 }
                 else if (channel == client.getChannel())
                 {
                     PlineMessage cantgoto = new PlineMessage();
                     cantgoto.setKey("command.goto.same_channel", target.getUser().getName());
-                    client.sendMessage(cantgoto);
+                    client.send(cantgoto);
                 }
                 else if (channel.isFull())
                 {
                     // send a channel full message
                     PlineMessage channelfull = new PlineMessage();
                     channelfull.setKey("command.join.full");
-                    client.sendMessage(channelfull);
+                    client.send(channelfull);
                 }
                 else if (client.getUser().getAccessLevel() < channelConfig.getAccessLevel())
                 {
                     // check the access level
                     PlineMessage accessDenied = new PlineMessage();
                     accessDenied.setKey("command.join.denied");
-                    client.sendMessage(accessDenied);
+                    client.send(accessDenied);
                 }
                 else if (channelConfig.isPasswordProtected())
                 {
                     // check if the channel is password protected
                     PlineMessage accessDenied = new PlineMessage();
                     accessDenied.setKey("command.goto.password");
-                    client.sendMessage(accessDenied);
+                    client.send(accessDenied);
                 }
                 else
                 {
                     // add the ADDPLAYER message to the queue of the target channel
                     AddPlayerMessage move = new AddPlayerMessage(client);
-                    channel.sendMessage(move);
+                    channel.send(move);
                 }
             }
         }
@@ -126,7 +126,7 @@ public class GotoCommand implements Command
             PlineMessage response = new PlineMessage();
             String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_name", locale) + ">";
             response.setText(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 }

@@ -67,7 +67,7 @@ public class MotdCommand implements Command
             while ((motdline = motd.readLine()) != null)
             {
                 Message response = new PlineMessage("<gray>" + motdline);
-                client.sendMessage(response);
+                client.send(response);
             }
             motd.close();
         }

@@ -60,7 +60,7 @@ public class HelpCommand implements Command
         // send the header
         PlineMessage header = new PlineMessage();
         header.setKey("command.help.header");
-        client.sendMessage(header);
+        client.send(header);
 
         int limit = 20;
         int i = 0;
@@ -91,8 +91,8 @@ public class HelpCommand implements Command
             PlineMessage line2 = new PlineMessage("         " + command.getDescription(locale));
 
             // send the lines
-            client.sendMessage(line1);
-            client.sendMessage(line2);
+            client.send(line1);
+            client.send(line2);
         }
     }
 }

@@ -108,7 +108,7 @@ public abstract class ClientListener extends AbstractService implements Listener
                 {
                     log.info("Server full, client rejected (" + address + ").");
                     Message m = new NoConnectingMessage("Server is full!");
-                    client.sendMessage(m);
+                    client.send(m);
                     socket.close();
                     continue;
                 }
@@ -119,7 +119,7 @@ public abstract class ClientListener extends AbstractService implements Listener
                 {
                     log.info("Too many connections from host, client rejected (" + address + ").");
                     Message m = new NoConnectingMessage("Too many connections from your host!");
-                    client.sendMessage(m);
+                    client.send(m);
                     socket.close();
                     continue;
                 }
@@ -128,7 +128,7 @@ public abstract class ClientListener extends AbstractService implements Listener
                 if (repository.getClient(user.getName()) != null)
                 {
                     Message m = new NoConnectingMessage("Nickname already in use!");
-                    client.sendMessage(m);
+                    client.send(m);
                     socket.close();
                     continue;
                 }
@@ -138,7 +138,7 @@ public abstract class ClientListener extends AbstractService implements Listener
                 if (!(client instanceof QueryClient) && (name == null || "server".equals(name.toLowerCase()) || name.indexOf("\u00a0") != -1))
                 {
                     Message m = new NoConnectingMessage("Invalid name!");
-                    client.sendMessage(m);
+                    client.send(m);
                     socket.close();
                     continue;
                 }
@@ -158,14 +158,14 @@ public abstract class ClientListener extends AbstractService implements Listener
                     {
                         PlineMessage m = new PlineMessage();
                         m.setText("<gray>" + motdline);
-                        client.sendMessage(m);
+                        client.send(m);
                     }
                     motd.close();
 
                     // forward the client to the server for channel assignation
                     AddPlayerMessage m = new AddPlayerMessage();
                     m.setClient(client);
-                    Server.getInstance().sendMessage(m);
+                    Server.getInstance().send(m);
                 }
 
                 // start the client

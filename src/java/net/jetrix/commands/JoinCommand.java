@@ -81,7 +81,7 @@ public class JoinCommand implements Command
                     // deny access
                     PlineMessage accessDenied = new PlineMessage();
                     accessDenied.setKey("command.join.denied");
-                    client.sendMessage(accessDenied);
+                    client.send(accessDenied);
                 }
                 else if (channelConfig.isPasswordProtected() && !channelConfig.getPassword().equals(password))
                 {
@@ -90,21 +90,21 @@ public class JoinCommand implements Command
                             + "attempted to join the protected channel '" + channelConfig.getName() + "'.");
                     PlineMessage accessDenied = new PlineMessage();
                     accessDenied.setKey("command.join.wrong_password");
-                    client.sendMessage(accessDenied);
+                    client.send(accessDenied);
                 }
                 else if (channel.isFull() && client.getUser().isPlayer())
                 {
                     // sending channel full message
                     PlineMessage channelfull = new PlineMessage();
                     channelfull.setKey("command.join.full");
-                    client.sendMessage(channelfull);
+                    client.send(channelfull);
                 }
                 else
                 {
                     // adding the ADDPLAYER message to the queue of the target channel
                     AddPlayerMessage move = new AddPlayerMessage();
                     move.setClient((Client) m.getSource());
-                    channel.sendMessage(move);
+                    channel.send(move);
                 }
             }
         }
@@ -115,7 +115,7 @@ public class JoinCommand implements Command
             String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.channel_name_num", locale) + ">"
                     + " <" + Language.getText("command.params.password", locale) + ">";
             PlineMessage response = new PlineMessage(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 

@@ -212,7 +212,7 @@ public class Channel extends Thread implements Destination
     private void process(CommandMessage m)
     {
         // forwards the command to the server
-        Server.getInstance().sendMessage(m);
+        Server.getInstance().send(m);
     }
 
     private void process(TeamMessage m)
@@ -266,7 +266,7 @@ public class Channel extends Thread implements Destination
                 Client client = (Client) it.next();
                 if (client.getUser().isSpectator() && client != m.getSource())
                 {
-                    client.sendMessage(m);
+                    client.send(m);
                 }
             }
         }
@@ -308,7 +308,7 @@ public class Channel extends Thread implements Destination
         if (wasPlaying && countRemainingTeams() <= 1)
         {
             Message endgame = new EndGameMessage();
-            sendMessage(endgame);
+            send(endgame);
             result.setEndTime(new Date());
 
             // looking for the slot of the winner
@@ -330,7 +330,7 @@ public class Channel extends Thread implements Destination
             {
                 PlayerWonMessage playerwon = new PlayerWonMessage();
                 playerwon.setSlot(slot);
-                sendMessage(playerwon);
+                send(playerwon);
 
                 User winner = getPlayer(slot);
                 PlineMessage announce = new PlineMessage();
@@ -342,7 +342,7 @@ public class Channel extends Thread implements Destination
                 {
                     announce.setKey("channel.team_won", winner.getTeam());
                 }
-                sendMessage(announce);
+                send(announce);
             }
 
             // update the winlist with the final result
@@ -438,7 +438,7 @@ public class Channel extends Thread implements Destination
     {
         EndGameMessage end = new EndGameMessage();
         end.setSlot(m.getSlot());
-        sendMessage(end);
+        send(end);
     }
 
     private void process(EndGameMessage m)
@@ -494,7 +494,7 @@ public class Channel extends Thread implements Destination
                 {
                     LeaveMessage clear = new LeaveMessage();
                     clear.setSlot(j);
-                    client.sendMessage(clear);
+                    client.send(clear);
                 }
             }
 
@@ -503,13 +503,13 @@ public class Channel extends Thread implements Destination
             // send a message to the previous channel announcing what channel the player joined
             PlineMessage announce = new PlineMessage();
             announce.setKey("channel.join_notice", client.getUser().getName(), channelConfig.getName());
-            previousChannel.sendMessage(announce);
+            previousChannel.send(announce);
 
             // clear the game status of the player
             if (client.getUser().isPlaying())
             {
                 client.getUser().setPlaying(false);
-                client.sendMessage(new EndGameMessage());
+                client.send(new EndGameMessage());
             }
         }
 
@@ -526,7 +526,7 @@ public class Channel extends Thread implements Destination
             // send a boggus slot number for gtetrinet
             PlayerNumMessage mnum = new PlayerNumMessage();
             mnum.setSlot(1);
-            client.sendMessage(mnum);
+            client.send(mnum);
         }
         else
         {
@@ -552,7 +552,7 @@ public class Channel extends Thread implements Destination
                 // send the slot number assigned to the new player
                 PlayerNumMessage mnum = new PlayerNumMessage();
                 mnum.setSlot(slot + 1);
-                client.sendMessage(mnum);
+                client.send(mnum);
             }
         }
 
@@ -566,13 +566,13 @@ public class Channel extends Thread implements Destination
                 JoinMessage mjoin2 = new JoinMessage();
                 mjoin2.setSlot(i + 1);
                 mjoin2.setName(resident.getUser().getName()); // NPE
-                client.sendMessage(mjoin2);
+                client.send(mjoin2);
 
                 // ...and teams
                 TeamMessage mteam = new TeamMessage();
                 mteam.setSlot(i + 1);
                 mteam.setName(resident.getUser().getTeam());
-                client.sendMessage(mteam);
+                client.send(mteam);
             }
         }
 
@@ -580,7 +580,7 @@ public class Channel extends Thread implements Destination
         for (int i = 0; i < 6; i++)
         {
             FieldMessage message = new FieldMessage(i + 1, fields[i].getFieldString());
-            client.sendMessage(message);
+            client.send(message);
         }
 
         // send the winlist
@@ -590,13 +590,13 @@ public class Channel extends Thread implements Destination
             List topScores = winlist.getScores(0, 10);
             WinlistMessage winlistMessage = new WinlistMessage();
             winlistMessage.setScores(topScores);
-            client.sendMessage(winlistMessage);
+            client.send(winlistMessage);
         }
 
         // send a welcome message to the incomming client
         PlineMessage mwelcome = new PlineMessage();
         mwelcome.setKey("channel.welcome", client.getUser().getName(), channelConfig.getName());
-        client.sendMessage(mwelcome);
+        client.send(mwelcome);
 
         // send the message of the day
         if (channelConfig.getTopic() != null)
@@ -609,7 +609,7 @@ public class Channel extends Thread implements Destination
                 {
                     PlineMessage message = new PlineMessage();
                     message.setText("<kaki>" + line);
-                    client.sendMessage(message);
+                    client.send(message);
                 }
                 topic.close();
             }
@@ -636,18 +636,18 @@ public class Channel extends Thread implements Destination
             SpectatorListMessage spectators = new SpectatorListMessage();
             spectators.setChannel(getConfig().getName());
             spectators.setSpectators(specnames);
-            client.sendMessage(spectators);
+            client.send(spectators);
         }
 
         // send the status of the game to the new client
         if (gameState != GAME_STATE_STOPPED)
         {
-            client.sendMessage(new IngameMessage());
+            client.send(new IngameMessage());
 
             // tell the player if the game is currently paused
             if (gameState == GAME_STATE_PAUSED)
             {
-                client.sendMessage(new PauseMessage());
+                client.send(new PauseMessage());
             }
         }
 
@@ -689,7 +689,7 @@ public class Channel extends Thread implements Destination
 
                 PlayerNumMessage mnum = new PlayerNumMessage();
                 mnum.setSlot(m.getSlot2());
-                player1.sendMessage(mnum);
+                player1.send(mnum);
             }
 
             if (player2 != null)
@@ -701,7 +701,7 @@ public class Channel extends Thread implements Destination
 
                 PlayerNumMessage mnum = new PlayerNumMessage();
                 mnum.setSlot(m.getSlot1());
-                player2.sendMessage(mnum);
+                player2.send(mnum);
             }
         }
     }
@@ -775,7 +775,7 @@ public class Channel extends Thread implements Destination
      *
      * @param m message to add
      */
-    public void sendMessage(Message m)
+    public void send(Message m)
     {
         queue.put(m);
     }
@@ -792,7 +792,7 @@ public class Channel extends Thread implements Destination
         while (it.hasNext())
         {
             Client client = (Client) it.next();
-            client.sendMessage(m);
+            client.send(m);
         }
     }
 
@@ -823,7 +823,7 @@ public class Channel extends Thread implements Destination
             Client client = (Client) it.next();
             if (client != c)
             {
-                client.sendMessage(m);
+                client.send(m);
             }
         }
     }

@@ -67,7 +67,7 @@ public class SummonCommand implements Command
                 // no player found
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.player_not_found", targetName);
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
@@ -78,34 +78,34 @@ public class SummonCommand implements Command
                 {
                     PlineMessage cantsummon = new PlineMessage();
                     cantsummon.setKey("command.summon.yourself");
-                    client.sendMessage(cantsummon);
+                    client.send(cantsummon);
                 }
                 else if (channel == target.getChannel())
                 {
                     PlineMessage cantsummon = new PlineMessage();
                     cantsummon.setKey("command.summon.same_channel", target.getUser().getName());
-                    client.sendMessage(cantsummon);
+                    client.send(cantsummon);
                 }
                 else if (channel.isFull())
                 {
                     // sending channel full message
                     PlineMessage channelfull = new PlineMessage();
                     channelfull.setKey("command.summon.full");
-                    client.sendMessage(channelfull);
+                    client.send(channelfull);
                 }
                 else
                 {
                     // adding the ADDPLAYER message to the queue of the target channel
                     AddPlayerMessage move = new AddPlayerMessage(target);
-                    channel.sendMessage(move);
+                    channel.send(move);
 
                     PlineMessage summoned1 = new PlineMessage();
                     summoned1.setKey("command.summon.summoned", target.getUser().getName());
-                    client.sendMessage(summoned1);
+                    client.send(summoned1);
 
                     PlineMessage summoned2 = new PlineMessage();
                     summoned2.setKey("command.summon.summoned_by", client.getUser().getName());
-                    target.sendMessage(summoned2);
+                    target.send(summoned2);
                 }
             }
         }
@@ -116,7 +116,7 @@ public class SummonCommand implements Command
             PlineMessage response = new PlineMessage();
             String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_name", locale) + ">";
             response.setText(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 }

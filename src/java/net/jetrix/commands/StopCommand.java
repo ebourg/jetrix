@@ -61,7 +61,7 @@ public class StopCommand implements Command
             StopGameMessage stop = new StopGameMessage();
             stop.setSlot(channel.getClientSlot(client));
             stop.setSource(client);
-            channel.sendMessage(stop);
+            channel.send(stop);
         }
     }
 

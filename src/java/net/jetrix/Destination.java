@@ -31,7 +31,8 @@ public interface Destination
      * Send a message to this destination.
      *
      * @param message the message
+     * @since 0.1.4
      */
-    void sendMessage(Message message);
+    void send(Message message);
 
 }

@@ -78,7 +78,7 @@ public class StartCommand implements Command
                 StartGameMessage start = new StartGameMessage();
                 start.setSlot(channel.getClientSlot(client));
                 start.setSource(client);
-                channel.sendMessage(start);
+                channel.send(start);
             }
         }
     }
@@ -118,8 +118,8 @@ public class StartCommand implements Command
             GmsgMessage  getready2 = new GmsgMessage();
             getready1.setKey("command.start.get_ready");
             getready2.setKey("command.start.get_ready.gmsg");
-            channel.sendMessage(getready1);
-            channel.sendMessage(getready2);
+            channel.send(getready1);
+            channel.send(getready2);
 
             // start the count down...
             for (int i = delay; i > 0; i--)
@@ -140,8 +140,8 @@ public class StartCommand implements Command
                     msg2.setKey("command.start.second.gmsg");
                 }
 
-                channel.sendMessage(msg1);
-                channel.sendMessage(msg2);
+                channel.send(msg1);
+                channel.send(msg2);
                 try
                 {
                     sleep(1000);
@@ -161,12 +161,12 @@ public class StartCommand implements Command
             GmsgMessage  go2 = new GmsgMessage();
             go1.setKey("command.start.go");
             go2.setKey("command.start.go.gmsg");
-            channel.sendMessage(go1);
-            channel.sendMessage(go2);
+            channel.send(go1);
+            channel.send(go2);
 
             // start the game
             StartGameMessage start = new StartGameMessage();
-            channel.sendMessage(start);
+            channel.send(start);
 
             countdowns.put(channel, null);
         }

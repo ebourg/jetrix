@@ -140,13 +140,13 @@ public class QueryClient extends TetrinetClient
                 response.setText("JetriX/" + ServerConfig.VERSION + QueryProtocol.EOL);
             }
 
-            sendMessage(response);
+            send(response);
         }
         else
         {
             NoConnectingMessage noconnecting = new NoConnectingMessage();
             noconnecting.setText("Wrong command");
-            sendMessage(noconnecting);
+            send(noconnecting);
             disconnected = true;
         }
     }
@@ -159,7 +159,7 @@ public class QueryClient extends TetrinetClient
         this.firstMessage = firstMessage;
     }
 
-    public void sendMessage(Message m)
+    public void send(Message m)
     {
         String rawMessage = m.getRawMessage(getProtocol(), null);
 

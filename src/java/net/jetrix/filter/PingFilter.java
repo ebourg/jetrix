@@ -46,7 +46,7 @@ public class PingFilter extends MessageFilter
 
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.ping.message", new Long(delay));
-                client.sendMessage(response);
+                client.send(response);
 
                 user.setProperty("command.ping", "false");
             }

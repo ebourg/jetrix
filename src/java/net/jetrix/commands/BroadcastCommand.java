@@ -65,7 +65,7 @@ public class BroadcastCommand implements Command
             while (clients.hasNext())
             {
                 Client target = (Client) clients.next();
-                target.sendMessage(response);
+                target.send(response);
             }
         }
         else
@@ -75,7 +75,7 @@ public class BroadcastCommand implements Command
             PlineMessage response = new PlineMessage();
             String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.message", locale) + ">";
             response.setText(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 

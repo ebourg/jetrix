@@ -84,6 +84,6 @@ public class AwayCommand implements Command
             }
         }
 
-        client.sendMessage(response);
+        client.send(response);
     }
 }

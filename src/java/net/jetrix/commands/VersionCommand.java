@@ -64,8 +64,8 @@ public class VersionCommand implements Command
                           + " " + System.getProperty("os.version") 
                           + "; " + System.getProperty("os.arch");
 
-        client.sendMessage(new PlineMessage(version1));
-        client.sendMessage(new PlineMessage(version2));
-        client.sendMessage(new PlineMessage(version3));
+        client.send(new PlineMessage(version1));
+        client.send(new PlineMessage(version2));
+        client.send(new PlineMessage(version3));
     }
 }

@@ -106,25 +106,25 @@ public class TetrinetClient implements Client
 
                 if (channel != null)
                 {
-                    channel.sendMessage(message);
+                    channel.send(message);
                 }
                 else
                 {
                     // no channel assigned, the message is sent to the server
-                    server.sendMessage(message);
+                    server.send(message);
                 }
             }
 
             LeaveMessage leaveNotice = new LeaveMessage();
             leaveNotice.setSlot(channel.getClientSlot(this));
             leaveNotice.setName(user.getName());
-            channel.sendMessage(leaveNotice);
+            channel.send(leaveNotice);
         }
         catch (IOException e)
         {
             DisconnectedMessage disconnect = new DisconnectedMessage();
             disconnect.setClient(this);
-            channel.sendMessage(disconnect);
+            channel.send(disconnect);
         }
         finally
         {
@@ -137,7 +137,7 @@ public class TetrinetClient implements Client
 
     private long time = 0;
 
-    public void sendMessage(Message m)
+    public void send(Message m)
     {
         String rawMessage = m.getRawMessage(getProtocol(), user.getLocale());
         

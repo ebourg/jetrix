@@ -186,10 +186,10 @@ public class SimpleWinlist implements Winlist
         Channel channel = result.getChannel();
         if (channel != null && config.getBoolean("display.score", false))
         {
-            channel.sendMessage(getGainMessage(score1, previousScore1, previousRank1));
+            channel.send(getGainMessage(score1, previousScore1, previousRank1));
             if (score2 != null)
             {
-                channel.sendMessage(getGainMessage(score2, previousScore2, previousRank2));
+                channel.send(getGainMessage(score2, previousScore2, previousRank2));
             }
         }
 

@@ -69,13 +69,13 @@ public class LanguageCommand implements Command
 
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.language.changed", locale.getDisplayLanguage(locale));
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.language.not_supported");
-                client.sendMessage(response);
+                client.send(response);
             }
         }
         else
@@ -85,14 +85,14 @@ public class LanguageCommand implements Command
 
             PlineMessage header = new PlineMessage();
             header.setKey("command.language.available");
-            client.sendMessage(header);
+            client.send(header);
 
             while (locales.hasNext())
             {
                 Locale locale = (Locale) locales.next();
                 PlineMessage line = new PlineMessage();
                 line.setKey("command.language.list_format", locale.getLanguage(), locale.getDisplayLanguage(client.getUser().getLocale()));
-                client.sendMessage(line);
+                client.send(line);
             }
         }
     }

@@ -72,7 +72,7 @@ public class OperatorCommand implements Command
                 client.getUser().setAccessLevel(1);
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.operator.granted");
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
@@ -80,7 +80,7 @@ public class OperatorCommand implements Command
                 log.severe(client.getUser().getName() + "(" + client.getInetAddress() + ") attempted to get operator status.");
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.operator.denied");
-                client.sendMessage(response);
+                client.send(response);
             }
         }
         else
@@ -88,7 +88,7 @@ public class OperatorCommand implements Command
             // not enough parameters
             PlineMessage response = new PlineMessage();
             response.setText("<red>" + cmd + "<blue> <password>");
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 }

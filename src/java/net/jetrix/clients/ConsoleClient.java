@@ -69,7 +69,7 @@ public class ConsoleClient implements Client
 
                 if (message != null)
                 {
-                    Server.getInstance().sendMessage(message);
+                    Server.getInstance().send(message);
                 }
             }
             catch (Exception e)
@@ -84,7 +84,7 @@ public class ConsoleClient implements Client
         }
     }
 
-    public void sendMessage(Message message)
+    public void send(Message message)
     {
         String msg = protocol.translate(message, user.getLocale());
         if (msg != null) System.out.println(msg);

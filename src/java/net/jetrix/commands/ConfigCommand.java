@@ -87,7 +87,7 @@ public class ConfigCommand implements Command
         for (int i = 0; i < configLines.length; i++)
         {
             Message configMessage = new PlineMessage(configLines[i]);
-            client.sendMessage(configMessage);
+            client.send(configMessage);
         }
     }
 }

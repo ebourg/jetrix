@@ -59,6 +59,6 @@ public class EmoteCommand implements Command
 
         PlineActMessage response = new PlineActMessage(emote);
         response.setSlot(client.getChannel().getClientSlot(client));
-        client.getChannel().sendMessage(response);
+        client.getChannel().send(response);
     }
 }

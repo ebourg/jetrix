@@ -70,7 +70,7 @@ public class PauseCommand implements Command
 
             pause.setSlot(channel.getClientSlot(client));
             pause.setSource(client);
-            channel.sendMessage(pause);
+            channel.send(pause);
         }
     }
 

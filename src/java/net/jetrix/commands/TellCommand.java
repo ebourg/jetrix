@@ -67,7 +67,7 @@ public class TellCommand implements Command
                 // no player found
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.player_not_found", targetName);
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
@@ -75,7 +75,7 @@ public class TellCommand implements Command
                 PlineMessage response = new PlineMessage();
                 String privateMessage = m.getText().substring(targetName.length() + 1);
                 response.setKey("command.tell.format", client.getUser().getName(), privateMessage);
-                target.sendMessage(response);
+                target.send(response);
 
                 target.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
 
@@ -85,7 +85,7 @@ public class TellCommand implements Command
                     String awayMessage = (String) target.getUser().getProperty("command.away.message");
                     PlineMessage away = new PlineMessage();
                     away.setKey("command.away.player_unavailable" + (awayMessage != null ? "2" : ""), target.getUser().getName(), awayMessage);
-                    client.sendMessage(away);
+                    client.send(away);
                 }
             }
         }
@@ -97,7 +97,7 @@ public class TellCommand implements Command
             String message = "<red>" + cmd + " <blue><" + Language.getText("command.params.player_name_num", locale) + ">"
                 + " <" + Language.getText("command.params.message", locale) + ">";
             response.setText(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 

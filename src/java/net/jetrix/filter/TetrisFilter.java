@@ -66,12 +66,12 @@ public class TetrisFilter extends GenericFilter
 
         if (tetrisCount[from] >= tetrisLimit)
         {
-            getChannel().sendMessage(new EndGameMessage());
+            getChannel().send(new EndGameMessage());
 
             User winner = getChannel().getPlayer(m.getFromSlot());
             PlineMessage announce = new PlineMessage();
             announce.setKey("channel.player_won", winner.getName());
-            getChannel().sendMessage(announce);
+            getChannel().send(announce);
         }
         else
         {

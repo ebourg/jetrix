@@ -269,7 +269,7 @@ public class Server implements Runnable, Destination
                     if (channel != null)
                     {
                         log.finest("[server] assigning client to channel " + channel);
-                        channel.sendMessage(message);
+                        channel.send(message);
                     }
                     else
                     {
@@ -308,7 +308,7 @@ public class Server implements Runnable, Destination
     /**
      * Add a message to the server message queue.
      */
-    public void sendMessage(Message message)
+    public void send(Message message)
     {
         queue.put(message);
     }

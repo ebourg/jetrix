@@ -65,7 +65,7 @@ public class ListCommand implements Command
 
         PlineMessage response = new PlineMessage();
         response.setKey("command.list.header");
-        client.sendMessage(response);
+        client.send(response);
 
         Iterator it = channelManager.channels();
         int i = 1;
@@ -107,7 +107,7 @@ public class ListCommand implements Command
 
             PlineMessage response2 = new PlineMessage();
             response2.setText(message.toString());
-            client.sendMessage(response2);
+            client.send(response2);
 
             i = i + 1;
         }

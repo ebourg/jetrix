@@ -68,7 +68,7 @@ public class MoveCommand implements Command
                 PlayerSwitchMessage pswitch = new PlayerSwitchMessage();
                 pswitch.setSlot1(slot1);
                 pswitch.setSlot2(slot2);
-                client.getChannel().sendMessage(pswitch);
+                client.getChannel().send(pswitch);
             }
         }
         else
@@ -77,7 +77,7 @@ public class MoveCommand implements Command
             Locale locale = client.getUser().getLocale();
             String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_num", locale) + "> <" + Language.getText("command.params.slot_num", locale) + ">";
             PlineMessage response = new PlineMessage(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 }

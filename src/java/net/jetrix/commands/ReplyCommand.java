@@ -66,7 +66,7 @@ public class ReplyCommand implements Command
                 // no previous message
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.reply.no_previous_message");
-                client.sendMessage(response);
+                client.send(response);
                 return;
             }
 
@@ -78,7 +78,7 @@ public class ReplyCommand implements Command
                 // previous user no longer connected
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.player_not_found", targetName);
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
@@ -86,7 +86,7 @@ public class ReplyCommand implements Command
                 PlineMessage response = new PlineMessage();
                 String privateMessage = m.getText();
                 response.setKey("command.tell.format", client.getUser().getName(), privateMessage);
-                target.sendMessage(response);
+                target.send(response);
 
                 target.getUser().setProperty("command.tell.reply_to", client.getUser());
 
@@ -96,7 +96,7 @@ public class ReplyCommand implements Command
                     String awayMessage = (String) target.getUser().getProperty("command.away.message");
                     PlineMessage away = new PlineMessage();
                     away.setKey("command.away.player_unavailable" + (awayMessage != null ? "2" : ""), target.getUser().getName(), awayMessage);
-                    client.sendMessage(away);
+                    client.send(away);
                 }
             }
         }
@@ -106,7 +106,7 @@ public class ReplyCommand implements Command
             PlineMessage response = new PlineMessage();
             String message = "<red>" + cmd + "<blue><message>";
             response.setText(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 

@@ -78,7 +78,7 @@ public interface Client extends Runnable, Destination
      *
      * @param m message to send
      */
-    void sendMessage(Message m);
+    void send(Message m);
 
     /**
      * Receive a message sent by the client.

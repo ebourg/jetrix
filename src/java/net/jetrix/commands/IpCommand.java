@@ -66,7 +66,7 @@ public class IpCommand implements Command
                 // no player found
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.player_not_found", targetName);
-                client.sendMessage(response);
+                client.send(response);
             }
             else
             {
@@ -76,7 +76,7 @@ public class IpCommand implements Command
                 String message = "<darkBlue>[<red>" + target.getUser().getName() + "</red>] " + hostname;
                 if (!hostname.equals(hostaddress)) message += " (" + hostaddress + ")";
                 PlineMessage reponse = new PlineMessage(message);
-                client.sendMessage(reponse);
+                client.send(reponse);
             }
         }
         else
@@ -84,7 +84,7 @@ public class IpCommand implements Command
             // not enough parameters
             String message = "<red>" + m.getCommand() + "<blue> <" + Language.getText("command.params.player_name_num", client.getUser().getLocale()) + ">";
             PlineMessage response = new PlineMessage(message);
-            client.sendMessage(response);
+            client.send(response);
         }
     }
 
