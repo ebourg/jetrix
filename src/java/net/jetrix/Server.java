@@ -41,22 +41,26 @@ public class Server implements Runnable, Destination
     private static Server instance;
 
     private ServerConfig config;
-    private MessageQueue mq;
+    private MessageQueue queue;
     private ChannelManager channelManager;
-    private Logger logger;
+    private Logger log;
 
     private Server()
     {
         System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2003 Emmanuel Bourg\n");
 
         // spawn the server message queue
-        mq = new MessageQueue();
+        queue = new MessageQueue();
 
         // add the stop hook
-        Runtime.getRuntime().addShutdownHook(new Thread() {
+        Runtime.getRuntime().addShutdownHook(new Thread()
+        {
             public void run()
             {
-                if (config != null) { instance.stop(); }
+                if (config != null)
+                {
+                    instance.stop();
+                }
             }
         });
 
@@ -96,9 +100,9 @@ public class Server implements Runnable, Destination
         channelManager.clear();
 
         Iterator it = config.getChannels();
-        while(it.hasNext())
+        while (it.hasNext())
         {
-            ChannelConfig cc = (ChannelConfig)it.next();
+            ChannelConfig cc = (ChannelConfig) it.next();
             cc.setPersistent(true);
             channelManager.createChannel(cc);
         }
@@ -114,51 +118,61 @@ public class Server implements Runnable, Destination
             listener.start();
         }
 
-        logger.info("Server ready!");
+        log.info("Server ready!");
     }
 
     private void prepareLoggers()
     {
-        logger = Logger.getLogger("net.jetrix");
-        logger.setUseParentHandlers(false);
-        logger.setLevel(Level.ALL);
+        log = Logger.getLogger("net.jetrix");
+        log.setUseParentHandlers(false);
+        log.setLevel(Level.ALL);
 
         ConsoleHandler consoleHandler = new ConsoleHandler();
         String debug = System.getProperty("jetrix.debug");
-        if ( "true".equals(debug) ) { consoleHandler.setLevel( Level.ALL); }
-        logger.addHandler(consoleHandler);
-        consoleHandler.setFormatter(new Formatter() {
+        if ("true".equals(debug))
+        {
+            consoleHandler.setLevel(Level.ALL);
+        }
+        log.addHandler(consoleHandler);
+        consoleHandler.setFormatter(new Formatter()
+        {
             Date dat = new Date();
             private final static String format = "HH:mm:ss";
             private SimpleDateFormat formatter;
 
-            public synchronized String format(LogRecord record) {
+            public synchronized String format(LogRecord record)
+            {
                 dat.setTime(record.getMillis());
-                if (formatter == null) {
+                if (formatter == null)
+                {
                     formatter = new SimpleDateFormat(format);
                 }
                 return "[" + formatter.format(dat) + "] ["
-                    + record.getLevel().getLocalizedName() + "] "
-                    + formatMessage(record) + "\n";
+                        + record.getLevel().getLocalizedName() + "] "
+                        + formatMessage(record) + "\n";
             }
         });
 
-        try {
+        try
+        {
             FileHandler fileHandler = new FileHandler(config.getAccessLogPath(), 1000000, 10);
             fileHandler.setLevel(Level.CONFIG);
-            logger.addHandler(fileHandler);
-            fileHandler.setFormatter(new Formatter() {
+            log.addHandler(fileHandler);
+            fileHandler.setFormatter(new Formatter()
+            {
                 Date dat = new Date();
                 private final static String format = "yyyy-MM-dd HH:mm:ss";
                 private SimpleDateFormat formatter;
 
-                public synchronized String format(LogRecord record) {
+                public synchronized String format(LogRecord record)
+                {
                     dat.setTime(record.getMillis());
-                    if (formatter == null) {
+                    if (formatter == null)
+                    {
                         formatter = new SimpleDateFormat(format);
                     }
                     return "[" + formatter.format(dat) + "] "
-                        + formatMessage(record) + "\n";
+                            + formatMessage(record) + "\n";
                 }
             });
         }
@@ -204,7 +218,7 @@ public class Server implements Runnable, Destination
         Iterator clients = repository.getClients();
         while (clients.hasNext())
         {
-            Client client = (Client)clients.next();
+            Client client = (Client) clients.next();
             client.disconnect();
         }
     }
@@ -218,39 +232,38 @@ public class Server implements Runnable, Destination
             try
             {
                 // fetching next message waiting in the queue
-                Message m = mq.get();
+                Message message = queue.get();
 
-                logger.finest("Server: processing " + m);
+                log.finest("Server: processing " + message);
 
                 // processing message
 
-                if ( m instanceof AddPlayerMessage)
+                if (message instanceof AddPlayerMessage)
                 {
                     // looking for a channel with room left
-                    Channel ch = channelManager.getOpenedChannel();
+                    Channel channel = channelManager.getOpenedChannel();
 
-                    if (ch != null)
+                    if (channel != null)
                     {
-                        logger.finest("[server] assigning client to channel " + ch);
-                        ch.sendMessage(m);
+                        log.finest("[server] assigning client to channel " + channel);
+                        channel.sendMessage(message);
                     }
                     else
                     {
                         // send server full message or create a new channel
-                        logger.finest("[server] no available channels!");
+                        log.finest("[server] no available channels!");
                     }
                 }
-                else if ( m instanceof CommandMessage)
+                else if (message instanceof CommandMessage)
                 {
-                    CommandManager.getInstance().execute((CommandMessage)m);
-
+                    CommandManager.getInstance().execute((CommandMessage) message);
                 }
                 else
                 {
-                    logger.info("[server] Message not processed " +  m);
+                    log.info("[server] Message not processed " + message);
                 }
 
-                /*switch(m.getCode())
+                /*switch(message.getCode())
                 {
                     case Message.MSG_ADDPLAYER:
                     case Message.MSG_RESTART:
@@ -272,9 +285,9 @@ public class Server implements Runnable, Destination
     /**
      * Add a message to the server message queue.
      */
-    public void sendMessage(Message m)
+    public void sendMessage(Message message)
     {
-        mq.put(m);
+        queue.put(message);
     }
 
     public ServerConfig getConfig()
@@ -307,7 +320,10 @@ public class Server implements Runnable, Destination
         }
 
         URL[] urls = new URL[jars.size()];
-        for (int i = 0; i < jars.size(); i++) urls[i] = (URL) jars.get(i);
+        for (int i = 0; i < jars.size(); i++)
+        {
+            urls[i] = (URL) jars.get(i);
+        }
 
         URLClassLoader loader = new URLClassLoader(urls, null);
         Thread.currentThread().setContextClassLoader(loader);

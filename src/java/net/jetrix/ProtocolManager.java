@@ -23,7 +23,7 @@ import java.util.*;
 
 /**
  * Manages protocols. Protocol instances are obtained by calling the
- * getProtocol() method. The ProtocolManager is in charge to serve the 
+ * getProtocol() method. The ProtocolManager is in charge to serve the
  * same unique instance of the specified protocol.
  *
  * @author Emmanuel Bourg
@@ -60,14 +60,18 @@ public class ProtocolManager
     {
         // is there an entry for this class in the hashtable ?
         Object obj = protocols.get(classname);
-        if (obj != null) { return (Protocol)obj; }
+        if (obj != null)
+        {
+            return (Protocol) obj;
+        }
 
         Protocol protocol = null;
 
-        try {
+        try
+        {
             // constructing a new protocol
             Class protocolClass = Class.forName(classname);
-            protocol = (Protocol)protocolClass.newInstance();
+            protocol = (Protocol) protocolClass.newInstance();
 
             // adding the protocol to the hashtable
             protocols.put(classname, protocol);

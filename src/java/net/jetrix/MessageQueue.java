@@ -54,15 +54,25 @@ public class MessageQueue
      */
     public Message get() throws InterruptedIOException
     {
-        synchronized(getLock)
+        synchronized (getLock)
         {
             // blocking the thread until a new message arrives or the queue is closed
             while (head == null && !closed)
             {
-                try { getLock.wait(2000); } catch(InterruptedException e) { e.printStackTrace();  }
+                try
+                {
+                    getLock.wait(2000);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
             }
 
-            if (closed) throw new InterruptedIOException("MessageQueue closed");
+            if (closed)
+            {
+                throw new InterruptedIOException("MessageQueue closed");
+            }
 
             MessageQueue.Node t = head;
             head = head.next;
@@ -80,17 +90,23 @@ public class MessageQueue
     {
         if (!closed)
         {
-            synchronized(putLock)
+            synchronized (putLock)
             {
-                MessageQueue.Node m = new MessageQueue.Node();
-                m.value = message;
+                MessageQueue.Node node = new MessageQueue.Node();
+                node.value = message;
 
-                if (tail != null) { tail.next = m; }
-                if (head == null) { head = m; }
+                if (tail != null)
+                {
+                    tail.next = node;
+                }
+                if (head == null)
+                {
+                    head = node;
+                }
 
-                tail = m;
+                tail = node;
 
-                synchronized(getLock)
+                synchronized (getLock)
                 {
                     getLock.notify();
                 }

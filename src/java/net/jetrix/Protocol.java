@@ -37,7 +37,7 @@ public interface Protocol
      *
      * @return the name of this protocol
      */
-    public String getName();
+    String getName();
 
     /**
      * Parse the specified string and return the corresponding server
@@ -48,7 +48,7 @@ public interface Protocol
      * @return the {@link net.jetrix.Message} equivalent of the specified
      *     String or null if the protocol cannot understand the message.
      */
-    public Message getMessage(String message);
+    Message getMessage(String message);
 
     /**
      * Translate the specified message into a string that will be sent
@@ -60,7 +60,7 @@ public interface Protocol
      * @return the String equivalent in this protocol for the specified
      *     {@link net.jetrix.Message} or null if it can't be translated.
      */
-    public String translate(Message m, Locale locale);
+    String translate(Message m, Locale locale);
 
     /**
      * Transform the style tags (<tt>&lt;blue&gt;</tt>, <tt>&lt;u&gt;</tt>,
@@ -72,6 +72,6 @@ public interface Protocol
      * @return the stylized representation of the specified string for
      *     this protocol.
      */
-    public String applyStyle(String text);
+    String applyStyle(String text);
 
 }

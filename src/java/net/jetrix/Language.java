@@ -66,7 +66,7 @@ public class Language
      */
     public ResourceBundle getResourceBundle(Locale locale)
     {
-        return (ResourceBundle)bundles.get(locale);
+        return (ResourceBundle) bundles.get(locale);
     }
 
     /**
@@ -142,7 +142,7 @@ public class Language
      */
     public static String getText(String key, Object[] arguments, Locale locale)
     {
-        return MessageFormat.format( getText(key, locale), arguments );
+        return MessageFormat.format(getText(key, locale), arguments);
     }
 
 }

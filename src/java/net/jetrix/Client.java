@@ -36,58 +36,58 @@ public interface Client extends Runnable, Destination
     /**
      * Return the protocol used by this client.
      */
-    public Protocol getProtocol();
+    Protocol getProtocol();
 
     /**
      * Return the channel this client subscribed to.
      */
-    public Channel getChannel();
+    Channel getChannel();
 
     /**
      * Set the channel.
      */
-    public void setChannel(Channel channel);
+    void setChannel(Channel channel);
 
     /**
      * Return the user associated to this client.
      */
-    public User getUser();
+    User getUser();
 
     /**
      * Return the type of the client.
      */
-    public String getType();
+    String getType();
 
     /**
      * Return the version number of this client.
      */
-    public String getVersion();
+    String getVersion();
 
     /**
      * Return the Internet address of this client.
      */
-    public InetAddress getInetAddress();
+    InetAddress getInetAddress();
 
     /**
      * Return the time of the connection to the server.
      */
-    public Date getConnectionTime();
+    Date getConnectionTime();
 
     /**
      * Send a message to the client. The raw message property must be set.
      *
      * @param m message to send
      */
-    public void sendMessage(Message m);
+    void sendMessage(Message m);
 
     /**
      * Receive a message sent by the client.
      */
-    public Message receiveMessage() throws IOException;
+    Message receiveMessage() throws IOException;
 
     /**
      * Trigger the disconnection of this client.
      */
-    public void disconnect();
+    void disconnect();
 
 }

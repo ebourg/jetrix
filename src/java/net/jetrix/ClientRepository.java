@@ -21,6 +21,7 @@ package net.jetrix;
 
 import java.net.*;
 import java.util.*;
+
 import org.apache.commons.collections.*;
 
 /**
@@ -34,29 +35,32 @@ public class ClientRepository
     private static ClientRepository instance = new ClientRepository();
     private Map clients;
 
-    public static final Predicate playerPredicate = new Predicate() {
-            public boolean evaluate(Object obj)
-            {
-                Client client = (Client)obj;
-                return client.getUser().isPlayer();
-            }
-        };
+    public static final Predicate PLAYER_PREDICATE = new Predicate()
+    {
+        public boolean evaluate(Object obj)
+        {
+            Client client = (Client) obj;
+            return client.getUser().isPlayer();
+        }
+    };
 
-    public static final Predicate spectatorPredicate = new Predicate() {
-            public boolean evaluate(Object obj)
-            {
-                Client client = (Client)obj;
-                return client.getUser().isSpectator();
-            }
-        };
+    public static final Predicate SPECTATOR_PREDICATE = new Predicate()
+    {
+        public boolean evaluate(Object obj)
+        {
+            Client client = (Client) obj;
+            return client.getUser().isSpectator();
+        }
+    };
 
-    public static final Predicate operatorPredicate = new Predicate() {
-            public boolean evaluate(Object obj)
-            {
-                Client client = (Client)obj;
-                return client.getUser().getAccessLevel() > 0;
-            }
-        };
+    public static final Predicate OPERATOR_PREDICATE = new Predicate()
+    {
+        public boolean evaluate(Object obj)
+        {
+            Client client = (Client) obj;
+            return client.getUser().getAccessLevel() > 0;
+        }
+    };
 
     private ClientRepository()
     {
@@ -101,7 +105,7 @@ public class ClientRepository
      */
     public Iterator getPlayers()
     {
-        return new FilterIterator(clients.values().iterator(), playerPredicate);
+        return new FilterIterator(clients.values().iterator(), PLAYER_PREDICATE);
     }
 
     /**
@@ -109,7 +113,7 @@ public class ClientRepository
      */
     public int getPlayerCount()
     {
-        return CollectionUtils.select(clients.values(), playerPredicate).size();
+        return CollectionUtils.select(clients.values(), PLAYER_PREDICATE).size();
     }
 
     /**
@@ -117,7 +121,7 @@ public class ClientRepository
      */
     public Iterator getSpectators()
     {
-        return new FilterIterator(clients.values().iterator(), spectatorPredicate);
+        return new FilterIterator(clients.values().iterator(), SPECTATOR_PREDICATE);
     }
 
     /**
@@ -125,7 +129,7 @@ public class ClientRepository
      */
     public int getSpectatorCount()
     {
-        return CollectionUtils.select(clients.values(), spectatorPredicate).size();
+        return CollectionUtils.select(clients.values(), SPECTATOR_PREDICATE).size();
     }
 
     /**
@@ -133,7 +137,7 @@ public class ClientRepository
      */
     public Iterator getOperators()
     {
-        return new FilterIterator(clients.values().iterator(), operatorPredicate);
+        return new FilterIterator(clients.values().iterator(), OPERATOR_PREDICATE);
     }
 
     /**
@@ -172,17 +176,17 @@ public class ClientRepository
     public int getHostCount(InetAddress address)
     {
         int count = 0;
-        
+
         Iterator it = clients.values().iterator();
         while (it.hasNext())
         {
-            Client client = (Client)it.next();
+            Client client = (Client) it.next();
             if (address.equals(client.getInetAddress()))
             {
                 count++;
             }
         }
-        
+
         return count;
     }
 

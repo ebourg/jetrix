@@ -32,6 +32,6 @@ public interface Destination
      *
      * @param message the message
      */
-    public void sendMessage(Message message);
+    void sendMessage(Message message);
 
 }

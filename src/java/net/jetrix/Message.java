@@ -81,7 +81,7 @@ public abstract class Message
     public String getRawMessage(Protocol protocol, Locale locale)
     {
         // is the raw message available for the specified protocol
-        String message = (String)rawMessages.get(protocol);
+        String message = (String) rawMessages.get(protocol);
 
         if (message == null)
         {
