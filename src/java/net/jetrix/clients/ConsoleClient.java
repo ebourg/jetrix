@@ -23,6 +23,7 @@ import java.io.*;
 import java.net.*;
 import net.jetrix.*;
 import net.jetrix.config.*;
+import net.jetrix.messages.*;
 
 /**
  * Command line console.
@@ -72,7 +73,8 @@ public class ConsoleClient implements Client
 
     public void sendMessage(Message message)
     {
-        System.out.println(protocol.translate(message, user.getLocale()));
+        String msg = protocol.translate(message, user.getLocale());
+        if (msg != null) System.out.println(msg);
     }
 
     public Message receiveMessage() throws IOException
@@ -98,7 +100,7 @@ public class ConsoleClient implements Client
 
     public User getUser()
     {
-        return null;
+        return user;
     }
 
     public String getVersion()
