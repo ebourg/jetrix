@@ -40,7 +40,7 @@ public class Server implements Runnable, Destination
 {
     private static Server instance;
 
-    private ServerConfig conf;
+    private ServerConfig config;
     private MessageQueue mq;
     private ChannelManager channelManager;
     private Logger logger;
@@ -56,9 +56,11 @@ public class Server implements Runnable, Destination
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run()
             {
-                if (conf != null) { instance.stop(); }
+                if (config != null) { instance.stop(); }
             }
         });
+
+        config = new ServerConfig();
     }
 
     /**
@@ -80,9 +82,8 @@ public class Server implements Runnable, Destination
     private void init()
     {
         // read the server configuration
-        conf = new ServerConfig();
-        conf.load();
-        conf.setRunning(true);
+        config.load();
+        config.setRunning(true);
 
         // prepare the loggers
         prepareLoggers();
@@ -94,7 +95,7 @@ public class Server implements Runnable, Destination
         channelManager = ChannelManager.getInstance();
         channelManager.clear();
 
-        Iterator it = conf.getChannels();
+        Iterator it = config.getChannels();
         while(it.hasNext())
         {
             ChannelConfig cc = (ChannelConfig)it.next();
@@ -106,7 +107,7 @@ public class Server implements Runnable, Destination
         (new Thread(new ConsoleClient())).start();
 
         // start the client listeners
-        Iterator listeners = conf.getListeners();
+        Iterator listeners = config.getListeners();
         while (listeners.hasNext())
         {
             Listener listener = (Listener) listeners.next();
@@ -143,7 +144,7 @@ public class Server implements Runnable, Destination
         });
 
         try {
-            FileHandler fileHandler = new FileHandler(conf.getAccessLogPath(), 1000000, 10);
+            FileHandler fileHandler = new FileHandler(config.getAccessLogPath(), 1000000, 10);
             fileHandler.setLevel(Level.CONFIG);
             logger.addHandler(fileHandler);
             fileHandler.setFormatter(new Formatter() {
@@ -182,14 +183,14 @@ public class Server implements Runnable, Destination
     protected void stop()
     {
         // stop the listeners
-        Iterator listeners = conf.getListeners();
+        Iterator listeners = config.getListeners();
         while (listeners.hasNext())
         {
             Listener listener = (Listener) listeners.next();
             listener.stop();
         }
 
-        conf.setRunning(false);
+        config.setRunning(false);
         disconnectAll();
     }
 
@@ -212,7 +213,7 @@ public class Server implements Runnable, Destination
     {
         init();
 
-        while (conf.isRunning())
+        while (config.isRunning())
         {
             try
             {
@@ -254,7 +255,7 @@ public class Server implements Runnable, Destination
                     case Message.MSG_ADDPLAYER:
                     case Message.MSG_RESTART:
                     case Message.MSG_SHUTDOWN:
-                        conf.setRunning(false);
+                        config.setRunning(false);
                         break;
 
                     case Message.MSG_UNKNOWN:
@@ -278,7 +279,7 @@ public class Server implements Runnable, Destination
 
     public ServerConfig getConfig()
     {
-        return conf;
+        return config;
     }
 
     /**
