@@ -64,11 +64,19 @@ public class WhoCommand extends AbstractCommand
                     if (clientInChannel != null)
                     {
                         User user = clientInChannel.getUser();
-                        if (user.getAccessLevel() > 0) message.append("<b>");
+
+                        message.append(" ");
+
+                        if (user.isRegistered())
+                        {
+                            message.append("<purple>®</purple>");
+                        }
+
+                        if (user.getAccessLevel() > AccessLevel.PLAYER) message.append("<b>");
                         if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("<i>");
-                        message.append(" " + user.getName());
+                        message.append(user.getName());
                         if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("</i>");
-                        if (user.getAccessLevel() > 0) message.append("</b>");
+                        if (user.getAccessLevel() > AccessLevel.PLAYER) message.append("</b>");
                     }
 
                     if (client == clientInChannel)
