@@ -21,7 +21,7 @@
 
 <ul>
   <li class="done"> multiple channels</li>
-  <li class="done"> 28 commands (<a href="http://jetrix/user-guide.php#section4">reference</a>)</li>
+  <li class="done"> 28 commands (<a href="user-guide.php#section4">reference</a>)</li>
   <li class="done"> partial command invocation (<tt>/j</tt> for <tt>/join</tt>, <tt>/br</tt> for <tt>/broadcast</tt>, etc...)</li>  
   <li class="done"> password protected channels</li>
   <li class="done"> authentication level restricted channels</li>
@@ -93,9 +93,9 @@
   <li class="done"> English support</li>
   <li class="done"> French support</li>
   <li class="done"> German support</li>
+  <li class="done"> Spanish support</li>
   <li class="partial"> Italian support</li>
   <li class="partial"> Dutch support</li>
-  <li class="planned"> Spanish support</li>
   <li class="planned"> Japaneese support</li>
 </ul>
 
