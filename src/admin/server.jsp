@@ -206,27 +206,45 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Ban List</h2>
 
+    <script type="text/javascript">
+    function unban(value) {
+        var form = document.forms["banlist.remove"];
+        form["pattern"].value = value;
+        form.submit();
+    }
+    </script>
+
+    <form id="banlist.remove" action="/servlet/net.jetrix.servlets.ServerAction">
+      <input type="hidden" name="action" value="banlist.remove">
+      <input type="hidden" name="pattern" value="">
+    </form>
+
+    <form id="banlist" action="/servlet/net.jetrix.servlets.ServerAction">
+    <input type="hidden" name="action" value="banlist.add">
+
 <%  Iterator banlist = Banlist.getInstance().getBanlist(); %>
 
     <table class="thin" style="width: 400px">
       <tr>
         <th>Pattern</th>
-        <th>Expiration</th>
+        <th>Expires</th>
         <th>Type</th>
         <th></th>
       </tr>
 <%  while (banlist.hasNext()) {
         Banlist.Entry entry = (Banlist.Entry) banlist.next(); %>
       <tr>
-        <td><%= entry.pattern.pattern() %></td>
+        <td><%= entry.pattern %></td>
         <td><%= entry.expiration != null ? entry.expiration.toString() : "" %></td>
         <td width="50" align="center">Host</td>
-        <td width="50"><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
+        <td width="50" align="center">
+          <a href="javascript: unban('<%= entry.pattern %>')"><img src="images/delete16.png" alt="Remove" title="Remove"></a>
+        </td>
       </tr>
 <%  } %>
       <tr>
         <td><input type="text" name="pattern" style="thin"></td>
-        <td><input type="text" name="expiration" style="thin"></td>
+        <td><input type="text" name="expires" style="thin"></td>
         <td width="50" align="center">
           <select name="type">
             <option value="0">Host</option>
@@ -234,10 +252,11 @@
             <option value="2">Team</option>
           </select>
         </td>
-        <td width="50"><input type="button" value="Add"></td>
+        <td width="50"><input type="submit" value="Add"></td>
       </tr>
     </table>
 
+    </form>
 
   </div>
   <div class="tab-page" style="height: 400px">

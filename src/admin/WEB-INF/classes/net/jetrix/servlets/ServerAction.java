@@ -27,6 +27,7 @@ import javax.servlet.ServletException;
 
 import net.jetrix.config.ServerConfig;
 import net.jetrix.Server;
+import net.jetrix.Banlist;
 
 /**
  * Action Servlet handling actions on the server.
@@ -50,6 +51,16 @@ public class ServerAction extends HttpServlet
             config.setOpPassword(request.getParameter("opPassword"));
             config.setLocale(request.getParameter("locale"));
             config.setMessageOfTheDay(request.getParameter("motd"));
+        }
+        else if ("banlist.add".equals(action))
+        {
+            String pattern = request.getParameter("pattern");
+            Banlist.getInstance().ban(pattern);
+        }
+        else if ("banlist.remove".equals(action))
+        {
+            String pattern = request.getParameter("pattern");
+            Banlist.getInstance().unban(pattern);
         }
         else if ("gc".equals(action))
         {
