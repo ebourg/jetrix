@@ -27,8 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 <!ELEMENT tetrinet-server (name?, language?, timeout?, max-channels?,
   max-players?, max-connections?, op-password, access-log, error-log, motd,
-  filter-definitions?, default-filters?, default-settings, channels, commands, 
-  listeners, ban?)>
+  filter-definitions?, default-filters?, winlists?, default-settings, channels,
+  commands, listeners, ban?)>
 <!ATTLIST tetrinet-server host CDATA #IMPLIED>
 <!ATTLIST tetrinet-server port CDATA #IMPLIED>
 
@@ -59,6 +59,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT param EMPTY>
 <!ATTLIST param name CDATA #REQUIRED>
 <!ATTLIST param value CDATA #REQUIRED>
+
+<!ELEMENT winlists (winlist*)>
+<!ELEMENT winlist (param*)>
+<!ATTLIST winlist name CDATA #REQUIRED>
+<!ATTLIST winlist class CDATA #IMPLIED>
 
 <!ELEMENT default-settings (starting-level, lines-per-level, level-increase,
   lines-per-special, special-added, special-capacity, classic-rules,
@@ -93,7 +98,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT blockbomb (#PCDATA)>
 
 <!ELEMENT channels (channel*)>
-<!ELEMENT channel (description?, password?, access-level?, max-players?, max-spectators?, settings?, class?, filters?)>
+<!ELEMENT channel (description?, password?, access-level?, max-players?,
+  max-spectators?, winlist?, settings?, class?, filters?)>
 <!ATTLIST channel name CDATA #REQUIRED>
 <!ELEMENT description (#PCDATA)>
 <!ELEMENT password (#PCDATA)>
