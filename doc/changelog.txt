@@ -16,7 +16,7 @@ TODO
 - display available languages with /lang
 - /lfd looking for duel
 
-Changes in version 0.1.2 (2003-06-??)
+Changes in version 0.1.2 (2003-08-03)
 -------------------------------------
 - new commands : /move, /goto, /petition, /tmsg, /speclist
 - new game mod : 7tetris
