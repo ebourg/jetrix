@@ -33,7 +33,7 @@ import org.lfjr.jts.config.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-class TetriNETClient extends Thread
+public class TetriNETClient extends Thread
 {
     private Socket socket;
     private BufferedReader in;
@@ -53,6 +53,24 @@ class TetriNETClient extends Thread
 
     private boolean disconnected;
     private Logger logger = Logger.getLogger("net.jetrix");
+    private static List allowedSpecials;
+
+    static
+    {
+        allowedSpecials = new ArrayList();
+        allowedSpecials.add("cs1");
+        allowedSpecials.add("cs2");
+        allowedSpecials.add("cs4");
+        allowedSpecials.add("a");
+        allowedSpecials.add("c");
+        allowedSpecials.add("n");
+        allowedSpecials.add("r");
+        allowedSpecials.add("s");
+        allowedSpecials.add("b");
+        allowedSpecials.add("g");
+        allowedSpecials.add("q");
+        allowedSpecials.add("o");
+    }
 
 
     public TetriNETClient(TetriNETPlayer player, Socket socket) throws IOException
@@ -182,9 +200,14 @@ class TetriNETClient extends Thread
                     m.setCode(Message.MSG_SB);
 
                     Integer to   = new Integer(st.nextToken());
-                    String bonus = st.nextToken();
+                    String special = st.nextToken();
                     Integer from = new Integer(st.nextToken());
-                    m.setParameters(new Object[] { to, bonus, from });
+
+                    // check forged specials
+                    if (!allowedSpecials.contains(special))
+                        throw new IllegalArgumentException("Forged special detected from " + this);
+
+                    m.setParameters(new Object[] { to, special, from });
                 }
                 // f <slot> <field>
                 else if ("f".equals(cmd))
@@ -198,7 +221,7 @@ class TetriNETClient extends Thread
                 }
 
                 // any other slash command
-                if ( m.getCode()==Message.MSG_PLINE )
+                if ( m.getCode() == Message.MSG_PLINE )
                 {
                     String text = (String)m.getParameter(1);
                     if (text.startsWith("/"))
@@ -226,6 +249,11 @@ class TetriNETClient extends Thread
                 catch (NoSuchElementException e)
                 {
                     logger.finer("Bad format message");
+                    e.printStackTrace();
+                }
+                catch (IllegalArgumentException e)
+                {
+                    logger.warning(e.getMessage());
                     e.printStackTrace();
                 }
             } // end while
@@ -347,7 +375,7 @@ class TetriNETClient extends Thread
 
     public String toString()
     {
-        return "[Client "+player.getName()+" <"+player.getTeam()+">]";
+        return "[Client " + socket.getInetAddress() + " type=" + clientType + "]";
     }
 
 }
