@@ -42,7 +42,7 @@ public class ChannelConfig
     private Properties props;
 
     /** channel filter definitions */
-    private ArrayList filters;
+    private List filters;
 
     public ChannelConfig()
     {
