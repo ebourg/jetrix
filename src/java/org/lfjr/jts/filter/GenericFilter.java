@@ -58,22 +58,7 @@ public abstract class GenericFilter extends MessageFilter
             case Message.MSG_DISCONNECTED: onDisconnected(m, out); break;
             case Message.MSG_ADDPLAYER:    onAddPlayer(m, out); break;
             case Message.MSG_SLASHCMD:     onSlashCommand(m, out); break;
-            case Message.MSG_SB:
-                onSpecial(m, out);
-                String rawMessage = m.getRawMessage();
-                if (rawMessage.startsWith("cs1")) onOneLineAdded(m, out);
-                else if (rawMessage.startsWith("cs2")) onTwoLinesAdded(m, out);
-                else if (rawMessage.startsWith("cs4")) onFourLinesAdded(m, out);
-                else if (rawMessage.startsWith("a")) onAddLine(m, out);
-                else if (rawMessage.startsWith("c")) onClearLine(m, out);
-                else if (rawMessage.startsWith("n")) onNukeField(m, out);
-                else if (rawMessage.startsWith("r")) onClearRandomBlocks(m, out);
-                else if (rawMessage.startsWith("s")) onSwitchFields(m, out);
-                else if (rawMessage.startsWith("b")) onClearSpecialBlocks(m, out);
-                else if (rawMessage.startsWith("g")) onBlockGravity(m, out);
-                else if (rawMessage.startsWith("q")) onBlockQuake(m, out);
-                else if (rawMessage.startsWith("o")) onBlockBomb(m, out);
-                break;
+            case Message.MSG_SB:           onSpecial(m, out); break;
             default: out.add(m);
         }
     }
@@ -145,7 +130,19 @@ public abstract class GenericFilter extends MessageFilter
 
     public void onSpecial(Message m, List out)
     {
-        out.add(m);
+        String rawMessage = m.getRawMessage();
+        if (rawMessage.startsWith("cs1")) onOneLineAdded(m, out);
+        else if (rawMessage.startsWith("cs2")) onTwoLinesAdded(m, out);
+        else if (rawMessage.startsWith("cs4")) onFourLinesAdded(m, out);
+        else if (rawMessage.startsWith("a")) onAddLine(m, out);
+        else if (rawMessage.startsWith("c")) onClearLine(m, out);
+        else if (rawMessage.startsWith("n")) onNukeField(m, out);
+        else if (rawMessage.startsWith("r")) onClearRandomBlocks(m, out);
+        else if (rawMessage.startsWith("s")) onSwitchFields(m, out);
+        else if (rawMessage.startsWith("b")) onClearSpecialBlocks(m, out);
+        else if (rawMessage.startsWith("g")) onBlockGravity(m, out);
+        else if (rawMessage.startsWith("q")) onBlockQuake(m, out);
+        else if (rawMessage.startsWith("o")) onBlockBomb(m, out);
     }
 
     public void onLevel(Message m, List out)
