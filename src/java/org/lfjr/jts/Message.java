@@ -19,6 +19,8 @@
 
 package org.lfjr.jts;
 
+import java.util.*;
+
 /**
  * Internal message sent between server, channels and client handlers.
  *
@@ -59,15 +61,17 @@ public class Message
     private int code;
     private String raw;
     private Object source; // (server, channel, client) should use a dedicated interface ()
+    private Date date;
 
     public Message()
     {
-        type = MSG_UNKNOWN;
+        this(MSG_UNKNOWN);
     }
 
     public Message(int code)
     {
         this.code = code;
+        this.date = new Date();
     }
 
     public int getType()
@@ -154,6 +158,14 @@ public class Message
     {
         return source;	
     }
+    
+    /**
+     * Returns the creation date of this message.
+     */
+    public Date getDate()
+    {
+        return date;	
+    }
 
     public void setType(int type)
     {
@@ -173,7 +185,7 @@ public class Message
     public void setParameters(Object[] params)
     {
         this.params = params;
-        raw = null;
+        //raw = null;
     }
     
     public void setSource(Object source)

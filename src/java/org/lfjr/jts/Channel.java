@@ -87,6 +87,7 @@ public class Channel extends Thread
                     {
                         case Message.MSG_SLASHCMD:
                             String cmd = (String)m.getParameter(1);
+                            System.out.println("Commande : "+cmd);
                             if ("/join".equalsIgnoreCase(cmd))
                             {
                             	System.out.println("changement de channel detecte");
@@ -250,76 +251,94 @@ public class Channel extends Thread
                             {
                                 // leaving a previous channel
                                 System.out.println("leaving a previous channel");
+                                Channel previousChannel = client.getChannel();
+                                
+                                // notice to players in the previous channel
                                 Message leave = new Message(Message.MSG_PLAYERLEAVE);
-                                Object params[] = { new Integer(client.getChannel().getPlayerSlot(client)) };
+                                Object params[] = { new Integer(previousChannel.getPlayerSlot(client)) };
                                 leave.setParameters(params);
-                                client.getChannel().addMessage(leave);
+                                previousChannel.addMessage(leave);
                                 client.setChannel(this);
-                            }
-
-                            // looking for the first free slot
-                        for (slot=0; slot<6 && playerList[slot]!=null; slot++);
-
-                        if (slot>=6)
-                        {
-                            System.out.println("Panic, no slot available");
-                        }
-                        else
-                        {
-                            playerList[slot]= client;
-                            client.getPlayer().setPlaying(false);
-
-                            // sending new player notice to other players in the channel
-                            Message mjoin = new Message(Message.MSG_PLAYERJOIN);
-                            Object paramsjoin[] = { new Integer(slot+1), client.getPlayer().getName() };
-                            mjoin.setParameters(paramsjoin);
-                            sendAll(mjoin, slot+1);
-
-                            // sending slot number to incomming player
-                            Message mnum = new Message(Message.MSG_PLAYERNUM);
-                            Object paramsnum[] = { new Integer(slot+1) };
-                            mnum.setParameters(paramsnum);
-                            client.sendMessage(mnum);
-
-                            // sending player and team list to incomming player
-                            for (i=0; i<playerList.length; i++)
-                            {
-                                if (playerList[i]!=null && i!=slot)
+                                
+                                // ending running game
+                                if (previousChannel.getGameState() != Channel.GAME_STATE_STOPPED);
                                 {
-                                    TetriNETClient resident = (TetriNETClient)playerList[i];
-
-                                    // players...
-                                    Message mjoin2 = new Message(Message.MSG_PLAYERJOIN);
-                                    Object paramsjoin2[] = { new Integer(i+1), resident.getPlayer().getName() };
-                                    mjoin2.setParameters(paramsjoin2);
-                                    client.sendMessage(mjoin2);
-
-                                    // ...and teams
-                                    Message mteam = new Message(Message.MSG_TEAM);
-                                    Object paramsteam[] = { new Integer(i+1), resident.getPlayer().getTeam() };
-                                    mteam.setParameters(paramsteam);
-                                    client.sendMessage(mteam);
+                                    Message endgame = new Message(Message.MSG_ENDGAME);
+                                    client.sendMessage(endgame);
+                                }                                
+                                
+                                // clearing player list
+                                for (int j=1; j<=6; j++)
+                                {
+                                    Message clear = new Message(Message.MSG_PLAYERLEAVE);
+                                    Object params2[] = { new Integer(j) };
+                                    clear.setParameters(params2);
+                                    client.sendMessage(clear);
                                 }
                             }
 
-                            // sending welcome massage to incomming player
-                            Message mwelcome = new Message(Message.MSG_PLINE);
-                            Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + ChatColors.bold + cconf.getName() };
-                            mwelcome.setParameters(paramswelcome);
-                            client.sendMessage(mwelcome);
+                            // looking for the first free slot
+                            for (slot=0; slot<6 && playerList[slot]!=null; slot++);
 
-                            // sending playerlost message if the game has started
-                            if (gameState != GAME_STATE_STOPPED)
+                            if (slot>=6)
                             {
-                                System.out.println("blurp");
-                                Message lost = new Message(Message.MSG_PLAYERLOST);
-                                Object paramslost[] = { new Integer(slot+1) };
-                                lost.setParameters(paramslost);
-                                sendAll(lost);
+                                System.out.println("Panic, no slot available");
                             }
-                    }
+                            else
+                            {
+                                playerList[slot]= client;
+                                client.getPlayer().setPlaying(false);
 
-                    break;
+                                // sending new player notice to other players in the channel
+                                Message mjoin = new Message(Message.MSG_PLAYERJOIN);
+                                Object paramsjoin[] = { new Integer(slot+1), client.getPlayer().getName() };
+                                mjoin.setParameters(paramsjoin);
+                                sendAll(mjoin, slot+1);
+
+                                // sending slot number to incomming player
+                                Message mnum = new Message(Message.MSG_PLAYERNUM);
+                                Object paramsnum[] = { new Integer(slot+1) };
+                                mnum.setParameters(paramsnum);
+                                client.sendMessage(mnum);
+
+                                // sending player and team list to incomming player
+                                for (i=0; i<playerList.length; i++)
+                                {
+                                    if (playerList[i]!=null && i!=slot)
+                                    {
+                                        TetriNETClient resident = (TetriNETClient)playerList[i];
+
+                                        // players...
+                                        Message mjoin2 = new Message(Message.MSG_PLAYERJOIN);
+                                        Object paramsjoin2[] = { new Integer(i+1), resident.getPlayer().getName() };
+                                        mjoin2.setParameters(paramsjoin2);
+                                        client.sendMessage(mjoin2);
+
+                                        // ...and teams
+                                        Message mteam = new Message(Message.MSG_TEAM);
+                                        Object paramsteam[] = { new Integer(i+1), resident.getPlayer().getTeam() };
+                                        mteam.setParameters(paramsteam);
+                                        client.sendMessage(mteam);
+                                    }
+                                }
+
+                                // sending welcome massage to incomming player
+                                Message mwelcome = new Message(Message.MSG_PLINE);
+                                Object paramswelcome[] = { new Integer(0), ChatColors.gray+"Hello "+client.getPlayer().getName()+", you are in channel " + ChatColors.bold + cconf.getName() };
+                                mwelcome.setParameters(paramswelcome);
+                                client.sendMessage(mwelcome);
+
+                                // sending playerlost message if the game has started
+                                if (gameState != GAME_STATE_STOPPED)
+                                {
+                                    System.out.println("blurp");
+                                    Message lost = new Message(Message.MSG_PLAYERLOST);
+                                    Object paramslost[] = { new Integer(slot+1) };
+                                    lost.setParameters(paramslost);
+                                    sendAll(lost);
+                                }
+                            }
+                            break;
                 }
 
             }

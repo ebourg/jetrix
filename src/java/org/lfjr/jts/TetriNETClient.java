@@ -47,7 +47,7 @@ class TetriNETClient extends Thread
     private TetriNETServer server;
     private TetriNETPlayer player;
 
-    private boolean running;
+    private boolean disconnected;
 
 
     public TetriNETClient(TetriNETPlayer player) throws IOException
@@ -56,10 +56,8 @@ class TetriNETClient extends Thread
         conf = ServerConfig.getInstance();
         socket = player.getSocket();
 
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
-        running = true;
     }
 
 
@@ -72,7 +70,7 @@ class TetriNETClient extends Thread
             String s;
             Message m;
 
-            while ( running && conf.isRunning() )
+            while ( !disconnected && conf.isRunning() )
             {
                 // reading raw message from socket
                 s = readLine();
@@ -336,7 +334,7 @@ class TetriNETClient extends Thread
 */
     public void disconnect()
     {
-        running = false;
+        disconnected = true;
     }
 
     public String toString()
