@@ -193,7 +193,6 @@
     <!-- Create the Windows distribution -->
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
       <zipfileset prefix="jetrix-${version}/" dir="${src}/etc/">
-        <include name="news.txt" />
         <include name="LICENSE" />
         <include name="README" />
         <include name="server.xml" />
@@ -235,7 +234,6 @@
     <!-- Create the Unix distribution -->
     <tar destfile="${dist}/bin/jetrix-${version}.tar">
       <tarfileset prefix="jetrix-${version}/" dir="${src}/etc/">
-        <include name="news.txt" />
         <include name="LICENSE" />
         <include name="README" />
         <include name="server.xml" />
