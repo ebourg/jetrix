@@ -24,9 +24,10 @@ import java.util.logging.*;
 import net.jetrix.config.*;
 import net.jetrix.filter.*;
 import net.jetrix.messages.*;
+import net.jetrix.winlist.*;
 
 /**
- * Game channel
+ * Game channel.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -57,6 +58,7 @@ public class Channel extends Thread implements Destination
     private List filters;
 
     // JetriX logo
+    // @todo move the logo to an external file
     private short jetrixLogo[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0};
 
     public Channel()
@@ -136,7 +138,8 @@ public class Channel extends Thread implements Destination
     public void removeFilter(String filterName)
     {
         // remove the filter from the filter list
-        
+        // @todo filter removal
+
         // remove the filter from the channel config
     }
     
@@ -214,10 +217,14 @@ public class Channel extends Thread implements Destination
     {
         int slot = m.getSlot();
         if (m.getSource() == null)
+        {
             // forged by the server, send to all
             sendAll(m);
+        }
         else
+        {
             sendAll(m, slot);
+        }
     }
 
     private void process(PauseMessage m)
@@ -253,20 +260,20 @@ public class Channel extends Thread implements Destination
         boolean wasPlaying = client.getUser().isPlaying();
         client.getUser().setPlaying(false);
 
-        // check for end of game
+        // check for the end of the game
         if (wasPlaying && countRemainingTeams() <= 1)
         {
-            gameState = Channel.GAME_STATE_STOPPED;
+            //gameState = Channel.GAME_STATE_STOPPED;
             Message endgame = new EndGameMessage();
-            sendAll(endgame);
+            sendMessage(endgame);
             
             // looking for the slot of the winner
             slot = 0;
             for (int i = 0; i < slots.size(); i++)
             {
-                client = (Client)slots.get(i);
+                client = (Client) slots.get(i);
 
-                if ( client != null && client.getUser().isPlaying() )
+                if (client != null && client.getUser().isPlaying())
                 {
                     slot = i + 1;
                 }
@@ -277,7 +284,7 @@ public class Channel extends Thread implements Destination
             {
                 PlayerWonMessage playerwon = new PlayerWonMessage();
                 playerwon.setSlot(slot);
-                sendAll(playerwon);
+                sendMessage(playerwon);
                 
                 User winner = getPlayer(slot);
                 PlineMessage announce = new PlineMessage();
@@ -289,7 +296,7 @@ public class Channel extends Thread implements Destination
                 {
                     announce.setKey("channel.team_won", new Object[] { winner.getTeam() });
                 }
-                sendAll(announce);
+                sendMessage(announce);
             }
         }
     }
@@ -327,7 +334,6 @@ public class Channel extends Thread implements Destination
             while (it.hasNext())
             {
                 Client client = (Client)it.next();
-                System.out.println(client);
                 if (client != null)
                 {
                     client.getUser().setPlaying(true);
@@ -378,35 +384,6 @@ public class Channel extends Thread implements Destination
         players.set(slot - 1, null);
         sendAll(m);
     }*/
-
-    /**
-     * Remove the specified client from the channel.
-     */
-    public void removeClient(Client client)
-    {
-        if (client != null)
-        {
-            clients.remove(client);
-            int slot = slots.indexOf(client);
-
-            if (slot != -1)
-            {
-                slots.set(slot, null);
-                LeaveMessage leave = new LeaveMessage();
-                leave.setSlot(slot + 1);
-                sendAll(leave);
-            }
-            else
-            {
-                PlineMessage message = new PlineMessage();
-                message.setText("<green>*** <b>" + client.getUser().getName() + "</b> is no longer watching");
-                sendAll(message);
-            }
-        }
-
-        // stop the game if the channel is now empty
-        if (isEmpty() && running) { gameState = GAME_STATE_STOPPED; }
-    }
 
     private void process(AddPlayerMessage m)
     {
@@ -481,7 +458,7 @@ public class Channel extends Thread implements Destination
             }
         }
 
-        // send the list of players and spectators
+        // send the list of players
         for (int i = 0; i < slots.size(); i++)
         {
             Client resident = (Client)slots.get(i);
@@ -501,10 +478,40 @@ public class Channel extends Thread implements Destination
             }
         }
 
+        // send the winlist
+        Winlist winlist = WinlistManager.getInstance().getWinlist(channelConfig.getWinlistId());
+        if (winlist != null)
+        {
+            List topScores = winlist.getScores(0, 10);
+            WinlistMessage winlistMessage = new WinlistMessage();
+            winlistMessage.setScores(topScores);
+            client.sendMessage(winlistMessage);
+        }
+
         // send a welcome message to the incomming client
         PlineMessage mwelcome = new PlineMessage();
         mwelcome.setKey("channel.welcome", new Object[] { client.getUser().getName(), channelConfig.getName() });
         client.sendMessage(mwelcome);
+
+        // send the list of spectators
+        List specnames = new ArrayList();
+        Iterator it = clients.iterator();
+        while (it.hasNext())
+        {
+            Client c = (Client)it.next();
+            if (c.getUser().isSpectator())
+            {
+                specnames.add(c.getUser().getName());
+            }
+        }
+        
+        if (specnames.size() > 0)
+        {
+            SpectatorListMessage spectators = new SpectatorListMessage();
+            spectators.setChannel(getConfig().getName());
+            spectators.setSpectators(specnames);
+            client.sendMessage(spectators);
+        }
 
         // send the status of the game to the new client
         if (gameState != GAME_STATE_STOPPED)
@@ -520,31 +527,114 @@ public class Channel extends Thread implements Destination
 
     }
 
+    public void process(PlayerSwitchMessage m)
+    {
+        if (gameState == GAME_STATE_STOPPED)
+        {
+            // get the players at the specified slots
+            Client player1 = getClient(m.getSlot1());
+            Client player2 = getClient(m.getSlot2());
+
+            // swap the players
+            slots.set(m.getSlot1() - 1, player2);
+            slots.set(m.getSlot2() - 1, player1);
+
+            // make the change visible to all clients
+            if (player1 != null)
+            {
+                LeaveMessage leave1 = new LeaveMessage();
+                leave1.setSlot(m.getSlot1());
+                sendAll(leave1);
+            }
+
+            if (player2 != null)
+            {
+                LeaveMessage leave2 = new LeaveMessage();
+                leave2.setSlot(m.getSlot2());
+                sendAll(leave2);
+            }
+
+            if (player1 != null)
+            {
+                JoinMessage mjoin = new JoinMessage();
+                mjoin.setSlot(m.getSlot2());
+                mjoin.setName(player1.getUser().getName());
+                sendAll(mjoin);
+
+                PlayerNumMessage mnum = new PlayerNumMessage();
+                mnum.setSlot(m.getSlot2());
+                player1.sendMessage(mnum);
+            }
+
+            if (player2 != null)
+            {
+                JoinMessage mjoin = new JoinMessage();
+                mjoin.setSlot(m.getSlot1());
+                mjoin.setName(player2.getUser().getName());
+                sendAll(mjoin);
+
+                PlayerNumMessage mnum = new PlayerNumMessage();
+                mnum.setSlot(m.getSlot1());
+                player2.sendMessage(mnum);
+            }
+        }
+    }
+
     public void process(Message m)
     {
         logger.finest("[" + channelConfig.getName() + "] Processing " +  m);
 
-        if ( m instanceof CommandMessage) process((CommandMessage)m);
-        else if ( m instanceof TeamMessage) process((TeamMessage)m);
-        else if ( m instanceof GmsgMessage) process((GmsgMessage)m);
-        else if ( m instanceof PlineMessage) process((PlineMessage)m);
-        else if ( m instanceof PlineActMessage) process((PlineActMessage)m);
-        else if ( m instanceof PauseMessage) process((PauseMessage)m);
-        else if ( m instanceof ResumeMessage) process((ResumeMessage)m);
-        else if ( m instanceof PlayerLostMessage) process((PlayerLostMessage)m);
-        else if ( m instanceof SpecialMessage) process((SpecialMessage)m);
-        else if ( m instanceof LevelMessage) process((LevelMessage)m);
-        else if ( m instanceof FieldMessage) process((FieldMessage)m);
-        else if ( m instanceof StartGameMessage) process((StartGameMessage)m);
-        else if ( m instanceof StopGameMessage) process((StopGameMessage)m);
-        else if ( m instanceof EndGameMessage) process((EndGameMessage)m);
-        else if ( m instanceof DisconnectedMessage) process((DisconnectedMessage)m);
-        //else if ( m instanceof LeaveMessage) process((LeaveMessage)m);
-        else if ( m instanceof AddPlayerMessage) process((AddPlayerMessage)m);
+        if (m instanceof CommandMessage) process((CommandMessage)m);
+        else if (m instanceof FieldMessage) process((FieldMessage)m);
+        else if (m instanceof SpecialMessage) process((SpecialMessage)m);
+        else if (m instanceof LevelMessage) process((LevelMessage)m);
+        else if (m instanceof PlayerLostMessage) process((PlayerLostMessage)m);
+        else if (m instanceof TeamMessage) process((TeamMessage)m);
+        else if (m instanceof PlineMessage) process((PlineMessage)m);
+        else if (m instanceof GmsgMessage) process((GmsgMessage)m);
+        else if (m instanceof PlineActMessage) process((PlineActMessage)m);
+        else if (m instanceof PauseMessage) process((PauseMessage)m);
+        else if (m instanceof ResumeMessage) process((ResumeMessage)m);
+        else if (m instanceof StartGameMessage) process((StartGameMessage)m);
+        else if (m instanceof StopGameMessage) process((StopGameMessage)m);
+        else if (m instanceof EndGameMessage) process((EndGameMessage)m);
+        else if (m instanceof DisconnectedMessage) process((DisconnectedMessage)m);
+        else if (m instanceof PlayerSwitchMessage) process((PlayerSwitchMessage)m);
+        //else if (m instanceof LeaveMessage) process((LeaveMessage)m);
+        else if (m instanceof AddPlayerMessage) process((AddPlayerMessage)m);
         else
         {
             logger.finest("[" + channelConfig.getName() + "] Message not processed " +  m);
         }
+    }
+
+    /**
+     * Remove the specified client from the channel.
+     */
+    public void removeClient(Client client)
+    {
+        if (client != null)
+        {
+            clients.remove(client);
+            int slot = slots.indexOf(client);
+
+            if (slot != -1)
+            {
+                slots.set(slot, null);
+                LeaveMessage leave = new LeaveMessage();
+                leave.setSlot(slot + 1);
+                sendAll(leave);
+            }
+            else
+            {
+                PlineMessage message = new PlineMessage();
+                message.setText("<green>*** <b>" + client.getUser().getName() + "</b> is no longer watching");
+                sendAll(message);
+            }
+        }
+
+        // stop the game if the channel is now empty
+        if (isEmpty() && running) { gameState = GAME_STATE_STOPPED; }
     }
 
     /**
