@@ -31,7 +31,7 @@ import org.lfjr.jts.config.*;
  */
 class ServerConsole extends Thread
 {
-    BufferedReader    dis = new BufferedReader(new InputStreamReader(System.in));
+    BufferedReader dis = new BufferedReader(new InputStreamReader(System.in));
     ServerConfig conf;
 
 
@@ -58,15 +58,10 @@ class ServerConsole extends Thread
      */
     public void run()
     {
-        while (true)
+        while (conf.isRunning())
         {
             try
             {
-            	/*
-                while (!dis.ready())
-                {
-                    yield();
-                }*/
 
                 String cmd = dis.readLine();
 

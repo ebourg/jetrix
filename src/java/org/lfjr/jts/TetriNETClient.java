@@ -213,17 +213,8 @@ class TetriNETClient extends Thread
                     }                  
                 }
 
-                // forwarding message
-                switch ( m.getType() )
-                {
-                    case Message.TYPE_SERVER:
-                      TetriNETServer.getInstance().addMessage(m);
-                      break;
-                    
-                    default:
-                      channel.addMessage(m);
-                      break;
-                }
+                // forwarding message to channel
+                channel.addMessage(m);
                 
                 }
                 catch (NumberFormatException e)

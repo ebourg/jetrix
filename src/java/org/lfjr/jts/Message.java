@@ -103,10 +103,19 @@ public class Message
                   Object team = getParameter(1);
                   raw = "team " + slot + ( (team==null)?"":" "+team );
                   break;
+                  
+                case MSG_PLAYERLEAVE:
+                  raw = "playerleave " + (Integer)getParameter(0);
+                  break;
 
                 case MSG_PLAYERNUM:
                   slot = (Integer)getParameter(0);
                   raw = "playernum " + slot;
+                  break;
+                  
+                case MSG_ENDGAME:
+                  //raw = "startgame 0 " + (Integer)getParameter(0);
+                  raw = "endgame";
                   break;
 
                 case MSG_PLAYERLOST:
@@ -164,6 +173,7 @@ public class Message
     public void setParameters(Object[] params)
     {
         this.params = params;
+        raw = null;
     }
     
     public void setSource(Object source)

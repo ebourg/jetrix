@@ -56,7 +56,7 @@ public class TetriNETServer implements Runnable
         server.start();
 
         // spawning persistent channels
-        channelManager = new ChannelManager();
+        channelManager = ChannelManager.getInstance();
         Iterator it = conf.getChannels();
 
         while(it.hasNext())

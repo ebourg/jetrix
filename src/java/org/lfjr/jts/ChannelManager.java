@@ -31,10 +31,16 @@ import org.lfjr.jts.config.*;
 public class ChannelManager
 {
     private Vector channels;
+    private static ChannelManager instance = new ChannelManager();
     
-    public ChannelManager()    
+    private ChannelManager()    
     {
         channels = new Vector();
+    }
+    
+    public static ChannelManager getInstance()
+    {
+        return instance;	
     }
     
     public Channel createChannel()
@@ -86,5 +92,18 @@ public class ChannelManager
         }
         
         return channel;
+    }
+    
+    public Channel getChannel(String name)
+    {
+        Channel channel = null;
+        Iterator it = channels();
+        while( it.hasNext() && channel==null)
+        {
+            Channel channel2 = (Channel)it.next();
+            if (channel2.getConfig().getName().equalsIgnoreCase(name)) channel = channel2;
+        }
+        
+        return channel;    	
     }
 }

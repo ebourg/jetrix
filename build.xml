@@ -27,14 +27,14 @@
 
 
   <target name="compiletest" depends="compile" description="Compile JUnit TestCases">
-    <javac srcdir="${src}/test" destdir="${build}" classpath="${build};${lib}/junit.jar;" debug="yes"/>     
-  </target> 
-  
-  
+    <javac srcdir="${src}/test" destdir="${build}" classpath="${build};${lib}/junit.jar;" debug="yes"/>
+  </target>
+
+
   <target name="dist" depends="compile">
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
-    <jar jarfile="${dist}/lib/jetrix.jar" basedir="${build}" manifest="${src}/etc/MANIFEST.MF" />    
+    <jar jarfile="${dist}/lib/jetrix.jar" basedir="${build}" manifest="${src}/etc/MANIFEST.MF" />
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
       <zipfileset prefix="jetrix/" dir="${src}/etc/">
         <include name="news.txt" />
@@ -44,67 +44,71 @@
         <include name="jetrix.bat" />
         <include name="jetrix" />
         <include name="update.bat" />
-        <include name="update" />        
+        <include name="update" />
       </zipfileset>
       <zipfileset prefix="jetrix/lib/" dir="${dist}/lib/">
-        <include name="jetrix.jar" />    
+        <include name="jetrix.jar" />
       </zipfileset>
       <zipfileset prefix="jetrix/lib/" dir="${lib}/">
-        <include name="crimson.jar" />
-        <include name="jaxp.jar" />      
-      </zipfileset>      
-    </zip>        
+        <!--<include name="crimson.jar" />-->
+        <!--<include name="jaxp.jar" />-->
+      </zipfileset>
+    </zip>
   </target>
 
 
-  <target name="test" depends="compiletest" description="Runs testcases">    
+  <target name="test" depends="compiletest" description="Runs testcases">
     <junit printsummary="yes" fork="yes" dir="${src}/etc">
       <classpath>
-        <pathelement location="${lib}/jaxp.jar"/>
-        <pathelement location="${lib}/crimson.jar"/>
+        <!--<pathelement location="${lib}/jaxp.jar"/>-->
+        <!--<pathelement location="${lib}/crimson.jar"/>-->
         <pathelement path="${build}" />
-      </classpath>    
+      </classpath>
       <formatter type="xml" />
       <batchtest>
         <fileset dir="${build}">
           <include name="**/*Test.class" />
         </fileset>
       </batchtest>
-    </junit>               
+    </junit>
     <junitreport>
       <fileset dir=".">
         <include name="TEST-*.xml"/>
       </fileset>
       <report format="noframes"/>
-    </junitreport>    
+    </junitreport>
     <delete>
       <fileset dir="." includes="TEST*"/>
-    </delete>    
+    </delete>
   </target>
-    
-  
-  <target name="run" depends="dist">
+
+
+  <target name="deploy" depends="dist">
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
+  </target>
+
+
+  <target name="run" depends="deploy">
     <java dir="${deploy}/jetrix" jar="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
   </target>
-  
-  
+
+
   <target name="update" depends="dist">
     <!-- Installing -->
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
-    
+
     <!-- Checksum computation -->
-    <java classname="org.lfjr.jts.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />  
-    
+    <java classname="org.lfjr.jts.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
+
     <!-- Uploading to patch server -->
     <ftp server="${ftp.host}" remotedir="/site/tetrinet/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes">
       <fileset dir="${deploy}/jetrix"/>
     </ftp>
-  </target>  
+  </target>
 
 
   <target name="doc">
@@ -122,10 +126,10 @@
              bottom="Copyright &#169; 2001 Emmanuel Bourg. All Rights Reserved.">
       <link href="http://java.sun.com/j2se/1.3/docs/api/"/>
       <!--<link href="http://java.sun.com/j2ee/tutorial/api/"/>-->
-    </javadoc>    
+    </javadoc>
     <zip zipfile="${dist}/doc/api.zip">
       <zipfileset dir="${doc}" includes="api/**"/>
-    </zip>    
+    </zip>
   </target>
 
 
@@ -134,5 +138,5 @@
     <delete dir="${build}"/>
     <delete dir="${deploy}"/>
   </target>
-  
+
 </project>

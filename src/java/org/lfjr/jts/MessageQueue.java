@@ -16,14 +16,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- 
+
 package org.lfjr.jts;
 
 import java.io.*;
 
 /**
- * FIFO for internal messages.
- *
+ * FIFO for internal messages with blocking output.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -33,19 +32,19 @@ public class MessageQueue
     private MessageQueue.Node head, tail;
     private Object putLock, getLock;
     private boolean closed;
-	
+
     /**
-     * Construct a new empty MessageQueue.
-     *
+     * Constructs a new empty MessageQueue.
      */
     public MessageQueue()
     {
-    	putLock = new Object();
-    	getLock = new Object();
+        putLock = new Object();
+        getLock = new Object();
     }
 
     /**
-     * Fetch the next Message in the queue.
+     * Fetch the next Message in the queue. The thread will wait until a message
+     * is put in the queue or until the queue is closed.
      *
      * @return next Message waiting in the queue
      *
@@ -53,23 +52,23 @@ public class MessageQueue
      */
     public Message get() throws InterruptedIOException
     {
-    	synchronized(getLock)
-    	{
-    	    // blocking the thread until a new message arrives or the queue is closed
-    	    while (head == null && !closed)
-    	    {
-    	    	try { getLock.wait(2000); } catch(InterruptedException e) { e.printStackTrace();  }
-    	    }
-    	    
-    	    if (closed) throw new InterruptedIOException("MessageQueue closed");
-    	    
-    	    MessageQueue.Node t = head;
-    	    head = head.next;
-    	    
-    	    return t.value;
-    	}    	
+        synchronized(getLock)
+        {
+            // blocking the thread until a new message arrives or the queue is closed
+            while (head == null && !closed)
+            {
+                try { getLock.wait(2000); } catch(InterruptedException e) { e.printStackTrace();  }
+            }
+
+            if (closed) throw new InterruptedIOException("MessageQueue closed");
+
+            MessageQueue.Node t = head;
+            head = head.next;
+
+            return t.value;
+        }
     }
-    
+
     /**
      * Add a new Message in the queue.
      *
@@ -77,24 +76,24 @@ public class MessageQueue
      */
     public void put(Message elem)
     {
-    	if (!closed)
-    	{    		
-    	    synchronized(putLock)
-    	    {
-    	        MessageQueue.Node m = new MessageQueue.Node();
-    	        m.value = elem;
-    	    
-    	        if (tail != null) { tail.next = m; }
-    	        if (head == null) { head = m; }
-    	    
-    	        tail = m;    	    
-    	    
-    	        synchronized(getLock)
-    	        {
-    	            getLock.notify();    		
-    	        }
-    	    }    	    	
-    	}    	
+        if (!closed)
+        {
+            synchronized(putLock)
+            {
+                MessageQueue.Node m = new MessageQueue.Node();
+                m.value = elem;
+
+                if (tail != null) { tail.next = m; }
+                if (head == null) { head = m; }
+
+                tail = m;
+
+                synchronized(getLock)
+                {
+                    getLock.notify();
+                }
+            }
+        }
     }
 
     /**
@@ -103,8 +102,8 @@ public class MessageQueue
      */
     public void close()
     {
-    	closed = true;
-    	getLock.notifyAll();
+        closed = true;
+        getLock.notifyAll();
     }
 
     /**
@@ -114,6 +113,6 @@ public class MessageQueue
     private class Node
     {
         Message value;
-        MessageQueue.Node next;      	    	
+        MessageQueue.Node next;
     }
 }

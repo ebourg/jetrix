@@ -68,83 +68,83 @@ public class ClientListener extends Thread
 
                 // checking if server is full
                 // ....
-		/*if (si.nbClient>=si.MAX_CLIENT)
-		{
-		    System.out.println("Server full, client rejected.");
-		    sendMessage("noconnecting Server is full!");
-		    socket.close();
-		}
-		else continue*/
+                /*if (si.nbClient>=si.MAX_CLIENT)
+                {
+                    System.out.println("Server full, client rejected.");
+                    sendMessage("noconnecting Server is full!");
+                    socket.close();
+                }
+                else continue*/
 
                 // validating client
                 TetriNETPlayer player = new TetriNETPlayer(socket);
                 TetriNETClient client = new TetriNETClient(player);
                 initialiseConnexion(client);
 
-		//si.playerList.addElement(client);
-		//si.incClient();
+                //si.playerList.addElement(client);
+                //si.incClient();
 
-		// testing name unicity
-		// ....
+                // testing name unicity
+                // ....
 
-		// testing concurrent connexions from the same host
-		// ....
+                // testing concurrent connexions from the same host
+                // ....
 
-		// testing ban list
-		// ....
+                // testing ban list
+                // ....
 
-		//System.out.println("Client accepted, " + si.nbClient + " client(s) online.");
+                //System.out.println("Client accepted, " + si.nbClient + " client(s) online.");
 
                 /*Message m = new Message(Message.MSG_PLINE);
                 Object params[] = { new Integer(0), ChatColors.bold+"Welcome to Jetrix TetriNET Server "+ServerConfig.VERSION+" !" };
                 m.setParameters(params);
-		client.sendMessage(m);*/
+                client.sendMessage(m);*/
 
-		// sending message of the day
-		BufferedReader motd = new BufferedReader(new StringReader( conf.getMessageOfTheDay() ));
-		String motdline;
-		while( (motdline = motd.readLine() ) != null )
-		{
-		    Message m = new Message(Message.MSG_PLINE);
-		    Object params2[] = { new Integer(0), ChatColors.gray + motdline };
-		    m.setParameters(params2);
-		    client.sendMessage(m);
-		}
-		motd.close();
-
-
-		// channel assignation
-		// (looks for a default channel with room left, creates one if needed)
-		// ....
-
-		/*
-		Channel ch = null;
-
-		Enumeration e = channelList.elements();
-
-		while( e.hasMoreElements() && ch==null)
+                // sending message of the day
+                BufferedReader motd = new BufferedReader(new StringReader( conf.getMessageOfTheDay() ));
+                String motdline;
+                while( (motdline = motd.readLine() ) != null )
                 {
-         	    Channel ch2 = (Channel)e.nextElement();
-         	    if (!ch2.isFull()) ch = ch2;
-         	}
+                    Message m = new Message(Message.MSG_PLINE);
+                    Object params2[] = { new Integer(0), ChatColors.gray + motdline };
+                    m.setParameters(params2);
+                    client.sendMessage(m);
+                }
+                motd.close();
 
-		if (ch==null)
-		{
-		    ch = new Channel();
-		    ch.start();
-		}
 
-		channelList.addElement(ch);
+                // channel assignation
+                // (looks for a default channel with room left, creates one if needed)
+                // ....
 
-		//ch.addClient(client);
-		client.assignChannel(ch);
-		client.start();*/
-		
-		// forwarding client to server for channel assignation
-		Message m = new Message(Message.MSG_ADDPLAYER);
-		Object[] params2 = { client };
-		m.setParameters(params2);
-		TetriNETServer.getInstance().addMessage(m);
+                /*
+                Channel ch = null;
+
+                Enumeration e = channelList.elements();
+
+                while( e.hasMoreElements() && ch==null)
+                {
+                    Channel ch2 = (Channel)e.nextElement();
+                    if (!ch2.isFull()) ch = ch2;
+                }
+
+                if (ch==null)
+                {
+                    ch = new Channel();
+                    ch.start();
+                }
+
+                channelList.addElement(ch);
+
+                //ch.addClient(client);
+                client.assignChannel(ch);
+                client.start();*/
+
+                // forwarding client to server for channel assignation
+                Message m = new Message(Message.MSG_ADDPLAYER);
+                Object[] params2 = { client };
+                m.setParameters(params2);
+                TetriNETServer.getInstance().addMessage(m);
             }
             catch (IOException e)
             {
@@ -159,11 +159,11 @@ public class ClientListener extends Thread
         String init="", dec;
         Vector tokens = new Vector();
 
-	try
-	{
+        try
+        {
             init = client.readLine();
-	}
-	catch (IOException e) { e.printStackTrace(); }
+        }
+        catch (IOException e) { e.printStackTrace(); }
 
         dec = decode(init);
 

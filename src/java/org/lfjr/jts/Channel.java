@@ -85,6 +85,35 @@ public class Channel extends Thread
                 
                     switch(m.getCode())
                     {
+                        case Message.MSG_SLASHCMD:
+                            String cmd = (String)m.getParameter(1);
+                            if ("/join".equalsIgnoreCase(cmd))
+                            {
+                            	System.out.println("changement de channel detecte");
+                            	Channel target = ChannelManager.getInstance().getChannel((String)m.getParameter(2));
+                            	if (target!=null)
+                            	{
+                            	    System.out.println("channel cible trouve : "+target);
+                            	    if ( target.isFull() )
+                            	    {
+                            	    	System.out.println("channel complet !");
+                            	    }
+                            	    else
+                            	    {
+                            	        Message move = new Message(Message.MSG_ADDPLAYER);
+                            	        Object[] params = { m.getSource() };
+                            	        move.setParameters(params);
+                            	        target.addMessage(move);
+                            	    }
+                            	}
+                            	                            	
+                            }
+                            else
+                            {
+                                TetriNETServer.getInstance().addMessage(m);
+                            }
+                            break;                        
+                        
                         case Message.MSG_TEAM:
                             slot = ((Integer)m.getParameter(0)).intValue();                            
                             playerList[slot - 1].getPlayer().setTeam((String)m.getParameter(1));                                                      
@@ -201,6 +230,13 @@ public class Channel extends Thread
                             sendAll(m);
                             break;
                             
+                        case Message.MSG_PLAYERLEAVE:
+                            System.out.println("player leaving channel "+this);
+                            slot = ((Integer)m.getParameter(0)).intValue();
+                            playerList[slot-1]=null;
+                            sendAll(m);
+                            break;
+                        
                         case Message.MSG_ADDPLAYER:
                             client = (TetriNETClient)m.getParameter(0);
                             if (client.getChannel()==null)
@@ -212,7 +248,11 @@ public class Channel extends Thread
                             else
                             {
                                 // leaving a previous channel
-                                // ...
+                                System.out.println("leaving a previous channel");
+                                Message leave = new Message(Message.MSG_PLAYERLEAVE);
+                                Object params[] = { new Integer(client.getChannel().getPlayerSlot(client)) };
+                                leave.setParameters(params);
+                                client.getChannel().addMessage(leave);
                             }
                             
                             // looking for the first free slot
@@ -343,13 +383,18 @@ public class Channel extends Thread
         return getNbPlayers() >= cconf.getMaxPlayers();
     }
     
+    /**
+     * Returns the number of players currently in this chanel.
+     *
+     * @return player count
+     */
     public int getNbPlayers()
     {
         int count = 0;
 
         for (int i = 0; i<cconf.getMaxPlayers(); i++)
         {
-            if (playerList[i++]!=null)
+            if (playerList[i]!=null)
             {
                 count++;
             }
@@ -358,19 +403,32 @@ public class Channel extends Thread
         return count;    	
     }
 
+    /**
+     * Returns the channel configuration.
+     */
     public ChannelConfig getConfig()
     {
         return cconf;	
     }
     
+    /**
+     * Returns the game state.
+     */
     public int getGameState()
     {
         return gameState;	
     }
+    
+    public int getPlayerSlot(TetriNETClient client)
+    {
+        int slot = 0;
 
-    public void sortPlayers() {}
+        for (int i = 0; i<cconf.getMaxPlayers(); i++)
+        {
+            if (playerList[i]==client) slot=i+1;
+        }
 
-
-    public void swichPlayers(int i, int j) {}
+        return slot;        	
+    }
 
 }
