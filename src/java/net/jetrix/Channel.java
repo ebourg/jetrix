@@ -19,10 +19,9 @@
 
 package net.jetrix;
 
+import java.io.*;
 import java.util.*;
 import java.util.logging.*;
-import java.io.BufferedReader;
-import java.io.StringReader;
 
 import org.apache.commons.collections.*;
 
@@ -146,7 +145,7 @@ public class Channel extends Thread implements Destination
         }
         catch (FilterException e)
         {
-            e.printStackTrace();
+            log.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -201,12 +200,21 @@ public class Channel extends Thread implements Destination
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                log.log(Level.WARNING, e.getMessage(), e);
             }
 
         }
 
         log.info("Channel " + channelConfig.getName() + " closed");
+    }
+
+    /**
+     * Stop the channel.
+     */
+    public void close()
+    {
+        running = false;
+        queue.close();
     }
 
     private void process(CommandMessage m)
@@ -623,7 +631,7 @@ public class Channel extends Thread implements Destination
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                log.log(Level.WARNING, e.getMessage(), e);
             }
         }
 
