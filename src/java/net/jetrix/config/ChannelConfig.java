@@ -127,8 +127,6 @@ public class ChannelConfig
 
     /**
      * Gets game parameters.
-     *
-     * @return
      */
     public Settings getSettings()
     {
@@ -137,8 +135,6 @@ public class ChannelConfig
 
     /**
      * Gets channel name.
-     *
-     * @return
      */
     public String getName()
     {
@@ -147,8 +143,6 @@ public class ChannelConfig
 
     /**
      * Gets the password.
-     *
-     * @return
      */
     public String getPassword()
     {
@@ -157,8 +151,6 @@ public class ChannelConfig
 
     /**
      * Gets channel description.
-     *
-     * @return
      */
     public String getDescription()
     {
@@ -167,8 +159,6 @@ public class ChannelConfig
 
     /**
      * Gets maximum number of players allowed.
-     *
-     * @return
      */
     public int getMaxPlayers()
     {
@@ -177,8 +167,6 @@ public class ChannelConfig
 
     /**
      * Gets the minimum access level required to join the channel.
-     *
-     * @return
      */
     public int getAccessLevel()
     {
