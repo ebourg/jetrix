@@ -43,6 +43,8 @@ Player visible changes
 - New #survival channel (drop as many blocks as you can before you die)
 - Implemented the channel operator access level. It's now possible to restrict some commands to the first player in the channel (/move, /start...)
 
+Admin visible changes
+- Fixed a bug preventing the modification of the access level of a command when the "access-level" attribute was set on the <command> element
 
 Changes in version 0.2 (2005-01-18)
 -----------------------------------
