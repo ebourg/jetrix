@@ -80,7 +80,10 @@ public class StatsFilter extends GenericFilter
     {
         // forward the message
         out.add(m);
-        displayStats(out);
+        if (getChannel().getGameState() != Channel.GAME_STATE_STOPPED)
+        {
+            displayStats(out);
+        }
     }
 
     public void onMessage(PauseMessage m, List out)
