@@ -60,7 +60,7 @@ public class SettingsTest extends TestCase
         assertEquals(defaultSettings, Settings.getDefaultSettings());
     }
 
-    public static void testNormalize1()
+    public void testNormalize1()
     {
         Settings s = new Settings();
         int[] tab = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -68,15 +68,20 @@ public class SettingsTest extends TestCase
         assertEquals("Erreur de normalisation", 100, sum(tab));
     }
 
-    public static void testNormalize2()
+    public void testNormalize2()
     {
         Settings s = new Settings();
         int[] tab = { 0, 0, 0, 0, 0 };
         s.normalize(tab);
         assertEquals("Erreur de normalisation", 100, sum(tab));
+        assertEquals("tab[0]", 20, tab[0]);
+        assertEquals("tab[1]", 20, tab[1]);
+        assertEquals("tab[2]", 20, tab[2]);
+        assertEquals("tab[3]", 20, tab[3]);
+        assertEquals("tab[4]", 20, tab[4]);
     }
 
-    public static void testNormalize3()
+    public void testNormalize3()
     {
         Settings s = new Settings();
         int[] tab = { 100, 200, 300, 50, 100, 50, 250, 300 };
@@ -84,7 +89,7 @@ public class SettingsTest extends TestCase
         assertEquals("Erreur de normalisation", 100, sum(tab));
     }
 
-    public static void testNormalize4()
+    public void testNormalize4()
     {
         Settings s = new Settings();
         int[] tab = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
@@ -92,7 +97,7 @@ public class SettingsTest extends TestCase
         assertEquals("Erreur de normalisation", 100, sum(tab));
     }
 
-    public static void testNormalize5()
+    public void testNormalize5()
     {
         Settings s = new Settings();
         int[] tab4 = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
@@ -101,15 +106,17 @@ public class SettingsTest extends TestCase
         assertTrue("Erreur de normalisation", equals(tab4, tab5));
     }
 
-    public static void testNormalize6()
+    public void testNormalize6()
     {
         Settings s = new Settings();
         int[] tab = { 0, -10 };
         s.normalize(tab);
-        assertEquals("Erreur de normalisation", 0, sum(tab));
+        assertEquals("Erreur de normalisation", 100, sum(tab));
+        assertEquals("tab[0]", 50, tab[0]);
+        assertEquals("tab[1]", 50, tab[1]);
     }
 
-    private static long sum(int[] tab)
+    private long sum(int[] tab)
     {
         long s = 0;
         for(int i=0; i<tab.length; i++) s = s + tab[i];
@@ -119,7 +126,7 @@ public class SettingsTest extends TestCase
     /**
      * todo: replace with ArrayAssert from junit-addons
      */
-    private static boolean equals(int[] a, int[] b)
+    private boolean equals(int[] a, int[] b)
     {
         boolean equals = true;
 
