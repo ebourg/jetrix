@@ -109,7 +109,6 @@ public class Server implements Runnable, Destination
 
             public synchronized String format(LogRecord record) {
                 dat.setTime(record.getMillis());
-                StringBuffer text = new StringBuffer();
                 if (formatter == null) {
                     formatter = new SimpleDateFormat(format);
                 }
@@ -130,7 +129,6 @@ public class Server implements Runnable, Destination
 
                 public synchronized String format(LogRecord record) {
                     dat.setTime(record.getMillis());
-                    StringBuffer text = new StringBuffer();
                     if (formatter == null) {
                         formatter = new SimpleDateFormat(format);
                     }
@@ -205,8 +203,6 @@ public class Server implements Runnable, Destination
 
     /**
      * Add a message to the server message queue.
-     *
-     * @param args Arguments de démarrage du serveur.
      */
     public void sendMessage(Message m)
     {

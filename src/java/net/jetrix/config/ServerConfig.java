@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,7 +46,6 @@ public class ServerConfig
     private String accesslogPath;
     private String errorlogPath;
     private String motd;
-    private String name;
     private Locale locale;
 
     // private List bans;

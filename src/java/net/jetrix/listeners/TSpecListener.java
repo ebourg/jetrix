@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,12 +22,9 @@ package net.jetrix.listeners;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.logging.*;
 import net.jetrix.*;
-import net.jetrix.config.*;
 import net.jetrix.clients.*;
 import net.jetrix.messages.*;
-import net.jetrix.protocols.*;
 
 /**
  * Listener for tspec clients.
@@ -37,12 +34,6 @@ import net.jetrix.protocols.*;
  */
 public class TSpecListener extends ClientListener
 {
-    private ServerConfig serverConfig;
-
-    private ServerSocket serverSocket;
-    private Socket socket;
-    private Logger logger = Logger.getLogger("net.jetrix");
-
     public String getName()
     {
         return "tspec";
