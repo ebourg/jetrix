@@ -92,6 +92,10 @@ public class QueryProtocol implements Protocol
         throw new UnsupportedOperationException();
     }
 
+    public char getEOL() {
+        return EOL;
+    }
+
     /**
      * Test if the specified string is a valid query request.
      */

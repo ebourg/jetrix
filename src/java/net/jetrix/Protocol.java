@@ -74,4 +74,9 @@ public interface Protocol
      */
     String applyStyle(String text);
 
+    /**
+     * Return the end of line character used by this protocol.
+     */
+    char getEOL();
+
 }

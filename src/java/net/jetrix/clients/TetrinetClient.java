@@ -28,9 +28,9 @@ import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
 /**
- * Layer handling communication with a tetrinet or tetrifast client. Incomming 
- * messages are turned into a server understandable format and forwarded to the 
- * apropriate destination for processing (the player's channel or  the main 
+ * Layer handling communication with a tetrinet or tetrifast client. Incomming
+ * messages are turned into a server understandable format and forwarded to the
+ * apropriate destination for processing (the player's channel or  the main
  * server thread)
  *
  * @author Emmanuel Bourg
@@ -88,9 +88,9 @@ public class TetrinetClient implements Client
     public void run()
     {
         log.fine("Client started " + this);
-        
+
         connectionTime = new Date();
-        
+
         Server server = Server.getInstance();
         if (server != null)
         {
@@ -104,7 +104,11 @@ public class TetrinetClient implements Client
                 Message message = receiveMessage();
                 if (message == null) continue;
 
-                if (channel != null)
+                if (message.getDestination() != null)
+                {
+                    message.getDestination().send(message);
+                }
+                else if (channel != null)
                 {
                     channel.send(message);
                 }
@@ -140,7 +144,7 @@ public class TetrinetClient implements Client
     public void send(Message m)
     {
         String rawMessage = m.getRawMessage(getProtocol(), user.getLocale());
-        
+
         if (rawMessage != null)
         {
             try
@@ -153,7 +157,7 @@ public class TetrinetClient implements Client
                     }
                     time = now;
 
-                    out.write(rawMessage + (char) 255, 0, rawMessage.length() + 1);
+                    out.write(rawMessage + getProtocol().getEOL(), 0, rawMessage.length() + 1);
                     out.flush();
                 }
 
@@ -249,6 +253,15 @@ public class TetrinetClient implements Client
     public Channel getChannel()
     {
         return channel;
+    }
+
+    public boolean supportsMultipleChannels()
+    {
+        return false;
+    }
+
+    public boolean supportsAutoJoin() {
+        return true;
     }
 
     public void setUser(User user)

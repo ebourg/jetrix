@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -163,9 +163,11 @@ public abstract class ClientListener extends AbstractService implements Listener
                     motd.close();
 
                     // forward the client to the server for channel assignation
-                    AddPlayerMessage m = new AddPlayerMessage();
-                    m.setClient(client);
-                    Server.getInstance().send(m);
+                    if (client.supportsAutoJoin()) {
+                        AddPlayerMessage m = new AddPlayerMessage();
+                        m.setClient(client);
+                        Server.getInstance().send(m);
+                    }
                 }
 
                 // start the client

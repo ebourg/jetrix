@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -47,6 +47,21 @@ public interface Client extends Runnable, Destination
      * Set the channel.
      */
     void setChannel(Channel channel);
+
+    /**
+     * Tell if the client supports multiple channels simultaneously.
+     *
+     * @since 0.1.4
+     */
+    boolean supportsMultipleChannels();
+
+    /**
+     * Tell if the client can be affected automatically to a channel
+     * on connecting to the server.
+     *
+     * @since 0.1.4
+     */
+    boolean supportsAutoJoin();
 
     /**
      * Return the user associated to this client.

@@ -119,6 +119,15 @@ public class ConsoleClient implements Client
         return channel;
     }
 
+    public boolean supportsMultipleChannels()
+    {
+        return false;
+    }
+
+    public boolean supportsAutoJoin() {
+        return true;
+    }
+
     public User getUser()
     {
         return user;

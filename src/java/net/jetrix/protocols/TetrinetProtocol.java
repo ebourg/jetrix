@@ -739,6 +739,10 @@ public class TetrinetProtocol implements Protocol
         return text;
     }
 
+    public char getEOL() {
+        return 0xFF;
+    }
+
     public String toString()
     {
         return "[Protocol name=" + getName() + "]";

@@ -176,4 +176,8 @@ public class QueryClient extends TetrinetClient
         }
     }
 
+    public boolean supportsAutoJoin() {
+        return false;
+    }
+
 }

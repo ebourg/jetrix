@@ -132,6 +132,10 @@ public class ConsoleProtocol implements Protocol
         return text;
     }
 
+    public char getEOL() {
+        return '\n';
+    }
+
     public String toString()
     {
         return "[Protocol name=" + getName() + "]";
