@@ -331,7 +331,7 @@ public class Settings
     /**
      * Set the occurancy of a block.
      *
-     * @since 0.1.4
+     * @since 0.2
      *
      * @param block
      * @param occurancy
@@ -350,7 +350,7 @@ public class Settings
     /**
      * Set the occurancy of a special block
      *
-     * @since 0.1.4
+     * @since 0.2
      *
      * @param special
      * @param occurancy

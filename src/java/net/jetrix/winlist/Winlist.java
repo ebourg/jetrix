@@ -53,7 +53,7 @@ public interface Winlist
     /**
      * Return the configuration necessary to create the same winlist
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     WinlistConfig getConfig();
 
@@ -81,14 +81,14 @@ public interface Winlist
     /**
      * Remove all entries in the winlist
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     void clear();
 
     /**
      * Return the number of entries in the winlist
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     int size();
 

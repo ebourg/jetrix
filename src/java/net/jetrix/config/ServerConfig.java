@@ -606,7 +606,7 @@ public class ServerConfig
      *
      * @param name the name of the resource
      * @return the URL of the resource, or null if it cannot be found
-     * @since 0.1.4
+     * @since 0.2
      */
     private URL findResource(String name) throws MalformedURLException
     {
@@ -848,7 +848,7 @@ public class ServerConfig
      * automatically by calling this method.
      *
      * @param service the service to add
-     * @since 0.1.4
+     * @since 0.2
      */
     public void addService(Service service)
     {
@@ -858,7 +858,7 @@ public class ServerConfig
     /**
      * Return the list of services currently registered on the server
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     public List<Service> getServices()
     {

@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
 /**
  * An IRC message.
  *
- * @since 0.1.4
+ * @since 0.2
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$

@@ -34,7 +34,7 @@ import net.jetrix.config.ServerConfig;
 /**
  * Manages the output of the logger.
  *
- * @since 0.1.4
+ * @since 0.2
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$

@@ -22,7 +22,7 @@ package net.jetrix.protocols;
 /**
  * IRC commands.
  *
- * @since 0.1.4
+ * @since 0.2
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$

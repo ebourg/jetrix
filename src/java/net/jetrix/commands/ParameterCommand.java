@@ -24,14 +24,12 @@ package net.jetrix.commands;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
- * @since 0.1.4
+ * @since 0.2
  */
 public interface ParameterCommand extends Command
 {
     /**
      * Return the minimum number of parameters required by the command.
-     *
-     * @since 0.1.4
      */
     int getParameterCount();
 

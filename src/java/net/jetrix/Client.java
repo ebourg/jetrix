@@ -51,7 +51,7 @@ public interface Client extends Runnable, Destination
     /**
      * Tell if the client supports multiple channels simultaneously.
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     boolean supportsMultipleChannels();
 
@@ -59,7 +59,7 @@ public interface Client extends Runnable, Destination
      * Tell if the client can be affected automatically to a channel
      * on connecting to the server.
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     boolean supportsAutoJoin();
 
@@ -91,7 +91,7 @@ public interface Client extends Runnable, Destination
     /**
      * Return the time in miliseconds of inactivity.
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     long getIdleTime();
 

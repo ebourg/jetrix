@@ -96,7 +96,7 @@ public class WinlistManager
     /**
      * Return the registered winlists
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     public Collection<Winlist> getWinlists()
     {

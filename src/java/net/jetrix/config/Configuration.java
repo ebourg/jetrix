@@ -90,7 +90,7 @@ public class Configuration
     /**
      * Return the underlying Properties.
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     public Properties getProperties()
     {

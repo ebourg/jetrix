@@ -28,7 +28,7 @@ import snoozesoft.systray4j.*;
 /**
  * Manages the system tray (windows only).
  *
- * @since 0.1.4
+ * @since 0.2
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$

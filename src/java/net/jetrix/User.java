@@ -148,7 +148,7 @@ public class User
      *
      * @param name the name of the user
      * @return <code></code>
-     * @since 0.1.4
+     * @since 0.2
      */
     public boolean ignores(String name)
     {
@@ -159,7 +159,7 @@ public class User
      * Add the specified name to the list of ignored users.
      *
      * @param name
-     * @since 0.1.4
+     * @since 0.2
      */
     public void ignore(String name)
     {
@@ -175,7 +175,7 @@ public class User
      * Remove the specified name from the list of ignored users.
      *
      * @param name
-     * @since 0.1.4
+     * @since 0.2
      */
     public void unignore(String name)
     {
@@ -188,7 +188,7 @@ public class User
     /**
      * Return the list of ignored players.
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     public Set<String> getIgnoredUsers()
     {

@@ -33,7 +33,7 @@ import net.jetrix.Client;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
- * @since 0.1.4
+ * @since 0.2
  */
 public class AwayCommand extends AbstractCommand
 {

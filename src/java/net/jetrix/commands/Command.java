@@ -62,7 +62,7 @@ public interface Command
     /**
      * Set the access level required to execute this command.
      *
-     * @since 0.1.4
+     * @since 0.2
      *
      * @param level the access level
      */
@@ -71,14 +71,14 @@ public interface Command
     /**
      * Tells if the command is hidden from the /help list.
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     boolean isHidden();
 
     /**
      * Change the hidden status of the command on the /help list.
      *
-     * @since 0.1.4
+     * @since 0.2
      *
      * @param hidden
      */

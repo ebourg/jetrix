@@ -26,7 +26,7 @@ import net.jetrix.Service;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
- * @since 0.1.4
+ * @since 0.2
  */
 public abstract class AbstractService implements Service
 {

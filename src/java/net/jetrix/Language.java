@@ -138,7 +138,7 @@ public class Language
      * Return the specified localized text for a given locale and replace the
      * parameters with an array of arguments.
      *
-     * @since 0.1.4
+     * @since 0.2
      *
      * @param key the text key in the resource bundle
      * @param locale the locale of the message

@@ -130,7 +130,7 @@ public class FilterManager
     /**
      * Return the map of filter aliases
      *
-     * @since 0.1.4
+     * @since 0.2
      */
     public Map<String, String> getFilterAliases()
     {

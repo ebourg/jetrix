@@ -29,7 +29,7 @@ import net.jetrix.*;
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
- * @since 0.1.4
+ * @since 0.2
  */
 public abstract class AbstractCommand implements Command
 {
