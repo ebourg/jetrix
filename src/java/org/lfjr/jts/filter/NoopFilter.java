@@ -23,25 +23,24 @@ import java.util.*;
 import org.lfjr.jts.*;
 
 /**
- * Interface for channel filters.
+ * A dummy filter forward incomming messages with no change.
  * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public interface MessageFilter
+public class NoopFilter implements MessageFilter
 {
-    public void process(Message m, List out);
+    public void process(Message m, List out)
+    {
+        out.add(m);	
+    }
 
-    public String getDisplayName();
+    public String getDisplayName() { return "Noop Filter"; }
 
-    public String getShortDescription();
+    public String getShortDescription() { return "I'm useless !"; }
 
-    public String getVersion();
+    public String getVersion() { return "1.0"; }
 
-    public String getAuthor();
-    
-    public String getProperty(String key);
-    
-    public void setProperty(String key, String value);
+    public String getAuthor() { return "Emmanuel Bourg"; }
 
 }
