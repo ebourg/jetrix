@@ -16,19 +16,48 @@ Installing & Running Jetrix
 
   You need a JRE 1.5 or higher installed on your server to run Jetrix.
   You can download it here : http://java.sun.com/j2se/1.5.0/download.jsp
-  If the 'java' command is not in your path, you can set the JAVA_HOME 
-  environnement variable to point to your Java installation directory.
-  
-  Unzip the Jetrix archive to the installation directory and run the 
-  following commands :
 
-  To start the server,
-    Unix    : ./jetrix
-    Windows : jetrix
+  Unix
 
-  To download the latest release
-    Unix    : ./update
-    Windows : update
+  Once the Java Runtime Environnement is installed, you'll need a 
+  JAVA_HOME environnement variable pointing to your Java directory. 
+  For example on Linux you can add this line to your /etc/profile file:
+
+    export JAVA_HOME=/usr/java/j2sdk_1.4.2
+
+  Then decompress the Jetrix archive to the installation directory:
+
+    tar -jxvf jetrix-x.y.z.tar.bz2
+
+  To start the server, type the following commands in the jetrix directory:
+
+    ./jetrix
+
+  To start the server as a background process, type:
+
+    nohup ./jetrix &
+
+  Or even better if the screen tool is available on your system, type:
+
+    screen ./jetrix
+    
+  And then detach from the process with CTRL+A CTRL+D
+
+  To download the latest release and upgrade your version (experimental), 
+  type:
+
+    ./update
+
+
+  Windows
+
+  Install the Java Runtime Environnement and then run the Jetrix installer 
+  (jetrix-x.y.z-installer.exe). This will create a "Jetrix TetriNET Server" 
+  group in your Start menu, just click on "Jetrix TetriNET Server" to
+  start Jetrix, an icon will appear in the system tray. You can click on 
+  this icon to open a menu and stop the server or open the administration 
+  console.
+
 
 Latest Documentation:
 
