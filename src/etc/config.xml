@@ -3,6 +3,9 @@
 
 <tetrinet-server host="[ALL]" port="31457">
   <name>JetriX TetriNET Server</name>
+  
+  <!-- Server language (using an ISO-639 two-letter language code) -->
+  <language>en</language>
 
   <!-- How many seconds of no activity before timeout occurs -->
   <timeout>1000</timeout>
@@ -20,10 +23,10 @@
   <op-password>jtspass</op-password>
 
   <!-- Access Log, where requests are logged to -->
-  <access-log path="../log/access.log" />
+  <access-log path="log/access.log" />
 
   <!-- Error Log, where errors are logged to -->
-  <error-log  path="../log/error.log" />
+  <error-log  path="log/error.log" />
 
   <!-- Message Of The Day -->
   <motd>
@@ -36,8 +39,8 @@ http://sourceforge.net/projects/jts/
   <filter-definitions>
     <alias name="noop"  class="org.lfjr.jts.filter.NoopFilter"/>
     <alias name="flood" class="org.lfjr.jts.filter.FloodFilter"/>
-    <alias name="echo"  class="org.lfjr.jts.filter.EchoFilter"/>
-  </filter-definitions>-->
+    <!--<alias name="echo"  class="org.lfjr.jts.filter.EchoFilter"/>-->
+  </filter-definitions>
 
   <!-- Global filters -->
   <default-filters>
@@ -149,7 +152,7 @@ http://sourceforge.net/projects/jts/
     <channel name="laboratory">
       <description>Silly tests here</description>
       <filters>
-        <filter name="echo"/>
+        <filter name="noop"/>
       </filters>
     </channel>
 
