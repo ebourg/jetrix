@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="Java TetriNET Server" default="dist" basedir=".">
+
+  <property name="build.compiler" value="jikes"/>
+  <property name="src" value="src"/>
+  <property name="lib" value="lib"/>
+  <property name="doc" value="doc"/>
+  <property name="build" value="build"/>
+  <property name="dist"  value="dist"/>
+  <property name="deploy"  value="deploy"/>
+  <property name="version"  value="0.0.8"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}/java" destdir="${build}" debug="yes" />
+  </target>
+
+  <target name="compiletest" depends="compile" description="Compile les TestCase pour JUnit">
+    <javac srcdir="${src}/test" destdir="${build}" classpath="${build};${lib}/junit.jar;" debug="yes"/>     
+  </target> 
+  
+  <target name="dist" depends="compile">
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <jar jarfile="${dist}/lib/jts.jar" basedir="${build}" manifest="${src}/etc/MANIFEST.MF" />
+    <!--<copy file="${dist}/lib/jts.jar" tofile="${dist}/lib/archives/jts.${DSTAMP}.jar" />-->
+    
+    <zip zipfile="${dist}/bin/jts-${version}.zip">
+      <zipfileset prefix="jts/" dir="${src}/etc/">
+        <include name="news.txt" />
+        <include name="LICENSE" />
+        <include name="README" />
+      </zipfileset>
+      <zipfileset prefix="jts/" dir="${dist}/lib/">
+        <include name="jts.jar" />
+        <include name="crimson.jar" />      
+      </zipfileset>
+    </zip>    
+    
+  </target>
+
+
+  <target name="test" depends="compiletest" description="Lance les jeux d'essai">
+    
+    <junit printsummary="yes" fork="yes">
+      <classpath> 
+        <pathelement location="${lib}/crimson.jar"/>      
+        <pathelement path="${build}" />
+      </classpath>    
+      <formatter type="xml" />
+      <batchtest>
+        <fileset dir="${build}">
+          <include name="**/*Test.class" />
+        </fileset>
+      </batchtest>
+    </junit>    
+           
+    <junitreport>
+      <fileset dir=".">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="noframes"/>
+    </junitreport>    
+
+    <delete>
+      <fileset dir="." includes="TEST*"/>
+    </delete>
+    
+  </target>
+    
+  
+  <target name="run" depends="dist">
+    <delete dir="${deploy}"/>
+    <mkdir dir="${deploy}"/>
+    <unzip src="${dist}/bin/jts-${version}.zip" dest="${deploy}" />
+    <java dir="${deploy}/jts" jar="${deploy}/jts/jts.jar" fork="yes" />  
+  </target>
+
+
+  <target name="doc">
+    <mkdir dir="${doc}/api"/>
+    <mkdir dir="${dist}/doc"/>
+    <javadoc packagenames="org.lfjr.jts,org.lfjr.jts.config,org.lfjr.jts.patcher"
+             sourcepath="${src}/java"
+             classpath="${src}/java"
+             destdir="${doc}/api"
+             author="true"
+             version="true"
+             use="false"
+             windowtitle="Javadoc JTS"
+             doctitle="JTS"
+             bottom="Copyright &#169; 2001 Emmanuel Bourg. All Rights Reserved.">
+      <link href="http://java.sun.com/j2se/1.3/docs/api/"/>
+      <!--<link href="http://java.sun.com/j2ee/tutorial/api/"/>-->
+    </javadoc>    
+    <zip zipfile="${dist}/doc/api.zip">
+      <zipfileset dir="${doc}" includes="api/**"/>
+    </zip>    
+  </target>
+
+
+  <target name="clean">
+    <!-- Delete the ${build} directory tree -->
+    <delete dir="${build}"/>
+    <delete dir="${deploy}"/>
+  </target>
+  
+</project>

@@ -1,0 +1,27 @@
+Java TetriNET Server - http://sourceforge.net/projects/jts/
+----------------------------------------------------------------------
+
+The server is not yet stable and is missing key features, please be 
+patient, the project is just starting :)
+
+For any questions, comments, flames, you can contact me at :
+
+    smanux@lfjr.net
+
+Smanux
+
+
+----------------------------------------------------------------------
+
+To start the server :
+
+    java -jar jts.jar
+
+
+To download the latest release
+
+    java JTSUpdate
+
+
+
+
