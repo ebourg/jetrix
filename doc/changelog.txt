@@ -4,7 +4,6 @@ JetriX Changelog
 TODO
 ----
 - add password protected channels
-- add an access level check to join channels
 - ban list
 - winlists
 - implement the /move command
@@ -25,6 +24,7 @@ Changes in version 0.1.1 (2003-02-??)
 - winner announcement
 - any jar or class in the ./lib directory is now loaded at startup
 - the number of concurrent connections from the same host can be limited (the default value is 2)
+- channel access can now be restricted by access level.
 
 Changes in version 0.1.0 (2002-11-16)
 -------------------------------------

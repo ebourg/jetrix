@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -63,7 +63,14 @@ public class JoinCommand implements Command
             Channel target = ChannelManager.getInstance().getChannel(m.getParameter(0));
             if (target != null)
             {
-                if ( target.isFull() )
+                if (client.getUser().getAccessLevel() < target.getConfig().getAccessLevel())
+                {
+                    // deny access
+                    PlineMessage accessDenied = new PlineMessage();
+                    accessDenied.setKey("command.join.denied");
+                    client.sendMessage(accessDenied);
+                }
+                else if ( target.isFull() )
                 {
                     // sending channel full message
                     PlineMessage channelfull = new PlineMessage();
