@@ -77,7 +77,7 @@ public class IRCProtocol extends Protocol
      * Translate the specified message into a string that will be sent
      * to a client using this protocol.
      */
-    public String translate(Message m)
+    public String translate(Message m, Locale locale)
     {
         return null;
     }

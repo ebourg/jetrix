@@ -17,10 +17,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.jetrix;
+package net.jetrix.clients;
 
 import java.io.*;
 import java.net.*;
+import net.jetrix.*;
 import net.jetrix.config.*;
 
 /**
@@ -34,11 +35,17 @@ public class ConsoleClient implements Client
     private BufferedReader dis = new BufferedReader(new InputStreamReader(System.in));
     private ServerConfig conf;
     private Protocol protocol;
+    private User user;
 
     public ConsoleClient()
     {
         conf = Server.getInstance().getConfig();
         protocol = ProtocolManager.getInstance().getProtocol("net.jetrix.protocols.ConsoleProtocol");
+        user = new User();
+        user.setName("Admin");
+        user.setAccessLevel(100);
+        user.setLocale(conf.getLocale());
+        user.setSpectator();
     }
 
     public Protocol getProtocol()
@@ -65,14 +72,14 @@ public class ConsoleClient implements Client
 
     public void sendMessage(Message message)
     {
-        System.out.println(protocol.translate(message));
+        System.out.println(protocol.translate(message, user.getLocale()));
     }
 
     public Message receiveMessage() throws IOException
     {
         String cmd = dis.readLine();
         Message m = protocol.getMessage(cmd);
-        m.setSource(this);
+        if (m != null) m.setSource(this);
         
         return m;
     }

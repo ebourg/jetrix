@@ -261,14 +261,14 @@ public class TetrinetProtocol extends Protocol
      * Translate the specified message into a string that will be sent
      * to a client using this protocol.
      */
-    public String translate(Message m)
+    public String translate(Message m, Locale locale)
     {
         if ( m instanceof SpecialMessage) return translate((SpecialMessage)m);
         else if ( m instanceof FieldMessage) return translate((FieldMessage)m);
-        else if ( m instanceof PlineMessage) return translate((PlineMessage)m);
+        else if ( m instanceof PlineMessage) return translate((PlineMessage)m, locale);
         else if ( m instanceof LevelMessage) return translate((LevelMessage)m);
         else if ( m instanceof PlayerLostMessage) return translate((PlayerLostMessage)m);
-        else if ( m instanceof PlineActMessage) return translate((PlineActMessage)m);
+        else if ( m instanceof PlineActMessage) return translate((PlineActMessage)m, locale);
         else if ( m instanceof TeamMessage) return translate((TeamMessage)m);
         else if ( m instanceof JoinMessage) return translate((JoinMessage)m);
         else if ( m instanceof LeaveMessage) return translate((LeaveMessage)m);
@@ -280,7 +280,8 @@ public class TetrinetProtocol extends Protocol
         else if ( m instanceof PauseMessage) return translate((PauseMessage)m);
         else if ( m instanceof ResumeMessage) return translate((ResumeMessage)m);
         else if ( m instanceof IngameMessage) return translate((IngameMessage)m);
-        else if ( m instanceof GmsgMessage) return translate((GmsgMessage)m);
+        else if ( m instanceof GmsgMessage) return translate((GmsgMessage)m, locale);
+        else if ( m instanceof PlayerWonMessage) return translate((PlayerWonMessage)m);
         else if ( m instanceof NoConnectingMessage) return translate((NoConnectingMessage)m);
         else
         {
@@ -308,23 +309,23 @@ public class TetrinetProtocol extends Protocol
         }        
     }
 
-    public String translate(PlineMessage m)
+    public String translate(PlineMessage m, Locale locale)
     {
         StringBuffer message = new StringBuffer();
         message.append("pline ");
         message.append(m.getSlot());
         message.append(" ");
-        message.append(applyStyle(m.getText(getLocale())));
+        message.append(applyStyle(m.getText(locale)));
         return message.toString();
     }
 
-    public String translate(PlineActMessage m)
+    public String translate(PlineActMessage m, Locale locale)
     {
         StringBuffer message = new StringBuffer();
         message.append("plineact ");
         message.append(m.getSlot());
         message.append(" ");
-        message.append(m.getText(getLocale()));
+        message.append(m.getText(locale));
         return message.toString();
     }
 
@@ -449,11 +450,11 @@ public class TetrinetProtocol extends Protocol
         return "ingame";
     }
 
-    public String translate(GmsgMessage m)
+    public String translate(GmsgMessage m, Locale locale)
     {
         StringBuffer message = new StringBuffer();
         message.append("gmsg ");
-        message.append(m.getText(getLocale()));
+        message.append(m.getText(locale));
         return message.toString();
     }
 
@@ -484,6 +485,14 @@ public class TetrinetProtocol extends Protocol
     {
         StringBuffer message = new StringBuffer();
         message.append("playerlost ");
+        message.append(m.getSlot());
+        return message.toString();
+    }
+
+    public String translate(PlayerWonMessage m)
+    {
+        StringBuffer message = new StringBuffer();
+        message.append("playerwon ");
         message.append(m.getSlot());
         return message.toString();
     }

@@ -94,7 +94,6 @@ public abstract class ClientListener implements Runnable
                 Client client = getClient(socket);
                 User user = client.getUser();
                 user.setLocale(serverConfig.getLocale());
-                client.getProtocol().setLocale(user.getLocale());
 
                 // checking if server is full
                 ClientRepository repository = ClientRepository.getInstance();

@@ -47,6 +47,8 @@ public class ConsoleProtocol extends Protocol
      */
     public Message getMessage(String line)
     {
+        if (line == null) return null;
+
         StringTokenizer st = new StringTokenizer(line);
         Message m = null;
 
@@ -68,19 +70,19 @@ public class ConsoleProtocol extends Protocol
      * Translate the specified message into a string that will be sent
      * to a client using this protocol.
      */
-    public String translate(Message m)
+    public String translate(Message m, Locale locale)
     {
-        if ( m instanceof TextMessage) return translate((TextMessage)m);
+        if ( m instanceof TextMessage) return translate((TextMessage)m, locale);
         else
         {
             return null;
         }
     }
 
-    public String translate(TextMessage m)
+    public String translate(TextMessage m, Locale locale)
     {
         StringBuffer message = new StringBuffer();
-        message.append(applyStyle(m.getText(getLocale())));
+        message.append(applyStyle(m.getText(locale)));
         return message.toString();
     }
 

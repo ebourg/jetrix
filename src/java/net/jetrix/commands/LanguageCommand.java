@@ -65,7 +65,6 @@ public class LanguageCommand implements Command
             if (Language.isSupported(l))
             {
                 client.getUser().setLocale(l);
-                client.getProtocol().setLocale(l);
 
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.language.changed", new Object[] { l.getDisplayLanguage(l) });

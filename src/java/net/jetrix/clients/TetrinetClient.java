@@ -118,17 +118,19 @@ public class TetrinetClient implements Client
 
     public void sendMessage(Message m)
     {
-        if (m.getRawMessage(getProtocol()) != null)
+        String rawMessage = m.getRawMessage(getProtocol(), user.getLocale());
+        
+        if (rawMessage != null)
         {
             try
             {
                 synchronized(out)
                 {
-                    out.write(m.getRawMessage(getProtocol()) + (char)255, 0, m.getRawMessage(getProtocol()).length() + 1);
+                    out.write(rawMessage + (char)255, 0, rawMessage.length() + 1);
                     out.flush();
                 }
 
-                logger.finest("> " + m.getRawMessage(getProtocol()));
+                logger.finest("> " + rawMessage);
             }
             catch (SocketException e) { logger.fine(e.getMessage()); }
             catch (Exception e) { e.printStackTrace(); }
@@ -147,8 +149,8 @@ public class TetrinetClient implements Client
 
         // build server message
         Message m = getProtocol().getMessage(s);
-        //m.setRawMessage(getProtocol().getName(), s);
-        m.setSource(this);
+        //m.setRawMessage(getProtocol(), s);
+        if (m != null) m.setSource(this);
 
         return m;
     }

@@ -79,7 +79,7 @@ public abstract class Message
     /**
      * Return the view of this message in the specified protocol.
      */
-    public String getRawMessage(Protocol protocol)
+    public String getRawMessage(Protocol protocol, Locale locale)
     {
         // is the raw message available for the specified protocol
         String msg = (String)rawMessages.get(protocol);
@@ -87,7 +87,7 @@ public abstract class Message
         if (msg == null)
         {
             // building the raw message for this protocol
-            msg = protocol.translate(this);
+            msg = protocol.translate(this, locale);
             rawMessages.put(protocol, msg);
         }
 

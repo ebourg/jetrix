@@ -29,8 +29,6 @@ import java.util.*;
  */
 public abstract class Protocol
 {
-    private Locale locale;
-
     /**
      * Return the name of this protocol
      */
@@ -45,24 +43,11 @@ public abstract class Protocol
     /**
      * Translate the specified message into a string that will be sent
      * to a client using this protocol.
+     *
+     * @param m the message to translate
+     * @param locale the locale used for internationalized text messages
      */
-    public abstract String translate(Message m);
-
-    /**
-     * Set the locale to be used for textual messages.
-     */
-    public void setLocale(Locale locale)
-    {
-        this.locale = locale;
-    }
-
-    /**
-     * Return the locale.
-     */
-    public Locale getLocale()
-    {
-        return locale;
-    }
+    public abstract String translate(Message m, Locale locale);
 
     /**
      * Return the map of the color and style codes for this protocol.
@@ -70,7 +55,7 @@ public abstract class Protocol
     public abstract Map getStyles();
 
     /**
-     * Transform the style tags (<blue>, <u>, etc...) in the specified string
+     * Transform the style tags (&lt;blue&gt;, &lt;u&gt;, etc...) in the specified string
      * into the style codes of this protocol.
      */
     public String applyStyle(String text)

@@ -23,6 +23,7 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 import java.util.logging.*;
+import net.jetrix.clients.*;
 import net.jetrix.config.*;
 import net.jetrix.commands.*;
 import net.jetrix.listeners.*;
