@@ -50,7 +50,7 @@ public class ServerConfig
     private ArrayList channels;
     private boolean running;
 
-    public static final String VERSION = "0.0.8+";
+    public static final String VERSION = "@version@";
     public static final int DEFAULT_PORT = 31457;
 
     /**
@@ -72,20 +72,24 @@ public class ServerConfig
         try
         {
             Digester digester = new Digester();
-            //digester.setDebug(5);
+            //digester.setDebug(1);
             digester.push(this);
 
             // server parameters
-            digester.addSetProperty("tetrinet-server", "host", "host");
-            digester.addSetProperty("tetrinet-server", "port", "port");
+            digester.addCallMethod("tetrinet-server", "setHost", 1);
+            digester.addCallParam("tetrinet-server", 0, "host");
+            digester.addCallMethod("tetrinet-server", "setPort", 1);
+            digester.addCallParam("tetrinet-server", 0, "port");
             digester.addCallMethod("tetrinet-server/timeout", "setTimeout", 0, new Class[] {Integer.class});
             digester.addCallMethod("tetrinet-server/max-channel", "setMaxChannel", 0, new Class[] {Integer.class});
             digester.addCallMethod("tetrinet-server/max-players", "setMaxPlayers", 0, new Class[] {Integer.class});
             digester.addCallMethod("tetrinet-server/max-connexions", "setMaxConnexions", 0, new Class[] {Integer.class});
             digester.addCallMethod("tetrinet-server/op-password", "setOpPassword", 0);
             digester.addCallMethod("tetrinet-server/motd", "setMessageOfTheDay", 0);
-            digester.addSetProperty("tetrinet-server/access-log", "path", "accesslogPath");
-            digester.addSetProperty("tetrinet-server/error-log", "path", "errorlogPath");
+            digester.addCallMethod("tetrinet-server", "setAccessLogPath", 1);
+            digester.addCallParam("tetrinet-server/access-log", 0, "path");
+            digester.addCallMethod("tetrinet-server", "setErrorLogPath", 1);
+            digester.addCallParam("tetrinet-server/error-log", 0, "path");
 
             // default game settings
             digester.addObjectCreate("tetrinet-server/default-settings", "org.lfjr.jts.config.Settings");
@@ -111,7 +115,7 @@ public class ServerConfig
             digester.addCallMethod("*/block-occurancy/rightz", "setRightZOccurancy", 0, new Class[] {Integer.class});
             digester.addCallMethod("*/block-occurancy/halfcross", "setHalfCrossOccurancy", 0, new Class[] {Integer.class});
             digester.addCallMethod("*/block-occurancy/line", "setLineOccurancy", 0, new Class[] {Integer.class});
-            //digester.addSetNext("*/block-occurancy", "normalizeBlockOccurancy");
+            //digester.addCallMethod("*/block-occurancy", "normalizeBlockOccurancy", 1, new Class[] {} );
             digester.addCallMethod("*/special-occurancy/addline", "setAddLineOccurancy", 0, new Class[] {Integer.class});
             digester.addCallMethod("*/special-occurancy/clearline", "setClearLineOccurancy", 0, new Class[] {Integer.class});
             digester.addCallMethod("*/special-occurancy/nukefield", "setNukeFieldOccurancy", 0, new Class[] {Integer.class});
@@ -121,12 +125,13 @@ public class ServerConfig
             digester.addCallMethod("*/special-occurancy/gravity", "setGravityOccurancy", 0, new Class[] {Integer.class});
             digester.addCallMethod("*/special-occurancy/quakefield", "setQuakeFieldOccurancy", 0, new Class[] {Integer.class});
             digester.addCallMethod("*/special-occurancy/blockbomb", "setBlockBombOccurancy", 0, new Class[] {Integer.class});
-            //digester.addSetTop("*/special-occurancy", "normalizeSpecialOccurancy");
+            //digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, new Class[] {});
 
             // channel configuration
             digester.addObjectCreate("*/channel", "org.lfjr.jts.config.ChannelConfig");
             digester.addSetNext("*/channel", "addChannel", "org.lfjr.jts.config.ChannelConfig");
-            digester.addSetProperty("*/channel", "name", "name");
+            digester.addCallMethod("*/channel", "setName", 1);
+            digester.addCallParam("*/channel", 0, "name");
             digester.addCallMethod("*/channel/description", "setDescription", 0);
             digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.class});
 
@@ -171,9 +176,9 @@ public class ServerConfig
         this.port = port;
     }
 
-    public void setPort(String port)
+    public void setPort(Integer port)
     {
-        try { this.port = Integer.parseInt(port); }
+        try { this.port = port.intValue(); }
         catch (Exception e) { this.port = DEFAULT_PORT; }
     }
 
@@ -186,12 +191,12 @@ public class ServerConfig
     {
         this.timeout = timeout;
     }
-    
+
     public void setTimeout(Integer timeout)
     {
         this.timeout = timeout.intValue();
     }
-    
+
     public int getMaxChannels()
     {
         return maxChannels;
@@ -206,7 +211,7 @@ public class ServerConfig
     {
         this.maxChannels = maxChannels.intValue();
     }
-    
+
     public int getMaxPlayers()
     {
         return maxPlayers;
@@ -221,7 +226,7 @@ public class ServerConfig
     {
         this.maxPlayers = maxPlayers.intValue();
     }
-    
+
     public int getMaxConnexions()
     {
         return maxConnexions;
