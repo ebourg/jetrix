@@ -115,7 +115,7 @@ public abstract class MessageFilter
     }
 
     /**
-     * Sets the channel this channel applies on.
+     * Sets the channel this filter applies on.
      */
     public final void setChannel(Channel channel)
     {
