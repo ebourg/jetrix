@@ -278,7 +278,7 @@ public class ServerConfig
         CommandManager.getInstance().addCommand(command);
     }
 
-    public void addListener(ClientListener listener)
+    public void addListener(Listener listener)
     {
         listeners.add(listener);
     }

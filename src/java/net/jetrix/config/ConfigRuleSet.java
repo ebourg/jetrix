@@ -119,7 +119,7 @@ public class ConfigRuleSet extends RuleSetBase
         
         // listeners
         digester.addObjectCreate("*/listener", null, "class");
-        digester.addSetNext("*/listener", "addListener", "net.jetrix.ClientListener");
+        digester.addSetNext("*/listener", "addListener", "net.jetrix.Listener");
     }
 
 }
