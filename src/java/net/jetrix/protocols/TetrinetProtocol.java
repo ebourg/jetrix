@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -113,11 +113,11 @@ public class TetrinetProtocol implements Protocol
                 }
             }
         }
-        // gmsg playername+text
+        // gmsg <playername> text
         else if ("gmsg".equals(cmd))
         {
             GmsgMessage gmsg = new GmsgMessage();
-            gmsg.setText(line.substring(line.indexOf(" ")));
+            gmsg.setText(line.substring(line.indexOf(" ") + 1));
             m = gmsg;
             m.setRawMessage(this, line);
         }
