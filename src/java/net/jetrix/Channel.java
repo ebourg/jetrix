@@ -100,7 +100,7 @@ public class Channel extends Thread implements Destination
         try
         {
             // getting filter instance
-            if (filterConfig.getClassname()!=null)
+            if (filterConfig.getClassname() != null)
             {
                 filter = filterManager.getFilter(filterConfig.getClassname());
             }
@@ -238,6 +238,38 @@ public class Channel extends Thread implements Destination
             gameState = Channel.GAME_STATE_STOPPED;
             Message endgame = new EndGameMessage();
             sendAll(endgame);
+            
+            // looking for the slot of the winner
+            slot = 0;
+            for (int i = 0; i < players.size(); i++)
+            {
+                client = (Client)players.get(i);
+
+                if ( client != null && client.getUser().isPlaying() )
+                {
+                    slot = i + 1;
+                }
+            }
+            
+            // announcing the winner
+            if (slot != 0)
+            {
+                PlayerWonMessage playerwon = new PlayerWonMessage();
+                playerwon.setSlot(slot);
+                sendAll(playerwon);
+                
+                User winner = getPlayer(slot);
+                PlineMessage announce = new PlineMessage();
+                if (winner.getTeam() == null)
+                {
+                    announce.setKey("channel.player_won", new Object[] { winner.getName() });
+                }
+                else
+                {
+                    announce.setKey("channel.team_won", new Object[] { winner.getTeam() });
+                }
+                sendAll(announce);
+            }
         }
     }
 
@@ -314,7 +346,7 @@ public class Channel extends Thread implements Destination
         int slot = getClientSlot(client);
 
         // removing player from channel members
-        players.add(slot - 1, null);
+        players.set(slot - 1, null);
 
         // sending notification to players
         LeaveMessage leaveNotice = new LeaveMessage();
@@ -332,7 +364,7 @@ public class Channel extends Thread implements Destination
     private void process(LeaveMessage m)
     {
         int slot = m.getSlot();
-        players.add(slot - 1, null);
+        players.set(slot - 1, null);
         sendAll(m);
 
         // stopping the game if the channel is now empty
@@ -603,7 +635,10 @@ public class Channel extends Thread implements Destination
     {
         Client client = null;
 
-        if (slot >= 1 && slot <= 6) client = (Client)players.get(slot - 1);
+        if (slot >= 1 && slot <= 6 && slot <= players.size() )
+        {
+            client = (Client)players.get(slot - 1);
+        }
 
         return client;
     }
@@ -617,13 +652,7 @@ public class Channel extends Thread implements Destination
      */
     public User getPlayer(int slot)
     {
-        Client client = null;
-
-        if (slot >= 1 && slot <= 6 && slot <= players.size()) 
-        {
-            client = (Client)players.get(slot - 1);
-        }
-
+        Client client = getClient(slot);
         return (client != null) ? client.getUser() : null;
     }
 
@@ -653,7 +682,7 @@ public class Channel extends Thread implements Destination
      */
     private int countRemainingTeams()
     {
-        Hashtable playingTeams = new Hashtable();
+        Map playingTeams = new HashMap();
 
         int nbTeamsLeft = 0;
 
@@ -665,7 +694,7 @@ public class Channel extends Thread implements Destination
             {
                 String team = client.getUser().getTeam();
 
-                if (team == null || "".equals(team))
+                if (team == null)
                 {
                     nbTeamsLeft++;
                 }
