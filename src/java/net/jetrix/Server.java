@@ -232,7 +232,10 @@ public class Server implements Runnable, Destination
         }
 
         // disconnect the console client as well
-        console.disconnect();
+        if (console != null)
+        {
+            console.disconnect();
+        }
     }
 
     public void run()
