@@ -242,4 +242,25 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("field", "XYZABCD", field.getField());
     }
 
+    public void testTranslateLevel()
+    {
+        LevelMessage message = new LevelMessage();
+        message.setSlot(1);
+        message.setLevel(50);
+        assertEquals("lvl 1 50", protocol.translate(message, locale));
+    }
+
+    public void testGetMessageLevel()
+    {
+        String raw = "lvl 1 50";
+        Message message = protocol.getMessage(raw);
+
+        assertNotNull("message not parsed", message);
+        assertEquals("message class", LevelMessage.class, message.getClass());
+
+        LevelMessage level = (LevelMessage) message;
+        assertEquals("slot", 1, level.getSlot());
+        assertEquals("level", 50, level.getLevel());
+    }
+
 }
