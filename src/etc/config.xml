@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--<!DOCTYPE tetrinet-server PUBLIC "//LFJR//Jetrix TetriNET Server" "http://tetrinet.lfjr.net/dtd/jetrix.dtd">-->
+<!DOCTYPE tetrinet-server PUBLIC "-//LFJR//Jetrix TetriNET Server//EN" "http://jetrix.sourceforge.net/dtd/tetrinet-server.dtd">
 
 <tetrinet-server host="[ALL]" port="31457">
   <name>JetriX TetriNET Server</name>
@@ -134,7 +134,7 @@ http://sourceforge.net/projects/jts/
     </channel>
 
     <channel name="SnS">
-      <description>Sticks <i>and</i> Squares</description>
+      <description>Sticks [i]and[/i] Squares</description>
       <settings>
         <special-added>0</special-added>
         <block-occurancy>
