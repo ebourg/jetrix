@@ -65,7 +65,7 @@ public class PetitionCommand implements Command
             {
                 PlineMessage petition = new PlineMessage();
                 String message = m.getText();
-                petition.setKey("command.tell.format", new Object[]{client.getUser().getName(), message});
+                petition.setKey("command.tell.format", client.getUser().getName(), message);
 
                 while (operators.hasNext())
                 {

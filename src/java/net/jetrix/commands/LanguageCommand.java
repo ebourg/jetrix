@@ -68,7 +68,7 @@ public class LanguageCommand implements Command
                 client.getUser().setLocale(locale);
 
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.language.changed", new Object[]{locale.getDisplayLanguage(locale)});
+                response.setKey("command.language.changed", locale.getDisplayLanguage(locale));
                 client.sendMessage(response);
             }
             else
@@ -91,7 +91,7 @@ public class LanguageCommand implements Command
             {
                 Locale locale = (Locale) locales.next();
                 PlineMessage line = new PlineMessage();
-                line.setKey("command.language.list_format", new Object[]{locale.getLanguage(), locale.getDisplayLanguage(client.getUser().getLocale())});
+                line.setKey("command.language.list_format", locale.getLanguage(), locale.getDisplayLanguage(client.getUser().getLocale()));
                 client.sendMessage(line);
             }
         }

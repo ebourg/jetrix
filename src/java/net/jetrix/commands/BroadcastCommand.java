@@ -59,7 +59,7 @@ public class BroadcastCommand implements Command
         {
             // preparing message
             PlineMessage response = new PlineMessage();
-            response.setKey("command.broadcast.message", new Object[] { client.getUser().getName(), m.getText() });
+            response.setKey("command.broadcast.message", client.getUser().getName(), m.getText());
 
             Iterator clients = ClientRepository.getInstance().getClients();
             while (clients.hasNext())

@@ -69,7 +69,7 @@ public class SpecListCommand implements Command
         }
 
         PlineMessage response = new PlineMessage();
-        response.setKey("command.speclist.format", new Object[] { message.toString() });
+        response.setKey("command.speclist.format", message.toString());
         client.sendMessage(response);
     }
 }

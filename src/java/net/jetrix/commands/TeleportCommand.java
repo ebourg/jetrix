@@ -66,7 +66,7 @@ public class TeleportCommand implements Command
             {
                 // no player found
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", new Object[] { targetName });
+                response.setKey("command.player_not_found", targetName);
                 client.sendMessage(response);
             }
             else
@@ -90,8 +90,7 @@ public class TeleportCommand implements Command
                         channel.sendMessage(move);
 
                         PlineMessage teleported = new PlineMessage();
-                        Object[] params = new Object[] { target.getUser().getName(), channel.getConfig().getName() };
-                        teleported.setKey("command.teleport.message", params);
+                        teleported.setKey("command.teleport.message", target.getUser().getName(), channel.getConfig().getName());
                         client.sendMessage(teleported);
                     }
                 }

@@ -67,7 +67,7 @@ public class TeamMessageCommand implements Command
         {
             // preparing message
             PlineMessage response = new PlineMessage();
-            response.setKey("command.team_message.format", new Object[] { client.getUser().getName(), m.getText() });
+            response.setKey("command.team_message.format", client.getUser().getName(), m.getText());
 
             Iterator clients = ClientRepository.getInstance().getClients();
             while (clients.hasNext())

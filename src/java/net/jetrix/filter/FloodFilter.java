@@ -82,7 +82,7 @@ public class FloodFilter extends GenericFilter
             {
                 User user = getChannel().getPlayer(slot);
                 PlineMessage warning = new PlineMessage();
-                warning.setKey("filter.flood.blocked", new Object[]{user.getName()});
+                warning.setKey("filter.flood.blocked", user.getName());
                 out.add(warning);
                 lastWarning = now;
             }

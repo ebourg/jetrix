@@ -60,7 +60,7 @@ public class TimeCommand implements Command
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
 
         PlineMessage response = new PlineMessage();
-        response.setKey("command.time.message", new Object[] { df.format(new Date()), TimeZone.getDefault().getDisplayName(locale) });
+        response.setKey("command.time.message", df.format(new Date()), TimeZone.getDefault().getDisplayName(locale));
         client.sendMessage(response);
     }
 }

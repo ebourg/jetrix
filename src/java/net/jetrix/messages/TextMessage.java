@@ -86,22 +86,71 @@ public abstract class TextMessage extends ChannelMessage
         }
     }
 
+    /**
+     * Set the text of the message (locale independant).
+     */
     public void setText(String text)
     {
         this.text = text;
         this.key = null;
     }
 
+    /**
+     * Return the key of the message.
+     */
     public String getKey()
     {
         return key;
     }
 
+    /**
+     * Set the key of the message for internationalized text messages.
+     */
     public void setKey(String key)
     {
         this.key = key;
     }
 
+    /**
+     * Set the key and the parameters of the message for internationalized
+     * text messages.
+     */
+    public void setKey(String key, Object param)
+    {
+        setKey(key, new Object[] { param });
+    }
+
+    /**
+     * Set the key and the parameters of the message for internationalized
+     * text messages.
+     */
+    public void setKey(String key, Object param0, Object param1)
+    {
+        setKey(key, new Object[] { param0, param1 });
+    }
+
+    /**
+     * Set the key and the parameters of the message for internationalized
+     * text messages.
+     */
+    public void setKey(String key, Object param0, Object param1, Object param2)
+    {
+        setKey(key, new Object[] { param0, param1, param2 });
+    }
+
+    /**
+     * Set the key and the parameters of the message for internationalized
+     * text messages.
+     */
+    public void setKey(String key, Object param0, Object param1, Object param2, Object param3)
+    {
+        setKey(key, new Object[] { param0, param1, param2, param3 });
+    }
+
+    /**
+     * Set the key and the parameters of the message for internationalized
+     * text messages.
+     */
     public void setKey(String key, Object[] params)
     {
         this.key = key;

@@ -130,9 +130,9 @@ public class StartCommand implements Command
                 // plural or singular ? :)
                 if (i > 1)
                 {
-                    Object[] params = new Object[] { new Integer(i)};
-                    msg1.setKey("command.start.seconds", params);
-                    msg2.setKey("command.start.seconds.gmsg", params);
+                    Integer seconds = new Integer(i);
+                    msg1.setKey("command.start.seconds", seconds);
+                    msg2.setKey("command.start.seconds.gmsg", seconds);
                 }
                 else
                 {

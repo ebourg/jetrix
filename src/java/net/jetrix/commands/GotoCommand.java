@@ -69,7 +69,7 @@ public class GotoCommand implements Command
             {
                 // no player found
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", new Object[] { targetName });
+                response.setKey("command.player_not_found", targetName);
                 client.sendMessage(response);
             }
             else
@@ -87,7 +87,7 @@ public class GotoCommand implements Command
                 else if (channel == client.getChannel())
                 {
                     PlineMessage cantgoto = new PlineMessage();
-                    cantgoto.setKey("command.goto.same_channel", new Object[] { target.getUser().getName() });
+                    cantgoto.setKey("command.goto.same_channel", target.getUser().getName());
                     client.sendMessage(cantgoto);
                 }
                 else if (channel.isFull())

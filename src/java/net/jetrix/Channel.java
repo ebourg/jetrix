@@ -332,11 +332,11 @@ public class Channel extends Thread implements Destination
                 PlineMessage announce = new PlineMessage();
                 if (winner.getTeam() == null)
                 {
-                    announce.setKey("channel.player_won", new Object[]{winner.getName()});
+                    announce.setKey("channel.player_won", winner.getName());
                 }
                 else
                 {
-                    announce.setKey("channel.team_won", new Object[]{winner.getTeam()});
+                    announce.setKey("channel.team_won", winner.getTeam());
                 }
                 sendMessage(announce);
             }
@@ -455,7 +455,7 @@ public class Channel extends Thread implements Destination
         removeClient(client);
 
         PlineMessage disconnected = new PlineMessage();
-        disconnected.setKey("channel.disconnected", new Object[]{client.getUser().getName()});
+        disconnected.setKey("channel.disconnected", client.getUser().getName());
         sendAll(disconnected);
     }
 
@@ -491,7 +491,7 @@ public class Channel extends Thread implements Destination
 
             // send a message to the previous channel announcing what channel the player joined
             PlineMessage announce = new PlineMessage();
-            announce.setKey("channel.join_notice", new Object[]{client.getUser().getName(), channelConfig.getName()});
+            announce.setKey("channel.join_notice", client.getUser().getName(), channelConfig.getName());
             previousChannel.sendMessage(announce);
 
             // clear the game status of the player
@@ -579,7 +579,7 @@ public class Channel extends Thread implements Destination
 
         // send a welcome message to the incomming client
         PlineMessage mwelcome = new PlineMessage();
-        mwelcome.setKey("channel.welcome", new Object[]{client.getUser().getName(), channelConfig.getName()});
+        mwelcome.setKey("channel.welcome", client.getUser().getName(), channelConfig.getName());
         client.sendMessage(mwelcome);
 
         // send the message of the day

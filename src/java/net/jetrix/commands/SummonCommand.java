@@ -66,7 +66,7 @@ public class SummonCommand implements Command
             {
                 // no player found
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", new Object[] { targetName });
+                response.setKey("command.player_not_found", targetName);
                 client.sendMessage(response);
             }
             else
@@ -83,7 +83,7 @@ public class SummonCommand implements Command
                 else if (channel == target.getChannel())
                 {
                     PlineMessage cantsummon = new PlineMessage();
-                    cantsummon.setKey("command.summon.same_channel", new Object[] { target.getUser().getName() });
+                    cantsummon.setKey("command.summon.same_channel", target.getUser().getName());
                     client.sendMessage(cantsummon);
                 }
                 else if (channel.isFull())
@@ -100,11 +100,11 @@ public class SummonCommand implements Command
                     channel.sendMessage(move);
 
                     PlineMessage summoned1 = new PlineMessage();
-                    summoned1.setKey("command.summon.summoned", new Object[] { target.getUser().getName() });
+                    summoned1.setKey("command.summon.summoned", target.getUser().getName());
                     client.sendMessage(summoned1);
 
                     PlineMessage summoned2 = new PlineMessage();
-                    summoned2.setKey("command.summon.summoned_by", new Object[] { client.getUser().getName() });
+                    summoned2.setKey("command.summon.summoned_by", client.getUser().getName());
                     target.sendMessage(summoned2);
                 }
             }

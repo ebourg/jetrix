@@ -48,7 +48,7 @@ public class TetrisFilter extends GenericFilter
         Arrays.fill(tetrisCount, 0);
 
         GmsgMessage message = new GmsgMessage();
-        message.setKey("filter.tetris.start_message", new Object[]{new Integer(tetrisLimit)});
+        message.setKey("filter.tetris.start_message", new Integer(tetrisLimit));
 
         out.add(m);
         out.add(message);
@@ -70,7 +70,7 @@ public class TetrisFilter extends GenericFilter
 
             User winner = getChannel().getPlayer(m.getFromSlot());
             PlineMessage announce = new PlineMessage();
-            announce.setKey("channel.player_won", new Object[]{winner.getName()});
+            announce.setKey("channel.player_won", winner.getName());
             getChannel().sendMessage(announce);
         }
         else
@@ -106,7 +106,7 @@ public class TetrisFilter extends GenericFilter
 
                 if (leaders.size() == 1)
                 {
-                    announce.setKey("filter.tetris.lead", new Object[]{leaders.get(0), new Integer(max)});
+                    announce.setKey("filter.tetris.lead", leaders.get(0), new Integer(max));
                 }
                 else
                 {
@@ -120,7 +120,7 @@ public class TetrisFilter extends GenericFilter
                             message.append(", ");
                         }
                     }
-                    announce.setKey("filter.tetris.tied", new Object[]{message.toString(), new Integer(max)});
+                    announce.setKey("filter.tetris.tied", message.toString(), new Integer(max));
                 }
 
                 out.add(announce);

@@ -65,7 +65,7 @@ public class IpCommand implements Command
             {
                 // no player found
                 PlineMessage response = new PlineMessage();
-                response.setKey("command.player_not_found", new Object[]{targetName});
+                response.setKey("command.player_not_found", targetName);
                 client.sendMessage(response);
             }
             else
