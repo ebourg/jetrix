@@ -23,6 +23,7 @@ Changes in version 0.1.4 (2004-??-??)
 - listeners and services can be started/stopped from the administration console
 - the address of the server is now automatically published on tetrinet.org, tfast.org & tsrv.com server lists
 - renamed the Destination.sendMessage() method to send()
+- operators can now create new channels dynamically with the /join command
 
 Changes in version 0.1.3 (2004-01-20)
 -------------------------------------

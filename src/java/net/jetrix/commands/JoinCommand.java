@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -70,6 +70,31 @@ public class JoinCommand implements Command
             if (m.getParameterCount() >= 2)
             {
                 password = m.getParameter(1);
+            }
+
+            if (channel == null)
+            {
+                if (client.getUser().getAccessLevel() >= AccessLevel.OPERATOR)
+                {
+                    // create the channel
+                    ChannelConfig config = new ChannelConfig();
+                    config.setSettings(new Settings());
+                    config.setName(m.getParameter(0));
+                    config.setDescription("");
+                    channel = ChannelManager.getInstance().createChannel(config);
+
+                    PlineMessage response = new PlineMessage();
+                    response.setKey("command.join.created", m.getParameter(0));
+                    client.send(response);
+                }
+                else
+                {
+                    // unknown channel
+                    PlineMessage response = new PlineMessage();
+                    response.setKey("command.join.unknown", m.getParameter(0));
+                    client.send(response);
+                }
+
             }
 
             if (channel != null)
