@@ -7,15 +7,20 @@ Changes in version 0.2 (2005-01-18)
 -----------------------------------
 
 Player visible changes
-- new commands: /afk (away from keyboard), /ignore (ignore list), /mode (pre configured settings, thanks to Gamereplay)
+- new commands: /afk (away from keyboard), /ignore (ignore list), 
+  /mode (pre configured settings, thanks to Gamereplay)
 - Added the sudden death mode
 - portuguese translation contributed by Vítor Melo
 - operators can now create new channels dynamically with the /join command
-- The name of the player starting or stopping the game is now displayed on the party line
-- the StartFilter can now trigger a countdown before starting the game by specifying a number of seconds in the filter's "countdown" parameter
+- The name of the player starting or stopping the game is now displayed 
+  on the party line
+- the StartFilter can now trigger a countdown before starting the game 
+  by specifying a number of seconds in the filter's "countdown" parameter
 - partial support of IRC clients on the port 31456 (disabled by default)
-- on connecting, the player now joins automatically the first accessible channel with other players
-- Added a flow control to prevent players using the windows client from being disconnected when they are flooded
+- on connecting, the player now joins automatically the first accessible 
+  channel with other players
+- Added a flow control to prevent players using the windows client 
+  from being disconnected when they are flooded
 - The server now responds "PONG" when a player sends just "t" in an ingame message.
 - It's now possible to remain idle forever on the #admins channel
 - the dutch translation is once again up to date, thanks to "Sobi" from Tetridome
@@ -25,12 +30,16 @@ Admin visible changes
 - Jetrix now requires the JRE 1.5 to run
 - the configuration file config.xml has been split in two files: server.xml and channels.xml
 - a listener can now be disabled at startup by setting the auto-start attribute to false
-- the address of the server is now automatically published on tetrinet.org, tfast.org &amp; tsrv.com server lists
+- the address of the server is now automatically published 
+  on tetrinet.org, tfast.org &amp; tsrv.com server lists
 - the server can be locked from the admin console, once locked new connections will be rejected
 - ghost connections (connections that never time out) are now automatically removed
-- commands can be hidden from the /help list by specifying a "hidden" attribute on the &lt;command> element
-- the access level of a command can be overridden by adding an "access-level" attribute on the &lt;command> attribute
-- web admin: there is now a specific administrator password to log on the admin console (admin/adminpass by default instead of operator/jetrixpass)
+- commands can be hidden from the /help list by specifying a "hidden" 
+  attribute on the &lt;command> element
+- the access level of a command can be overridden by adding 
+  an "access-level" attribute on the &lt;command> attribute
+- web admin: there is now a specific administrator password to log on the 
+  admin console (admin/adminpass by default instead of operator/jetrixpass)
 - web admin: changes made to the configuration are now automatically saved to the disk !
 - web admin: the name of the server can now be configured
 - web admin: the idle time is now displayed on the user page
@@ -40,11 +49,14 @@ Admin visible changes
 - web admin: erasing a value on the settings screen will now reset it to the default value
 - web admin: added basic server statistics (uptime, game count and connection count)
 - web admin: commands can be removed
-- web admin: the ip bound to the server can be changed on the 'General' tab, the ip available are automatically detected and listed
-- web admin: added an "Idle allowed" parameter on the channel page, it maps to the &lt;idle> element in the channels.xml file
+- web admin: the ip bound to the server can be changed on the 'General' tab, 
+  the ip available are automatically detected and listed
+- web admin: added an "Idle allowed" parameter on the channel page, it maps to the &lt;idle> 
+  element in the channels.xml file
 - web admin: added a drop down list to select the winlist on the channel page
 - web admin: added the 'Description' field on the channel page
-- the server now checks the availability of a new release and display a message on startup and in the server administration page
+- the server now checks the availability of a new release and display 
+  a message on startup and in the server administration page
 - a system tray icon is displayed on windows platforms
 - a native executable is provided on windows to run the server without the DOS console
 - a windows installer is available
@@ -54,10 +66,13 @@ Developer visible changes
 - code ported to Java 5.0 !
 - added the services interface (net.jetrix.Service)
 - renamed the Destination.sendMessage() method to send()
-- Commands requiring a minimum number of parameters can now implement the ParameterCommand interface, the server will validate automatically the number of input parameters.
+- Commands requiring a minimum number of parameters can now implement 
+  the ParameterCommand interface, the server will validate automatically 
+  the number of input parameters.
 - added a clear() and a size() method to the Winlist interface
 - added an AbstractCommand class to reduce the code needed to implement a new Command
-- Localized messages can now have localized parameters by prefixing the parameter with "key:" : Language.getText("key", "key:paramKey");
+- Localized messages can now have localized parameters by prefixing 
+  the parameter with "key:" : Language.getText("key", "key:paramKey");
 
 Changes in version 0.1.3 (2004-01-20)
 -------------------------------------
