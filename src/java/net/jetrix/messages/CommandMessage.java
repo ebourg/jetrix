@@ -54,6 +54,13 @@ public class CommandMessage extends PlineMessage
         return parameters.get(i);
     }
 
+    /**
+     * Return an integer parameter, or the default value if the specified
+     * parameter doesn't map to an integer value.
+     *
+     * @param i            the index of the parameter
+     * @param defaultValue the default value
+     */
     public int getIntParameter(int i, int defaultValue)
     {
         int value;
@@ -65,6 +72,28 @@ public class CommandMessage extends PlineMessage
         catch (Exception e)
         {
             value = defaultValue;
+        }
+
+        return value;
+    }
+
+    /**
+     * Return an integer parameter, or null if the specified parameter
+     * doesn't map to an integer value.
+     *
+     * @param i the index of the parameter
+     */
+    public Integer getIntegerParameter(int i)
+    {
+        Integer value;
+
+        try
+        {
+            value = Integer.valueOf(parameters.get(i));
+        }
+        catch (Exception e)
+        {
+            value = null;
         }
 
         return value;
@@ -131,11 +160,17 @@ public class CommandMessage extends PlineMessage
         return channel;
     }
 
+    /**
+     * Add a parameter to the command.
+     */
     public void addParameter(String obj)
     {
         parameters.add(obj);
     }
 
+    /**
+     * Return the number of parameters on this command.
+     */
     public int getParameterCount()
     {
         return parameters.size();
