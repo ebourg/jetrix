@@ -19,19 +19,15 @@
 
 package net.jetrix;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Formatter;
-import java.util.logging.LogRecord;
-import java.util.logging.FileHandler;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.PrintWriter;
-
 import net.jetrix.config.ServerConfig;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.*;
 
 /**
  * Manages the output of the logger.
@@ -82,13 +78,11 @@ class LogManager
     private static class TimestampFormatter extends Formatter
     {
         private Date date = new Date();
-        private String format;
-        private SimpleDateFormat formatter;
+        private DateFormat formatter;
         private boolean level;
 
         public TimestampFormatter(String format, boolean level)
         {
-            this.format = format;
             this.level = level;
 
             formatter = new SimpleDateFormat(format);
