@@ -33,6 +33,8 @@ public class ChannelsRuleSet extends RuleSetBase
 
     public void addRuleInstances(Digester digester)
     {
+        digester.addCallMethod("tetrinet-channels/motd", "setMessageOfTheDay", 0);
+
         // default game settings
         digester.addObjectCreate("tetrinet-channels/default-settings", "net.jetrix.config.Settings");
         digester.addSetNext("tetrinet-channels/default-settings", "setDefaultSettings", "net.jetrix.config.Settings");
