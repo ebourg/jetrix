@@ -13,8 +13,12 @@ TODO
 - /mute <nick>
 - server advertisement on tetrinet.org and tfast.org
 - /ban & /unban
-- display available languages with /lang
 - /lfd looking for duel
+
+Changes un version 0.1.3 (2003-??-??)
+-------------------------------------
+- fixed the query protocol handling
+- the list of available languages can be displayed with /lang
 
 Changes in version 0.1.2 (2003-08-03)
 -------------------------------------
