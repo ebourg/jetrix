@@ -60,33 +60,9 @@ public class Channel extends Thread implements Destination
 
     /** slot/player mapping */
     private List slots;
+    private Field[] fields = new Field[6];
 
     private List filters;
-
-    // JetriX logo
-    // @todo move the logo to an external file
-    private short jetrixLogo[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0};
 
     public Channel()
     {
@@ -105,6 +81,12 @@ public class Channel extends Thread implements Destination
         for (int i = 0; i < 6; i++)
         {
             slots.add(null);
+        }
+
+        // initialize the players' fields
+        for (int i = 0; i < 6; i++)
+        {
+            fields[i] = new Field();
         }
 
         // opening channel message queue
@@ -309,18 +291,6 @@ public class Channel extends Thread implements Destination
         User user = client.getUser();
         sendAll(m);
 
-        // sending closing screen
-        StringBuffer screenLayout = new StringBuffer();
-        for (int i = 0; i < 12 * 22; i++)
-        {
-            screenLayout.append(((int) (Math.random() * 4 + 1)) * (1 - jetrixLogo[i]));
-            //screenLayout.append( ( (int)(slot%5+1) ) * (1-jetrixLogo[i]) );
-        }
-        FieldMessage endingScreen = new FieldMessage();
-        endingScreen.setSlot(m.getSlot());
-        endingScreen.setField(screenLayout.toString());
-        sendAll(endingScreen);
-
         boolean wasPlaying = user.isPlaying();
         user.setPlaying(false);
 
@@ -403,6 +373,10 @@ public class Channel extends Thread implements Destination
     private void process(FieldMessage m)
     {
         int slot = m.getSlot();
+
+        // update the field of the player
+        fields[slot - 1].update(m);
+
         sendAll(m, slot);
     }
 
@@ -427,6 +401,12 @@ public class Channel extends Thread implements Destination
                 {
                     client.getUser().setPlaying(true);
                 }
+            }
+
+            // clear the players' fields
+            for (int i = 0; i < 6; i++)
+            {
+                fields[i].clear();
             }
 
             // send the newgame message
@@ -578,6 +558,13 @@ public class Channel extends Thread implements Destination
                 mteam.setName(resident.getUser().getTeam());
                 client.sendMessage(mteam);
             }
+        }
+
+        // send the fields
+        for (int i = 0; i < 6; i++)
+        {
+            FieldMessage message = new FieldMessage(i + 1, fields[i].getFieldString());
+            client.sendMessage(message);
         }
 
         // send the winlist
@@ -966,6 +953,14 @@ public class Channel extends Thread implements Destination
         }
 
         return nbTeamsLeft + playingTeams.size();
+    }
+
+    /**
+     * Return the field of the specified slot.
+     */
+    public Field getField(int slot)
+    {
+        return fields[slot];
     }
 
 }
