@@ -222,7 +222,7 @@ public class TetrinetListener extends ClientListener
 
         if (readChar == -1)
         {
-            throw new IOException("client disconnected");
+            throw new IOException("client disconnected - " + socket.getInetAddress().getHostAddress());
         }
 
         return input.toString();
