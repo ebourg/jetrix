@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -47,7 +47,7 @@ public class Server implements Runnable, Destination
 
     private Server()
     {
-        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2003 Emmanuel Bourg\n");
+        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2004 Emmanuel Bourg\n");
 
         // spawn the server message queue
         queue = new MessageQueue();
@@ -107,9 +107,6 @@ public class Server implements Runnable, Destination
             channelManager.createChannel(cc);
         }
 
-        // start the server console
-        (new Thread(new ConsoleClient())).start();
-
         // start the client listeners
         Iterator listeners = config.getListeners();
         while (listeners.hasNext())
@@ -117,6 +114,9 @@ public class Server implements Runnable, Destination
             Listener listener = (Listener) listeners.next();
             listener.start();
         }
+        
+        // start the server console
+        (new Thread(new ConsoleClient())).start();
 
         log.info("Server ready!");
     }
