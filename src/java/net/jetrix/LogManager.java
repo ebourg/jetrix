@@ -52,8 +52,8 @@ class LogManager
         log.setLevel(Level.ALL);
 
         ConsoleHandler consoleHandler = new ConsoleHandler();
-        String debug = System.getProperty("jetrix.debug");
-        if ("true".equals(debug))
+        final boolean debug = "true".equals(System.getProperty("jetrix.debug"));
+        if (debug)
         {
             consoleHandler.setLevel(Level.ALL);
         }
@@ -61,7 +61,7 @@ class LogManager
         consoleHandler.setFormatter(new Formatter()
         {
             Date date = new Date();
-            private final static String format = "HH:mm:ss";
+            private String format = debug ? "HH:mm:ss,SSS" : "HH:mm:ss";
             private SimpleDateFormat formatter;
 
             public synchronized String format(LogRecord record)
