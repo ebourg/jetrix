@@ -148,29 +148,20 @@ public abstract class Client implements Runnable, Destination
      */
     public void sendMessage(Message m)
     {
-        // is the raw message available for the protocol of this client ?
-        if (m.getRawMessage(getProtocol().getName()) == null)
+        if (m.getRawMessage(getProtocol()) != null)
         {
-            // builing the raw message for this client
-            m.setRawMessage(getProtocol().getName(), getProtocol().translate(m));
-        }
-
-        if (m.getRawMessage(getProtocol().getName()) != null)
-        {
-
             try
             {
                 synchronized(out)
                 {
-                    out.write(m.getRawMessage(getProtocol().getName()) + (char)255, 0, m.getRawMessage(getProtocol().getName()).length() + 1);
+                    out.write(m.getRawMessage(getProtocol()) + (char)255, 0, m.getRawMessage(getProtocol()).length() + 1);
                     out.flush();
                 }
 
-                logger.finest("> " + m.getRawMessage(getProtocol().getName()));
+                logger.finest("> " + m.getRawMessage(getProtocol()));
             }
             catch (SocketException e) { logger.fine(e.getMessage()); }
             catch (Exception e) { e.printStackTrace(); }
-
         }
         else
         {

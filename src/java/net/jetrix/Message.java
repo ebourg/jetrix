@@ -71,7 +71,7 @@ public abstract class Message
     /**
      * Set the view of the message in the specified protocol.
      */
-    public void setRawMessage(String protocol, String message)
+    public void setRawMessage(Protocol protocol, String message)
     {
         rawMessages.put(protocol, message);
     }
@@ -79,9 +79,19 @@ public abstract class Message
     /**
      * Return the view of this message in the specified protocol.
      */
-    public String getRawMessage(String protocol)
+    public String getRawMessage(Protocol protocol)
     {
-        return (String)rawMessages.get(protocol);
+        // is the raw message available for the specified protocol
+        String msg = (String)rawMessages.get(protocol);
+
+        if (msg == null)
+        {
+            // building the raw message for this protocol
+            msg = protocol.translate(this);
+            rawMessages.put(protocol, msg);
+        }
+
+        return msg;
     }
 
 }
