@@ -76,7 +76,7 @@
   <target name="jar" depends="compile.jsp">
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
-    <jar jarfile="${dist}/lib/jetrix.jar">
+    <jar jarfile="${dist}/lib/jetrix-${version}.jar">
       <manifest>
         <attribute name="Implementation-Title" value="Jetrix TetriNET Server"/>
         <attribute name="Implementation-Version" value="${version}"/>
@@ -89,14 +89,11 @@
     </jar>
 
     <mkdir dir="${dist}/webapp"/>
-    <war destfile="${dist}/webapp/jetrix-admin.war" webxml="${src}/admin//WEB-INF/web.xml">
+    <war destfile="${dist}/webapp/jetrix-admin-${version}.war" webxml="${src}/admin/WEB-INF/web.xml">
       <fileset dir="${src}/admin">
         <exclude name="WEB-INF/web.xml"/>
         <exclude name="**/*.jsp"/>
         <exclude name="**/*.java"/>
-      </fileset>
-      <fileset dir="${src}/site">
-        <include name="style.css"/>
       </fileset>
       <classes dir="${build}/jsp">
         <include name="**/*.class"/>
@@ -121,7 +118,7 @@
         <include name="update" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
-        <include name="jetrix.jar" />
+        <include name="jetrix-${version}.jar" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${lib}">
         <include name="commons-digester.jar" />
@@ -156,7 +153,7 @@
         <include name="update" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
-        <include name="jetrix.jar" />
+        <include name="jetrix-${version}.jar" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${lib}">
         <include name="commons-digester.jar" />
@@ -186,25 +183,25 @@
     <mkdir dir="${dist}/src"/>
 
     <zip zipfile="${dist}/src/jetrix-${version}-src.zip">
-      <zipfileset prefix="jetrix-src/" dir=".">
+      <zipfileset prefix="jetrix-${version}-src/" dir=".">
         <include name="build.xml" />
         <include name="jetrix.properties" />
       </zipfileset>
-      <zipfileset prefix="jetrix-src/src/" dir="${src}">
+      <zipfileset prefix="jetrix-${version}-src/src/" dir="${src}">
         <exclude name="site/"/>
       </zipfileset>
-      <zipfileset prefix="jetrix-src/lib/" dir="${lib}" />
+      <zipfileset prefix="jetrix-${version}-src/lib/" dir="${lib}" />
     </zip>
 
     <tar destfile="${dist}/src/jetrix-${version}-src.tar">
-      <tarfileset prefix="jetrix-src/" dir=".">
+      <tarfileset prefix="jetrix-${version}-src/" dir=".">
         <include name="build.xml" />
         <include name="jetrix.properties" />
       </tarfileset>
-      <tarfileset prefix="jetrix-src/src/" dir="${src}">
+      <tarfileset prefix="jetrix-${version}-src/src/" dir="${src}">
         <exclude name="site/"/>
       </tarfileset>
-      <tarfileset prefix="jetrix-src/lib/" dir="${lib}" />
+      <tarfileset prefix="jetrix-${version}-src/lib/" dir="${lib}" />
     </tar>
 
     <gzip zipfile="${dist}/src/jetrix-${version}-src.tar.gz" src="${dist}/src/jetrix-${version}-src.tar"/>
@@ -212,6 +209,7 @@
 
   </target>
 
+  <target name="dist.all" depends="clean, dist, dist.src, doc" description="Build all distributed files"/>
 
   <target name="test" depends="compile.test" description="Runs testcases">
     <junit printsummary="withOutAndErr" showoutput="yes" fork="yes" dir="${src}/etc">
@@ -249,7 +247,7 @@
 
 
   <target name="run" depends="deploy">
-    <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix.jar" fork="yes">
+    <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-${version}.jar" fork="yes">
       <sysproperty key="jetrix.debug" value="true"/>
     </java>
   </target>
@@ -261,7 +259,7 @@
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
 
     <!-- Checksum computation -->
-    <java classname="net.jetrix.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix.jar" fork="yes" />
+    <java classname="net.jetrix.patcher.UpdateList" dir="${deploy}/jetrix" classpath="${deploy}/jetrix/lib/jetrix-${version}.jar" fork="yes" />
 
     <!-- Uploading to patch server -->
     <ftp server="${ftp.host}" remotedir="/vsite/tetrinet/public_html/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes" ignoreNoncriticalErrors="yes">
@@ -287,14 +285,13 @@
           <include name="*.jar" />
         </fileset>
       </classpath>
-      <link href="http://java.sun.com/j2se/1.4.1/docs/api/"/>
-      <link href="http://jakarta.apache.org/commons/digester/api"/>
+      <link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
+      <link href="http://jetty.mortbay.org/javadoc/"/>
     </javadoc>
-    <zip zipfile="${dist}/doc/api.zip">
-      <zipfileset dir="${doc}" includes="api/**"/>
+    <zip zipfile="${dist}/doc/jetrix-${version}-api.zip">
+      <zipfileset prefix="jetrix-${version}-api/" dir="${doc}/api"/>
     </zip>
   </target>
-
 
   <target name="clean">
     <!-- Delete the ${build} directory tree -->
