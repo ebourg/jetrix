@@ -29,23 +29,22 @@ import java.util.*;
  *
  *
  * @author Emmanuel Bourg
- * 
+ * @version $Revision$, $Date$
  */
 class TetriNETClient extends Thread
 {
     public Socket          socket;
     private BufferedReader in;
     private BufferedWriter out;
-    ServerInfo      si;
+    ServerConfig conf;
 
-    private String nickname;
-    private String team;
     private String clientVersion;
     
     private int slot;
     
     Channel channel;
     TetriNETServer server;
+    TetriNETPlayer player;
     
 
     /**
@@ -57,10 +56,10 @@ class TetriNETClient extends Thread
      *
      * @see
      */
-    public TetriNETClient(Socket s, ServerInfo sinfo) throws IOException
+    public TetriNETClient(TetriNETPlayer) throws IOException
     {
-        si = sinfo;
-        socket = s;
+        conf = ServerConfig.getInstance();
+        socket = player.getSocket();
 
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));             
@@ -387,24 +386,9 @@ class TetriNETClient extends Thread
     }
 
 
-    public void setNickname(String s)
+    public TetriNETPlayer getPlayer()
     {
-    	nickname = s;
-    }
-
-    public String getNickname()
-    {
-    	return nickname;
-    }
-
-    public void setTeam(String t)
-    {
-    	team = t;
-    }
-
-    public String getTeam()
-    {
-    	return team;
+    	return player;
     }
 
     public void setClientVersion(String v)
@@ -424,7 +408,7 @@ class TetriNETClient extends Thread
 
     public String toString()
     {
-        return "[Player "+nickname+" <"+team+">]";
+        return "[Player "+player.getName()+" <"+player.getTeam()+">]";
     }
 
 }

@@ -17,9 +17,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
  
-
 package org.lfjr.jts;
 
+/**
+ * Internal message sent between server, channels and client handlers.
+ *
+ *
+ * @author Emmanuel Bourg
+ * @version $Revision$, $Date$
+ */
 public class Message
 {
     public static final int TYPE_SERVER  = 0; // disconnected, / commands, noconnecting
@@ -43,6 +49,8 @@ public class Message
     public static final int MSG_DISCONNECTED = 13;
     public static final int MSG_NOCONNECTING = 14;
     public static final int MSG_ADDPLAYER    = 15;
+    public static final int MSG_RESTART      = 16;
+    public static final int MSG_SHUTDOWN     = 17;        
                          		
     private Object params[];
     private int type;
@@ -52,8 +60,13 @@ public class Message
       		
     public Message()
     {
-
+    	type = MSG_UNKNOWN;
     }   
+    
+    public Message(int type)
+    {
+        this.type = type;    	
+    }
     
     public int getType()
     {

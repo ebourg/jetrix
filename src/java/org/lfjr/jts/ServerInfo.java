@@ -26,7 +26,7 @@ import java.util.*;
  *
  *
  * @author Emmanuel Bourg
- *
+ * @version $Revision$, $Date$
  */
 public class ServerInfo
 {

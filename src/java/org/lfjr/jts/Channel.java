@@ -21,20 +21,18 @@ package org.lfjr.jts;
 
 import java.io.*;
 import java.util.*;
+import org.lfjr.jts.config.*;
 
+/**
+ * Game channel
+ *
+ *
+ * @author Emmanuel Bourg
+ * @version $Revision$, $Date$
+ */
 public class Channel extends Thread
 {
-    private int     startingLevel = 1;
-    private int     stackHeight = 0;
-    private int     linesForLevel = 2;
-    private int     levelIncrease = 1;
-    private int     linesForSpecial = 1;
-    private int     specialsAdded = 1;
-    private int     capacity = 18;
-    private int[]   pieceOccurancy = {15, 15, 14, 14, 14, 14, 14};
-    private int[]   specialOccurancy = {32, 20, 1, 11, 1, 14, 1, 6, 14};
-    private boolean averagedLevels = true;
-    private boolean classicRules = true;
+    private Settings settings;
 
     MessageQueue    mq;
 
@@ -54,8 +52,9 @@ public class Channel extends Thread
 
     Stack           incomingClients = new Stack();
 
-    public Channel()
+    public Channel(Settings settings)
     {
+    	this.settings = settings;
         mq = new MessageQueue();
 
         for (int i = 0; i<6; i++)

@@ -29,9 +29,8 @@ import java.util.*;
  *
  *
  * @author Emmanuel Bourg
- *
+ * @version $Revision$, $Date$
  */
-
 public class TetriNETServer implements Runnable
 {
     ServerInfo	      si;
@@ -63,8 +62,6 @@ public class TetriNETServer implements Runnable
 
     	Thread server = new Thread(this);
     	server.start();
-
-
 
         System.out.println("Server started...");
     }
@@ -116,9 +113,9 @@ public class TetriNETServer implements Runnable
                 
                 /** @todo tester l'unicité du pseudo sur le serveur */
                 
-                Message m = new Message();
-                m.setCode(Message.MSG_PLINE);
+                Message m = new Message(Message.MSG_PLINE);
                 Object params[] = { new Integer(0), ChatColors.bold+"Welcome on Java TetriNET Server "+si.VERSION+" !" };
+                m.setParameters(params);
 		player.sendMessage(m);
 		
 		// sending MOTD
@@ -165,8 +162,7 @@ public class TetriNETServer implements Runnable
 		player.assignChannel(ch);
 		player.start();
 		
-		m = new Message();
-		m.setCode(Message.MSG_ADDPLAYER);
+		m = new Message(Message.MSG_ADDPLAYER);
 		Object[] params2 = { player };	
 		m.setParameters(params2);
 		ch.addMessage(m);	
@@ -227,8 +223,7 @@ public class TetriNETServer implements Runnable
 
         if (tokens.size()>3)
         {
-            Message m = new Message();
-            m.setCode(Message.MSG_NOCONNECTING);
+            Message m = new Message(Message.MSG_NOCONNECTING);
             Object[] params = { "No space allowed in nickname !" };
             m.setParameters(params);
             player.sendMessage(m);

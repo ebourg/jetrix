@@ -26,7 +26,7 @@ import java.io.*;
  *
  *
  * @author Emmanuel Bourg
- * @version %I%, %G%
+ * @version $Revision$, $Date$
  */
 class ServerConsole extends Thread
 {

@@ -19,6 +19,13 @@
 
 package org.lfjr.jts;
 
+/**
+ * Color codes.
+ *
+ *
+ * @author Emmanuel Bourg
+ * @version $Revision$, $Date$
+ */
 public interface ChatColors
 {    
     char red         = '\u0014';

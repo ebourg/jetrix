@@ -21,6 +21,13 @@ package org.lfjr.jts;
 
 import java.io.*;
 
+/**
+ * FIFO for internal messages.
+ *
+ *
+ * @author Emmanuel Bourg
+ * @version $Revision$, $Date$
+ */
 public class MessageQueue
 {
     private MessageQueue.Node head, tail;
@@ -37,18 +44,15 @@ public class MessageQueue
 
     public Message get() throws InterruptedIOException
     {
-    	//System.out.println("get()");
     	synchronized(getLock)
     	{
     	    while (head == null && !closed)
     	    {
-    	    	//System.out.println("get() : waiting (head="+head+")");
     	    	try { getLock.wait(2000); } catch(InterruptedException e) { e.printStackTrace();  }
     	    }
     	    
     	    if (closed) throw new InterruptedIOException("MessageQueue closed");
     	    
-    	    //System.out.println("get() : getting "+head.getValue());
     	    MessageQueue.Node t = head;
     	    head = head.next;
     	    
@@ -59,7 +63,6 @@ public class MessageQueue
     
     public void put(Message elem)
     {
-    	//System.out.println("put() : "+elem);
     	if (!closed)
     	{
     		
@@ -68,25 +71,16 @@ public class MessageQueue
     	    MessageQueue.Node m = new MessageQueue.Node();
     	    m.value = elem;
     	    
-    	    //System.out.println("put() : head="+head);
-    	    
     	    if (tail != null) { tail.next = m; }
     	    if (head == null) { head = m; }
     	    
-    	    tail = m;
-    	    
-    	    //System.out.println("put() : head="+head);
-    	    //System.out.println("put() : tail="+tail);
-    	    //System.out.println("put() : m="+m);
+    	    tail = m;    	    
     	    
     	    synchronized(getLock)
     	    {
-    	    	//System.out.println("put() : notifying -> "+elem);
     	        getLock.notify();    		
     	    }
     	}    	
-    	
-    	//System.out.println("put() ending -> "+elem);
     	
     	}    	
     }
