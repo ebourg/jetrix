@@ -174,6 +174,23 @@ public class ChannelManager
     }
 
     /**
+     * Close all channels.
+     */
+    public void closeAll()
+    {
+        Iterator it = channels();
+        while (it.hasNext())
+        {
+            Channel channel = (Channel) it.next();
+            try {
+                channel.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * Get a channel by number in the list.
      */
     public Channel getChannel(int num)
