@@ -67,7 +67,7 @@ public class TetrinetListener extends ClientListener
             return client;
         }
 
-        String dec = decode(init);
+        String dec = TetrinetProtocol.decode(init);
 
         // init string parsing "tetrisstart <nickname> <version>"
         StringTokenizer st = new StringTokenizer(dec, " ");
@@ -112,100 +112,6 @@ public class TetrinetListener extends ClientListener
         return client;
     }
 
-
-    /**
-     * Decodes TetriNET client initialization string
-     *
-     * @param initString initialization string
-     *
-     * @return decoded string
-     */
-    protected String decode(String initString)
-    {
-        if (initString.length() % 2 != 0)
-        {
-            // Invalid Init String: odd length
-            return null;
-        }
-
-        int[] dec = new int[initString.length() / 2];
-
-        try
-        {
-            for (int i = 0; i < dec.length; i++)
-            {
-                dec[i] = Integer.parseInt(initString.substring(i * 2, i * 2 + 2), 16);
-            }
-        }
-        catch (NumberFormatException e)
-        {
-            // Invalid Init String: illegal characters
-            return null;
-        }
-
-        // tetrinet test
-        char[] data = "tetrisstar".toCharArray();
-        int[] hashString = new int[data.length];
-
-        for (int i = 0; i < data.length; i++)
-        {
-            hashString[i] = ((data[i] + dec[i]) % 255) ^ dec[i + 1];
-        }
-
-        int hashLength = 5;
-
-        for (int i = 5; i == hashLength && i > 0; i--)
-        {
-            for (int j = 0; j < data.length - hashLength; j++)
-            {
-                if (hashString[j] != hashString[j + hashLength])
-                {
-                    hashLength--;
-                }
-            }
-        }
-
-        // tetrifast test
-        if (hashLength == 0)
-        {
-            data = "tetrifaste".toCharArray();
-            hashString = new int[data.length];
-
-            for (int i = 0; i < data.length; i++)
-            {
-                hashString[i] = ((data[i] + dec[i]) % 255) ^ dec[i + 1];
-            }
-
-            hashLength = 5;
-
-            for (int i = 5; i == hashLength && i > 0; i--)
-            {
-                for (int j = 0; j < data.length - hashLength; j++)
-                {
-                    if (hashString[j] != hashString[j + hashLength])
-                    {
-                        hashLength--;
-                    }
-                }
-            }
-        }
-
-        if (hashLength == 0)
-        {
-            // Invalid Init String: decoding failed
-            return null;
-        }
-
-        StringBuffer s = new StringBuffer();
-
-        for (int i = 1; i < dec.length; i++)
-        {
-            s.append((char) (((dec[i] ^ hashString[(i - 1) % hashLength]) + 255 - dec[i - 1]) % 255));
-        }
-
-        return s.toString().replace((char) 0, (char) 255);
-    }
-
     public String readLine(Socket socket) throws IOException
     {
         StringBuffer input = new StringBuffer();
@@ -226,52 +132,6 @@ public class TetrinetListener extends ClientListener
         }
 
         return input.toString();
-    }
-
-    protected String encode(String nickname, int[] ip)
-    {
-        StringBuffer result = new StringBuffer();
-        int offset = 128;
-        result.append(Integer.toHexString(offset));
-
-        char[] x = new Integer(54 * ip[0] + 41 * ip[1] + 29 * ip[2] + 17 * ip[3]).toString().toCharArray();
-        char[] s = ("tetrisstart " + nickname + " 1.13").toCharArray();
-
-        result.append(arrayToHex(xor(shift(s, offset), x)));
-
-        return result.toString().toUpperCase();
-    }
-
-    protected char[] xor(char[] array, char[] offset)
-    {
-        for (int i = 0; i < array.length; i++)
-        {
-            array[i] = (char) (array[i] ^ offset[i % offset.length]);
-        }
-
-        return array;
-    }
-
-    protected char[] shift(char[] array, int offset)
-    {
-        for (int i = 0; i < array.length; i++)
-        {
-            array[i] = (char) ((char) (array[i] + offset) % 256);
-        }
-
-        return array;
-    }
-
-    protected String arrayToHex(char[] array)
-    {
-        StringBuffer result = new StringBuffer();
-
-        for (int i = 0; i < array.length; i++)
-        {
-            result.append(Integer.toHexString(array[i]));
-        }
-
-        return result.toString();
     }
 
 }

@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2005  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -734,6 +734,137 @@ public class TetrinetProtocol implements Protocol
     public char getEOL()
     {
         return 0xFF;
+    }
+
+
+    /**
+     * Decodes TetriNET client initialization string
+     *
+     * @param initString initialization string
+     * @return decoded string
+     * @throws IllegalArgumentException thrown if the string can't be decoded
+     */
+    public static String decode(String initString)
+    {
+        // check the size of the init string
+        if (initString.length() % 2 != 0)
+        {
+            throw new IllegalArgumentException("Invalid initialization string, the length is not even");
+        }
+
+        // parse the hex values from the init string
+        int[] dec = new int[initString.length() / 2];
+
+        try
+        {
+            for (int i = 0; i < dec.length; i++)
+            {
+                dec[i] = Integer.parseInt(initString.substring(i * 2, i * 2 + 2), 16);
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            throw new IllegalArgumentException("Invalid initialization string, illegal characters found", e);
+        }
+
+        // find the hash pattern for a tetrinet client
+        String pattern = findHashPattern(dec, false);
+
+        // find the hash pattern for a tetrifast client
+        if (pattern.length() == 0)
+        {
+            pattern = findHashPattern(dec, true);
+        }
+
+        // check the size of the pattern found
+        if (pattern.length() == 0)
+        {
+            throw new IllegalArgumentException("Invalid initialization string, unable to find the pattern");
+        }
+
+        // decode the string
+        StringBuffer s = new StringBuffer();
+
+        for (int i = 1; i < dec.length; i++)
+        {
+            s.append((char) (((dec[i] ^ pattern.charAt((i - 1) % pattern.length())) + 255 - dec[i - 1]) % 255));
+        }
+
+        return s.toString().replace((char) 0, (char) 255);
+    }
+
+    private static String findHashPattern(int[] dec, boolean tetrifast)
+    {
+        // the first characters from the decoded string
+        char[] data = (tetrifast ? "tetrifaste" : "tetrisstar").toCharArray();
+
+        // compute the full hash
+        int[] hash = new int[data.length];
+
+        for (int i = 0; i < data.length; i++)
+        {
+            hash[i] = ((data[i] + dec[i]) % 255) ^ dec[i + 1];
+        }
+
+        // find the length of the hash
+        int length = 5;
+
+        for (int i = 5; i == length && i > 0; i--)
+        {
+            for (int j = 0; j < data.length - length; j++)
+            {
+                if (hash[j] != hash[j + length])
+                {
+                    length--;
+                }
+            }
+        }
+
+        return new String(hash, 0, length);
+    }
+
+    /**
+     * Return the initialization string for the specified user.
+     *
+     * @param nickname  the nickname of the client
+     * @param version   the version of the client
+     * @param ip        the IP of the server
+     * @param tetrifast is this a tetrifast client ?
+     */
+    public static String encode(String nickname, String version, byte[] ip, boolean tetrifast)
+    {
+        // compute the pattern
+        int p = 54 * ip[0] + 41 * ip[1] + 29 * ip[2] + 17 * ip[3];
+        char[] pattern = String.valueOf(p).toCharArray();
+
+        // build the string to encode
+        char[] data = ((tetrifast ? "tetrifaster " : "tetrisstart ") + nickname + " " + version).toCharArray();
+
+        // build the encoded string
+        StringBuffer result = new StringBuffer();
+        char offset = 0x80;
+        result.append(toHex(offset));
+
+        char previous = offset;
+
+        for (int i = 0; i < data.length; i++)
+        {
+            char current = (char) (((previous + data[i]) % 255) ^ pattern[i % pattern.length]);
+            result.append(toHex(current));
+            previous = current;
+        }
+
+        return result.toString().toUpperCase();
+    }
+
+    /**
+     * Return the hex value of the specified byte on 2 digits.
+     */
+    private static String toHex(char c)
+    {
+        String h = Integer.toHexString(c);
+
+        return h.length() > 1 ? h : "0" + h;
     }
 
     public String toString()

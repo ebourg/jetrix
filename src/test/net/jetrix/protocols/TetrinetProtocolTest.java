@@ -19,6 +19,8 @@
 
 package net.jetrix.protocols;
 
+import static net.jetrix.protocols.TetrinetProtocol.*;
+
 import java.util.*;
 import junit.framework.*;
 import net.jetrix.*;
@@ -263,4 +265,19 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("level", 50, level.getLevel());
     }
 
+    public void testEncode()
+    {
+        byte[] ip = {127, 0, 0, 1};
+        String nickname = "Smanux";
+        String version = "1.14";
+
+        assertEquals("80C210B3134A85CF71E46FD4C123A83D9E22A2F512769FE5", encode(nickname, version, ip, false));
+    }
+
+    public void testDecode()
+    {
+        String init = "80C210B3134A85CF71E46FD4C123A83D9E22A2F512769FE5";
+
+        assertEquals("decoded string", "tetrisstart Smanux 1.13", decode(init));
+    }
 }

@@ -24,6 +24,7 @@ import java.net.*;
 import java.util.*;
 import net.jetrix.*;
 import net.jetrix.protocols.TspecProtocol;
+import net.jetrix.protocols.TetrinetProtocol;
 import net.jetrix.clients.*;
 import net.jetrix.messages.*;
 
@@ -58,7 +59,7 @@ public class TSpecListener extends TetrinetListener
             e.printStackTrace();
         }
 
-        String dec = decode(init);
+        String dec = TetrinetProtocol.decode(init);
 
         // init string parsing "team <nickname> <password>"
         StringTokenizer st = new StringTokenizer(dec, " ");
