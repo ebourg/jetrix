@@ -245,7 +245,7 @@ public class ServerConfig
         return oppass;
     }
 
-    public void setOpPassword(String motd)
+    public void setOpPassword(String oppass)
     {
         this.oppass = oppass;
     }
@@ -255,14 +255,14 @@ public class ServerConfig
         return accesslogPath;
     }
 
-    public void setAccessLogPath(String motd)
+    public void setAccessLogPath(String accesslogPath)
     {
         this.accesslogPath = accesslogPath;
     }
 
     public String getErrorLogPath()
     {
-        return motd;
+        return errorlogPath;
     }
 
     public void setErrorLogPath(String errorlogPath)
