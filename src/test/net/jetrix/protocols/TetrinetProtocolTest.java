@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2002  Emmanuel Bourg
+ * Copyright (C) 2001-2003  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -112,8 +112,4 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("plineact 1 feels faster", protocol.translate(msg, locale));
     }
 
-    public static Test suite()
-    {
-        return new TestSuite(TetrinetProtocolTest.class);
-    }
 }
