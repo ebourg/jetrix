@@ -24,6 +24,7 @@ import java.net.*;
 import java.util.*;
 
 import org.lfjr.jts.filter.*;
+import org.lfjr.jts.commands.*;
 import org.apache.commons.digester.*;
 
 /**
@@ -141,6 +142,7 @@ public class ServerConfig
             digester.addCallMethod("*/channel", "setName", 1);
             digester.addCallParam("*/channel", 0, "name");
             digester.addCallMethod("*/channel/password", "setPassword", 0);
+            digester.addCallMethod("*/channel/access-level", "setAccessLevel", 0, new Class[] {Integer.TYPE});
             digester.addCallMethod("*/channel/description", "setDescription", 0);
             digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
 
@@ -159,6 +161,11 @@ public class ServerConfig
             digester.addCallMethod("tetrinet-server/filter-definitions/alias", "addFilterAlias", 2);
             digester.addCallParam("tetrinet-server/filter-definitions/alias", 0, "name");
             digester.addCallParam("tetrinet-server/filter-definitions/alias", 1, "class");
+
+            // command definitions
+            digester.addObjectCreate("*/command", null, "class");
+            digester.addSetNext("*/command", "addCommand", "org.lfjr.jts.commands.Command");
+            digester.addCallMethod("*/filter/access-level", "setAccessLevel", 0,  new Class[] {Integer.TYPE});
 
             digester.parse(new File(filename));
 
@@ -319,6 +326,11 @@ public class ServerConfig
     public void addFilterAlias(String name, String classname)
     {
         FilterManager.getInstance().addFilterAlias(name, classname);
+    }
+
+    public void addCommand(Command command)
+    {
+        CommandManager.getInstance().addCommand(command);
     }
 
 }
