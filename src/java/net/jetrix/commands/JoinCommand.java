@@ -58,23 +58,33 @@ public class JoinCommand implements Command
     {
         Client client = (Client)m.getSource();
 
-        Channel target = ChannelManager.getInstance().getChannel(m.getParameter(0));
-        if (target != null)
+        if (m.getParameterCount() >= 1)
         {
-            if ( target.isFull() )
+            Channel target = ChannelManager.getInstance().getChannel(m.getParameter(0));
+            if (target != null)
             {
-                // sending channel full message
-                PlineMessage channelfull = new PlineMessage();
-                channelfull.setKey("command.join.full");
-                client.sendMessage(channelfull);
+                if ( target.isFull() )
+                {
+                    // sending channel full message
+                    PlineMessage channelfull = new PlineMessage();
+                    channelfull.setKey("command.join.full");
+                    client.sendMessage(channelfull);
+                }
+                else
+                {
+                    // adding the ADDPLAYER message to the queue of the target channel
+                    AddPlayerMessage move = new AddPlayerMessage();
+                    move.setClient((Client)m.getSource());
+                    target.sendMessage(move);
+                }
             }
-            else
-            {
-                // adding the ADDPLAYER message to the queue of the target channel
-                AddPlayerMessage move = new AddPlayerMessage();
-                move.setClient((Client)m.getSource());
-                target.sendMessage(move);
-            }
+        }
+        else
+        {
+            // not enough parameters
+            String message = "<red>" + m.getCommand() + "<blue> <channel name|number>";
+            PlineMessage response = new PlineMessage(message);
+            client.sendMessage(response);
         }
     }
 }
