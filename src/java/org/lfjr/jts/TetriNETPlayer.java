@@ -37,6 +37,7 @@ public class TetriNETPlayer
     private boolean registered;
     private boolean playing;
     private Locale locale;
+    private Map props;
 
     public static final int STATUS_OK  = 0;
     public static final int STATUS_AFK = 1;
@@ -116,6 +117,26 @@ public class TetriNETPlayer
     public Locale getLocale()
     {
         return locale;
+    }
+
+    /**
+     * Set an extended property for this player.
+     */
+    public void setProperty(String key, Object value)
+    {
+        if (props == null)
+        {
+            props = new HashMap();
+        }
+        props.put(key, value);
+    }
+
+    /**
+     * Return an extended property.
+     */
+    public Object getProperty(String key)
+    {
+        return (props == null) ? null : props.get(key);
     }
 
     public String toString()
