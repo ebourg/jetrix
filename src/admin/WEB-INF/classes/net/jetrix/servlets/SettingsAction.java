@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -75,6 +75,10 @@ public class SettingsAction extends HttpServlet
         settings.setClassicRules(Boolean.valueOf(request.getParameter("classicRules")).booleanValue());
         settings.setSameBlocks(Boolean.valueOf(request.getParameter("sameBlocks")).booleanValue());
 
+        settings.setSuddenDeathTime(Integer.parseInt(request.getParameter("suddenDeathTime")));
+        settings.setSuddenDeathMessage(request.getParameter("suddenDeathMessage"));
+        settings.setSuddenDeathDelay(Integer.parseInt(request.getParameter("suddenDeathDelay")));
+        settings.setSuddenDeathLinesAdded(Integer.parseInt(request.getParameter("suddenDeathLinesAdded")));
 
         if (errors.isEmpty())
         {
@@ -85,12 +89,14 @@ public class SettingsAction extends HttpServlet
             String channelName = request.getParameter("channel");
             if (channelName != null)
             {
+                // channel settings
                 Channel channel = ChannelManager.getInstance().getChannel(channelName);
                 channel.getConfig().setSettings(settings);
                 response.sendRedirect("/channel.jsp?name=" + channelName);
             }
             else
             {
+                // server settings
                 Settings.setDefaultSettings(settings);
                 response.sendRedirect("/server.jsp");
             }

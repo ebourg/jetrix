@@ -117,7 +117,32 @@
         <tr>
           <td align="right"><b>Total :</b> </td>
           <td align="center"><span id="blocks.total">100</span> %</td>
-        </tr>        
+        </tr>
+      </table>
+
+      <h2>Sudden Death</h2>
+
+      <table class="thin" style="width: 100%">
+        <tr>
+          <th width="30%">Property</th>
+          <th width="70%">Value</th>
+        </tr>
+        <tr>
+          <td>Time (seconds)</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getSuddenDeathTime() %>" name="suddenDeathTime" style="width: 95%"></td>
+        </tr>
+        <tr>
+          <td>Message</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getSuddenDeathMessage() %>" name="suddenDeathMessage" style="width: 95%"></td>
+        </tr>
+        <tr>
+          <td>Delay (seconds)</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getSuddenDeathDelay() %>" name="suddenDeathDelay" style="width: 95%"></td>
+        </tr>
+        <tr>
+          <td>Lines Added</td>
+          <td align="center"><input class="thin" type="text" value="<%= settings.getSuddenDeathLinesAdded() %>" name="suddenDeathLinesAdded" style="width: 95%"></td>
+        </tr>
       </table>
 
     </td>
@@ -125,7 +150,7 @@
     <td width="30%" valign="top">
 
       <h2>Rules</h2>
-     
+
       <table class="thin" style="width: 100%">
         <tr>
           <th width="60%">Rule</th>
@@ -182,13 +207,12 @@
         </tr>
       </table>
 
-
     </td>
   </tr>
 </table>
-    
+
 <br>
-    
+
 <input type="submit" value="Save Changes">
 
 </form>
