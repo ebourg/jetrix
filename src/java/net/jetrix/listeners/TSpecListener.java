@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2004  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -73,7 +73,7 @@ public class TSpecListener extends TetrinetListener
             return null;
         }
 
-        TetrinetClient client = new TetrinetClient();
+        TSpecClient client = new TSpecClient();
         User user = new User();
         user.setName(tokens.get(1));
         user.setSpectator();
