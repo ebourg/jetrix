@@ -1,4 +1,5 @@
 <%@ page import="net.jetrix.*"%>
+<%@ page import="net.jetrix.servlets.*"%>
 <%@ page import="net.jetrix.config.*"%>
 <%@ page import="net.jetrix.filter.*"%>
 <%@ page import="java.util.*"%>
@@ -32,7 +33,7 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Parameters</h2>
 
-    <form id="parameters" action="/servlet/net.jetrix.servlets.ChannelAction">
+    <form id="parameters" action="/servlet/<%= ChannelAction.class.getName() %>">
       <input type="hidden" name="name" value="<%= conf.getName() %>">
 
       <table class="thin" style="width: 600px">
