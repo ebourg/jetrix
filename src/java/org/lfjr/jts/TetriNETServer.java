@@ -84,8 +84,10 @@ public class TetriNETServer implements Runnable
         {
             try
             {
+            	// fetching message waiting in the queue
             	Message m = mq.get();
             	
+            	// processing message
             	switch(m.getCode())
             	{
             	    case Message.MSG_RESTART:
@@ -134,31 +136,4 @@ public class TetriNETServer implements Runnable
     {
     	new TetriNETServer();
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

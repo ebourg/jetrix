@@ -34,18 +34,28 @@ public class MessageQueue
     private Object putLock, getLock;
     private boolean closed;
 	
-	
+    /**
+     * Construct a new empty MessageQueue.
+     *
+     */
     public MessageQueue()
     {
     	putLock = new Object();
     	getLock = new Object();
     }
 
-
+    /**
+     * Fetch the next Message in the queue.
+     *
+     * @return next Message waiting in the queue
+     *
+     * @exception InterruptedIOException thrown when trying to get an element from a closed queue.
+     */
     public Message get() throws InterruptedIOException
     {
     	synchronized(getLock)
     	{
+    	    // blocking the thread until a new message arrives or the queue is closed
     	    while (head == null && !closed)
     	    {
     	    	try { getLock.wait(2000); } catch(InterruptedException e) { e.printStackTrace();  }
@@ -60,39 +70,47 @@ public class MessageQueue
     	}    	
     }
     
-    
+    /**
+     * Add a new Message in the queue.
+     *
+     * @param elem Message to add
+     */
     public void put(Message elem)
     {
     	if (!closed)
-    	{
-    		
-    	synchronized(putLock)
-    	{
-    	    MessageQueue.Node m = new MessageQueue.Node();
-    	    m.value = elem;
-    	    
-    	    if (tail != null) { tail.next = m; }
-    	    if (head == null) { head = m; }
-    	    
-    	    tail = m;    	    
-    	    
-    	    synchronized(getLock)
+    	{    		
+    	    synchronized(putLock)
     	    {
-    	        getLock.notify();    		
-    	    }
-    	}    	
-    	
+    	        MessageQueue.Node m = new MessageQueue.Node();
+    	        m.value = elem;
+    	    
+    	        if (tail != null) { tail.next = m; }
+    	        if (head == null) { head = m; }
+    	    
+    	        tail = m;    	    
+    	    
+    	        synchronized(getLock)
+    	        {
+    	            getLock.notify();    		
+    	        }
+    	    }    	    	
     	}    	
     }
 
-
+    /**
+     * Close the queue. The queue will no longer accept new messages,
+     * any call to the put(Message m) method will throw an InterruptedIOException
+     */
     public void close()
     {
     	closed = true;
     	getLock.notifyAll();
     }
 
-
+    /**
+     * An internal node containing a Message and keeping track
+     * of the next Message available in the queue.
+     */
     private class Node
     {
         Message value;

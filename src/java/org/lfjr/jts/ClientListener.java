@@ -192,12 +192,12 @@ public class ClientListener extends Thread
 
 
     /**
-     * Décode la chaîne d'initialisation du client TetriNET.
+     * Decode TetriNET client initialization string
      *
      *
-     * @param initString Chaîne d'initialisation
+     * @param initString initialization string
      *
-     * @return Chaîne décodée
+     * @return decoded string
      *
      * @throws UnknownEncryptionException
      */

@@ -224,7 +224,11 @@ public class Channel extends Thread
 	System.out.println("Channel "+cconf.getName()+" closed");
     }
 
-
+    /**
+     * Add a message to the channel MessageQueue.
+     *
+     * @param m message to add
+     */
     public void addMessage(Message m)
     {
         mq.put(m);
@@ -262,7 +266,11 @@ public class Channel extends Thread
         }        	
     }
 
-
+    /**
+     * Tell if the channel can accept more players.
+     *
+     * @return <tt>true</tt> if the channel is full, <tt>false</tt> if not
+     */
     public boolean isFull()
     {
         int count = 0;
@@ -278,7 +286,11 @@ public class Channel extends Thread
         return count>=cconf.getMaxPlayers();
     }
 
-
+    /**
+     * Tell if the channel will vanish once the last player leave*
+     *
+     * @return <tt>true</tt> if the channel is persistent, <tt>false</tt> if not
+     */
     public boolean isPersistent()
     {
         return persistent;

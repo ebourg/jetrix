@@ -54,7 +54,7 @@ public class UpdateList
 
 
     /**
-     * Recurse though directories and output files CRCs
+     * Recurse through directories and output files CRCs
      *
      *
      * @param directory	base directory

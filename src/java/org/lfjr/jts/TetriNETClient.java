@@ -200,7 +200,7 @@ class TetriNETClient extends Thread
 		    System.out.println("Bad format message");
 		    e.printStackTrace();
 		}
-            }
+            } // end while
         }
         catch (IOException e)
         {
@@ -224,9 +224,17 @@ class TetriNETClient extends Thread
     }
 
 
+    /**
+     * Send message to client. The raw message property must be set.
+     *
+     * @param m message to send
+     */     
     public void sendMessage(Message m)
     {
     	String s = m.getRawMessage();
+    	
+    	if (s != null)
+    	{
 
     	try
     	{
@@ -240,9 +248,17 @@ class TetriNETClient extends Thread
 	}
 	catch (SocketException e) { System.out.println(e.getMessage()); }
 	catch (Exception e) { /*e.printStackTrace();*/ }
+	
+        }
+        else { System.out.println("Message no sent, raw message missing ("+m+")"); }
     }
 
 
+    /**
+     * Read a line sent by the tetrinet client.
+     *
+     * @return line sent
+     */
     protected String readLine() throws IOException
     {
 	int    readChar;

@@ -35,7 +35,6 @@ import org.w3c.dom.*;
  */
 public class ServerConfig
 {
-
     private static final ServerConfig instance = new ServerConfig();
 
     private String host;
@@ -58,8 +57,6 @@ public class ServerConfig
 
     /**
      * Constructor declaration
-     * 
-     * 
      */
     private ServerConfig()
     {
@@ -176,13 +173,12 @@ public class ServerConfig
 
 
     /**
-     * Method declaration
+     * Parse a &lt;settings&gt; Node
      * 
      * 
-     * @param e
+     * @param e settings node
      * 
-     * @return
-     * 
+     * @return a <tt>Settings</tt> object reflecting values found while parsing the settings Node
      */
     private Settings parseSettings(Element e)
     {
@@ -191,14 +187,13 @@ public class ServerConfig
 
 
     /**
-     * Method declaration
+     * Parse a &lt;settings&gt; Node
      * 
      * 
-     * @param e
-     * @param s
+     * @param e settings node
+     * @param s default settings
      * 
-     * @return
-     * 
+     * @return a <tt>Settings</tt> object reflecting values found while parsing the settings Node
      */
     private Settings parseSettings(Element e, Settings s)
     {
@@ -413,14 +408,13 @@ public class ServerConfig
 
 
     /**
-     * Method declaration
+     * Parse a &lt;channel&gt; Node
      * 
      * 
      * @param e
      * @param defaultSettings
      * 
      * @return
-     * 
      */
     private ChannelConfig parseChannel(Element e, Settings defaultSettings)
     {
@@ -469,21 +463,19 @@ public class ServerConfig
 
 
     /**
-     * Method declaration
+     * Parse a &lt;bans&gt; Node
      *
      *
-     * @param e
-     *
+     * @param e bans node
      */
     private void parseBanlist(Element e) {}
 
 
     /**
-     * Method declaration
+     * Return <tt>ServerConfig</tt> unique instance.
      * 
      * 
-     * @return
-     * 
+     * @return <tt>ServerConfig</tt> singleton
      */
     public static ServerConfig getInstance()
     {

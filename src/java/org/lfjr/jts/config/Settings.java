@@ -67,7 +67,11 @@ public class Settings
     	specialOccurancy = new int [9];
     }
     
-    
+    /**
+     * Create a new Settings object with inheritate values from the specified Settings.
+     *
+     * @param conf Settings to copy values from
+     */
     public Settings(Settings conf) 
     {
     	this();    
@@ -120,25 +124,31 @@ public class Settings
     {
     	Arrays.fill(blockOccurancy, 0);
     }
-
-    public void normalizeBlockOccurancy() 
-    {
-    	normalize(blockOccurancy);
-    }
     
+    public void clearSpecialOccurancy()
+    {
+    	Arrays.fill(specialOccurancy, 0);
+    }
+
+    
+    /**
+     * Normalize array values to get a sum equals to 100.
+     * Any negative value is nullified.
+     */
     protected void normalize(int[] tab)
     {
     	int sum = 0;
     	
-    	// calcul de la somme    	
+    	// computing sum   	
     	for (int i=0; i<tab.length; i++)
     	{
+    	    if (tab[i]<0) { tab[i]=0; }
     	    sum = sum + tab[i];
     	}
     	
     	if (sum != 100)
     	{
-    	    // égalisation
+    	    // equalization
     	    if (sum==0)
     	    {
     	    	int v = 100/tab.length;
@@ -150,7 +160,7 @@ public class Settings
     	    	for (int i=0; i<tab.length; i++) { tab[i] = (int)(tab[i] * f); }    	    	
     	    }
     	    
-    	    // distribution des points restants.
+    	    // distributing points left
     	    sum = 0;
     	    for (int i=0; i<tab.length; i++) { sum = sum + tab[i]; } 
     	    int r = 100 - sum;
@@ -164,11 +174,12 @@ public class Settings
     	}    	
     }
     
-    public void clearSpecialOccurancy()
+    
+    public void normalizeBlockOccurancy() 
     {
-    	Arrays.fill(specialOccurancy, 0);
+    	normalize(blockOccurancy);
     }
-        
+            
     public void normalizeSpecialOccurancy()
     {
     	normalize(specialOccurancy);
