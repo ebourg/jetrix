@@ -140,6 +140,7 @@ public class ServerConfig
             digester.addSetNext("*/channel", "addChannel", "org.lfjr.jts.config.ChannelConfig");
             digester.addCallMethod("*/channel", "setName", 1);
             digester.addCallParam("*/channel", 0, "name");
+            digester.addCallMethod("*/channel/password", "setPassword", 0);
             digester.addCallMethod("*/channel/description", "setDescription", 0);
             digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});
 

@@ -31,6 +31,7 @@ public class ChannelConfig
 {
     private Settings settings;
     private String name = "noname";
+    private String password;
     private String description;
     private int maxPlayers = 6;
     private boolean persistent;
@@ -66,6 +67,16 @@ public class ChannelConfig
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    /**
+     * Sets the password to enter the channel.
+     *
+     * @param password
+     */
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 
     /**
@@ -121,6 +132,16 @@ public class ChannelConfig
     public String getName()
     {
         return name;
+    }
+
+    /**
+     * Gets the password.
+     *
+     * @return
+     */
+    public String getPassword()
+    {
+        return password;
     }
 
     /**
