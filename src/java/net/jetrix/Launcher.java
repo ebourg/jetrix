@@ -20,10 +20,12 @@
 package net.jetrix;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.ArrayList;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.jar.*;
 
 /**
  * An application launcher executing a specified class and building dynamically
@@ -42,13 +44,32 @@ public class Launcher {
      */
     public static void main(String[] args) throws Exception
     {
-        // build the list of JARs in the ./lib directory
+        // get the files in the lib directory
         File repository = new File("lib/");
-        List<URL> jars = new ArrayList<URL>();
-        jars.add(repository.toURL());
-        jars.add(new File("lang/").toURL());
-
         File[] files = repository.listFiles();
+
+        // decompress the pack200 files
+        for (File file : files)
+        {
+            String filename = file.getAbsolutePath();
+            if (filename.endsWith(".pack"))
+            {
+                String unpackedName = filename.substring(0, filename.length() - 4) + "jar";
+                JarOutputStream out = new JarOutputStream(new FileOutputStream(unpackedName));
+
+                Pack200.newUnpacker().unpack(file, out);
+
+                out.flush();
+                out.close();
+
+                file.delete();
+            }
+        }
+
+        // build the list of JARs in the ./lib directory
+        files = repository.listFiles();
+        List<URL> jars = new ArrayList<URL>();
+
         for (int i = 0; i < files.length; i++)
         {
             String filename = files[i].getAbsolutePath();
@@ -58,13 +79,21 @@ public class Launcher {
             }
         }
 
+        // add the lib directory to the classpath
+        jars.add(repository.toURL());
+
+        // add the lang directory to the classpath
+        jars.add(new File("lang/").toURL());
+
+        // build the list of URLs
         URL[] urls = new URL[jars.size()];
         for (int i = 0; i < jars.size(); i++)
         {
             urls[i] = jars.get(i);
         }
 
-        URLClassLoader loader = new URLClassLoader(urls, null);
+        // create the classloader
+        ClassLoader loader = new URLClassLoader(urls, null);
         Thread.currentThread().setContextClassLoader(loader);
 
         // run the main method of the specified class

@@ -12,7 +12,7 @@
   <property file="build.properties" />
   <property file="project.properties" />
   <property file="password.properties" />
-  
+
   <path id="classpath.main">
     <fileset dir="${lib}">
       <include name="**/*.jar"/>
@@ -60,7 +60,14 @@
     </javac>
   </target>
 
-  <target name="compile.jsp" depends="compile" description="Compile the JSP pages">       
+  <target name="compile.jsp.check" depends="compile" description="Compile the JSP pages if they aren't up to date">
+    <uptodate property="compile.jsp.notRequired">
+      <srcfiles dir= "${src}/admin" includes="**/*.jsp"/>
+      <mapper type="regexp" from="^(.*)\.jsp$$" to="../../${build}/jsp/\1_jsp.java"/>
+    </uptodate>
+  </target>
+
+  <target name="compile.jsp" depends="compile, compile.jsp.check" unless="compile.jsp.notRequired" description="Compile the JSP pages">
     <mkdir dir="${build}/jsp"/>
     <jspc destdir="${build}/jsp" verbose="10" srcdir="${src}/admin">
       <classpath>
@@ -81,13 +88,16 @@
   <target name="jar" depends="compile.jsp">
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
+
+    <!-- Create the main JAR -->
     <jar jarfile="${dist}/lib/jetrix-${version}.jar" compress="false">
       <manifest>
         <attribute name="Implementation-Title" value="Jetrix TetriNET Server"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Main-Class" value="net.jetrix.Launcher"/>
       </manifest>
-      <fileset dir="${build}/classes"/>
+      <fileset dir="${build}/classes">
+        <exclude name="**/Launcher*.class"/>
+      </fileset>
       <fileset dir="${src}/etc">
         <include name="tetrinet-server.dtd"/>
         <include name="tetrinet-channels.dtd"/>
@@ -97,6 +107,22 @@
       </fileset>
     </jar>
 
+    <!-- Check if the packed JAR is up to date -->
+    <uptodate property="jar.pack.notRequired" srcfile="${dist}/lib/jetrix-${version}.jar" targetfile="${dist}/lib/jetrix-${version}.pack"/>
+
+    <!-- Create the Launcher JAR -->
+    <jar jarfile="${dist}/lib/jetrix-launcher-${version}.jar" compress="false">
+      <manifest>
+        <attribute name="Implementation-Title" value="Jetrix Launcher"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Main-Class" value="net.jetrix.Launcher"/>
+      </manifest>
+      <fileset dir="${build}/classes">
+        <include name="**/Launcher*.class"/>
+      </fileset>
+    </jar>
+
+    <!-- Create the WAR for the administration console -->
     <mkdir dir="${dist}/webapp"/>
     <war destfile="${dist}/webapp/jetrix-admin-${version}.war" webxml="${src}/admin/WEB-INF/web.xml" compress="false">
       <fileset dir="${src}/admin">
@@ -110,16 +136,57 @@
     </war>
   </target>
 
-  <target name="dist" depends="jar">
+  <target name="jar.pack" depends="jar" unless="jar.pack.notRequired" description="Pack the Jetrix JAR if necessary">
+    <echo message="Packing jetrix-${version}.jar"/>
+    <exec executable="pack200" dir="${dist}/lib">
+      <arg line="-g jetrix-${version}.pack jetrix-${version}.jar"/>
+    </exec>
+  </target>
 
+  <target name="pack" description="Pack the dependency to reduce the distribution size">
+    <!-- Copy the JARs -->
+    <copy todir="${build}/lib">
+      <fileset dir="${lib}" includes="*"/>
+    </copy>
+
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="commons-digester"/></antcall>
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="commons-collections"/></antcall>
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="commons-beanutils"/></antcall>
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="commons-lang-2.0-light"/></antcall>
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="jetty"/></antcall>
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="servlet-light"/></antcall>
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="jasper-runtime"/></antcall>
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="jcrontab-1.4.1-light"/></antcall>
+    <antcall target="pack.check" inheritAll="true"><param name="library" value="systray4j-2.4.1"/></antcall>
+
+  </target>
+
+  <target name="pack.check">
+    <!-- Check if the existing packed JARs are up to date -->
+    <uptodate property="pack.notRequired" srcfile="${build}/lib/${library}.jar" targetfile="${build}/lib/${library}.pack"/>
+    <antcall target="pack.pack" inheritAll="true"/>
+  </target>
+
+  <target name="pack.pack" unless="pack.notRequired">
+    <echo message="Packing ${library}.jar" />
+    <exec executable="pack200" dir="${build}/lib">
+      <arg line="-g -G ${library}.pack ${library}.jar"/>
+    </exec>
+  </target>
+
+  <target name="dist" depends="jar.pack, pack">
+
+    <!-- Replace the tokens in the scripts -->
     <mkdir dir="${build}/bin"/>
     <copy todir="${build}/bin" filtering="on">
       <fileset dir="${src}/bin" includes="**/*"/>
     </copy>
     <fixcrlf srcdir="${build}/bin" eol="lf" eof="remove" includes="**/*.sh"/>
 
+    <!-- Create the distribution directory -->
     <mkdir dir="${dist}/bin"/>
 
+    <!-- Create the Windows distribution -->
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
       <zipfileset prefix="jetrix-${version}/" dir="${src}/etc/">
         <include name="news.txt" />
@@ -137,18 +204,20 @@
         <include name="update" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
-        <include name="jetrix-${version}.jar" />
+        <include name="jetrix-${version}.pack" />
+        <include name="jetrix-launcher-${version}.jar" />
       </zipfileset>
-      <zipfileset prefix="jetrix-${version}/lib/" dir="${lib}">
-        <include name="commons-digester*.jar" />
-        <include name="commons-collections*.jar" />
-        <include name="commons-beanutils*.jar" />
-        <include name="commons-lang*.jar" />
-        <include name="jetty.jar"/>
-        <include name="servlet-light.jar"/>
-        <include name="jasper-runtime.jar"/>
-        <include name="jcrontab*.jar"/>
-        <include name="systray4j*.*" />
+      <zipfileset prefix="jetrix-${version}/lib/" dir="${build}/lib">
+        <include name="commons-digester*.pack" />
+        <include name="commons-collections*.pack" />
+        <include name="commons-beanutils*.pack" />
+        <include name="commons-lang*.pack" />
+        <include name="jetty.pack"/>
+        <include name="servlet-light.pack"/>
+        <include name="jasper-runtime.pack"/>
+        <include name="jcrontab*.pack"/>
+        <include name="systray4j*.pack" />
+        <include name="systray4j*.dll" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
@@ -159,6 +228,7 @@
       <zipfileset prefix="jetrix-${version}/log/" dir="${src}/etc/log/"/>
     </zip>
 
+    <!-- Create the Unix distribution -->
     <tar destfile="${dist}/bin/jetrix-${version}.tar">
       <tarfileset prefix="jetrix-${version}/" dir="${src}/etc/">
         <include name="news.txt" />
@@ -176,17 +246,18 @@
         <include name="update" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
-        <include name="jetrix-${version}.jar" />
+        <include name="jetrix-${version}.pack" />
+        <include name="jetrix-launcher-${version}.jar" />
       </tarfileset>
-      <tarfileset prefix="jetrix-${version}/lib/" dir="${lib}">
-        <include name="commons-digester*.jar" />
-        <include name="commons-collections*.jar" />
-        <include name="commons-beanutils*.jar" />
-        <include name="commons-lang*.jar" />
-        <include name="jetty.jar"/>
-        <include name="servlet-light.jar"/>
-        <include name="jasper-runtime.jar"/>
-        <include name="jcrontab*.jar"/>
+      <tarfileset prefix="jetrix-${version}/lib/" dir="${build}/lib">
+        <include name="commons-digester*.pack" />
+        <include name="commons-collections*.pack" />
+        <include name="commons-beanutils*.pack" />
+        <include name="commons-lang*.pack" />
+        <include name="jetty.pack"/>
+        <include name="servlet-light.pack"/>
+        <include name="jasper-runtime.pack"/>
+        <include name="jcrontab*.pack"/>
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war" />
@@ -201,9 +272,9 @@
     <delete file="${dist}/bin/jetrix-${version}.tar"/>
 
   </target>
-  
+
   <target name="dist.win" depends="deploy" description="Build the windows installer">
-    
+
     <!-- Build the windows executable file jetrix.exe -->
     <mkdir dir="${build}/bin"/>
     <copy todir="${build}/bin" filtering="true">
@@ -214,13 +285,13 @@
     <exec executable="C:\Program Files\NSIS\makensis.exe">
       <arg line="${build}/bin/launcher.nsi"/>
     </exec>
-    
+
     <!-- Build the installer -->
     <exec executable="C:\Program Files\NSIS\makensis.exe">
       <arg line="${build}/bin/installer.nsi"/>
     </exec>
     <move file="${build}/bin/jetrix-${version}-installer.exe" todir="${dist}/bin"/>
-  
+
   </target>
 
 
@@ -293,7 +364,7 @@
 
 
   <target name="run" depends="deploy">
-    <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-${version}.jar" fork="true">
+    <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-launcher-${version}.jar" fork="true">
       <sysproperty key="jetrix.debug" value="true"/>
       <sysproperty key="java.library.path" value="lib"/>
     </java>
@@ -332,10 +403,11 @@
           <include name="*.jar" />
         </fileset>
       </classpath>
-      <link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
+      <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
       <link href="http://jetty.mortbay.org/javadoc/"/>
       <link href="http://jakarta.apache.org/commons/digester/apidocs/"/>
       <link href="http://jakarta.apache.org/commons/collections/apidocs/"/>
+      <link href="http://jakarta.apache.org/commons/lang/apidocs/"/>
     </javadoc>
     <zip zipfile="${dist}/doc/jetrix-${version}-api.zip">
       <zipfileset prefix="jetrix-${version}-api/" dir="${doc}/api"/>
