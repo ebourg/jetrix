@@ -101,6 +101,16 @@ public abstract class ClientListener extends AbstractService implements Listener
                 User user = client.getUser();
                 user.setLocale(serverConfig.getLocale());
 
+                // check if the server is locked
+                if (serverConfig.getStatus() == ServerConfig.STATUS_LOCKED && !(client instanceof QueryClient))
+                {
+                    log.info("Server locked, client rejected (" + address + ").");
+                    Message m = new NoConnectingMessage("The server is locked.");
+                    client.send(m);
+                    socket.close();
+                    continue;
+                }
+
                 // check if the server is full
                 ClientRepository repository = ClientRepository.getInstance();
                 if (repository.getClientCount() >= serverConfig.getMaxPlayers()

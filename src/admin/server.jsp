@@ -76,8 +76,14 @@
         <tr>
           <td>Status</td>
           <td>
-            <label><input type="radio" value="opened" name="status"> Opened</label>
-            <label><input type="radio" value="closed" name="status"> Locked</label>
+            <table>
+              <tr>
+                <td><input type="radio" value="<%= ServerConfig.STATUS_OPENED %>" name="status" id="status1" <%= conf.getStatus() == ServerConfig.STATUS_OPENED ? "checked" : "" %>></td>
+                <td><label for="status1">Opened</label></td>
+                <td><input type="radio" value="<%= ServerConfig.STATUS_LOCKED %>" name="status" id="status2" <%= conf.getStatus() == ServerConfig.STATUS_LOCKED ? "checked" : "" %>></td>
+                <td><label for="status2">Locked</label></td>
+              </tr>
+            </table>
           </td>
         </tr>
       <tr>
@@ -151,17 +157,19 @@
         <th></th>
       </tr>
 <%  while (filters.hasNext()) {
-        net.jetrix.config.FilterConfig filterConfig = (net.jetrix.config.FilterConfig) filters.next();  %>
+        net.jetrix.config.FilterConfig filterConfig = (net.jetrix.config.FilterConfig) filters.next();
+        MessageFilter filter = FilterManager.getInstance().getFilterByName(filterConfig.getName());
+%>
       <tr>
-        <td><%= filterConfig.getName() %></td>
-        <td><%= filterConfig.getClassname() %></td>
-        <td></td>
+        <td><%= filter.getName() %></td>
+        <td><%= filter.getVersion() %></td>
+        <td><%= filter.getDescription() %></td>
         <td><input type="image" src="images/delete16.png" value="remove" alt="Remove" title="Remove"></td>
       </tr>
 <%  } %>
     </table>
 
-    list, add, remove
+    <!-- list, add, remove -->
 
   </div>
   <div class="tab-page" style="height: 400px; overflow: auto">

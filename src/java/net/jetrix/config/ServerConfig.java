@@ -59,6 +59,10 @@ public class ServerConfig
     private List listeners;
     private List services;
     private boolean running;
+    private int status;
+
+    public static final int STATUS_OPENED = 0;
+    public static final int STATUS_LOCKED = 1;
 
     public static final String VERSION = "@version@";
 
@@ -244,6 +248,16 @@ public class ServerConfig
     public void setRunning(boolean running)
     {
         this.running = running;
+    }
+
+    public int getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(int status)
+    {
+        this.status = status;
     }
 
     public Settings getDefaultSettings()

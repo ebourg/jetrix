@@ -53,6 +53,7 @@ public class ServerAction extends HttpServlet
             config.setOpPassword(request.getParameter("opPassword"));
             config.setLocale(request.getParameter("locale"));
             config.setMessageOfTheDay(request.getParameter("motd"));
+            config.setStatus(Integer.parseInt(request.getParameter("status")));
         }
         else if ("listener.start".equals(action))
         {
