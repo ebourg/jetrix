@@ -25,6 +25,7 @@ import net.jetrix.*;
 import net.jetrix.winlist.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Protocol to communicate with TetriNET 1.13 compatible clients.
@@ -662,20 +663,7 @@ public class TetrinetProtocol implements Protocol
     public String translate(SpectatorListMessage m, Locale locale)
     {
         PlineMessage pline = new PlineMessage();
-
-        StringBuffer message = new StringBuffer();
-        Iterator<String> specators = m.getSpectators().iterator();
-
-        while (specators.hasNext())
-        {
-            message.append(specators.next());
-            if (specators.hasNext())
-            {
-                message.append(", ");
-            }
-        }
-
-        pline.setKey("command.speclist.format", message.toString());
+        pline.setKey("command.speclist.format", StringUtils.join(m.getSpectators().iterator(), ", "));
 
         return translate(pline, locale);
     }
@@ -724,10 +712,8 @@ public class TetrinetProtocol implements Protocol
             return text;
         }
 
-        Iterator<String> keys = styles.keySet().iterator();
-        while (keys.hasNext())
+        for (String key : styles.keySet())
         {
-            String key = keys.next();
             String value = styles.get(key);
             if (value == null)
             {
@@ -739,7 +725,8 @@ public class TetrinetProtocol implements Protocol
         return text;
     }
 
-    public char getEOL() {
+    public char getEOL()
+    {
         return 0xFF;
     }
 

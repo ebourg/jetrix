@@ -61,11 +61,8 @@ public class WhoCommand implements Command
         response.setKey("command.who.header");        
         client.send(response);
 
-        Iterator it = channelManager.channels();
-        while(it.hasNext())
+        for(Channel channel : channelManager.channels())
         {
-            Channel channel = (Channel) it.next();
-
             // skipping empty channels
             if (channel.getPlayerCount() > 0)
             {

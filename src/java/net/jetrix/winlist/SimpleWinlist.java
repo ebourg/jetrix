@@ -262,10 +262,9 @@ public class SimpleWinlist implements Winlist
             try
             {
                 writer = new BufferedWriter(new FileWriter(id + ".winlist"));
-                Iterator<Score> it = scores.iterator();
-                while (it.hasNext())
+
+                for (Score score : scores)
                 {
-                    Score score = it.next();
                     StringBuffer line = new StringBuffer();
                     line.append(score.getType() == Score.TYPE_PLAYER ? "p" : "t");
                     line.append("\t");

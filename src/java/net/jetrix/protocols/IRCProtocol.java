@@ -22,6 +22,7 @@ package net.jetrix.protocols;
 import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
+import org.apache.commons.lang.*;
 
 /**
  * Protocol to communicate with IRC clients.
@@ -221,17 +222,7 @@ public class IRCProtocol implements Protocol
         message1.addParameter("#" + m.getChannel());
 
         Collection<String> spectators = m.getSpectators();
-        StringBuffer speclist = new StringBuffer();
-
-        Iterator<String> it = spectators.iterator();
-        while (it.hasNext())
-        {
-            String spec = it.next();
-            speclist.append(spec);
-            speclist.append(" ");
-        }
-
-        message1.addParameter(speclist.toString());
+        message1.addParameter(StringUtils.join(spectators.iterator(), " "));
 
         IRCMessage message2 = new IRCMessage(IRCReply.RPL_ENDOFNAMES);
         message2.setNick("jetrix");
@@ -411,10 +402,8 @@ public class IRCProtocol implements Protocol
         Map<String,String> styles = getStyles();
         if (styles == null) return text;
 
-        Iterator<String> keys = styles.keySet().iterator();
-        while (keys.hasNext())
+        for (String key : styles.keySet())
         {
-            String key = keys.next();
             String value = styles.get(key);
             if (value == null) { value = ""; }
             text = text.replaceAll("<" + key + ">", value);

@@ -226,10 +226,9 @@ public class Server implements Runnable, Destination
     {
         ClientRepository repository = ClientRepository.getInstance();
 
-        Iterator<Client> clients = repository.getClients();
-        while (clients.hasNext())
+        for (Client client : repository.getClients())
         {
-            clients.next().disconnect();
+            client.disconnect();
         }
 
         // disconnect the console client as well

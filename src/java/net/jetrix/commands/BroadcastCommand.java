@@ -65,10 +65,8 @@ public class BroadcastCommand implements ParameterCommand
         response.setKey("command.broadcast.message", client.getUser().getName(), m.getText());
         response.setSource(client);
 
-        Iterator clients = ClientRepository.getInstance().getClients();
-        while (clients.hasNext())
+        for (Client target : ClientRepository.getInstance().getClients())
         {
-            Client target = (Client) clients.next();
             target.send(response);
         }
     }

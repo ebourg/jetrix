@@ -67,11 +67,9 @@ public class ListCommand implements Command
         response.setKey("command.list.header");
         client.send(response);
 
-        Iterator it = channelManager.channels();
         int i = 1;
-        while (it.hasNext())
+        for (Channel channel : channelManager.channels())
         {
-            Channel channel = (Channel) it.next();
             ChannelConfig conf = channel.getConfig();
 
             String cname = conf.getName();

@@ -154,9 +154,9 @@ public class ClientRepository
     /**
      * Return an iterator of all clients online in alphabetical order.
      */
-    public Iterator<Client> getClients()
+    public Collection<Client> getClients()
     {
-        return clients.values().iterator();
+        return clients.values();
     }
 
     /**

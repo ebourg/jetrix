@@ -105,11 +105,6 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Clients</h2>
 
-<%
-    ClientRepository clientRepository = ClientRepository.getInstance();
-    Iterator clients = clientRepository.getClients();
-%>    
-
     <table class="thin" style="width: 500px">
       <tr>
         <th>Name</th>
@@ -120,8 +115,7 @@
         <th>Access Level</th>
         <th>Channel</th>
       </tr>
-<%  while (clients.hasNext()) { 
-        Client client = (Client) clients.next();
+<%  for (Client client : ClientRepository.getInstance().getClients()) {
         User user = client.getUser(); %>
       <tr>
         <td><a href="user.jsp?name=<%= user.getName() %>"><%= user.getName() %></a></td>
@@ -177,7 +171,7 @@
 
 <%
     CommandManager commandManager = CommandManager.getInstance();
-    Iterator commands = commandManager.getCommands(100);
+    Iterator commands = commandManager.getCommands(AccessLevel.ADMINISTRATOR);
 %>
 
     <table class="thin">

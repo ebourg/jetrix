@@ -81,15 +81,12 @@ public class LanguageCommand implements Command
         else
         {
             // list all available locales
-            Iterator locales = Language.getLocales().iterator();
-
             PlineMessage header = new PlineMessage();
             header.setKey("command.language.available");
             client.send(header);
 
-            while (locales.hasNext())
+            for (Locale locale : Language.getLocales())
             {
-                Locale locale = (Locale) locales.next();
                 PlineMessage line = new PlineMessage();
                 line.setKey("command.language.list_format", locale.getLanguage(), locale.getDisplayLanguage(client.getUser().getLocale()));
                 client.send(line);

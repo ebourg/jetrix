@@ -74,10 +74,8 @@ public class TeamMessageCommand implements ParameterCommand
             PlineMessage response = new PlineMessage();
             response.setKey("command.team_message.format", client.getUser().getName(), m.getText());
 
-            Iterator clients = ClientRepository.getInstance().getClients();
-            while (clients.hasNext())
+            for (Client target : ClientRepository.getInstance().getClients())
             {
-                Client target = (Client) clients.next();
                 if (client.getUser().getTeam().equals(target.getUser().getTeam()) && client != target)
                 {
                     target.send(response);

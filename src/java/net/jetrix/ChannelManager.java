@@ -94,9 +94,9 @@ public class ChannelManager
     /**
      * Returns an iterator over the channels available.
      */
-    public Iterator<Channel> channels()
+    public Collection<Channel> channels()
     {
-        return channels.iterator();
+        return channels;
     }
 
     /**
@@ -107,7 +107,7 @@ public class ChannelManager
     public Channel getOpenedChannel()
     {
         Channel channel = null;
-        Iterator<Channel> it = channels();
+        Iterator<Channel> it = channels.iterator();
         while (it.hasNext() && channel == null)
         {
             Channel channel2 = it.next();

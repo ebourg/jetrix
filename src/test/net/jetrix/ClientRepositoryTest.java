@@ -176,7 +176,7 @@ public class ClientRepositoryTest extends TestCase
     public void testConcurrentModification()
     {
         repository.addClient(client1);
-        Iterator clients = repository.getClients();
+        Iterator clients = repository.getClients().iterator();
         repository.addClient(client2);
         
         try 

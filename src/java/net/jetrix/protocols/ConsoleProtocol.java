@@ -95,7 +95,10 @@ public class ConsoleProtocol implements Protocol
      */
     public String translate(Message m, Locale locale)
     {
-        if (m instanceof TextMessage) { return translate((TextMessage) m, locale); }
+        if (m instanceof TextMessage)
+        {
+            return translate((TextMessage) m, locale);
+        }
         else
         {
             return null;
@@ -119,11 +122,9 @@ public class ConsoleProtocol implements Protocol
         // to be optimized later
         Map<String, String> styles = getStyles();
         if (styles == null) return text;
-        
-        Iterator<String> keys = styles.keySet().iterator();
-        while (keys.hasNext())
+
+        for (String key : styles.keySet())
         {
-            String key = keys.next();
             String value = styles.get(key);
             if (value == null) { value = ""; }
             text = text.replaceAll("<" + key + ">", value);
@@ -132,7 +133,8 @@ public class ConsoleProtocol implements Protocol
         return text;
     }
 
-    public char getEOL() {
+    public char getEOL()
+    {
         return '\n';
     }
 
