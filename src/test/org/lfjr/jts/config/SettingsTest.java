@@ -9,30 +9,55 @@ public class SettingsTest extends TestCase
         super(name);
     }
     	
-    public static void testNormalize()
+    public static void testNormalize1()
     {
-    	Settings s = new Settings();
-    	
-    	int[] tab1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-    	int[] tab2 = { 0, 0, 0, 0, 0 };
-    	int[] tab3 = { 100, 200, 300, 50, 100, 50, 250, 300 };
-    	int[] tab4 = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
-    	
-    	assertEquals("Erreur de normalisation", 100, sum(s.normalize(tab1)));
-    	assertEquals("Erreur de normalisation", 100, sum(s.normalize(tab2)));
-    	assertEquals("Erreur de normalisation", 100, sum(s.normalize(tab3)));
-    	assertEquals("Erreur de normalisation", 100, sum(s.normalize(tab4)));
-    	assertTrue("Erreur de normalisation", equals(tab4, s.normalize(tab4)));
+    	Settings s = new Settings();    	
+    	int[] tab = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };    	
+    	s.normalize(tab);    	
+    	assertEquals("Erreur de normalisation", 100, sum(tab));
     }
 
-    private long sum(int[] tab)
+    public static void testNormalize2()
+    {
+    	Settings s = new Settings();    	
+    	int[] tab = { 0, 0, 0, 0, 0 };	
+    	s.normalize(tab);    	
+    	assertEquals("Erreur de normalisation", 100, sum(tab));
+    }
+
+    public static void testNormalize3()
+    {
+    	Settings s = new Settings();    	
+    	int[] tab = { 100, 200, 300, 50, 100, 50, 250, 300 };  	
+    	s.normalize(tab);    	
+    	assertEquals("Erreur de normalisation", 100, sum(tab));
+    }
+
+    public static void testNormalize4()
+    {
+    	Settings s = new Settings();    	
+    	int[] tab = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };  	
+    	s.normalize(tab);    	
+    	assertEquals("Erreur de normalisation", 100, sum(tab));
+    }           
+    
+    public static void testNormalize5()
+    {
+    	Settings s = new Settings();
+    	int[] tab4 = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
+    	int[] tab5 = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
+    	s.normalize(tab4);
+    	assertTrue("Erreur de normalisation", equals(tab4, tab5));
+    }    
+
+    private static long sum(int[] tab)
     {
         long s = 0;        
         for(int i=0; i<tab.length; i++) s = s + tab[i];        
         return s;
     }
     
-    private boolean equals(int[] a, int[] b)
+    private static boolean equals(int[] a, int[] b)
     {
         boolean equals = true;
         

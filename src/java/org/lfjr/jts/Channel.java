@@ -52,6 +52,11 @@ public class Channel extends Thread
 
     Stack           incomingClients = new Stack();
 
+    public Channel()
+    {
+        this(ServerConfig.getInstance().getDefaultSettings());
+    }
+
     public Channel(Settings settings)
     {
     	this.settings = settings;

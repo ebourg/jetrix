@@ -22,7 +22,7 @@ package org.lfjr.jts;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
+import org.lfjr.jts.config.*;
 
 /**
  * Serveur TetriNET. Démarre le serveur, l'écoute des connexions et la console serveur.
@@ -33,21 +33,21 @@ import java.util.*;
  */
 public class TetriNETServer implements Runnable
 {
-    ServerInfo	      si;
-    ServerSocket      s;
-    Socket            socket;
+    ServerConfig conf;
+    ServerSocket s;
+    Socket socket;
     
     Vector channelList = new Vector();
     
     boolean running = true;
 
-    TetriNETServer()
+    public TetriNETServer()
     {
-    	System.out.println("Java TetriNET Server " + si.VERSION + ", Copyright (C) 2001 Emmanuel Bourg\n");
+    	System.out.println("Java TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001 Emmanuel Bourg\n");
     	
     	// reading server configuration
     	// (replace with the new ServerConfig implementation when ready)
-    	si = new ServerInfo();
+    	conf = ServerConfig.getInstance();
     	
     	// spawning server message queue handler
     	// ...
@@ -56,7 +56,7 @@ public class TetriNETServer implements Runnable
     	// ...
     	
     	// starting server console
-        new ServerConsole(si);    	
+        new ServerConsole();    	
     	
     	// starting client listener
 
@@ -71,7 +71,7 @@ public class TetriNETServer implements Runnable
     {
         try
         {
-            s = new ServerSocket(si.LOGIN_PORT);
+            s = new ServerSocket(conf.getPort());
             //s.setSoTimeout(1000);
 
             //start();
@@ -94,8 +94,9 @@ public class TetriNETServer implements Runnable
                 //System.out.println("New client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
                 
                 // validation du client
+                TetriNETPlayer player = new TetriNETPlayer(socket);
                 
-                TetriNETClient player = new TetriNETClient(socket, si);
+                TetriNETClient client = new TetriNETClient(player);
                 
 		/*if (si.nbClient>=si.MAX_CLIENT)
 		{
@@ -105,18 +106,18 @@ public class TetriNETServer implements Runnable
 		}
 		else*/
 		{
-		si.playerList.addElement(this);
-		si.incClient();
+		//si.playerList.addElement(client);
+		//si.incClient();
 		
 		//System.out.println("Client accepted, " + si.nbClient + " client(s) online.");
-		initialiseConnexion(player);
+		initialiseConnexion(client);
                 
                 /** @todo tester l'unicité du pseudo sur le serveur */
                 
                 Message m = new Message(Message.MSG_PLINE);
-                Object params[] = { new Integer(0), ChatColors.bold+"Welcome on Java TetriNET Server "+si.VERSION+" !" };
+                Object params[] = { new Integer(0), ChatColors.bold+"Welcome on Java TetriNET Server "+ServerConfig.VERSION+" !" };
                 m.setParameters(params);
-		player.sendMessage(m);
+		client.sendMessage(m);
 		
 		// sending MOTD
 		/*
@@ -158,12 +159,12 @@ public class TetriNETServer implements Runnable
 		
 		channelList.addElement(ch);
 		
-		ch.addClient(player);
-		player.assignChannel(ch);
-		player.start();
+		ch.addClient(client);
+		client.assignChannel(ch);
+		client.start();
 		
 		m = new Message(Message.MSG_ADDPLAYER);
-		Object[] params2 = { player };	
+		Object[] params2 = { client };	
 		m.setParameters(params2);
 		ch.addMessage(m);	
 		
@@ -193,13 +194,13 @@ public class TetriNETServer implements Runnable
     }
 
 
-    private void initialiseConnexion(TetriNETClient player) throws UnknownEncryptionException
+    private void initialiseConnexion(TetriNETClient client) throws UnknownEncryptionException
     {
         String init="", dec;
         Vector tokens = new Vector();
 	
 	try {
-        init = player.readLine();
+        init = client.readLine();
 	}
 	catch (IOException e) { e.printStackTrace(); }
 
@@ -226,11 +227,11 @@ public class TetriNETServer implements Runnable
             Message m = new Message(Message.MSG_NOCONNECTING);
             Object[] params = { "No space allowed in nickname !" };
             m.setParameters(params);
-            player.sendMessage(m);
+            client.sendMessage(m);
         }
                 
-        player.setNickname((String)tokens.elementAt(1));
-        player.setClientVersion((String)tokens.elementAt(2));
+        client.getPlayer().setName((String)tokens.elementAt(1));
+        client.setClientVersion((String)tokens.elementAt(2));
     }
 
 

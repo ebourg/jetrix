@@ -2,13 +2,13 @@
 <project name="Java TetriNET Server" default="dist" basedir=".">
 
   <property name="build.compiler" value="jikes"/>
-  <property name="src" value="src"/>
-  <property name="lib" value="lib"/>
-  <property name="doc" value="doc"/>
-  <property name="build" value="build"/>
-  <property name="dist"  value="dist"/>
+  <property name="src"     value="src"/>
+  <property name="lib"     value="lib"/>
+  <property name="doc"     value="doc"/>
+  <property name="build"   value="build"/>
+  <property name="dist"    value="dist"/>
   <property name="deploy"  value="deploy"/>
-  <property name="version"  value="0.0.8"/>
+  <property name="version" value="0.0.8"/>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -22,7 +22,7 @@
     <javac srcdir="${src}/java" destdir="${build}" debug="yes" />
   </target>
 
-  <target name="compiletest" depends="compile" description="Compile les TestCase pour JUnit">
+  <target name="compiletest" depends="compile" description="Compile JUnit TestCases">
     <javac srcdir="${src}/test" destdir="${build}" classpath="${build};${lib}/junit.jar;" debug="yes"/>     
   </target> 
   
@@ -31,7 +31,6 @@
     <mkdir dir="${dist}/lib"/>
 
     <jar jarfile="${dist}/lib/jts.jar" basedir="${build}" manifest="${src}/etc/MANIFEST.MF" />
-    <!--<copy file="${dist}/lib/jts.jar" tofile="${dist}/lib/archives/jts.${DSTAMP}.jar" />-->
     
     <zip zipfile="${dist}/bin/jts-${version}.zip">
       <zipfileset prefix="jts/" dir="${src}/etc/">
@@ -48,11 +47,11 @@
   </target>
 
 
-  <target name="test" depends="compiletest" description="Lance les jeux d'essai">
+  <target name="test" depends="compiletest" description="Runs testcases">
     
-    <junit printsummary="yes" fork="yes">
+    <junit printsummary="yes" fork="yes" dir="${src}/etc">
       <classpath> 
-        <pathelement location="${lib}/crimson.jar"/>      
+        <pathelement location="${lib}/crimson.jar"/>
         <pathelement path="${build}" />
       </classpath>    
       <formatter type="xml" />

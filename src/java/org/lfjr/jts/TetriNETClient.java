@@ -22,7 +22,7 @@ package org.lfjr.jts;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
+import org.lfjr.jts.config.*;
 
 /**
  * Thread assurant la communication avec un client TetriNET.
@@ -56,8 +56,9 @@ class TetriNETClient extends Thread
      *
      * @see
      */
-    public TetriNETClient(TetriNETPlayer) throws IOException
+    public TetriNETClient(TetriNETPlayer player) throws IOException
     {
+    	this.player = player;
         conf = ServerConfig.getInstance();
         socket = player.getSocket();
 
@@ -330,8 +331,8 @@ class TetriNETClient extends Thread
             
             System.out.println(this+" leaved");
 
-            si.decClient();
-            si.playerList.removeElement(this);
+            //si.decClient();
+            //si.playerList.removeElement(this);
         }
     }
 

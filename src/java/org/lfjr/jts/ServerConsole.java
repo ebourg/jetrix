@@ -20,6 +20,7 @@
 package org.lfjr.jts;
 
 import java.io.*;
+import org.lfjr.jts.config.*;
 
 /**
  * Gère les commandes tapées sur la console du serveur.
@@ -31,7 +32,7 @@ import java.io.*;
 class ServerConsole extends Thread
 {
     BufferedReader    dis = new BufferedReader(new InputStreamReader(System.in));
-    ServerInfo si;
+    ServerConfig conf;
 
 
     /**
@@ -42,10 +43,9 @@ class ServerConsole extends Thread
      *
      * @see
      */
-    public ServerConsole(ServerInfo s)
+    public ServerConsole()
     {
-        si = s;
-
+        conf = ServerConfig.getInstance();
         start();
     }
 
@@ -90,9 +90,9 @@ class ServerConsole extends Thread
                 {
                     System.out.println("\nPlayer list");
 
-                    for (int i = 0; i<si.playerList.size(); i++)
+                    //for (int i = 0; i<si.playerList.size(); i++)
                     {
-                        System.out.println(((TetriNETClient) si.playerList.elementAt(i)).socket);
+                        //System.out.println(((TetriNETClient) si.playerList.elementAt(i)).socket);
                     }
                 }
             }
