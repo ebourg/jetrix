@@ -81,7 +81,6 @@
         <include name="commons-digester.jar" />
         <include name="commons-collections.jar" />
         <include name="commons-beanutils.jar" />
-        <include name="commons-logging.jar" />
       </zipfileset>
       <zipfileset prefix="jetrix/lang/" dir="${src}/lang/">
         <include name="*.properties" />
@@ -108,7 +107,6 @@
         <include name="commons-digester.jar" />
         <include name="commons-collections.jar" />
         <include name="commons-beanutils.jar" />
-        <include name="commons-logging.jar" />
       </tarfileset>
       <tarfileset prefix="jetrix/lang/" dir="${src}/lang/">
         <include name="*.properties" />
@@ -116,6 +114,34 @@
     </tar>
 
     <gzip zipfile="${dist}/bin/jetrix-${version}.tar.gz" src="${dist}/bin/jetrix-${version}.tar"/>
+
+  </target>
+
+
+  <target name="dist-src" description="Build source distribution">
+    <!-- Create the source distribution directory -->
+    <mkdir dir="${dist}/src"/>
+
+    <zip zipfile="${dist}/src/jetrix-${version}-src.zip">
+      <zipfileset prefix="jetrix-src/" dir=".">
+        <include name="build.xml" />
+        <include name="jetrix.properties" />
+      </zipfileset>
+      <zipfileset prefix="jetrix-src/src/" dir="${src}" />
+      <zipfileset prefix="jetrix-src/lib/" dir="${lib}" />
+    </zip>
+
+    <tar destfile="${dist}/src/jetrix-${version}-src.tar">
+      <tarfileset prefix="jetrix-src/" dir=".">
+        <include name="build.xml" />
+        <include name="jetrix.properties" />
+      </tarfileset>
+      <tarfileset prefix="jetrix-src/src/" dir="${src}" />
+      <tarfileset prefix="jetrix-src/lib/" dir="${lib}" />
+    </tar>
+    
+    <gzip zipfile="${dist}/src/jetrix-${version}-src.tar.gz" src="${dist}/src/jetrix-${version}-src.tar"/>
+    <delete file="${dist}/src/jetrix-${version}-src.tar"/>
 
   </target>
 
