@@ -54,7 +54,17 @@ public class HelpCommand extends AbstractCommand
         Iterator commands = CommandManager.getInstance().getCommands(client.getUser().getAccessLevel());
         while (commands.hasNext())
         {
-            if (++i >= limit) return;
+            if (++i % limit == 0)
+            {
+                try
+                {
+                    Thread.sleep(200);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
 
             Command command = (Command) commands.next();
 
