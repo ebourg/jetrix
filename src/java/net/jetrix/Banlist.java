@@ -57,10 +57,7 @@ public class Banlist
      */
     public void ban(String host, Date expiration)
     {
-        // replace . by \., * by .* and ? by .
-        String regexp = host.replaceAll("\\.", "\\\\.").replaceAll("\\*", "(.*)").replaceAll("\\?", ".");
-        Pattern pattern = Pattern.compile(regexp);
-        banlist.put(host, new Entry(pattern, expiration));
+        banlist.put(host, new Entry(host, expiration));
     }
 
     /**
@@ -84,7 +81,7 @@ public class Banlist
         while (it.hasNext() && !banned)
         {
             Entry entry = (Entry) it.next();
-            banned = entry.pattern.matcher(host).matches();
+            banned = entry.matches(host);
 
             // test the expiration date
             if (banned && entry.expiration != null)
@@ -126,13 +123,26 @@ public class Banlist
      */
     public class Entry
     {
-        public Pattern pattern;
+        public String pattern;
         public Date expiration;
+        private Pattern regexp;
 
-        public Entry(Pattern pattern, Date expiration)
+        public Entry(String pattern, Date expiration)
         {
             this.pattern = pattern;
             this.expiration = expiration;
+        }
+
+        public boolean matches(String value)
+        {
+            if (regexp == null)
+            {
+                // replace . by \., * by .* and ? by .
+                String s = pattern.replaceAll("\\.", "\\\\.").replaceAll("\\*", "(.*)").replaceAll("\\?", ".");
+                regexp = Pattern.compile(s);
+            }
+
+            return regexp.matcher(value).matches();
         }
     }
 
