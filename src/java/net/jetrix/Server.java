@@ -62,6 +62,10 @@ public class Server implements Runnable, Destination
 
         // start the web admin console if available
         try {
+            System.setProperty("LOG_CLASSES", "org.mortbay.util.OutputStreamLogSink");
+            System.setProperty("LOG_FILE", "log/jetty.log");
+            System.setProperty("LOG_DATE_FORMAT", "[yyyy-MM-dd HH:mm:ss] ");
+
             Class c = Class.forName("org.mortbay.jetty.Server");
             org.mortbay.jetty.Server jetty = (org.mortbay.jetty.Server)c.newInstance();
             jetty.addListener(new InetAddrPort(8080));
@@ -97,11 +101,16 @@ public class Server implements Runnable, Destination
             channelManager.createChannel(cc);
         }
 
-        // starting server console
+        // start the server console
         (new Thread(new ConsoleClient())).start();
 
-        // starting client listeners
-        (new Thread(new TetrinetListener())).start();
+        // start the client listeners
+        Iterator listeners = conf.getListeners();
+        while (listeners.hasNext())
+        {
+            ClientListener listener = (ClientListener) listeners.next();
+            listener.start();
+        }
 
         logger.info("Server ready!");
     }
@@ -246,6 +255,14 @@ public class Server implements Runnable, Destination
      */
     protected void shutdown()
     {
+        // stop the listeners
+        Iterator listeners = conf.getListeners();
+        while (listeners.hasNext())
+        {
+            ClientListener listener = (ClientListener) listeners.next();
+            listener.stop();
+        }
+        
         conf.setRunning(false);
         disconnectAll();
     }
