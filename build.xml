@@ -39,12 +39,13 @@
     <javac srcdir="${build}/java" destdir="${build}/classes" debug="${compile.debug}" optimize="${compile.optimize}">
       <classpath>
         <pathelement location="${lib}/commons-digester.jar"/>
+        <pathelement location="${lib}/commons-collections.jar"/>
       </classpath>
     </javac>
   </target>
 
 
-  <target name="compiletest" depends="compile" description="Compile JUnit TestCases">
+  <target name="compile.test" depends="compile" description="Compile JUnit TestCases">
     <javac srcdir="${src}/test" destdir="${build}/classes" debug="yes">
       <classpath>
         <pathelement path="${build}/classes" />
@@ -148,10 +149,12 @@
   </target>
 
 
-  <target name="test" depends="compiletest" description="Runs testcases">
+  <target name="test" depends="compile.test" description="Runs testcases">
     <junit printsummary="yes" fork="yes" dir="${src}/etc">
       <classpath>
         <pathelement path="${build}/classes" />
+        <pathelement location="${lib}/commons-digester.jar"/>
+        <pathelement location="${lib}/commons-collections.jar"/>
       </classpath>
       <formatter type="xml" />
       <batchtest>
