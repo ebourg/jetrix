@@ -25,6 +25,7 @@ Changes in version 0.1.1 (2003-02-??)
 - the number of concurrent connections from the same host can be limited (the default value is 2)
 - channel access can now be restricted by access level
 - channels can now be protected by a password
+- the /join command now accepts channel numbers as argument
 
 Changes in version 0.1.0 (2002-11-16)
 -------------------------------------

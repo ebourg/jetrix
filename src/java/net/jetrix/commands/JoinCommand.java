@@ -64,8 +64,7 @@ public class JoinCommand implements Command
 
         if (m.getParameterCount() >= 1)
         {
-            Channel target = ChannelManager.getInstance().getChannel(m.getParameter(0));
-            ChannelConfig channelConfig = target.getConfig();
+            Channel target = getChannelByName(m.getParameter(0));
 
             // get the password
             String password = null;
@@ -76,6 +75,8 @@ public class JoinCommand implements Command
 
             if (target != null)
             {
+                ChannelConfig channelConfig = target.getConfig(); // NPE
+
                 if (client.getUser().getAccessLevel() < channelConfig.getAccessLevel())
                 {
                     // deny access
@@ -116,4 +117,28 @@ public class JoinCommand implements Command
             client.sendMessage(response);
         }
     }
+
+    /**
+     * Return the channel associated to the specified name or number
+     * as a String ("1", "2", etc).
+     */
+    protected static Channel getChannelByName(String name)
+    {
+        Channel channel = null;
+
+        try
+        {
+            // trying to parse the number
+            int num = Integer.parseInt(name) - 1;
+            channel = ChannelManager.getInstance().getChannel(num);
+        }
+        catch (NumberFormatException e)
+        {
+            channel = ChannelManager.getInstance().getChannel(name);;
+        }
+
+        return channel;
+    }
+
+
 }

@@ -93,7 +93,7 @@ public class TeleportCommand implements Command
             else
             {
                 // player found
-                Channel channel = ChannelManager.getInstance().getChannel(m.getParameter(1));
+                Channel channel = JoinCommand.getChannelByName(m.getParameter(1));
 
                 if (channel != null)
                 {
