@@ -33,14 +33,14 @@ public class FloodFilter extends GenericFilter
 {
     private long timestamp[][];
     private int index[];
-    private int capacity = 5;
-    private int delay = 1000;
+    private int capacity = 8;
+    private int delay = 5000;
     
-    /** Minimum time between two warnings */
-    private long warningPeriod = 15;
+    /** Minimum time between two warnings (in seconds) */
+    private long warningPeriod = 10;
     
     /** Date of the last warning */
-    private Date lastWarning = new Date(0);
+    private long lastWarning;
     
     public void init(FilterConfig conf)
     {
@@ -56,14 +56,22 @@ public class FloodFilter extends GenericFilter
     public void onPline(Message m, List out)
     {
         int slot = m.getIntParameter(0);
-        Date now = new Date();
-        if (slot > 0 
-            && isRateExceeded(slot-1, now)
-            && ( now.getTime() - lastWarning.getTime() ) > warningPeriod ) {
-            Message warning = new Message(Message.MSG_PLINE, new Object [] 
-                              { new Integer(0), ChatColors.red + "Flood blocked from slot " + slot });
-            out.add(warning);
-            lastWarning = now;
+        String text = m.getStringParameter(1);
+        float charsByLine = 70;
+        int lineCount = (int)Math.ceil( text.length()/charsByLine );
+        
+        long now = System.currentTimeMillis();
+        boolean isRateExceeded = false;
+        for (int i = 0; i < lineCount; i++) { isRateExceeded = isRateExceeded || isRateExceeded(slot-1, now); }
+        
+        if (slot > 0 && isRateExceeded ) {
+            if ( ( now - lastWarning ) > warningPeriod * 1000 ) {
+                TetriNETPlayer player = getChannel().getPlayer(slot).getPlayer();
+                Message warning = new Message(Message.MSG_PLINE, new Object [] 
+                              { new Integer(0), ChatColors.red + "Flood blocked from player " + player.getName() });
+                out.add(warning);
+                lastWarning = now;
+            }
         } else {
             out.add(m);
         }
@@ -72,14 +80,13 @@ public class FloodFilter extends GenericFilter
     /**
      * Records a message timestamp and checks the data rate.
      *
-     * @param slot      message source slot
-     * @param d         message timestamp
+     * @param slot  message source slot
+     * @param t     message timestamp
      *
      * @return <tt>true</tt> if over <tt>capacity</tt> messages in less than the <tt>delay</tt> specified
      */
-    private boolean isRateExceeded(int slot, Date d)
+    private boolean isRateExceeded(int slot, long t)
     {
-        long t = d.getTime();
         long t1 = timestamp[slot][index[slot]];
         timestamp[slot][index[slot]] = t;
         index[slot] = (index[slot] + 1) % capacity;
