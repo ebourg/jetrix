@@ -21,6 +21,7 @@ Welcome on <b>JetriX TetriNET Server</b>!
     <alias name="stats"        class="net.jetrix.filter.StatsFilter"/>
     <alias name="logo"         class="net.jetrix.filter.LogoFilter"/>
     <alias name="sudden-death" class="net.jetrix.filter.SuddenDeathFilter"/>
+    <alias name="command"      class="net.jetrix.filter.CommandFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -133,18 +134,30 @@ Welcome on <b>JetriX TetriNET Server</b>!
 
     <channel name="pure">
       <description>Pure</description>
+      <topic>Type /mode to change the settings</topic>
       <winlist name="pure"/>
       <settings>
         <special-added>0</special-added>
       </settings>
+      <filters>
+        <filter name="command">
+          <param name="class" value="net.jetrix.commands.ModeCommand"/>
+        </filter>
+      </filters>
     </channel>
 
     <channel name="pure2">
       <description>Pure</description>
+      <topic>Type /mode to change the settings</topic>
       <winlist name="pure"/>
       <settings>
         <special-added>0</special-added>
       </settings>
+      <filters>
+        <filter name="command">
+          <param name="class" value="net.jetrix.commands.ModeCommand"/>
+        </filter>
+      </filters>
     </channel>
 
     <channel name="duel1">

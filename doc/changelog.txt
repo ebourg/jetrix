@@ -27,7 +27,7 @@ Changes in version 0.1.4 (2004-??-??)
 -------------------------------------
 
 Player visible changes
-- new commands: /afk (away from keyboard), /ignore (ignore list)
+- new commands: /afk (away from keyboard), /ignore (ignore list), /mode (pre configured settings)
 - Added the sudden death mode
 - portuguese translation contributed by Vítor Melo
 - operators can now create new channels dynamically with the /join command
