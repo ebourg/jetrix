@@ -5,7 +5,7 @@
   <meta name="author" value="Emmanuel Bourg">
   <meta name="email" value="smanux@lfjr.net">
   <meta name="description" content="JetriX is a new generation TetriNET server written in Java and designed for maximum scalability and extensibility.">
-  <meta name="keywords" content="jetrix, tetrinet, tnet, tetrifast, tfast, server, tspec, tetris, tetrix">
+  <meta name="keywords" content="jetrix, tetrinet, server, tnet, tetrifast, tfast, tspec, tetris, tetrix, java">
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="images/favicon.gif">
   <title>JetriX TetriNET Server</title>
