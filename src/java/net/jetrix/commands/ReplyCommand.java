@@ -60,31 +60,24 @@ public class ReplyCommand implements Command
 
         if (m.getParameterCount() >= 1)
         {
-            String targetName = m.getParameter(0);
-            Client target = null;
+            String targetName = (String)client.getUser().getProperty("command.tell.reply_to");
 
-            // checking if the second parameter is a slot number
-            try
+            // aucun message précédent
+            if (targetName == null)
             {
-                int slot = Integer.parseInt(targetName);
-                if (slot >= 1 && slot <= 6)
-                {
-                    Channel channel = client.getChannel();
-                    target = channel.getClient(slot);
-                }
+                // no previous message
+                PlineMessage response = new PlineMessage();
+                response.setKey("command.reply.no_previous_message");
+                client.sendMessage(response);
+                return;
             }
-            catch (NumberFormatException e) {}
+
+            ClientRepository repository = ClientRepository.getInstance();
+            Client target = repository.getClient(targetName);
 
             if (target == null)
             {
-                // target is still null, the second parameter is a playername
-                ClientRepository repository = ClientRepository.getInstance();
-                target = repository.getClient(targetName);
-            }
-
-            if (target == null)
-            {
-                // no player found
+                // previous user no longer connected
                 PlineMessage response = new PlineMessage();
                 response.setKey("command.player_not_found", new Object[] { targetName });
                 client.sendMessage(response);
@@ -92,11 +85,10 @@ public class ReplyCommand implements Command
             else
             {
                 // player found
-                PlineMessage reponse = new PlineMessage();
-                String privateMessage = m.getText().substring(targetName.length() + 1);
-                String message = "<aqua>{" + client.getUser().getName() + "}</aqua> <darkBlue>" + privateMessage;
-                reponse.setText(message);
-                target.sendMessage(reponse);
+                PlineMessage response = new PlineMessage();
+                String privateMessage = m.getText();
+                response.setKey("command.tell.format", new Object[] { client.getUser().getName(), privateMessage });
+                target.sendMessage(response);
 
                 target.getUser().setProperty("command.tell.reply_to", client.getUser());
             }
