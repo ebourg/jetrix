@@ -78,6 +78,15 @@ public class TellCommand implements Command
                 target.sendMessage(response);
 
                 target.getUser().setProperty("command.tell.reply_to", client.getUser().getName());
+
+                // afk message
+                if (target.getUser().getStatus() == User.STATUS_AFK)
+                {
+                    String awayMessage = (String) target.getUser().getProperty("command.away.message");
+                    PlineMessage away = new PlineMessage();
+                    away.setKey("command.away.player_unavailable" + (awayMessage != null ? "2" : ""), target.getUser().getName(), awayMessage);
+                    client.sendMessage(away);
+                }
             }
         }
         else

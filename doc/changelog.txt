@@ -3,7 +3,6 @@ JetriX Changelog
 
 TODO
 ----
-- implement the /afk command
 - zip files on the patch server
 - /snoop
 - /help <command name>
@@ -16,6 +15,7 @@ TODO
 
 Changes in version 0.1.4 (2004-??-??)
 -------------------------------------
+- new commands: /afk
 - portuguese translation contributed by Vítor Melo
 - the name of the server can now be configured from the administration console
 

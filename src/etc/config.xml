@@ -226,6 +226,7 @@ your opponents. Good luck!
 
   <!-- Server commands -->
   <commands>
+    <command class="net.jetrix.commands.AwayCommand"/>
     <command class="net.jetrix.commands.BroadcastCommand"/>
     <command class="net.jetrix.commands.ConfigCommand"/>
     <command class="net.jetrix.commands.EmoteCommand"/>
