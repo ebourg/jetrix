@@ -8,7 +8,7 @@ Changes in version 0.1.3 (2004-01-20)
 - fixed the query protocol (thanks to ekn for the debugging info)
 - tspec clients can now speak on channels
 - the list of available languages can be displayed with /lang
-- the new score & rank of the winner is now announced in the channel
+- the new score &amp; rank of the winner is now announced in the channel
 - fields are now updated on joining a channel (bug 808507)
 - Jetrix can now read and write tetrinetx winlists
 - winlists now accept initialization parameters like filters
@@ -21,7 +21,7 @@ Changes in version 0.1.3 (2004-01-20)
 - web admin: added a field tab in the channel view
 - added a topic to the channels
 - added a "port" attribute to the "listener" element in config.xml
-- spanish translation contributed by Julian Mesa Llopis & Bryan Reynaert
+- spanish translation contributed by Julian Mesa Llopis &amp; Bryan Reynaert
 
 Changes in version 0.1.2 (2003-08-03)
 -------------------------------------
