@@ -48,7 +48,7 @@ public class FloodFilter extends GenericFilter
     
     public void onPline(Message m, List out)
     {
-        int slot = ((Integer)m.getParameter(1)).intValue();
+        int slot = m.getIntParameter(0);
         if (slot>0 && isRateExceeded(slot-1, new Date())) {
             Message warning = new Message(Message.MSG_PLINE, new Object [] 
                               { new Integer(0), ChatColors.red + "Flood blocked from slot " + slot });
