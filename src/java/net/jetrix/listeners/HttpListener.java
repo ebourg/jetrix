@@ -37,6 +37,7 @@ public class HttpListener implements Listener
 {
     private org.mortbay.jetty.Server jetty;
     private Logger logger = Logger.getLogger("net.jetrix");
+    private boolean initialized;
 
     public HttpListener()
     {
@@ -44,7 +45,10 @@ public class HttpListener implements Listener
         System.setProperty("LOG_CLASSES", "org.mortbay.util.OutputStreamLogSink");
         System.setProperty("LOG_FILE", "log/jetty.log");
         System.setProperty("LOG_DATE_FORMAT", "[yyyy-MM-dd HH:mm:ss] ");
+    }
 
+    private void init()
+    {
         // authentication realm
         HashUserRealm realm = new HashUserRealm("Jetrix Admin");
         realm.put("operator", Server.getInstance().getConfig().getOpPassword());
@@ -78,6 +82,11 @@ public class HttpListener implements Listener
     {
         try
         {
+            if (!initialized)
+            {
+                init();
+                initialized = true;
+            }
             jetty.start();
             logger.info("Web administration console started on port " + getPort());
         }
