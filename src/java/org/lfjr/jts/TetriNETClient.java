@@ -93,8 +93,7 @@ class TetriNETClient extends Thread
 
                     Integer slot = new Integer(st.nextToken());
                     String teamname = st.hasMoreTokens()?st.nextToken():"";
-                    Object[] params = { slot, teamname };
-                    m.setParameters(params);
+                    m.setParameters(new Object[] { slot, teamname });
                 }
                 // pline <slot> text
                 else if ("pline".equals(cmd))
@@ -114,8 +113,7 @@ class TetriNETClient extends Thread
                     m.setCode(Message.MSG_GMSG);
 
                     String text = st.nextToken();
-                    Object[] params = { text };
-                    m.setParameters(params);
+                    m.setParameters(new Object[] { text });
                 }
                 // plineact <slot> emote
                 else if ("plineact".equals(cmd))
@@ -125,8 +123,7 @@ class TetriNETClient extends Thread
 
                     Integer slot = new Integer(st.nextToken());
                     String text = st.nextToken();
-                    Object[] params = { slot, text };
-                    m.setParameters(params);
+                    m.setParameters(new Object[] { slot, text });
                 }
                 // startgame <0 = stop | 1 = start> <playernumber>
                 else if ("startgame".equals(cmd))
@@ -136,7 +133,7 @@ class TetriNETClient extends Thread
                     if (Message.MSG_ENDGAME == m.getCode()) m.setRawMessage("endgame");
 
                     Integer slot = new Integer(st.nextToken());
-                    Object[] params = { slot };
+                    Object[] params = { slot, channel.getConfig().getSettings() };
                     m.setParameters(params);
                 }
                 // pause <slot>
@@ -146,8 +143,7 @@ class TetriNETClient extends Thread
                     m.setCode(Message.MSG_PAUSE);
 
                     Integer slot = new Integer(st.nextToken());
-                    Object[] params = { slot };
-                    m.setParameters(params);
+                    m.setParameters(new Object[] { slot });
                 }
                 // playerlost <slot>
                 else if ("playerlost".equals(cmd))
@@ -156,8 +152,7 @@ class TetriNETClient extends Thread
                     m.setCode(Message.MSG_PLAYERLOST);
 
                     Integer slot = new Integer(st.nextToken());
-                    Object[] params = { slot };
-                    m.setParameters(params);
+                    m.setParameters(new Object[] { slot });
                 }
                 // lvl <slot> <level> (not sure on this one)
                 else if ("lvl".equals(cmd))
@@ -167,8 +162,7 @@ class TetriNETClient extends Thread
 
                     Integer slot = new Integer(st.nextToken());
                     Integer level = new Integer(st.nextToken());
-                    Object[] params = { slot, level };
-                    m.setParameters(params);
+                    m.setParameters(new Object[] { slot, level });
                 }
                 // sb <to> <bonus> <from>
                 else if ("sb".equals(cmd))
@@ -179,8 +173,7 @@ class TetriNETClient extends Thread
                     Integer to   = new Integer(st.nextToken());
                     String bonus = st.nextToken();
                     Integer from = new Integer(st.nextToken());
-                    Object[] params = { to, bonus, from };
-                    m.setParameters(params);
+                    m.setParameters(new Object[] { to, bonus, from });
                 }
                 // f <slot> <field>
                 else if ("f".equals(cmd))
@@ -190,8 +183,7 @@ class TetriNETClient extends Thread
 
                     Integer slot = new Integer(st.nextToken());
                     String field = (st.hasMoreTokens())?st.nextToken():null;
-                    Object[] params = { slot, field };
-                    m.setParameters(params);
+                    m.setParameters(new Object[] { slot, field });
                 }
 
                 // any other slash command
@@ -231,8 +223,7 @@ class TetriNETClient extends Thread
         {
             Message m = new Message();
             m.setCode(Message.MSG_DISCONNECTED);
-            Object[] params = { this };
-            m.setParameters(params);
+            m.setParameters(new Object[] { this });
             channel.addMessage(m);
         }
         finally

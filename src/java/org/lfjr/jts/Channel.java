@@ -102,10 +102,10 @@ public class Channel extends Thread
                                     else
                                     {
                                         Message move = new Message(Message.MSG_ADDPLAYER);
-                            	        move.setParameters(new Object[] { m.getSource() });
-                            	        target.addMessage(move);
-                            	    }
-                            	}
+                                        move.setParameters(new Object[] { m.getSource() });
+                                        target.addMessage(move);
+                                    }
+                                }
 
                             }
                             else
@@ -169,28 +169,12 @@ public class Channel extends Thread
                             break;
 
                         case Message.MSG_FIELD:
-                            slot = ((Integer)m.getParameter(0)).intValue();
+                            //slot = ((Integer)m.getParameter(0)).intValue();
                             //sendAll(m, slot);
                             sendAll(m);
                             break;
 
                         case Message.MSG_STARTGAME:
-                            Settings s = cconf.getSettings();
-                            String raw = "newgame " + s.getStackHeight() + " " + s.getStartingLevel() + " " + s.getLinesPerLevel() + " " + s.getLevelIncrease() + " " + s.getLinesPerSpecial() + " " + s.getSpecialAdded() + " " + s.getSpecialCapacity() + " ";
-                            for (int i = 0; i<7; i++)
-                            {
-                                for (int j = 0; j<s.getBlockOccurancy(i); j++) { raw = raw + (i + 1); }
-                            }
-
-                            raw += " ";
-
-                            for (int i = 0; i<9; i++)
-                            {
-                                for (int j = 0; j<s.getSpecialOccurancy(i); j++) { raw = raw + (i + 1); }
-                            }
-
-                            raw += " " + (s.getAverageLevels() ? "1" : "0") + " " + (s.getClassicRules() ? "1" : "0");
-
                             gameState = GAME_STATE_STARTED;
                             for (int i=0; i<playerList.length; i++)
                             {
@@ -200,7 +184,6 @@ public class Channel extends Thread
                                     client.getPlayer().setPlaying(true);
                                 }
                             }
-                            m.setRawMessage(raw);
                             sendAll(m);
                             break;
 

@@ -20,6 +20,7 @@
 package org.lfjr.jts;
 
 import java.util.*;
+import org.lfjr.jts.config.*;
 
 /**
  * Internal message sent between server, channels and client handlers.
@@ -107,7 +108,7 @@ public class Message
                   Object team = getParameter(1);
                   raw = "team " + slot + ( (team==null)?"":" "+team );
                   break;
-                  
+
                 case MSG_PLAYERLEAVE:
                   raw = "playerleave " + (Integer)getParameter(0);
                   break;
@@ -116,9 +117,26 @@ public class Message
                   slot = (Integer)getParameter(0);
                   raw = "playernum " + slot;
                   break;
-                  
+
+                case MSG_STARTGAME:
+                    Settings s = (Settings)getParameter(1);
+                    String raw = "newgame " + s.getStackHeight() + " " + s.getStartingLevel() + " " + s.getLinesPerLevel() + " " + s.getLevelIncrease() + " " + s.getLinesPerSpecial() + " " + s.getSpecialAdded() + " " + s.getSpecialCapacity() + " ";
+                    for (int i = 0; i<7; i++)
+                    {
+                        for (int j = 0; j<s.getBlockOccurancy(i); j++) { raw = raw + (i + 1); }
+                    }
+
+                    raw += " ";
+
+                    for (int i = 0; i<9; i++)
+                    {
+                        for (int j = 0; j<s.getSpecialOccurancy(i); j++) { raw = raw + (i + 1); }
+                    }
+
+                    raw += " " + (s.getAverageLevels() ? "1" : "0") + " " + (s.getClassicRules() ? "1" : "0");
+                    break;
+
                 case MSG_ENDGAME:
-                  //raw = "startgame 0 " + (Integer)getParameter(0);
                   raw = "endgame";
                   break;
 
@@ -153,18 +171,18 @@ public class Message
     {
         return params.length;
     }
-    
+
     public Object getSource()
     {
-        return source;	
+        return source;
     }
-    
+
     /**
      * Returns the creation date of this message.
      */
     public Date getDate()
     {
-        return date;	
+        return date;
     }
 
     public void setType(int type)
@@ -187,11 +205,11 @@ public class Message
         this.params = params;
         //raw = null;
     }
-    
+
     public void setSource(Object source)
     {
         this.source = source;
-    }    
+    }
 
     public String toString()
     {

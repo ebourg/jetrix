@@ -124,7 +124,7 @@
              windowtitle="Javadoc JetriX"
              doctitle="JetriX"
              bottom="Copyright &#169; 2001 Emmanuel Bourg. All Rights Reserved.">
-      <link href="http://java.sun.com/j2se/1.3/docs/api/"/>
+      <link href="http://java.sun.com/j2se/1.4/docs/api/"/>
       <!--<link href="http://java.sun.com/j2ee/tutorial/api/"/>-->
     </javadoc>
     <zip zipfile="${dist}/doc/api.zip">
