@@ -49,6 +49,9 @@ public class TetriNETServer implements Runnable
         conf = new ServerConfig();
         conf.load();
         conf.setRunning(true);
+        
+        // loading localized strings
+        //Language.load(new Locale("en"));
 
         // preparing logger        
         logger = Logger.getLogger("net.jetrix");
@@ -100,6 +103,13 @@ public class TetriNETServer implements Runnable
         {
             e.printStackTrace();
         }
+        
+        // adding shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                System.out.println("bye bye");
+            }
+        });
 
         // checking new release availability
         // ....
@@ -215,7 +225,62 @@ public class TetriNETServer implements Runnable
                             client.sendMessage(response1);
                             client.sendMessage(response2);
                             client.sendMessage(response3);
-                        }                        
+                        }
+                        else if ("/tell".equalsIgnoreCase(cmd)
+                                 || "/msg".equalsIgnoreCase(cmd)
+                                 || "/cmsg".equalsIgnoreCase(cmd))
+                        {
+                            if (m.getParameterCount() > 3)
+                            {
+                                String targetName = m.getStringParameter(2);
+                                TetriNETClient target = null;
+                                
+                                // checking if the second parameter is a slot number
+                                try
+                                {
+                                    int slot = Integer.parseInt(targetName);
+                                    if (slot >= 1 && slot <= 6)
+                                    {
+                                        Channel channel = client.getChannel();
+                                        target = channel.getPlayer(slot);
+                                    }
+                                }
+                                catch (NumberFormatException e) {}
+                                
+                                if (target == null)
+                                {
+                                    // target is still null, the second parameter is a playername
+                                    ClientRepository repository = ClientRepository.getInstance();
+                                    target = repository.getClient(targetName);
+                                }
+                            
+                                if (target == null)
+                                {
+                            	    // no player found
+                            	    Message reponse = new Message(Message.MSG_PLINE);
+                            	    String message = ChatColors.red + "Player " + targetName + " cannot be found on the server.";
+                            	    reponse.setParameters(new Object[] { new Integer(0), message });
+                            	    client.sendMessage(reponse);
+                                }
+                                else
+                                {
+                                    // player found
+                                    Message reponse = new Message(Message.MSG_PLINE);
+                                    String privateMessage = m.getRawMessage().substring(cmd.length() + targetName.length() + 10);
+                                    String message = ChatColors.aqua + "{" + client.getPlayer().getName() + "} " + ChatColors.darkBlue + privateMessage;
+                                    reponse.setParameters(new Object[] { new Integer(0), message });
+                            	    target.sendMessage(reponse);
+                                }
+                            }
+                            else
+                            {
+                                // not enough parameters
+                                Message response = new Message(Message.MSG_PLINE);
+                                String message = ChatColors.red + cmd + ChatColors.blue + " <playername|playernumber> <message>";
+                                response.setParameters(new Object[] { new Integer(0), message });
+                                client.sendMessage(response);
+                            }
+                        }                     
                         else if ("/who".equalsIgnoreCase(cmd))
                         {
                             Message response = new Message(Message.MSG_PLINE, new Object[] { new Integer(0), ChatColors.darkBlue+"/who is not implemented yet" });
