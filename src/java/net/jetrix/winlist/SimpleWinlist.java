@@ -37,22 +37,6 @@ public class SimpleWinlist implements Winlist
     public SimpleWinlist()
     {
         scores = new ArrayList();
-
-        WinlistScore score1 = new WinlistScore();
-        score1.setName("Bozo");
-        score1.setScore(111);
-        scores.add(score1);
-
-        WinlistScore score2 = new WinlistScore();
-        score2.setName("Waza");
-        score2.setScore(222);
-        scores.add(score2);
-
-        WinlistScore score3 = new WinlistScore();
-        score3.setName("Blop");
-        score3.setScore(333);
-        score3.setType(1);
-        scores.add(score3);
     }
 
     public String getId()
@@ -65,9 +49,21 @@ public class SimpleWinlist implements Winlist
         this.id = id;
     }
 
-    public WinlistScore getScore(String name)
+    public WinlistScore getScore(String name, int type)
     {
-        return null;
+        WinlistScore score = null;
+
+        WinlistScore example = new WinlistScore();
+        example.setName(name);
+        example.setType(type);
+
+        int i = scores.indexOf(example);
+        if (i != -1)
+        {
+            score = (WinlistScore) scores.get(i);
+        }
+
+        return score;
     }
 
     public List getScores(long offset, long length)
@@ -77,6 +73,26 @@ public class SimpleWinlist implements Winlist
 
     public void saveGameResult(GameResult result)
     {
+        Collection players = result.getGamePlayers();
+        Iterator it = players.iterator();
+        while (it.hasNext())
+        {
+            GamePlayer player = (GamePlayer)it.next();
+            if (player.isWinner())
+            {
+                WinlistScore score = getScore(player.getName(), WinlistScore.TYPE_PLAYER);
+                if (score == null)
+                {
+                    score = new WinlistScore();
+                    score.setName(player.getName());
+                    score.setType(WinlistScore.TYPE_PLAYER);
+                    scores.add(score);
+                }
+                score.setScore(score.getScore() + 1);
+            }
+        }
+
+        Collections.sort(scores, new ScoreComparator());
     }
 
 }
