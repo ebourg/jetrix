@@ -1,4 +1,5 @@
 <%@ page import="net.jetrix.*"%>
+<%@ page import="net.jetrix.services.*"%>
 <%@ page import="net.jetrix.servlets.*"%>
 <%@ page import="net.jetrix.commands.*"%>
 <%@ page import="net.jetrix.config.*"%>
@@ -40,7 +41,12 @@
     <table class="thin" style="width: 600px">
       <tr>
         <td width="20%">Version</td>
-        <td width="80%"><%= ServerConfig.VERSION %></td>
+        <td width="80%">
+          <%= ServerConfig.VERSION %>
+<%  if (VersionService.isNewVersionAvailable()) { %>
+          <span style="color: red; padding-left: 2em">new version available (<%= VersionService.getLatestVersion() %>), <a href="http://jetrix.sourceforge.net">download it</a> now!</span>
+<%  } %>
+        </td>
       </tr>
       <tr>
         <td>Name</td>

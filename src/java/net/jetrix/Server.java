@@ -19,8 +19,6 @@
 
 package net.jetrix;
 
-import java.io.*;
-import java.net.*;
 import java.util.concurrent.*;
 import java.util.logging.*;
 
@@ -28,6 +26,7 @@ import net.jetrix.clients.*;
 import net.jetrix.commands.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
+import net.jetrix.services.VersionService;
 
 /**
  * Main class, starts server components.
@@ -123,10 +122,10 @@ public class Server implements Runnable, Destination
         }
 
         // check the availability of a new release
-        String latestVersion = getLatestVersion();
-        if (latestVersion != null && ServerConfig.VERSION.compareTo(latestVersion) < 0)
+        VersionService.updateLatestVersion();
+        if (VersionService.isNewVersionAvailable())
         {
-            log.warning("A new version is available (" + latestVersion + "), download it on http://jetrix.sf.net now!");
+            log.warning("A new version is available (" + VersionService.getLatestVersion() + "), download it on http://jetrix.sf.net now!");
         }
 
         // start the server console
@@ -134,42 +133,6 @@ public class Server implements Runnable, Destination
         new Thread(console).start();
 
         log.info("Server ready!");
-    }
-
-    /**
-     * Return the version of the latest release. The version of the last stable
-     * release is stored on the Jetrix site (http://jetrix.sf.net/version.php),
-     * this file is build dynamically everyday and reuse the version specified
-     * in the project.properties file.
-     */
-    private String getLatestVersion()
-    {
-        String version = null;
-
-        try
-        {
-            URL url = new URL("http://jetrix.sourceforge.net/version.php");
-
-            HttpURLConnection conn = null;
-            try
-            {
-                conn = (HttpURLConnection) url.openConnection();
-
-                // read the first line of the file
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                version = in.readLine();
-            }
-            finally
-            {
-                conn.disconnect();
-            }
-        }
-        catch (IOException e)
-        {
-            // too bad...
-        }
-
-        return version;
     }
 
     /**

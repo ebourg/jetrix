@@ -29,7 +29,8 @@ TODO
 - ip based language detection (using geoip)
 - store the "time played" and the "time logged" for registered users
 - add a help button on the webadmin redirecting to the SF forum
-
+- game auto start filter (n seconds after the end of the game)
+- downstack game mod : start at height 16, the first player to clear 30 lines wins
 
 Changes in version 0.2 (2005-01-??)
 -----------------------------------
@@ -68,7 +69,7 @@ Admin visible changes
 - web admin: commands can be removed
 - web admin: the ip bound to the server can be changed on the 'General' tab, the ip available are automatically detected and listed
 - web admin: added an "Idle allowed" parameter on the channel page, it maps to the <idle> element in the channels.xml file
-- the server now checks the availability of a new release at startup
+- the server now checks the availability of a new release and display a message on startup and in the server administration page 
 - a system tray icon is displayed on windows platforms
 - a native executable is provided on windows to run the server without the DOS console
 - a windows installer is available
