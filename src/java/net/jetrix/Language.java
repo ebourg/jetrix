@@ -81,9 +81,9 @@ public class Language
         ResourceBundle bundle = instance.getResourceBundle(locale);
         if (bundle == null)
         {
-            bundle = instance.load(locale);
+            bundle = PropertyResourceBundle.getBundle("jetrix", locale);
         }
-        return bundle.getLocale().equals(locale);
+        return (bundle != null && bundle.getLocale().equals(locale));
     }
 
     /**
