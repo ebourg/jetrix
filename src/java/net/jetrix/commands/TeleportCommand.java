@@ -60,26 +60,7 @@ public class TeleportCommand implements Command
         if (m.getParameterCount() >= 2)
         {
             String targetName = m.getParameter(0);
-            Client target = null;
-
-            // checking if the second parameter is a slot number
-            try
-            {
-                int slot = Integer.parseInt(targetName);
-                if (slot >= 1 && slot <= 6)
-                {
-                    Channel channel = client.getChannel();
-                    target = channel.getClient(slot);
-                }
-            }
-            catch (NumberFormatException e) { }
-
-            if (target == null)
-            {
-                // target is still null, the second parameter is a playername
-                ClientRepository repository = ClientRepository.getInstance();
-                target = repository.getClient(targetName);
-            }
+            Client target = m.getClientParameter(0);
 
             if (target == null)
             {
@@ -91,7 +72,7 @@ public class TeleportCommand implements Command
             else
             {
                 // player found
-                Channel channel = JoinCommand.getChannelByName(m.getParameter(1));
+                Channel channel = m.getChannelParameter(1);
 
                 if (channel != null)
                 {

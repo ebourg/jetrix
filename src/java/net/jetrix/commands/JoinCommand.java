@@ -63,7 +63,7 @@ public class JoinCommand implements Command
 
         if (m.getParameterCount() >= 1)
         {
-            Channel target = getChannelByName(m.getParameter(0));
+            Channel channel = m.getChannelParameter(0);
 
             // get the password
             String password = null;
@@ -72,9 +72,9 @@ public class JoinCommand implements Command
                 password = m.getParameter(1);
             }
 
-            if (target != null)
+            if (channel != null)
             {
-                ChannelConfig channelConfig = target.getConfig(); // NPE
+                ChannelConfig channelConfig = channel.getConfig(); // NPE
 
                 if (client.getUser().getAccessLevel() < channelConfig.getAccessLevel())
                 {
@@ -92,7 +92,7 @@ public class JoinCommand implements Command
                     accessDenied.setKey("command.join.wrong_password");
                     client.sendMessage(accessDenied);
                 }
-                else if (target.isFull() && client.getUser().isPlayer())
+                else if (channel.isFull() && client.getUser().isPlayer())
                 {
                     // sending channel full message
                     PlineMessage channelfull = new PlineMessage();
@@ -104,7 +104,7 @@ public class JoinCommand implements Command
                     // adding the ADDPLAYER message to the queue of the target channel
                     AddPlayerMessage move = new AddPlayerMessage();
                     move.setClient((Client) m.getSource());
-                    target.sendMessage(move);
+                    channel.sendMessage(move);
                 }
             }
         }
@@ -117,28 +117,6 @@ public class JoinCommand implements Command
             PlineMessage response = new PlineMessage(message);
             client.sendMessage(response);
         }
-    }
-
-    /**
-     * Return the channel associated to the specified name or number
-     * as a String ("1", "2", etc).
-     */
-    protected static Channel getChannelByName(String name)
-    {
-        Channel channel = null;
-
-        try
-        {
-            // trying to parse the number
-            int num = Integer.parseInt(name) - 1;
-            channel = ChannelManager.getInstance().getChannel(num);
-        }
-        catch (NumberFormatException e)
-        {
-            channel = ChannelManager.getInstance().getChannel(name, true);
-        }
-
-        return channel;
     }
 
 }
