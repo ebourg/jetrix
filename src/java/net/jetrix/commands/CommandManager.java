@@ -130,7 +130,14 @@ public class CommandManager
      */
     public void execute(CommandMessage m)
     {
-        Command command = getCommand(m.getCommand());
+        execute(m, getCommand(m.getCommand()));
+    }
+
+    /**
+     * Execute an unregistered command.
+     */
+    public void execute(CommandMessage m, Command command)
+    {
         Client client = (Client) m.getSource();
         if (command == null)
         {
