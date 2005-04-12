@@ -36,6 +36,8 @@ import java.util.jar.*;
  */
 public class Launcher {
 
+    public static final String MAIN_CLASS = "net.jetrix.Server";
+
     /**
      * Server entry point. All classes, jar and zip files in the lib
      * subdirectory are automatically added to the classpath.
@@ -54,7 +56,8 @@ public class Launcher {
             String filename = file.getAbsolutePath();
             if (filename.endsWith(".pack"))
             {
-                String unpackedName = filename.substring(0, filename.length() - 4) + "jar";
+                // remove the .pack extension at the end of the unpacked file
+                String unpackedName = filename.substring(0, filename.lastIndexOf(".pack"));
                 JarOutputStream out = new JarOutputStream(new FileOutputStream(unpackedName));
 
                 Pack200.newUnpacker().unpack(file, out);
@@ -62,6 +65,7 @@ public class Launcher {
                 out.flush();
                 out.close();
 
+                // delete the packed file
                 file.delete();
             }
         }
@@ -97,7 +101,7 @@ public class Launcher {
         Thread.currentThread().setContextClassLoader(loader);
 
         // run the main method of the specified class
-        Class serverClass = loader.loadClass("net.jetrix.Server");
+        Class serverClass = loader.loadClass(MAIN_CLASS);
         serverClass.getMethod("main", args.getClass()).invoke(null, new Object[] { args });
     }
 
