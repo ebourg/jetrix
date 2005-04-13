@@ -19,15 +19,23 @@
 
 package net.jetrix;
 
-import java.io.*;
-import java.util.logging.*;
+import net.jetrix.config.ServerConfig;
+import net.jetrix.listeners.HttpListener;
+import org.jdesktop.jdic.tray.SystemTray;
+import org.jdesktop.jdic.tray.TrayIcon;
 
-import net.jetrix.config.*;
-import net.jetrix.listeners.*;
-import snoozesoft.systray4j.*;
+import javax.swing.*;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Manages the system tray (windows only).
+ * Manages the system trayIcon (windows only).
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -36,59 +44,145 @@ import snoozesoft.systray4j.*;
 public class SystrayManager
 {
     private static Logger log = Logger.getLogger("net.jetrix");
+    private static TrayIcon trayIcon;
+    private static final String TITLE = "Jetrix TetriNET Server";
 
     /**
-     * Create and display the system tray menu.
+     * Create and display the system trayIcon menu.
      */
     public static void open()
     {
-        if (SysTrayMenu.isAvailable())
+        if (trayIcon == null)
         {
-            // build the menu items
-            SysTrayMenuItem itemExit = new SysTrayMenuItem("Stop && Exit", "exit");
-            itemExit.addSysTrayMenuListener(new SysTrayMenuAdapter()
+            SystemTray tray = null;
+
+            try
             {
-                public void menuItemSelected(SysTrayMenuEvent event)
+                tray = SystemTray.getDefaultSystemTray();
+            }
+            catch (Throwable t)
+            {
+                log.log(Level.FINE, "System tray unavailable", t);
+                return;
+            }
+
+            // adjust the look & feel
+            System.setProperty("javax.swing.adjustPopupLocationToFit", "false");
+
+            try
+            {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            }
+            catch (Exception e)
+            {
+                log.log(Level.WARNING, e.getMessage(), e);
+            }
+
+            // build the menu items
+            JMenuItem itemAdmin = new JMenuItem("Administration");
+            Font font = itemAdmin.getFont();
+            itemAdmin.setFont(new Font(font.getName(), Font.BOLD, font.getSize()));
+
+            itemAdmin.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    openWebAdmin();
+                }
+            });
+
+            JMenuItem itemLink = new JMenuItem("Jetrix Website");
+            itemLink.addActionListener(new OpenURLActionListener("http://jetrix.sourceforge.net"));
+
+            JMenuItem itemSupport = new JMenuItem("Technical Support");
+            itemSupport.addActionListener(new OpenURLActionListener("http://sourceforge.net/forum/forum.php?forum_id=172941"));
+
+            JMenuItem itemExit = new JMenuItem("Stop & Exit");
+            itemExit.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent e)
                 {
                     Server.getInstance().stop();
                 }
             });
 
-            SysTrayMenuItem itemAdmin = new SysTrayMenuItem("Administration", "admin");
-            SysTrayMenuListener adminListener = new SysTrayMenuAdapter()
-            {
-                public void menuItemSelected(SysTrayMenuEvent event)
-                {
-                    openWebAdmin();
-                }
-
-                public void iconLeftDoubleClicked(SysTrayMenuEvent event)
-                {
-                    menuItemSelected(event);
-                }
-            };
-            itemAdmin.addSysTrayMenuListener(adminListener);
-
-            // build the systray icon
-            SysTrayMenuIcon icon = new SysTrayMenuIcon(Thread.currentThread().getContextClassLoader().getResource("jetrix.ico"));
-            icon.addSysTrayMenuListener(adminListener);
-
             // build the menu
-            SysTrayMenu menu = new SysTrayMenu(icon);
-            menu.setToolTip("Jetrix TetriNET Server");
-            menu.addItem(itemExit);
-            menu.addItem(itemAdmin);
+            final JPopupMenu menu = new JPopupMenu();
+            menu.add(itemAdmin);
+            menu.add(itemLink);
+            menu.add(itemSupport);
+            menu.addSeparator();
+            menu.add(itemExit);
 
-            menu.showIcon();
+            menu.addPopupMenuListener(new PopupMenuListener()
+            {
+                public void popupMenuWillBecomeVisible(PopupMenuEvent e)
+                {
+                    // un arm the items
+                    MenuElement[] elements = menu.getSubElements();
+                    for (MenuElement element : elements)
+                    {
+                        JMenuItem item = (JMenuItem) element;
+                        item.setArmed(false);
+                    }
+                }
+
+                public void popupMenuWillBecomeInvisible(PopupMenuEvent e) { }
+
+                public void popupMenuCanceled(PopupMenuEvent e) { }
+            });
+
+            // build the trayIcon icon
+            ImageIcon icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("jetrix-16x16.png"));
+
+            trayIcon = new TrayIcon(icon, TITLE, menu);
+            trayIcon.setIconAutoSize(true);
+            trayIcon.addActionListener(new ActionListener()
+            {
+                private long timestamp;
+
+                public void actionPerformed(ActionEvent e)
+                {
+                    // emulates a double click listener
+                    if (e.getWhen() - timestamp < 750)
+                    {
+                        openWebAdmin();
+                    }
+
+                    timestamp = e.getWhen();
+                }
+            });
+
+            // display the trayIcon icon
+            tray.addTrayIcon(trayIcon);
         }
     }
 
     /**
-     * Remove the system tray menu.
+     * Remove the system trayIcon menu.
      */
     public static void close()
     {
-        SysTrayMenu.dispose();
+        if (trayIcon != null)
+        {
+            SystemTray.getDefaultSystemTray().removeTrayIcon(trayIcon);
+            trayIcon = null;
+        }
+    }
+
+    /**
+     * Display a baloon message on the trayIcon icon.
+     *
+     * @param message the message to display
+     * @param type    the type of the message (0: info, 1: error, 2: warning, 3: none)
+     * @since 0.3
+     */
+    public static void notify(String message, int type)
+    {
+        if (trayIcon != null)
+        {
+            trayIcon.displayMessage(TITLE, message, type);
+        }
     }
 
     /**
@@ -111,19 +205,45 @@ public class SystrayManager
 
         if (port != 0)
         {
-            try
-            {
-                // build the URL
-                String adminUrl = "http://admin:" + config.getAdminPassword() + "@localhost:" + port;
+            openURL("http://admin:" + config.getAdminPassword() + "@localhost:" + port);
+        }
+    }
 
-                // open the browser
-                Runtime runtime = Runtime.getRuntime();
-                runtime.exec("rundll32 url.dll,FileProtocolHandler " + adminUrl);
-            }
-            catch (IOException e)
-            {
-                log.log(Level.WARNING, e.getMessage(), e);
-            }
+    /**
+     * Open the specified URL in the Browser.
+     *
+     * @since 0.3
+     */
+    private static void openURL(String url)
+    {
+        try
+        {
+            // open the browser
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+        }
+        catch (IOException e)
+        {
+            log.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Action listener opening an URL.
+     *
+     * @since 0.3
+     */
+    private static class OpenURLActionListener implements ActionListener
+    {
+        private String url;
+
+        public OpenURLActionListener(String url)
+        {
+            this.url = url;
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            openURL(url);
         }
     }
 

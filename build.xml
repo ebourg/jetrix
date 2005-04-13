@@ -106,7 +106,7 @@
         <include name="tetrinet-channels.dtd"/>
       </fileset>
       <fileset dir="${src}/etc/icons">
-        <include name="jetrix.ico"/>
+        <include name="jetrix-16x16.png"/>
       </fileset>
     </jar>
 
@@ -155,7 +155,8 @@
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="servlet-light"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jasper-runtime"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jcrontab-1.4.1-light"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="systray4j-2.4.1"/></antcall>
+    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jdic-tray-0.9"/></antcall>
+    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jdic-tray-win-0.9"/></antcall>
   </target>
 
   <target name="pack.lib" description="Pack the library specified by the ${library} property">
@@ -206,8 +207,8 @@
         <include name="servlet-light*.pack"/>
         <include name="jasper-runtime*.pack"/>
         <include name="jcrontab*.pack"/>
-        <include name="systray4j*.pack" />
-        <include name="systray4j*.dll" />
+        <include name="jdic*.pack" />
+        <include name="tray.dll" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war.pack" />
@@ -235,7 +236,7 @@
         <include name="update" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
-        <include name="jetrix-${version}.pack" />
+        <include name="jetrix-${version}.jar.pack" />
         <include name="jetrix-launcher-${version}.jar" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${build}/lib">
@@ -243,11 +244,12 @@
         <include name="commons-collections*.pack" />
         <include name="commons-beanutils*.pack" />
         <include name="commons-lang*.pack" />
-        <include name="jetty.pack"/>
-        <include name="servlet-light.pack"/>
-        <include name="jasper-runtime.pack"/>
+        <include name="jetty*.pack"/>
+        <include name="servlet-light*.pack"/>
+        <include name="jasper-runtime*.pack"/>
         <include name="jcrontab*.pack"/>
-        <include name="systray4j*.pack" />
+        <include name="jdic*.pack" />
+        <exclude name="jdic-tray-win*.pack" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war.pack" />
