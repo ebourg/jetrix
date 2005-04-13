@@ -20,6 +20,7 @@
 package net.jetrix.services;
 
 import net.jetrix.config.ServerConfig;
+import net.jetrix.SystrayManager;
 
 import java.net.*;
 import java.io.*;
@@ -55,7 +56,9 @@ public class VersionService extends CronService
 
         if (isNewVersionAvailable())
         {
-            log.warning("A new version is available (" + VersionService.getLatestVersion() + "), download it on http://jetrix.sf.net now!");
+            String message = "A new version is available (" + VersionService.getLatestVersion() + "), download it on http://jetrix.sf.net now!";
+            log.warning(message);
+            SystrayManager.notify(message, 0);
         }
     }
 
