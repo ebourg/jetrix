@@ -96,6 +96,14 @@ public class ChannelInfo
         this.playermax = playermax;
     }
 
+    /**
+     * @since 0.3
+     */
+    public boolean isEmpty()
+    {
+        return playernum == 0;
+    }
+
     public String toString()
     {
         return "[Channel name='" + name + "' description='" + description + "']";
