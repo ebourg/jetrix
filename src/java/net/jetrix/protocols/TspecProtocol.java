@@ -48,9 +48,10 @@ public class TspecProtocol extends TetrinetProtocol
     {
         Message message = null;
 
-        if (line.startsWith("pline"))
+        if (line.startsWith("pline") && !line.startsWith("plineact"))
         {
             SmsgMessage smsg = new SmsgMessage();
+            smsg.setSlot(Integer.parseInt(line.substring(6, 7)));
 
             if (line.indexOf("//") == 8)
             {
@@ -156,11 +157,6 @@ public class TspecProtocol extends TetrinetProtocol
         {
             return super.translate(m, locale);
         }
-    }
-
-    public String toString()
-    {
-        return "[Protocol name=" + getName() + "]";
     }
 
 }
