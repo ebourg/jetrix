@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2005  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,9 +24,9 @@ import java.net.*;
 import java.util.*;
 
 import net.jetrix.*;
-import net.jetrix.protocols.*;
 import net.jetrix.clients.*;
 import net.jetrix.messages.*;
+import net.jetrix.protocols.*;
 
 /**
  * Listener for tetrinet and tetrifast clients.
@@ -51,7 +51,7 @@ public class TetrinetListener extends ClientListener
     public Client getClient(Socket socket) throws Exception
     {
         // read the first line sent by the client
-        TetrinetProtocol protocol1 = (TetrinetProtocol) protocolManager.getProtocol(TetrinetProtocol.class);
+        Protocol protocol1 = protocolManager.getProtocol(TetrinetProtocol.class);
         String init = protocol1.readLine(new InputStreamReader(socket.getInputStream()));
 
         // test if the client is using the query protocol
@@ -87,7 +87,7 @@ public class TetrinetListener extends ClientListener
         TetrinetClient client = new TetrinetClient();
         User user = new User();
         user.setName(tokens.get(1));
-        client.setSocket(socket);
+
         client.setUser(user);
         client.setVersion((String) tokens.get(2));
         if ((tokens.get(0)).equals("tetrisstart"))
@@ -103,12 +103,17 @@ public class TetrinetListener extends ClientListener
             return null;
         }
 
+        client.setSocket(socket);
+
         if (tokens.size() > 3)
         {
             Message m = new NoConnectingMessage("No space allowed in nickname !");
             client.send(m);
             return null;
         }
+
+        // send the client identification request
+        client.send(new LevelMessage());
 
         return client;
     }
