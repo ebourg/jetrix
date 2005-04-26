@@ -24,7 +24,7 @@ package net.jetrix;
  */
 public enum GameState
 {
-    STOPPED(0), STARTED(1), PAUSED(2);
+    STOPPED(1), STARTED(2), PAUSED(3);
 
     private int value;
 
