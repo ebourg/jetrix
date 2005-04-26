@@ -20,6 +20,8 @@
 package net.jetrix;
 
 import java.util.*;
+import java.io.Reader;
+import java.io.IOException;
 
 /**
  * A protocol to communicate with a client. A protocol is responsible for
@@ -78,5 +80,17 @@ public interface Protocol
      * Return the end of line character used by this protocol.
      */
     char getEOL();
+
+    /**
+     * Read a line for this protocol. A line is ended by a \n or \r character,
+     * or by a protocol specific end of line as defined by the {@link #getEOL()}
+     * method.
+     *
+     * @since 0.3
+     *
+     * @param in the stream to be read
+     * @throws IOException thrown if the stream is closed
+     */
+    String readLine(Reader in) throws IOException;
 
 }

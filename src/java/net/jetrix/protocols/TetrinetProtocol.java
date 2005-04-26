@@ -19,7 +19,6 @@
 
 package net.jetrix.protocols;
 
-import java.io.*;
 import java.util.*;
 
 import net.jetrix.*;
@@ -34,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TetrinetProtocol implements Protocol
+public class TetrinetProtocol extends AbstractProtocol
 {
     private static Map<String, String> styles = new HashMap<String, String>();
 
@@ -103,8 +102,48 @@ public class TetrinetProtocol implements Protocol
         String cmd = st.nextToken();
         Message m = null;
 
+        // f <slot> <field>
+        if ("f".equals(cmd))
+        {
+            FieldMessage field = new FieldMessage();
+            field.setSlot(Integer.parseInt(st.nextToken()));
+            field.setField((st.hasMoreTokens()) ? st.nextToken() : null);
+            m = field;
+            m.setRawMessage(this, line);
+        }
+        // sb <to> <bonus> <from>
+        else if ("sb".equals(cmd))
+        {
+            int to = Integer.parseInt(st.nextToken());
+            String special = st.nextToken();
+            int from = Integer.parseInt(st.nextToken());
+
+            Class cls = specials.get(special);
+
+            SpecialMessage spmsg = null;
+            if (specials.keySet().contains(special))
+            {
+                try
+                {
+                    spmsg = (SpecialMessage) cls.newInstance();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            else
+            {
+                throw new IllegalArgumentException("Forged special detected from " + this);
+            }
+
+            spmsg.setSlot(to);
+            spmsg.setFromSlot(from);
+            m = spmsg;
+            m.setRawMessage(this, line);
+        }
         // team <slot> teamname
-        if ("team".equals(cmd))
+        else if ("team".equals(cmd))
         {
             TeamMessage team = new TeamMessage();
             team.setSlot(Integer.parseInt(st.nextToken()));
@@ -192,6 +231,26 @@ public class TetrinetProtocol implements Protocol
             }
             m = msg;
         }
+        // newgame
+        else if ("newgame".equals(cmd))
+        {
+            NewGameMessage newgame = new NewGameMessage();
+            m = newgame;
+
+            // todo parse the game settings
+        }
+        // endgame
+        else if ("endgame".equals(cmd))
+        {
+            EndGameMessage end = new EndGameMessage();
+            m = end;
+        }
+        // ingame
+        else if ("ingame".equals(cmd))
+        {
+            IngameMessage ingame = new IngameMessage();
+            m = ingame;
+        }
         // playerlost <slot>
         else if ("playerlost".equals(cmd))
         {
@@ -209,45 +268,43 @@ public class TetrinetProtocol implements Protocol
             m = level;
             m.setRawMessage(this, line);
         }
-        // sb <to> <bonus> <from>
-        else if ("sb".equals(cmd))
+        // clientinfo <name> <version>
+        else if ("clientinfo".equals(cmd))
         {
-            int to = Integer.parseInt(st.nextToken());
-            String special = st.nextToken();
-            int from = Integer.parseInt(st.nextToken());
-
-            Class cls = specials.get(special);
-
-            SpecialMessage spmsg = null;
-            if (specials.keySet().contains(special))
+            ClientInfoMessage info = new ClientInfoMessage();
+            if (st.hasMoreTokens())
             {
-                try
-                {
-                    spmsg = (SpecialMessage) cls.newInstance();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                info.setName(st.nextToken());
             }
-            else
+            if (st.hasMoreTokens())
             {
-                throw new IllegalArgumentException("Forged special detected from " + this);
+                info.setVersion(st.nextToken());
             }
-
-            spmsg.setSlot(to);
-            spmsg.setFromSlot(from);
-            m = spmsg;
-            m.setRawMessage(this, line);
+            m = info;
         }
-        // f <slot> <field>
-        else if ("f".equals(cmd))
+        // playernum <num>
+        else if ("playernum".equals(cmd))
         {
-            FieldMessage field = new FieldMessage();
-            field.setSlot(Integer.parseInt(st.nextToken()));
-            field.setField((st.hasMoreTokens()) ? st.nextToken() : null);
-            m = field;
-            m.setRawMessage(this, line);
+            PlayerNumMessage num = new PlayerNumMessage();
+            num.setSlot(Integer.parseInt(st.nextToken()));
+            m = num;
+        }
+        // playerjoin <num> <name>
+        else if ("playerjoin".equals(cmd))
+        {
+            JoinMessage join = new JoinMessage();
+            join.setSlot(Integer.parseInt(st.nextToken()));
+            join.setName(st.nextToken());
+            join.setRawMessage(this, line);
+            m = join;
+        }
+        // playerleave <num>
+        else if ("playerleave".equals(cmd))
+        {
+            LeaveMessage leave = new LeaveMessage();
+            leave.setSlot(Integer.parseInt(st.nextToken()));
+            leave.setRawMessage(this, line);
+            m = leave;
         }
 
         return m;
@@ -284,6 +341,7 @@ public class TetrinetProtocol implements Protocol
         else if (m instanceof SmsgMessage)          { return translate((SmsgMessage) m, locale); }
         else if (m instanceof WinlistMessage)       { return translate((WinlistMessage) m, locale); }
         else if (m instanceof NoopMessage)          { return translate((NoopMessage) m); }
+        else if (m instanceof CommandMessage)       { return translate((CommandMessage) m); }
         else
         {
             return null;
@@ -327,6 +385,22 @@ public class TetrinetProtocol implements Protocol
         message.append(m.getSlot());
         message.append(" ");
         message.append(m.getText(locale));
+        return message.toString();
+    }
+
+    public String translate(CommandMessage m)
+    {
+        StringBuilder message = new StringBuilder();
+        message.append("pline ");
+        message.append(m.getSlot());
+        message.append(" /");
+        message.append(m.getCommand());
+
+        for (int i = 0; i < m.getParameterCount(); i++)
+        {
+            message.append(" ");
+            message.append(m.getParameter(i));
+        }
         return message.toString();
     }
 
@@ -866,39 +940,6 @@ public class TetrinetProtocol implements Protocol
         String h = Integer.toHexString(c);
 
         return h.length() > 1 ? h : "0" + h;
-    }
-
-    /**
-     * Read a line as defined in the TetriNET protocol (that's ending with a
-     * 0xFF character). 0xOA and 0xOD are also accepted as EOL characters.
-     *
-     * @param in the stream to be read
-     * @throws IOException thrown if the stream is closed
-     */
-    public String readLine(Reader in) throws IOException
-    {
-        StringBuilder input = new StringBuilder();
-
-        int readChar;
-        while ((readChar = in.read()) != -1 && readChar != getEOL() && readChar != 0x0A && readChar != 0x0D)
-        {
-            if (readChar != 0x0A && readChar != 0x0D)
-            {
-                input.append((char) readChar);
-            }
-        }
-
-        if (readChar == -1)
-        {
-            throw new IOException("End of stream");
-        }
-
-        return input.toString();
-    }
-
-    public String toString()
-    {
-        return "[Protocol name=" + getName() + "]";
     }
 
 }

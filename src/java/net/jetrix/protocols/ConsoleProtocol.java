@@ -29,7 +29,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ConsoleProtocol implements Protocol
+public class ConsoleProtocol extends AbstractProtocol
 {
     private static Map<String, String> styles = new HashMap<String, String>();
 
@@ -136,11 +136,6 @@ public class ConsoleProtocol implements Protocol
     public char getEOL()
     {
         return '\n';
-    }
-
-    public String toString()
-    {
-        return "[Protocol name=" + getName() + "]";
     }
 
 }

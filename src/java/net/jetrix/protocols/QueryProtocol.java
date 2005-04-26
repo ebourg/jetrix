@@ -31,7 +31,7 @@ import net.jetrix.messages.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class QueryProtocol implements Protocol
+public class QueryProtocol extends AbstractProtocol
 {
     /** Line terminator */
     public static final char EOL = 0x0A;
@@ -92,8 +92,9 @@ public class QueryProtocol implements Protocol
         throw new UnsupportedOperationException();
     }
 
-    public char getEOL() {
-        return EOL;
+    public char getEOL()
+    {
+        return 0xFF;
     }
 
     /**

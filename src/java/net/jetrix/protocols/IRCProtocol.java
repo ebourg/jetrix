@@ -30,7 +30,7 @@ import org.apache.commons.lang.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class IRCProtocol implements Protocol
+public class IRCProtocol extends AbstractProtocol
 {
     private static Map<String, String> styles = new HashMap<String, String>();
 
@@ -412,13 +412,9 @@ public class IRCProtocol implements Protocol
         return text;
     }
 
-    public char getEOL() {
-        return '\n';
-    }
-
-    public String toString()
+    public char getEOL()
     {
-        return "[Protocol name=" + getName() + "]";
+        return '\n';
     }
 
 }
