@@ -19,8 +19,6 @@
 
 package net.jetrix.messages;
 
-import net.jetrix.*;
-
 /**
  *
  *

@@ -19,8 +19,6 @@
 
 package net.jetrix.messages;
 
-import net.jetrix.*;
-
 /**
  * A channel message for special blocks. Specials are attacks applied to
  * another game slot. For specials the first slot is the target of the

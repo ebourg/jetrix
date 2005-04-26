@@ -19,8 +19,6 @@
 
 package net.jetrix.messages;
 
-import net.jetrix.*;
-
 /**
  *
  *
@@ -29,6 +27,5 @@ import net.jetrix.*;
  */
 public class NukeFieldMessage extends SpecialMessage
 {
-
 
 }
