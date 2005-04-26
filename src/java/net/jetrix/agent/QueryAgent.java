@@ -135,7 +135,8 @@ public class QueryAgent implements Agent
 
         // read the result
         String line = null;
-        while (!(line = in.readLine()).equals(QueryProtocol.OK))
+        QueryProtocol protocol = new QueryProtocol();
+        while (!QueryProtocol.OK.equals(line = protocol.readLine(in)))
         {
             List<String> tokens = parseQuotedTokens(line);
 
@@ -162,7 +163,8 @@ public class QueryAgent implements Agent
 
         // read the result
         String line = null;
-        while (!(line = in.readLine()).equals(QueryProtocol.OK))
+        QueryProtocol protocol = new QueryProtocol();
+        while (!QueryProtocol.OK.equals(line = protocol.readLine(in)))
         {
             List<String> tokens = parseQuotedTokens(line);
 
