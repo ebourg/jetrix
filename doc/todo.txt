@@ -1,0 +1,46 @@
+Jetrix todo list
+================
+
+Want to contribute ? Feel free to pick a task below, but check with me if the task hasn't been assigned already.
+
+Gameplay
+- downstack game mod : start at height 16, the first player to clear 30 lines wins
+- cheat control: count the specials seen in the field and check the specials sent
+- tetris mode, do a tetris as fast as possible (single player). Show intermediate times vs the best player recorded
+- do not update the winlist if the game lasted less than n seconds
+- game auto start filter (n seconds after the end of the game)
+- display the team winlist for players with a team, and the player winlist for those with no team
+- display the number of players & spectators online on logging onto the server
+- warn the players before a timeout
+- store the "time played" and the "time logged" for registered users
+- ip based language detection (using geoip)
+- AliasFilter to replace "gg" by "good game" on the pline
+- friend list (/friend command + notification system)
+
+Commands
+- /mute <nick>
+- /ban & /unban
+- /lfd looking for duel
+- /points to display the score and the rank in the current winlist
+- partial name matching for /goto
+- /snoop
+- /help <command name>
+- change dynamically the aliases of a command
+- per channel commands
+
+Administration
+- channel reordering from the admin console
+- create a channel from the admin console
+- add a help button on the webadmin redirecting to the SF forum
+- winlist management in the admin console
+- add and remove filters from the administration console
+- JRobin integration for server and channels statistics
+- run as a service on Windows (using Java Service Wrapper)
+- run as a service on Linux (init.d script)
+- deploy as a web application
+
+Website
+- feature matrix similar to http://damagecontrol.codehaus.org/Continuous+Integration+Server+Feature+Matrix
+- automatic generation of the commands documentation
+- java web start demo
+- compress the files on the patch server
