@@ -160,11 +160,6 @@
         <version>1.4.1</version>
     </dependency>
 
-    <dependency>
-        <id>systray4j</id>
-        <version>2.4.1</version>
-    </dependency>
-
     <!-- Needed for testing -->
     <dependency>
       <id>junit</id>
