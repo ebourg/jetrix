@@ -10,12 +10,13 @@ Gameplay
 - do not update the winlist if the game lasted less than n seconds
 - game auto start filter (n seconds after the end of the game)
 - display the team winlist for players with a team, and the player winlist for those with no team
-- display the number of players & spectators online on logging onto the server
 - warn the players before a timeout
 - store the "time played" and the "time logged" for registered users
 - ip based language detection (using geoip)
 - AliasFilter to replace "gg" by "good game" on the pline
 - friend list (/friend command + notification system)
+- bonus points depending on the skill of the players (i.e intensity level on tnet.org with 5+ players and at least 4 players in the top 100)
+- bonus points when the same player wins several games in a row
 
 Commands
 - /mute <nick>

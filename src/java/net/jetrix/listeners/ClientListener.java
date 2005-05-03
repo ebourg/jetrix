@@ -264,6 +264,18 @@ public abstract class ClientListener extends AbstractService implements Listener
                         motd.close();
                     }
 
+                    // display the number of players online
+                    int playerCount = ClientRepository.getInstance().getPlayerCount();
+                    int spectatorCount = ClientRepository.getInstance().getSpectatorCount();
+
+                    PlineMessage online = new PlineMessage();
+                    String key = playerCount + spectatorCount > 1 ? "server.users-online" : "server.user-online";
+                    String pkey = playerCount > 1 ? "key:common.players" : "key:common.player";
+                    String skey = spectatorCount > 1 ? "key:common.spectators" : "key:common.spectator";
+                    online.setKey(key, playerCount, pkey, spectatorCount, skey);
+
+                    client.send(online);
+
                     // forward the client to the server for channel assignation
                     if (client.supportsAutoJoin()) {
                         AddPlayerMessage m = new AddPlayerMessage();
