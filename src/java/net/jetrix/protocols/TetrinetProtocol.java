@@ -78,6 +78,9 @@ public class TetrinetProtocol extends AbstractProtocol
         specials.put("o", BlockBombMessage.class);
     }
 
+    /** Initialization token */
+    public static final String INIT_TOKEN = "tetrisstart";
+
     /**
      * Return the name of this protocol
      */
@@ -871,7 +874,7 @@ public class TetrinetProtocol extends AbstractProtocol
     private static String findHashPattern(int[] dec, boolean tetrifast)
     {
         // the first characters from the decoded string
-        char[] data = (tetrifast ? "tetrifaste" : "tetrisstar").toCharArray();
+        char[] data = (tetrifast ? TetrifastProtocol.INIT_TOKEN : INIT_TOKEN).substring(0, 10).toCharArray();
 
         // compute the full hash
         int[] hash = new int[data.length];
@@ -913,7 +916,7 @@ public class TetrinetProtocol extends AbstractProtocol
         char[] pattern = String.valueOf(p).toCharArray();
 
         // build the string to encode
-        char[] data = ((tetrifast ? "tetrifaster " : "tetrisstart ") + nickname + " " + version).toCharArray();
+        char[] data = ((tetrifast ? TetrifastProtocol.INIT_TOKEN : INIT_TOKEN) + " " + nickname + " " + version).toCharArray();
 
         // build the encoded string
         StringBuilder result = new StringBuilder();

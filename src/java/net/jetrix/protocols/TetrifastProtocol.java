@@ -29,6 +29,9 @@ import net.jetrix.messages.*;
  */
 public class TetrifastProtocol extends TetrinetProtocol
 {
+    /** Initialization token */
+    public static final String INIT_TOKEN = "tetrifaster";
+
     public String getName()
     {
         return "tetrifast";
