@@ -104,8 +104,10 @@ public interface Client extends Runnable, Destination
 
     /**
      * Receive a message sent by the client.
+     *
+     * @since 0.3
      */
-    Message receiveMessage() throws IOException;
+    Message receive() throws IOException;
 
     /**
      * Trigger the disconnection of this client.

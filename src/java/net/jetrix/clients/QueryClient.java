@@ -59,7 +59,7 @@ public class QueryClient extends TetrinetClient
 
             while (!disconnected && serverConfig.isRunning())
             {
-                process(receiveMessage());
+                process(receive());
             }
         }
         catch (Exception e)

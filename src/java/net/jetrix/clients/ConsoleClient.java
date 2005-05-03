@@ -66,7 +66,7 @@ public class ConsoleClient implements Client
         {
             try
             {
-                Message message = receiveMessage();
+                Message message = receive();
 
                 if (message != null)
                 {
@@ -91,7 +91,7 @@ public class ConsoleClient implements Client
         if (msg != null) System.out.println(msg);
     }
 
-    public Message receiveMessage() throws IOException
+    public Message receive() throws IOException
     {
         String line = in.readLine();
         if (line == null)

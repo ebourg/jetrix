@@ -125,7 +125,7 @@ public class TetrinetClient implements Client
         {
             while (!disconnected && serverConfig.isRunning())
             {
-                Message message = receiveMessage();
+                Message message = receive();
                 if (message == null) continue;
 
                 if (message.getDestination() != null)
@@ -241,7 +241,7 @@ public class TetrinetClient implements Client
         }
     }
 
-    public Message receiveMessage() throws IOException
+    public Message receive() throws IOException
     {
         // read raw message from socket
         String line = ((TetrinetProtocol) protocol).readLine(in);
