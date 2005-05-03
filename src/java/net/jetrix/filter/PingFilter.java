@@ -46,9 +46,7 @@ public class PingFilter extends MessageFilter
             {
                 long delay = (System.currentTimeMillis() - ((Long) user.getProperty("command.ping.time")).longValue()) >> 1;
 
-                PlineMessage response = new PlineMessage();
-                response.setKey("command.ping.message", new Long(delay));
-                client.send(response);
+                client.send(new PlineMessage("command.ping.message", delay));
 
                 user.setProperty("command.ping", "false");
             }

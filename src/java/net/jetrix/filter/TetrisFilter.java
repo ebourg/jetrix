@@ -50,7 +50,7 @@ public class TetrisFilter extends GenericFilter
         Arrays.fill(tetrisCount, 0);
 
         GmsgMessage message = new GmsgMessage();
-        message.setKey("filter.tetris.start_message", new Integer(tetrisLimit));
+        message.setKey("filter.tetris.start_message", tetrisLimit);
 
         out.add(m);
         out.add(message);
@@ -108,7 +108,7 @@ public class TetrisFilter extends GenericFilter
 
                 if (leaders.size() == 1)
                 {
-                    announce.setKey("filter.tetris.lead", leaders.get(0), new Integer(max));
+                    announce.setKey("filter.tetris.lead", leaders.get(0), max);
                 }
                 else
                 {

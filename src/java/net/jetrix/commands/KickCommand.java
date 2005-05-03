@@ -63,9 +63,7 @@ public class KickCommand extends AbstractCommand implements ParameterCommand
         if (target == null)
         {
             // no player found
-            PlineMessage response = new PlineMessage();
-            response.setKey("command.player_not_found", targetName);
-            client.send(response);
+            client.send(new PlineMessage("command.player_not_found", targetName));
         }
         else
         {

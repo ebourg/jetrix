@@ -299,9 +299,7 @@ public class Channel extends Thread implements Destination
         if (m.getSource() instanceof Client)
         {
             Client client = (Client) m.getSource();
-            PlineMessage message = new PlineMessage();
-            message.setKey("channel.game.paused-by", client.getUser().getName());
-            sendAll(message);
+            sendAll(new PlineMessage("channel.game.paused-by", client.getUser().getName()));
         }
 
         sendAll(m);
@@ -315,9 +313,7 @@ public class Channel extends Thread implements Destination
         if (m.getSource() instanceof Client)
         {
             Client client = (Client) m.getSource();
-            PlineMessage message = new PlineMessage();
-            message.setKey("channel.game.resumed-by", client.getUser().getName());
-            sendAll(message);
+            sendAll(new PlineMessage("channel.game.resumed-by", client.getUser().getName()));
         }
 
         sendAll(m);
@@ -440,9 +436,7 @@ public class Channel extends Thread implements Destination
             if (m.getSource() instanceof Client)
             {
                 Client client = (Client) m.getSource();
-                PlineMessage message = new PlineMessage();
-                message.setKey("channel.game.started-by", client.getUser().getName());
-                sendAll(message);
+                sendAll(new PlineMessage("channel.game.started-by", client.getUser().getName()));
             }
 
             // initialiaze the game result
@@ -495,9 +489,7 @@ public class Channel extends Thread implements Destination
             if (m.getSource() instanceof Client)
             {
                 Client client = (Client) m.getSource();
-                PlineMessage message = new PlineMessage();
-                message.setKey("channel.game.stopped-by", client.getUser().getName());
-                sendAll(message);
+                sendAll(new PlineMessage("channel.game.stopped-by", client.getUser().getName()));
             }
 
             gameState = STOPPED;
@@ -519,9 +511,7 @@ public class Channel extends Thread implements Destination
         Client client = m.getClient();
         removeClient(client);
 
-        PlineMessage disconnected = new PlineMessage();
-        disconnected.setKey("channel.disconnected", client.getUser().getName());
-        sendAll(disconnected);
+        sendAll(new PlineMessage("channel.disconnected", client.getUser().getName()));
     }
 
     private void process(LeaveMessage m)
