@@ -19,11 +19,10 @@
 
 package net.jetrix.tools;
 
-import junit.framework.TestCase;
-
-import java.util.List;
 import java.io.IOException;
+import java.util.Collection;
 
+import junit.framework.TestCase;
 import net.jetrix.agent.QueryAgent;
 
 /**
@@ -34,7 +33,7 @@ public class ServerDirectoryTest extends TestCase
 {
     public void testGetServers() throws Exception
     {
-        List<String> servers = ServerDirectory.getServers();
+        Collection<String> servers = ServerDirectory.getServers();
 
         assertNotNull("null list", servers);
         assertFalse("empty list", servers.isEmpty());
@@ -43,7 +42,7 @@ public class ServerDirectoryTest extends TestCase
 
     public void testShowVersions() throws Exception
     {
-        List<String> servers = ServerDirectory.getServers();
+        Collection<String> servers = ServerDirectory.getServers();
 
         for (String server : servers)
         {
