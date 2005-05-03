@@ -79,22 +79,17 @@ public class TetrinetListener extends ClientListener
             tokens.add(st.nextToken());
         }
 
-        if (tokens.size() > 3)
-        {
-            return null;
-        }
-
         TetrinetClient client = new TetrinetClient();
         User user = new User();
         user.setName(tokens.get(1));
 
         client.setUser(user);
         client.setVersion((String) tokens.get(2));
-        if ((tokens.get(0)).equals("tetrisstart"))
+        if ((tokens.get(0)).equals(TetrinetProtocol.INIT_TOKEN))
         {
             client.setProtocol(protocolManager.getProtocol(TetrinetProtocol.class));
         }
-        else if ((tokens.get(0)).equals("tetrifaster"))
+        else if ((tokens.get(0)).equals(TetrifastProtocol.INIT_TOKEN))
         {
             client.setProtocol(protocolManager.getProtocol(TetrifastProtocol.class));
         }
