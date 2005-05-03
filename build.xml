@@ -294,8 +294,8 @@
     <zip zipfile="${dist}/src/jetrix-${version}-src.zip">
       <zipfileset prefix="jetrix-${version}-src/" dir=".">
         <include name="build.xml" />
-        <include name="build.properties.sample" />
-        <include name="jetrix.properties" />
+        <include name="project.xml" />
+        <include name="project.properties" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}-src/src/" dir="${src}">
         <exclude name="site/"/>
@@ -306,8 +306,8 @@
     <tar destfile="${dist}/src/jetrix-${version}-src.tar">
       <tarfileset prefix="jetrix-${version}-src/" dir=".">
         <include name="build.xml" />
-        <include name="build.properties.sample" />
-        <include name="jetrix.properties" />
+        <include name="project.xml" />
+        <include name="project.properties" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}-src/src/" dir="${src}">
         <exclude name="site/"/>
