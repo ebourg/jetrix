@@ -478,6 +478,11 @@ public class ServerConfig
                     out.println("      <idle>true</idle>");
                 }
 
+                if (!config.isVisible())
+                {
+                    out.println("      <visible>false</visible>");
+                }
+
                 if (config.getMaxPlayers() != ChannelConfig.PLAYER_CAPACITY)
                 {
                     out.println("      <max-players>" + config.getMaxPlayers() + "</max-players>");
