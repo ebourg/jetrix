@@ -31,7 +31,6 @@ Commands
 
 Administration
 - channel reordering from the admin console
-- create a channel from the admin console
 - add a help button on the webadmin redirecting to the SF forum
 - winlist management in the admin console
 - add and remove filters from the administration console

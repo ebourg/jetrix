@@ -33,3 +33,5 @@ div.hr { width: 100%; border-top: 1px solid gray }
 
 .default { color: gray; }
 .default:focus { color: black; }
+
+.icon-link { background-repeat: no-repeat; line-height: 16px; padding-left: 17px; text-decoration: none; font-size: small }

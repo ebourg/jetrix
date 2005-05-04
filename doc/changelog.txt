@@ -13,6 +13,7 @@ Player visible changes
 Admin visible changes
 - Fixed a bug preventing the modification of the access level of a command when the "access-level" attribute was set on the <command> element
 - Added a visibility parameter on channels, it's now possible to have an invisible channel on the /list result
+- Channels can now be created from the administration console
 
 Developer visible changes
 - Renamed Client.receiveMessage() into Client.receive()

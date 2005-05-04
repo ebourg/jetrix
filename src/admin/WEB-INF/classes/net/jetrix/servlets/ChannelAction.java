@@ -23,6 +23,7 @@ import net.jetrix.Channel;
 import net.jetrix.ChannelManager;
 import net.jetrix.Server;
 import net.jetrix.config.ChannelConfig;
+import net.jetrix.config.Settings;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,30 +39,63 @@ import static java.lang.Math.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ChannelAction extends HttpServlet {
+public class ChannelAction extends HttpServlet
+{
 
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         String name = request.getParameter("name");
+        ChannelManager manager = ChannelManager.getInstance();
 
-        Channel channel = ChannelManager.getInstance().getChannel(name);
-        ChannelConfig config = channel.getConfig();
+        if ("new".equals(request.getParameter("action")))
+        {
+            // create a new channel
+            ChannelConfig config = new ChannelConfig();
+            config.setSettings(new Settings());
+            config.setDescription("");
 
-        String password = request.getParameter("password");
-        password = password == null ? null : password.trim();
-        password = "".equals(password) ? null : password;
+            // find a name for the channel
+            int i = 1;
+            while (name == null)
+            {
+                if (manager.getChannel("tetrinet" + i) == null)
+                {
+                    name = "tetrinet" + i;
+                }
+                else
+                {
+                    i++;
+                }
+            }
 
-        config.setDescription(request.getParameter("description"));
-        config.setAccessLevel(Integer.parseInt(request.getParameter("accessLevel")));
-        config.setPassword(password);
-        config.setMaxPlayers(max(0, min(6, Integer.parseInt(request.getParameter("maxPlayers")))));
-        config.setMaxSpectators(max(0, Integer.parseInt(request.getParameter("maxSpectators"))));
-        config.setPersistent("true".equals(request.getParameter("persistent")));
-        config.setVisible("true".equals(request.getParameter("visible")));
-        config.setIdleAllowed("true".equals(request.getParameter("idle")));
-        config.setWinlistId(request.getParameter("winlist"));
-        config.setTopic(request.getParameter("topic"));
+            config.setName(name);
 
+            // spawn the channel
+            manager.createChannel(config);
+        }
+        else
+        {
+            // update an existing channel
+            Channel channel = manager.getChannel(name);
+            ChannelConfig config = channel.getConfig();
+
+            String password = request.getParameter("password");
+            password = password == null ? null : password.trim();
+            password = "".equals(password) ? null : password;
+
+            config.setDescription(request.getParameter("description"));
+            config.setAccessLevel(Integer.parseInt(request.getParameter("accessLevel")));
+            config.setPassword(password);
+            config.setMaxPlayers(max(0, min(6, Integer.parseInt(request.getParameter("maxPlayers")))));
+            config.setMaxSpectators(max(0, Integer.parseInt(request.getParameter("maxSpectators"))));
+            config.setPersistent("true".equals(request.getParameter("persistent")));
+            config.setVisible("true".equals(request.getParameter("visible")));
+            config.setIdleAllowed("true".equals(request.getParameter("idle")));
+            config.setWinlistId(request.getParameter("winlist"));
+            config.setTopic(request.getParameter("topic"));
+        }
+
+        // redirect to the channel page
         response.sendRedirect("/channel.jsp?name=" + name);
 
         // save the server configuration

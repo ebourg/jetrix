@@ -1,6 +1,7 @@
 <%@ page import="net.jetrix.*"%>
 <%@ page import="net.jetrix.config.*"%>
 <%@ page import="net.jetrix.filter.*"%>
+<%@ page import="net.jetrix.servlets.*"%>
 <%@ page import="java.util.*"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,7 +16,8 @@
 </head>
 <body style="margin: 1em">
 
-<button onclick="document.location.reload()">Refresh</button>
+<a class="icon-link" href="javascript: document.location.reload()" style="background-image: url(/images/refresh16.png)">Refresh</a>
+<a class="icon-link" href="/servlet/<%= ChannelAction.class.getName() %>?action=new" target="content" style="background-image: url(/images/add16.png)">Add channel</a>
 
 <br><br>
 
