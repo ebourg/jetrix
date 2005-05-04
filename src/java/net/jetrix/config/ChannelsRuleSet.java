@@ -82,6 +82,7 @@ public class ChannelsRuleSet extends RuleSetBase
         digester.addCallMethod("*/channel/password", "setPassword", 0);
         digester.addCallMethod("*/channel/access-level", "setAccessLevel", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/channel/idle", "setIdleAllowed", 0, new Class[] {Boolean.TYPE});
+        digester.addCallMethod("*/channel/visible", "setVisible", 0, new Class[] {Boolean.TYPE});
         digester.addCallMethod("*/channel/description", "setDescription", 0);
         digester.addCallMethod("*/channel/topic", "setTopic", 0);
         digester.addCallMethod("*/channel/max-players", "setMaxPlayers", 0, new Class[] {Integer.TYPE});

@@ -40,6 +40,7 @@ public class ChannelConfig
     private boolean persistent;
     private String winlistId;
     private boolean idleAllowed;
+    private boolean visible = true;
 
     /** extended properties */
     private Properties props;
@@ -271,5 +272,15 @@ public class ChannelConfig
     public void setIdleAllowed(boolean idleAllowed)
     {
         this.idleAllowed = idleAllowed;
+    }
+
+    public boolean isVisible()
+    {
+        return visible;
+    }
+
+    public void setVisible(boolean visible)
+    {
+        this.visible = visible;
     }
 }

@@ -89,7 +89,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 <!ELEMENT channels (channel*)>
 <!ELEMENT channel (description?, topic?, password?, access-level?, idle?,
-  max-players?, max-spectators?, winlist?, settings?, class?, filters?)>
+  visible?, max-players?, max-spectators?, winlist?, settings?, class?, filters?)>
 <!ATTLIST channel name CDATA #REQUIRED>
 <!ELEMENT description (#PCDATA)>
 <!ELEMENT topic (#PCDATA)>

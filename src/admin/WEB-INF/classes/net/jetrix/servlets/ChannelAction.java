@@ -57,6 +57,7 @@ public class ChannelAction extends HttpServlet {
         config.setMaxPlayers(max(0, min(6, Integer.parseInt(request.getParameter("maxPlayers")))));
         config.setMaxSpectators(max(0, Integer.parseInt(request.getParameter("maxSpectators"))));
         config.setPersistent("true".equals(request.getParameter("persistent")));
+        config.setVisible("true".equals(request.getParameter("visible")));
         config.setIdleAllowed("true".equals(request.getParameter("idle")));
         config.setWinlistId(request.getParameter("winlist"));
         config.setTopic(request.getParameter("topic"));

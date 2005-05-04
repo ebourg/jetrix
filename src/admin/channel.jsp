@@ -85,6 +85,13 @@
           </td>
         </tr>
         <tr>
+          <td>Visible</td>
+          <td>
+            <label><input type="radio" value="true"  name="visible" <%= conf.isVisible() ? "checked" : "" %>> Yes</label>
+            <label><input type="radio" value="false" name="visible" <%= conf.isVisible() ? "" : "checked" %>> No</label>
+          </td>
+        </tr>
+        <tr>
           <td>Idle Allowed</td>
           <td>
             <label><input type="radio" value="true"  name="idle" <%= conf.isIdleAllowed() ? "checked" : "" %>> Yes</label>
