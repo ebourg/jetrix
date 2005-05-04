@@ -23,6 +23,7 @@ Welcome on <b>Jetrix TetriNET Server</b>!
     <alias name="sudden-death" class="net.jetrix.filter.SuddenDeathFilter"/>
     <alias name="command"      class="net.jetrix.filter.CommandFilter"/>
     <alias name="survival"     class="net.jetrix.filter.SurvivalFilter"/>
+    <alias name="random"       class="net.jetrix.filter.RandomFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -161,6 +162,14 @@ Welcome on <b>Jetrix TetriNET Server</b>!
         <filter name="command">
           <param name="class" value="net.jetrix.commands.ModeCommand"/>
         </filter>
+      </filters>
+    </channel>
+
+    <channel name="random">
+      <description>Random settings</description>
+      <topic>New game, new settings. Enjoy!</topic>
+      <filters>
+        <filter name="random"/>
       </filters>
     </channel>
 

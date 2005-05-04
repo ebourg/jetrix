@@ -1,13 +1,14 @@
 Jetrix Changelog
 ================
 
-
 Changes in version 0.3 (2005-??-??)
 -----------------------------------
 
 Player visible changes
 - New #survival channel (drop as many blocks as you can before you die)
+- New #random channel, random settings when the game starts!
 - Implemented the channel operator access level. It's now possible to restrict some commands to the first player in the channel (/move, /start...)
+- Added support for the client identification protocol (i.e lvl 0 0 request, clientinfo response)
 - The number of players and spectators currently online is now displayed on logging in
 
 Admin visible changes
@@ -16,7 +17,17 @@ Admin visible changes
 - Channels can now be created from the administration console
 
 Developer visible changes
+- added a readLine(Reader) method in the Protocol interface
 - Renamed Client.receiveMessage() into Client.receive()
+
+
+Changes in version 0.2.1 (2005-02-18)
+-------------------------------------
+
+- Fixed the Shutdown button on the server administration page
+- Fixed a bug preventing the configuration files from being saved if the server was installed in a path containing a space character
+- Running Jetrix with jetrix.exe no longer saturate the CPU
+- Fixed a bug preventing the execution of several query commands with the same connection
 
 
 Changes in version 0.2 (2005-01-18)
