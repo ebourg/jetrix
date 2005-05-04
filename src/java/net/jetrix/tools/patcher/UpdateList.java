@@ -30,6 +30,8 @@ import java.util.zip.*;
  */
 public class UpdateList
 {
+    private static final String CRC_FILE = "update.crc";
+
     private static String path;
     private static PrintWriter out;
 
@@ -44,7 +46,7 @@ public class UpdateList
             path = ".";
         }
 
-        out = new PrintWriter(new FileWriter(path + File.separator + "update.crc"), true);
+        out = new PrintWriter(new FileWriter(path + File.separator + CRC_FILE), true);
 
         browseDirectory(new File(path));
 
@@ -69,7 +71,7 @@ public class UpdateList
             {
                 String name = f.toString().substring(path.toString().length() + 1);
 
-                if (!"update".equals(name))
+                if (!CRC_FILE.equals(name))
                 {
                     out.println(name + "\t" + getFileCRC32(f) + "\t" + f.length());
                 }
