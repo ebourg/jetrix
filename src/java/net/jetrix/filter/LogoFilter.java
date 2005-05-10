@@ -20,53 +20,43 @@
 package net.jetrix.filter;
 
 import java.util.*;
+import java.io.*;
 
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
 /**
- * Display a logo on the field of players loosing the game.
+ * Display a logo on the field of players losing the game.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
 public class LogoFilter extends GenericFilter
 {
+    private static final String DEFAULT_FIELD = "data/jetrix.field";
 
-    private short jetrixLogo[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0};
+    private Field field;
+
+    public void init()
+    {
+        // load the field
+        field = new Field();
+        try
+        {
+            field.load(DEFAULT_FIELD);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     public void onMessage(PlayerLostMessage m, List<Message> out)
     {
         // send closing screen
-        StringBuilder screenLayout = new StringBuilder();
-        for (int i = 0; i < 12 * 22; i++)
-        {
-            screenLayout.append(((int) (Math.random() * 5 + 1)) * (1 - jetrixLogo[i]));
-        }
         FieldMessage endingScreen = new FieldMessage();
         endingScreen.setSlot(m.getSlot());
-        endingScreen.setField(screenLayout.toString());
+        endingScreen.setField(field.getFieldString());
 
         out.add(m);
         out.add(endingScreen);
