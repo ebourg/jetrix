@@ -23,6 +23,7 @@ Welcome on <b>Jetrix TetriNET Server</b>!
     <alias name="sudden-death" class="net.jetrix.filter.SuddenDeathFilter"/>
     <alias name="command"      class="net.jetrix.filter.CommandFilter"/>
     <alias name="survival"     class="net.jetrix.filter.SurvivalFilter"/>
+    <alias name="puzzle"       class="net.jetrix.filter.PuzzleFilter"/>
     <alias name="random"       class="net.jetrix.filter.RandomFilter"/>
   </filter-definitions>
 
@@ -259,6 +260,14 @@ If you clear <b>4</b> lines, <b>3</b> extra additional lines will be removed.
       </settings>
       <filters>
         <filter name="survival"/>
+      </filters>
+    </channel>
+
+    <channel name="puzzle">
+      <description>Downstack 'em all!</description>
+      <max-players>1</max-players>
+      <filters>
+        <filter name="puzzle"/>
       </filters>
     </channel>
 
