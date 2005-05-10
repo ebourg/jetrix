@@ -27,7 +27,7 @@
         </tr>
 <%  for (Special special : Special.values()) { %>
         <tr>
-          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/<%= special.getLetter() %>.png" alt="<%= special.getLetter().toUpperCase() %>"></td>
+          <td align="center" style="border-right: 0px" width="10%"><img src="/images/specials/<%= special.getLetter() %>.png" alt="<%= String.valueOf(special.getLetter()).toUpperCase() %>"></td>
           <td><%= special.getName(Locale.ENGLISH) %></td>
           <td align="center"><input class="thin <%= settings.isDefaultSpecialOccurancy() ? "default" : "" %>" type="text" value="<%= settings.getOccurancy(special) %>" name="<%= special.getCode() %>" style="width: 30px" onchange="updateSpecials()"> %</td>
         </tr>
