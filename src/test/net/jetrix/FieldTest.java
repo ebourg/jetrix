@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2005  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +18,8 @@
  */
 
 package net.jetrix;
+
+import static net.jetrix.config.Special.*;
 
 import junit.framework.*;
 import net.jetrix.messages.*;
@@ -111,9 +113,9 @@ public class FieldTest extends TestCase
         message.setField("+3H-4H.5H");
         field.update(message);
 
-        assertEquals("block at (0, 0)", Field.SPECIAL_SWITCHFIELD, field.getBlock(0, 0));
-        assertEquals("block at (1, 0)", Field.SPECIAL_GRAVITY, field.getBlock(1, 0));
-        assertEquals("block at (2, 0)", Field.SPECIAL_QUAKEFIELD, field.getBlock(2, 0));
+        assertEquals("block at (0, 0)", SWITCHFIELD.getLetter(), field.getBlock(0, 0));
+        assertEquals("block at (1, 0)", GRAVITY.getLetter(), field.getBlock(1, 0));
+        assertEquals("block at (2, 0)", QUAKEFIELD.getLetter(), field.getBlock(2, 0));
     }
 
     public void testGetFieldString()
@@ -150,4 +152,45 @@ public class FieldTest extends TestCase
         assertEquals("field string", buffer.toString(), field.getFieldString());
     }
 
+    public void testGetHighest()
+    {
+        byte[][] array = new byte[Field.WIDTH][Field.HEIGHT];
+
+        field = new Field(array);
+        field.clear();
+
+        array[5][15] = Field.BLOCK_BLUE;
+        array[0][0] = Field.BLOCK_RED;
+
+        assertEquals("highest block", 15, field.getHighest());
+    }
+
+    public void testIsEmpty()
+    {
+        assertTrue("the field is not empty", field.isEmpty());
+
+        field.update(new FieldMessage("+3H-4H.5H"));
+
+        assertFalse("the field is empty", field.isEmpty());
+    }
+
+    public void testHasHoles()
+    {
+        byte[][] array = new byte[Field.WIDTH][Field.HEIGHT];
+
+        field = new Field(array);
+        field.clear();
+
+        for (int i = 0; i < Field.WIDTH; i++)
+        {
+            array[i][0] = Field.BLOCK_RED;
+            array[i][1] = Field.BLOCK_BLUE;
+        }
+
+        assertFalse("no holes", field.hasHoles());
+
+        array[6][0] = Field.BLOCK_VOID;
+
+        assertTrue("one hole", field.hasHoles());
+    }
 }
