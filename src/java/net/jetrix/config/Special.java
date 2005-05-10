@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2004  Emmanuel Bourg
+ * Copyright (C) 2004-2005  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,21 +33,21 @@ import java.util.Locale;
  */
 public enum Special
 {
-    ADDLINE(0, "a", "addline"),
-    CLEARLINE(1, "c", "clearline"),
-    NUKEFIELD(2, "n", "nukefield"),
-    RANDOMCLEAR(3, "r", "randomclear"),
-    SWITCHFIELD(4, "s", "switchfield"),
-    CLEARSPECIAL(5, "b", "clearspecial"),
-    GRAVITY(6, "g", "gravity"),
-    QUAKEFIELD(7, "q", "quakefield"),
-    BLOCKBOMB(8, "o", "blockbomb");
+    ADDLINE(0, 'a', "addline"),
+    CLEARLINE(1, 'c', "clearline"),
+    NUKEFIELD(2, 'n', "nukefield"),
+    RANDOMCLEAR(3, 'r', "randomclear"),
+    SWITCHFIELD(4, 's', "switchfield"),
+    CLEARSPECIAL(5, 'b', "clearspecial"),
+    GRAVITY(6, 'g', "gravity"),
+    QUAKEFIELD(7, 'q', "quakefield"),
+    BLOCKBOMB(8, 'o', "blockbomb");
 
     private int value;
-    private String letter;
+    private final char letter;
     private String code;
 
-    Special(int value, String letter, String code)
+    Special(int value, char letter, String code)
     {
         this.value = value;
         this.letter = letter;
@@ -59,7 +59,7 @@ public enum Special
         return value;
     }
 
-    public String getLetter()
+    public char getLetter()
     {
         return letter;
     }
@@ -72,5 +72,24 @@ public enum Special
     public String getName(Locale locale)
     {
         return Language.getText("command.config.specials." + code, locale);
+    }
+
+    /**
+     * Return the special matching the specified letter.
+     *
+     * @param letter the letter of the special
+     * @since 0.3
+     */
+    public static Special valueOf(char letter)
+    {
+        for (Special special : values())
+        {
+            if (special.getLetter() == letter)
+            {
+                return special;
+            }
+        }
+
+        return null;
     }
 }
