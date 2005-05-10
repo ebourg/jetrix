@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2001-2005  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,9 +19,13 @@
 
 package net.jetrix;
 
+import static net.jetrix.config.Special.*;
+
 import java.util.logging.*;
 import java.util.*;
+import java.io.*;
 
+import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
 /**
@@ -43,21 +47,19 @@ public class Field
     public static final byte BLOCK_RED    = '5';
     public static final byte BLOCK_RANDOM = '6';
 
-    public static final byte SPECIAL_ADDLINE      = 'a';
-    public static final byte SPECIAL_CLEARLINE    = 'c';
-    public static final byte SPECIAL_NUKEFIELD    = 'n';
-    public static final byte SPECIAL_RANDOMCLEAR  = 'r';
-    public static final byte SPECIAL_SWITCHFIELD  = 's';
-    public static final byte SPECIAL_CLEARSPECIAL = 'b';
-    public static final byte SPECIAL_GRAVITY      = 'g';
-    public static final byte SPECIAL_QUAKEFIELD   = 'q';
-    public static final byte SPECIAL_BLOCKBOMB    = 'o';
-
     private static final byte blocks[] =
-            new byte[] { BLOCK_VOID, BLOCK_BLUE, BLOCK_YELLOW, BLOCK_GREEN, BLOCK_PURPLE, BLOCK_RED, SPECIAL_ADDLINE,
-                         SPECIAL_CLEARLINE, SPECIAL_NUKEFIELD, SPECIAL_RANDOMCLEAR, SPECIAL_SWITCHFIELD,
-                         SPECIAL_CLEARSPECIAL, SPECIAL_GRAVITY, SPECIAL_QUAKEFIELD, SPECIAL_BLOCKBOMB };
+            new byte[] { BLOCK_VOID, BLOCK_BLUE, BLOCK_YELLOW, BLOCK_GREEN, BLOCK_PURPLE, BLOCK_RED,
+                         (byte) ADDLINE.getLetter(),
+                         (byte) CLEARLINE.getLetter(),
+                         (byte) NUKEFIELD.getLetter(),
+                         (byte) RANDOMCLEAR.getLetter(),
+                         (byte) SWITCHFIELD.getLetter(),
+                         (byte) CLEARSPECIAL.getLetter(),
+                         (byte) GRAVITY.getLetter(),
+                         (byte) QUAKEFIELD.getLetter(),
+                         (byte) BLOCKBOMB.getLetter() };
 
+    /** Array of blocks. (0, 0) is the bottom left block, and (12, 22) is the upper right block. */
     private byte[][] field = new byte[WIDTH][HEIGHT];
 
     private Logger log = Logger.getLogger("net.jetrix");
@@ -92,6 +94,89 @@ public class Field
     }
 
     /**
+     * Check if the field contains the specified special block.
+     *
+     * @param special the special to check
+     * @since 0.3
+     */
+    public boolean contains(Special special)
+    {
+        for (int i = HEIGHT - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < WIDTH; j++)
+            {
+                if (field[j][i] == special.getLetter())
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the field contains a special block.
+     */
+    public boolean containsSpecialBlock()
+    {
+        for (int i = HEIGHT - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < WIDTH; j++)
+            {
+                if ('a' <= field[j][i] && field[j][i] <= 'z')
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the field has holes (i.e. if a gravity block may have an effect).
+     *
+     * @since 0.3
+     */
+    public boolean hasHoles()
+    {
+        for (int i = 1; i <= HEIGHT - 1; i++)
+        {
+            for (int j = 0; j < WIDTH; j++)
+            {
+                if (field[j][i] != BLOCK_VOID && field[j][i - 1] == BLOCK_VOID)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Return the height of the highest block.
+     *
+     * @since 0.3
+     */
+    public int getHighest()
+    {
+        for (int i = HEIGHT - 1; i >= 1; i--)
+        {
+            for (int j = 0; j < WIDTH; j++)
+            {
+                if (field[j][i] != BLOCK_VOID)
+                {
+                    return i;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    /**
      * Update the field with the specified FieldMessage.
      */
     public void update(FieldMessage message)
@@ -120,14 +205,18 @@ public class Field
                         field[x][y] = color;
                     }
                 }
-
             }
             else if (fieldString.length() == WIDTH * HEIGHT)
             {
                 // full update
                 for (int i = 0; i < fieldString.length(); i++)
                 {
-                    field[i % WIDTH][HEIGHT - i / WIDTH - 1] = (byte) fieldString.charAt(i);
+                    char c = fieldString.charAt(i);
+
+                    // replace random colored blocks
+                    c = (c == BLOCK_RANDOM) ? (char) (BLOCK_BLUE + ((int) (Math.random() * 5))) : c;
+
+                    field[i % WIDTH][HEIGHT - i / WIDTH - 1] = (byte) c;
                 }
             }
             else
@@ -158,7 +247,8 @@ public class Field
     }
 
     /**
-     * Return the block at the specified location.
+     * Return the block at the specified location. (0, 0) is the bottom left
+     * block, and (12, 22) is the upper right block.
      *
      * @param x
      * @param y
@@ -179,6 +269,100 @@ public class Field
             {
                 field[i][j] = BLOCK_VOID;
             }
+        }
+    }
+    
+
+    /**
+     * Load the field from the specified file
+     *
+     * @since 0.3
+     */
+    public void load(String file) throws IOException
+    {
+        BufferedReader in = null;
+
+        try
+        {
+            in = new BufferedReader(new FileReader(file));
+
+            for (int i = 0; i < HEIGHT; i++)
+            {
+                String line = in.readLine();
+
+                if (line == null || line.length() != WIDTH)
+                {
+                    throw new IOException("Field format error at line " + i);
+                }
+
+                for (int j = 0; j < WIDTH; j++)
+                {
+                    byte block = (byte) line.charAt(j);
+
+                    if (isValidBlock(block))
+                    {
+                        field[j][HEIGHT - i - 1] = block;
+                    }
+                    else
+                    {
+                        throw new IOException("Illegal block '" + block + "' at line " + i + " , column " + j);
+                    }
+                }
+            }
+        }
+        finally
+        {
+            if (in != null)
+            {
+                in.close();
+            }
+        }
+    }
+
+    /**
+     * Save the field to the specified file.
+     *
+     * @since 0.3
+     */
+    public void save(String file) throws IOException
+    {
+        FileOutputStream out = null;
+
+        try
+        {
+            out = new FileOutputStream(file);
+
+            for (int i = 0; i < WIDTH; i++)
+            {
+                for (int j = 0; j < HEIGHT; j++)
+                {
+                    out.write(field[i][HEIGHT - j - 1]);
+                }
+                out.write('\n');
+            }
+        }
+        finally
+        {
+            if (out != null)
+            {
+                out.close();
+            }
+        }
+    }
+
+    private boolean isValidBlock(byte block)
+    {
+        if (block >= '0' && block <= '6')
+        {
+            return true;
+        }
+        else if (Special.valueOf((char) block) != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
