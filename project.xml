@@ -151,13 +151,23 @@
     </dependency>
 
     <dependency>
-        <id>jetty</id>
-        <version>4.1-rc1</version>
+      <id>jetty</id>
+      <version>4.1-rc1</version>
     </dependency>
 
     <dependency>
-        <id>jcrontab</id>
-        <version>1.4.1</version>
+      <id>jcrontab</id>
+      <version>1.4.1</version>
+    </dependency>
+
+    <dependency>
+      <id>jdic-tray</id>
+      <version>0.9</version>
+    </dependency>
+
+    <dependency>
+      <id>jdic-tray-win</id>
+      <version>0.9</version>
     </dependency>
 
     <!-- Needed for testing -->
@@ -192,6 +202,14 @@
           <targetPath>/</targetPath>
           <includes>
             <include>*.properties</include>
+          </includes>
+        </resource>
+        <resource>
+          <directory>src/etc/data/puzzle</directory>
+          <targetPath>/data/puzzle</targetPath>
+          <includes>
+            <include>*.field</include>
+            <include>*.settings</include>
           </includes>
         </resource>
       </resources>
