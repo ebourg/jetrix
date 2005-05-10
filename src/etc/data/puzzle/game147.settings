@@ -1,0 +1,9 @@
+NAME "Objective: 180"
+COMMENT speed ! sns style, c and a added, 4 options limited special capacity of players
+DESIGNER NiLS
+BLOCK 0 0 50 0 0 0 50
+SPECIAL 50 50 0 0 0 0 0 0 0
+SUDDENDEATH 5 1 10
+SUDDENDEATHMSG Time to DASH !
+RULES 1 2 1 1 4 4 1 1
+MISC 1 1 1
