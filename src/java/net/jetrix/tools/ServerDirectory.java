@@ -29,7 +29,7 @@ import java.util.TreeSet;
 
 /**
  * A utility class that fetches a list of tetrinet servers from online
- * directories like tetrinet.org and tfast.org.
+ * directories like tetrinet.org and tsrv.com.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -46,7 +46,6 @@ public class ServerDirectory
 
         try
         {
-            servers.addAll(extractServers(new URL("http://tfast.org/en/servers.php"), "serv=", "\""));
             servers.addAll(extractServers(new URL("http://slummy.tetrinet.org/grav/slummy_grav.html"), "<TD><font size=\"+0\"><font face=\"helvetica,arial\">", "<"));
             servers.addAll(extractServers(new URL("http://dieterdhoker.mine.nu:8280/cgi-bin/TSRV/servers.htm"), "serverhost=", "\""));
         }

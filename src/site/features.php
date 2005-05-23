@@ -123,7 +123,7 @@
 <h2>Misc</h2>
 
 <ul>
-  <li class="done"> automatic advertisement to server directories (tfast.org, tetrinet.org, tsrv.com)</li>
+  <li class="done"> automatic advertisement to server directories (tetrinet.org, tsrv.com)</li>
   <li class="partial"> automatic update</li>
   <li class="done"> notification of new versions</li>
   <li class="planned"> run as a service on Windows</li>

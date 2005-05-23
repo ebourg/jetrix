@@ -40,7 +40,7 @@ import net.jetrix.Server;
 
 /**
  * A service publishing the address of the server on public server lists
- * (tetrinet.org, tfast.org and tsrv.com). The <tt>host</tt> parameter can be
+ * (tetrinet.org and tsrv.com). The <tt>host</tt> parameter can be
  * specified if not explicitely defined in the config.xml file (with the host
  * attribute on the tetrinet-server element), if no hostname is provided the
  * service will try to guess the address automatically. The name of the server
@@ -90,20 +90,6 @@ public class PublishingService extends ScheduledService
         }
 
         log.info("Publishing server address to online directories... (" + host + ")");
-
-        // publishing to tfast.org
-        try
-        {
-            String url = "http://www.tfast.org/en/add.php";
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("ip", host);
-            params.put("desc", Server.getInstance().getConfig().getName());
-            post(url, params);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
 
         // publishing to tetrinet.org
         try
