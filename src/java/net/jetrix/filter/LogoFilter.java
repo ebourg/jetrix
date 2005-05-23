@@ -43,7 +43,7 @@ public class LogoFilter extends GenericFilter
         field = new Field();
         try
         {
-            field.load(DEFAULT_FIELD);
+            field.load(config.getString("field", DEFAULT_FIELD));
         }
         catch (IOException e)
         {
