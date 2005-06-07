@@ -121,17 +121,20 @@ public class QueryClient extends TetrinetClient
                 {
                     ChannelConfig config = channel.getConfig();
 
-                    message.append("\"");
-                    message.append(config.getName());
-                    message.append("\" \"");
-                    message.append(config.getDescription());
-                    message.append("\" ");
-                    message.append(channel.getPlayerCount());
-                    message.append(" ");
-                    message.append(config.getMaxPlayers());
-                    message.append(" 0 ");
-                    message.append(channel.getGameState().getValue() + 1);
-                    message.append(QueryProtocol.EOL);
+                    if (config.isVisible())
+                    {
+                        message.append("\"");
+                        message.append(config.getName());
+                        message.append("\" \"");
+                        message.append(config.getDescription());
+                        message.append("\" ");
+                        message.append(channel.getPlayerCount());
+                        message.append(" ");
+                        message.append(config.getMaxPlayers());
+                        message.append(" 0 ");
+                        message.append(channel.getGameState().getValue() + 1);
+                        message.append(QueryProtocol.EOL);
+                    }
                 }
 
                 response.setText(message.toString());
