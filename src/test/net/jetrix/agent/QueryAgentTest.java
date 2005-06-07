@@ -84,20 +84,4 @@ public class QueryAgentTest extends TestCase
 
         assertTrue("ping", ping > 0);
     }
-
-    public void testParseQuotedTokens()
-    {
-        QueryAgent agent = new QueryAgent();
-
-        String s = "\"a a\" \"bb\" cc dd \"ee\"";
-
-        List<String> tokens = agent.parseQuotedTokens(s);
-
-        assertNotNull("null list", tokens);
-        assertEquals("1st token", "a a", tokens.get(0));
-        assertEquals("2nd token", "bb", tokens.get(1));
-        assertEquals("3rd token", "cc", tokens.get(2));
-        assertEquals("4th token", "dd", tokens.get(3));
-        assertEquals("5th token", "ee", tokens.get(4));
-    }
 }
