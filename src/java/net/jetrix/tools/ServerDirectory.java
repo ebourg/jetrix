@@ -24,8 +24,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.TreeSet;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.*;
 
 /**
  * A utility class that fetches a list of tetrinet servers from online
@@ -54,7 +55,7 @@ public class ServerDirectory
             e.printStackTrace();
         }
 
-        return servers;
+        return getDistinctServers(servers);
     }
 
     /**
@@ -106,5 +107,39 @@ public class ServerDirectory
         }
 
         return servers;
+    }
+
+    /**
+     * Return the distinct hosts from the specified list of servers.
+     * Host names (i.e tetrinet.fr) are prefered over host addresses
+     * (i.e 194.117.194.68).
+     *
+     * @since 0.3
+     */
+    private static Set<String> getDistinctServers(Collection<String> servers)
+    {
+        Map<String, String> map = new HashMap<String, String>();
+
+        for (String server : servers)
+        {
+            try
+            {
+                // get the address of the server
+                InetAddress address = InetAddress.getByName(server);
+
+                // check if the server is missing from the map, or registered under a numerical form
+                String hostname = map.get(address.getHostAddress());
+                if (hostname == null || hostname.equals(address.getHostAddress()))
+                {
+                    map.put(address.getHostAddress(), server);
+                }
+            }
+            catch (UnknownHostException e)
+            {
+                // ignored
+            }
+        }
+
+        return new HashSet<String>(map.values());
     }
 }
