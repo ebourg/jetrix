@@ -97,7 +97,7 @@ Returns the list of available channels on the server. The output format is :
 
 <div class="code">"&lt;name&gt;" "&lt;description&gt;" &lt;playernum&gt; &lt;playermax&gt; &lt;priority&gt; &lt;status&gt;</div>
 <pre>
-name         the name of the channel
+name         the name of the channel (without the leading #)
 description  the description or topic of the channel
 playernum    the number of players in this channel
 playermax    the maximum number of players
