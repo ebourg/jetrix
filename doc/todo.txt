@@ -17,6 +17,7 @@ Gameplay
 - friend list (/friend command + notification system)
 - bonus points depending on the skill of the players (i.e intensity level on tnet.org with 5+ players and at least 4 players in the top 100)
 - bonus points when the same player wins several games in a row
+- immunity mode: a tetris grants a 10 seconds immunity against any special (detrimental and beneficial)
 
 Commands
 - /mute <nick>
@@ -28,6 +29,7 @@ Commands
 - /help <command name>
 - change dynamically the aliases of a command
 - per channel commands
+- /height n : start the game at the given height for the player issuing the command
 
 Administration
 - channel reordering from the admin console
