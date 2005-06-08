@@ -21,10 +21,12 @@ package net.jetrix.protocols;
 
 import net.jetrix.Protocol;
 
-import java.io.Reader;
 import java.io.IOException;
+import java.io.Reader;
 
 /**
+ * Abstract protocol implementing the readLine(Reader) method.
+ *
  * @since 0.3
  *
  * @author Emmanuel Bourg
@@ -34,7 +36,7 @@ public abstract class AbstractProtocol implements Protocol
 {
     public String readLine(Reader in) throws IOException
     {
-        StringBuffer input = new StringBuffer();
+        StringBuilder input = new StringBuilder();
 
         int readChar;
         while ((readChar = in.read()) != -1 && readChar != getEOL() && readChar != 0x0A && readChar != 0x0D)
