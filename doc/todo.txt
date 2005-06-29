@@ -18,6 +18,7 @@ Gameplay
 - bonus points depending on the skill of the players (i.e intensity level on tnet.org with 5+ players and at least 4 players in the top 100)
 - bonus points when the same player wins several games in a row
 - immunity mode: a tetris grants a 10 seconds immunity against any special (detrimental and beneficial)
+- check the end of the game when a player leaves the channel
 
 Commands
 - /mute <nick>
