@@ -1058,10 +1058,8 @@ public class Channel extends Thread implements Destination
 
         int nbTeamsLeft = 0;
 
-        for (int i = 0; i < slots.size(); i++)
+        for (Client client : slots)
         {
-            Client client = slots.get(i);
-
             if (client != null && client.getUser().isPlaying())
             {
                 String team = client.getUser().getTeam();
