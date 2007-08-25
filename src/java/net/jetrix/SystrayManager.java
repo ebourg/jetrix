@@ -19,20 +19,22 @@
 
 package net.jetrix;
 
-import net.jetrix.config.ServerConfig;
-import net.jetrix.listeners.HttpListener;
-import org.jdesktop.jdic.tray.SystemTray;
-import org.jdesktop.jdic.tray.TrayIcon;
-
-import javax.swing.*;
-import javax.swing.event.PopupMenuListener;
-import javax.swing.event.PopupMenuEvent;
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+
+import net.jetrix.config.ServerConfig;
+import net.jetrix.listeners.HttpListener;
 
 /**
  * Manages the system trayIcon (windows only).
@@ -54,11 +56,11 @@ public class SystrayManager
     {
         if (trayIcon == null)
         {
-            SystemTray tray = null;
+            SystemTray tray;
 
             try
             {
-                tray = SystemTray.getDefaultSystemTray();
+                tray = SystemTray.getSystemTray();
             }
             catch (Throwable t)
             {
@@ -66,23 +68,12 @@ public class SystrayManager
                 return;
             }
 
-            // adjust the look & feel
-            System.setProperty("javax.swing.adjustPopupLocationToFit", "false");
-
-            try
-            {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            }
-            catch (Exception e)
-            {
-                log.log(Level.WARNING, e.getMessage(), e);
-            }
 
             // build the menu items
-            JMenuItem itemAdmin = new JMenuItem("Administration");
-            Font font = itemAdmin.getFont();
-            itemAdmin.setFont(new Font(font.getName(), Font.BOLD, font.getSize()));
+            Font font = new Font(Font.DIALOG, Font.PLAIN, 11);
 
+            MenuItem itemAdmin = new MenuItem("Administration");
+            itemAdmin.setFont(font.deriveFont(Font.BOLD));
             itemAdmin.addActionListener(new ActionListener()
             {
                 public void actionPerformed(ActionEvent e)
@@ -91,13 +82,13 @@ public class SystrayManager
                 }
             });
 
-            JMenuItem itemLink = new JMenuItem("Jetrix Website");
+            MenuItem itemLink = new MenuItem("Jetrix Website");
             itemLink.addActionListener(new OpenURLActionListener("http://jetrix.sourceforge.net"));
 
-            JMenuItem itemSupport = new JMenuItem("Technical Support");
+            MenuItem itemSupport = new MenuItem("Technical Support");
             itemSupport.addActionListener(new OpenURLActionListener("http://sourceforge.net/forum/forum.php?forum_id=172941"));
 
-            JMenuItem itemExit = new JMenuItem("Stop & Exit");
+            MenuItem itemExit = new MenuItem("Stop & Exit");
             itemExit.addActionListener(new ActionListener()
             {
                 public void actionPerformed(ActionEvent e)
@@ -107,36 +98,20 @@ public class SystrayManager
             });
 
             // build the menu
-            final JPopupMenu menu = new JPopupMenu();
+            final PopupMenu menu = new PopupMenu();
             menu.add(itemAdmin);
             menu.add(itemLink);
             menu.add(itemSupport);
             menu.addSeparator();
             menu.add(itemExit);
-
-            menu.addPopupMenuListener(new PopupMenuListener()
-            {
-                public void popupMenuWillBecomeVisible(PopupMenuEvent e)
-                {
-                    // un arm the items
-                    MenuElement[] elements = menu.getSubElements();
-                    for (MenuElement element : elements)
-                    {
-                        JMenuItem item = (JMenuItem) element;
-                        item.setArmed(false);
-                    }
-                }
-
-                public void popupMenuWillBecomeInvisible(PopupMenuEvent e) { }
-
-                public void popupMenuCanceled(PopupMenuEvent e) { }
-            });
+            
+            menu.setFont(font);
 
             // build the trayIcon icon
-            ImageIcon icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("jetrix-16x16.png"));
+            Image icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("jetrix-16x16.png")).getImage();
 
             trayIcon = new TrayIcon(icon, TITLE, menu);
-            trayIcon.setIconAutoSize(true);
+            trayIcon.setImageAutoSize(true);
             trayIcon.addActionListener(new ActionListener()
             {
                 private long timestamp;
@@ -154,7 +129,11 @@ public class SystrayManager
             });
 
             // display the trayIcon icon
-            tray.addTrayIcon(trayIcon);
+            try {
+                tray.add(trayIcon);
+            } catch (AWTException e) {
+                log.log(Level.WARNING, "Unable to display the tray", e);
+            }
         }
     }
 
@@ -165,7 +144,7 @@ public class SystrayManager
     {
         if (trayIcon != null)
         {
-            SystemTray.getDefaultSystemTray().removeTrayIcon(trayIcon);
+            SystemTray.getSystemTray().remove(trayIcon);
             trayIcon = null;
         }
     }
@@ -174,10 +153,10 @@ public class SystrayManager
      * Display a baloon message on the trayIcon icon.
      *
      * @param message the message to display
-     * @param type    the type of the message (0: info, 1: error, 2: warning, 3: none)
+     * @param type    the type of the message
      * @since 0.3
      */
-    public static void notify(String message, int type)
+    public static void notify(String message, TrayIcon.MessageType type)
     {
         if (trayIcon != null)
         {

@@ -155,8 +155,6 @@
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="servlet-light"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jasper-runtime"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jcrontab-1.4.1-light"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jdic-tray-0.9"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jdic-tray-win-0.9"/></antcall>
   </target>
 
   <target name="pack.lib" description="Pack the library specified by the ${library} property">
@@ -207,8 +205,6 @@
         <include name="servlet-light*.pack"/>
         <include name="jasper-runtime*.pack"/>
         <include name="jcrontab*.pack"/>
-        <include name="jdic*.pack" />
-        <include name="tray.dll" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war.pack" />
@@ -248,8 +244,6 @@
         <include name="servlet-light*.pack"/>
         <include name="jasper-runtime*.pack"/>
         <include name="jcrontab*.pack"/>
-        <include name="jdic*.pack" />
-        <exclude name="jdic-tray-win*.pack" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war.pack" />

@@ -12,6 +12,7 @@ Player visible changes
 - The number of players and spectators currently online is now displayed on logging in
 
 Admin visible changes
+- Jetrix now requires Java 6
 - Fixed a bug preventing the modification of the access level of a command when the "access-level" attribute was set on the <command> element
 - Added a visibility parameter on channels, it's now possible to have an invisible channel on the /list result
 - Channels can now be created from the administration console
@@ -20,6 +21,7 @@ Admin visible changes
 Developer visible changes
 - added a readLine(Reader) method in the Protocol interface
 - Renamed Client.receiveMessage() into Client.receive()
+- removed the dependency on JDIC
 
 
 Changes in version 0.2.1 (2005-02-18)

@@ -160,16 +160,6 @@
       <version>1.4.1</version>
     </dependency>
 
-    <dependency>
-      <id>jdic-tray</id>
-      <version>0.9</version>
-    </dependency>
-
-    <dependency>
-      <id>jdic-tray-win</id>
-      <version>0.9</version>
-    </dependency>
-
     <!-- Needed for testing -->
     <dependency>
       <id>junit</id>
