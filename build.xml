@@ -183,6 +183,7 @@
         <include name="README" />
         <include name="server.xml" />
         <include name="channels.xml" />
+        <include name="data/**" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/" dir="${build}/bin/">
         <include name="jetrix.bat" />
@@ -222,6 +223,7 @@
         <include name="README" />
         <include name="server.xml" />
         <include name="channels.xml" />
+        <include name="data/**" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/" dir="${build}/bin/">
         <include name="jetrix.bat" />
@@ -325,7 +327,6 @@
   <target name="run" depends="deploy">
     <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-launcher-${version}.jar" fork="true">
       <sysproperty key="jetrix.debug" value="true"/>
-      <sysproperty key="java.library.path" value="lib"/>
     </java>
   </target>
 

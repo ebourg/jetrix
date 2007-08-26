@@ -2,7 +2,7 @@
 
 SETLOCAL
 
-IF NOT JAVA_HOME == "" SET JAVA_EXE=%JAVA_HOME%\bin\java
+IF NOT JAVA_HOME == "" SET JAVA_EXE="%JAVA_HOME%\bin\java"
 IF JAVA_HOME == "" SET JAVA_EXE=java
 
 %JAVA_EXE% -Djava.library.path=lib -jar lib/jetrix-launcher-@version@.jar
