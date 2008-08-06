@@ -19,7 +19,6 @@
 
 package net.jetrix.commands;
 
-import java.util.*;
 import net.jetrix.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
@@ -43,7 +42,7 @@ public class VersionCommand extends AbstractCommand
 
         String version1 = "<darkBlue><b>Jetrix/" + ServerConfig.VERSION + " (build:@build.time@)";
         String version2 = "<purple>VM<darkBlue>: " + System.getProperty("java.vm.name") 
-                          + " " + System.getProperty("java.vm.version") 
+                          + " " + System.getProperty("java.version") 
                           + " " + System.getProperty("java.vm.info");
         String version3 = "<purple>OS<darkBlue>: " + System.getProperty("os.name") 
                           + " " + System.getProperty("os.version") 
