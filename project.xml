@@ -32,8 +32,9 @@
   <siteDirectory>/home/groups/j/je/jetrix/htdocs/docs/</siteDirectory>
 
   <repository>
-    <connection>scm:cvs:pserver:anonymous@cvs1.sourceforge.net:/cvsroot/jetrix:jetrix</connection>
-    <url>http://cvs.sourceforge.net/viewcvs.py/jetrix/jetrix/</url>
+    <connection>scm:svn:https://jetrix.svn.sourceforge.net/svnroot/jetrix/jetrix/trunk/</connection>
+    <developerConnection>scm:svn:https://jetrix.svn.sourceforge.net/svnroot/jetrix/jetrix/trunk/</developerConnection>
+    <url>http://jetrix.svn.sourceforge.net/viewvc/jetrix/</url>
   </repository>
 
   <versions>
@@ -61,7 +62,7 @@
 
   <mailingLists>
     <mailingList>
-      <name>Jetrix CVS List</name>
+      <name>Jetrix Commits</name>
       <subscribe>http://lists.sourceforge.net/lists/listinfo/jetrix-cvs</subscribe>
       <unsubscribe>http://lists.sourceforge.net/lists/listinfo/jetrix-cvs</unsubscribe>
       <archive>https://sourceforge.net/mailarchive/forum.php?forum_id=12998</archive>
@@ -147,7 +148,7 @@
 
     <dependency>
       <id>commons-beanutils</id>
-      <version>1.7-dev</version>
+      <version>1.7.0</version>
     </dependency>
 
     <dependency>
@@ -213,7 +214,7 @@
     <report>maven-javadoc-plugin</report>
     <!--<report>maven-jxr-plugin</report>-->
     <report>maven-junit-report-plugin</report>
-    <report>maven-clover-plugin</report>
+    <!--<report>maven-clover-plugin</report>-->
     <!--<report>maven-checkstyle-plugin</report>-->
     <report>maven-pmd-plugin</report>
     <report>maven-simian-plugin</report>
