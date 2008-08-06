@@ -12,7 +12,7 @@
         <h1>Download</h1>
         <ul>
           <li><a href="http://sourceforge.net/project/showfiles.php?group_id=52188">Binaries</a></li>
-          <li><a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/jetrix/">Source Code</a></li>
+          <li><a href="http://jetrix.svn.sourceforge.net/viewvc/jetrix/">Source Code</a></li>
           <li><a href="http://tetrinet.fr/jetrix/nightly/jetrix-@version@.tar.bz2">Nightly Build</a></li>
         </ul>
 
@@ -26,12 +26,12 @@
 
         <h1>Project</h1>
         <ul>
-          <li><a href="http://sourceforge.net/cvs/?group_id=52188">CVS Repository</a></li>
+          <li><a href="http://sourceforge.net/svn/?group_id=52188">SVN Repository</a></li>
           <li><a href="http://sourceforge.net/forum/forum.php?forum_id=172941">Forum</a></li>
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466002">Bugs</a></li>
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466005">Feature Requests</a></li>
           <li><a href="changelog.php">Changelog</a></li>
-          <li><a href="docs/statcvs/commit_log.html">CVS Commits</a></li>
+          <li><a href="docs/statcvs/commit_log.html">Commits</a></li>
           <li><a href="docs/team-list.html">Contributors</a></li>
         </ul>
       </div>
