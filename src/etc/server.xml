@@ -105,7 +105,7 @@
   </ban>
 
   <!-- Database connection parameters -->
-  <data-source>
+  <datasource>
     <!-- The class of the JDBC driver used -->
     <driver>com.mysql.jdbc.Driver</driver>
 
@@ -117,6 +117,6 @@
 
     <!-- The password of the user -->
     <password>jetrixpass</password>
-  </data-source>
+  </datasource>
 
 </tetrinet-server>

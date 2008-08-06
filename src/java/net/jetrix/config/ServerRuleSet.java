@@ -74,10 +74,10 @@ public class ServerRuleSet extends RuleSetBase
         digester.addCallMethod("tetrinet-server/ban/host", "addBannedHost", 0);
 
         // datasource
-        digester.addCallMethod("*/data-source/driver", "setDataSourceDriver", 0);
-        digester.addCallMethod("*/data-source/url", "setDataSourceURL", 0);
-        digester.addCallMethod("*/data-source/username", "setDataSourceUsername", 0);
-        digester.addCallMethod("*/data-source/password", "setDataSourcePassword", 0);
+        digester.addCallMethod("*/datasource/driver", "setDataSourceDriver", 0);
+        digester.addCallMethod("*/datasource/url", "setDataSourceURL", 0);
+        digester.addCallMethod("*/datasource/username", "setDataSourceUsername", 0);
+        digester.addCallMethod("*/datasource/password", "setDataSourcePassword", 0);
     }
 
 }

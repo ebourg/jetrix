@@ -286,7 +286,7 @@ public class ServerConfig
         out.println();
         out.println("    <!-- The password of the user -->");
         out.println("    <password>" + dataSourcePassword + "</password>");
-        out.println("  <datasource>");
+        out.println("  </datasource>");
         out.println();
         out.println("</tetrinet-server>");
 
