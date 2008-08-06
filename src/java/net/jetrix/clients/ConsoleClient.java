@@ -36,7 +36,7 @@ import net.jetrix.config.*;
  */
 public class ConsoleClient implements Client
 {
-    private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    private Console console = System.console();
     private ServerConfig conf;
     private Protocol protocol;
     private User user;
@@ -62,6 +62,12 @@ public class ConsoleClient implements Client
 
     public void run()
     {
+        if (console == null)
+        {
+            log.info("Console interface unavailable");
+            return;
+        }
+
         while (conf.isRunning() && !closed)
         {
             try
@@ -88,19 +94,25 @@ public class ConsoleClient implements Client
     public void send(Message message)
     {
         String msg = protocol.translate(message, user.getLocale());
-        if (msg != null) System.out.println(msg);
+        if (msg != null)
+        {
+            console.writer().println(msg);
+        }
     }
 
     public Message receive() throws IOException
     {
-        String line = in.readLine();
+        String line = console.readLine();
         if (line == null)
         {
             closed = true;
         }
 
         Message message = protocol.getMessage(line);
-        if (message != null) message.setSource(this);
+        if (message != null)
+        {
+            message.setSource(this);
+        }
 
         return message;
     }
@@ -125,7 +137,8 @@ public class ConsoleClient implements Client
         return false;
     }
 
-    public boolean supportsAutoJoin() {
+    public boolean supportsAutoJoin()
+    {
         return true;
     }
 
