@@ -261,7 +261,23 @@
 
   </target>
 
-  <target name="dist.win" depends="deploy" description="Build the windows installer">
+  <target name="dist.linux" depends="dist" description="Build the Linux installer">
+    <mkdir dir="${build}/control"/>
+    <copy todir="${build}/control" filtering="true" >
+      <fileset dir="${src}/etc/control"/>
+    </copy>
+    
+    <taskdef name="deb" classname="org.vafer.jdeb.ant.DebAntTask" classpath="lib/jdeb-0.7-SNAPSHOT.jar"/>
+
+    <deb destfile="${dist}/bin/jetrix-${version}.deb" control="${build}/control" compression="bzip2">
+      <data src="${dist}/bin/jetrix-${version}.tar.bz2">
+        <mapper type="prefix" strip="1" prefix="/usr/share/jetrix"/>
+        <exclude name="*.bat"/>
+      </data>
+    </deb>
+  </target>
+
+  <target name="dist.win" depends="deploy" description="Build the Windows installer">
 
     <!-- Build the windows executable file jetrix.exe -->
     <mkdir dir="${build}/bin"/>
@@ -316,7 +332,7 @@
 
   </target>
 
-  <target name="dist.all" depends="clean, dist, dist.src, dist.win" description="Build all distributed files"/>
+  <target name="dist.all" depends="clean, dist, dist.src, dist.win, dist.linux" description="Build all distributed files"/>
 
   <target name="deploy" depends="dist">
     <delete dir="${deploy}"/>

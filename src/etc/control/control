@@ -1,0 +1,9 @@
+Package: jetrix
+Version: @version@
+Section: games
+Priority: optional
+Architecture: all
+Depends: sun-java6-jre
+Maintainer: Emmanuel Bourg <smanux@lfjr.net>
+Homepage: http://jetrix.sourceforge.net
+Description: Jetrix TetriNET Server
