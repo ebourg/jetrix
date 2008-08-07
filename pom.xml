@@ -197,21 +197,21 @@
       </plugin>
       <plugin>
         <artifactId>maven-install-plugin</artifactId>
-        <configuration>
-          <file>lib/jcrontab-1.4.1-light.jar</file>
-          <groupId>jcrontab</groupId>
-          <artifactId>jcrontab</artifactId>
-          <version>1.4.1</version>
-          <packaging>jar</packaging>
-          <generatePom>true</generatePom>
-          <createChecksum>true</createChecksum>
-        </configuration>
         <executions>
           <execution>
             <phase>validate</phase>
             <goals>
               <goal>install-file</goal>
             </goals>
+            <configuration>
+              <file>lib/jcrontab-1.4.1-light.jar</file>
+              <groupId>jcrontab</groupId>
+              <artifactId>jcrontab</artifactId>
+              <version>1.4.1</version>
+              <packaging>jar</packaging>
+              <generatePom>true</generatePom>
+              <createChecksum>true</createChecksum>
+            </configuration>
           </execution>
         </executions>
       </plugin>
