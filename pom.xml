@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>jetrix</groupId>
+  <artifactId>jetrix</artifactId>
+  <name>Jetrix TetriNET Server</name>
+  <version>0.3-SNAPSHOT</version>
+
+  <inceptionYear>2001</inceptionYear>
+
+  <description>
+    Jetrix is a new generation TetriNET server written in Java and
+    designed for maximum scalability, extensibility and ease of use.
+    It features a web based administration console and a simple API
+    to let developpers add custom commands or change the channels'
+    behavior with little knowledge of the server's inner functioning.
+    The ambitious goal of this project is to create the ideal plateform
+    for server side TetriNET programmers. Jetrix is open source and
+    developped under the GNU General Public License.
+  </description>
+  <url>http://jetrix.sourceforge.net</url>
+
+  <licenses>
+    <license>
+      <name>GNU General Public License v2</name>
+      <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+      <distribution>manual</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:svn:https://jetrix.svn.sourceforge.net/svnroot/jetrix/jetrix/trunk/</connection>
+    <developerConnection>scm:svn:https://jetrix.svn.sourceforge.net/svnroot/jetrix/jetrix/trunk/</developerConnection>
+    <url>http://jetrix.svn.sourceforge.net/viewvc/jetrix/jetrix/trunk</url>
+  </scm>
+
+  <mailingLists>
+    <mailingList>
+      <name>Jetrix Commits</name>
+      <subscribe>http://lists.sourceforge.net/lists/listinfo/jetrix-cvs</subscribe>
+      <unsubscribe>http://lists.sourceforge.net/lists/listinfo/jetrix-cvs</unsubscribe>
+      <archive>https://sourceforge.net/mailarchive/forum.php?forum_id=12998</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <id>smanux</id>
+      <name>Emmanuel Bourg</name>
+      <email>ebourg@apache.org</email>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+
+  <contributors>
+    <contributor>
+      <name>Tim Van Wassenhove</name>
+      <roles>
+        <role>Dutch translator</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <name>Mario Meuser</name>
+      <roles>
+        <role>German translator</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <name>Julian Mesa Llopis</name>
+      <roles>
+        <role>Spanish translator</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <name>Bryan Reynaert</name>
+      <roles>
+        <role>Spanish translator</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <name>Claudio Gargiulo</name>
+      <roles>
+        <role>Italian translator</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <name>Vítor Melo</name>
+      <roles>
+        <role>Portuguese translator</role>
+      </roles>
+    </contributor>
+  </contributors>
+
+  <dependencies>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>1.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>jetty</groupId>
+      <artifactId>jetty</artifactId>
+      <version>4.1-rc1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>jcrontab</groupId>
+      <artifactId>jcrontab</artifactId>
+      <version>1.4.1</version>
+    </dependency>
+
+    <!-- Needed for testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.2</version>
+      <scope>tests</scope>
+    </dependency>
+  </dependencies>  
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <testSourceDirectory>src/test</testSourceDirectory>
+
+    <testResources>
+      <testResource>
+        <directory>src/etc</directory>
+        <targetPath>/</targetPath>
+        <includes>
+          <include>*.xml</include>
+          <include>*.dtd</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <directory>src/lang</directory>
+        <targetPath>/</targetPath>
+        <includes>
+          <include>*.properties</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <directory>src/etc/data/puzzle</directory>
+        <targetPath>/data/puzzle</targetPath>
+        <includes>
+          <include>*.field</include>
+          <include>*.settings</include>
+        </includes>
+      </testResource>
+    </testResources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/Abstract*</exclude>
+          </excludes>
+          <testFailureIgnore>true</testFailureIgnore>
+          <skip>false</skip>
+          <workingDirectory>target/test-classes</workingDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <configuration>
+          <file>lib/jcrontab-1.4.1-light.jar</file>
+          <groupId>jcrontab</groupId>
+          <artifactId>jcrontab</artifactId>
+          <version>1.4.1</version>
+          <packaging>jar</packaging>
+          <generatePom>true</generatePom>
+          <createChecksum>true</createChecksum>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <linksource>true</linksource>
+          <links>
+            <link>http://java.sun.com/javase/6/docs/api</link>
+            <link>http://commons.apache.org/digester/apidocs</link>
+            <link>http://commons.apache.org/collections/apidocs</link>
+            <link>http://commons.apache.org/lang/apidocs</link>
+            <link>http://jetty.mortbay.org/javadoc</link>
+          </links>
+          <quiet>true</quiet>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <targetJdk>1.5</targetJdk>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>project-team</report>
+              <report>dependencies</report>
+              <report>license</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jxr-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.0</version>
+        <configuration>
+          <tags>
+            <tag>todo</tag>
+          </tags>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changelog-plugin</artifactId>
+        <configuration>
+          <range>365</range>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>changelog</report>
+              <report>file-activity</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>
