@@ -215,13 +215,13 @@ public class QueryAgent implements Agent
     }
 
     /**
-     * Return the ping time to the server in milliseconds.
+     * Return the round trip time to the server in milliseconds.
      */
-    public long getPing() throws IOException
+    public int getPing() throws IOException
     {
         long time = System.currentTimeMillis();
         getVersion();
-        return (System.currentTimeMillis() - time) / 2;
+        return (int) (System.currentTimeMillis() - time);
     }
 
 }
