@@ -26,7 +26,7 @@ import java.util.concurrent.*;
 import java.util.logging.*;
 
 import net.jetrix.*;
-import net.jetrix.protocols.TetrinetProtocol;
+import net.jetrix.protocols.AbstractProtocol;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
@@ -249,7 +249,7 @@ public class TetrinetClient implements Client
     public Message receive() throws IOException
     {
         // read raw message from socket
-        String line = ((TetrinetProtocol) protocol).readLine(in);
+        String line = ((AbstractProtocol) protocol).readLine(in);
         lastMessageTime = System.currentTimeMillis();
         if (log.isLoggable(Level.FINER))
         {

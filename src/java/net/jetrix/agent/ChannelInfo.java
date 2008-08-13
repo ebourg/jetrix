@@ -76,6 +76,11 @@ public class ChannelInfo
         this.status = status;
     }
 
+    public boolean isPlaying()
+    {
+        return status > 1;
+    }
+
     public int getPlayernum()
     {
         return playernum;

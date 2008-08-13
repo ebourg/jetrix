@@ -75,10 +75,11 @@ public class QueryInfo
      */
     public List getPlayers(String channel)
     {
+        // todo
         return players;
     }
 
-    public List getChannels()
+    public List<ChannelInfo> getChannels()
     {
         return channels;
     }

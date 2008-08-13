@@ -132,7 +132,7 @@ public class QueryClient extends TetrinetClient
                         message.append(" ");
                         message.append(config.getMaxPlayers());
                         message.append(" 0 ");
-                        message.append(channel.getGameState().getValue() + 1);
+                        message.append(channel.getGameState().getValue());
                         message.append(QueryProtocol.EOL);
                     }
                 }

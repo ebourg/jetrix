@@ -87,6 +87,11 @@ public class PlayerInfo
         this.status = status;
     }
 
+    public boolean isPlaying()
+    {
+        return status > 0;
+    }
+
     public int getAuthenticationLevel()
     {
         return authenticationLevel;
