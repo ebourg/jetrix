@@ -43,7 +43,7 @@
 
   <target name="compile" depends="prepare">
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${build}/java" destdir="${build}/classes" debug="${compile.debug}" optimize="${compile.optimize}">
+    <javac srcdir="${build}/java" destdir="${build}/classes" debug="${compile.debug}" optimize="${compile.optimize}" source="1.5" target="1.5">
       <classpath>
         <path refid="classpath.main"/>
       </classpath>
@@ -59,7 +59,7 @@
 
   <target name="compile.servlet" depends="compile" description="Compile the Servlets">
     <mkdir dir="${build}/jsp"/>
-    <javac destdir="${build}/jsp" debug="yes">
+    <javac destdir="${build}/jsp" debug="yes" source="1.5" target="1.5">
       <classpath>
         <pathelement path="${build}/classes/"/>
         <path refid="classpath.main"/>
@@ -76,7 +76,7 @@
         <pathelement location="${ant.home}/lib/ant.jar"/>
       </classpath>
     </jspc>
-    <javac destdir="${build}/jsp" debug="yes">
+    <javac destdir="${build}/jsp" debug="yes" source="1.5" target="1.5">
       <classpath>
         <pathelement path="${build}/classes/"/>
         <path refid="classpath.main"/>
