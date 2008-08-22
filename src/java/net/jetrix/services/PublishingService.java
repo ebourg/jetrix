@@ -60,7 +60,7 @@ public class PublishingService extends ScheduledService
     public PublishingService()
     {
         setDelay(1000);
-        setPeriod(24 * 3600 * 1000);
+        setPeriod(24 * 3600 * 1000); // 24 hours
     }
 
     public void setHost(String host)
@@ -91,24 +91,10 @@ public class PublishingService extends ScheduledService
 
         log.info("Publishing server address to online directories... (" + host + ")");
 
-        // publishing to tetrinet.org
+        // publishing to servers.tetrinet.fr
         try
         {
-            String url = "http://slummy.tetrinet.org/grav/slummy_addsvr.pl";
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("qname", host);
-            params.put("submit_bt", "Add Server");
-            post(url, params);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        // publishing to tsrv.com
-        try
-        {
-            String url = "http://dieterdhoker.mine.nu:8280/cgi-bin/TSRV/submitserver.pl";
+            String url = "http://servers.tetrinet.fr/server-add.jsp";
             Map<String, String> params = new HashMap<String, String>();
             params.put("hostname", host);
             params.put("description", Server.getInstance().getConfig().getName());
@@ -116,7 +102,7 @@ public class PublishingService extends ScheduledService
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            log.log(Level.WARNING, "Unable to publish the server on http://servers.tetrinet.fr", e);
         }
     }
 
@@ -168,7 +154,7 @@ public class PublishingService extends ScheduledService
             // send the request
             conn.connect();
 
-            if (log.isLoggable(Level.FINE))
+            if (log.isLoggable(Level.FINE) && conn.getResponseCode() >= 400)
             {
                 log.fine("Response: " + conn.getResponseCode() + " - " + conn.getResponseMessage());
 
@@ -182,7 +168,6 @@ public class PublishingService extends ScheduledService
 
                 in.close();
             }
-
         }
         finally
         {
