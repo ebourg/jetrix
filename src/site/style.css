@@ -37,3 +37,8 @@ div.hr { width: 100%; border-top: 1px solid gray }
 
 .newsdate { font-size: 9pt; font-style: italic; }
 .newstext { margin-top: 1em; }
+
+/* Features */
+.done    { list-style-image: url("images/done.png") }
+.planned { list-style-image: url("images/planned.png") }
+.partial { list-style-image: url("images/partial.png") }

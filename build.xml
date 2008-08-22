@@ -360,6 +360,63 @@
       <fileset dir="${deploy}/jetrix-${version}"/>
     </ftp>
   </target>
+  
+  <target name="site" description="Generate and publish the web site to SourceForge">
+    <!-- Create the site distribution directory -->
+    <mkdir dir="${dist}/site/docs"/>
+
+    <!-- Build the project reports -->
+    <property environment="env"/>
+    <exec executable="${env.MAVEN2_HOME}/bin/mvn.bat">
+      <arg line="site"/>
+    </exec>
+
+    <!-- Copy the project reports -->
+    <copy todir="${dist}/site/docs">
+      <fileset dir="target/site"/>
+    </copy>
+
+    <!-- Copy the site -->
+    <property file="project.properties"/>
+    <filter token="version.stable" value="${version.stable}"/>
+    <filter token="version" value="${version}"/>
+    <copy todir="${dist}/site" filtering="true" overwrite="true">
+      <fileset dir="src/site">
+        <exclude name="**/*.png"/>
+        <exclude name="**/*.ico"/>
+      </fileset>
+    </copy>
+    <copy todir="${dist}/site" overwrite="true">
+      <fileset dir="src/site">
+        <include name="**/*.png"/>
+        <include name="**/*.ico"/>
+      </fileset>
+    </copy>
+
+    <!-- Update the news from the RSS feed -->
+    <get src="http://sourceforge.net/export/rss2_projnews.php?group_id=52188&amp;rss_fulltext=1"
+         dest="${dist}/site/jetrix-rss.xml"/>
+    <xslt in="${dist}/site/jetrix-rss.xml" out="${dist}/site//news.html" style="src/site/jetrix-rss.xsl"/>
+    <replace file="${dist}/site/news.html">
+      <replacefilter token="&amp;gt;" value="&gt;"/>
+      <replacefilter token="&amp;lt;" value="&lt;"/>
+      <replacefilter token="&lt;br&gt;" value="&lt;br /&gt;"/>
+    </replace>
+    <replaceregexp file="${dist}/site/news.html" byline="true">
+      <regexp pattern="\(&lt;a href=.*comments&lt;/a&gt;\)"/>
+      <substitution expression=" "/>
+    </replaceregexp>
+
+    <tar destfile="${dist}/site.tar.bz2" compression="bzip2">
+      <tarfileset dir="${dist}/site"/>
+    </tar>
+
+    <input addproperty="password" message="Password:"/>
+
+    <scp file="${dist}/site.tar.bz2" todir="smanux:${password}@shell.sf.net:/home/users/s/sm/smanux" trust="true"/>
+
+    <sshexec host="shell.sf.net" username="smanux" password="${password}" trust="true" command="tar -jxf site.tar.bz2 --directory=/home/groups/j/je/jetrix/htdocs "/>
+  </target>
 
   <target name="clean">
     <!-- Delete the ${build} directory tree -->

@@ -7,7 +7,7 @@ Changes in version 0.2.2 (2005-04-07)
 -------------------------------------
 
 - Fixed a bug preventing the clients from connecting to a server with a default charset different from ISO-8859-1
-- The configuration is no longer broken by a "&" char in the description of a channel
+- The configuration is no longer broken by a "&amp;" char in the description of a channel
 
 Changes in version 0.2.1 (2005-02-18)
 -------------------------------------

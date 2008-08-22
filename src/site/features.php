@@ -1,11 +1,5 @@
 <? include("header.inc.php") ?>
 
-<style type="text/css">
-.done    { list-style-image: url("images/done.png") }
-.planned { list-style-image: url("images/planned.png") }
-.partial { list-style-image: url("images/partial.png") }
-</style>
-
 <h1>Features</h1>
 
 <b>Legend:</b>
@@ -42,7 +36,7 @@
   <li class="done"> TetriFast clients</li>
   <li class="done"> Block synchronization protocol (1.14)</li>
   <li class="done"> TSpec clients</li>
-  <li class="planned"> Flash clients</li>
+  <!--<li class="planned"> Flash clients</li>-->
   <li class="done"> Query protocol</li>
   <li class="partial"> IRC clients</li>
 </ul>

@@ -21,7 +21,7 @@
           <li><a href="user-guide.php">User Guide</a></li>
           <li><a href="dev-guide.php">Developper Guide</a></li>
           <li><a href="javadoc.php">Javadoc</a></li>
-          <li><a href="docs/maven-reports.html">Project Reports</a></li>
+          <li><a href="docs/project-reports.html">Project Reports</a></li>
         </ul>
 
         <h1>Project</h1>
@@ -31,7 +31,7 @@
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466002">Bugs</a></li>
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466005">Feature Requests</a></li>
           <li><a href="changelog.php">Changelog</a></li>
-          <li><a href="docs/statcvs/commit_log.html">Commits</a></li>
+          <li><a href="docs/changelog.html">Commits</a></li>
           <li><a href="docs/team-list.html">Contributors</a></li>
         </ul>
       </div>
