@@ -3,11 +3,19 @@
 <h1>Changelog</h1>
 
 <pre>
+Changes in version 0.2.3 (2008-08-23)
+-------------------------------------
+
+- Fixed a bug in the mode 4 (25% pure) of the #custom channel that was causing a crash of the classic tnet 1.13 client
+- The address of the server is now published to http://servers.tetrinet.fr instead of tsrv.com, tetrinet.org and tfast.org
+
+
 Changes in version 0.2.2 (2005-04-07)
 -------------------------------------
 
 - Fixed a bug preventing the clients from connecting to a server with a default charset different from ISO-8859-1
 - The configuration is no longer broken by a "&amp;" char in the description of a channel
+
 
 Changes in version 0.2.1 (2005-02-18)
 -------------------------------------
@@ -17,6 +25,7 @@ Changes in version 0.2.1 (2005-02-18)
   a space character
 - Running Jetrix with jetrix.exe no longer saturate the CPU
 - Fixed a bug preventing the execution of several query commands with the same connection
+
 
 Changes in version 0.2 (2005-01-18)
 -----------------------------------
