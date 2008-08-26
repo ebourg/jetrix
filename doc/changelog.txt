@@ -34,6 +34,12 @@ TODO
 - partial name matching for /goto
 - cheat control: count the specials seen in the field and check the specials sent
 
+Changes in version 0.2.3 (2008-08-22)
+-------------------------------------
+
+- Fixed a bug in the mode 4 (25% pure) of the #custom channel that was causing a crash of the classic tnet 1.13 client
+- The address of the server is now published to http://servers.tetrinet.fr instead of tsrv.com, tetrinet.org and tfast.org
+
 
 Changes in version 0.2.2 (2005-04-07)
 -------------------------------------
