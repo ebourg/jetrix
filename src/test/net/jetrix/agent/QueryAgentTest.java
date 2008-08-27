@@ -19,13 +19,9 @@
 
 package net.jetrix.agent;
 
-import junit.framework.TestCase;
-
 import java.util.List;
 
-import net.jetrix.agent.ChannelInfo;
-import net.jetrix.agent.PlayerInfo;
-import net.jetrix.agent.QueryAgent;
+import junit.framework.TestCase;
 
 /**
  * @author Emmanuel Bourg

@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2005  Emmanuel Bourg
+ * Copyright (C) 2008  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,23 +20,23 @@
 package net.jetrix.agent;
 
 import junit.framework.TestCase;
+
 import net.jetrix.messages.PlineMessage;
+import net.jetrix.messages.TeamMessage;
 
 /**
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class TSpecAgentTest extends TestCase
+public class TetrinetAgentTest extends TestCase
 {
     public void testConnect() throws Exception
     {
-        TSpecAgent agent = new TSpecAgent("JetrixSpec", "rien");
+        TetrinetAgent agent = new TetrinetAgent("JetrixBot");
         agent.connect("tetrinet.fr");
 
-        agent.send(new PlineMessage("// Hi!"));
-        agent.send(new PlineMessage("Hello there!"));
-
-        Thread.sleep(1000);
+        agent.send(new TeamMessage());
+        agent.send(new PlineMessage("Hi there!"));
 
         agent.disconnect();
     }

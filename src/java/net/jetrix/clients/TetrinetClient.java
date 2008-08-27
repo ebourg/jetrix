@@ -26,7 +26,6 @@ import java.util.concurrent.*;
 import java.util.logging.*;
 
 import net.jetrix.*;
-import net.jetrix.protocols.AbstractProtocol;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
 
@@ -131,6 +130,8 @@ public class TetrinetClient implements Client
 
                 // discard unknown messages
                 if (message == null) continue;
+
+                // todo check the slot on channel messages
 
                 if (message.getDestination() != null)
                 {
@@ -249,7 +250,7 @@ public class TetrinetClient implements Client
     public Message receive() throws IOException
     {
         // read raw message from socket
-        String line = ((AbstractProtocol) protocol).readLine(in);
+        String line = protocol.readLine(in);
         lastMessageTime = System.currentTimeMillis();
         if (log.isLoggable(Level.FINER))
         {
