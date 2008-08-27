@@ -155,7 +155,7 @@ public class TetrinetProtocolTest extends TestCase
     {
         TeamMessage msg2 = new TeamMessage();
         msg2.setSlot(1);
-        assertEquals("team 1", protocol.translate(msg2, locale));
+        assertEquals("team 1 ", protocol.translate(msg2, locale));
     }
 
     public void testGetMessageTeam1()

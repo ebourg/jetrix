@@ -309,6 +309,12 @@ public class TetrinetProtocol extends AbstractProtocol
             leave.setRawMessage(this, line);
             m = leave;
         }
+        else if ("noconnecting".equals(cmd))
+        {
+            NoConnectingMessage noconnecting = new NoConnectingMessage();
+            noconnecting.setText(line.substring(cmd.length() + 1));
+            m = noconnecting;
+        }
 
         return m;
     }
@@ -412,9 +418,9 @@ public class TetrinetProtocol extends AbstractProtocol
         StringBuilder message = new StringBuilder();
         message.append("team ");
         message.append(m.getSlot());
+        message.append(" ");
         if (m.getName() != null)
         {
-            message.append(" ");
             message.append(m.getName());
         }
         return message.toString();
@@ -827,7 +833,7 @@ public class TetrinetProtocol extends AbstractProtocol
         // check the size of the init string
         if (initString.length() % 2 != 0)
         {
-            throw new IllegalArgumentException("Invalid initialization string, the length is not even");
+            throw new IllegalArgumentException("Invalid initialization string, the length is not even (" + initString + ")");
         }
 
         // parse the hex values from the init string
@@ -842,7 +848,7 @@ public class TetrinetProtocol extends AbstractProtocol
         }
         catch (NumberFormatException e)
         {
-            throw new IllegalArgumentException("Invalid initialization string, illegal characters found", e);
+            throw new IllegalArgumentException("Invalid initialization string, illegal characters found (" + initString + ")", e);
         }
 
         // find the hash pattern for a tetrinet client
@@ -857,7 +863,7 @@ public class TetrinetProtocol extends AbstractProtocol
         // check the size of the pattern found
         if (pattern.length() == 0)
         {
-            throw new IllegalArgumentException("Invalid initialization string, unable to find the pattern");
+            throw new IllegalArgumentException("Invalid initialization string, unable to find the pattern (" + initString + ")");
         }
 
         // decode the string

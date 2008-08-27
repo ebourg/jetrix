@@ -30,6 +30,15 @@ public class TeamMessage extends ChannelMessage
     /** the name of the team */
     private String name;
 
+    public TeamMessage()
+    {
+    }
+
+    public TeamMessage(String name)
+    {
+        this.name = name;
+    }
+
     public String getName()
     {
         return name;
