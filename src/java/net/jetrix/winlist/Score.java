@@ -34,6 +34,17 @@ public class Score
     public static final int TYPE_PLAYER = 0;
     public static final int TYPE_TEAM = 1;
 
+    public Score()
+    {
+    }
+
+    public Score(String name, int type, long score)
+    {
+        this.name = name;
+        this.type = type;
+        this.score = score;
+    }
+
     public String getName()
     {
         return name;

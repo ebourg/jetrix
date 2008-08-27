@@ -37,10 +37,7 @@ public class TetrixWinlistTest extends SimpleWinlistTest
     public void setUp()
     {
         super.setUp();
-        score = new Score();
-        score.setScore(1418);
-        score.setName("hell's_players†");
-        score.setType(Score.TYPE_TEAM);
+        score = new Score("hell's_players†", Score.TYPE_TEAM, 1418);
     }
 
     public void testBuildScore() throws Exception

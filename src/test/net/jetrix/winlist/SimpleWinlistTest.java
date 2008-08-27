@@ -140,15 +140,9 @@ public class SimpleWinlistTest extends TestCase {
         winlist.init(config);
 
         // add two scores to the list
-        Score score1 = new Score();
-        score1.setName("LFJR");
-        score1.setScore(4321);
-        score1.setType(Score.TYPE_TEAM);
+        Score score1 = new Score("LFJR", Score.TYPE_TEAM, 4321);
 
-        Score score2 = new Score();
-        score2.setName("Smanux");
-        score2.setScore(1234);
-        score2.setType(Score.TYPE_PLAYER);
+        Score score2 = new Score("Smanux", Score.TYPE_PLAYER, 1234);
 
         winlist.scores.add(score1);
         winlist.scores.add(score2);
@@ -174,10 +168,7 @@ public class SimpleWinlistTest extends TestCase {
         winlist.init(new WinlistConfig());
 
         // add two scores to the list
-        Score score = new Score();
-        score.setName("LFJR");
-        score.setScore(4321);
-        score.setType(Score.TYPE_TEAM);
+        Score score = new Score("LFJR", Score.TYPE_TEAM, 4321);
 
         winlist.scores.add(score);
 
@@ -193,10 +184,7 @@ public class SimpleWinlistTest extends TestCase {
         SimpleWinlist winlist = getWinlist();
 
         // add two scores to the list
-        Score score = new Score();
-        score.setName("LFJR");
-        score.setScore(4321);
-        score.setType(Score.TYPE_TEAM);
+        Score score = new Score("LFJR", Score.TYPE_TEAM, 4321);
 
         winlist.scores.add(score);
 

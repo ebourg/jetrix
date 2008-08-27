@@ -315,6 +315,28 @@ public class TetrinetProtocol extends AbstractProtocol
             noconnecting.setText(line.substring(cmd.length() + 1));
             m = noconnecting;
         }
+        else if ("winlist".equals(cmd))
+        {
+            WinlistMessage winlist = new WinlistMessage();
+            winlist.setRawMessage(this, line);
+            List<Score> scores = new ArrayList<Score>();
+            String[] tokens = line.split(" ");
+            for (int i = 1; i < tokens.length; i++)
+            {
+                String token = tokens[i];
+                String[] values = token.split(";");
+
+                Score score = new Score();
+                score.setName(values[0].substring(1));
+                score.setType(values[0].charAt(0) == 'p' ? Score.TYPE_PLAYER : Score.TYPE_TEAM);
+                score.setScore(Long.parseLong(values[1]));
+
+                scores.add(score);
+            }
+            winlist.setScores(scores);
+
+            m = winlist;
+        }
 
         return m;
     }

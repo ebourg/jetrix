@@ -31,20 +31,9 @@ public class ScoreTest extends TestCase
 {
     public void testEquals()
     {
-        Score score1 = new Score();
-        score1.setName("user1");
-        score1.setType(Score.TYPE_PLAYER);
-        score1.setScore(1000);
-
-        Score score2 = new Score();
-        score2.setName("user1");
-        score2.setType(Score.TYPE_PLAYER);
-        score2.setScore(2000);
-
-        Score score3 = new Score();
-        score3.setName("user1");
-        score3.setType(Score.TYPE_TEAM);
-        score3.setScore(2000);
+        Score score1 = new Score("user1", Score.TYPE_PLAYER, 1000);
+        Score score2 = new Score("user1", Score.TYPE_PLAYER, 2000);
+        Score score3 = new Score("user1", Score.TYPE_TEAM, 2000);
 
         assertTrue("score value not ignored", score1.equals(score2) && score2.equals(score1));
         assertFalse("score type ignored", score2.equals(score3) || score3.equals(score2));
