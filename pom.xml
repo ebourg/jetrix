@@ -12,7 +12,7 @@
     Jetrix is a new generation TetriNET server written in Java and
     designed for maximum scalability, extensibility and ease of use.
     It features a web based administration console and a simple API
-    to let developpers add custom commands or change the channels'
+    to let developers add custom commands or change the channels'
     behavior with little knowledge of the server's inner functioning.
     The ambitious goal of this project is to create the ideal plateform
     for server side TetriNET programmers. Jetrix is open source and
@@ -126,12 +126,14 @@
       <groupId>jetty</groupId>
       <artifactId>jetty</artifactId>
       <version>4.1-rc1</version>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>jcrontab</groupId>
       <artifactId>jcrontab</artifactId>
       <version>1.4.1</version>
+      <optional>true</optional>
     </dependency>
 
     <!-- Needed for testing -->
@@ -139,7 +141,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.2</version>
-      <scope>tests</scope>
+      <scope>test</scope>
     </dependency>
   </dependencies>  
 

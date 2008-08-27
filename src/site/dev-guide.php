@@ -1,17 +1,19 @@
 <? include("header.inc.php") ?>
 
-<h1>Developper Guide</h1>
+<h1>Developer Guide</h1>
 
 <h2>Table of Contents</h2>
 
 <ol>
+  <!--<li><a href="#section0">Developing with Jetrix</a></li>-->
   <li><a href="#section1">Architecture</a></li>
   <li><a href="#section2">Protocols</a>
     <ul>
-      <li><a href="#section2-1">TetriNET</a></li>
-      <li><a href="#section2-2">TetriFast</a></li>
-      <li><a href="#section2-3">TSpec</a></li>
-      <li><a href="#section2-4">Query</a></li>
+      <li><a href="#section2-1">TetriNET 1.13</a></li>
+      <li><a href="#section2-2">TetriNET 1.14</a></li>
+      <li><a href="#section2-3">TetriFast</a></li>
+      <li><a href="#section2-4">TSpec</a></li>
+      <li><a href="#section2-5">Query</a></li>
     </ul>
   </li>
   <li><a href="#section3">Customization</a>
@@ -23,6 +25,15 @@
   </li>
 </ol>
 
+<!--
+<h1><a id="section0"></a>Developing with Jetrix</h1>
+
+@todo
+
+installing the JDK
+
+installing &amp; using Apache Ant
+-->
 
 <h1><a id="section1"></a>Architecture</h1>
 
@@ -39,20 +50,299 @@ Jetrix is designed around the concept of independant threads communicating async
 <h1><a id="section2"></a>Protocols</h1>
 
 
-<h2><a id="section2-1"></a>TetriNET</h2>
+<h2><a id="section2-1"></a>TetriNET 1.13</h2>
 
-<h3>Login</h3>
+External references:
 
-<h3>Channel Messages</h3>
+<ul>
+  <li><a href="http://knarf2.cheztaz.com/tetrinet.html">Description du protocole TetriNET par knarf2 (french)</a></li>
+  <li><a href="http://web.archive.org/web/20040413185025/home.planetinternet.be/~m0217000/tsrv/tetrinetproto.htm">Tetrinet protocol on TSRV.COM (archived)</a></li>
+</ul>
 
-<h3>Game Messages</h3>
+
+<h2><a id="section2-2"></a>TetriNET 1.14</h2>
+
+The version 1.14 of the TetriNET protocol is an extension introduced by 
+Olivier Vidal in August 2003 allowing players to get the same sequence of
+blocks. This protocol was first integrated to a server in Jetrix 0.1.3. It
+works by adding an extra parameter at the end of the newgame command:
+
+<div class="code">newgame 0 1 2 1 2 1 18 &lt;blocks frequency array&gt; &lt;specials frequency array&gt; 1 1 <b>2A1C21B6</b></div>
+
+The parameter <tt>2A1C21B6</tt> is actually the hexadecimal representation of a 
+32 bits integer. It determines the seed of the random number generator used by
+TetriNET to generate the blocks (see bellow). The number must be zero padded
+to 8 digits and use the little endian format. For example <tt>0x123</tt> will
+be added as <tt>00000123</tt>.
 
 
-<h2><a id="section2-2"></a>TetriFast</h2>
+<h3>TetriNET Pseudo Random Number Generator</h3>
 
-The TetriFast protocol is quite similar to the TetriNET protocol, it has just
-been slightly modified to prevent TetriFast clients to connect and cheat on
-regular TetriNET servers.
+<p>The original TetriNET client designed by St0rmCat uses the standard random
+function available in Delphi. It's basically a <a href="http://en.wikipedia.org/wiki/Linear_congruential_generator">linear congruential generator</a>,
+the recursive sequence is defined by:</p>
+
+<div class="code">s<sub>n+1</sub> = (a.s<sub>n</sub> + c) mod M</div>
+
+<p>with the following parameters:</p>
+
+<div class="code">a = 0x08088405
+c = 1
+M = 2<sup>32</sup>
+</div>
+
+<p>The seed s<sub><small>0</small></sub> is determined by the last parameter of 
+the <tt>newgame</tt> message. This sequence gives pseudo random integers between 
+0 and 2<sup><small>32</small></sup> - 1, but an integer in the [0, 100[
+range is required for selecting the block, and an integer in the [0, 4[ range
+for the orientation of the block. So the result is multiplied by the length of 
+the range and divided by 2<sup><small>32</small></sup>:</p>
+
+<div class="code">I<sub>n</sub> = s<sub>n</sub> * L / 2<sup><small>32</small></sup></div>
+
+<p>Where L=100 to select the block and L=4 to select its orientation. The
+sequence s<sub><small>n</small></sub> is evaluated twice to determine each block, first for the block 
+and then for its orientation.</p>
+
+<p>The following table defines the orientations for each type of block :</p>
+
+<table class="thin">
+  <tr>
+    <th width="100">Orientation</th>
+    <th width="75">0</th>
+    <th width="75">1</th>
+    <th width="75">2</th>
+    <th width="75">3</th>
+  </tr>
+  <tr>
+    <th>Line</th>
+    <td><img src="images/blocks/line1.png" alt="Line"/></td>
+    <td><img src="images/blocks/line2.png" alt="Line"/></td>
+    <td><img src="images/blocks/line1.png" alt="Line"/></td>
+    <td><img src="images/blocks/line2.png" alt="Line"/></td>
+  </tr>
+  <tr>
+    <th>Square</th>
+    <td><img src="images/blocks/square.png" alt="Square"/></td>
+    <td><img src="images/blocks/square.png" alt="Square"/></td>
+    <td><img src="images/blocks/square.png" alt="Square"/></td>
+    <td><img src="images/blocks/square.png" alt="Square"/></td>
+  </tr>
+  <tr>
+    <th>Left L</th>
+    <td><img src="images/blocks/leftl1.png" alt="Left L"/></td>
+    <td><img src="images/blocks/leftl2.png" alt="Left L"/></td>
+    <td><img src="images/blocks/leftl3.png" alt="Left L"/></td>
+    <td><img src="images/blocks/leftl4.png" alt="Left L"/></td>
+  </tr>
+  <tr>
+    <th>Right L</th>
+    <td><img src="images/blocks/rightl1.png" alt="Right L"/></td>
+    <td><img src="images/blocks/rightl2.png" alt="Right L"/></td>
+    <td><img src="images/blocks/rightl3.png" alt="Right L"/></td>
+    <td><img src="images/blocks/rightl4.png" alt="Right L"/></td>
+  </tr>
+  <tr>
+    <th>Left Z</th>
+    <td><img src="images/blocks/leftz1.png" alt="Left Z"/></td>
+    <td><img src="images/blocks/leftz2.png" alt="Left Z"/></td>
+    <td><img src="images/blocks/leftz1.png" alt="Left Z"/></td>
+    <td><img src="images/blocks/leftz2.png" alt="Left Z"/></td>
+  </tr>
+  <tr>
+    <th>Right Z</th>
+    <td><img src="images/blocks/rightz1.png" alt="Right Z"/></td>
+    <td><img src="images/blocks/rightz2.png" alt="Right Z"/></td>
+    <td><img src="images/blocks/rightz1.png" alt="Right Z"/></td>
+    <td><img src="images/blocks/rightz2.png" alt="Right Z"/></td>
+  </tr>
+  <tr>
+    <th>Half Cross</th>
+    <td><img src="images/blocks/halfcross1.png" alt="Half Cross"/></td>
+    <td><img src="images/blocks/halfcross2.png" alt="Half Cross"/></td>
+    <td><img src="images/blocks/halfcross3.png" alt="Half Cross"/></td>
+    <td><img src="images/blocks/halfcross4.png" alt="Half Cross"/></td>
+  </tr> 
+</table>
+
+
+
+<h3>Examples</h3>
+
+<p>Here are some examples of block sequences for different seed values. This might 
+help client programmers to validate their random number generator. The frequencies
+for these examples are :</p>
+
+<table class="thin" style="width: 300px">
+  <tr>
+    <th align="center" colspan="2">Block</th>
+    <th align="center" width="30%">Frequency</th>
+  </tr>
+  <tr>
+    <td align="center" width="10%">1</td>
+    <td align="center"><img src="/images/blocks/small/line.png" alt="Line" /></td>
+    <td align="center">15 %</td>
+  </tr>
+  <tr>
+    <td align="center">2</td>
+    <td align="center"><img src="/images/blocks/small/square.png" alt="Square" /></td>
+    <td align="center">15 %</td>
+  </tr>
+  <tr>
+    <td align="center">3</td>
+    <td align="center"><img src="/images/blocks/small/leftl.png" alt="Left L" /></td>
+    <td align="center">14 %</td>
+  </tr>
+  <tr>
+    <td align="center">4</td>
+    <td align="center"><img src="/images/blocks/small/rightl.png" alt="Right L" /></td>
+    <td align="center">14 %</td>
+  </tr>
+  <tr>
+    <td align="center">5</td>
+    <td align="center"><img src="/images/blocks/small/leftz.png" alt="Left Z" /></td>
+    <td align="center">14 %</td>
+  </tr>
+  <tr>
+    <td align="center">6</td>
+    <td align="center"><img src="/images/blocks/small/rightz.png" alt="Right Z" /></td>
+    <td align="center">14 %</td>
+  </tr>
+  <tr>
+    <td align="center">7</td>
+    <td align="center"><img src="/images/blocks/small/halfcross.png" alt="Half Cross" /></td>
+    <td align="center">14 %</td>
+  </tr>     
+</table>
+
+<br />
+
+The corresponding frequency table is :
+
+<div class="code">F = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 
+     2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+     3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+     4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+     5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+     6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7]</div>
+
+<p>For this example the value of the seed is 0.</p>
+
+<table class="thin">
+  <tr>
+    <th width="100">Blocks</th>
+    <th width="150">Sequence</th>
+    <th width="100">Index</th>
+    <th width="100">Result</th>       
+  </tr>
+  <tr>
+    <td rowspan="2" valign="middle">Block 1</td>
+    <td>s1 = 0x00000001</td>
+    <td>0</td>
+    <td rowspan="2" valign="middle"><img src="images/blocks/line1.png" alt="Line"/></td>
+  </tr>
+  <tr>
+    <td>s2 = 0x08088406</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td rowspan="2" valign="middle">Block 2</td>
+    <td>s3 = 0xDC6DAC1F</td>
+    <td>86</td>
+    <td rowspan="2" valign="middle"><img src="images/blocks/halfcross1.png" alt="Half Cross"/></td>
+  </tr>
+  <tr>
+    <td>s4 = 0x33DC589C</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td rowspan="2" valign="middle">Block 3</td>
+    <td>s5 = 0x45DE2B0D</td>
+    <td>27</td>
+    <td rowspan="2" valign="middle"><img src="images/blocks/square.png" alt="Square"/></td>
+  </tr>
+  <tr>
+    <td>s6 = 0xABF18B42</td>
+    <td>2</td>
+  </tr>
+
+  <tr>
+    <td rowspan="2" valign="middle">Block 4</td>
+    <td>s7 = 0x5195C04B</td>
+    <td>31</td>
+    <td rowspan="2" valign="middle"><img src="images/blocks/leftl1.png" alt="Left L"/></td>
+  </tr>
+  <tr>
+    <td>s8 = 0x296B6D78</td>
+    <td>0</td>
+  </tr>
+</table>
+
+
+<p>Here are the 10 first blocks for different seed values:</p>
+
+<table class="thin" cellspacing="1">
+  <tbody>
+    <tr>
+      <th>Seed</th>
+      <th>Sequence</th>
+    </tr>
+    <tr>
+      <td>0x00000000</td>
+      <td>
+        <img src="images/blocks/line1.png"/>
+        <img src="images/blocks/halfcross1.png"/>
+        <img src="images/blocks/square.png"/>
+        <img src="images/blocks/leftl1.png"/>
+        <img src="images/blocks/leftl4.png"/>
+        <img src="images/blocks/line2.png"/>
+        <img src="images/blocks/line2.png"/>
+        <img src="images/blocks/line2.png"/>
+        <img src="images/blocks/halfcross4.png"/>
+        <img src="images/blocks/leftz2.png"/>
+      </td>
+    </tr>
+    <tr>
+      <td>0xAABBCCDD</td>
+      <td>
+        <img src="images/blocks/rightl4.png"/>
+        <img src="images/blocks/rightl4.png"/>
+        <img src="images/blocks/leftl1.png"/>
+        <img src="images/blocks/leftl3.png"/>
+        <img src="images/blocks/square.png"/>
+        <img src="images/blocks/rightz2.png"/>
+        <img src="images/blocks/square.png"/>
+        <img src="images/blocks/rightl4.png"/>
+        <img src="images/blocks/halfcross3.png"/>
+        <img src="images/blocks/rightl1.png"/>
+      </td>
+    </tr>
+    <tr>
+      <td>0x12345678</td>
+      <td>
+        <img src="images/blocks/leftz2.png"/>
+        <img src="images/blocks/leftz2.png"/>
+        <img src="images/blocks/halfcross2.png"/>
+        <img src="images/blocks/rightz2.png"/>
+        <img src="images/blocks/leftl2.png"/>
+        <img src="images/blocks/rightz1.png"/>
+        <img src="images/blocks/rightz2.png"/>
+        <img src="images/blocks/halfcross1.png"/>
+        <img src="images/blocks/line2.png"/>
+        <img src="images/blocks/rightl1.png"/>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2><a id="section2-3"></a>TetriFast</h2>
+
+TetriFast is a modified TetriNET client that removes the delay between the 
+block fall and the showing of next block. The TetriFast protocol is quite   
+similar to the TetriNET protocol, it has just been slightly modified to prevent   
+TetriFast clients to connect and cheat on regular TetriNET servers.
 
 <h3>Login</h3>
 
@@ -72,10 +362,10 @@ The TetriFast protocol use two different messages :
 
 
 
-<h2><a id="section2-3"></a>TSpec</h2>
+<h2><a id="section2-4"></a>TSpec</h2>
 
 
-<h2><a id="section2-4"></a>Query</h2>
+<h2><a id="section2-5"></a>Query</h2>
 
 Tetrix first introduced a query protocol to get easily a list of players and
 channels on TetriNET servers. This protocol consists in 4 commands :

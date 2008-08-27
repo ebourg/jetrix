@@ -26,7 +26,7 @@ import net.jetrix.*;
 import net.jetrix.messages.*;
 
 /**
- * Defines a generic filter to be used and extended by filter developpers.
+ * Defines a generic filter to be used and extended by filter developers.
  * GenericFilter makes writing filters easier by dispatching messages to an
  * appropriate method according to the type of this message (onPline(),
  * onStartGame(), etc...).
