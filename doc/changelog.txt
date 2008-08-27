@@ -10,6 +10,7 @@ Player visible changes
 - Implemented the channel operator access level. It's now possible to restrict some commands to the first player in the channel (/move, /start...)
 - Added support for the client identification protocol (i.e lvl 0 0 request, clientinfo response)
 - The number of players and spectators currently online is now displayed on logging in
+- The 'TServ' mode of TSpec is now supported
 
 Admin visible changes
 - Jetrix now requires Java 6

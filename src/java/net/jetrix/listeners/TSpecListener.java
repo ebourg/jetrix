@@ -21,7 +21,6 @@ package net.jetrix.listeners;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import net.jetrix.*;
 import net.jetrix.protocols.TspecProtocol;
 import net.jetrix.protocols.TetrinetProtocol;
@@ -51,38 +50,38 @@ public class TSpecListener extends TetrinetListener
         TetrinetProtocol protocol = ProtocolManager.getInstance().getProtocol(TetrinetProtocol.class);
         String init = protocol.readLine(new InputStreamReader(socket.getInputStream()));
 
-        String dec = TetrinetProtocol.decode(init);
-
-        // init string parsing "tetristart <nickname> <version>"
-        StringTokenizer st = new StringTokenizer(dec, " ");
-        List<String> tokens = new ArrayList<String>();
-
-        while (st.hasMoreTokens())
-        {
-            tokens.add(st.nextToken());
-        }
-
-        if (tokens.size() > 3)
-        {
-            return null;
-        }
-
         TSpecClient client = new TSpecClient();
-        User user = new User();
-        user.setName(tokens.get(1));
-        user.setSpectator();
-        client.setSocket(socket);
-        client.setUser(user);
         client.setProtocol(ProtocolManager.getInstance().getProtocol(TspecProtocol.class));
+        client.setSocket(socket);
 
-        if (tokens.size() > 3)
+        User user = new User();
+        user.setSpectator();
+        client.setUser(user);
+
+        // test if the client is using the tspec protocol (<nickname> <encoded password>)
+        if (init.contains(" "))
         {
-            Message m = new NoConnectingMessage("No space allowed in nickname !");
-            client.send(m);
-            return null;
+            client.setMode(TSpecClient.TSERV_MODE);
+            user.setName(init.substring(0, init.indexOf(" ")));
+        }
+        else
+        {
+            client.setMode(TSpecClient.TETRIX_MODE);
+            String dec = TetrinetProtocol.decode(init);
+
+            // init string parsing "tetristart <nickname> <version>"
+            String[] tokens = dec.split(" ");
+
+            if (tokens.length > 3)
+            {
+                Message m = new NoConnectingMessage("No space allowed in nickname !");
+                client.send(m);
+                return null;
+            }
+
+            user.setName(tokens[1]);
         }
 
         return client;
     }
-
 }

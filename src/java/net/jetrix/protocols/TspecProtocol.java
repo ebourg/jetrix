@@ -50,6 +50,8 @@ public class TspecProtocol extends TetrinetProtocol
 
         if (line.startsWith("pline") && !line.startsWith("plineact"))
         {
+            // pline message with the tetrix mode
+            
             SmsgMessage smsg = new SmsgMessage();
             smsg.setSlot(Integer.parseInt(line.substring(6, 7)));
 
@@ -75,6 +77,29 @@ public class TspecProtocol extends TetrinetProtocol
 
                 message = smsg;
             }
+        }
+        else if (line.startsWith("/pline"))
+        {
+            // pline message with the tserv mode
+            SmsgMessage smsg = new SmsgMessage();
+            smsg.setText(line.substring("/pline".length()));
+            smsg.setPrivate(false);
+
+            message = smsg;
+        }
+        else if (line.startsWith("/"))
+        {
+            // direct command in tserv mode
+            line = "pline 1 " + line;
+        }
+        else if (line.startsWith("<") && line.contains(">"))
+        {
+            // private comment in tserv mode
+            SmsgMessage smsg = new SmsgMessage();
+            smsg.setText(line.substring(line.indexOf(">") + 1).trim());
+            smsg.setPrivate(true);
+
+            message = smsg;
         }
 
         return message != null ? message : super.getMessage(line);

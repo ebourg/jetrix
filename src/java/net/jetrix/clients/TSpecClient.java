@@ -19,6 +19,11 @@
 
 package net.jetrix.clients;
 
+import java.io.IOException;
+
+import net.jetrix.Message;
+import net.jetrix.messages.SmsgMessage;
+
 /**
  * Spectator client.
  * 
@@ -27,8 +32,40 @@ package net.jetrix.clients;
  */
 public class TSpecClient extends TetrinetClient
 {
+    public static final int TETRIX_MODE = 0;
+    public static final int TSERV_MODE = 1;
+
+    private int mode;
+
+    public void setMode(int mode)
+    {
+        this.mode = mode;
+    }
+
+    public int getMode()
+    {
+        return mode;
+    }
+
     protected boolean isAsynchronous()
     {
         return false;
+    }
+
+    public Message receive() throws IOException
+    {
+        Message message = super.receive();
+
+        if (message instanceof SmsgMessage && mode == TSERV_MODE)
+        {
+            SmsgMessage smsg = (SmsgMessage) message;
+            if (smsg.isPrivate())
+            {
+                // echo the message to the player
+                send(message);
+            }
+        }
+
+        return message;
     }
 }
