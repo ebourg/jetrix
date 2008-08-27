@@ -1,0 +1,40 @@
+<?xml version="1.0" standalone="no"?>
+<!-- Derived from the Tetrominoes SVG by Damian Yerrick on the Tetris Wikipedia article -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="96" height="96">
+<defs>
+<style>
+.blue rect {color: #0000f0}
+.blue .top {color: #99f}
+.blue .side {color: #0000d8}
+.blue .bottom {color: #000078}
+
+.red rect {color: #f00000}
+.red .top {color: #f99}
+.red .side {color: #d80000}
+.red .bottom {color: #780000}
+</style>
+<g id="block">
+ <rect fill="currentColor" width="18" height="18" x="3" y="3"/>
+ <path fill="currentColor" d="M 0,0 L 0,0 C 0,0 0,0 0,0 L 3,3 L 21,3 L 24,0 L 0,0 z" class="top"/>
+ <path fill="currentColor" d="M 0,0 L 0,24 L 3,21 L 3,3 L 0,0 z" class="side"/>
+ <path fill="currentColor" d="M 24,0 L 24,24 L 21,21 L 21,3 L 24,0 z" class="side"/>
+ <path fill="currentColor" d="M 0,24 L 24,24 L 21,21 L 3,21 L 0,24 z" class="bottom"/>
+</g>
+<g id="S" class="blue">
+ <use x="0"  y="0" xlink:href="#block"/>
+ <use x="24" y="0" xlink:href="#block"/>
+ <use x="24" y="-24" xlink:href="#block"/>
+ <use x="48" y="-24" xlink:href="#block"/>
+</g>
+<g id="Z" class="red">
+ <use x="0"  y="0" xlink:href="#block"/>
+ <use x="24" y="0" xlink:href="#block"/>
+ <use x="24" y="24" xlink:href="#block"/>
+ <use x="48" y="24" xlink:href="#block"/>
+</g>
+</defs>
+
+<use x="0" y="0" xlink:href="#Z"/>
+<use x="24" y="72" xlink:href="#S"/>
+
+</svg>
