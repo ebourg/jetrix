@@ -101,6 +101,15 @@ public class TspecProtocol extends TetrinetProtocol
 
             message = smsg;
         }
+        else if (line.startsWith("speclist"))
+        {
+            SpectatorListMessage slist = new SpectatorListMessage();
+            String[] tokens = line.split(" ");
+            slist.setChannel(tokens[1].substring(1));
+            slist.setSpectators(Arrays.asList(tokens).subList(2, tokens.length));
+
+            message = slist;
+        }
 
         return message != null ? message : super.getMessage(line);
     }
