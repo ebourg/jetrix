@@ -940,7 +940,7 @@ public class TetrinetProtocol extends AbstractProtocol
     public static String encode(String nickname, String version, byte[] ip, boolean tetrifast)
     {
         // compute the pattern
-        int p = 54 * ip[0] + 41 * ip[1] + 29 * ip[2] + 17 * ip[3];
+        int p = 54 * (ip[0] & 0xFF) + 41 * (ip[1] & 0xFF) + 29 * (ip[2] & 0xFF) + 17 * (ip[3] & 0xFF);
         char[] pattern = String.valueOf(p).toCharArray();
 
         // build the string to encode

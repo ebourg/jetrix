@@ -279,4 +279,18 @@ public class TetrinetProtocolTest extends TestCase
 
         assertEquals("decoded string", "tetrisstart Smanux 1.13", decode(init));
     }
+
+    public void testEncodeDecode()
+    {
+        byte[] ip = {(byte) 195, (byte) 139, (byte) 204, (byte) 206};
+
+        String nickname = "Smanux";
+        String version = "1.13";
+
+        String init = encode(nickname, version, ip, false);
+
+        assertNotNull(init);
+
+        assertEquals("decoded", "tetrisstart Smanux 1.13", decode(init));
+    }
 }
