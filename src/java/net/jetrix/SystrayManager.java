@@ -19,19 +19,16 @@
 
 package net.jetrix;
 
-import java.awt.AWTException;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
+import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 import net.jetrix.config.ServerConfig;
 import net.jetrix.listeners.HttpListener;
@@ -108,23 +105,18 @@ public class SystrayManager
             menu.setFont(font);
 
             // build the trayIcon icon
-            Image icon = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("jetrix-16x16.png")).getImage();
+            String osname = System.getProperty("os.name");
+            String iconname = osname.contains("Linux") ? "jetrix-32x32.png" : "jetrix-16x16.png";
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            Image icon = new ImageIcon(loader.getResource(iconname)).getImage();
 
             trayIcon = new TrayIcon(icon, TITLE, menu);
             trayIcon.setImageAutoSize(true);
             trayIcon.addActionListener(new ActionListener()
             {
-                private long timestamp;
-
                 public void actionPerformed(ActionEvent e)
                 {
-                    // emulates a double click listener
-                    if (e.getWhen() - timestamp < 750)
-                    {
-                        openWebAdmin();
-                    }
-
-                    timestamp = e.getWhen();
+                    openWebAdmin();
                 }
             });
 
@@ -198,7 +190,19 @@ public class SystrayManager
         try
         {
             // open the browser
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+            String osname = System.getProperty("os.name");
+            if (osname.contains("Linux"))
+            {
+                Runtime.getRuntime().exec("firefox " + url);
+            }
+            else if (osname.contains("Windows"))
+            {
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+            }
+            else if (osname.contains("Mac"))
+            {
+                Runtime.getRuntime().exec("open " + url);
+            }
         }
         catch (IOException e)
         {

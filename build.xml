@@ -107,6 +107,7 @@
       </fileset>
       <fileset dir="${src}/etc/icons">
         <include name="jetrix-16x16.png"/>
+        <include name="jetrix-32x32.png"/>
       </fileset>
     </jar>
 
