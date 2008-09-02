@@ -1,4 +1,45 @@
 #!/bin/sh
+# -----------------------------------------------------------------------------
+# Start/Stop Script for the Jetrix Tetrinet Server
+# (derived from the catalina.sh script for Tomcat)
+#
+# Environment Variable Prequisites
+#
+#   JETRIX_HOME     May point at your Jetrix installation directory.
+#
+#   JAVA_HOME       Must point at your Java Development Kit installation.
+#                   Required to run the with the "debug" or "javac" argument.
+#
+#   JAVA_OPTS       (Optional) Java runtime options used when the "start",
+#                   "stop", or "run" command is executed.
+#
+#   JETRIX_PID      (Optional) Path of the file which should contains the pid
+#                   of Jetrix startup java process, when start (fork) is used
+#
+# $Id$
+# -----------------------------------------------------------------------------
+
+# resolve links - $0 may be a softlink
+PRG="$0"
+
+while [ -h "$PRG" ]; do
+  ls=`ls -ld "$PRG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG=`dirname "$PRG"`/"$link"
+  fi
+done
+
+# Get standard environment variables
+PRGDIR=`dirname "$PRG"`
+
+# Only set JETRIX_HOME if not already set
+[ -z "$JETRIX_HOME" ] && JETRIX_HOME=`cd "$PRGDIR" ; pwd`
+
+cd $JETRIX_HOME
+
 
 if [ -n "$JAVA_HOME" ]
 then
@@ -7,4 +48,56 @@ else
     JAVA_PATH="java";
 fi
 
-$JAVA_PATH -jar lib/jetrix-launcher-@version@.jar $1
+EXECUTABLE_JAR="$JETRIX_HOME/lib/jetrix-launcher-@version@.jar"
+
+# ----- Execute The Requested Command -----------------------------------------
+
+echo "Using JETRIX_HOME:     $JETRIX_HOME"
+echo "Using JAVA_PATH:       $JAVA_PATH"
+
+if [ "$1" = "run" ]; then
+ echo "Running Jetrix..."
+  shift
+    exec "$JAVA_PATH" $JAVA_OPTS -jar $EXECUTABLE_JAR start
+
+elif [ "$1" = "start" ] ; then
+  echo "Starting Jetrix..."
+  shift
+    "$JAVA_PATH" $JAVA_OPTS -jar $EXECUTABLE_JAR start \
+      >> "$JETRIX_HOME"/log/jetrix.out 2>&1 &
+
+      if [ ! -z "$JETRIX_PID" ]; then
+        echo $! > $JETRIX_PID
+      fi
+
+elif [ "$1" = "stop" ] ; then
+  echo "Stopping Jetrix..."
+  shift
+  FORCE=0
+  if [ "$1" = "-force" ]; then
+    shift
+    FORCE=1
+  fi
+
+  "$JAVA_PATH" $JAVA_OPTS -jar $EXECUTABLE_JAR stop
+
+  if [ $FORCE -eq 1 ]; then
+    if [ ! -z "$JETRIX_PID" ]; then
+       echo "Killing: `cat $JETRIX_PID`"
+       kill -9 `cat $JETRIX_PID`
+    else
+       echo "Kill failed: \$JETRIX_PID not set"
+    fi
+  fi
+
+else
+
+  echo "Usage: jetrix.sh ( commands ... )"
+  echo "commands:"
+  echo "  run               Start Jetrix in the current window"
+  echo "  start             Start Jetrix in a separate window"
+  echo "  stop              Stop Jetrix"
+  echo "  stop -force       Stop Jetrix (followed by kill -KILL)"
+  exit 1
+
+fi
