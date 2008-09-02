@@ -260,7 +260,7 @@
     <deb destfile="${dist}/bin/jetrix-${version}.deb" control="${build}/control" compression="bzip2">
       <data src="${dist}/bin/jetrix-${version}.tar.bz2">
         <mapper type="prefix" strip="1" prefix="/usr/share/jetrix"/>
-        <exclude name="*.bat"/>
+        <exclude name="**/*.bat"/>
       </data>
     </deb>
   </target>
