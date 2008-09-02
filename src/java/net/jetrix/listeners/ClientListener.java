@@ -117,7 +117,11 @@ public abstract class ClientListener extends AbstractService implements Listener
                 {
                     ioe.printStackTrace();
                 }
-                e.printStackTrace();
+
+                if (Server.getInstance().getConfig().isRunning())
+                {
+                    e.printStackTrace();
+                }
             }
         }
     }

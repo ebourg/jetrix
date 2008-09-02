@@ -151,14 +151,20 @@ public class TetrinetClient implements Client
         }
         catch (IOException e)
         {
-            log.log(Level.SEVERE, e.getMessage(), e);
+            if (Server.getInstance().getConfig().isRunning())
+            {
+                log.log(Level.SEVERE, "Connexion error with the tetrinet client '" + getUser().getName() + "'", e);
+            }
         }
         finally
         {
-            disconnect();
-            try { in.close(); }     catch (IOException e) { e.printStackTrace(); }
-            try { out.close(); }    catch (IOException e) { e.printStackTrace(); }
-            try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
+            if (!socket.isClosed())
+            {
+                disconnect();
+                try { in.close(); }     catch (IOException e) { e.printStackTrace(); }
+                try { out.close(); }    catch (IOException e) { e.printStackTrace(); }
+                try { socket.close(); } catch (IOException e) { e.printStackTrace(); }
+            }
 
             // unregister the client from the server
             ClientRepository.getInstance().removeClient(this);
