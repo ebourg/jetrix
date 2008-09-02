@@ -80,7 +80,7 @@ public class WinlistManager
             }
             catch (Exception e)
             {
-                log.log(Level.WARNING, e.getMessage(), e);
+                log.log(Level.WARNING, "Unable to create the winlist '" + config.getName() + "'", e);
             }
         }
     }

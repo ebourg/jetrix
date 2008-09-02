@@ -55,9 +55,11 @@ public class TetrixWinlist extends SimpleWinlist
 
         if (file.exists())
         {
+            InputStream in = null;
+
             try
             {
-                InputStream in = new BufferedInputStream(new FileInputStream(file));
+                in = new BufferedInputStream(new FileInputStream(file));
 
                 scoreCount = Math.max(scoreCount,  file.length() / STRUCT_SIZE);
                 byte[] struct = new byte[STRUCT_SIZE];
@@ -68,12 +70,14 @@ public class TetrixWinlist extends SimpleWinlist
                     if (score == null) break;
                     scores.add(score);
                 }
-
-                in.close();
             }
             catch (IOException e)
             {
-                log.log(Level.WARNING, e.getMessage(), e);
+                log.log(Level.WARNING, "Unable to read the winlist file " + file, e);
+            }
+            finally
+            {
+                close(in);
             }
         }
 
@@ -83,10 +87,11 @@ public class TetrixWinlist extends SimpleWinlist
     protected void save()
     {
         File file = new File(filename);
+        OutputStream out = null;
 
         try
         {
-            OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+            out = new BufferedOutputStream(new FileOutputStream(file));
 
             for (int i = 0; i < scoreCount; i++)
             {
@@ -101,11 +106,14 @@ public class TetrixWinlist extends SimpleWinlist
             }
 
             out.flush();
-            out.close();
         }
         catch (IOException e)
         {
-            log.log(Level.WARNING, e.getMessage(), e);
+            log.log(Level.WARNING, "Unable to write the winlist file " + file, e);
+        }
+        finally
+        {
+            close(out);
         }
     }
 

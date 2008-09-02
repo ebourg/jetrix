@@ -248,21 +248,11 @@ public class SimpleWinlist implements Winlist
                 }
                 catch (Exception e)
                 {
-                    log.log(Level.WARNING, e.getMessage(), e);
+                    log.log(Level.WARNING, "Unable to read the winlist file " + file, e);
                 }
                 finally
                 {
-                    try
-                    {
-                        if (reader != null)
-                        {
-                            reader.close();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        log.log(Level.WARNING, e.getMessage(), e);
-                    }
+                    close(reader);
                 }
             }
         }
@@ -278,9 +268,10 @@ public class SimpleWinlist implements Winlist
         if (id != null)
         {
             BufferedWriter writer = null;
+            File file = new File(id + ".winlist");
             try
             {
-                writer = new BufferedWriter(new FileWriter(id + ".winlist"));
+                writer = new BufferedWriter(new FileWriter(file));
 
                 for (Score score : scores)
                 {
@@ -297,21 +288,11 @@ public class SimpleWinlist implements Winlist
             }
             catch (Exception e)
             {
-                log.log(Level.WARNING, e.getMessage(), e);
+                log.log(Level.WARNING, "Unable to write the winlist file " + file, e);
             }
             finally
             {
-                try
-                {
-                    if (writer != null)
-                    {
-                        writer.close();
-                    }
-                }
-                catch (Exception e)
-                {
-                    log.log(Level.WARNING, e.getMessage(), e);
-                }
+                close(writer);
             }
         }
     }
@@ -336,6 +317,23 @@ public class SimpleWinlist implements Winlist
         PlineMessage message = new PlineMessage();
         message.setKey(key.toString(), score.getName(), score.getScore() - previousScore, score.getScore(), rank, previousRank - rank);
         return message;
+    }
+
+    /**
+     * Close quietly the specified stream or reader.
+     */
+    void close(Closeable closeable)
+    {
+        if (closeable != null)
+        {
+            try
+            {
+                closeable.close();
+            }
+            catch (IOException e)
+            {
+            }
+        }
     }
 
 }

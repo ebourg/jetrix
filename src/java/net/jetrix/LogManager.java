@@ -71,7 +71,7 @@ class LogManager
         }
         catch (IOException e)
         {
-            log.log(Level.WARNING, e.getMessage(), e);
+            log.log(Level.WARNING, "Unable to configure the logger", e);
         }
     }
 
