@@ -27,6 +27,7 @@ import net.jetrix.commands.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
 import net.jetrix.services.VersionService;
+import net.jetrix.listeners.ShutdownListener;
 
 /**
  * Main class, starts server components.
@@ -110,6 +111,9 @@ public class Server implements Runnable, Destination
                 listener.start();
             }
         }
+
+        // start the shutdown listener
+        new ShutdownListener().start();
 
         // start the services
         for (Service service : config.getServices())
@@ -281,7 +285,7 @@ public class Server implements Runnable, Destination
      */
     public static void main(String[] args)
     {
-        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2005 Emmanuel Bourg\n");
+        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2008 Emmanuel Bourg\n");
         Server server = Server.getInstance();
         server.start();
     }

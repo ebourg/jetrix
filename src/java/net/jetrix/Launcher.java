@@ -21,11 +21,16 @@ package net.jetrix;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.jar.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Pack200;
 
 /**
  * An application launcher executing a specified class and building dynamically
@@ -46,11 +51,42 @@ public class Launcher {
      */
     public static void main(String[] args) throws Exception
     {
+        if (args.length == 1 && "stop".equals(args[0]))
+        {
+            stop();
+        }
+        else
+        {
+            start(args);
+        }
+    }
+
+    private static void start(String[] args) throws Exception
+    {
         // get the files in the lib directory
         File repository = new File("lib/");
-        File[] files = repository.listFiles();
 
         // decompress the pack200 files
+        unpack(repository);
+
+        ClassLoader loader = createClassLoader(repository, new File("lang/"));
+
+        Thread.currentThread().setContextClassLoader(loader);
+
+        // run the main method of the specified class
+        Class serverClass = loader.loadClass(MAIN_CLASS);
+        serverClass.getMethod("main", String[].class).invoke(null, new Object[] { args });
+    }
+
+    /**
+     * Unpack the pack200 files in the specified directory
+     *
+     * @param directory
+     */
+    private static void unpack(File directory) throws IOException
+    {
+        File[] files = directory.listFiles();
+
         for (File file : files)
         {
             String filename = file.getAbsolutePath();
@@ -69,40 +105,57 @@ public class Launcher {
                 file.delete();
             }
         }
+    }
 
-        // build the list of JARs in the ./lib directory
-        files = repository.listFiles();
-        List<URL> jars = new ArrayList<URL>();
+    /**
+     * Build a classloader including the jar and zip files in the specified
+     * directories. The directories are also included in the classpath.
+     * 
+     * @param directories
+     */
+    private static ClassLoader createClassLoader(File... directories) throws Exception
+    {
+        List<URL> urls = new ArrayList<URL>();
 
-        for (int i = 0; i < files.length; i++)
+        for (File directory : directories)
         {
-            String filename = files[i].getAbsolutePath();
-            if (filename.endsWith(".jar") || filename.endsWith(".zip"))
+            // add the jar and zip files in the directory to the classpath
+            File[] files = directory.listFiles();
+
+            for (int i = 0; i < files.length; i++)
             {
-                jars.add(files[i].toURL());
+                String filename = files[i].getAbsolutePath();
+                if (filename.endsWith(".jar") || filename.endsWith(".zip"))
+                {
+                    urls.add(files[i].toURI().toURL());
+                }
             }
-        }
 
-        // add the lib directory to the classpath
-        jars.add(repository.toURL());
-
-        // add the lang directory to the classpath
-        jars.add(new File("lang/").toURL());
-
-        // build the list of URLs
-        URL[] urls = new URL[jars.size()];
-        for (int i = 0; i < jars.size(); i++)
-        {
-            urls[i] = jars.get(i);
+            // add the directory to the classpath
+            urls.add(directory.toURI().toURL());
         }
 
         // create the classloader
-        ClassLoader loader = new URLClassLoader(urls, null);
-        Thread.currentThread().setContextClassLoader(loader);
+        return new URLClassLoader(urls.toArray(new URL[urls.size()]), null);
+    }
 
-        // run the main method of the specified class
-        Class serverClass = loader.loadClass(MAIN_CLASS);
-        serverClass.getMethod("main", args.getClass()).invoke(null, new Object[] { args });
+    private static void stop() throws Exception
+    {
+        // send the "shutdown" to the UDP port 31457
+        byte[] msg = "shutdown".getBytes("UTF8");
+        DatagramPacket packet = new DatagramPacket(msg, msg.length);
+        packet.setAddress(InetAddress.getLocalHost());
+        packet.setPort(31457);
+
+        DatagramSocket socket = new DatagramSocket();
+        try
+        {
+            socket.send(packet);
+        }
+        finally
+        {
+            socket.close();
+        }
     }
 
 }

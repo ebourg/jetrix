@@ -7,4 +7,4 @@ else
     JAVA_PATH="java";
 fi
 
-$JAVA_PATH -jar lib/jetrix-launcher-@version@.jar
+$JAVA_PATH -jar lib/jetrix-launcher-@version@.jar $1
