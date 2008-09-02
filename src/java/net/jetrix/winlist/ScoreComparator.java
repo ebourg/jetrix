@@ -19,7 +19,7 @@
 
 package net.jetrix.winlist;
 
-import java.util.*;
+import java.util.Comparator;
 
 /**
  * A {@link java.util.Comparator} for the winlist scores. Scores are sorted in
@@ -28,12 +28,10 @@ import java.util.*;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ScoreComparator implements Comparator
+public class ScoreComparator implements Comparator<Score>
 {
-    public int compare(Object o1, Object o2)
+    public int compare(Score score1, Score score2)
     {
-        Score score1 = (Score) o1;
-        Score score2 = (Score) o2;
         return (int) (score2.getScore() - score1.getScore());
     }
 }
