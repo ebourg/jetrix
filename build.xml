@@ -194,19 +194,12 @@
         <include name="jetrix" />
         <include name="update" />
       </zipfileset>
+      <zipfileset prefix="jetrix-${version}/lib" dir="${build}/lib">
+        <include name="*.pack" />
+      </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
         <include name="jetrix-${version}.jar.pack" />
         <include name="jetrix-launcher-${version}.jar" />
-      </zipfileset>
-      <zipfileset prefix="jetrix-${version}/lib/" dir="${build}/lib">
-        <include name="commons-digester*.pack" />
-        <include name="commons-collections*.pack" />
-        <include name="commons-beanutils*.pack" />
-        <include name="commons-lang*.pack" />
-        <include name="jetty*.pack"/>
-        <include name="servlet-light*.pack"/>
-        <include name="jasper-runtime*.pack"/>
-        <include name="jcrontab*.pack"/>
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war.pack" />
@@ -234,26 +227,22 @@
         <include name="jetrix" />
         <include name="update" />
       </tarfileset>
+      <tarfileset prefix="jetrix-${version}" dir="${build}" includes="lib"/>
+      <tarfileset prefix="jetrix-${version}/lib" dir="${build}/lib">
+        <include name="*.pack" />
+      </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
         <include name="jetrix-${version}.jar.pack" />
         <include name="jetrix-launcher-${version}.jar" />
       </tarfileset>
-      <tarfileset prefix="jetrix-${version}/lib/" dir="${build}/lib">
-        <include name="commons-digester*.pack" />
-        <include name="commons-collections*.pack" />
-        <include name="commons-beanutils*.pack" />
-        <include name="commons-lang*.pack" />
-        <include name="jetty*.pack"/>
-        <include name="servlet-light*.pack"/>
-        <include name="jasper-runtime*.pack"/>
-        <include name="jcrontab*.pack"/>
-      </tarfileset>
       <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
         <include name="*.war.pack" />
       </tarfileset>
+      <tarfileset prefix="jetrix-${version}" dir="${src}" includes="lang"/>
       <tarfileset prefix="jetrix-${version}/lang/" dir="${src}/lang/">
         <include name="*.properties" />
       </tarfileset>
+      <tarfileset prefix="jetrix-${version}" dir="${src}/etc" includes="log"/>
       <tarfileset prefix="jetrix-${version}/log/" dir="${src}/etc/log/"/>
     </tar>
 
