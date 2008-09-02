@@ -1,3 +1,5 @@
 #!/bin/sh
 
+ln -s /usr/share/jetrix/jetrix /usr/bin/jetrix
+
 # TODO Move the log directory and create a symlink
