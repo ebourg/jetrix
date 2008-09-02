@@ -182,8 +182,7 @@
       <zipfileset prefix="jetrix-${version}/" dir="${src}/etc/">
         <include name="LICENSE" />
         <include name="README" />
-        <include name="server.xml" />
-        <include name="channels.xml" />
+        <include name="conf/*" />
         <include name="data/**" />
       </zipfileset>
       <zipfileset prefix="jetrix-${version}/" dir="${build}/bin/">
@@ -215,8 +214,7 @@
       <tarfileset prefix="jetrix-${version}/" dir="${src}/etc/">
         <include name="LICENSE" />
         <include name="README" />
-        <include name="server.xml" />
-        <include name="channels.xml" />
+        <include name="conf/*" />
         <include name="data/**" />
       </tarfileset>
       <tarfileset prefix="jetrix-${version}/" dir="${build}/bin/">

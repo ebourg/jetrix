@@ -121,14 +121,14 @@ public class ServerConfig
 
             // parse the server configuration
             digester.push(this);
-            serverConfigURL = findResource("server.xml");
+            serverConfigURL = findResource("conf/server.xml");
             Reader reader = new InputStreamReader(serverConfigURL.openStream(), ENCODING);
             digester.parse(new InputSource(reader));
             reader.close();
 
             // parse the channel configuration
             digester.push(this);
-            channelsConfigURL = findResource("channels.xml");
+            channelsConfigURL = findResource("conf/channels.xml");
             reader = new InputStreamReader(channelsConfigURL.openStream(), ENCODING);
             digester.parse(new InputSource(reader));
             reader.close();
