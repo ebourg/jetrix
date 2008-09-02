@@ -21,8 +21,6 @@ package net.jetrix.commands;
 
 import java.util.*;
 
-import org.apache.commons.collections.*;
-
 import net.jetrix.*;
 import net.jetrix.messages.*;
 
@@ -142,16 +140,17 @@ public class CommandManager
      */
     public Iterator<Command> getCommands(final int accessLevel)
     {
-        Predicate availableToLevel = new Predicate()
-        {
-            public boolean evaluate(Object obj)
-            {
-                Command command = (Command) obj;
-                return command.getAccessLevel() <= accessLevel;
-            }
-        };
+        List<Command> commands = new ArrayList<Command>();
 
-        return new FilterIterator(commandSet.values().iterator(), availableToLevel);
+        for (Command command : commandSet.values())
+        {
+            if (command.getAccessLevel() <= accessLevel)
+            {
+                commands.add(command);
+            }
+        }
+
+        return commands.iterator();
     }
 
     /**

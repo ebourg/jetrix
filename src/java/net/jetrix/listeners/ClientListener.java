@@ -91,7 +91,7 @@ public abstract class ClientListener extends AbstractService implements Listener
                 InetAddress address = socket.getInetAddress();
 
                 // log the connection
-                log.info("Incoming client " + address.getHostAddress() + ":" + socket.getPort());
+                log.info("Incoming " + getName() + " client " + address.getHostAddress() + ":" + socket.getPort());
 
                 // test the ban list
                 if (Banlist.getInstance().isBanned(address))

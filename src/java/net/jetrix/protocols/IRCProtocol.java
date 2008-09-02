@@ -144,12 +144,7 @@ public class IRCProtocol extends AbstractProtocol
             message.setNick("jetrix");
         }
 
-        Channel channel = m.getChannel();
-        String name = "#jetrix";
-        if (channel != null)
-        {
-            name = "#" + channel.getConfig().getName();
-        }
+        String name = m.getChannelName() == null ? "#jetrix" : "#" + m.getChannelName();
 
         message.addParameter(name);
         message.addParameter(applyStyle(m.getText(locale)));
@@ -171,12 +166,7 @@ public class IRCProtocol extends AbstractProtocol
             message.setNick("jetrix");
         }
 
-        Channel channel = m.getChannel();
-        String name = "#jetrix";
-        if (channel != null)
-        {
-            name = "#" + channel.getConfig().getName();
-        }
+        String name = m.getChannelName() == null ? "#jetrix" : "#" + m.getChannelName();
 
         message.addParameter(name);
         message.addParameter(applyStyle("\u0001ACTION " + m.getText(locale) + "\u0001"));
@@ -198,12 +188,7 @@ public class IRCProtocol extends AbstractProtocol
             message.setNick("jetrix");
         }
 
-        Channel channel = m.getChannel();
-        String name = "#jetrix";
-        if (channel != null)
-        {
-            name = "#" + channel.getConfig().getName();
-        }
+        String name = m.getChannelName() == null ? "#jetrix" : "#" + m.getChannelName();
 
         // todo remove the <name> of the player at the beginning of the message
 
@@ -239,7 +224,7 @@ public class IRCProtocol extends AbstractProtocol
 
         IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);
         message.setNick("jetrix");
-        message.addParameter("#" + m.getChannel().getConfig().getName());
+        message.addParameter("#" + m.getChannelName());
 
         String messageKey = m.getName() == null ? "channel.team.none" : "channel.team.new";
         Object[] params = new Object[] { client.getUser().getName(), m.getName() };
@@ -252,7 +237,7 @@ public class IRCProtocol extends AbstractProtocol
     {
         IRCMessage message = new IRCMessage(IRCCommand.JOIN);
         message.setNick(m.getName());
-        message.addParameter("#" + m.getChannel().getConfig().getName());
+        message.addParameter("#" + m.getChannelName());
 
         return message.toString();
     }
@@ -261,7 +246,7 @@ public class IRCProtocol extends AbstractProtocol
     {
         IRCMessage message = new IRCMessage(IRCCommand.PART);
         message.setNick(m.getName());
-        message.addParameter("#" + m.getChannel().getConfig().getName());
+        message.addParameter("#" + m.getChannelName());
 
         return message.toString();
     }
@@ -270,7 +255,7 @@ public class IRCProtocol extends AbstractProtocol
     {
         IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);
         message.setNick("jetrix");
-        message.addParameter("#" + m.getChannel().getConfig().getName());
+        message.addParameter("#" + m.getChannelName());
         message.addParameter(applyStyle(Language.getText("channel.game.start", locale)));
 
         return message.toString();
@@ -280,7 +265,7 @@ public class IRCProtocol extends AbstractProtocol
     {
         IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);
         message.setNick("jetrix");
-        message.addParameter("#" + m.getChannel().getConfig().getName());
+        message.addParameter("#" + m.getChannelName());
         message.addParameter(applyStyle(Language.getText("channel.game.stop", locale)));
 
         return message.toString();
@@ -290,7 +275,7 @@ public class IRCProtocol extends AbstractProtocol
     {
         IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);
         message.setNick("jetrix");
-        message.addParameter("#" + m.getChannel().getConfig().getName());
+        message.addParameter("#" + m.getChannelName());
         message.addParameter(applyStyle(Language.getText("channel.game.running", locale)));
 
         return message.toString();

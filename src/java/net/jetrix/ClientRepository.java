@@ -19,10 +19,13 @@
 
 package net.jetrix;
 
-import java.net.*;
-import java.util.*;
-
-import org.apache.commons.collections.*;
+import java.net.InetAddress;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Repository of clients connected to the server.
@@ -33,40 +36,10 @@ import org.apache.commons.collections.*;
 public class ClientRepository
 {
     private static ClientRepository instance = new ClientRepository();
-    private Map<String, Client> clients;
-
-    public static final Predicate PLAYER_PREDICATE = new Predicate()
-    {
-        public boolean evaluate(Object obj)
-        {
-            Client client = (Client) obj;
-            return client.getUser().isPlayer();
-        }
-    };
-
-    public static final Predicate SPECTATOR_PREDICATE = new Predicate()
-    {
-        public boolean evaluate(Object obj)
-        {
-            Client client = (Client) obj;
-            return client.getUser().isSpectator();
-        }
-    };
-
-    public static final Predicate OPERATOR_PREDICATE = new Predicate()
-    {
-        public boolean evaluate(Object obj)
-        {
-            Client client = (Client) obj;
-            return client.getUser().getAccessLevel() > 0;
-        }
-    };
+    private Map<String, Client> clients = new ConcurrentSkipListMap<String, Client>();
 
     private ClientRepository()
     {
-        FastTreeMap map = new FastTreeMap();
-        map.setFast(true);
-        clients = map;
     }
 
     public static ClientRepository getInstance()
@@ -105,7 +78,17 @@ public class ClientRepository
      */
     public Iterator<Client> getPlayers()
     {
-        return new FilterIterator(clients.values().iterator(), PLAYER_PREDICATE);
+        List<Client> player = new ArrayList<Client>();
+
+        for (Client client : clients.values())
+        {
+            if (client.getUser().isPlayer())
+            {
+                player.add(client);
+            }
+        }
+
+        return player.iterator();
     }
 
     /**
@@ -113,7 +96,16 @@ public class ClientRepository
      */
     public int getPlayerCount()
     {
-        return CollectionUtils.select(clients.values(), PLAYER_PREDICATE).size();
+        int count = 0;
+        for (Client client : clients.values())
+        {
+            if (client.getUser().isPlayer())
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     /**
@@ -121,7 +113,17 @@ public class ClientRepository
      */
     public Iterator<Client> getSpectators()
     {
-        return new FilterIterator(clients.values().iterator(), SPECTATOR_PREDICATE);
+        List<Client> spectators = new ArrayList<Client>();
+
+        for (Client client : clients.values())
+        {
+            if (client.getUser().isSpectator())
+            {
+                spectators.add(client);
+            }
+        }
+
+        return spectators.iterator();
     }
 
     /**
@@ -129,7 +131,16 @@ public class ClientRepository
      */
     public int getSpectatorCount()
     {
-        return CollectionUtils.select(clients.values(), SPECTATOR_PREDICATE).size();
+        int count = 0;
+        for (Client client : clients.values())
+        {
+            if (client.getUser().isSpectator())
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     /**
@@ -137,7 +148,17 @@ public class ClientRepository
      */
     public Iterator<Client> getOperators()
     {
-        return new FilterIterator(clients.values().iterator(), OPERATOR_PREDICATE);
+        List<Client> operators = new ArrayList<Client>();
+
+        for (Client client : clients.values())
+        {
+            if (client.getUser().getAccessLevel() > 0)
+            {
+                operators.add(client);
+            }
+        }
+
+        return operators.iterator();
     }
 
     /**

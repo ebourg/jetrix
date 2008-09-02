@@ -30,6 +30,7 @@ import net.jetrix.*;
 public abstract class ChannelMessage extends Message
 {
     private int slot;
+    private String channelName;
 
     public int getSlot()
     {
@@ -41,13 +42,13 @@ public abstract class ChannelMessage extends Message
         this.slot = slot;
     }
 
-    public Channel getChannel()
+    public String getChannelName()
     {
-        return (Channel) getDestination();
+        return channelName;
     }
 
-    public void setChannel(Channel channel)
+    public void setChannelName(String channelName)
     {
-        setDestination(channel);
+        this.channelName = channelName;
     }
 }

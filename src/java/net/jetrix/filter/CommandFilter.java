@@ -22,6 +22,7 @@ package net.jetrix.filter;
 import java.util.*;
 import java.util.logging.*;
 
+import net.jetrix.Message;
 import net.jetrix.messages.*;
 import net.jetrix.commands.*;
 
@@ -59,9 +60,8 @@ public class CommandFilter extends GenericFilter
         }
     }
 
-    public void onMessage(CommandMessage m, List out)
+    public void onMessage(CommandMessage m, List<Message> out)
     {
-
         for (String alias : command.getAliases())
         {
             if (m.getCommand().equals(alias))

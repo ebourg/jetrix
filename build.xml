@@ -149,7 +149,6 @@
 
     <!-- Pack the dependencies -->
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-digester"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-collections"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-beanutils"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-lang-2.0-light"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jetty"/></antcall>

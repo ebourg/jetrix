@@ -33,8 +33,6 @@ import net.jetrix.messages.*;
 import net.jetrix.winlist.*;
 import net.jetrix.clients.TetrinetClient;
 
-import org.apache.commons.collections.*;
-
 /**
  * Game channel.
  *
@@ -614,14 +612,14 @@ public class Channel extends Thread implements Destination
             {
                 // players...
                 JoinMessage mjoin2 = new JoinMessage();
-                mjoin2.setChannel(this);
+                mjoin2.setChannelName(getConfig().getName());
                 mjoin2.setSlot(i + 1);
                 mjoin2.setName(resident.getUser().getName()); // NPE
                 client.send(mjoin2);
 
                 // ...and teams
                 TeamMessage mteam = new TeamMessage();
-                mteam.setChannel(this);
+                mteam.setChannelName(getConfig().getName());
                 mteam.setSource(resident);
                 mteam.setSlot(i + 1);
                 mteam.setName(resident.getUser().getTeam());
@@ -685,7 +683,7 @@ public class Channel extends Thread implements Destination
         if (gameState != STOPPED)
         {
             IngameMessage ingame = new IngameMessage();
-            ingame.setChannel(this);
+            ingame.setChannelName(getConfig().getName());
             client.send(ingame);
 
             // tell the player if the game is currently paused
@@ -1041,7 +1039,17 @@ public class Channel extends Thread implements Destination
      */
     public Iterator<Client> getSpectators()
     {
-        return new FilterIterator(clients.iterator(), ClientRepository.SPECTATOR_PREDICATE);
+        List<Client> spectators = new ArrayList<Client>();
+
+        for (Client client : clients)
+        {
+            if (client.getUser().isSpectator())
+            {
+                spectators.add(client);
+            }
+        }
+
+        return spectators.iterator();
     }
 
     /**
