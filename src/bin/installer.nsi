@@ -10,7 +10,7 @@
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define BASE_PATH "..\.."
 
-SetCompressor lzma
+SetCompressor /SOLID lzma
 
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"

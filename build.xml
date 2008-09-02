@@ -270,7 +270,7 @@
   <target name="dist.win" depends="deploy" description="Build the Windows installer">
 
     <taskdef name="nsis" classname="net.sf.nsisant.Task" classpath="lib/nsisant-1.2.jar"/>
-    <condition property="nsis.home" value="C:\Program Files\NSIS">
+    <condition property="nsis.home" value="C:\Program Files\NSIS" else="/usr/bin">
       <os family="windows"/>
     </condition>
 

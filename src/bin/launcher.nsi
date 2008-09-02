@@ -11,6 +11,7 @@ Name "Jetrix TetriNET Server"
 Caption "Jetrix TetriNET Server"
 Icon "jetrix.ico"
 OutFile "jetrix.exe"
+SetCompressor lzma
 
 SilentInstall silent
 AutoCloseWindow true
@@ -68,6 +69,7 @@ Function GetJRE
         
  JreFound:
   Pop $R1
+  MessageBox MB_ICONEXCLAMATION|MB_YESNO 'exec: $R0' IDNO +2
   Exch $R0
 
 FunctionEnd
