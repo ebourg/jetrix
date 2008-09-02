@@ -269,6 +269,11 @@
 
   <target name="dist.win" depends="deploy" description="Build the Windows installer">
 
+    <taskdef name="nsis" classname="net.sf.nsisant.Task" classpath="lib/nsisant-1.2.jar"/>
+    <condition property="nsis.home" value="C:\Program Files\NSIS">
+      <os family="windows"/>
+    </condition>
+
     <!-- Build the windows executable file jetrix.exe -->
     <mkdir dir="${build}/bin"/>
     <copy todir="${build}/bin" filtering="true">
@@ -276,14 +281,14 @@
     </copy>
     <copy file="${src}/etc/icons/jetrix.ico" todir="${build}/bin"/>
 
-    <exec executable="C:\Program Files\NSIS\makensis.exe">
-      <arg line="${build}/bin/launcher.nsi"/>
-    </exec>
+    <nsis verbosity="3" script="${build}/bin/launcher.nsi" path="${nsis.home}">
+      <define name="OUT_DIR" value="${build}/bin"/>
+    </nsis>
 
     <!-- Build the installer -->
-    <exec executable="C:\Program Files\NSIS\makensis.exe">
-      <arg line="${build}/bin/installer.nsi"/>
-    </exec>
+    <nsis verbosity="3" script="${build}/bin/installer.nsi" path="${nsis.home}">
+      <define name="OUT_DIR" value="${build}/bin"/>
+    </nsis>
     <move file="${build}/bin/jetrix-${version}-installer.exe" todir="${dist}/bin"/>
 
   </target>
