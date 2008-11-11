@@ -59,7 +59,7 @@ public class OperatorCommand extends AbstractCommand implements ParameterCommand
         if (password.equalsIgnoreCase(conf.getOpPassword()))
         {
             // access granted
-            client.getUser().setAccessLevel(1);
+            client.getUser().setAccessLevel(AccessLevel.OPERATOR);
             PlineMessage response = new PlineMessage();
             response.setKey("command.operator.granted");
             client.send(response);
