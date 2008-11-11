@@ -67,11 +67,8 @@ public class ServerConfig
     private int status;
     private Statistics statistics;
 
-    // datasource parameters
-    private String dataSourceDriver;
-    private String dataSourceURL;
-    private String dataSourceUsername;
-    private String dataSourcePassword;
+    // datasource configuration
+    private DataSourceConfig datasourceConfig;
 
     private URL serverConfigURL;
     private URL channelsConfigURL;
@@ -273,23 +270,47 @@ public class ServerConfig
         out.println("  </ban>");
         out.println();
 
-        out.println("  <!-- Database connection parameters -->");
-        out.println("  <datasource>");
-        out.println("    <!-- The class of the JDBC driver used -->");
-        out.println("    <driver>" + dataSourceDriver + "</driver>");
-        out.println();
-        out.println("    <!-- The URL of the database (jdbc:<type>://<hostname>:<port>/<database>) -->");
-        out.println("    <url>" + dataSourceURL + "</url>");
-        out.println();
-        out.println("    <!-- The username connecting to the database -->");
-        out.println("    <username>" + dataSourceUsername + "</username>");
-        out.println();
-        out.println("    <!-- The password of the user -->");
-        out.println("    <password>" + dataSourcePassword + "</password>");
-        out.println("  </datasource>");
-        out.println();
+        if (datasourceConfig != null)
+        {
+            out.println("  <!-- Database connection parameters -->");
+            out.println("  <datasource>");
+            out.println("    <!-- The class of the JDBC driver used -->");
+            out.println("    <driver>" + datasourceConfig.getDriver() + "</driver>");
+            out.println();
+            out.println("    <!-- The URL of the database (jdbc:<type>://<hostname>:<port>/<database>) -->");
+            out.println("    <url>" + datasourceConfig.getUrl() + "</url>");
+            out.println();
+            out.println("    <!-- The username connecting to the database -->");
+            out.println("    <username>" + datasourceConfig.getUsername() + "</username>");
+            out.println();
+            out.println("    <!-- The password of the user -->");
+            if (datasourceConfig.getPassword() != null)
+            {
+                out.println("    <password>" + datasourceConfig.getPassword() + "</password>");
+            } 
+            else
+            {
+                out.println("    <password/>");
+            }
+            if (datasourceConfig.getMinIdle() != 0)
+            {
+                out.println();
+                out.println("    <!-- The minimum number of idle connections -->");
+                out.println("    <min-idle>" + datasourceConfig.getMinIdle() + "</min-idle>");
+            }
+            if (datasourceConfig.getMaxActive() != 0)
+            {
+                out.println();
+                out.println("    <!-- The maximum number of active connections -->");
+                out.println("    <max-active>" + datasourceConfig.getMaxActive() + "</max-active>");
+            }
+            out.println("  </datasource>");
+            out.println();
+        }
+        
         out.println("</tetrinet-server>");
 
+        out.flush();
         out.close();
 
         // save the channels.xml file
@@ -911,65 +932,16 @@ public class ServerConfig
     /**
      * @since 0.3
      */
-    public String getDataSourceDriver()
+    public DataSourceConfig getDataSource()
     {
-        return dataSourceDriver;
+        return datasourceConfig;
     }
 
     /**
      * @since 0.3
      */
-    public void setDataSourceDriver(String driver)
+    public void setDataSource(DataSourceConfig datasourceConfig)
     {
-        this.dataSourceDriver = driver;
+        this.datasourceConfig = datasourceConfig;
     }
-
-    /**
-     * @since 0.3
-     */
-    public String getDataSourceURL()
-    {
-        return dataSourceURL;
-    }
-
-    /**
-     * @since 0.3
-     */
-    public void setDataSourceURL(String url)
-    {
-        this.dataSourceURL = url;
-    }
-
-    /**
-     * @since 0.3
-     */
-    public String getDataSourceUsername()
-    {
-        return dataSourceUsername;
-    }
-
-    /**
-     * @since 0.3
-     */
-    public void setDataSourceUsername(String username)
-    {
-        this.dataSourceUsername = username;
-    }
-
-    /**
-     * @since 0.3
-     */
-    public String getDataSourcePassword()
-    {
-        return dataSourcePassword;
-    }
-
-    /**
-     * @since 0.3
-     */
-    public void setDataSourcePassword(String password)
-    {
-        this.dataSourcePassword = password;
-    }
-
 }

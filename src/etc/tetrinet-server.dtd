@@ -67,8 +67,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT nick (#PCDATA)>
 <!ELEMENT team (#PCDATA)>
 
-<!ELEMENT datasource (driver, url, username, password?)>
+<!ELEMENT datasource (driver, url, username, password?, min-idle?, max-active?)>
 <!ELEMENT driver (#PCDATA)>
 <!ELEMENT url (#PCDATA)>
 <!ELEMENT username (#PCDATA)>
 <!ELEMENT password (#PCDATA)>
+<!ELEMENT min-idle (#PCDATA)>
+<!ELEMENT max-active (#PCDATA)>

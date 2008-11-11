@@ -108,6 +108,19 @@ public class ServerAction extends HttpServlet
             String pattern = request.getParameter("pattern");
             Banlist.getInstance().unban(pattern);
         }
+        else if ("datasource.update".equals(action)) 
+        {
+            DataSourceConfig datasourceConfig = new DataSourceConfig();
+            datasourceConfig.setDriver(request.getParameter("driver"));
+            datasourceConfig.setUrl(request.getParameter("url"));
+            datasourceConfig.setUsername(request.getParameter("username"));
+            datasourceConfig.setPassword(request.getParameter("password"));
+            datasourceConfig.setMinIdle(Integer.parseInt(request.getParameter("minIdle")));
+            datasourceConfig.setMaxActive(Integer.parseInt(request.getParameter("maxActive")));
+            
+            config.setDataSource(datasourceConfig);
+            DataSourceManager.getInstance().setDataSource(datasourceConfig);
+        }
         else if ("gc".equals(action))
         {
             System.gc();

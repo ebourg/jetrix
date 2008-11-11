@@ -74,10 +74,14 @@ public class ServerRuleSet extends RuleSetBase
         digester.addCallMethod("tetrinet-server/ban/host", "addBannedHost", 0);
 
         // datasource
-        digester.addCallMethod("*/datasource/driver", "setDataSourceDriver", 0);
-        digester.addCallMethod("*/datasource/url", "setDataSourceURL", 0);
-        digester.addCallMethod("*/datasource/username", "setDataSourceUsername", 0);
-        digester.addCallMethod("*/datasource/password", "setDataSourcePassword", 0);
+        digester.addObjectCreate("*/datasource", "net.jetrix.config.DataSourceConfig");
+        digester.addSetNext("*/datasource", "setDataSource", "net.jetrix.config.DataSourceConfig");
+        digester.addCallMethod("*/datasource/driver", "setDriver", 0);
+        digester.addCallMethod("*/datasource/url", "setUrl", 0);
+        digester.addCallMethod("*/datasource/username", "setUsername", 0);
+        digester.addCallMethod("*/datasource/password", "setPassword", 0);
+        digester.addCallMethod("*/datasource/min-idle", "setMinIdle", 0);
+        digester.addCallMethod("*/datasource/max-active", "setMaxActive", 0);
     }
 
 }

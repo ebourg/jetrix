@@ -89,6 +89,13 @@ public class Server implements Runnable, Destination
 
         // prepare the loggers
         LogManager.init();
+        
+        // open the database connection
+        if (config.getDataSource() != null)
+        {
+            log.info("Initializing the datasource...");
+            DataSourceManager.getInstance().setDataSource(config.getDataSource());
+        }
 
         // display the systray icon (windows only)
         SystrayManager.open();

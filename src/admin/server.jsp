@@ -40,8 +40,8 @@
 
     <table class="thin" style="width: 600px">
       <tr>
-        <td width="20%">Version</td>
-        <td width="80%">
+        <th width="25%">Version</th>
+        <td width="75%">
           <%= ServerConfig.VERSION %>
 <%  if (VersionService.isNewVersionAvailable()) { %>
           <span style="color: red; padding-left: 2em">new version available (<%= VersionService.getLatestVersion() %>), <a href="http://jetrix.sourceforge.net">download it</a> now!</span>
@@ -49,11 +49,11 @@
         </td>
       </tr>
       <tr>
-        <td>Name</td>
+        <th>Name</th>
         <td><input class="thin" type="text" name="name" value="<%= conf.getName() != null ? conf.getName() : "" %>"></td>
       </tr>
       <tr>
-        <td>Host</td>
+        <th>Host</th>
         <td>
           <select name="host">
             <option value="[ALL]">All Interfaces</option>
@@ -79,28 +79,26 @@
         </td>
       </tr>
       <tr>
-        <td>Max Players</td>
+        <th>Max Players</th>
         <td><input class="thin" type="text" name="maxPlayers" value="<%= conf.getMaxPlayers() %>"></td>
       </tr>
       <tr>
-        <td>Max Connections</td>
+        <th>Max Connections</th>
         <td><input class="thin" type="text" name="maxConnections" value="<%= conf.getMaxConnections() %>"></td>
       </tr>
       <tr>
-        <td>Operator Password</td>
+        <th>Operator Password</th>
         <td><input class="thin" type="text" name="opPassword" value="<%= conf.getOpPassword() != null ? conf.getOpPassword() : "" %>"></td>
       </tr>
       <tr>
-        <td>Administrator Password</td>
+        <th>Administrator Password</th>
         <td><input class="thin" type="text" name="adminPassword" value="<%= conf.getAdminPassword() != null ? conf.getAdminPassword() : "" %>"></td>
       </tr>
       <tr>
-        <td>Default Language</td>
+        <th>Default Language</th>
         <td>
-<%  Iterator locales = Language.getLocales().iterator(); %>
           <select class="thin" name="locale">
-<%  while (locales.hasNext()) {
-        Locale locale = (Locale) locales.next(); %>
+<%  for (Locale locale : Language.getLocales()) { %>
             <option value="<%= locale.getLanguage() %>" <%= conf.getLocale().equals(locale) ? "selected" : "" %>>
               <%= locale.getLanguage().toUpperCase() %> - <%= locale.getDisplayLanguage() %>
             </option>
@@ -109,7 +107,7 @@
         </td>
       </tr>
         <tr>
-          <td>Status</td>
+          <th>Status</th>
           <td>
             <table>
               <tr>
@@ -122,7 +120,7 @@
           </td>
         </tr>
       <tr>
-        <td valign="top">Message of the day</td>
+        <th valign="top">Message of the day</th>
         <td><textarea class="thin" name="motd" cols="20" rows="5" style="width: 100%"><%= conf.getMessageOfTheDay() %></textarea></td>
       </tr>
     </table>
@@ -391,20 +389,61 @@
 
     <table class="thin" style="width: 400px">
       <tr>
-        <td width="30%">Uptime</td>
+        <th width="35%">Uptime</th>
         <td><%= conf.getStatistics().getUpTime() %> day<%= conf.getStatistics().getUpTime() > 1 ? "s" : "" %></td>
       </tr>
       <tr>
-        <td>Number of Connections</td>
+        <th>Number of Connections</th>
         <td><%= conf.getStatistics().getConnectionCount() %></td>
       </tr>
       <tr>
-        <td>Games Played</td>
+        <th>Games Played</th>
         <td><%= conf.getStatistics().getGameCount() %></td>
       </tr>
     </table>
 
   </div>
+  
+  <div class="tab-page" style="height: 400px">
+    <h2 class="tab">Database</h2>
+      
+    <form id="datasource" action="/servlet/<%= ServerAction.class.getName() %>">
+    <input type="hidden" name="action" value="datasource.update">
+    
+    <table class="thin" style="width: 400px">
+      <tr>
+        <th width="30%">Driver</th>
+        <td><input class="thin" type="text" name="driver" value="<%= conf.getDataSource().getDriver() %>" style="width: 98%"></td>
+      </tr>
+      <tr>
+        <th>URL</th>
+        <td><input class="thin" type="text" name="url" value="<%= conf.getDataSource().getUrl() %>" style="width: 98%"></td>
+      </tr>
+      <tr>
+        <th>Username</th>
+        <td><input class="thin" type="text" name="username" value="<%= conf.getDataSource().getUsername() %>"></td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td><input class="thin" type="text" name="password" value="<%= conf.getDataSource().getPassword() %>"></td>
+      </tr>
+      <tr>
+        <th>Min Idle</th>
+        <td><input class="thin" type="text" name="minIdle" value="<%= conf.getDataSource().getMinIdle() %>"></td>
+      </tr>
+      <tr>
+        <th>Max Active</th>
+        <td><input class="thin" type="text" name="maxActive" value="<%= conf.getDataSource().getMaxActive() %>"></td>
+      </tr>
+    </table>
+    
+    <br>
+    
+    <input type="submit" value="Update">
+    
+    </form>
+  </div>
+  
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">System</h2>
 
@@ -417,7 +456,7 @@
 
     <table class="thin" style="width: 600px">
       <tr>
-        <td width="30%">Java Virtual Machine</td>
+        <th width="30%">Java Virtual Machine</th>
         <td>
           <%= System.getProperty("java.vm.name") %>
           (build <%= System.getProperty("java.vm.version") %>,
@@ -425,14 +464,14 @@
         </td>
       </tr>
       <tr>
-        <td>Java Runtime Environment</td>
+        <th>Java Runtime Environment</th>
         <td>
           <%= System.getProperty("java.runtime.name") %>
           (build <%= System.getProperty("java.vm.version") %>)
         </td>
       </tr>
       <tr>
-        <td>Operating System</td>
+        <th>Operating System</th>
         <td>
           <%= System.getProperty("os.name") %>
           <%= System.getProperty("os.version") %>
@@ -440,7 +479,7 @@
         </td>
       </tr>
       <tr>
-        <td>Processor(s)</td>
+        <th>Processor(s)</th>
         <td><%= runtime.availableProcessors() %></td>
       </tr>
     </table>
@@ -450,15 +489,15 @@
     
     <table class="thin" style="width: 600px">
       <tr>
-        <td width="30%">Total Memory</td>
+        <th width="30%">Total Memory</th>
         <td><%= df.format(runtime.totalMemory()/1024d/1024d) %> Mb</td>
       </tr>
       <tr>
-        <td>Max Memory</td>
+        <th>Max Memory</th>
         <td><%= df.format(runtime.maxMemory()/1024d/1024d) %> Mb</td>
       </tr>
       <tr>
-        <td>Free Memory</td>
+        <th>Free Memory</th>
         <td><%= df.format(runtime.freeMemory()/1024d/1024d) %> Mb</td>
       </tr>
     </table>
