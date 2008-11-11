@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <project name="Jetrix TetriNET Server" default="dist" basedir=".">
 
-  <taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/Pack200Task.jar"/>
+  <taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/build/Pack200Task.jar"/>
 
   <property name="compile.debug"    value="true"/>
   <property name="compile.optimize" value="false"/>
@@ -254,7 +254,7 @@
       <fileset dir="${src}/etc/control"/>
     </copy>
     
-    <taskdef name="deb" classname="org.vafer.jdeb.ant.DebAntTask" classpath="lib/jdeb-0.7-SNAPSHOT.jar"/>
+    <taskdef name="deb" classname="org.vafer.jdeb.ant.DebAntTask" classpath="lib/build/jdeb-0.7-SNAPSHOT.jar"/>
 
     <deb destfile="${dist}/bin/jetrix-${version}.deb" control="${build}/control" compression="bzip2">
       <data src="${dist}/bin/jetrix-${version}.tar.bz2">
@@ -266,7 +266,7 @@
 
   <target name="dist.win" depends="deploy" description="Build the Windows installer">
 
-    <taskdef name="nsis" classname="net.sf.nsisant.Task" classpath="lib/nsisant-1.2.jar"/>
+    <taskdef name="nsis" classname="net.sf.nsisant.Task" classpath="lib/build/nsisant-1.2.jar"/>
     <condition property="nsis.home" value="C:\Program Files\NSIS" else="/usr/bin">
       <os family="windows"/>
     </condition>
