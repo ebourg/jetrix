@@ -76,6 +76,7 @@ public class TetrinetAgent implements Agent
         }
 
         socket = new Socket(hostname, port);
+        socket.setSoTimeout(15000);
         this.hostname = hostname;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -93,6 +94,8 @@ public class TetrinetAgent implements Agent
         }
 
         running = true;
+        
+        socket.setSoTimeout(0);
 
         // start the message listener
         new MessageListener().start();
