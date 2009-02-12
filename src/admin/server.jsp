@@ -467,7 +467,7 @@
         <th>Java Runtime Environment</th>
         <td>
           <%= System.getProperty("java.runtime.name") %>
-          (build <%= System.getProperty("java.vm.version") %>)
+          <%= System.getProperty("java.version") %>
         </td>
       </tr>
       <tr>
