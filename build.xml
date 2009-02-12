@@ -339,6 +339,8 @@
   <target name="run" depends="deploy">
     <java dir="${deploy}/jetrix-${version}" jar="${deploy}/jetrix-${version}/lib/jetrix-launcher-${version}.jar" fork="true">
       <sysproperty key="jetrix.debug" value="true"/>
+      <arg value="--conf"/>
+      <arg value="conf/server.xml"/>
     </java>
   </target>
 

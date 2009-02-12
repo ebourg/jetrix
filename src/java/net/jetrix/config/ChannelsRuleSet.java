@@ -29,7 +29,7 @@ import org.apache.commons.digester.Rule;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ChannelsRuleSet extends RuleSetBase
+class ChannelsRuleSet extends RuleSetBase
 {
 
     public void addRuleInstances(Digester digester)

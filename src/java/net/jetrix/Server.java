@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2004  Emmanuel Bourg
+ * Copyright (C) 2001-2009  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +19,8 @@
 
 package net.jetrix;
 
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.*;
 
@@ -30,7 +32,7 @@ import net.jetrix.services.VersionService;
 import net.jetrix.listeners.ShutdownListener;
 
 /**
- * Main class, starts server components.
+ * Main class, starts the server components and handle the server level messages.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -39,19 +41,18 @@ public class Server implements Runnable, Destination
 {
     private static Server instance;
 
-    private ServerConfig config;
-    private BlockingQueue<Message> queue;
-    private ChannelManager channelManager;
     private Logger log = Logger.getLogger("net.jetrix");
+
+    private File configFile;
+    private ServerConfig config;
+    private BlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
+    private ChannelManager channelManager;
     private Client console;
 
     private Server()
     {
-        // spawn the server message queue
-        queue = new LinkedBlockingQueue<Message>();
-
         // add the stop hook
-        Runtime.getRuntime().addShutdownHook(new Thread()
+        Runtime.getRuntime().addShutdownHook(new Thread("StopHook")
         {
             public void run()
             {
@@ -61,8 +62,6 @@ public class Server implements Runnable, Destination
                 }
             }
         });
-
-        config = new ServerConfig();
     }
 
     /**
@@ -84,7 +83,8 @@ public class Server implements Runnable, Destination
     private void init()
     {
         // read the server configuration
-        config.load();
+        config = new ServerConfig();
+        config.load(configFile);
         config.setRunning(true);
 
         // prepare the loggers
@@ -286,14 +286,37 @@ public class Server implements Runnable, Destination
     }
 
     /**
+     * Set the server configuration file.
+     */
+    public void setConfigFile(File configFile)
+    {
+        this.configFile = configFile;
+    }
+
+    /**
      * Server entry point.
      *
      * @param args start parameters
      */
     public static void main(String[] args)
     {
-        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2008 Emmanuel Bourg\n");
+        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2009 Emmanuel Bourg\n");
+
         Server server = Server.getInstance();
+
+        List<String> params = Arrays.asList(args);
+
+        // read the path of the server configuration file
+        int p = params.indexOf("--conf");
+        if (p != -1 && p + 1 < params.size())
+        {
+            server.setConfigFile(new File(params.get(p + 1)));
+        }
+        else
+        {
+            server.setConfigFile(new File("conf/server.xml"));
+        }
+
         server.start();
     }
 

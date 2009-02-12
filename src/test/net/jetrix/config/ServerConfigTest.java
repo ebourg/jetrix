@@ -19,6 +19,8 @@
 
 package  net.jetrix.config;
 
+import java.net.URL;
+
 import junit.framework.*;
 import net.jetrix.ChannelManager;
 
@@ -30,12 +32,14 @@ import net.jetrix.ChannelManager;
  */
 public class ServerConfigTest extends TestCase
 {
+    private URL serverConfigURL = getClass().getResource("/conf/server.xml");
+
     public void testGetInstance()
     {
         try
         {
             ServerConfig config = new ServerConfig();
-            config.load();
+            config.load(serverConfigURL);
         }
         catch (Throwable e)
         {
@@ -47,7 +51,7 @@ public class ServerConfigTest extends TestCase
     {
         // load...
         ServerConfig config = new ServerConfig();
-        config.load();
+        config.load(serverConfigURL);
 
         // create the channels
         for (ChannelConfig cc : config.getChannels())
@@ -61,7 +65,7 @@ public class ServerConfigTest extends TestCase
 
         // and load again !
         ServerConfig config2 = new ServerConfig();
-        config2.load();
+        config2.load(serverConfigURL);
     }
 
 }

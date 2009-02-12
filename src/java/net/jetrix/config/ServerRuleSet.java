@@ -28,7 +28,7 @@ import org.apache.commons.digester.RuleSetBase;
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class ServerRuleSet extends RuleSetBase
+class ServerRuleSet extends RuleSetBase
 {
 
     public void addRuleInstances(Digester digester)
@@ -48,6 +48,8 @@ public class ServerRuleSet extends RuleSetBase
         digester.addCallParam("tetrinet-server/access-log", 0, "path");
         digester.addCallMethod("tetrinet-server/error-log", "setErrorLogPath", 1);
         digester.addCallParam("tetrinet-server/error-log", 0, "path");
+        digester.addCallMethod("tetrinet-server/channels", "setChannelsFile", 1);
+        digester.addCallParam("tetrinet-server/channels", 0, "path");
 
         // command definitions
         digester.addObjectCreate("*/command", null, "class");

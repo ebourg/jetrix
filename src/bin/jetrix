@@ -92,7 +92,9 @@ elif [ "$1" = "stop" ] ; then
 
 else
 
-  echo "Usage: jetrix.sh ( commands ... )"
+  echo "Jetrix TetriNET Server"
+  echo ""
+  echo "Usage: jetrix ( commands ... )"
   echo "commands:"
   echo "  run               Start Jetrix in the current window"
   echo "  start             Start Jetrix in a separate window"

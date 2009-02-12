@@ -43,7 +43,14 @@ import net.jetrix.commands.*;
  */
 public class ServerConfig
 {
+    private static Logger log = Logger.getLogger("net.jetrix");
+
     public static final String ENCODING = "ISO-8859-1";
+
+    public static final String VERSION = "@version@";
+
+    public static final int STATUS_OPENED = 0;
+    public static final int STATUS_LOCKED = 1;
 
     private String name;
     private InetAddress host;
@@ -55,17 +62,18 @@ public class ServerConfig
     private String adminPassword;
     private String accesslogPath;
     private String errorlogPath;
+    private String channelsFile = "channels.xml";
     private String motd;
     private Locale locale;
 
     // private List bans;
-    private List<ChannelConfig> channels;
-    private List<FilterConfig> globalFilters;
-    private List<Listener> listeners;
-    private List<Service> services;
+    private List<ChannelConfig> channels = new ArrayList<ChannelConfig>();
+    private List<FilterConfig> globalFilters = new ArrayList<FilterConfig>();
+    private List<Listener> listeners = new ArrayList<Listener>();
+    private List<Service> services = new ArrayList<Service>();
     private boolean running;
     private int status;
-    private Statistics statistics;
+    private Statistics statistics = new Statistics();
 
     // datasource configuration
     private DataSourceConfig datasourceConfig;
@@ -73,66 +81,54 @@ public class ServerConfig
     private URL serverConfigURL;
     private URL channelsConfigURL;
 
-    public static final int STATUS_OPENED = 0;
-    public static final int STATUS_LOCKED = 1;
-
-    public static final String VERSION = "@version@";
-
-    private static Logger log = Logger.getLogger("net.jetrix");
-
     /**
-     * Constructor declaration
+     * Load the configuration
      */
-    public ServerConfig()
+    public void load(File file)
     {
-        channels = new ArrayList<ChannelConfig>();
-        globalFilters = new ArrayList<FilterConfig>();
-        listeners = new ArrayList<Listener>();
-        services = new ArrayList<Service>();
-        statistics = new Statistics();
+        try
+        {
+            load(file.toURI().toURL());
+        }
+        catch (MalformedURLException e)
+        {
+            log.log(Level.SEVERE, "Unable to load the configuration", e);
+        }
     }
 
     /**
      * Load the configuration.
      */
-    public void load()
+    public void load(URL serverConfigURL)
     {
+        this.serverConfigURL = serverConfigURL;
+
         try
         {
-            Digester digester = new Digester();
-
-            // register the Jetrix server configuration file DTD
-            URL url = findResource("tetrinet-server.dtd");
-            digester.register("-//LFJR//Jetrix TetriNET Server//EN", url.toString());
-
-            // register the Jetrix channels configuration file DTD
-            url = findResource("tetrinet-channels.dtd");
-            digester.register("-//LFJR//Jetrix Channels//EN", url.toString());
-
-            // enable the document validation
-            digester.setValidating(true);
-
-            // add the rule sets
-            digester.addRuleSet(new ServerRuleSet());
-            digester.addRuleSet(new ChannelsRuleSet());
-
             // parse the server configuration
+            Digester digester = new Digester();
+            digester.register("-//LFJR//Jetrix TetriNET Server//EN", findResource("tetrinet-server.dtd").toString());
+            digester.setValidating(true);
+            digester.addRuleSet(new ServerRuleSet());
             digester.push(this);
-            serverConfigURL = findResource("conf/server.xml");
             Reader reader = new InputStreamReader(serverConfigURL.openStream(), ENCODING);
             digester.parse(new InputSource(reader));
             reader.close();
 
             // parse the channel configuration
+            digester = new Digester();
+            digester.register("-//LFJR//Jetrix Channels//EN", findResource("tetrinet-channels.dtd").toString());
+            digester.setValidating(true);
+            digester.addRuleSet(new ChannelsRuleSet());
             digester.push(this);
-            channelsConfigURL = findResource("conf/channels.xml");
+            channelsConfigURL = new URL(serverConfigURL, channelsFile);
             reader = new InputStreamReader(channelsConfigURL.openStream(), ENCODING);
             digester.parse(new InputSource(reader));
             reader.close();
         }
         catch (Exception e)
         {
-            log.log(Level.SEVERE, e.getMessage(), e);
+            log.log(Level.SEVERE, "Unable to load the configuration", e);
         }
     }
 
@@ -191,6 +187,9 @@ public class ServerConfig
         out.println("  <!-- Error Log, where errors are logged to -->");
         out.println("  <error-log  path=\"" + getErrorLogPath() + "\" />");
         out.println();
+        out.println("  <!-- Path to the channels descriptor file (relative to the current configuration file) -->");
+        out.println("  <channels path=\"" + getChannelsFile() + "\"/>");
+        out.println();
         out.println("  <!-- Client listeners -->");
         out.println("  <listeners>");
         for (Listener listener : getListeners())
@@ -248,7 +247,7 @@ public class ServerConfig
             {
                 Command command = commands.next();
                 String hidden = command.isHidden() ? " hidden=\"true\"" : "";
-                Command command2 = (Command) command.getClass().newInstance();
+                Command command2 = command.getClass().newInstance();
                 String level = command2.getAccessLevel() != command.getAccessLevel() ? " access-level=\"" + command.getAccessLevel() + "\"" : "";
                 out.println("    <command class=\"" + command.getClass().getName() + "\"" + hidden + level + "/>");
             }
@@ -667,7 +666,7 @@ public class ServerConfig
         if (url == null)
         {
             File file = new File(name);
-            url = file.toURL();
+            url = file.toURI().toURL();
         }
 
         return url;
@@ -806,6 +805,16 @@ public class ServerConfig
     public void setErrorLogPath(String errorlogPath)
     {
         this.errorlogPath = errorlogPath;
+    }
+
+    public String getChannelsFile()
+    {
+        return channelsFile;
+    }
+
+    public void setChannelsFile(String channelsFile)
+    {
+        this.channelsFile = channelsFile;
     }
 
     public String getMessageOfTheDay()

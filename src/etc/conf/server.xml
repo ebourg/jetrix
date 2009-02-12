@@ -33,6 +33,9 @@
   <!-- Error Log, where errors are logged to -->
   <error-log  path="log/error%g.log" />
 
+  <!-- Path to the channels descriptor file (relative to the current configuration file) -->
+  <channels path="channels.xml"/>
+
   <!-- Client listeners -->
   <listeners>
     <listener class="net.jetrix.listeners.TetrinetListener"/>

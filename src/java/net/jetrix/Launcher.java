@@ -81,7 +81,7 @@ public class Launcher {
     /**
      * Unpack the pack200 files in the specified directory
      *
-     * @param directory
+     * @param directory   the directory containing the files to be unpacked 
      */
     private static void unpack(File directory) throws IOException
     {
@@ -111,7 +111,7 @@ public class Launcher {
      * Build a classloader including the jar and zip files in the specified
      * directories. The directories are also included in the classpath.
      * 
-     * @param directories
+     * @param directories   the directories containing the jars to be mounted in the classpath
      */
     private static ClassLoader createClassLoader(File... directories) throws Exception
     {
@@ -122,12 +122,12 @@ public class Launcher {
             // add the jar and zip files in the directory to the classpath
             File[] files = directory.listFiles();
 
-            for (int i = 0; i < files.length; i++)
+            for (File file : files)
             {
-                String filename = files[i].getAbsolutePath();
+                String filename = file.getAbsolutePath();
                 if (filename.endsWith(".jar") || filename.endsWith(".zip"))
                 {
-                    urls.add(files[i].toURI().toURL());
+                    urls.add(file.toURI().toURL());
                 }
             }
 

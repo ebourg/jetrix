@@ -1,6 +1,6 @@
 <!--
 Jetrix TetriNET Server
-Copyright (C) 2001-2005  Emmanuel Bourg
+Copyright (C) 2001-2009  Emmanuel Bourg
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 <!ELEMENT tetrinet-server (name?, language?, timeout?, max-channels?,
   max-players?, max-connections?, op-password, admin-password, access-log,
-  error-log, listeners, services?, commands, ban?, datasource?)>
+  error-log, channels?, listeners, services?, commands, ban?, datasource?)>
 <!ATTLIST tetrinet-server host CDATA #IMPLIED>
 
 <!ELEMENT name (#PCDATA)>
@@ -40,6 +40,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 <!ELEMENT error-log EMPTY>
 <!ATTLIST error-log path CDATA #REQUIRED>
+
+<!ELEMENT channels EMPTY>
+<!ATTLIST channels path CDATA #REQUIRED>
 
 <!ELEMENT commands (command*)>
 <!ELEMENT command EMPTY>
