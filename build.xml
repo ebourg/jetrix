@@ -332,6 +332,8 @@
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
+    <chmod file="${deploy}/jetrix-${version}/jetrix" perm="+x"/>
+    <chmod file="${deploy}/jetrix-${version}/update" perm="+x"/>
   </target>
 
   <target name="run" depends="deploy">
