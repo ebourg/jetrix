@@ -75,11 +75,13 @@ public class TetrinetAgent implements Agent
             return;
         }
 
+        this.hostname = hostname;
+
         socket = new Socket(hostname, port);
         socket.setSoTimeout(15000);
-        this.hostname = hostname;
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
+        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "ISO-8859-1"));
 
         send(TetrinetProtocol.encode(name, version, socket.getInetAddress().getAddress(), false));
 
