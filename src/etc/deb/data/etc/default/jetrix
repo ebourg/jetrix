@@ -1,0 +1,5 @@
+# Defaults for jetrix initscript
+
+# Master system-wide jetrix switch. The initscript
+# will not run if it is not set to yes.
+RUN="yes"

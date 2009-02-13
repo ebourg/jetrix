@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Pre removal script for Jetrix
+#
+
+set -e
+
+# stop the server
+if [ -x "/etc/init.d/jetrix" ]; then
+	if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+		invoke-rc.d jetrix stop || exit $?
+	else
+		/etc/init.d/jetrix stop || exit $?
+	fi
+fi
+
+exit 0

@@ -1,5 +1,0 @@
-#!/bin/sh
-
-# Create the installation directory
-mkdir -p /usr/share/jetrix
-chmod a+w /usr/share/jetrix

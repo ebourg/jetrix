@@ -1,2 +1,4 @@
+/etc/default/jetrix
+/etc/init.d/jetrix
 /etc/jetrix/server.xml
 /etc/jetrix/channels.xml

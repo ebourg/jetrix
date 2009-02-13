@@ -253,7 +253,7 @@
   <target name="dist.linux" depends="dist" description="Build the Linux installer">
     <mkdir dir="${build}/control"/>
     <copy todir="${build}/control" filtering="true" >
-      <fileset dir="${src}/etc/control"/>
+      <fileset dir="src/etc/deb/control"/>
     </copy>
     
     <taskdef name="deb" classname="org.vafer.jdeb.ant.DebAntTask" classpath="lib/build/jdeb-0.7-SNAPSHOT.jar"/>
@@ -262,7 +262,9 @@
       <data src="${dist}/bin/jetrix-${version}.tar.bz2">
         <mapper type="prefix" strip="1" prefix="/usr/share/jetrix"/>
         <exclude name="**/*.bat"/>
+        <exclude name="**/update"/>
       </data>
+      <fileset dir="src/etc/deb/data"/>
     </deb>
   </target>
 
