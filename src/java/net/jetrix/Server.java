@@ -56,6 +56,7 @@ public class Server implements Runnable, Destination
         {
             public void run()
             {
+                log.info("Shutdown command received from the system");
                 if (config != null)
                 {
                     instance.stop();

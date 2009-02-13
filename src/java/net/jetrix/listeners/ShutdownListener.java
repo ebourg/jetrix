@@ -78,7 +78,7 @@ public class ShutdownListener extends AbstractService implements Listener
                 DatagramPacket packet = new DatagramPacket(new byte[length], length);
                 socket.receive(packet);
 
-                if (packet != null && new String(packet.getData(), "UTF8").equals(SHUTDOWN_COMMAND))
+                if (new String(packet.getData(), "UTF8").equals(SHUTDOWN_COMMAND))
                 {
                     log.info("Shutdown command received");
                     Server.getInstance().stop();
