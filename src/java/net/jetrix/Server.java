@@ -52,7 +52,7 @@ public class Server implements Runnable, Destination
     private Server()
     {
         // add the stop hook
-        Runtime.getRuntime().addShutdownHook(new Thread("StopHook")
+        Thread hook = new Thread("StopHook")
         {
             public void run()
             {
@@ -62,7 +62,18 @@ public class Server implements Runnable, Destination
                     instance.stop();
                 }
             }
-        });
+        };
+        Runtime.getRuntime().addShutdownHook(hook);
+
+        try
+        {
+            SystemSignal.handle("INT", hook);
+            SystemSignal.handle("TERM", hook);
+        }
+        catch (Throwable e)
+        {
+            log.warning("Unable to hook the system signals: " + e.getMessage());
+        }
     }
 
     /**
