@@ -56,9 +56,9 @@ public class Server implements Runnable, Destination
         {
             public void run()
             {
-                log.info("Shutdown command received from the system");
-                if (config != null)
+                if (config != null && config.isRunning())
                 {
+                    log.info("Shutdown command received from the system");
                     instance.stop();
                 }
             }
@@ -188,7 +188,7 @@ public class Server implements Runnable, Destination
         ChannelManager.getInstance().closeAll();
 
         // stop the server thread
-        queue.add(new ShutdownMessage());
+        send(new ShutdownMessage());
     }
 
     /**
@@ -255,7 +255,7 @@ public class Server implements Runnable, Destination
                 {
                     CommandManager.getInstance().execute((CommandMessage) message);
                 }
-                else
+                else if (!(message instanceof ShutdownMessage))
                 {
                     log.info("[server] Message not processed " + message);
                 }
