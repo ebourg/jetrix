@@ -87,7 +87,7 @@ public class ConsoleClient implements Client
 
         if (closed)
         {
-            log.info("Input stream closed, shutting down the console...");
+            log.info("Standard input closed, shutting down the console...");
         }
     }
 
@@ -169,6 +169,14 @@ public class ConsoleClient implements Client
 
     public void disconnect()
     {
+        try
+        {
+            System.in.close();
+        }
+        catch (IOException e)
+        {
+            log.warning("Unable to close the standard input : " + e.getMessage());
+        }
     }
 
 }
