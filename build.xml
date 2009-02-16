@@ -230,7 +230,7 @@
       <fileset dir="src/etc/deb/control"/>
     </copy>
 
-    <taskdef name="deb" classname="org.vafer.jdeb.ant.DebAntTask" classpath="lib/build/jdeb-0.7-SNAPSHOT.jar"/>
+    <taskdef name="deb" classname="org.vafer.jdeb.ant.DebAntTask" classpath="lib/build/jdeb-0.8-SNAPSHOT.jar"/>
 
     <deb destfile="${dist}/bin/jetrix-${version}.deb" control="${build}/control" compression="bzip2">
       <fileset dir="src/etc/deb/data"/>
