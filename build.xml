@@ -165,88 +165,62 @@
 
   <target name="dist" depends="pack">
 
-    <!-- Replace the tokens in the scripts -->
-    <mkdir dir="${build}/bin"/>
-    <copy todir="${build}/bin" filtering="on">
-      <fileset dir="${src}/bin" includes="**/*"/>
+    <mkdir dir="${build}/dist"/>
+
+    <copy todir="${build}/dist" filtering="on">
+      <fileset dir="${src}/bin" includes="**/*" excludes="**/*.nsi"/>
     </copy>
-    <fixcrlf srcdir="${build}/bin" eol="lf" eof="remove">
-      <include name="jetrix"/>
-      <include name="update"/>
-    </fixcrlf>
+    <copy todir="${build}/dist">
+      <fileset dir="${src}/etc">
+        <include name="LICENSE" />
+        <include name="README" />
+        <include name="conf/*" />
+        <include name="data/**" />
+        <include name="log/**" />
+      </fileset>
+      <fileset dir="${build}">
+        <include name="lib/*.pack" />
+      </fileset>
+      <fileset dir="${dist}">
+        <include name="lib/jetrix-${version}.jar.pack" />
+        <include name="lib/jetrix-launcher-${version}.jar" />
+      </fileset>
+      <fileset dir="${src}">
+        <include name="lang/*.properties" />
+      </fileset>
+    </copy>
+    <copy todir="${build}/dist/lib">
+      <fileset dir="${dist}/webapp/">
+        <include name="*.war.pack" />
+      </fileset>
+    </copy>
 
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/bin"/>
 
     <!-- Create the Windows distribution -->
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
-      <zipfileset prefix="jetrix-${version}/" dir="${src}/etc/">
-        <include name="LICENSE" />
-        <include name="README" />
-        <include name="conf/*" />
-        <include name="data/**" />
+      <zipfileset prefix="jetrix-${version}" dir="${build}/dist" filemode="755">
+        <include name="jetrix"/>
+        <include name="update"/>
       </zipfileset>
-      <zipfileset prefix="jetrix-${version}/" dir="${build}/bin/">
-        <include name="jetrix.bat" />
-        <include name="update.bat" />
+      <zipfileset prefix="jetrix-${version}" dir="${build}/dist">
+        <exclude  name="jetrix"/>
+        <exclude  name="update"/>
       </zipfileset>
-      <zipfileset prefix="jetrix-${version}/" dir="${build}/bin/" filemode="755">
-        <include name="jetrix" />
-        <include name="update" />
-      </zipfileset>
-      <zipfileset prefix="jetrix-${version}/lib" dir="${build}/lib">
-        <include name="*.pack" />
-      </zipfileset>
-      <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
-        <include name="jetrix-${version}.jar.pack" />
-        <include name="jetrix-launcher-${version}.jar" />
-      </zipfileset>
-      <zipfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
-        <include name="*.war.pack" />
-      </zipfileset>
-      <zipfileset prefix="jetrix-${version}/lang/" dir="${src}/lang/">
-        <include name="*.properties" />
-      </zipfileset>
-      <zipfileset prefix="jetrix-${version}/log/" dir="${src}/etc/log/"/>
     </zip>
 
     <!-- Create the Unix distribution -->
-    <tar destfile="${dist}/bin/jetrix-${version}.tar">
-      <tarfileset prefix="jetrix-${version}/" dir="${src}/etc/">
-        <include name="LICENSE" />
-        <include name="README" />
-        <include name="conf/*" />
-        <include name="data/**" />
+    <tar destfile="${dist}/bin/jetrix-${version}.tar.bz2" compression="bzip2">
+      <tarfileset prefix="jetrix-${version}" dir="${build}/dist" filemode="755">
+        <include name="jetrix"/>
+        <include name="update"/>
       </tarfileset>
-      <tarfileset prefix="jetrix-${version}/" dir="${build}/bin/">
-        <include name="jetrix.bat" />
-        <include name="update.bat" />
+      <tarfileset prefix="jetrix-${version}" dir="${build}/dist">
+        <exclude  name="jetrix"/>
+        <exclude  name="update"/>
       </tarfileset>
-      <tarfileset prefix="jetrix-${version}/" dir="${build}/bin/" mode="755">
-        <include name="jetrix" />
-        <include name="update" />
-      </tarfileset>
-      <tarfileset prefix="jetrix-${version}" dir="${build}" includes="lib"/>
-      <tarfileset prefix="jetrix-${version}/lib" dir="${build}/lib">
-        <include name="*.pack" />
-      </tarfileset>
-      <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/lib/">
-        <include name="jetrix-${version}.jar.pack" />
-        <include name="jetrix-launcher-${version}.jar" />
-      </tarfileset>
-      <tarfileset prefix="jetrix-${version}/lib/" dir="${dist}/webapp/">
-        <include name="*.war.pack" />
-      </tarfileset>
-      <tarfileset prefix="jetrix-${version}" dir="${src}" includes="lang"/>
-      <tarfileset prefix="jetrix-${version}/lang/" dir="${src}/lang/">
-        <include name="*.properties" />
-      </tarfileset>
-      <tarfileset prefix="jetrix-${version}" dir="${src}/etc" includes="log"/>
-      <tarfileset prefix="jetrix-${version}/log/" dir="${src}/etc/log/"/>
     </tar>
-
-    <bzip2 zipfile="${dist}/bin/jetrix-${version}.tar.bz2" src="${dist}/bin/jetrix-${version}.tar"/>
-    <delete file="${dist}/bin/jetrix-${version}.tar"/>
 
   </target>
 
@@ -255,16 +229,19 @@
     <copy todir="${build}/control" filtering="true" >
       <fileset dir="src/etc/deb/control"/>
     </copy>
-    
+
     <taskdef name="deb" classname="org.vafer.jdeb.ant.DebAntTask" classpath="lib/build/jdeb-0.7-SNAPSHOT.jar"/>
 
     <deb destfile="${dist}/bin/jetrix-${version}.deb" control="${build}/control" compression="bzip2">
-      <data src="${dist}/bin/jetrix-${version}.tar.bz2">
-        <mapper type="prefix" strip="1" prefix="/usr/share/jetrix"/>
-        <exclude name="**/*.bat"/>
-        <exclude name="**/update"/>
-      </data>
       <fileset dir="src/etc/deb/data"/>
+      <tarfileset prefix="/usr/share/jetrix" dir="${build}/dist" username="root" group="root" filemode="755">
+        <include name="jetrix"/>
+      </tarfileset>
+      <tarfileset prefix="/usr/share/jetrix" dir="${build}/dist" username="root" group="root">
+        <exclude  name="jetrix"/>
+        <exclude  name="update"/>
+        <exclude  name="*.bat"/>
+      </tarfileset>
     </deb>
   </target>
 
