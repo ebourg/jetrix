@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2009  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,20 +20,24 @@
 package net.jetrix.messages.channel.specials;
 
 /**
- * Message sent when 3 lines are cleared and 2 lines are added to all opponents.
+ * Message sent when a player clears several lines and add lines to all opponents.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
+ * @since 0.3
  */
-public class TwoLinesAddedMessage extends LinesAddedMessage
+public abstract class LinesAddedMessage extends SpecialMessage
 {
-    public int getLinesCleared()
-    {
-        return 3;
-    }
+    /**
+     * Returns the number of lines cleared
+     * @since 0.3
+     */
+    public abstract int getLinesCleared();
 
-    public int getLinesAdded()
-    {
-        return 2;
-    }
+    /**
+     * Returns the number of lines added to all opponents.
+     * @since 0.3
+     */
+    public abstract int getLinesAdded();
+
 }

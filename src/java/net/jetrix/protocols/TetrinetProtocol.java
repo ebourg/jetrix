@@ -383,9 +383,7 @@ public class TetrinetProtocol extends AbstractProtocol
 
     public String translate(SpecialMessage m)
     {
-        if (m instanceof OneLineAddedMessage)        { return translate((OneLineAddedMessage) m); }
-        else if (m instanceof TwoLinesAddedMessage)  { return translate((TwoLinesAddedMessage) m); }
-        else if (m instanceof FourLinesAddedMessage) { return translate((FourLinesAddedMessage) m); }
+        if (m instanceof LinesAddedMessage)          { return translate((LinesAddedMessage) m); }
         else if (m instanceof AddLineMessage)        { return translate((AddLineMessage) m); }
         else if (m instanceof ClearLineMessage)      { return translate((ClearLineMessage) m); }
         else if (m instanceof ClearSpecialsMessage)  { return translate((ClearSpecialsMessage) m); }
@@ -649,32 +647,12 @@ public class TetrinetProtocol extends AbstractProtocol
         return message.toString();
     }
 
-    public String translate(OneLineAddedMessage m)
+    public String translate(LinesAddedMessage m)
     {
         StringBuilder message = new StringBuilder();
         message.append("sb ");
         message.append(m.getSlot());
-        message.append(" cs1 ");
-        message.append(m.getFromSlot());
-        return message.toString();
-    }
-
-    public String translate(TwoLinesAddedMessage m)
-    {
-        StringBuilder message = new StringBuilder();
-        message.append("sb ");
-        message.append(m.getSlot());
-        message.append(" cs2 ");
-        message.append(m.getFromSlot());
-        return message.toString();
-    }
-
-    public String translate(FourLinesAddedMessage m)
-    {
-        StringBuilder message = new StringBuilder();
-        message.append("sb ");
-        message.append(m.getSlot());
-        message.append(" cs4 ");
+        message.append(" cs").append(m.getLinesAdded()).append(" ");
         message.append(m.getFromSlot());
         return message.toString();
     }

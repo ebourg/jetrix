@@ -318,17 +318,7 @@ public class IRCProtocol extends AbstractProtocol
         return null;
     }
 
-    public String translate(OneLineAddedMessage m)
-    {
-        return null;
-    }
-
-    public String translate(TwoLinesAddedMessage m)
-    {
-        return null;
-    }
-
-    public String translate(FourLinesAddedMessage m)
+    public String translate(LinesAddedMessage m)
     {
         return null;
     }

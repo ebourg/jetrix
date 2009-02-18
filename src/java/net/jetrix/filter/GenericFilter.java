@@ -150,9 +150,7 @@ public abstract class GenericFilter extends MessageFilter
         onSpecial(m, out);
 
         // message dispatching
-        if (m instanceof OneLineAddedMessage)        { onMessage((OneLineAddedMessage) m, out); }
-        else if (m instanceof TwoLinesAddedMessage)  { onMessage((TwoLinesAddedMessage) m, out); }
-        else if (m instanceof FourLinesAddedMessage) { onMessage((FourLinesAddedMessage) m, out); }
+        if (m instanceof LinesAddedMessage)          { onMessage((LinesAddedMessage) m, out); }
         else if (m instanceof AddLineMessage)        { onMessage((AddLineMessage) m, out); }
         else if (m instanceof ClearLineMessage)      { onMessage((ClearLineMessage) m, out); }
         else if (m instanceof ClearSpecialsMessage)  { onMessage((ClearSpecialsMessage) m, out); }
@@ -194,6 +192,13 @@ public abstract class GenericFilter extends MessageFilter
     public void onMessage(CommandMessage m, List<Message> out)
     {
         out.add(m);
+    }
+
+    public void onMessage(LinesAddedMessage m, List<Message> out)
+    {
+        if (m instanceof OneLineAddedMessage)        { onMessage((OneLineAddedMessage) m, out); }
+        else if (m instanceof TwoLinesAddedMessage)  { onMessage((TwoLinesAddedMessage) m, out); }
+        else if (m instanceof FourLinesAddedMessage) { onMessage((FourLinesAddedMessage) m, out); }
     }
 
     public void onMessage(OneLineAddedMessage m, List<Message> out)

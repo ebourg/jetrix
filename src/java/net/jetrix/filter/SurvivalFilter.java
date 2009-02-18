@@ -34,7 +34,7 @@ import net.jetrix.messages.channel.specials.*;
  */
 public class SurvivalFilter extends GenericFilter
 {
-    public void onMessage(OneLineAddedMessage m, List<Message> out)
+    public void onMessage(LinesAddedMessage m, List<Message> out)
     {
         out.add(m);
 
@@ -43,37 +43,10 @@ public class SurvivalFilter extends GenericFilter
             ClearLineMessage clear = new ClearLineMessage();
             clear.setSlot(m.getFromSlot());
 
-            out.add(clear);
-        }
-    }
-
-    public void onMessage(TwoLinesAddedMessage m, List<Message> out)
-    {
-        out.add(m);
-
-        if (m.getFromSlot() != 0)
-        {
-            ClearLineMessage clear = new ClearLineMessage();
-            clear.setSlot(m.getFromSlot());
-
-            out.add(clear);
-            out.add(clear);
-        }
-    }
-
-    public void onMessage(FourLinesAddedMessage m, List<Message> out)
-    {
-        out.add(m);
-
-        if (m.getFromSlot() != 0)
-        {
-            ClearLineMessage clear = new ClearLineMessage();
-            clear.setSlot(m.getFromSlot());
-
-            out.add(clear);
-            out.add(clear);
-            out.add(clear);
-            out.add(clear);
+            for (int i = 0; i < m.getLinesAdded(); i++)
+            {
+                out.add(clear);
+            }
         }
     }
 }

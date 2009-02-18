@@ -251,9 +251,7 @@ public class TetrinetAgent implements Agent
         onSpecial(m);
 
         // message dispatching
-        if (m instanceof OneLineAddedMessage)        { onMessage((OneLineAddedMessage) m); }
-        else if (m instanceof TwoLinesAddedMessage)  { onMessage((TwoLinesAddedMessage) m); }
-        else if (m instanceof FourLinesAddedMessage) { onMessage((FourLinesAddedMessage) m); }
+        if (m instanceof LinesAddedMessage)        { onMessage((LinesAddedMessage) m); }
         else if (m instanceof AddLineMessage)        { onMessage((AddLineMessage) m); }
         else if (m instanceof ClearLineMessage)      { onMessage((ClearLineMessage) m); }
         else if (m instanceof ClearSpecialsMessage)  { onMessage((ClearSpecialsMessage) m); }
@@ -281,6 +279,13 @@ public class TetrinetAgent implements Agent
     public void onMessage(PlayerWonMessage m) { }
 
     public void onMessage(CommandMessage m) { }
+
+    public void onMessage(LinesAddedMessage m)
+    {
+        if (m instanceof OneLineAddedMessage)        { onMessage((OneLineAddedMessage) m); }
+        else if (m instanceof TwoLinesAddedMessage)  { onMessage((TwoLinesAddedMessage) m); }
+        else if (m instanceof FourLinesAddedMessage) { onMessage((FourLinesAddedMessage) m); }
+    }
 
     public void onMessage(OneLineAddedMessage m) { }
 

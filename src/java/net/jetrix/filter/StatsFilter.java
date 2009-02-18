@@ -124,31 +124,11 @@ public class StatsFilter extends GenericFilter
         out.add(m);
     }
 
-    public void onMessage(OneLineAddedMessage m, List<Message> out)
+    public void onMessage(LinesAddedMessage m, List<Message> out)
     {
         out.add(m);
 
-        updateStats(m, 1);
-
-        // remove 1 block count from any player in an opposite team
-        removeBlock(m);
-    }
-
-    public void onMessage(TwoLinesAddedMessage m, List<Message> out)
-    {
-        out.add(m);
-
-        updateStats(m, 2);
-
-        // remove 1 block count from any player in an opposite team
-        removeBlock(m);
-    }
-
-    public void onMessage(FourLinesAddedMessage m, List<Message> out)
-    {
-        out.add(m);
-
-        updateStats(m, 4);
+        updateStats(m);
 
         // remove 1 block count from any player in an opposite team
         removeBlock(m);
@@ -156,9 +136,7 @@ public class StatsFilter extends GenericFilter
 
     public void onSpecial(SpecialMessage m, List<Message> out)
     {
-        if (!(m instanceof OneLineAddedMessage)
-                && !(m instanceof TwoLinesAddedMessage)
-                && !(m instanceof FourLinesAddedMessage))
+        if (!(m instanceof LinesAddedMessage))
         {
             // add a special received by the target
             PlayerStats playerStats = stats.get(m.getSlot() - 1);
@@ -240,17 +218,16 @@ public class StatsFilter extends GenericFilter
      * Update the stats of the player sending the specified message.
      *
      * @param message
-     * @param lines
      */
-    private void updateStats(SpecialMessage message, int lines)
+    private void updateStats(LinesAddedMessage message)
     {
         if (message.getFromSlot() > 0) // ignore messages sent by the server
         {
             PlayerStats playerStats = stats.get(message.getFromSlot() - 1);
             if (playerStats != null)
             {
-                playerStats.linesAdded += lines;
-                if (lines == 4)
+                playerStats.linesAdded += message.getLinesAdded();
+                if (message.getLinesAdded() == 4)
                 {
                     playerStats.tetrisCount++;
                 }

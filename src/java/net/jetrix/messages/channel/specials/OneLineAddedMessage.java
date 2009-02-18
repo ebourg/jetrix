@@ -20,13 +20,20 @@
 package net.jetrix.messages.channel.specials;
 
 /**
- *
+ * Message sent when 2 lines are cleared and 1 line is added to all opponents.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
  */
-public class OneLineAddedMessage extends SpecialMessage
+public class OneLineAddedMessage extends LinesAddedMessage
 {
+    public int getLinesCleared()
+    {
+        return 2;
+    }
 
-
+    public int getLinesAdded()
+    {
+        return 1;
+    }
 }
