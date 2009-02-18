@@ -196,7 +196,7 @@
 <%  } %>
     </table>
 
-    <!-- list, add, remove -->
+    <!-- todo add, remove filters -->
 
   </div>
   <div class="tab-page" style="height: 400px; overflow: auto">
@@ -325,7 +325,7 @@
         <td width="70" align="center"><%= listener.isRunning() ? "Started" : "Stopped" %></td>
         <td width="70" align="center"><%= listener.isAutoStart() ? "yes" : "no" %></td>
         <td width="50">
-          <form id="listener" action="/servlet/<%= ServerAction.class.getName() %>">
+          <form id="listener-<%= i %>" action="/servlet/<%= ServerAction.class.getName() %>">
             <input type="hidden" name="index"  value="<%= i %>">
 <%      if (listener.isRunning()) { %>
             <input type="hidden" name="action" value="listener.stop">
@@ -342,7 +342,7 @@
 
     <br>
 
-    <input type="button" value="Add">
+    <!-- todo <input type="button" value="Add"> -->
 
   </div>
   <div class="tab-page" style="height: 400px">
@@ -364,7 +364,7 @@
         <td width="70" align="center"><%= service.isRunning() ? "Started" : "Stopped" %></td>
         <td width="70" align="center"><%= service.isAutoStart() ? "yes" : "no" %></td>
         <td width="50">
-          <form id="listener" action="/servlet/<%= ServerAction.class.getName() %>">
+          <form id="service-<%= i %>" action="/servlet/<%= ServerAction.class.getName() %>">
             <input type="hidden" name="index"  value="<%= i %>">
 <%      if (service.isRunning()) { %>
             <input type="hidden" name="action" value="service.stop">
@@ -381,7 +381,7 @@
 
     <br>
 
-    <input type="button" value="Add">
+    <!-- todo <input type="button" value="Add"> -->
 
   </div>
   <div class="tab-page" style="height: 400px">
@@ -404,36 +404,43 @@
 
   </div>
   
-  <div class="tab-page" style="height: 400px">
-    <h2 class="tab">Database</h2>
-      
+  <div class="tab-page" style="height: 400px; overflow: auto">
+    <h2 class="tab">Databases</h2>
+
+<%  for (DataSourceConfig datasource : conf.getDataSources()) { %>
+
     <form id="datasource" action="/servlet/<%= ServerAction.class.getName() %>">
     <input type="hidden" name="action" value="datasource.update">
-    
+    <input type="hidden" name="name" value="<%= datasource.getName() %>">
+
     <table class="thin" style="width: 400px">
       <tr>
+        <th width="30%">Name</th>
+        <td><b><%= datasource.getName() %></b></td>
+      </tr>
+      <tr>
         <th width="30%">Driver</th>
-        <td><input class="thin" type="text" name="driver" value="<%= conf.getDataSource().getDriver() %>" style="width: 98%"></td>
+        <td><input class="thin" type="text" name="driver" value="<%= datasource.getDriver() %>" style="width: 98%"></td>
       </tr>
       <tr>
         <th>URL</th>
-        <td><input class="thin" type="text" name="url" value="<%= conf.getDataSource().getUrl() %>" style="width: 98%"></td>
+        <td><input class="thin" type="text" name="url" value="<%= datasource.getUrl() %>" style="width: 98%"></td>
       </tr>
       <tr>
         <th>Username</th>
-        <td><input class="thin" type="text" name="username" value="<%= conf.getDataSource().getUsername() %>"></td>
+        <td><input class="thin" type="text" name="username" value="<%= datasource.getUsername() %>"></td>
       </tr>
       <tr>
         <th>Password</th>
-        <td><input class="thin" type="text" name="password" value="<%= conf.getDataSource().getPassword() %>"></td>
+        <td><input class="thin" type="text" name="password" value="<%= datasource.getPassword() %>"></td>
       </tr>
       <tr>
         <th>Min Idle</th>
-        <td><input class="thin" type="text" name="minIdle" value="<%= conf.getDataSource().getMinIdle() %>"></td>
+        <td><input class="thin" type="text" name="minIdle" value="<%= datasource.getMinIdle() %>"></td>
       </tr>
       <tr>
         <th>Max Active</th>
-        <td><input class="thin" type="text" name="maxActive" value="<%= conf.getDataSource().getMaxActive() %>"></td>
+        <td><input class="thin" type="text" name="maxActive" value="<%= datasource.getMaxActive() %>"></td>
       </tr>
     </table>
     
@@ -442,6 +449,11 @@
     <input type="submit" value="Update">
     
     </form>
+
+    <br>
+
+<%  } %>    
+
   </div>
   
   <div class="tab-page" style="height: 400px">
@@ -512,6 +524,7 @@
   </div>
 </div>
 
+</div>
 
 </body>
 </html>

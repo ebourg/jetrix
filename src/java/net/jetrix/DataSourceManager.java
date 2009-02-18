@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
@@ -46,7 +45,13 @@ public final class DataSourceManager
     private Map<String, DataSource> datasources = new HashMap<String, DataSource>();
 
     /** Key of the default datasource. */
-    private static final String DEFAULT_DATASOURCE = "DEFAULT";
+    public static final String DEFAULT_DATASOURCE = "DEFAULT";
+
+    /** Default number of the minimum idle connections */
+    public static final int DEFAULT_MIN_IDLE = 1;
+
+    /** Default number of maximum active connections */
+    public static final int DEFAULT_MAX_ACTIVE = 50;
 
     private DataSourceManager()
     {
@@ -67,7 +72,7 @@ public final class DataSourceManager
 
     public DataSource getDataSource(String environnement)
     {
-        return (DataSource) datasources.get(environnement);
+        return datasources.get(environnement);
     }
 
     /** 
@@ -112,8 +117,8 @@ public final class DataSourceManager
             datasource.setUrl(config.getUrl());
             datasource.setUsername(config.getUsername());
             datasource.setPassword(config.getPassword());
-            datasource.setMinIdle(config.getMinIdle() != 0 ? config.getMinIdle() : 1);
-            datasource.setMaxActive(config.getMaxActive() != 0 ? config.getMaxActive() : 50);
+            datasource.setMinIdle(config.getMinIdle() != 0 ? config.getMinIdle() : DEFAULT_MIN_IDLE);
+            datasource.setMaxActive(config.getMaxActive() != 0 ? config.getMaxActive() : DEFAULT_MAX_ACTIVE);
             
             // attempts to open the connection
             datasource.getConnection().close();

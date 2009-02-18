@@ -19,20 +19,42 @@
 
 package net.jetrix.config;
 
+import net.jetrix.DataSourceManager;
+
 /**
  * Configuration for a pool of connections to a database.
  * 
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
+ * @since 0.3
  */
 public class DataSourceConfig
 {
+    private String name = DataSourceManager.DEFAULT_DATASOURCE;
     private String url;
     private String driver;
     private String username;
     private String password;
-    private int minIdle;
-    private int maxActive;
+    private int minIdle = DataSourceManager.DEFAULT_MIN_IDLE;
+    private int maxActive = DataSourceManager.DEFAULT_MAX_ACTIVE;
+
+    /**
+     * Tells if this datasource is the default datasource.
+     */
+    public boolean isDefault()
+    {
+        return DataSourceManager.DEFAULT_DATASOURCE.equals(name);
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
     public String getUrl()
     {

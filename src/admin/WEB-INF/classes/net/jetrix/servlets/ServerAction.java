@@ -110,16 +110,17 @@ public class ServerAction extends HttpServlet
         }
         else if ("datasource.update".equals(action)) 
         {
-            DataSourceConfig datasourceConfig = new DataSourceConfig();
-            datasourceConfig.setDriver(request.getParameter("driver"));
-            datasourceConfig.setUrl(request.getParameter("url"));
-            datasourceConfig.setUsername(request.getParameter("username"));
-            datasourceConfig.setPassword(request.getParameter("password"));
-            datasourceConfig.setMinIdle(Integer.parseInt(request.getParameter("minIdle")));
-            datasourceConfig.setMaxActive(Integer.parseInt(request.getParameter("maxActive")));
+            DataSourceConfig datasource = new DataSourceConfig();
+            datasource.setName(request.getParameter("name"));
+            datasource.setDriver(request.getParameter("driver"));
+            datasource.setUrl(request.getParameter("url"));
+            datasource.setUsername(request.getParameter("username"));
+            datasource.setPassword(request.getParameter("password"));
+            datasource.setMinIdle(Integer.parseInt(request.getParameter("minIdle")));
+            datasource.setMaxActive(Integer.parseInt(request.getParameter("maxActive")));
             
-            config.setDataSource(datasourceConfig);
-            DataSourceManager.getInstance().setDataSource(datasourceConfig);
+            config.addDataSource(datasource);
+            DataSourceManager.getInstance().setDataSource(datasource, datasource.getName());
         }
         else if ("gc".equals(action))
         {

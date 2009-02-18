@@ -77,7 +77,9 @@ class ServerRuleSet extends RuleSetBase
 
         // datasource
         digester.addObjectCreate("*/datasource", "net.jetrix.config.DataSourceConfig");
-        digester.addSetNext("*/datasource", "setDataSource", "net.jetrix.config.DataSourceConfig");
+        digester.addSetNext("*/datasource", "addDataSource", "net.jetrix.config.DataSourceConfig");
+        digester.addCallMethod("*/datasource", "setName", 1);
+        digester.addCallParam("*/datasource", 0, "name");
         digester.addCallMethod("*/datasource/driver", "setDriver", 0);
         digester.addCallMethod("*/datasource/url", "setUrl", 0);
         digester.addCallMethod("*/datasource/username", "setUsername", 0);

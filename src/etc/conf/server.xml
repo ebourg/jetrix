@@ -108,18 +108,20 @@
   </ban>
 
   <!-- Database connection parameters -->
-  <datasource>
-    <!-- The class of the JDBC driver used -->
-    <driver>com.mysql.jdbc.Driver</driver>
+  <datasources>
+    <datasource name="DEFAULT">
+      <!-- The class of the JDBC driver used -->
+      <driver>com.mysql.jdbc.Driver</driver>
 
-    <!-- The URL of the database (jdbc:<type>://<hostname>:<port>/<database>) -->
-    <url>jdbc:mysql://localhost/jetrix</url>
+      <!-- The URL of the database (jdbc:<type>://<hostname>:<port>/<database>) -->
+      <url>jdbc:mysql://localhost/jetrix</url>
 
-    <!-- The username connecting to the database -->
-    <username>jetrix</username>
+      <!-- The username connecting to the database -->
+      <username>jetrix</username>
 
-    <!-- The password of the user -->
-    <password>jetrixpass</password>
-  </datasource>
+      <!-- The password of the user -->
+      <password>jetrixpass</password>
+    </datasource>
+  </datasources>
 
 </tetrinet-server>
