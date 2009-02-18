@@ -24,7 +24,10 @@ import static net.jetrix.GameState.*;
 import java.util.*;
 
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.StartGameMessage;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.GmsgMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Start the game.

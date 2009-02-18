@@ -23,6 +23,7 @@ import java.util.*;
 
 import net.jetrix.*;
 import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * Query Protocol. See http://jetrix.sourceforge.net/dev-guide.php#section2-4

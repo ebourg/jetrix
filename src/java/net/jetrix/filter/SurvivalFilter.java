@@ -21,11 +21,8 @@ package net.jetrix.filter;
 
 import java.util.*;
 
-import net.jetrix.messages.OneLineAddedMessage;
-import net.jetrix.messages.TwoLinesAddedMessage;
-import net.jetrix.messages.FourLinesAddedMessage;
-import net.jetrix.messages.ClearLineMessage;
 import net.jetrix.Message;
+import net.jetrix.messages.channel.specials.*;
 
 /**
  * Survival mode. Every time the player clears 2 or more lines, he received

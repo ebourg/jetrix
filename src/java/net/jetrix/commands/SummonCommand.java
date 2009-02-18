@@ -22,6 +22,8 @@ package net.jetrix.commands;
 import java.util.*;
 import net.jetrix.*;
 import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Summon a player to the current channel.

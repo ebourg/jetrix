@@ -22,7 +22,7 @@ package net.jetrix.commands;
 import junit.framework.*;
 import java.util.*;
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
 
 /**
  * JUnit TestCase for the class net.jetrix.commands.CommandManager

@@ -23,7 +23,7 @@ import java.util.*;
 
 import net.jetrix.*;
 import net.jetrix.config.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * Set the game field and settings when the game starts. A new puzzle is

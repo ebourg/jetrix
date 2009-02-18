@@ -32,6 +32,8 @@ import net.jetrix.Message;
 import net.jetrix.Protocol;
 import net.jetrix.protocols.TetrinetProtocol;
 import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
+import net.jetrix.messages.channel.specials.*;
 
 /**
  * Tetrinet agent to log on a server as a player.

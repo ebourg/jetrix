@@ -21,9 +21,8 @@ package net.jetrix.commands;
 
 import java.util.Locale;
 
-import net.jetrix.messages.CommandMessage;
-import net.jetrix.messages.PlineMessage;
-import net.jetrix.AccessLevel;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.PlineMessage;
 import net.jetrix.Language;
 import net.jetrix.User;
 import net.jetrix.Client;

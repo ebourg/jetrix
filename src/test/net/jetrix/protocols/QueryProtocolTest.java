@@ -22,7 +22,7 @@ package net.jetrix.protocols;
 import junit.framework.TestCase;
 
 import net.jetrix.*;
-import net.jetrix.messages.CommandMessage;
+import net.jetrix.messages.channel.CommandMessage;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.QueryProtocolTest

@@ -22,7 +22,8 @@ package net.jetrix.commands;
 import java.util.*;
 
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Set the language of the user.

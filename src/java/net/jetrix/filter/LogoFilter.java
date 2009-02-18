@@ -23,7 +23,7 @@ import java.util.*;
 import java.io.*;
 
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * Display a logo on the field of players losing the game.

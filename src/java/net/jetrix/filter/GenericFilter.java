@@ -23,7 +23,8 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
+import net.jetrix.messages.channel.specials.*;
 
 /**
  * Defines a generic filter to be used and extended by filter developers.

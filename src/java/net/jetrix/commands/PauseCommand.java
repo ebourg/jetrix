@@ -21,9 +21,11 @@ package net.jetrix.commands;
 
 import static net.jetrix.GameState.*;
 
-import java.util.*;
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.ChannelMessage;
+import net.jetrix.messages.channel.PauseMessage;
+import net.jetrix.messages.channel.ResumeMessage;
+import net.jetrix.messages.channel.CommandMessage;
 
 /**
  * Pause the game.

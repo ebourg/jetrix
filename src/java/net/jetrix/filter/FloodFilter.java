@@ -22,8 +22,7 @@ package net.jetrix.filter;
 import java.util.*;
 
 import net.jetrix.*;
-import net.jetrix.config.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Blocks spam over pline.

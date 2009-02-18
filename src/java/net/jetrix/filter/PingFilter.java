@@ -22,7 +22,7 @@ package net.jetrix.filter;
 import java.util.*;
 
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * Display the ping of the player if a <tt>team</tt> message is processed

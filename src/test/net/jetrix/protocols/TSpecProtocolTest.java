@@ -25,7 +25,7 @@ import junit.framework.*;
 
 import net.jetrix.*;
 import net.jetrix.clients.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.TSpecProtocolTest

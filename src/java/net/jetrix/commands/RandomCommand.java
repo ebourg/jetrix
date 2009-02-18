@@ -23,7 +23,8 @@ import static java.lang.Math.*;
 
 import java.util.*;
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Display a random number.

@@ -28,6 +28,7 @@ import net.jetrix.clients.*;
 import net.jetrix.commands.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 import net.jetrix.services.VersionService;
 import net.jetrix.listeners.ShutdownListener;
 

@@ -22,7 +22,7 @@ package net.jetrix;
 import static net.jetrix.config.Special.*;
 
 import junit.framework.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.FieldMessage;
 
 /**
  * JUnit TestCase for the class net.jetrix.Field.

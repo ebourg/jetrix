@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.jetrix.Message;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
 import net.jetrix.commands.*;
 
 /**

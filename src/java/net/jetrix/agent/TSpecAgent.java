@@ -21,8 +21,7 @@ package net.jetrix.agent;
 
 import java.io.IOException;
 
-import net.jetrix.messages.PlayerNumMessage;
-import net.jetrix.messages.TeamMessage;
+import net.jetrix.messages.channel.*;
 import net.jetrix.protocols.TspecProtocol;
 
 /**

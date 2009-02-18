@@ -22,7 +22,7 @@ package net.jetrix.listeners.interceptor;
 import net.jetrix.Client;
 import net.jetrix.ClientRepository;
 import net.jetrix.clients.QueryClient;
-import net.jetrix.messages.PlineMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Interceptor displaying the number of players and spectators currently online.

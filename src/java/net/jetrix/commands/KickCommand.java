@@ -20,10 +20,10 @@
 package net.jetrix.commands;
 
 import java.util.*;
-import java.util.logging.*;
 
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Kick a player out of the server.

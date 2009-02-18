@@ -23,7 +23,7 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.PlineMessage;
 import net.jetrix.protocols.*;
 
 /**

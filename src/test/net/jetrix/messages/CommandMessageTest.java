@@ -20,6 +20,7 @@
 package net.jetrix.messages;
 
 import junit.framework.TestCase;
+import net.jetrix.messages.channel.CommandMessage;
 
 /**
  * JUnit TestCase for the class net.jetrix.messages.CommandMessage

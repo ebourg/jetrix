@@ -25,7 +25,8 @@ import java.util.*;
 
 import net.jetrix.*;
 import net.jetrix.config.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * List available channels.

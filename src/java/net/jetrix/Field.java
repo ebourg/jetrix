@@ -26,7 +26,7 @@ import java.util.*;
 import java.io.*;
 
 import net.jetrix.config.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * A game field.
@@ -229,7 +229,7 @@ public class Field
 
     /**
      * Return the string representing this field as used in the
-     * {@link FieldMessage} messages.
+     * {@link net.jetrix.messages.channel.FieldMessage} messages.
      */
     public String getFieldString()
     {

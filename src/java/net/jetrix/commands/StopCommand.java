@@ -19,9 +19,9 @@
 
 package net.jetrix.commands;
 
-import java.util.*;
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.StopGameMessage;
+import net.jetrix.messages.channel.CommandMessage;
 
 /**
  * Stop the game.

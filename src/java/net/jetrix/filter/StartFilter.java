@@ -25,8 +25,7 @@ import java.util.*;
 
 import net.jetrix.*;
 import net.jetrix.commands.StartCommand;
-import net.jetrix.config.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * Starts the game automatically once everyone said "go".

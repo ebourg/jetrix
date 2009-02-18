@@ -21,7 +21,7 @@ package net.jetrix.protocols;
 
 import java.util.*;
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * Protocol to communicate with a console client

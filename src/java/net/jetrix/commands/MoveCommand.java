@@ -23,6 +23,7 @@ import java.util.*;
 
 import net.jetrix.*;
 import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
 
 /**
  * Move a player to a new slot or switch two players.

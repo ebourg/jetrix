@@ -20,7 +20,7 @@
 package net.jetrix.agent;
 
 import junit.framework.TestCase;
-import net.jetrix.messages.PlineMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * @author Emmanuel Bourg

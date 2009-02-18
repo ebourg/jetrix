@@ -21,7 +21,7 @@ package net.jetrix.commands;
 
 import java.util.*;
 
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
 
 /**
  * A command consummes a CommandMessage to execute a specific operation.

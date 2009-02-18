@@ -23,7 +23,7 @@ import net.jetrix.Client;
 import net.jetrix.Server;
 import net.jetrix.clients.QueryClient;
 import net.jetrix.config.ServerConfig;
-import net.jetrix.messages.PlineMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Interceptor displaying the message of the day.

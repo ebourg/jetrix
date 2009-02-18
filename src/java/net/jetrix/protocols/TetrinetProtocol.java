@@ -25,6 +25,8 @@ import net.jetrix.*;
 import net.jetrix.winlist.*;
 import net.jetrix.config.*;
 import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
+import net.jetrix.messages.channel.specials.*;
 import org.apache.commons.lang.StringUtils;
 
 /**

@@ -22,7 +22,7 @@ package net.jetrix.clients;
 import java.io.IOException;
 
 import net.jetrix.Message;
-import net.jetrix.messages.SmsgMessage;
+import net.jetrix.messages.channel.SmsgMessage;
 
 /**
  * Spectator client.

@@ -19,9 +19,9 @@
 
 package net.jetrix.filter;
 
-import net.jetrix.messages.*;
 import net.jetrix.*;
-import net.jetrix.config.*;
+import net.jetrix.messages.channel.*;
+import net.jetrix.messages.channel.specials.*;
 
 import java.util.*;
 

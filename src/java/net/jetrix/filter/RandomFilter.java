@@ -21,9 +21,9 @@ package net.jetrix.filter;
 
 import java.util.*;
 
-import net.jetrix.messages.*;
 import net.jetrix.*;
 import net.jetrix.config.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * A filter randomizing the blocks and the specials occurancies when the game starts.

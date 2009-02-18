@@ -19,10 +19,9 @@
 
 package net.jetrix.commands;
 
-import java.util.*;
-
 import net.jetrix.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.PlayerNumMessage;
+import net.jetrix.messages.channel.CommandMessage;
 
 /**
  * Display the ping to the server. To compute the ping of tetrinet and

@@ -21,6 +21,7 @@ package net.jetrix.protocols;
 
 import net.jetrix.*;
 import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 import java.util.*;
 

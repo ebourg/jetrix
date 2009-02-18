@@ -19,7 +19,7 @@
 
 package net.jetrix.protocols;
 
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 
 /**
  * Protocol to communicate with Tetrifast compatible clients.

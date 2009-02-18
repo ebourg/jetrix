@@ -22,8 +22,8 @@ package net.jetrix.commands;
 import java.util.*;
 import java.text.*;
 import net.jetrix.*;
-import net.jetrix.config.*;
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * Display the server's time.

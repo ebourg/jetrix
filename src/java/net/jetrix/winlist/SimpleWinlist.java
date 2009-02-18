@@ -23,7 +23,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 
-import net.jetrix.messages.*;
+import net.jetrix.messages.channel.*;
 import net.jetrix.config.*;
 import net.jetrix.*;
 
