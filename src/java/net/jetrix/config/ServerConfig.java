@@ -75,8 +75,11 @@ public class ServerConfig
     private int status;
     private Statistics statistics = new Statistics();
 
-    // datasource configuration
+    /** Datasources configuration */
     private Map<String, DataSourceConfig> datasources = new LinkedHashMap<String, DataSourceConfig>();
+
+    /** Mail session configuration */
+    private MailSessionConfig mailSessionConfig;
 
     private URL serverConfigURL;
     private URL channelsConfigURL;
@@ -312,6 +315,28 @@ public class ServerConfig
                 out.println();
             }
             out.println("  </datasources>");
+            out.println();
+        }
+
+        if (mailSessionConfig != null)
+        {
+            StringBuilder buffer = new StringBuilder();
+            buffer.append("  <mailserver host=\"").append(mailSessionConfig.getHostname()).append("\"");
+            buffer.append(" port=\"").append(mailSessionConfig.getPort()).append("\"");
+            if (mailSessionConfig.isAuth())
+            {
+                buffer.append(" auth=\"true\"");
+                buffer.append(" username=\"").append(mailSessionConfig.getUsername()).append("\"");
+                buffer.append(" password=\"").append(mailSessionConfig.getPassword()).append("\"");
+            }
+            if (mailSessionConfig.isDebug())
+            {
+                buffer.append(" debug=\"true\"");
+            }
+            buffer.append("/>");
+
+            out.println("  <!-- Mail server parameters -->");
+            out.println(buffer.toString());
             out.println();
         }
 
@@ -961,5 +986,21 @@ public class ServerConfig
     public void addDataSource(DataSourceConfig datasource)
     {
         datasources.put(datasource.getName(), datasource);
+    }
+
+    /**
+     * @since 0.3
+     */
+    public MailSessionConfig getMailSessionConfig()
+    {
+        return mailSessionConfig;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public void setMailSessionConfig(MailSessionConfig mailSessionConfig)
+    {
+        this.mailSessionConfig = mailSessionConfig;
     }
 }

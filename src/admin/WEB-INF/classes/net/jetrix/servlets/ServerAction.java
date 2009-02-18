@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
 import net.jetrix.*;
+import net.jetrix.mail.*;
 import net.jetrix.commands.*;
 import net.jetrix.config.*;
 
@@ -39,7 +40,6 @@ import net.jetrix.config.*;
  */
 public class ServerAction extends HttpServlet
 {
-
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String action = request.getParameter("action");
@@ -64,25 +64,25 @@ public class ServerAction extends HttpServlet
         else if ("listener.start".equals(action))
         {
             int index = Integer.parseInt(request.getParameter("index"));
-            Listener listener = (Listener) config.getListeners().get(index);
+            Listener listener = config.getListeners().get(index);
             listener.start();
         }
         else if ("listener.stop".equals(action))
         {
             int index = Integer.parseInt(request.getParameter("index"));
-            Listener listener = (Listener) config.getListeners().get(index);
+            Listener listener = config.getListeners().get(index);
             listener.stop();
         }
         else if ("service.start".equals(action))
         {
             int index = Integer.parseInt(request.getParameter("index"));
-            Service service = (Service) config.getServices().get(index);
+            Service service = config.getServices().get(index);
             service.start();
         }
         else if ("service.stop".equals(action))
         {
             int index = Integer.parseInt(request.getParameter("index"));
-            Service service = (Service) config.getServices().get(index);
+            Service service = config.getServices().get(index);
             service.stop();
         }
         else if ("command.remove".equals(action))
@@ -121,6 +121,19 @@ public class ServerAction extends HttpServlet
             
             config.addDataSource(datasource);
             DataSourceManager.getInstance().setDataSource(datasource, datasource.getName());
+        }
+        else if ("mailsession.update".equals(action)) 
+        {
+            MailSessionConfig mailconfig = new MailSessionConfig();
+            mailconfig.setHostname(request.getParameter("hostname"));
+            mailconfig.setPort(Integer.parseInt(request.getParameter("port")));
+            mailconfig.setAuth("true".equals(request.getParameter("auth")));
+            mailconfig.setUsername(request.getParameter("username"));
+            mailconfig.setPassword(request.getParameter("password"));
+            mailconfig.setDebug("true".equals(request.getParameter("debug")));
+
+            config.setMailSessionConfig(mailconfig);
+            MailSessionManager.getInstance().setConfiguration(mailconfig);
         }
         else if ("gc".equals(action))
         {

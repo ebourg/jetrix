@@ -124,4 +124,7 @@
     </datasource>
   </datasources>
 
+  <!-- Mail server parameters -->
+  <mailserver host="localhost" port="25" auth="false" username="" password="" debug="false"/>
+
 </tetrinet-server>

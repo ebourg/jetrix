@@ -30,7 +30,6 @@ import org.apache.commons.digester.RuleSetBase;
  */
 class ServerRuleSet extends RuleSetBase
 {
-
     public void addRuleInstances(Digester digester)
     {
         // server parameters
@@ -86,6 +85,21 @@ class ServerRuleSet extends RuleSetBase
         digester.addCallMethod("*/datasource/password", "setPassword", 0);
         digester.addCallMethod("*/datasource/min-idle", "setMinIdle", 0);
         digester.addCallMethod("*/datasource/max-active", "setMaxActive", 0);
-    }
 
+        // mail session
+        digester.addObjectCreate("*/mailserver", "net.jetrix.config.MailSessionConfig");
+        digester.addSetNext("*/mailserver", "setMailSessionConfig", "net.jetrix.config.MailSessionConfig");
+        digester.addCallMethod("*/mailserver", "setHostname", 1);
+        digester.addCallParam("*/mailserver", 0, "host");
+        digester.addCallMethod("*/mailserver", "setPort", 1, new Class[] {Integer.TYPE});
+        digester.addCallParam("*/mailserver", 0, "port");
+        digester.addCallMethod("*/mailserver", "setAuth", 1, new Class[] {Boolean.TYPE});
+        digester.addCallParam("*/mailserver", 0, "auth");
+        digester.addCallMethod("*/mailserver", "setUsername", 1);
+        digester.addCallParam("*/mailserver", 0, "username");
+        digester.addCallMethod("*/mailserver", "setPassword", 1);
+        digester.addCallParam("*/mailserver", 0, "password");
+        digester.addCallMethod("*/mailserver", "setDebug", 1, new Class[] {Boolean.TYPE});
+        digester.addCallParam("*/mailserver", 0, "debug");
+    }
 }

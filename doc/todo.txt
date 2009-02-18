@@ -47,3 +47,6 @@ Website
 - automatic generation of the commands documentation
 - java web start demo
 - compress the files on the patch server
+
+Code
+- split the code in two parts : the core tetrinet classes and the server specific classes

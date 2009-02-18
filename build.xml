@@ -157,6 +157,8 @@
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="servlet-light"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jasper-runtime"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jcrontab-1.4.1-light"/></antcall>
+    <antcall target="pack.lib" inheritAll="true"><param name="library" value="mailapi-1.4.1"/></antcall>
+    <antcall target="pack.lib" inheritAll="true"><param name="library" value="smtp-1.4.1"/></antcall>
   </target>
 
   <target name="pack.lib" description="Pack the library specified by the ${library} property">

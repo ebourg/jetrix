@@ -455,7 +455,66 @@
 <%  } %>    
 
   </div>
-  
+
+  <div class="tab-page" style="height: 400px">
+    <h2 class="tab">Mail</h2>
+
+    <form id="mailsession" action="/servlet/<%= ServerAction.class.getName() %>">
+    <input type="hidden" name="action" value="mailsession.update">
+
+    <table class="thin" style="width: 400px">
+      <tr>
+        <th width="30%">Hostname</th>
+        <td><input class="thin" type="text" name="hostname" value="<%= conf.getMailSessionConfig().getHostname() %>" style="width: 98%"></td>
+      </tr>
+      <tr>
+        <th>Port</th>
+        <td><input class="thin" type="text" name="port" value="<%= conf.getMailSessionConfig().getPort() %>" size="5"></td>
+      </tr>
+      <tr>
+        <th>Authentication</th>
+        <td>
+          <table>
+            <tr>
+              <td><input type="radio" value="true" name="auth" id="auth1" <%= conf.getMailSessionConfig().isAuth() ? "checked" : "" %>></td>
+              <td><label for="auth1">Enabled</label></td>
+              <td><input type="radio" value="false" name="auth" id="auth2" <%= !conf.getMailSessionConfig().isAuth() ? "checked" : "" %>></td>
+              <td><label for="auth2">Disabled</label></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <th>Username</th>
+        <td><input class="thin" type="text" name="username" value="<%= conf.getMailSessionConfig().getUsername() %>"></td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td><input class="thin" type="text" name="password" value="<%= conf.getMailSessionConfig().getPassword() %>"></td>
+      </tr>
+      <tr>
+        <th>Debug Mode</th>
+        <td>
+          <table>
+            <tr>
+              <td><input type="radio" value="true" name="debug" id="debug1" <%= conf.getMailSessionConfig().isDebug() ? "checked" : "" %>></td>
+              <td><label for="debug1">Enabled</label></td>
+              <td><input type="radio" value="false" name="debug" id="debug2" <%= !conf.getMailSessionConfig().isDebug() ? "checked" : "" %>></td>
+              <td><label for="debug2">Disabled</label></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <br>
+
+    <input type="submit" value="Update">
+
+    </form>
+    
+  </div>
+
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">System</h2>
 

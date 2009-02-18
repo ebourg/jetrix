@@ -24,6 +24,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.*;
 
+import javax.mail.MessagingException;
+
 import net.jetrix.clients.*;
 import net.jetrix.commands.*;
 import net.jetrix.config.*;
@@ -31,6 +33,8 @@ import net.jetrix.messages.*;
 import net.jetrix.messages.channel.*;
 import net.jetrix.services.VersionService;
 import net.jetrix.listeners.ShutdownListener;
+import net.jetrix.mail.MailSessionManager;
+import net.jetrix.mail.MailMessage;
 
 /**
  * Main class, starts the server components and handle the server level messages.
@@ -111,6 +115,13 @@ public class Server implements Runnable, Destination
             {
                 DataSourceManager.getInstance().setDataSource(datasource, datasource.getName());
             }
+        }
+
+        if (config.getMailSessionConfig() != null)
+        {
+            log.info("Initializing the mail session...");
+            MailSessionManager.getInstance().setConfiguration(config.getMailSessionConfig());
+            MailSessionManager.getInstance().checkSession();
         }
 
         // display the systray icon (windows only)
