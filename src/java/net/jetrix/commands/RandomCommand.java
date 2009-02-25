@@ -62,6 +62,10 @@ public class RandomCommand extends AbstractCommand
             min = min(a, b);
             max = max(a, b);
         }
+        else if (m.getParameterCount() == 1)
+        {
+            max = Math.max(min, m.getIntParameter(0, max));
+        }
 
         int result = random.nextInt(abs(max - min) + 1);
 
