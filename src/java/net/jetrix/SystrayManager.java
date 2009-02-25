@@ -105,7 +105,7 @@ public class SystrayManager
             String osname = System.getProperty("os.name");
             String iconname = osname.contains("Linux") ? "jetrix-32x32.png" : "jetrix-16x16.png";
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            Image icon = new ImageIcon(loader.getResource(iconname)).getImage();
+            Image icon = new ImageIcon(loader.getResource("icons/" + iconname)).getImage();
 
             trayIcon = new TrayIcon(icon, TITLE, menu);
             trayIcon.setImageAutoSize(true);
