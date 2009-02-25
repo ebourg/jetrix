@@ -285,12 +285,12 @@
     </copy>
     <copy file="${src}/etc/icons/jetrix.ico" todir="${build}/bin"/>
 
-    <exec executable="C:\Program Files\NSIS\makensis.exe">
+    <exec executable="C:\Program Files\NSIS-2.0.4\makensis.exe">
       <arg line="${build}/bin/launcher.nsi"/>
     </exec>
 
     <!-- Build the installer -->
-    <exec executable="C:\Program Files\NSIS\makensis.exe">
+    <exec executable="C:\Program Files\NSIS-2.0.4\makensis.exe">
       <arg line="${build}/bin/installer.nsi"/>
     </exec>
     <move file="${build}/bin/jetrix-${version}-installer.exe" todir="${dist}/bin"/>
@@ -346,7 +346,7 @@
     </java>
   </target>
 
-  <target name="update" depends="deploy" description="Uploads Jetrix to the patch server">
+  <target name="update" description="Uploads Jetrix to the patch server">
     <!-- Installing -->
     <delete dir="${deploy}"/>
     <mkdir dir="${deploy}"/>

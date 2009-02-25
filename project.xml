@@ -147,7 +147,7 @@
 
     <dependency>
       <id>commons-beanutils</id>
-      <version>1.7-dev</version>
+      <version>1.7.0</version>
     </dependency>
 
     <dependency>
