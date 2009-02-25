@@ -126,7 +126,7 @@ under the <tt>&lt;listeners&gt;</tt> element:
     &lt;listener class="net.jetrix.listeners.TetrinetListener"/&gt;
     &lt;listener class="net.jetrix.listeners.TSpecListener"/&gt;
     &lt;listener class="net.jetrix.listeners.IRCListener" port="31456"/&gt;
-    &lt;listener class="net.jetrix.listeners.HttpListener" port="8080"/&gt;
+    &lt;listener class="net.jetrix.listeners.HttpListener" port="31460"/&gt;
   &lt;/listeners&gt;
 
 </div>
@@ -148,7 +148,7 @@ under the <tt>&lt;listeners&gt;</tt> element:
 
 <p>An administration console is integrated to Jetrix, you can use it with any
 modern browser to change most of the configuration without restarting the 
-server. The console is available on the port 8080 of your server. You'll be 
+server. The console is available on the port 31460 of your server. You'll be 
 prompted for a username and a password, just type in <tt>admin</tt> and the
 administrator password to enter (<tt>adminpass</tt> by default).</p>
 

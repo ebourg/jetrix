@@ -7,9 +7,9 @@ post them on the <a href="http://sourceforge.net/forum/forum.php?forum_id=172941
 
 <h3>How do I log on the administration console?</h3>
 
-<p>Open your browser and go to your server on the 8080 port:</p>
+<p>Open your browser and go to your server on the 31460 port:</p>
 
-<code>http://tetrinet.yourhostname.net:8080</code>
+<code>http://tetrinet.yourhostname.net:31460</code>
 
 <p>A username and a password are requested, type <tt>admin</tt>, as username,
 and use the administrator password defined in the <tt>server.xml</tt> file. The

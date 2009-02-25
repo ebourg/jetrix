@@ -39,7 +39,7 @@ public class HttpListener extends AbstractService implements Listener
     private org.mortbay.jetty.Server jetty;
     private Logger log = Logger.getLogger("net.jetrix");
     private boolean initialized;
-    private int port = 8080;
+    private int port = 31460;
 
     public HttpListener()
     {
@@ -87,32 +87,38 @@ public class HttpListener extends AbstractService implements Listener
 
     public void start()
     {
-        try
+        if (!isRunning())
         {
-            if (!initialized)
+            try
             {
-                init();
-                initialized = true;
+                if (!initialized)
+                {
+                    init();
+                    initialized = true;
+                }
+                jetty.start();
+                log.info("Web administration console started on port " + getPort());
             }
-            jetty.start();
-            log.info("Web administration console started on port " + getPort());
-        }
-        catch (MultiException e)
-        {
-            log.log(Level.SEVERE, "Unable to start the Web administration console on port " + getPort(), e);
+            catch (MultiException e)
+            {
+                log.log(Level.SEVERE, "Unable to start the Web administration console on port " + getPort(), e);
+            }
         }
     }
 
     public void stop()
     {
-        try
+        if (isRunning())
         {
-            jetty.stop();
-            log.info("Web administration console stopped");
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                jetty.stop();
+                log.info("Web administration console stopped");
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -120,6 +126,6 @@ public class HttpListener extends AbstractService implements Listener
 
     public boolean isRunning()
     {
-        return jetty.isStarted();
+        return jetty != null && jetty.isStarted();
     }
 }

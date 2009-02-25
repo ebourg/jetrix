@@ -41,7 +41,7 @@
     <listener class="net.jetrix.listeners.TetrinetListener"/>
     <listener class="net.jetrix.listeners.TSpecListener"/>
     <listener class="net.jetrix.listeners.IRCListener" port="31456" auto-start="false"/>
-    <listener class="net.jetrix.listeners.HttpListener" port="8080"/>
+    <listener class="net.jetrix.listeners.HttpListener" port="31460"/>
   </listeners>
 
   <!-- Services -->
