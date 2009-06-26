@@ -94,11 +94,9 @@ public class Language
     {
         Collection<Locale> locales = new ArrayList<Locale>();
 
-        String[] languages = Locale.getISOLanguages();
-
-        for (int i = 0; i < languages.length; i++)
+        for (String language : Locale.getISOLanguages())
         {
-            Locale locale = new Locale(languages[i]);
+            Locale locale = new Locale(language);
             if (isSupported(locale))
             {
                 locales.add(locale);
@@ -116,7 +114,6 @@ public class Language
      */
     public static String getText(String key, Locale locale)
     {
-        String text = null;
         try
         {
             ResourceBundle bundle = instance.getResourceBundle(locale);
@@ -124,14 +121,13 @@ public class Language
             {
                 bundle = instance.load(locale);
             }
-            text = bundle.getString(key);
+            
+            return bundle.getString(key);
         }
         catch (Exception e)
         {
-            text = "[" + locale + ":" + key + "]";
+            return "[" + locale + ":" + key + "]";
         }
-
-        return text;
     }
 
     /**
