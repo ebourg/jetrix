@@ -66,6 +66,7 @@ class LogManager
 
             FileHandler fileHandler = new FileHandler(config.getAccessLogPath(), 1000000, 10);
             fileHandler.setLevel(Level.CONFIG);
+            fileHandler.setEncoding(ServerConfig.ENCODING);
             log.addHandler(fileHandler);
             fileHandler.setFormatter(new TimestampFormatter("yyyy-MM-dd HH:mm:ss", false));
         }

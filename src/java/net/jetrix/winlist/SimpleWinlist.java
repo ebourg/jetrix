@@ -98,7 +98,7 @@ public class SimpleWinlist implements Winlist
         int i = scores.indexOf(example);
         if (i != -1)
         {
-            score = (Score) scores.get(i);
+            score = scores.get(i);
         }
 
         return score;
@@ -234,8 +234,8 @@ public class SimpleWinlist implements Winlist
             {
                 try
                 {
-                    reader = new BufferedReader(new FileReader(file));
-                    String line = null;
+                    reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), ServerConfig.ENCODING));
+                    String line;
                     while ((line = reader.readLine()) != null)
                     {
                         String[] fields = line.split("\t");
@@ -271,7 +271,7 @@ public class SimpleWinlist implements Winlist
             File file = new File(id + ".winlist");
             try
             {
-                writer = new BufferedWriter(new FileWriter(file));
+                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), ServerConfig.ENCODING));
 
                 for (Score score : scores)
                 {
