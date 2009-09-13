@@ -234,7 +234,7 @@ public class SimpleWinlist implements Winlist
             {
                 try
                 {
-                    reader = new BufferedReader(new FileReader(file));
+                    reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), ServerConfig.ENCODING));
                     String line = null;
                     while ((line = reader.readLine()) != null)
                     {
@@ -280,7 +280,7 @@ public class SimpleWinlist implements Winlist
             BufferedWriter writer = null;
             try
             {
-                writer = new BufferedWriter(new FileWriter(id + ".winlist"));
+                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(id + ".winlist"), ServerConfig.ENCODING));
 
                 for (Score score : scores)
                 {

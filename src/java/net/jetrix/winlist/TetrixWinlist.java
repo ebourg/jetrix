@@ -134,7 +134,7 @@ public class TetrixWinlist extends SimpleWinlist
     /**
      * Build a tetrix winlist structure from a score.
      */
-    protected byte[] buildStruct(Score score)
+    protected byte[] buildStruct(Score score) throws IOException
     {
         byte[] struct = new byte[STRUCT_SIZE];
 
@@ -144,7 +144,7 @@ public class TetrixWinlist extends SimpleWinlist
             struct[0] = score.getType() == Score.TYPE_PLAYER ? (byte) 'p' : (byte) 't';
 
             // name
-            byte[] name = score.getName().getBytes();
+            byte[] name = score.getName().getBytes(ServerConfig.ENCODING);
             for (int i = 0; i < name.length; i++)
             {
                 struct[i + 1] = name[i];
