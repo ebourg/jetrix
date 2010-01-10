@@ -27,7 +27,7 @@
         <h1>Project</h1>
         <ul>
           <li><a href="http://sourceforge.net/svn/?group_id=52188">SVN Repository</a></li>
-          <li><a href="http://sourceforge.net/forum/forum.php?forum_id=172941">Forum</a></li>
+          <li><a href="https://sourceforge.net/projects/jetrix/forums/forum/172941">Forum</a></li>
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466002">Bugs</a></li>
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466005">Feature Requests</a></li>
           <li><a href="changelog.php">Changelog</a></li>
