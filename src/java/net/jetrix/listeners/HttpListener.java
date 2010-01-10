@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2003  Emmanuel Bourg
+ * Copyright (C) 2010  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,14 +19,17 @@
 
 package net.jetrix.listeners;
 
-import java.io.*;
-import java.util.logging.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.mortbay.http.*;
-import org.mortbay.util.*;
-
-import net.jetrix.*;
+import net.jetrix.Listener;
+import net.jetrix.Server;
 import net.jetrix.services.AbstractService;
+
+import winstone.Launcher;
 
 /**
  * Web administration console.
@@ -36,39 +39,9 @@ import net.jetrix.services.AbstractService;
  */
 public class HttpListener extends AbstractService implements Listener
 {
-    private org.mortbay.jetty.Server jetty;
+    private winstone.Launcher server;
     private Logger log = Logger.getLogger("net.jetrix");
-    private boolean initialized;
     private int port = 31460;
-
-    public HttpListener()
-    {
-        // configure the log file
-        System.setProperty("LOG_CLASSES", "org.mortbay.util.OutputStreamLogSink");
-        System.setProperty("LOG_FILE", "log/jetty.log");
-        System.setProperty("LOG_DATE_FORMAT", "[yyyy-MM-dd HH:mm:ss] ");
-    }
-
-    private void init()
-    {
-        // authentication realm
-        HashUserRealm realm = new HashUserRealm("Jetrix Admin");
-        realm.put("admin", Server.getInstance().getConfig().getAdminPassword());
-        realm.addUserToRole("admin", "admin");
-
-        jetty = new org.mortbay.jetty.Server();
-        jetty.addRealm(realm);
-
-        try
-        {
-            jetty.addListener(new InetAddrPort(getPort()));
-            jetty.addWebApplication("/", "./lib/jetrix-admin-@version@.war");
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
 
     public String getName()
     {
@@ -91,15 +64,29 @@ public class HttpListener extends AbstractService implements Listener
         {
             try
             {
-                if (!initialized)
-                {
-                    init();
-                    initialized = true;
-                }
-                jetty.start();
+                Map<String, String> args = new HashMap<String, String>();
+                args.put("warfile", "./lib/jetrix-admin-@version@.war");
+                args.put("httpPort", String.valueOf(getPort()));
+                //args.put("ajp13Port", "-1");
+                args.put("argumentsRealm.passwd.admin", Server.getInstance().getConfig().getAdminPassword());
+                args.put("argumentsRealm.roles.admin", "admin");
+                //args.put("accessLoggerClassName", "winstone.accesslog.SimpleAccessLogger");
+                //args.put("simpleAccessLogger.file", "./log/webadmin_access.log");
+                //args.put("simpleAccessLogger.format", "resin");
+                args.put("logfile", "./log/webadmin.log");
+                args.put("useInvoker", "true");
+                args.put("invokerPrefix", "/servlet/");
+                args.put("debug", "5");
+                args.put("commonLibFolder", "./lib/shared");
+                //args.put("useServletReloading", "true");
+
+                Launcher.initLogger(args);
+
+                server = new Launcher(args);
+
                 log.info("Web administration console started on port " + getPort());
             }
-            catch (MultiException e)
+            catch (IOException e)
             {
                 log.log(Level.SEVERE, "Unable to start the Web administration console on port " + getPort(), e);
             }
@@ -110,15 +97,8 @@ public class HttpListener extends AbstractService implements Listener
     {
         if (isRunning())
         {
-            try
-            {
-                jetty.stop();
-                log.info("Web administration console stopped");
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+            server.shutdown();
+            log.info("Web administration console stopped");
         }
     }
 
@@ -126,6 +106,6 @@ public class HttpListener extends AbstractService implements Listener
 
     public boolean isRunning()
     {
-        return jetty != null && jetty.isStarted();
+        return server != null && server.isRunning();
     }
 }

@@ -57,7 +57,6 @@
         <td>
           <select name="host">
             <option value="[ALL]">All Interfaces</option>
-
 <%
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements())
@@ -166,7 +165,7 @@
   <div class="tab-page" style="height: 400px">
     <h2 class="tab">Settings</h2>
 
-    <jsp:include page="/servlet/org.apache.jsp.settings_jsp"/>
+    <%@ include file="settings.jsp" %>
 
   </div>
   <div class="tab-page" style="height: 400px">
@@ -288,8 +287,8 @@
       </tr>
 <%  } %>
       <tr>
-        <td><input type="text" name="pattern" style="thin"></td>
-        <td><input type="text" name="expires" style="thin"></td>
+        <td><input type="text" name="pattern" class="thin"></td>
+        <td><input type="text" name="expires" class="thin"></td>
         <td width="50" align="center">
           <select name="type">
             <option value="0">Host</option>

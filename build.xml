@@ -151,8 +151,8 @@
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-lang-2.0-light"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-pool-1.4"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-dbcp-1.2.2"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jetty"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="servlet-light"/></antcall>
+    <antcall target="pack.lib" inheritAll="true"><param name="library" value="winstone-lite-0.9.10"/></antcall>
+    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jsp-api-light"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jasper-runtime"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="jcrontab-1.4.1-light"/></antcall>
     <antcall target="pack.lib" inheritAll="true"><param name="library" value="mailapi-1.4.1"/></antcall>
