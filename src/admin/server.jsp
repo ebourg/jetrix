@@ -53,7 +53,7 @@
         <td><input class="thin" type="text" name="name" value="<%= conf.getName() != null ? conf.getName() : "" %>"></td>
       </tr>
       <tr>
-        <th>Host</th>
+        <th>Network Interface</th>
         <td>
           <select name="host">
             <option value="[ALL]">All Interfaces</option>
@@ -67,9 +67,12 @@
                 while (addresses.hasMoreElements())
                 {
                     InetAddress address = addresses.nextElement();
+                    if (!address.isLinkLocalAddress() && !address.isLoopbackAddress())
+                    {
 %>
             <option value="<%= address.getHostAddress() %>" <%= address.equals(conf.getHost()) ? "selected" : "" %>><%= address.getHostAddress() %> <%= address.getHostAddress().equals(address.getHostName()) ? "" : " (" + address.getHostName() + ")" %></option>
 <%
+                    }
                 }
             }
 %>
