@@ -3,7 +3,7 @@
 <h1>Frequently Asked Questions</h1>
 
 Send your questions to <a href="mailto:smanux@lfjr.net">smanux@lfjr.net</a> or
-post them on the <a href="http://sourceforge.net/forum/forum.php?forum_id=172941">forum</a>
+post them on the <a href="http://sourceforge.net/projects/jetrix/forums/forum/172941">forum</a>
 
 <h3>How do I log on the administration console?</h3>
 
