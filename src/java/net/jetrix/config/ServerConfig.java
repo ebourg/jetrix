@@ -380,26 +380,11 @@ public class ServerConfig
         out.println();
 
         // global filters
-        Iterator<FilterConfig> filters = getGlobalFilters();
         out.println("  <!-- Global filters -->");
         out.println("  <default-filters>");
-        while (filters.hasNext())
+        for (FilterConfig filter : globalFilters)
         {
-            FilterConfig filter = filters.next();
-            Properties props = filter.getProperties();
-            if (props == null || props.isEmpty())
-            {
-                out.println("    <filter name=\"" + filter.getName() + "\"/>");
-            }
-            else
-            {
-                out.println("    <filter name=\"" + filter.getName() + "\">");
-                for (Object name : props.keySet())
-                {
-                    out.println("      <param name=\"" + name + "\" value=\"" + props.get(name) + "\"/>");
-                }
-                out.println("    </filter>");
-            }
+            saveFilter(filter, out, "    ");
         }
         out.println("  </default-filters>");
         out.println();
@@ -621,67 +606,69 @@ public class ServerConfig
                         out.println("        </special-occurancy>");
                     }
 
-                    // sudden death settings
-
-
-
+                    // todo sudden death settings
+                    
                     out.println("      </settings>");
                 }
-
-                // filters
-                Iterator<MessageFilter> it = channel.getFilters();
-                if (it.hasNext())
+                 
+                // local filters
+                Collection<MessageFilter> filters = channel.getLocalFilters();
+                if (!filters.isEmpty())
                 {
-                    out.println("      <filters>"); // do not display if the channel has only global filters
-                    while (it.hasNext())
+                    out.println("      <filters>");
+                    for (MessageFilter filter : filters)
                     {
-                        MessageFilter filter = it.next();
-                        if (!filter.getConfig().isGlobal())
-                        {
-                            Properties props = filter.getConfig().getProperties();
-                            if (props == null || props.isEmpty())
-                            {
-                                if (filter.getConfig().getName() != null)
-                                {
-                                    out.println("        <filter name=\"" + filter.getConfig().getName() + "\"/>");
-                                }
-                                else
-                                {
-                                    out.println("        <filter class=\"" + filter.getConfig().getClassname() + "\"/>");
-                                }
-                            }
-                            else
-                            {
-                                if (filter.getConfig().getName() != null)
-                                {
-                                    out.println("        <filter name=\"" + filter.getConfig().getName() + "\">");
-                                }
-                                else
-                                {
-                                    out.println("        <filter class=\"" + filter.getConfig().getClassname() + "\">");
-                                }
-
-                                for (Object name : props.keySet())
-                                {
-                                    out.println("          <param name=\"" + name + "\" value=\"" + props.get(name) + "\"/>");
-                                }
-                                out.println("        </filter>");
-                            }
-                        }
+                        saveFilter(filter.getConfig(), out, "        ");
                     }
                     out.println("      </filters>");
                 }
-
+                
                 out.println("    </channel>");
                 out.println();
             }
         }
-
+        
         out.println("  </channels>");
         out.println();
         out.println("</tetrinet-channels>");
-
+        
         out.close();
+    }
+
+    /**
+     * Write the configuration of the specified filter.
+     */
+    private void saveFilter(FilterConfig filter, PrintWriter out, String indent)
+    {
+        Properties props = filter.getProperties();
+        if (props == null || props.isEmpty())
+        {
+            if (filter.getName() != null)
+            {
+                out.println(indent + "<filter name=\"" + filter.getName() + "\"/>");
+            }
+            else
+            {
+                out.println(indent + "<filter class=\"" + filter.getClassname() + "\"/>");
+            }
+        }
+        else
+        {
+            if (filter.getName() != null)
+            {
+                out.println(indent + "<filter name=\"" + filter.getName() + "\">");
+            }
+            else
+            {
+                out.println(indent + "<filter class=\"" + filter.getClassname() + "\">");
+            }
+
+            for (Object name : props.keySet())
+            {
+                out.println(indent + "  <param name=\"" + name + "\" value=\"" + props.get(name) + "\"/>");
+            }
+            out.println(indent + "</filter>");
+        }
     }
 
     /**

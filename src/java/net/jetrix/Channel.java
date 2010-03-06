@@ -165,6 +165,22 @@ public class Channel extends Thread implements Destination
     }
 
     /**
+     * Returns the filters applied to this channel not defined at the server level.
+     */
+    public Collection<MessageFilter> getLocalFilters()
+    {
+        Collection<MessageFilter> localFilters = new ArrayList<MessageFilter>();
+        for (MessageFilter filter : filters)
+        {
+            if (!filter.getConfig().isGlobal())
+            {
+                localFilters.add(filter);
+            }
+        }
+        return localFilters;
+    }
+
+    /**
      * Main loop. The channel listens for incomming messages until the server
      * or the channel closes. Every message is first passed through the
      * registered filters and then handled by the channel.
