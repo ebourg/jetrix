@@ -605,12 +605,33 @@ public class ServerConfig
                         }
                         out.println("        </special-occurancy>");
                     }
-
-                    // todo sudden death settings
+                    
+                    // sudden death settings
+                    if (!settings.isDefaultSuddenDeath())
+                    {
+                        out.println("        <sudden-death>");
+                        if (!settings.isDefaultSuddenDeathTime())
+                        {
+                            out.println("          <time>" + settings.getSuddenDeathTime() + "</time>");
+                        }
+                        if (!settings.isDefaultSuddenDeathMessage())
+                        {
+                            out.println("          <message>" + settings.getSuddenDeathMessage() + "</message>");
+                        }
+                        if (!settings.isDefaultSuddenDeathDelay())
+                        {
+                            out.println("          <delay>" + settings.getSuddenDeathDelay() + "</delay>");
+                        }
+                        if (!settings.isDefaultSuddenDeathLinesAdded())
+                        {
+                            out.println("          <lines-added>" + settings.getSuddenDeathLinesAdded() + "</lines-added>");
+                        }
+                        out.println("        </sudden-death>");
+                    }
                     
                     out.println("      </settings>");
                 }
-                 
+                
                 // local filters
                 Collection<MessageFilter> filters = channel.getLocalFilters();
                 if (!filters.isEmpty())

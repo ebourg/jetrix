@@ -19,9 +19,6 @@
 
 package net.jetrix.config;
 
-import static net.jetrix.config.Block.*;
-import static net.jetrix.config.Special.*;
-
 import java.util.*;
 
 /**
@@ -432,12 +429,17 @@ public class Settings
         normalize(specialOccurancy);
     }
 
+    private boolean isDefault()
+    {
+        return defaultSettings == null || this == defaultSettings;
+    }
+
     /**
      * Tells if the block occurancies of the default settings are used.
      */
     public boolean isDefaultBlockOccurancy()
     {
-        return defaultBlockOccurancy && defaultSettings != null && this != defaultSettings;
+        return defaultBlockOccurancy && !isDefault();
     }
 
     public void setDefaultBlockOccurancy(boolean defaultBlockOccurancy)
@@ -450,7 +452,7 @@ public class Settings
      */
     public boolean isDefaultSpecialOccurancy()
     {
-        return defaultSpecialOccurancy && defaultSettings != null && this != defaultSettings;
+        return defaultSpecialOccurancy && !isDefault();
     }
 
     public void setDefaultSpecialOccurancy(boolean defaultSpecialOccurancy)
@@ -460,7 +462,7 @@ public class Settings
 
     public boolean isDefaultStartingLevel()
     {
-        return defaultStartingLevel && defaultSettings != null && this != defaultSettings;
+        return defaultStartingLevel && !isDefault();
     }
 
     public void setDefaultStartingLevel(boolean defaultStartingLevel)
@@ -470,7 +472,7 @@ public class Settings
 
     public boolean isDefaultStackHeight()
     {
-        return defaultStackHeight && defaultSettings != null && this != defaultSettings;
+        return defaultStackHeight && !isDefault();
     }
 
     public void setDefaultStackHeight(boolean defaultStackHeight)
@@ -480,7 +482,7 @@ public class Settings
 
     public boolean isDefaultLinesPerLevel()
     {
-        return defaultLinesPerLevel && defaultSettings != null && this != defaultSettings;
+        return defaultLinesPerLevel && !isDefault();
     }
 
     public void setDefaultLinesPerLevel(boolean defaultLinesPerLevel)
@@ -490,7 +492,7 @@ public class Settings
 
     public boolean isDefaultLinesPerSpecial()
     {
-        return defaultLinesPerSpecial && defaultSettings != null && this != defaultSettings;
+        return defaultLinesPerSpecial && !isDefault();
     }
 
     public void setDefaultLinesPerSpecial(boolean defaultLinesPerSpecial)
@@ -500,7 +502,7 @@ public class Settings
 
     public boolean isDefaultLevelIncrease()
     {
-        return defaultLevelIncrease && defaultSettings != null && this != defaultSettings;
+        return defaultLevelIncrease && !isDefault();
     }
 
     public void setDefaultLevelIncrease(boolean defaultLevelIncrease)
@@ -510,7 +512,7 @@ public class Settings
 
     public boolean isDefaultSpecialAdded()
     {
-        return defaultSpecialAdded && defaultSettings != null && this != defaultSettings;
+        return defaultSpecialAdded && !isDefault();
     }
 
     public void setDefaultSpecialAdded(boolean defaultSpecialAdded)
@@ -520,7 +522,7 @@ public class Settings
 
     public boolean isDefaultSpecialCapacity()
     {
-        return defaultSpecialCapacity && defaultSettings != null && this != defaultSettings;
+        return defaultSpecialCapacity && !isDefault();
     }
 
     public void setDefaultSpecialCapacity(boolean defaultSpecialCapacity)
@@ -530,7 +532,7 @@ public class Settings
 
     public boolean isDefaultAverageLevels()
     {
-        return defaultAverageLevels && defaultSettings != null && this != defaultSettings;
+        return defaultAverageLevels && !isDefault();
     }
 
     public void setDefaultAverageLevels(boolean defaultAverageLevels)
@@ -540,7 +542,7 @@ public class Settings
 
     public boolean isDefaultClassicRules()
     {
-        return defaultClassicRules && defaultSettings != null && this != defaultSettings;
+        return defaultClassicRules && !isDefault();
     }
 
     public void setDefaultClassicRules(boolean defaultClassicRules)
@@ -550,7 +552,7 @@ public class Settings
 
     public boolean isDefaultSameBlocks()
     {
-        return defaultSameBlocks && defaultSettings != null && this != defaultSettings;
+        return defaultSameBlocks && !isDefault();
     }
 
     public void setDefaultSameBlocks(boolean defaultSameBlocks)
@@ -560,7 +562,7 @@ public class Settings
 
     public boolean isDefaultSuddenDeathTime()
     {
-        return defaultSuddenDeathTime && defaultSettings != null && this != defaultSettings;
+        return defaultSuddenDeathTime && !isDefault();
     }
 
     public void setDefaultSuddenDeathTime(boolean defaultSuddenDeathTime)
@@ -570,7 +572,7 @@ public class Settings
 
     public boolean isDefaultSuddenDeathMessage()
     {
-        return defaultSuddenDeathMessage && defaultSettings != null && this != defaultSettings;
+        return defaultSuddenDeathMessage && !isDefault();
     }
 
     public void setDefaultSuddenDeathMessage(boolean defaultSuddenDeathMessage)
@@ -580,7 +582,7 @@ public class Settings
 
     public boolean isDefaultSuddenDeathLinesAdded()
     {
-        return defaultSuddenDeathLinesAdded && defaultSettings != null && this != defaultSettings;
+        return defaultSuddenDeathLinesAdded && !isDefault();
     }
 
     public void setDefaultSuddenDeathLinesAdded(boolean defaultSuddenDeathLinesAdded)
@@ -590,7 +592,7 @@ public class Settings
 
     public boolean isDefaultSuddenDeathDelay()
     {
-        return defaultSuddenDeathDelay && defaultSettings != null && this != defaultSettings;
+        return defaultSuddenDeathDelay && !isDefault();
     }
 
     public void setDefaultSuddenDeathDelay(boolean defaultSuddenDeathDelay)
@@ -598,4 +600,11 @@ public class Settings
         this.defaultSuddenDeathDelay = defaultSuddenDeathDelay;
     }
 
+    public boolean isDefaultSuddenDeath()
+    {
+        return isDefaultSuddenDeathDelay()
+                && isDefaultSuddenDeathLinesAdded()
+                && isDefaultSuddenDeathMessage()
+                && isDefaultSuddenDeathTime();
+    }
 }
