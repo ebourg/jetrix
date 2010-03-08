@@ -535,7 +535,7 @@ public class TetrinetProtocol extends AbstractProtocol
         {
             for (int j = 0; j < s.getOccurancy(block); j++)
             {
-                message.append(Integer.toString(block.getValue() + 1));
+                message.append(Integer.toString(block.ordinal() + 1));
             }
         }
 
@@ -546,7 +546,7 @@ public class TetrinetProtocol extends AbstractProtocol
         {
             for (int j = 0; j < s.getOccurancy(special); j++)
             {
-                message.append(Integer.toString(special.getValue() + 1));
+                message.append(Integer.toString(special.ordinal() + 1));
             }
         }
 

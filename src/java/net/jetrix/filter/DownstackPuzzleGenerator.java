@@ -159,7 +159,7 @@ public class DownstackPuzzleGenerator implements PuzzleGenerator
 
                         for (Special special : Special.values())
                         {
-                            settings.setOccurancy(special, Integer.parseInt(occurancy[special.getValue()]));
+                            settings.setOccurancy(special, Integer.parseInt(occurancy[special.ordinal()]));
                         }
                     }
                     else if (line.startsWith("BLOCK"))

@@ -64,7 +64,7 @@ public class ModeCommand extends AbstractCommand
     {
         for (Block block : Block.values())
         {
-            settings.setOccurancy(block, mode[block.getValue()]);
+            settings.setOccurancy(block, mode[block.ordinal()]);
         }
 
         settings.setLinesPerSpecial(mode[7]);

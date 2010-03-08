@@ -54,7 +54,7 @@ public class DownstackPuzzleGeneratorTest extends TestCase
         int[] specials = { 32, 18, 1, 11, 3, 14, 1, 6, 14 };
         for (Special special : Special.values())
         {
-            assertEquals(special.getCode() + " occurancy", specials[special.getValue()], settings.getOccurancy(special));
+            assertEquals(special.getCode() + " occurancy", specials[special.ordinal()], settings.getOccurancy(special));
         }
 
         assertEquals("sudden death message", "Time! It's SUDDEN DEATH MODE!", settings.getSuddenDeathMessage());

@@ -33,30 +33,21 @@ import java.util.Locale;
  */
 public enum Special
 {
-    ADDLINE(0, 'a', "addline"),
-    CLEARLINE(1, 'c', "clearline"),
-    NUKEFIELD(2, 'n', "nukefield"),
-    RANDOMCLEAR(3, 'r', "randomclear"),
-    SWITCHFIELD(4, 's', "switchfield"),
-    CLEARSPECIAL(5, 'b', "clearspecial"),
-    GRAVITY(6, 'g', "gravity"),
-    QUAKEFIELD(7, 'q', "quakefield"),
-    BLOCKBOMB(8, 'o', "blockbomb");
+    ADDLINE('a'),
+    CLEARLINE('c'),
+    NUKEFIELD('n'),
+    RANDOMCLEAR('r'),
+    SWITCHFIELD('s'),
+    CLEARSPECIAL('b'),
+    GRAVITY('g'),
+    QUAKEFIELD('q'),
+    BLOCKBOMB('o');
 
-    private int value;
     private final char letter;
-    private String code;
 
-    Special(int value, char letter, String code)
+    Special(char letter)
     {
-        this.value = value;
         this.letter = letter;
-        this.code = code;
-    }
-
-    public int getValue()
-    {
-        return value;
     }
 
     public char getLetter()
@@ -66,12 +57,12 @@ public enum Special
 
     public String getCode()
     {
-        return code;
+        return name().toLowerCase();
     }
 
     public String getName(Locale locale)
     {
-        return Language.getText("command.config.specials." + code, locale);
+        return Language.getText("command.config.specials." + getCode(), locale);
     }
 
     /**
@@ -89,7 +80,7 @@ public enum Special
                 return special;
             }
         }
-
+        
         return null;
     }
 }

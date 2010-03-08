@@ -211,12 +211,12 @@ public class Settings
 
     public int getOccurancy(Block piece)
     {
-        return isDefaultBlockOccurancy() ? defaultSettings.getOccurancy(piece) : blockOccurancy[piece.getValue()];
+        return isDefaultBlockOccurancy() ? defaultSettings.getOccurancy(piece) : blockOccurancy[piece.ordinal()];
     }
 
     public int getOccurancy(Special special)
     {
-        return isDefaultSpecialOccurancy() ? defaultSettings.getOccurancy(special) : specialOccurancy[special.getValue()];
+        return isDefaultSpecialOccurancy() ? defaultSettings.getOccurancy(special) : specialOccurancy[special.ordinal()];
     }
 
     public void setStartingLevel(int startingLevel)
@@ -341,7 +341,7 @@ public class Settings
             Arrays.fill(blockOccurancy, 0);
         }
 
-        blockOccurancy[block.getValue()] = occurancy;
+        blockOccurancy[block.ordinal()] = occurancy;
     }
 
     /**
@@ -360,7 +360,7 @@ public class Settings
             Arrays.fill(specialOccurancy, 0);
         }
 
-        specialOccurancy[special.getValue()] = occurancy;
+        specialOccurancy[special.ordinal()] = occurancy;
     }
 
     /**

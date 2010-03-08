@@ -33,35 +33,21 @@ import java.util.Locale;
  */
 public enum Block
 {
-    LINE(0, "line"),
-    SQUARE(1, "square"),
-    LEFTL(2, "leftl"),
-    RIGHTL(3, "rightl"),
-    LEFTZ(4, "leftz"),
-    RIGHTZ(5, "rightz"),
-    HALFCROSS(6, "halfcross");
-
-    private int value;
-    private String code;
-
-    Block(int value, String code)
-    {
-        this.value = value;
-        this.code = code;
-    }
-
-    public int getValue()
-    {
-        return value;
-    }
+    LINE,
+    SQUARE,
+    LEFTL,
+    RIGHTL,
+    LEFTZ,
+    RIGHTZ,
+    HALFCROSS;
 
     public String getCode()
     {
-        return code;
+        return name().toLowerCase();
     }
 
     public String getName(Locale locale)
     {
-        return Language.getText("command.config.blocks." + code, locale);
+        return Language.getText("command.config.blocks." + getCode(), locale);
     }
 }
