@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2009  Emmanuel Bourg
+ * Copyright (C) 2001-2010  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,8 +24,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.*;
 
-import javax.mail.MessagingException;
-
 import net.jetrix.clients.*;
 import net.jetrix.commands.*;
 import net.jetrix.config.*;
@@ -34,7 +32,6 @@ import net.jetrix.messages.channel.*;
 import net.jetrix.services.VersionService;
 import net.jetrix.listeners.ShutdownListener;
 import net.jetrix.mail.MailSessionManager;
-import net.jetrix.mail.MailMessage;
 
 /**
  * Main class, starts the server components and handle the server level messages.
@@ -54,9 +51,13 @@ public class Server implements Runnable, Destination
     private ChannelManager channelManager;
     private Client console;
 
-    private Server()
+    private Server() { }
+
+    /**
+     * Register the shutdown hooks to stop the server properly when the JVM is stopped.
+     */
+    private void registerHooks()
     {
-        // add the stop hook
         Thread hook = new Thread("StopHook")
         {
             public void run()
@@ -99,6 +100,8 @@ public class Server implements Runnable, Destination
      */
     private void init()
     {
+        registerHooks();
+        
         // read the server configuration
         config = new ServerConfig();
         config.load(configFile);
@@ -327,7 +330,7 @@ public class Server implements Runnable, Destination
      */
     public static void main(String[] args)
     {
-        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2009 Emmanuel Bourg\n");
+        System.out.println("Jetrix TetriNET Server " + ServerConfig.VERSION + ", Copyright (C) 2001-2010 Emmanuel Bourg\n");
 
         Server server = Server.getInstance();
 
