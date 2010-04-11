@@ -37,7 +37,7 @@ public class TetrixWinlistTest extends SimpleWinlistTest
     public void setUp()
     {
         super.setUp();
-        score = new Score("hell's_players†", Score.TYPE_TEAM, 1418);
+        score = new Score("hell's_players\u2020", Score.TYPE_TEAM, 1418);
     }
 
     public void testBuildScore() throws Exception
@@ -51,7 +51,7 @@ public class TetrixWinlistTest extends SimpleWinlistTest
         assertEquals("type", score.getType(), score2.getType());
     }
 
-    public void testBuildStruct()
+    public void testBuildStruct() throws Exception
     {
         TetrixWinlist winlist = new TetrixWinlist();
 

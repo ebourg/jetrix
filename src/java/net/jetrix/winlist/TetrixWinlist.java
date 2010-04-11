@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import net.jetrix.config.*;
 
 /**
- * A winlist caompatible with the tetrinetx winlist format.
+ * A winlist compatible with the tetrinetx winlist format. 
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -37,6 +37,7 @@ public class TetrixWinlist extends SimpleWinlist
 
     private long scoreCount = DEFAULT_WINLIST_SIZE;
     private String filename;
+    private String encoding = "Cp1252";
 
     public void init(WinlistConfig config)
     {
@@ -120,14 +121,14 @@ public class TetrixWinlist extends SimpleWinlist
     /**
      * Build a score from a tetrix winlist structure.
      */
-    protected Score buildScore(byte[] struct)
+    protected Score buildScore(byte[] struct) throws IOException
     {
         Score score = null;
 
         if (struct[0] != 0)
         {
             score = new Score();
-            score.setName(new String(struct, 1, 31).trim());
+            score.setName(new String(struct, 1, 31, encoding).trim());
             score.setType(struct[0] == 0x70 ? Score.TYPE_PLAYER : Score.TYPE_TEAM);
             long scoreValue = getUnsignedByte(struct, 32)
                     + (getUnsignedByte(struct, 33) << 8)
@@ -152,7 +153,7 @@ public class TetrixWinlist extends SimpleWinlist
             struct[0] = score.getType() == Score.TYPE_PLAYER ? (byte) 'p' : (byte) 't';
 
             // name
-            byte[] name = score.getName().getBytes(ServerConfig.ENCODING);
+            byte[] name = score.getName().getBytes(encoding);
             System.arraycopy(name, 0, struct, 1, name.length);
 
             // score
