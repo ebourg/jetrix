@@ -43,14 +43,17 @@ import net.jetrix.clients.TetrinetClient;
  */
 public class Channel extends Thread implements Destination
 {
+    /** The maximum number of players per channel. */
+    public static final int MAX_PLAYERS = 6;
+    
     private ChannelConfig channelConfig;
     private ServerConfig serverConfig;
     private Logger log = Logger.getLogger("net.jetrix");
 
-    private BlockingQueue<Message> queue;
+    private BlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
 
     private boolean open;
-    private GameState gameState;
+    private GameState gameState = STOPPED;
     private boolean running = true;
     private GameResult result;
 
@@ -58,13 +61,13 @@ public class Channel extends Thread implements Destination
     private long startTime;
 
     /** set of clients connected to this channel */
-    private Set<Client> clients;
+    private Set<Client> clients = new HashSet<Client>();
 
     /** slot/player mapping */
-    private List<Client> slots;
-    private Field[] fields = new Field[6];
+    private List<Client> slots = Arrays.asList(new Client[MAX_PLAYERS]);
+    private Field[] fields = new Field[MAX_PLAYERS];
 
-    private List<MessageFilter> filters;
+    private List<MessageFilter> filters = new ArrayList<MessageFilter>();
 
     public Channel()
     {
@@ -75,36 +78,25 @@ public class Channel extends Thread implements Destination
     {
         this.channelConfig = channelConfig;
         this.serverConfig = Server.getInstance().getConfig();
-        this.gameState = STOPPED;
-        this.clients = new HashSet<Client>();
-        this.slots = new ArrayList<Client>(6);
-
-        // initialize the slot mapping
-        for (int i = 0; i < 6; i++)
-        {
-            slots.add(null);
-        }
-
+        
         // initialize the players' fields
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < MAX_PLAYERS; i++)
         {
             fields[i] = new Field();
         }
-
-        // opening channel message queue
-        queue = new LinkedBlockingQueue<Message>();
-
-        filters = new ArrayList<MessageFilter>();
-
+        
         /**
          * Loading filters
          */
 
         // global filters
-        Iterator<FilterConfig> globalFilters = serverConfig.getGlobalFilters();
-        while (globalFilters.hasNext())
+        if (serverConfig != null)
         {
-            addFilter(globalFilters.next());
+            Iterator<FilterConfig> globalFilters = serverConfig.getGlobalFilters();
+            while (globalFilters.hasNext())
+            {
+                addFilter(globalFilters.next());
+            }
         }
 
         // channel filters
@@ -470,7 +462,7 @@ public class Channel extends Thread implements Destination
             }
 
             // clear the players' fields
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < MAX_PLAYERS; i++)
             {
                 fields[i].clear();
             }
@@ -546,7 +538,7 @@ public class Channel extends Thread implements Destination
         if (previousChannel != null && !client.supportsMultipleChannels())
         {
             // clear the player list
-            for (int j = 1; j <= 6; j++)
+            for (int j = 1; j <= MAX_PLAYERS; j++)
             {
                 if (previousChannel.getPlayer(j) != null)
                 {
@@ -592,7 +584,7 @@ public class Channel extends Thread implements Destination
             int slot = 0;
             for (slot = 0; slot < slots.size() && slots.get(slot) != null; slot++) ;
 
-            if (slot >= 6)
+            if (slot >= MAX_PLAYERS)
             {
                 log.warning("[" + getConfig().getName() + "] Panic, no slot available for " + client);
                 client.getUser().setSpectator();
@@ -646,7 +638,7 @@ public class Channel extends Thread implements Destination
         }
 
         // send the fields
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < MAX_PLAYERS; i++)
         {
             if (!fields[i].isEmpty() || previousChannel != null)
             {

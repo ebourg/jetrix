@@ -64,35 +64,51 @@ public class DownstackPuzzleGenerator implements PuzzleGenerator
 
     public Puzzle getNextPuzzle()
     {
-        Puzzle puzzle = new Puzzle();
-
         try
         {
             // load the field
             File[] levels = getLevels();
             File file = levels[level % levels.length];
             level = level + 1;
-            Field field = new Field();
-            field.load(file.getAbsolutePath());
-            puzzle.setField(field);
+            
+            Puzzle puzzle = loadPuzzle(new File(path), file.getName().substring(0, file.getName().lastIndexOf(".")));
             puzzle.setKey(String.valueOf(level));
-
-            // load the settings
-            String name = file.getAbsolutePath().replace(".field", ".settings");
-            readSettings(puzzle, name);
+            
+            return puzzle;
         }
         catch (IOException e)
         {
             log.log(Level.WARNING, e.getMessage(), e);
         }
+        
+        return null;
+    }
 
+    /**
+     * Load a puzzle from the filesystem.
+     * 
+     * @param directory the directory containing the puzzle file
+     * @param name      the name of the puzzle
+     */
+    protected Puzzle loadPuzzle(File directory, String name) throws IOException
+    {
+        Puzzle puzzle = new Puzzle();
+
+        // load the field
+        Field field = new Field();
+        field.load(new File(directory, name + ".field").getAbsolutePath());
+        puzzle.setField(field);
+
+        // load the settings
+        readSettings(puzzle, new File(directory, name + ".settings").getAbsolutePath());
+        
         return puzzle;
     }
 
     /**
      * Find all levels in the puzzle directory.
      */
-    private File[] getLevels()
+    protected File[] getLevels()
     {
         File directory = new File(path);
         File[] files = directory.listFiles(new FilenameFilter()
@@ -209,8 +225,5 @@ public class DownstackPuzzleGenerator implements PuzzleGenerator
                 }
             }
         }
-
     }
-
-
 }

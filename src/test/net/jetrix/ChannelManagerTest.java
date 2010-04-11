@@ -38,6 +38,7 @@ public class ChannelManagerTest extends TestCase
     public void setUp()
     {
         manager = ChannelManager.getInstance();
+        manager.clear();
 
         config1 = new ChannelConfig();
         config1.setName("test1");

@@ -19,6 +19,8 @@
 
 package net.jetrix.filter;
 
+import java.io.File;
+
 import junit.framework.*;
 import net.jetrix.config.*;
 
@@ -31,20 +33,32 @@ public class DownstackPuzzleGeneratorTest extends TestCase
     public void testGetNextPuzzle()
     {
         PuzzleGenerator generator = new DownstackPuzzleGenerator();
-        Puzzle puzzle = generator.getNextPuzzle();
+        
+        for (int i = 0; i < 100; i++)
+        {
+            Puzzle puzzle = generator.getNextPuzzle();
+            assertNotNull("puzzle null", puzzle);
+            assertNotNull("null settings", puzzle.getSettings());
+        }
+    }
 
+    public void testLoadPuzzle() throws Exception
+    {
+        DownstackPuzzleGenerator generator = new DownstackPuzzleGenerator();
+        Puzzle puzzle = generator.loadPuzzle(new File("data/puzzle"), "game3");
+        
         assertNotNull("puzzle null", puzzle);
-        assertEquals("author", "Kl€r", puzzle.getAuthor());
-        assertEquals("name", "PUzzle BoBblE", puzzle.getName());
-        assertEquals("comment", "none", puzzle.getComment());
+        assertEquals("author", "NiLS", puzzle.getAuthor());
+        assertEquals("name", "Left or Right", puzzle.getName());
+        assertEquals("comment", "no comment", puzzle.getComment());
 
         assertNotNull("null field", puzzle.getField());
         assertFalse("empty field", puzzle.getField().isEmpty());
 
         Settings settings = puzzle.getSettings();
         assertNotNull("null settings", settings);
-
-        int[] blocks = { 14, 14, 14, 14, 15, 15, 14 };
+        
+        int[] blocks = { 14, 14, 15, 14, 14, 14, 15 };
         for (int i = 0; i < DownstackPuzzleGenerator.BLOCKS.length; i++)
         {
             Block block = DownstackPuzzleGenerator.BLOCKS[i];
@@ -56,8 +70,8 @@ public class DownstackPuzzleGeneratorTest extends TestCase
         {
             assertEquals(special.getCode() + " occurancy", specials[special.ordinal()], settings.getOccurancy(special));
         }
-
-        assertEquals("sudden death message", "Time! It's SUDDEN DEATH MODE!", settings.getSuddenDeathMessage());
+        
+        assertEquals("sudden death message", "Time's up! It's SUDDEN DEATH MODE!", settings.getSuddenDeathMessage());
         assertEquals("sudden death delay", 30, settings.getSuddenDeathDelay());
         assertEquals("sudden death time", 180, settings.getSuddenDeathTime());
         assertEquals("sudden death lines", 1, settings.getSuddenDeathLinesAdded());
@@ -72,5 +86,4 @@ public class DownstackPuzzleGeneratorTest extends TestCase
         assertEquals("classic rules", true, settings.getClassicRules());
         assertEquals("average levels", true, settings.getAverageLevels());
     }
-
 }

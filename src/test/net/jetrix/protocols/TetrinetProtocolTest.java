@@ -111,15 +111,15 @@ public class TetrinetProtocolTest extends TestCase
 
     public void testGetMessageGmsg()
     {
-        String raw = "gmsg hello world!";
+        String raw = "gmsg <Smanux> Hello world!";
         Message message = protocol.getMessage(raw);
 
         assertNotNull("message not parsed", message);
         assertEquals("message class", GmsgMessage.class, message.getClass());
 
         GmsgMessage gmsg = (GmsgMessage) message;
-        assertEquals("slot", 1, gmsg.getSlot());
-        assertEquals("text", "hello world!", gmsg.getText(Locale.ENGLISH));
+        assertEquals("slot", 0, gmsg.getSlot());
+        assertEquals("text", "<Smanux> Hello world!", gmsg.getText(Locale.ENGLISH));
     }
 
     public void testTranslatePlayerJoin()
@@ -268,7 +268,7 @@ public class TetrinetProtocolTest extends TestCase
     {
         byte[] ip = {127, 0, 0, 1};
         String nickname = "Smanux";
-        String version = "1.14";
+        String version = "1.13";
 
         assertEquals("80C210B3134A85CF71E46FD4C123A83D9E22A2F512769FE5", encode(nickname, version, ip, false));
     }

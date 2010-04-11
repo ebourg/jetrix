@@ -55,6 +55,32 @@ public abstract class AbstractProtocol implements Protocol
         return input.toString();
     }
 
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        Protocol that = (Protocol) o;
+
+        if (!getName().equals(that.getName()))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public int hashCode()
+    {
+        return getName().hashCode();
+    }
+
     public String toString()
     {
         return "[Protocol name=" + getName() + "]";

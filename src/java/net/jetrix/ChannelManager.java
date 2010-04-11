@@ -83,7 +83,9 @@ public class ChannelManager
     {
         // get the channel
         Channel channel = getChannel(name);
-
+        
+        removeChannel(channel);
+        
         // close it as soon as the last client leaves
         channel.getConfig().setPersistent(false);
         channel.send(new ShutdownMessage());

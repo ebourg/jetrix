@@ -79,7 +79,7 @@ public class TSpecProtocolTest extends TestCase
         assertEquals("message class", SmsgMessage.class, message.getClass());
 
         SmsgMessage smsg = (SmsgMessage) message;
-        assertEquals("slot", 0, smsg.getSlot());
+        assertEquals("slot", 1, smsg.getSlot());
         assertEquals("private", false, smsg.isPrivate());
         assertEquals("text", "spectator message", smsg.getText());
     }
@@ -93,7 +93,7 @@ public class TSpecProtocolTest extends TestCase
         assertEquals("message class", SmsgMessage.class, message.getClass());
 
         SmsgMessage smsg = (SmsgMessage) message;
-        assertEquals("slot", 0, smsg.getSlot());
+        assertEquals("slot", 1, smsg.getSlot());
         assertEquals("private", true, smsg.isPrivate());
         assertEquals("text", "spectator message", smsg.getText());
     }
