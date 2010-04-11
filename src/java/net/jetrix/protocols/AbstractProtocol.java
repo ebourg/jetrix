@@ -19,10 +19,11 @@
 
 package net.jetrix.protocols;
 
-import net.jetrix.Protocol;
-
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStream;
+
+import net.jetrix.Protocol;
 
 /**
  * Abstract protocol implementing the readLine(Reader) method.
@@ -34,25 +35,27 @@ import java.io.Reader;
  */
 public abstract class AbstractProtocol implements Protocol
 {
-    public String readLine(Reader in) throws IOException
+    public String readLine(InputStream in) throws IOException
     {
-        StringBuilder input = new StringBuilder();
-
-        int readChar;
-        while ((readChar = in.read()) != -1 && readChar != getEOL() && readChar != 0x0A && readChar != 0x0D)
+        ByteArrayOutputStream input = new ByteArrayOutputStream(256);
+        
+        // todo define a maximum line length
+        
+        int b;
+        while ((b = in.read()) != -1 && b != getEOL() && b != 0x0A && b != 0x0D)
         {
-            if (readChar != 0x0A && readChar != 0x0D)
+            if (b != 0x0A && b != 0x0D)
             {
-                input.append((char) readChar);
+                input.write(b);
             }
         }
-
-        if (readChar == -1)
+        
+        if (b == -1)
         {
             throw new IOException("End of stream");
         }
-
-        return input.toString();
+        
+        return input.toString("ISO-8859-1");
     }
 
     public boolean equals(Object o)

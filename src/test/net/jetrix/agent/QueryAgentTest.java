@@ -29,10 +29,12 @@ import junit.framework.TestCase;
  */
 public class QueryAgentTest extends TestCase
 {
+    private String hostname = "tetrinet.fr";
+
     public void testGetVersion() throws Exception
     {
         QueryAgent agent = new QueryAgent();
-        agent.connect("tetrinet.fr");
+        agent.connect(hostname);
         String version = agent.getVersion();
         agent.disconnect();
 
@@ -42,7 +44,7 @@ public class QueryAgentTest extends TestCase
     public void testGetPlayerNumber() throws Exception
     {
         QueryAgent agent = new QueryAgent();
-        agent.connect("tetrinet.fr");
+        agent.connect(hostname);
         int count = agent.getPlayerNumber();
         agent.disconnect();
 
@@ -52,7 +54,7 @@ public class QueryAgentTest extends TestCase
     public void testGetChannels() throws Exception
     {
         QueryAgent agent = new QueryAgent();
-        agent.connect("tetrinet.fr");
+        agent.connect(hostname);
         List<ChannelInfo> channels = agent.getChannels();
         agent.disconnect();
 
@@ -63,7 +65,7 @@ public class QueryAgentTest extends TestCase
     public void testGetPlayers() throws Exception
     {
         QueryAgent agent = new QueryAgent();
-        agent.connect("tetrinet.fr");
+        agent.connect("tetridome.com");
         List<PlayerInfo> players = agent.getPlayers();
         agent.disconnect();
 
@@ -74,7 +76,7 @@ public class QueryAgentTest extends TestCase
     public void testGetPing() throws Exception
     {
         QueryAgent agent = new QueryAgent();
-        agent.connect("tetrinet.fr");
+        agent.connect(hostname);
         long ping = agent.getPing();
         agent.disconnect();
 

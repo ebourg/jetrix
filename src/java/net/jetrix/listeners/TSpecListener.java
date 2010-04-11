@@ -19,7 +19,6 @@
 
 package net.jetrix.listeners;
 
-import java.io.*;
 import java.net.*;
 import net.jetrix.*;
 import net.jetrix.protocols.TspecProtocol;
@@ -48,7 +47,7 @@ public class TSpecListener extends TetrinetListener
     public Client getClient(Socket socket) throws Exception
     {
         TetrinetProtocol protocol = ProtocolManager.getInstance().getProtocol(TetrinetProtocol.class);
-        String init = protocol.readLine(new InputStreamReader(socket.getInputStream()));
+        String init = protocol.readLine(socket.getInputStream());
 
         TSpecClient client = new TSpecClient();
         client.setProtocol(ProtocolManager.getInstance().getProtocol(TspecProtocol.class));

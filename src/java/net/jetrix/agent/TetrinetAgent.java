@@ -19,10 +19,10 @@
 
 package net.jetrix.agent;
 
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.Socket;
@@ -49,7 +49,7 @@ public class TetrinetAgent implements Agent
     private int slot;
 
     private Socket socket;
-    private BufferedReader in;
+    private InputStream in;
     private Writer out;
     
     protected Protocol protocol = new TetrinetProtocol();
@@ -82,7 +82,7 @@ public class TetrinetAgent implements Agent
         socket = new Socket(hostname, port);
         socket.setSoTimeout(15000);
         
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
+        in = new BufferedInputStream(socket.getInputStream());
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "ISO-8859-1"));
 
         send(TetrinetProtocol.encode(name, version, socket.getInetAddress().getAddress(), false));

@@ -96,6 +96,13 @@ public interface Client extends Runnable, Destination
     long getIdleTime();
 
     /**
+     * Returns the character encoding to be used for the messages sent to the client.
+     * 
+     * @since 0.3
+     */
+    String getEncoding();
+
+    /**
      * Send a message to the client. The raw message property must be set.
      *
      * @param message the message to send

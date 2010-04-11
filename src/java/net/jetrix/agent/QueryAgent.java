@@ -19,12 +19,11 @@
 
 package net.jetrix.agent;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -48,8 +47,8 @@ public class QueryAgent implements Agent
 {
     private String hostname;
     private Socket socket;
-    private BufferedReader in;
-    private Writer out;
+    private InputStream in;
+    private OutputStream out;
 
     private Logger log = Logger.getLogger("net.jetrix");
 
@@ -58,8 +57,8 @@ public class QueryAgent implements Agent
         this.hostname = hostname;
         socket = new Socket();
         socket.connect(new InetSocketAddress(hostname, 31457), 5000);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
-        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "ISO-8859-1"));
+        in = new BufferedInputStream(socket.getInputStream());
+        out = new BufferedOutputStream(socket.getOutputStream());
         socket.setSoTimeout(10000);
     }
 
@@ -73,7 +72,7 @@ public class QueryAgent implements Agent
 
     public void send(String message) throws IOException
     {
-        out.write(message);
+        out.write(message.getBytes("ISO-8859-1"));
         out.write(0xFF);
         out.flush();
     }
@@ -113,9 +112,10 @@ public class QueryAgent implements Agent
         send("version");
 
         // read the result
-        String version = in.readLine();
-        in.readLine();
-
+        QueryProtocol protocol = new QueryProtocol();
+        String version = protocol.readLine(in);
+        protocol.readLine(in);
+        
         return version;
     }
 
@@ -128,8 +128,9 @@ public class QueryAgent implements Agent
         send("playerquery");
 
         // read the result
-        String line = in.readLine();
-
+        QueryProtocol protocol = new QueryProtocol();
+        String line = protocol.readLine(in);
+        
         if (line.startsWith("Number of players logged in: "))
         {
             return Integer.parseInt(line.substring(line.indexOf(":") + 1).trim());

@@ -239,22 +239,19 @@ public class TetrinetProtocol extends AbstractProtocol
         // newgame
         else if ("newgame".equals(cmd))
         {
-            NewGameMessage newgame = new NewGameMessage();
-            m = newgame;
+            m = new NewGameMessage();
 
             // todo parse the game settings
         }
         // endgame
         else if ("endgame".equals(cmd))
         {
-            EndGameMessage end = new EndGameMessage();
-            m = end;
+            m = new EndGameMessage();
         }
         // ingame
         else if ("ingame".equals(cmd))
         {
-            IngameMessage ingame = new IngameMessage();
-            m = ingame;
+            m = new IngameMessage();
         }
         // playerlost <slot>
         else if ("playerlost".equals(cmd))
@@ -556,7 +553,7 @@ public class TetrinetProtocol extends AbstractProtocol
         message.append(s.getClassicRules() ? "1" : "0");
 
         // extended parameter for 1.14 clients
-        if (s.getSameBlocks() == true)
+        if (s.getSameBlocks())
         {
             message.append(" ");
             String hexstring = Integer.toHexString(m.getSeed()).toUpperCase();

@@ -19,7 +19,6 @@
 
 package net.jetrix.listeners;
 
-import java.io.*;
 import java.net.*;
 import java.util.*;
 
@@ -53,7 +52,7 @@ public class TetrinetListener extends ClientListener
     {
         // read the first line sent by the client
         Protocol protocol1 = protocolManager.getProtocol(TetrinetProtocol.class);
-        String init = protocol1.readLine(new InputStreamReader(socket.getInputStream()));
+        String init = protocol1.readLine(socket.getInputStream());
 
         // test if the client is using the query protocol
         Protocol protocol = protocolManager.getProtocol(QueryProtocol.class);

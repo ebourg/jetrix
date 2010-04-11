@@ -21,6 +21,7 @@ package net.jetrix.clients;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -165,6 +166,11 @@ public class ConsoleClient implements Client
     public long getIdleTime()
     {
         return 0;
+    }
+
+    public String getEncoding()
+    {
+        return Charset.defaultCharset().name();
     }
 
     public void disconnect()

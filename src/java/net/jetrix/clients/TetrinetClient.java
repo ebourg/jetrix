@@ -51,8 +51,8 @@ public class TetrinetClient implements Client
     protected boolean disconnected;
     private boolean running;
 
-    protected Reader in;
-    protected Writer out;
+    protected InputStream in;
+    protected OutputStream out;
     protected Socket socket;
     protected ServerConfig serverConfig;
     protected Logger log = Logger.getLogger("net.jetrix");
@@ -227,7 +227,8 @@ public class TetrinetClient implements Client
             {
                 synchronized (out)
                 {
-                    out.write(rawMessage + getProtocol().getEOL(), 0, rawMessage.length() + 1);
+                    out.write(rawMessage.getBytes(getEncoding()));
+                    out.write(getProtocol().getEOL());
                     out.flush();
                 }
 
@@ -280,8 +281,8 @@ public class TetrinetClient implements Client
         this.socket = socket;
         try
         {
-            in  = new BufferedReader(new InputStreamReader(socket.getInputStream(), ServerConfig.ENCODING));
-            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), ServerConfig.ENCODING));
+            in  = new BufferedInputStream(socket.getInputStream());
+            out = new BufferedOutputStream(socket.getOutputStream());
         }
         catch (IOException e)
         {
@@ -357,6 +358,11 @@ public class TetrinetClient implements Client
     public long getIdleTime()
     {
         return System.currentTimeMillis() - lastMessageTime;
+    }
+
+    public String getEncoding()
+    {
+        return "ISO-8859-1";
     }
 
     public void disconnect()

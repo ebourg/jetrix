@@ -19,9 +19,9 @@
 
 package net.jetrix;
 
-import java.util.*;
-import java.io.Reader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * A protocol to communicate with a client. A protocol is responsible for
@@ -91,6 +91,6 @@ public interface Protocol
      * @param in the stream to be read
      * @throws IOException thrown if the stream is closed
      */
-    String readLine(Reader in) throws IOException;
+    String readLine(InputStream in) throws IOException;
 
 }

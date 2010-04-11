@@ -174,7 +174,8 @@ public class QueryClient extends TetrinetClient
 
         try
         {
-            out.write(rawMessage + QueryProtocol.EOL, 0, rawMessage.length() + 1);
+            out.write(rawMessage.getBytes(getEncoding()));
+            out.write(QueryProtocol.EOL);
             out.flush();
 
             if (log.isLoggable(Level.FINEST))
