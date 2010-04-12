@@ -30,6 +30,7 @@ import java.util.Locale;
 
 import net.jetrix.Message;
 import net.jetrix.Protocol;
+import net.jetrix.config.ServerConfig;
 import net.jetrix.protocols.TetrinetProtocol;
 import net.jetrix.messages.*;
 import net.jetrix.messages.channel.*;
@@ -43,9 +44,22 @@ import net.jetrix.messages.channel.specials.*;
  */
 public class TetrinetAgent implements Agent
 {
-    private String name;
+    /** The name of the agent. */
+    protected String clientName = "Jetrix";
+
+    /** The version of the agent. */
+    protected String clientVersion = ServerConfig.VERSION;
+
+    /** The name of the player. */
+    protected String name;
+
+    /** The name of the team. */
+    protected String teamname;
+
+    /** The hostname of the TetriNET server. */
     private String hostname;
 
+    /** The current slot assigned by the server. */
     private int slot;
 
     private Socket socket;
@@ -145,7 +159,7 @@ public class TetrinetAgent implements Agent
         }
     }
 
-    protected void send(String message) throws IOException
+    protected synchronized void send(String message) throws IOException
     {
         out.write(message);
         out.write(protocol.getEOL());
@@ -229,6 +243,20 @@ public class TetrinetAgent implements Agent
     public void onMessage(PlayerNumMessage m)
     {
         this.slot = m.getSlot();
+        
+        // repond with the team name
+        TeamMessage response = new TeamMessage();
+        response.setSlot(slot);
+        response.setName(teamname);
+        
+        try
+        {
+            send(response);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void onMessage(StartGameMessage m) { }
@@ -270,7 +298,24 @@ public class TetrinetAgent implements Agent
      */
     public void onSpecial(SpecialMessage m) { }
 
-    public void onMessage(LevelMessage m) { }
+    public void onMessage(LevelMessage m)
+    {
+        if (m.getLevel() == 0 && m.getSlot() == 0)
+        {
+            ClientInfoMessage response = new ClientInfoMessage();
+            response.setName(clientName);
+            response.setVersion(clientVersion);
+            
+            try
+            {
+                send(response);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void onMessage(FieldMessage m) { }
 

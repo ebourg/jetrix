@@ -34,8 +34,9 @@ public class TetrinetAgentTest extends TestCase
     {
         TetrinetAgent agent = new TetrinetAgent("JetrixBot");
         agent.connect("tetrinet.fr");
-
-        agent.send(new TeamMessage());
+        
+        Thread.sleep(200);
+        
         agent.send(new PlineMessage("Hi there!"));
 
         agent.disconnect();

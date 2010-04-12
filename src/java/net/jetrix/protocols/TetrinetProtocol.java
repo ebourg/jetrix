@@ -372,6 +372,7 @@ public class TetrinetProtocol extends AbstractProtocol
         else if (m instanceof WinlistMessage)       { return translate((WinlistMessage) m, locale); }
         else if (m instanceof NoopMessage)          { return translate((NoopMessage) m); }
         else if (m instanceof CommandMessage)       { return translate((CommandMessage) m); }
+        else if (m instanceof ClientInfoMessage)    { return translate((ClientInfoMessage) m); }
         else
         {
             return null;
@@ -777,6 +778,16 @@ public class TetrinetProtocol extends AbstractProtocol
             message.append(";");
             message.append(score.getScore());
         }
+        return message.toString();
+    }
+
+    public String translate(ClientInfoMessage m)
+    {
+        StringBuilder message = new StringBuilder();
+        message.append("clientinfo ");
+        message.append(m.getName());
+        message.append(" ");
+        message.append(m.getVersion());
         return message.toString();
     }
 

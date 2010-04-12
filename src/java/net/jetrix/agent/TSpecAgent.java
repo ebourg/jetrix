@@ -21,7 +21,6 @@ package net.jetrix.agent;
 
 import java.io.IOException;
 
-import net.jetrix.messages.channel.*;
 import net.jetrix.protocols.TspecProtocol;
 
 /**
@@ -32,35 +31,15 @@ import net.jetrix.protocols.TspecProtocol;
  */
 public class TSpecAgent extends TetrinetAgent
 {
-    private String password;
-
     public TSpecAgent(String name, String password)
     {
         super(name);
-        this.password = password;
+        this.teamname = password;
         this.protocol = new TspecProtocol();
     }
 
     public void connect(String hostname) throws IOException
     {
-        connect(hostname, 31458, password);
-    }
-
-    public void onMessage(PlayerNumMessage m)
-    {
-        super.onMessage(m);
-
-        // send the tspec password as the team name
-        TeamMessage team = new TeamMessage();
-        team.setSlot(m.getSlot());
-        team.setName(password);
-        try
-        {
-            send(team);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        connect(hostname, 31458, teamname);
     }
 }
