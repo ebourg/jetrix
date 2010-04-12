@@ -163,7 +163,7 @@
     <testResources>
       <testResource>
         <directory>src/etc</directory>
-        <targetPath>/</targetPath>
+        <targetPath>./</targetPath>
         <includes>
           <include>**/*.xml</include>
           <include>*.dtd</include>
@@ -171,14 +171,14 @@
       </testResource>
       <testResource>
         <directory>src/lang</directory>
-        <targetPath>/</targetPath>
+        <targetPath>./</targetPath>
         <includes>
           <include>*.properties</include>
         </includes>
       </testResource>
       <testResource>
         <directory>src/etc/data/puzzle</directory>
-        <targetPath>/data/puzzle</targetPath>
+        <targetPath>./data/puzzle</targetPath>
         <includes>
           <include>*.field</include>
           <include>*.settings</include>
@@ -313,5 +313,9 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <properties>
+    <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+  </properties>
 
 </project>
