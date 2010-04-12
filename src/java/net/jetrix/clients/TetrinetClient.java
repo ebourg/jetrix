@@ -138,6 +138,11 @@ public class TetrinetClient implements Client
                 {
                     message.getDestination().send(message);
                 }
+                else if (message instanceof ClientInfoMessage)
+                {
+                    ClientInfoMessage info = (ClientInfoMessage) message;
+                    setVersion(info.getName() + " " + info.getVersion());
+                }
                 else if (channel != null)
                 {
                     // send the message to the channel assigned to this client
