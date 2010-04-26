@@ -65,12 +65,11 @@ Function GetJRE
           $\nWithout it you cannot run Jetrix. \
           $\n$\nWould you like to visit the Java website to download it?' \
           IDNO +2
-  ExecShell open "http://java.sun.com/getjava"  
+  ExecShell open "http://java.com"
   Quit
         
  JreFound:
   Pop $R1
-  MessageBox MB_ICONEXCLAMATION|MB_YESNO 'exec: $R0' IDNO +2
   Exch $R0
 
 FunctionEnd
