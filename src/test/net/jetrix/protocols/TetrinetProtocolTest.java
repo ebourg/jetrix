@@ -21,7 +21,9 @@ package net.jetrix.protocols;
 
 import static net.jetrix.protocols.TetrinetProtocol.*;
 
+import java.io.*;
 import java.util.*;
+
 import junit.framework.*;
 import net.jetrix.*;
 import net.jetrix.messages.channel.*;
@@ -292,5 +294,45 @@ public class TetrinetProtocolTest extends TestCase
         assertNotNull(init);
 
         assertEquals("decoded", "tetrisstart Smanux 1.13", decode(init));
+    }
+
+    public void testLongMessage()
+    {
+        byte[] message = new byte[16 * 1024];
+        try
+        {
+            protocol.readLine(new ByteArrayInputStream(message, 0, message.length));
+            fail("No exception raised on a 16K message");
+        }
+        catch (IOException e)
+        {
+            // expected
+        }
+    }
+
+    public void testSlowClient()
+    {
+        try
+        {
+            protocol.readLine(new InputStream() {
+                int i = 34;
+                public int read() throws IOException
+                {
+                    try
+                    {
+                        Thread.sleep(1000);
+                    }
+                    catch (InterruptedException e)
+                    {
+                    }
+                    return --i;
+                }
+            });
+            fail("No exception raised on extremely slow input");
+        }
+        catch (IOException e)
+        {
+            // expected
+        }
     }
 }

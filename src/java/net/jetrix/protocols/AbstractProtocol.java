@@ -35,18 +35,35 @@ import net.jetrix.Protocol;
  */
 public abstract class AbstractProtocol implements Protocol
 {
-    public String readLine(InputStream in) throws IOException
+    /** Maximum size allowed for a message frame. */
+    private static final int MAX_SIZE = 8192;
+
+    /** Maximum delay allowed for parsing a message frame (in milliseconds). */
+    private static final int MAX_DELAY = 10000;
+    
+    /**
+     * Reads the next message frame from the specified input stream.
+     * No charset decoding is performed at this stage.
+     */
+    public byte[] readFrame(InputStream in) throws IOException
     {
         ByteArrayOutputStream input = new ByteArrayOutputStream(256);
         
-        // todo define a maximum line length
+        long time = 0;
         
         int b;
-        while ((b = in.read()) != -1 && b != getEOL() && b != 0x0A && b != 0x0D)
+        while ((b = in.read()) != -1 && b != getEOL() && b != 0x0A && b != 0x0D && input.size() < MAX_SIZE)
         {
-            if (b != 0x0A && b != 0x0D)
+            input.write(b);
+            
+            if (input.size() == 1)
             {
-                input.write(b);
+                // let's start monitoring the input speed
+                time = System.currentTimeMillis();
+            }
+            else if (System.currentTimeMillis() - time > MAX_DELAY)
+            {
+                throw new IOException("Slow input detected (" + input.size() + " bytes over " + (System.currentTimeMillis() - time) + "ms)");
             }
         }
         
@@ -55,7 +72,17 @@ public abstract class AbstractProtocol implements Protocol
             throw new IOException("End of stream");
         }
         
-        return input.toString("ISO-8859-1");
+        if (input.size() >= MAX_SIZE)
+        {
+            throw new IOException("Message frame exceeded the " + MAX_SIZE + " limit");
+        }
+        
+        return input.toByteArray();
+    }
+
+    public String readLine(InputStream in) throws IOException
+    {
+        return new String(readFrame(in), "Cp1252");
     }
 
     public boolean equals(Object o)
