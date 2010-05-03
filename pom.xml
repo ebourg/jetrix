@@ -173,7 +173,7 @@
         <directory>src/lang</directory>
         <targetPath>./</targetPath>
         <includes>
-          <include>*.properties</include>
+          <include>**/*.properties</include>
         </includes>
       </testResource>
       <testResource>

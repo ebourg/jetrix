@@ -186,7 +186,7 @@
         <include name="lib/jetrix-launcher-${version}.jar" />
       </fileset>
       <fileset dir="${src}">
-        <include name="lang/*.properties" />
+        <include name="lang/**/*.properties" />
       </fileset>
     </copy>
     <copy todir="${build}/dist/lib">

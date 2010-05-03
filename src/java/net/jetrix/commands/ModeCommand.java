@@ -50,6 +50,11 @@ public class ModeCommand extends AbstractCommand
                 {0,   0,  0,  0,  0,  0, 100,1, 1}
             };
 
+    static
+    {
+        Language.getInstance().addResources("command.mode");
+    }
+
     public String getAlias()
     {
         return "mode";

@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2004  Emmanuel Bourg
+ * Copyright (C) 2001-2004,2010  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,13 +30,19 @@ import java.text.*;
  */
 public class Language
 {
+    /** The names of the resource bundles imported. */
+    private Set<String> bundleNames = new HashSet<String>();
+
+    private Map<Locale, MultiResourceBundle> bundles = new HashMap<Locale, MultiResourceBundle>();
+
     private static Language instance = new Language();
-    private Map<Locale,ResourceBundle> bundles;
-    private static String resource = "jetrix";
+
+    /** The default resource bundle containing the server messages. */
+    private static final String DEFAULT_RESOURCE = "jetrix";
 
     private Language()
     {
-        bundles = new HashMap<Locale, ResourceBundle>();
+        addResources(DEFAULT_RESOURCE);
     }
 
     /**
@@ -48,26 +54,27 @@ public class Language
     }
 
     /**
+     * Register an extra set of localized messages.
+     * 
+     * @param name the base name of the resource bundle
+     * @since 0.3
+     */
+    public void addResources(String name)
+    {
+        bundleNames.add(name);
+    }
+
+    /**
      * Load and return the <tt>ResourceBundle</tt> for the specified locale.
      * Bundles are cached in a local Map.
      *
      * @param locale the locale of the returned bundle if available
      */
-    public ResourceBundle load(Locale locale)
+    protected ResourceBundle load(Locale locale)
     {
-        ResourceBundle bundle = PropertyResourceBundle.getBundle(resource, locale);
+        MultiResourceBundle bundle = new MultiResourceBundle(locale);
         bundles.put(locale, bundle);
         return bundle;
-    }
-
-    /**
-     * Return the <tt>ResourceBundle</tt> for the specified locale.
-     *
-     * @param locale the locale of the bundle to return
-     */
-    public ResourceBundle getResourceBundle(Locale locale)
-    {
-        return bundles.get(locale);
     }
 
     /**
@@ -79,12 +86,12 @@ public class Language
      */
     public static boolean isSupported(Locale locale)
     {
-        ResourceBundle bundle = instance.getResourceBundle(locale);
+        MultiResourceBundle bundle = instance.bundles.get(locale);
         if (bundle == null)
         {
-            bundle = PropertyResourceBundle.getBundle(resource, locale);
+            bundle = instance.new MultiResourceBundle(locale);
         }
-        return (bundle != null && bundle.getLocale().equals(locale));
+        return bundle.isSupported();
     }
 
     /**
@@ -116,7 +123,7 @@ public class Language
     {
         try
         {
-            ResourceBundle bundle = instance.getResourceBundle(locale);
+            ResourceBundle bundle = instance.bundles.get(locale);
             if (bundle == null)
             {
                 bundle = instance.load(locale);
@@ -145,18 +152,99 @@ public class Language
         // localize the arguments
         Object[] arguments2 = new Object[arguments.length];
         for (int i = 0; i < arguments.length; i++)
-        {
-            if (arguments[i] instanceof String && ((String) arguments[i]).startsWith("key:"))
-            {
-                arguments2[i] = getText(((String) arguments[i]).substring(4), locale);
-            }
-            else
-            {
-                arguments2[i] = arguments[i];
-            }
+        {            
+            arguments2[i] = getLocalizedArgument(locale, arguments[i]);
         }
 
         return MessageFormat.format(getText(key, locale), arguments2);
     }
 
+    /**
+     * Transforms a localized argument into its actual value. Localized
+     * arguments start with the "key:" prefix and refers to another message
+     * in the resource bundle.
+     *
+     * @since 0.3
+     * 
+     * @param locale   the target locale
+     * @param argument the argument to transform
+     */
+    private static Object getLocalizedArgument(Locale locale, Object argument)
+    {
+        if (argument instanceof String && ((String) argument).startsWith("key:"))
+        {
+            return getText(((String) argument).substring(4), locale);
+        }
+        else
+        {
+            return argument;
+        }
+    }
+
+    /**
+     * A resource bundle merging several property based resource bundles.
+     * 
+     * @since 0.3
+     */
+    private class MultiResourceBundle extends ResourceBundle
+    {
+        private Locale locale;
+
+        private MultiResourceBundle(Locale locale)
+        {
+            this.locale = locale;
+        }
+
+        private PropertyResourceBundle getPropertyResourceBundle(String name) {
+            try
+            {
+                return (PropertyResourceBundle) PropertyResourceBundle.getBundle(name, locale);
+            }
+            catch (MissingResourceException e)
+            {
+                return null;
+            }
+        }
+
+        protected Object handleGetObject(String key)
+        {
+            for (String name : bundleNames)
+            {
+                PropertyResourceBundle bundle = getPropertyResourceBundle(name);
+                if (bundle != null)
+                {
+                    Object value = bundle.handleGetObject(key);
+                    if (value != null)
+                    {
+                        return value;
+                    }
+                }
+            }
+            
+            return null;
+        }
+
+        public Enumeration<String> getKeys()
+        {
+            return null;
+        }
+
+        /**
+         * Checks if at least one of the underlying resource bundles supports
+         * the locale assigned to this bundle.
+         */
+        public boolean isSupported()
+        {
+            for (String name : bundleNames)
+            {
+                PropertyResourceBundle bundle = getPropertyResourceBundle(name);
+                if (bundle != null && bundle.getLocale().equals(locale))
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+    }
 }

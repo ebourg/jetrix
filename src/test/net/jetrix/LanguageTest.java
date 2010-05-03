@@ -31,6 +31,13 @@ import junit.framework.*;
  */
 public class LanguageTest extends TestCase
 {
+    protected void setUp() throws Exception
+    {
+        Locale.setDefault(Locale.KOREA);
+        Language.getInstance().addResources("jetrix");
+        Language.getInstance().addResources("foo");
+    }
+
     public void testLoad()
     {
         Language language = Language.getInstance();
@@ -40,6 +47,7 @@ public class LanguageTest extends TestCase
     public void testIsSupported()
     {
         assertTrue("french is not supported", Language.isSupported(Locale.FRENCH));
+        assertFalse("korean is supported", Language.isSupported(Locale.KOREAN));
     }
 
     public void testGetText()
@@ -50,9 +58,9 @@ public class LanguageTest extends TestCase
 
     public void testGetTextWithParameter()
     {
-        Object[] params = new Object[] { "Smanux", "tetrinet1" };
-        String englishText = "<gray>Hello Smanux, you are in channel <b>tetrinet1</b>";
-        String frenchText = "<gray>Salut Smanux, tu es dans le channel <b>tetrinet1</b>";
+        Object[] params = new Object[] { "Smanux", 123 };
+        String englishText = "<gray>Hello Smanux, you are in channel <b>123</b>";
+        String frenchText = "<gray>Salut Smanux, tu es dans le channel <b>123</b>";
         assertEquals("welcome message in english", englishText, Language.getText("channel.welcome", Locale.ENGLISH, params));
         assertEquals("welcome message in french", frenchText, Language.getText("channel.welcome", Locale.FRENCH, params));
     }
@@ -82,5 +90,11 @@ public class LanguageTest extends TestCase
         assertNotNull("null list", locales);
         assertTrue("english locale not found", locales.contains(Locale.ENGLISH));
         assertTrue("french locale not found", locales.contains(Locale.FRENCH));
+    }
+
+    public void testAdditionalBundle()
+    {
+        Language.getInstance().addResources("command.mode");
+        assertEquals("<gray>Configuration changed to <b>yes</b>", Language.getText("command.mode.enabled", Locale.ENGLISH, "key:common.yes"));
     }
 }
