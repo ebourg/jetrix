@@ -301,7 +301,7 @@ public class TetrinetProtocolTest extends TestCase
         byte[] message = new byte[16 * 1024];
         try
         {
-            protocol.readLine(new ByteArrayInputStream(message, 0, message.length));
+            protocol.readLine(new ByteArrayInputStream(message, 0, message.length), "Cp1252");
             fail("No exception raised on a 16K message");
         }
         catch (IOException e)
@@ -327,7 +327,7 @@ public class TetrinetProtocolTest extends TestCase
                     }
                     return --i;
                 }
-            });
+            }, "Cp1252");
             fail("No exception raised on extremely slow input");
         }
         catch (IOException e)

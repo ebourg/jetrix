@@ -54,9 +54,11 @@ public class TetrinetClient implements Client
     protected InputStream in;
     protected OutputStream out;
     protected Socket socket;
+    protected String encoding = "Cp1252";
     protected ServerConfig serverConfig;
-    protected Logger log = Logger.getLogger("net.jetrix");
     protected BlockingQueue<Message> queue;
+    
+    protected Logger log = Logger.getLogger("net.jetrix");
 
     public TetrinetClient()
     {
@@ -142,6 +144,10 @@ public class TetrinetClient implements Client
                 {
                     ClientInfoMessage info = (ClientInfoMessage) message;
                     setVersion(info.getName() + " " + info.getVersion());
+                    if ("gtetrinet".equalsIgnoreCase(info.getName()))
+                    {
+                        encoding = "UTF-8";
+                    }
                 }
                 else if (channel != null)
                 {
@@ -263,7 +269,7 @@ public class TetrinetClient implements Client
     public Message receive() throws IOException
     {
         // read raw message from socket
-        String line = protocol.readLine(in);
+        String line = protocol.readLine(in, getEncoding());
         lastMessageTime = System.currentTimeMillis();
         if (log.isLoggable(Level.FINER))
         {
@@ -367,7 +373,7 @@ public class TetrinetClient implements Client
 
     public String getEncoding()
     {
-        return "ISO-8859-1";
+        return encoding;
     }
 
     public void disconnect()

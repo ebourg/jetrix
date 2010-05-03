@@ -65,6 +65,7 @@ public class TetrinetAgent implements Agent
     private Socket socket;
     private InputStream in;
     private Writer out;
+    private String encoding = "Cp1252";
     
     protected Protocol protocol = new TetrinetProtocol();
     private boolean running;
@@ -97,12 +98,12 @@ public class TetrinetAgent implements Agent
         socket.setSoTimeout(15000);
         
         in = new BufferedInputStream(socket.getInputStream());
-        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "ISO-8859-1"));
+        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), encoding));
 
         send(TetrinetProtocol.encode(name, version, socket.getInetAddress().getAddress(), false));
 
         // block until the playernum message is received
-        String line = protocol.readLine(in);
+        String line = protocol.readLine(in, encoding);
         Message message = protocol.getMessage(line);
         receive(message);
 
@@ -132,7 +133,7 @@ public class TetrinetAgent implements Agent
             {
                 while (running)
                 {
-                    String line = protocol.readLine(in);
+                    String line = protocol.readLine(in, encoding);
 
                     Message message = protocol.getMessage(line);
 

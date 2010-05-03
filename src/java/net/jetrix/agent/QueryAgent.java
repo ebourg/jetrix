@@ -49,6 +49,7 @@ public class QueryAgent implements Agent
     private Socket socket;
     private InputStream in;
     private OutputStream out;
+    private String encoding = "Cp1252";
 
     private Logger log = Logger.getLogger("net.jetrix");
 
@@ -113,8 +114,8 @@ public class QueryAgent implements Agent
 
         // read the result
         QueryProtocol protocol = new QueryProtocol();
-        String version = protocol.readLine(in);
-        protocol.readLine(in);
+        String version = protocol.readLine(in, encoding);
+        protocol.readLine(in, encoding);
         
         return version;
     }
@@ -129,7 +130,7 @@ public class QueryAgent implements Agent
 
         // read the result
         QueryProtocol protocol = new QueryProtocol();
-        String line = protocol.readLine(in);
+        String line = protocol.readLine(in, encoding);
         
         if (line.startsWith("Number of players logged in: "))
         {
@@ -154,7 +155,7 @@ public class QueryAgent implements Agent
         // read the result
         String line = null;
         QueryProtocol protocol = new QueryProtocol();
-        while (!QueryProtocol.OK.equals(line = protocol.readLine(in)))
+        while (!QueryProtocol.OK.equals(line = protocol.readLine(in, encoding)))
         {
             Matcher matcher = pattern.matcher(line);
 
@@ -197,7 +198,7 @@ public class QueryAgent implements Agent
         // read the result
         String line = null;
         QueryProtocol protocol = new QueryProtocol();
-        while (!QueryProtocol.OK.equals(line = protocol.readLine(in)))
+        while (!QueryProtocol.OK.equals(line = protocol.readLine(in, encoding)))
         {
             Matcher matcher = pattern.matcher(line);
 

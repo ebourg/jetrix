@@ -52,7 +52,7 @@ public class TetrinetListener extends ClientListener
     {
         // read the first line sent by the client
         Protocol protocol1 = protocolManager.getProtocol(TetrinetProtocol.class);
-        String init = protocol1.readLine(socket.getInputStream());
+        String init = protocol1.readLine(socket.getInputStream(), "Cp1252");
 
         // test if the client is using the query protocol
         Protocol protocol = protocolManager.getProtocol(QueryProtocol.class);
@@ -84,7 +84,7 @@ public class TetrinetListener extends ClientListener
         user.setName(tokens.get(1));
 
         client.setUser(user);
-        client.setVersion((String) tokens.get(2));
+        client.setVersion(tokens.get(2));
         if ((tokens.get(0)).equals(TetrinetProtocol.INIT_TOKEN))
         {
             client.setProtocol(protocolManager.getProtocol(TetrinetProtocol.class));

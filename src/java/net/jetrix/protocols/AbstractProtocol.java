@@ -80,9 +80,9 @@ public abstract class AbstractProtocol implements Protocol
         return input.toByteArray();
     }
 
-    public String readLine(InputStream in) throws IOException
+    public String readLine(InputStream in, String encoding) throws IOException
     {
-        return new String(readFrame(in), "Cp1252");
+        return new String(readFrame(in), encoding);
     }
 
     public boolean equals(Object o)

@@ -88,9 +88,10 @@ public interface Protocol
      *
      * @since 0.3
      *
-     * @param in the stream to be read
+     * @param in       the stream to be read
+     * @param encoding the charset encoding used to read the message
      * @throws IOException thrown if the stream is closed
      */
-    String readLine(InputStream in) throws IOException;
+    String readLine(InputStream in, String encoding) throws IOException;
 
 }
