@@ -57,7 +57,7 @@ public class ModeCommand extends AbstractCommand
 
     public String getUsage(Locale locale)
     {
-        return "/\" + getAlias() + \" <0-" + modes.length + ">";
+        return "/" + getAlias() + " <0-" + (modes.length - 1) + ">";
     }
 
     public void updateSetting(Settings settings, int[] mode)
@@ -76,7 +76,7 @@ public class ModeCommand extends AbstractCommand
         Client client = (Client) message.getSource();
         Channel channel = client.getChannel();
 
-        if (message.getParameterCount() < 1)
+        if (message.getParameterCount() == 0)
         {
             Locale locale = client.getUser().getLocale();
 
@@ -89,20 +89,26 @@ public class ModeCommand extends AbstractCommand
         }
         else
         {
+            int param = -1;
+            
             try
             {
-                int param = Integer.parseInt(message.getParameter(0));
-
+                param = Integer.parseInt(message.getParameter(0));
+            }
+            catch (NumberFormatException e) { }
+            
+            if (param >= 0 && param < modes.length)
+            {
                 updateSetting(channel.getConfig().getSettings(), modes[param]);
 
                 PlineMessage enabled = new PlineMessage();
                 enabled.setKey("command.mode.enabled", "key:command.mode.message" + param);
                 channel.send(enabled);
             }
-            catch (NumberFormatException e)
+            else
             {
                 PlineMessage error = new PlineMessage();
-                error.setKey("command.mode.usage" + "<red>/mode</red> <darkBlue><0-9></darkBlue>.");
+                error.setText("<red>/" + getAlias() + "</red> <blue><0-" + (modes.length - 1) + "></blue>");
                 client.send(error);
             }
         }
