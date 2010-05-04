@@ -5,9 +5,10 @@ a:hover { color: #2B313D }
 a img { border-width: 0 }
 
 .menu { margin-left: 0.5em; }
-.menu h1 { font-size: 12pt; font-weight: bold; margin-bottom: 0.2em }
+.menu h1 { font-size: 12pt; font-weight: bold; margin-bottom: 0.2em; color: #333333; }
 .menu ul { padding-left: 0.5em; margin-top: 0; margin-left: 0; }
 .menu * li { font-size: 9pt; list-style-type: none }
+.menu a { text-decoration: none }
 
 .content { font-size: 12pt; }
 .content h1 { color: white; font-size: 13pt; background-color: #525d76; text-indent: 0.5em; line-height: 1.3em; } 

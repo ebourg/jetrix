@@ -46,7 +46,11 @@
     <!-- left side menu -->
     <td style="width: 150px; white-space: nowrap" valign="top">
       <? include("menu.inc.php"); ?>
-      <a href="http://www.opensource.org/"><img src="images/opensource-110x95.png" alt="Open Source" /></a>
+      
+      <div align="center">
+      <a href="http://www.opensource.org/"><img src="images/opensource-110x95.png" alt="Open Source" /></a><br/>
+      
+      <a href='http://www.ohloh.net/stack_entries/new?project_id=jetrix&amp;ref=WidgetProjectUsersLogo' onMouseOut="this.style.background = 'url(http://www.ohloh.net/images/stack/iusethis/static_logo.png) 0px 0px no-repeat'" onMouseOver="this.style.background = 'url(http://www.ohloh.net/images/stack/iusethis/static_logo.png) 0 -23px no-repeat'" style='border-bottom:none;text-decoration:none;display:block;background:url(http://www.ohloh.net/images/stack/iusethis/static_logo.png) 0px 0px no-repeat;width:73px;height:23px;' target='_top' title='Support Jetrix TetriNET Server by adding it to your stack at Ohloh'></a></div>
     </td>
     <td align="left" valign="top">
       <div class="content">
