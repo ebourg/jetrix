@@ -180,37 +180,37 @@ for these examples are :</p>
   </tr>
   <tr>
     <td align="center" width="10%">1</td>
-    <td align="center"><img src="/images/blocks/small/line.png" alt="Line" /></td>
+    <td align="center"><img src="images/blocks/small/line.png" alt="Line" /></td>
     <td align="center">15 %</td>
   </tr>
   <tr>
     <td align="center">2</td>
-    <td align="center"><img src="/images/blocks/small/square.png" alt="Square" /></td>
+    <td align="center"><img src="images/blocks/small/square.png" alt="Square" /></td>
     <td align="center">15 %</td>
   </tr>
   <tr>
     <td align="center">3</td>
-    <td align="center"><img src="/images/blocks/small/leftl.png" alt="Left L" /></td>
+    <td align="center"><img src="images/blocks/small/leftl.png" alt="Left L" /></td>
     <td align="center">14 %</td>
   </tr>
   <tr>
     <td align="center">4</td>
-    <td align="center"><img src="/images/blocks/small/rightl.png" alt="Right L" /></td>
+    <td align="center"><img src="images/blocks/small/rightl.png" alt="Right L" /></td>
     <td align="center">14 %</td>
   </tr>
   <tr>
     <td align="center">5</td>
-    <td align="center"><img src="/images/blocks/small/leftz.png" alt="Left Z" /></td>
+    <td align="center"><img src="images/blocks/small/leftz.png" alt="Left Z" /></td>
     <td align="center">14 %</td>
   </tr>
   <tr>
     <td align="center">6</td>
-    <td align="center"><img src="/images/blocks/small/rightz.png" alt="Right Z" /></td>
+    <td align="center"><img src="images/blocks/small/rightz.png" alt="Right Z" /></td>
     <td align="center">14 %</td>
   </tr>
   <tr>
     <td align="center">7</td>
-    <td align="center"><img src="/images/blocks/small/halfcross.png" alt="Half Cross" /></td>
+    <td align="center"><img src="images/blocks/small/halfcross.png" alt="Half Cross" /></td>
     <td align="center">14 %</td>
   </tr>     
 </table>
@@ -291,46 +291,46 @@ The corresponding frequency table is :
     <tr>
       <td>0x00000000</td>
       <td>
-        <img src="images/blocks/line1.png"/>
-        <img src="images/blocks/halfcross1.png"/>
-        <img src="images/blocks/square.png"/>
-        <img src="images/blocks/leftl1.png"/>
-        <img src="images/blocks/leftl4.png"/>
-        <img src="images/blocks/line2.png"/>
-        <img src="images/blocks/line2.png"/>
-        <img src="images/blocks/line2.png"/>
-        <img src="images/blocks/halfcross4.png"/>
-        <img src="images/blocks/leftz2.png"/>
+        <img src="images/blocks/line1.png" alt="Line"/>
+        <img src="images/blocks/halfcross1.png" alt="Half Cross"/>
+        <img src="images/blocks/square.png" alt="Square"/>
+        <img src="images/blocks/leftl1.png" alt="Left L"/>
+        <img src="images/blocks/leftl4.png" alt="Left L"/>
+        <img src="images/blocks/line2.png" alt="Line"/>
+        <img src="images/blocks/line2.png" alt="Line"/>
+        <img src="images/blocks/line2.png" alt="Line"/>
+        <img src="images/blocks/halfcross4.png" alt="Half Cross"/>
+        <img src="images/blocks/leftz2.png" alt="Left Z"/>
       </td>
     </tr>
     <tr>
       <td>0xAABBCCDD</td>
       <td>
-        <img src="images/blocks/rightl4.png"/>
-        <img src="images/blocks/rightl4.png"/>
-        <img src="images/blocks/leftl1.png"/>
-        <img src="images/blocks/leftl3.png"/>
-        <img src="images/blocks/square.png"/>
-        <img src="images/blocks/rightz2.png"/>
-        <img src="images/blocks/square.png"/>
-        <img src="images/blocks/rightl4.png"/>
-        <img src="images/blocks/halfcross3.png"/>
-        <img src="images/blocks/rightl1.png"/>
+        <img src="images/blocks/rightl4.png" alt="Right L"/>
+        <img src="images/blocks/rightl4.png" alt="Right L"/>
+        <img src="images/blocks/leftl1.png" alt="Left L"/>
+        <img src="images/blocks/leftl3.png" alt="Left L"/>
+        <img src="images/blocks/square.png" alt="Square"/>
+        <img src="images/blocks/rightz2.png" alt="Right Z"/>
+        <img src="images/blocks/square.png" alt="Square"/>
+        <img src="images/blocks/rightl4.png" alt="Right L"/>
+        <img src="images/blocks/halfcross3.png" alt="Half Cross"/>
+        <img src="images/blocks/rightl1.png" alt="Right L"/>
       </td>
     </tr>
     <tr>
       <td>0x12345678</td>
       <td>
-        <img src="images/blocks/leftz2.png"/>
-        <img src="images/blocks/leftz2.png"/>
-        <img src="images/blocks/halfcross2.png"/>
-        <img src="images/blocks/rightz2.png"/>
-        <img src="images/blocks/leftl2.png"/>
-        <img src="images/blocks/rightz1.png"/>
-        <img src="images/blocks/rightz2.png"/>
-        <img src="images/blocks/halfcross1.png"/>
-        <img src="images/blocks/line2.png"/>
-        <img src="images/blocks/rightl1.png"/>
+        <img src="images/blocks/leftz2.png" alt="Left Z"/>
+        <img src="images/blocks/leftz2.png" alt="Left Z"/>
+        <img src="images/blocks/halfcross2.png" alt="Half Cross"/>
+        <img src="images/blocks/rightz2.png" alt="Right Z"/>
+        <img src="images/blocks/leftl2.png" alt="Left L"/>
+        <img src="images/blocks/rightz1.png" alt="Right Z"/>
+        <img src="images/blocks/rightz2.png" alt="Right Z"/>
+        <img src="images/blocks/halfcross1.png" alt="Half Cross"/>
+        <img src="images/blocks/line2.png" alt="Line"/>
+        <img src="images/blocks/rightl1.png" alt="Right L"/>
       </td>
     </tr>
   </tbody>
@@ -432,15 +432,15 @@ message <tt>"Hello World!"</tt>.
 <h3>Write the command</h3>
 
 Every command is represented by a Java class implementing the 
-<a class="api" href="/api/net/jetrix/commands/Command.html">Command</a> 
+<a class="api" href="/api/@version.stable@/net/jetrix/commands/Command.html">Command</a> 
 interface. Let's create our class, <tt>HelloCommand</tt>, it'll be based on the 
-<a class="api" href="/api/net/jetrix/commands/AbstractCommand.html">AbstractCommand</a> 
+<a class="api" href="/api/@version.stable@/net/jetrix/commands/AbstractCommand.html">AbstractCommand</a> 
 class implementing part of the <tt>Command</tt> interface methods :
 
 <div class="code">
 <span class="blue">import</span> java.util.*;
 <span class="blue">import</span> net.jetrix.*;
-<span class="blue">import</span> net.jetrix.messages.*;
+<span class="blue">import</span> net.jetrix.messages.channel.*;
 <span class="blue">import</span> net.jetrix.commands.*;
 
 <span class="blue">public class</span> HelloCommand <span class="blue">extends</span> <span class="red">AbstractCommand</span>
@@ -528,7 +528,7 @@ Our command is complete, let's put all the pieces together :
 <div class="code">
 <span class="blue">import</span> java.util.*;
 <span class="blue">import</span> net.jetrix.*;
-<span class="blue">import</span> net.jetrix.messages.*;
+<span class="blue">import</span> net.jetrix.messages.channel.*;
 <span class="blue">import</span> net.jetrix.commands.*;
 
 <span class="blue">public class</span> HelloCommand <span class="blue">extends</span> <span class="red">AbstractCommand</span>
@@ -612,10 +612,10 @@ In this mod the first player to complete 7 tetris win.</p>
 
 <h3>Write the filter</h3>
 
-<p>Filters extend the base class <a class="api" href="/api/net/jetrix/filter/MessageFilter.html">MessageFilter</a>, 
+<p>Filters extend the base class <a class="api" href="/api/@version.stable@/net/jetrix/filter/MessageFilter.html">MessageFilter</a>, 
 this class defines a <tt>process(Message m, List out)</tt> method that must be 
 overridden to implement the behaviour of the filter. A higher level filter 
-<a class="api" href="/api/net/jetrix/filter/GenericFilter.html">GenericFilter</a> 
+<a class="api" href="/api/@version.stable@/net/jetrix/filter/GenericFilter.html">GenericFilter</a> 
 with process methods for all message types is provided, we will use it for our 
 filter.</p>
 
