@@ -48,12 +48,8 @@
     
     <table class="thin" style="width: 500px">
       <tr>
-        <td width="30%">Type</td>
-        <td><%= client.getType() %></td>
-      </tr>
-      <tr>
-        <td>Version</td>
-        <td><%= client.getVersion() %></td>
+        <td width="30%">Agent</td>
+        <td><%= client.getAgent() %> <%= client.getVersion() %></td>
       </tr>
       <tr>
         <td>Protocol</td>

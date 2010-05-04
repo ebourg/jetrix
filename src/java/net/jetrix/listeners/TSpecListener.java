@@ -80,7 +80,10 @@ public class TSpecListener extends TetrinetListener
 
             user.setName(tokens[1]);
         }
-
+        
+        client.setAgent("TSpec");
+        client.setVersion("1.13");        
+        
         return client;
     }
 }

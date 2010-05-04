@@ -148,14 +148,14 @@ public class ConsoleClient implements Client
         return user;
     }
 
+    public String getAgent()
+    {
+        return "Console";
+    }
+
     public String getVersion()
     {
         return "1.0";
-    }
-
-    public String getType()
-    {
-        return "Console";
     }
 
     public Date getConnectionTime()

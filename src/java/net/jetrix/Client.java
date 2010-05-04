@@ -69,12 +69,14 @@ public interface Client extends Runnable, Destination
     User getUser();
 
     /**
-     * Return the type of the client (tetrinet or tetrifast).
+     * Returns the name of the user agent (GTetrinet, aTwin, Blocktrix...)
+     * 
+     * @since 0.3
      */
-    String getType();
+    String getAgent();
 
     /**
-     * Return the version of this client (1.13, 1.14, GTetrinet 0.7.10, etc).
+     * Return the version of the user agent (1.13, 1.14, etc)
      */
     String getVersion();
 

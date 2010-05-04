@@ -88,10 +88,12 @@ public class TetrinetListener extends ClientListener
         if ((tokens.get(0)).equals(TetrinetProtocol.INIT_TOKEN))
         {
             client.setProtocol(protocolManager.getProtocol(TetrinetProtocol.class));
+            client.setAgent("TetriNET");
         }
         else if ((tokens.get(0)).equals(TetrifastProtocol.INIT_TOKEN))
         {
             client.setProtocol(protocolManager.getProtocol(TetrifastProtocol.class));
+            client.setAgent("TetriFast");
         }
         else
         {

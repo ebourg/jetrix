@@ -143,8 +143,7 @@
     <table class="thin" style="width: 500px">
       <tr>
         <th>Name</th>
-        <th>Type</th>
-        <th>Version</th>
+        <th>Agent</th>
         <th>Protocol</th>
         <th>IP</th>
         <th>Access Level</th>
@@ -154,8 +153,7 @@
         User user = client.getUser(); %>
       <tr>
         <td><a href="user.jsp?name=<%= user.getName() %>"><%= user.getName() %></a></td>
-        <td align="center"><%= client.getType() %></td>
-        <td align="center"><%= client.getVersion() %></td>
+        <td align="center"><%= client.getAgent() %> <%= client.getVersion() %></td>
         <td align="center"><%= client.getProtocol().getName() %></td>
         <td><%= client.getInetAddress().getHostName() %></td>
         <td align="center"><%= user.getAccessLevel() %></td>

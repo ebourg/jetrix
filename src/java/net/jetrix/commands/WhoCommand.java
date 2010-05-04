@@ -71,11 +71,13 @@ public class WhoCommand extends AbstractCommand
                         {
                             message.append("<purple>®</purple>");
                         }
-
+                        
+                        boolean fast = clientInChannel.getProtocol().getName().equals("tetrifast");
+                        
                         if (user.getAccessLevel() > AccessLevel.PLAYER) message.append("<b>");
-                        if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("<i>");
+                        if (fast) message.append("<i>");
                         message.append(user.getName());
-                        if (clientInChannel.getProtocol().getName().equals("tetrifast")) message.append("</i>");
+                        if (fast) message.append("</i>");
                         if (user.getAccessLevel() > AccessLevel.PLAYER) message.append("</b>");
                     }
 

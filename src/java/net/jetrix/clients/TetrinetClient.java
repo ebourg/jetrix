@@ -41,7 +41,7 @@ import net.jetrix.messages.channel.*;
  */
 public class TetrinetClient implements Client
 {
-    private String type;
+    private String agent;
     private String version;
     private Protocol protocol;
     private Channel channel;
@@ -143,7 +143,8 @@ public class TetrinetClient implements Client
                 else if (message instanceof ClientInfoMessage)
                 {
                     ClientInfoMessage info = (ClientInfoMessage) message;
-                    setVersion(info.getName() + " " + info.getVersion());
+                    setAgent(info.getName());
+                    setVersion(info.getVersion());
                     if ("gtetrinet".equalsIgnoreCase(info.getName()))
                     {
                         encoding = "UTF-8";
@@ -351,14 +352,14 @@ public class TetrinetClient implements Client
         return version;
     }
 
-    public void setType(String type)
+    public String getAgent()
     {
-        this.type = type;
+        return agent;
     }
 
-    public String getType()
+    public void setAgent(String agent)
     {
-        return type;
+        this.agent = agent;
     }
 
     public Date getConnectionTime()
@@ -408,7 +409,7 @@ public class TetrinetClient implements Client
 
     public String toString()
     {
-        return "[Client " + getInetAddress() + " type=" + type + "]";
+        return "[Client " + getInetAddress() + " type=" + agent + " " + version + "]";
     }
 
     /**
