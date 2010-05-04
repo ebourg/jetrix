@@ -45,25 +45,41 @@ public class NameCheckInterceptor implements ClientInterceptor
     public void process(Client client) throws ClientValidationException
     {
         User user = client.getUser();
-
+        
+        if (client instanceof QueryClient)
+        {
+            return;
+        }
+        
         // test the name unicity
-        ClientRepository repository = ClientRepository.getInstance();
-        if (repository.getClient(user.getName()) != null)
+        if (isNameUsed(user.getName()))
         {
             Message m = new NoConnectingMessage("Nickname already in use!");
             client.send(m);
             client.disconnect();
             throw new ClientValidationException();
         }
-
+        
         // validate the name
-        String name = user.getName();
-        if (!(client instanceof QueryClient) && (name == null || "server".equalsIgnoreCase(name) || name.indexOf("\u00a0") != -1))
+        if (!isNamedAccepted(user.getName()))
         {
             Message m = new NoConnectingMessage("Invalid name!");
             client.send(m);
             client.disconnect();
             throw new ClientValidationException();
         }
+    }
+
+    protected boolean isNameUsed(String name)
+    {
+        ClientRepository repository = ClientRepository.getInstance();
+        return repository.getClient(name) != null;
+    }
+
+    protected boolean isNamedAccepted(String name)
+    {
+        return name != null 
+                && !"server".equalsIgnoreCase(name)
+                && name.indexOf("\u00a0") == -1;
     }
 }
