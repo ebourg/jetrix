@@ -405,6 +405,7 @@
     
     <scp file="${dist}/site.tar.bz2" todir="${username}:${password}@web.sourceforge.net:${deploy.dir}" trust="true"/>
     
+    <sshexec host="shell.sf.net" username="${username}" password="${password}" trust="true" command="create"/>
     <sshexec host="shell.sf.net" username="${username}" password="${password}" trust="true" command="tar -jxf ${deploy.dir}/site.tar.bz2 --directory=${deploy.dir}/htdocs "/>
   </target>
 
