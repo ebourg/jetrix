@@ -32,7 +32,7 @@
           <li><a href="http://sourceforge.net/tracker/?group_id=52188&amp;atid=466005">Feature Requests</a></li>
           <li><a href="changelog.php">Changelog</a></li>
           <li><a href="docs/changelog.html">Commits</a></li>
-          <li><a href="docs/team-list.html">Contributors</a></li>
+          <li><a href="contributors.php">Contributors</a></li>
         </ul>
       </div>
       
