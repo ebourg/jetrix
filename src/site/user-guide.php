@@ -17,41 +17,7 @@
     </ul>
   </li>
   <li><a href="#section3">Web Administration</a></li>
-  <li><a href="#section4">Command Reference</a>
-    <ul>
-      <li><a href="#section4-away">Away</a></li>
-      <li><a href="#section4-broadcast">Broadcast</a></li>
-      <li><a href="#section4-config">Config</a></li>
-      <li><a href="#section4-emote">Emote</a></li>
-      <li><a href="#section4-goto">Goto</a></li>
-      <li><a href="#section4-help">Help</a></li>
-      <li><a href="#section4-ignore">Ignore</a></li>
-      <li><a href="#section4-ip">Ip</a></li>
-      <li><a href="#section4-join">Join</a></li>
-      <li><a href="#section4-kick">Kick</a></li>
-      <li><a href="#section4-language">Language</a></li>
-      <li><a href="#section4-list">List</a></li>
-      <li><a href="#section4-mode">Mode</a></li>
-      <li><a href="#section4-motd">Motd</a></li>
-      <li><a href="#section4-move">Move</a></li>
-      <li><a href="#section4-operator">Operator</a></li>
-      <li><a href="#section4-pause">Pause</a></li>
-      <li><a href="#section4-petition">Petition</a></li>
-      <li><a href="#section4-ping">Ping</a></li>
-      <li><a href="#section4-random">Random</a></li>
-      <li><a href="#section4-reply">Reply</a></li>
-      <li><a href="#section4-speclist">Speclist</a></li>
-      <li><a href="#section4-start">Start</a></li>
-      <li><a href="#section4-stop">Stop</a></li>
-      <li><a href="#section4-summon">Summon</a></li>
-      <li><a href="#section4-teleport">Teleport</a></li>
-      <li><a href="#section4-tell">Tell</a></li>
-      <li><a href="#section4-time">Time</a></li>
-      <li><a href="#section4-tmsg">Tmsg</a></li>
-      <li><a href="#section4-version">Version</a></li>
-      <li><a href="#section4-who">Who</a></li>
-    </ul>
-  </li>
+  <li><a href="#section4">Command Reference</a></li>
 </ol>
 
 <h1><a id="section1"></a>Installation</h1>
@@ -60,7 +26,7 @@
 
 <ul>
   <li>Linux, Windows, Solaris or MacOS X</li>
-  <li>Java Runtime Environnement 1.5.x or higher</li>
+  <li>Java 6 or higher</li>
   <li>32 Mb RAM</li>
   <li>5 Mb hard drive space</li>
   <li>If you have a firewall, open the ports 31456, 31457 and 31458</li>
@@ -68,10 +34,9 @@
 
 <h3>Running &amp; Upgrading</h3>
 
-<p>You need a JRE 1.5 or higher installed on your server to run Jetrix. You can
-download it here :</p>
+<p>You need Java 6 or higher installed on your server to run Jetrix. You can
+download it on <a href="http://java.com">http://java.com</a></p>
 
-<a href="http://java.sun.com/j2se/1.5.0/download.jsp">http://java.sun.com/j2se/1.5.0/download.jsp</a>
 
 <h4>Unix</h4>
 
@@ -79,7 +44,7 @@ download it here :</p>
 environnement variable pointing to your Java directory. For example on
 Linux you can add this line to your /etc/profile file:</p>
 
-<code>export JAVA_HOME=/usr/java/jre_1.5.0</code>
+<code>export JAVA_HOME=/usr/java/jre_1.6.0</code>
 
 <p>Then decompress the Jetrix archive to the installation directory:</p>
 
@@ -154,55 +119,6 @@ administrator password to enter (<tt>adminpass</tt> by default).</p>
 
 <h1><a id="section4"></a>Command Reference</h1>
 
-<h2><a id="section4-broadcast"></a>Broadcast</h2>
-
-<h2><a id="section4-config"></a>Config</h2>
-
-<h2><a id="section4-emote"></a>Emote</h2>
-
-<h2><a id="section4-goto"></a>Goto</h2>
-
-<h2><a id="section4-help"></a>Help</h2>
-
-<h2><a id="section4-ip"></a>Ip</h2>
-
-<h2><a id="section4-join"></a>Join</h2>
-
-<h2><a id="section4-kick"></a>Kick</h2>
-
-<h2><a id="section4-language"></a>Language</h2>
-
-<h2><a id="section4-list"></a>List</h2>
-
-<h2><a id="section4-motd"></a>Motd</h2>
-
-<h2><a id="section4-move"></a>Move</h2>
-
-<h2><a id="section4-operator"></a>Operator</h2>
-
-<h2><a id="section4-pause"></a>Pause</h2>
-
-<h2><a id="section4-ping"></a>Ping</h2>
-
-<h2><a id="section4-random"></a>Random</h2>
-
-<h2><a id="section4-reply"></a>Reply</h2>
-
-<h2><a id="section4-start"></a>Start</h2>
-
-<h2><a id="section4-stop"></a>Stop</h2>
-
-<h2><a id="section4-summon"></a>Summon</h2>
-
-<h2><a id="section4-teleport"></a>Teleport</h2>
-
-<h2><a id="section4-tell"></a>Tell</h2>
-
-<h2><a id="section4-time"></a>Time</h2>
-
-<h2><a id="section4-version"></a>Version</h2>
-
-<h2><a id="section4-who"></a>Who</h2>
-
+<? include("commands.html") ?>
 
 <? include("footer.inc.php") ?>

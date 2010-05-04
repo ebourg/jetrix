@@ -337,8 +337,19 @@
       <fileset dir="${deploy}/jetrix-${version}"/>
     </ftp>
   </target>
-  
-  <target name="site" description="Generate and publish the web site to SourceForge">
+
+  <target name="docgen" depends="compile" description="Generates the documentation of the server commands">
+    <java classname="net.jetrix.tools.DocumentationGenerator" fork="true">
+      <classpath>
+        <pathelement path="${build}/classes"/>
+        <pathelement path="${src}/etc"/>
+        <pathelement path="${src}/lang"/>
+        <fileset dir="lib" includes="*.jar"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="site" depends="docgen" description="Generate and publish the web site to SourceForge">
     <!-- Create the site distribution directory -->
     <mkdir dir="${dist}/site/docs"/>
     

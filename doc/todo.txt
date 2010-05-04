@@ -19,6 +19,7 @@ Gameplay
 - bonus points when the same player wins several games in a row
 - immunity mode: a tetris grants a 10 seconds immunity against any special (detrimental and beneficial)
 - check the end of the game when a player leaves the channel
+- handicap filter: increase the difficulty for the winner (increased starting height)
 
 Commands
 - /mute <nick>
@@ -41,12 +42,14 @@ Administration
 - run as a service on Windows (using Java Service Wrapper)
 - run as a service on Linux (init.d script)
 - deploy as a web application
+- UPnP support (with http://www.cybergarage.org and http://jupnp.dev.java.net, or UPNPLib from http://www.sbbi.net)
 
 Website
 - feature matrix similar to http://damagecontrol.codehaus.org/Continuous+Integration+Server+Feature+Matrix
-- automatic generation of the commands documentation
 - java web start demo
 - compress the files on the patch server
 
 Code
 - split the code in two parts : the core tetrinet classes and the server specific classes
+- reusable project to develop an independent command/filter
+- publish Maven artifacts to SonaType (http://nexus.sonatype.org/oss-repository-hosting.html)
