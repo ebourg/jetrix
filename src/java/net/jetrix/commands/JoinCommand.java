@@ -118,6 +118,12 @@ public class JoinCommand extends AbstractCommand implements ParameterCommand
                 channelfull.setKey("command.join.full");
                 client.send(channelfull);
             }
+            else if (client.getUser().isPlayer() && !channelConfig.isProtocolAccepted(client.getProtocol().getName()))
+            {
+                // incompatible speed constraint
+                String type = channelConfig.getSpeed() == Speed.FAST ? "TetriFast" : "TetriNET";
+                client.send(new PlineMessage("command.join.speed", type));
+            }
             else
             {
                 // adding the ADDPLAYER message to the queue of the target channel

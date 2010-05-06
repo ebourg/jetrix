@@ -11,6 +11,7 @@ Player visible changes
 - Added support for the client identification protocol (i.e lvl 0 0 request, clientinfo response)
 - The number of players and spectators currently online is now displayed on logging in
 - The 'TServ' mode of TSpec is now supported
+- Channels can be dedicated to TetriFast or non TetriFast clients.
 
 Admin visible changes
 - Jetrix now requires Java 6

@@ -447,7 +447,7 @@ public class Channel extends Thread implements Destination
                 sendAll(new PlineMessage("channel.game.started-by", client.getUser().getName()));
             }
 
-            // initialiaze the game result
+            // initialize the game result
             result = new GameResult();
             result.setStartTime(new Date());
             result.setChannel(this);
@@ -666,9 +666,9 @@ public class Channel extends Thread implements Destination
         if (channelConfig.getTopic() != null)
         {
             BufferedReader topic = new BufferedReader(new StringReader(channelConfig.getTopic()));
-            String line = null;
             try
             {
+                String line;
                 while ((line = topic.readLine()) != null)
                 {
                     PlineMessage message = new PlineMessage();
@@ -961,17 +961,17 @@ public class Channel extends Thread implements Destination
     }
 
     /**
-     * Returns the number of players currently in this chanel.
+     * Returns the number of players currently in this channel.
      *
      * @return player count
      */
     public int getPlayerCount()
     {
         int count = 0;
-
-        for (int i = 0; i < slots.size(); i++)
+        
+        for (Client client : slots)
         {
-            if (slots.get(i) != null)
+            if (client != null)
             {
                 count++;
             }

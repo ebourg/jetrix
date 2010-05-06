@@ -52,8 +52,7 @@ public abstract class TextMessage extends ChannelMessage
         }
         else
         {
-            Locale defaultLocale = null;
-
+            Locale defaultLocale;
             if (Server.getInstance() != null)
             {
                 // get the server locale configured in config.xml
@@ -121,6 +120,22 @@ public abstract class TextMessage extends ChannelMessage
     public void setKey(String key, Object... params)
     {
         this.key = key;
+        this.params = params;
+    }
+
+    /**
+     * Return the parameters of the message.
+     */
+    public Object[] getParams()
+    {
+        return params;
+    }
+
+    /**
+     * Set the parameters of the message.
+     */
+    public void setParams(Object... params)
+    {
         this.params = params;
     }
 

@@ -24,6 +24,7 @@ import static net.jetrix.GameState.*;
 import java.util.*;
 
 import net.jetrix.*;
+import net.jetrix.clients.TetrinetClient;
 import net.jetrix.config.*;
 import net.jetrix.messages.channel.CommandMessage;
 import net.jetrix.messages.channel.PlineMessage;
@@ -48,16 +49,18 @@ public class ListCommand extends AbstractCommand
         Locale locale = client.getUser().getLocale();
 
         // get the name of the channel of this player to highlight it
-        String playerChannel = new String();
+        String playerChannel = "";
         if (client.getChannel() != null) playerChannel = client.getChannel().getConfig().getName();
 
         PlineMessage response = new PlineMessage();
         response.setKey("command.list.header");
         client.send(response);
-
-        int i = 1;
+        
+        int i = 0;
         for (Channel channel : channelManager.channels())
         {
+            i++;
+            
             ChannelConfig conf = channel.getConfig();
 
             // skip invisible channels
@@ -65,16 +68,16 @@ public class ListCommand extends AbstractCommand
             {
                 continue;
             }
-
-            String cname = conf.getName();
-            while (cname.length() < 6)
+            
+            // skip channels with an incompatible speed constraint
+            if (client.getUser().isPlayer() && !conf.isProtocolAccepted(client.getProtocol().getName()))
             {
-                cname += " ";
+                continue;
             }
-
+            
             StringBuilder message = new StringBuilder();
             message.append("<darkBlue>(" + (playerChannel.equals(conf.getName()) ? "<red>" + i + "</red>" : "<purple>" + i + "</purple>") + ") ");
-            message.append("<purple>" + cname + "</purple>\t");
+            message.append("<purple>" + rightPad(conf.getName(), 6) + "</purple>\t");
             if (channel.isFull())
             {
                 message.append("[<red>" + Language.getText("command.list.status.full", locale) + "</red>]");
@@ -96,12 +99,21 @@ public class ListCommand extends AbstractCommand
                 message.append("                  ");
             }
             message.append("<black>" + conf.getDescription());
-
-            PlineMessage response2 = new PlineMessage();
-            response2.setText(message.toString());
-            client.send(response2);
-
-            i = i + 1;
+            
+            client.send(new PlineMessage(message.toString()));
         }
+    }
+
+    /**
+     * Add spaces at the right of the string if it's shorter than the specified length.
+     */
+    private String rightPad(String s, int length)
+    {
+        while (s.length() < length)
+        {
+            s += " ";
+        }
+        
+        return s;
     }
 }

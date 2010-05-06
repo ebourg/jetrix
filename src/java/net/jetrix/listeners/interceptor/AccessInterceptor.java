@@ -19,6 +19,7 @@
 
 package net.jetrix.listeners.interceptor;
 
+import net.jetrix.ChannelManager;
 import net.jetrix.Client;
 import net.jetrix.ClientRepository;
 import net.jetrix.Server;
@@ -52,16 +53,16 @@ public class AccessInterceptor implements ClientInterceptor
     {
         ServerConfig serverConfig = Server.getInstance().getConfig();
         InetAddress address = client.getInetAddress();
-
+        
         // check if the server is locked
         if (serverConfig.getStatus() == ServerConfig.STATUS_LOCKED && !(client instanceof QueryClient))
         {
             log.info("Server locked, client rejected (" + address + ").");
             client.send(new NoConnectingMessage("The server is locked."));
             client.disconnect();
-            return;
+            throw new ClientValidationException();
         }
-
+        
         // check if the server is full
         ClientRepository repository = ClientRepository.getInstance();
         if (repository.getClientCount() >= serverConfig.getMaxPlayers()
@@ -70,18 +71,31 @@ public class AccessInterceptor implements ClientInterceptor
             log.info("Server full, client rejected (" + address + ").");
             client.send(new NoConnectingMessage("Server is full!"));
             client.disconnect();
-            return;
+            throw new ClientValidationException();
         }
-
+        
         // test concurrent connections from the same host
         // todo include pending connections
         int maxConnections = serverConfig.getMaxConnections();
         if (maxConnections > 0 && repository.getHostCount(address) >= maxConnections)
         {
-            log.info("Too many connections from host, client rejected (" + address + ").");
+            log.info("Too many connections from the same host, client rejected (" + address + ").");
             client.send(new NoConnectingMessage("Too many connections from your host!"));
             client.disconnect();
-            return;
+            throw new ClientValidationException();
+        }
+        
+        // look for compatible channels
+        String protocol = client.getProtocol().getName();
+        if (!(client instanceof QueryClient)
+                && client.getUser().isPlayer()
+                && !ChannelManager.getInstance().hasCompatibleChannels(protocol))
+        {
+            String type = protocol.equals("tetrinet") ? "TetriNET" : "TetriFast";
+            log.info("No " + type + " channels available, client rejected (" + address + ").");
+            client.send(new NoConnectingMessage("Sorry there are no " + type + " channels available."));
+            client.disconnect();
+            throw new ClientValidationException();
         }
     }
 }

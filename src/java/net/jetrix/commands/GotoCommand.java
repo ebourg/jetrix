@@ -106,6 +106,12 @@ public class GotoCommand extends AbstractCommand implements ParameterCommand
                 accessDenied.setKey("command.goto.password");
                 client.send(accessDenied);
             }
+            else if (client.getUser().isPlayer() && !channelConfig.isProtocolAccepted(client.getProtocol().getName()))
+            {
+                // incompatible speed constraint
+                String type = channelConfig.getSpeed() == Speed.FAST ? "TetriFast" : "TetriNET";
+                client.send(new PlineMessage("command.join.speed", type));
+            }
             else
             {
                 // add the ADDPLAYER message to the queue of the target channel

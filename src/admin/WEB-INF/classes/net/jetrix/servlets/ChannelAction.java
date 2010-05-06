@@ -24,6 +24,7 @@ import net.jetrix.ChannelManager;
 import net.jetrix.Server;
 import net.jetrix.config.ChannelConfig;
 import net.jetrix.config.Settings;
+import net.jetrix.config.Speed;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -93,6 +94,7 @@ public class ChannelAction extends HttpServlet
             config.setIdleAllowed("true".equals(request.getParameter("idle")));
             config.setWinlistId(request.getParameter("winlist"));
             config.setTopic(request.getParameter("topic"));
+            config.setSpeed(Speed.valueOf(request.getParameter("speed").toUpperCase()));
         }
 
         // redirect to the channel page

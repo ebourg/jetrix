@@ -66,15 +66,15 @@
         <tr>
           <td>Spectator Comments</td>
           <td>
-            <label><input type="radio" value="true"  name="spectalk"> Yes</label>
-            <label><input type="radio" value="false" name="spectalk"> No</label>
+            <label><input type="radio" value="true"  name="spectalk" disabled="disabled"> Yes</label>
+            <label><input type="radio" value="false" name="spectalk" disabled="disabled"> No</label>
           </td>
         </tr>
         <tr>
           <td>Status</td>
           <td>
-            <label><input type="radio" value="true"  name="open"> Opened</label>
-            <label><input type="radio" value="false" name="open"> Closed</label>
+            <label><input type="radio" value="true"  name="open" disabled="disabled"> Opened</label>
+            <label><input type="radio" value="false" name="open" disabled="disabled"> Closed</label>
           </td>
         </tr>
         <tr>
@@ -96,6 +96,16 @@
           <td>
             <label><input type="radio" value="true"  name="idle" <%= conf.isIdleAllowed() ? "checked" : "" %>> Yes</label>
             <label><input type="radio" value="false" name="idle" <%= conf.isIdleAllowed() ? "" : "checked" %>> No</label>
+          </td>
+        </tr>
+        <tr>
+          <td>Speed</td>
+          <td>
+            <select name="speed">
+<%  for (Speed speed : Speed.values()) { %>
+              <option <%= conf.getSpeed().equals(speed) ? "selected" : "" %>><%= speed.name().toLowerCase() %></option>
+<%  } %>
+            </select>
           </td>
         </tr>
         <tr>

@@ -41,6 +41,7 @@ public class ChannelConfig
     private String winlistId;
     private boolean idleAllowed;
     private boolean visible = true;
+    private Speed speed = Speed.MIXED;
 
     /** extended properties */
     private Properties props;
@@ -282,5 +283,34 @@ public class ChannelConfig
     public void setVisible(boolean visible)
     {
         this.visible = visible;
+    }
+
+    public Speed getSpeed()
+    {
+        return speed;
+    }
+
+    public void setSpeed(Speed speed)
+    {
+        this.speed = speed;
+    }
+
+    /**
+     * Tells if the specified protocol is compatible with the speed restriction of the channel.
+     * 
+     * @param protocol the name of the protocol
+     * @since 0.3
+     */
+    public boolean isProtocolAccepted(String protocol)
+    {
+        switch (speed)
+        {
+            case NORMAL:
+                return !"tetrifast".equals(protocol);
+            case FAST:
+                return !"tetrinet".equals(protocol);
+            default:
+                return true;
+        }
     }
 }

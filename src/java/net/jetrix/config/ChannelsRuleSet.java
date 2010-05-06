@@ -79,6 +79,18 @@ class ChannelsRuleSet extends RuleSetBase
         digester.addSetNext("*/channel", "addChannel", "net.jetrix.config.ChannelConfig");
         digester.addCallMethod("*/channel", "setName", 1);
         digester.addCallParam("*/channel", 0, "name");
+        digester.addRule("*/channel/speed", new Rule(digester) {
+            public void body(String text) throws Exception
+            {
+                getDigester().push(Speed.valueOf(text.toUpperCase()));
+            }
+
+            public void end() throws Exception
+            {
+                getDigester().pop();
+            }
+        });
+        digester.addSetNext("*/channel/speed", "setSpeed");
         digester.addCallMethod("*/channel/password", "setPassword", 0);
         digester.addCallMethod("*/channel/access-level", "setAccessLevel", 0, new Class[] {Integer.TYPE});
         digester.addCallMethod("*/channel/idle", "setIdleAllowed", 0, new Class[] {Boolean.TYPE});

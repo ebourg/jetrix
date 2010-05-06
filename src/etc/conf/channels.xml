@@ -13,18 +13,19 @@ Welcome on <b>Jetrix TetriNET Server</b>!
 
   <!-- Channel filters -->
   <filter-definitions>
-    <alias name="flood"        class="net.jetrix.filter.FloodFilter"/>
-    <alias name="start"        class="net.jetrix.filter.StartFilter"/>
-    <alias name="amplifier"    class="net.jetrix.filter.AmplifierFilter"/>
-    <alias name="ping"         class="net.jetrix.filter.PingFilter"/>
-    <alias name="7tetris"      class="net.jetrix.filter.TetrisFilter"/>
-    <alias name="stats"        class="net.jetrix.filter.StatsFilter"/>
-    <alias name="logo"         class="net.jetrix.filter.LogoFilter"/>
-    <alias name="sudden-death" class="net.jetrix.filter.SuddenDeathFilter"/>
-    <alias name="command"      class="net.jetrix.filter.CommandFilter"/>
-    <alias name="survival"     class="net.jetrix.filter.SurvivalFilter"/>
-    <alias name="puzzle"       class="net.jetrix.filter.PuzzleFilter"/>
-    <alias name="random"       class="net.jetrix.filter.RandomFilter"/>
+    <alias name="flood"         class="net.jetrix.filter.FloodFilter"/>
+    <alias name="start"         class="net.jetrix.filter.StartFilter"/>
+    <alias name="amplifier"     class="net.jetrix.filter.AmplifierFilter"/>
+    <alias name="ping"          class="net.jetrix.filter.PingFilter"/>
+    <alias name="7tetris"       class="net.jetrix.filter.TetrisFilter"/>
+    <alias name="stats"         class="net.jetrix.filter.StatsFilter"/>
+    <alias name="logo"          class="net.jetrix.filter.LogoFilter"/>
+    <alias name="sudden-death"  class="net.jetrix.filter.SuddenDeathFilter"/>
+    <alias name="command"       class="net.jetrix.filter.CommandFilter"/>
+    <alias name="survival"      class="net.jetrix.filter.SurvivalFilter"/>
+    <alias name="puzzle"        class="net.jetrix.filter.PuzzleFilter"/>
+    <alias name="random"        class="net.jetrix.filter.RandomFilter"/>
+    <alias name="speed-warning" class="net.jetrix.filter.UnbalancedSpeedWarningFilter"/>
   </filter-definitions>
 
   <!-- Global filters -->
@@ -40,6 +41,7 @@ Welcome on <b>Jetrix TetriNET Server</b>!
     <filter name="stats"/>
     <filter name="logo"/>
     <filter name="sudden-death"/>
+    <filter name="speed-warning"/>
   </default-filters>
 
   <!-- Winlists -->
@@ -142,14 +144,16 @@ Welcome on <b>Jetrix TetriNET Server</b>!
 
     <channel name="pure">
       <description>Pure</description>
+      <speed>normal</speed>
       <winlist name="pure"/>
       <settings>
         <special-added>0</special-added>
       </settings>
     </channel>
 
-    <channel name="pure2">
+    <channel name="purefast">
       <description>Pure</description>
+      <speed>fast</speed>
       <winlist name="pure"/>
       <settings>
         <special-added>0</special-added>

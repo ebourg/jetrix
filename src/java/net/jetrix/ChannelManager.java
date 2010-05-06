@@ -157,8 +157,9 @@ public class ChannelManager
      * @since 0.2
      *
      * @param level the access level of the player added in the channel
+     * @param protocol the name of the protocol used
      */
-    public Channel getHomeChannel(int level)
+    public Channel getHomeChannel(int level, String protocol)
     {
         Channel channel = null;
         Channel emptyChannel = null;
@@ -170,7 +171,8 @@ public class ChannelManager
 
             if (chan.getConfig().getAccessLevel() <= level
                     && !chan.getConfig().isPasswordProtected()
-                    && !chan.isFull())
+                    && !chan.isFull()
+                    && chan.getConfig().isProtocolAccepted(protocol))
             {
                 if (chan.isEmpty())
                 {
@@ -184,6 +186,25 @@ public class ChannelManager
         }
 
         return channel != null ? channel : emptyChannel;
+    }
+
+    /**
+     * Tells if a non private channel is available for a client using the specified protocol.
+     * 
+     * @param protocol the name of the protocol used
+     * @since 0.3
+     */
+    public boolean hasCompatibleChannels(String protocol)
+    {
+        for (Channel chan : channels)
+        {
+            if (!chan.getConfig().isPasswordProtected() && chan.getConfig().isProtocolAccepted(protocol))
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**

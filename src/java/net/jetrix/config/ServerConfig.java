@@ -492,8 +492,8 @@ public class ServerConfig
                     description = description.contains("<") ? "<![CDATA[" + description + "]]>" : description;
                     out.println("      <description>" + description + "</description>");
                 }
-
-                if (config.getTopic() != null)
+                
+                if (config.getTopic() != null && config.getTopic().trim().length() > 0)
                 {
                     out.println("      <topic>");
                     out.println("<![CDATA[");
@@ -501,7 +501,12 @@ public class ServerConfig
                     out.println("]]>");
                     out.println("      </topic>");
                 }
-
+                
+                if (config.getSpeed() != Speed.MIXED)
+                {
+                    out.println("      <speed>" + config.getSpeed().name().toLowerCase() + "</speed>");
+                }
+                
                 if (config.isPasswordProtected())
                 {
                     out.println("      <password>" + config.getPassword() + "</password>");
