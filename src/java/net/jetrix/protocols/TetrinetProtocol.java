@@ -594,7 +594,7 @@ public class TetrinetProtocol extends AbstractProtocol
     {
         StringBuilder message = new StringBuilder();
         message.append("gmsg ");
-        message.append(m.getText(locale));
+        message.append(stripStyle(m.getText(locale)));
         return message.toString();
     }
 
@@ -821,6 +821,24 @@ public class TetrinetProtocol extends AbstractProtocol
             }
             text = text.replaceAll("<" + key + ">", value);
             text = text.replaceAll("</" + key + ">", value);
+        }
+        return text;
+    }
+
+    /**
+     * Removes the style tags from the specified text.
+     */
+    public String stripStyle(String text)
+    {
+        Map<String, String> styles = getStyles();
+        if (styles == null) {
+            return text;
+        }
+
+        for (String key : styles.keySet())
+        {
+            text = text.replaceAll("<" + key + ">", "");
+            text = text.replaceAll("</" + key + ">", "");
         }
         return text;
     }

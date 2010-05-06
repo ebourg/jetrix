@@ -118,7 +118,7 @@ public class StartCommand extends AbstractCommand
             PlineMessage getready1 = new PlineMessage();
             GmsgMessage getready2 = new GmsgMessage();
             getready1.setKey("command.start.get_ready");
-            getready2.setKey("command.start.get_ready.gmsg");
+            getready2.setKey("command.start.get_ready");
             channel.send(getready1);
             channel.send(getready2);
 
@@ -129,18 +129,10 @@ public class StartCommand extends AbstractCommand
                 GmsgMessage msg2 = new GmsgMessage();
 
                 // plural or singular ? :)
-                if (i > 1)
-                {
-                    Integer seconds = new Integer(i);
-                    msg1.setKey("command.start.seconds", seconds);
-                    msg2.setKey("command.start.seconds.gmsg", seconds);
-                }
-                else
-                {
-                    msg1.setKey("command.start.second");
-                    msg2.setKey("command.start.second.gmsg");
-                }
-
+                String key = "command.start.second" + (i > 1 ? "s" : "");
+                msg1.setKey(key, i);
+                msg2.setKey(key, i);
+                
                 channel.send(msg1);
                 channel.send(msg2);
                 try
@@ -163,7 +155,7 @@ public class StartCommand extends AbstractCommand
             PlineMessage go1 = new PlineMessage();
             GmsgMessage go2 = new GmsgMessage();
             go1.setKey("command.start.go");
-            go2.setKey("command.start.go.gmsg");
+            go2.setKey("command.start.go");
             channel.send(go1);
             channel.send(go2);
 
@@ -174,6 +166,4 @@ public class StartCommand extends AbstractCommand
             countdowns.put(channel, null);
         }
     }
-
-
 }
