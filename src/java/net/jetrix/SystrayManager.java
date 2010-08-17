@@ -22,7 +22,7 @@ package net.jetrix;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -80,7 +80,7 @@ public class SystrayManager
             itemLink.addActionListener(new OpenURLActionListener("http://jetrix.sourceforge.net"));
 
             MenuItem itemSupport = new MenuItem("Technical Support");
-            itemSupport.addActionListener(new OpenURLActionListener("http://sourceforge.net/forum/forum.php?forum_id=172941"));
+            itemSupport.addActionListener(new OpenURLActionListener("http://sourceforge.net/projects/jetrix/forums/forum/172941"));
 
             MenuItem itemExit = new MenuItem("Stop & Exit");
             itemExit.addActionListener(new ActionListener()
@@ -186,24 +186,11 @@ public class SystrayManager
     {
         try
         {
-            // open the browser
-            String osname = System.getProperty("os.name");
-            if (osname.contains("Linux"))
-            {
-                Runtime.getRuntime().exec("firefox " + url);
-            }
-            else if (osname.contains("Windows"))
-            {
-                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
-            }
-            else if (osname.contains("Mac"))
-            {
-                Runtime.getRuntime().exec("open " + url);
-            }
+            Desktop.getDesktop().browse(new URI(url));
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            log.log(Level.WARNING, e.getMessage(), e);
+            log.log(Level.WARNING, "Unable to open the url: " + url, e);
         }
     }
 
