@@ -1,5 +1,4 @@
 <%@ page import="net.jetrix.*"%>
-<%@ page import="java.util.*"%>
 
 <%
     ClientRepository clientRepository = ClientRepository.getInstance();
@@ -33,6 +32,10 @@
       <tr>
         <td width="30%">Name</td>
         <td><%= user.getName() %></td>
+      </tr>
+      <tr>
+        <td>Team</td>
+        <td><%= user.getTeam() != null ? user.getTeam() : "" %></td>
       </tr>
       <tr>
         <td>Access Level</td>
