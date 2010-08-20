@@ -152,7 +152,10 @@ public class TetrinetProtocol extends AbstractProtocol
         {
             TeamMessage team = new TeamMessage();
             team.setSlot(Integer.parseInt(st.nextToken()));
-            team.setName(st.hasMoreTokens() ? st.nextToken() : null);
+            if (st.hasMoreTokens())
+            {
+                team.setName(line.substring("team".length() + 3).trim());
+            }
             m = team;
             m.setRawMessage(this, line);
         }

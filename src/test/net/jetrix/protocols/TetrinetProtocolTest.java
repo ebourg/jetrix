@@ -186,6 +186,34 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("name", null, team.getName());
     }
 
+    public void testGetMessageTeam3()
+    {
+        // check the parsing of a team name containing a space character
+        String raw = "team 1 L F J R";
+        Message message = protocol.getMessage(raw);
+
+        assertNotNull("message not parsed", message);
+        assertEquals("message class", TeamMessage.class, message.getClass());
+
+        TeamMessage team = (TeamMessage) message;
+        assertEquals("slot", 1, team.getSlot());
+        assertEquals("name", "L F J R", team.getName());
+    }
+
+    public void testGetMessageTeam4()
+    {
+        // check the parsing of a team name containing a leading and a trailing space character
+        String raw = "team 1  LFJR ";
+        Message message = protocol.getMessage(raw);
+
+        assertNotNull("message not parsed", message);
+        assertEquals("message class", TeamMessage.class, message.getClass());
+
+        TeamMessage team = (TeamMessage) message;
+        assertEquals("slot", 1, team.getSlot());
+        assertEquals("name", "LFJR", team.getName());
+    }
+
     public void testTranslatePlayerLeave()
     {
         LeaveMessage message = new LeaveMessage();
