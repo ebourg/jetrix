@@ -327,6 +327,14 @@ public class Channel extends Thread implements Destination
         sendAll(m);
     }
 
+    private void process(PlayerWonMessage m)
+    {
+        if (m.getSource() == null)
+        {
+            sendAll(m);
+        }
+    }
+
     private void process(PlayerLostMessage m)
     {
         int slot = m.getSlot();
@@ -803,7 +811,7 @@ public class Channel extends Thread implements Destination
     {
         if (log.isLoggable(Level.FINEST))
         {
-            log.finest("[" + channelConfig.getName() + "] Processing " + m);
+            log.finest("[" + channelConfig.getName() + "] Processing " + m.getClass().getSimpleName() + " from " + m.getSource());
         }
 
         if (m instanceof CommandMessage) process((CommandMessage) m);
@@ -811,6 +819,7 @@ public class Channel extends Thread implements Destination
         else if (m instanceof SpecialMessage) process((SpecialMessage) m);
         else if (m instanceof LevelMessage) process((LevelMessage) m);
         else if (m instanceof PlayerLostMessage) process((PlayerLostMessage) m);
+        else if (m instanceof PlayerWonMessage) process((PlayerWonMessage) m);
         else if (m instanceof TeamMessage) process((TeamMessage) m);
         else if (m instanceof PlineMessage) process((PlineMessage) m);
         else if (m instanceof GmsgMessage) process((GmsgMessage) m);
