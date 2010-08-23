@@ -1044,7 +1044,6 @@ public class ServerConfig
      */
     public void setProperty(String key, String value)
     {
-        System.out.println("setting " + key  + " to " + value);
         properties.setProperty(key, value);
     }
 }

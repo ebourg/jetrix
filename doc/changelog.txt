@@ -22,6 +22,7 @@ Admin visible changes
 - Channels can now be created from the administration console
 - The IP of the server is no longer submitted to tfast.org since the site is dead
 - The web administration console has been moved from port 8080 to port 31460
+- The client speed can now be checked by setting the server property 'speedcheck.enabled" to "true"
 
 Developer visible changes
 - added a readLine(Reader) method in the Protocol interface

@@ -29,6 +29,15 @@ public class LevelMessage extends ChannelMessage
 {
     private int level;
 
+    public LevelMessage()
+    {
+    }
+
+    public LevelMessage(int level)
+    {
+        this.level = level;
+    }
+
     public int getLevel()
     {
         return level;

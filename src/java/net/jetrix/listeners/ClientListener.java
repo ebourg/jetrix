@@ -205,7 +205,8 @@ public abstract class ClientListener extends AbstractService implements Listener
                     Collection<ClientInterceptor> validators = new ArrayList<ClientInterceptor>();
                     validators.add(new AccessInterceptor());
                     validators.add(new NameCheckInterceptor());
-
+                    validators.add(new SpeedCheckInterceptor());
+                    
                     // run the validators
                     for (ClientInterceptor interceptor : validators)
                     {

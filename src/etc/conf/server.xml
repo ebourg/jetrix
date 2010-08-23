@@ -129,7 +129,7 @@
 
   <!-- Extended properties -->
   <properties>
-    <property name="speedcheck.enable" value="false"/>
+    <property name="speedcheck.enabled" value="false"/>
   </properties>
 
 </tetrinet-server>
