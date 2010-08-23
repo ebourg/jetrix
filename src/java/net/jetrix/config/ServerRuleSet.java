@@ -49,20 +49,20 @@ class ServerRuleSet extends RuleSetBase
         digester.addCallParam("tetrinet-server/error-log", 0, "path");
         digester.addCallMethod("tetrinet-server/channels", "setChannelsFile", 1);
         digester.addCallParam("tetrinet-server/channels", 0, "path");
-
+        
         // command definitions
         digester.addObjectCreate("*/command", null, "class");
         digester.addSetNext("*/command", "addCommand", "net.jetrix.commands.Command");
         digester.addCallMethod("*/command", "setAccessLevel", 1, new Class[] {Integer.TYPE});
         digester.addCallParam("*/command", 0, "access-level");
-
+        
         // listeners
         digester.addObjectCreate("*/listener", null, "class");
         digester.addSetProperties("*/listener");
         digester.addCallMethod("*/listener", "setAutoStart", 1, new Class[] {Boolean.TYPE});
         digester.addCallParam("*/listener", 0, "auto-start");
         digester.addSetNext("*/listener", "addListener", "net.jetrix.Listener");
-
+        
         // services
         digester.addObjectCreate("*/service", null, "class");
         digester.addSetProperties("*/service");
@@ -70,10 +70,10 @@ class ServerRuleSet extends RuleSetBase
         digester.addCallParam("*/service", 0, "auto-start");
         digester.addSetProperty("*/service/param", "name", "value");
         digester.addSetNext("*/service", "addService", "net.jetrix.Service");
-
+        
         // banlist
         digester.addCallMethod("tetrinet-server/ban/host", "addBannedHost", 0);
-
+        
         // datasource
         digester.addObjectCreate("*/datasource", "net.jetrix.config.DataSourceConfig");
         digester.addSetNext("*/datasource", "addDataSource", "net.jetrix.config.DataSourceConfig");
@@ -85,7 +85,7 @@ class ServerRuleSet extends RuleSetBase
         digester.addCallMethod("*/datasource/password", "setPassword", 0);
         digester.addCallMethod("*/datasource/min-idle", "setMinIdle", 0);
         digester.addCallMethod("*/datasource/max-active", "setMaxActive", 0);
-
+        
         // mail session
         digester.addObjectCreate("*/mailserver", "net.jetrix.config.MailSessionConfig");
         digester.addSetNext("*/mailserver", "setMailSessionConfig", "net.jetrix.config.MailSessionConfig");
@@ -101,5 +101,10 @@ class ServerRuleSet extends RuleSetBase
         digester.addCallParam("*/mailserver", 0, "password");
         digester.addCallMethod("*/mailserver", "setDebug", 1, new Class[] {Boolean.TYPE});
         digester.addCallParam("*/mailserver", 0, "debug");
+        
+        // extended properties
+        digester.addCallMethod("*/properties/property", "setProperty", 2);
+        digester.addCallParam("*/properties/property", 0, "name");
+        digester.addCallParam("*/properties/property", 1, "value");
     }
 }

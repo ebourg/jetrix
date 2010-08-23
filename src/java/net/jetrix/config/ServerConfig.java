@@ -81,6 +81,9 @@ public class ServerConfig
     /** Mail session configuration */
     private MailSessionConfig mailSessionConfig;
 
+    /** Extended properties */
+    private Properties properties = new Properties();
+
     private URL serverConfigURL;
     private URL channelsConfigURL;
 
@@ -340,6 +343,17 @@ public class ServerConfig
             out.println();
         }
 
+        if (properties != null && !properties.isEmpty())
+        {
+            out.println("  <!-- Extended properties -->");
+            out.println("  <properties>");
+            for (String key : properties.stringPropertyNames())
+            {
+                out.println("    <property name=\"" + key + "\" value=\"" + properties.getProperty(key) + "\">");
+            }
+            out.println("  </properties>");
+            out.println();
+        }
         
         out.println("</tetrinet-server>");
 
@@ -1015,5 +1029,22 @@ public class ServerConfig
     public void setMailSessionConfig(MailSessionConfig mailSessionConfig)
     {
         this.mailSessionConfig = mailSessionConfig;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public String getProperty(String key)
+    {
+        return properties != null ? properties.getProperty(key) : null;
+    }
+
+    /**
+     * @since 0.3
+     */
+    public void setProperty(String key, String value)
+    {
+        System.out.println("setting " + key  + " to " + value);
+        properties.setProperty(key, value);
     }
 }

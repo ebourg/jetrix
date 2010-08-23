@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ELEMENT tetrinet-server (name?, language?, timeout?, max-channels?,
   max-players?, max-connections?, op-password, admin-password, access-log,
   error-log, channels?, listeners, services?, commands, ban?, datasources?,
-  mailserver?)>
+  mailserver?, properties?)>
 <!ATTLIST tetrinet-server host CDATA #IMPLIED>
 
 <!ELEMENT name (#PCDATA)>
@@ -88,3 +88,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <!ATTLIST mailserver username CDATA #IMPLIED>
 <!ATTLIST mailserver password CDATA #IMPLIED>
 <!ATTLIST mailserver debug CDATA #IMPLIED>
+
+<!ELEMENT properties (property*)>
+<!ELEMENT property EMPTY>
+<!ATTLIST property name CDATA #REQUIRED>
+<!ATTLIST property value CDATA #REQUIRED>
