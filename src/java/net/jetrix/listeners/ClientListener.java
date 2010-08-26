@@ -24,7 +24,6 @@ import java.net.*;
 import java.util.*;
 import java.util.logging.*;
 
-
 import net.jetrix.*;
 import net.jetrix.clients.*;
 import net.jetrix.config.*;
@@ -33,7 +32,7 @@ import net.jetrix.messages.*;
 import net.jetrix.services.*;
 
 /**
- * Abstract Listener waiting for incomming clients.
+ * Abstract Listener waiting for incoming clients.
  *
  * @author Emmanuel Bourg
  * @version $Revision$, $Date$
@@ -60,24 +59,22 @@ public abstract class ClientListener extends AbstractService implements Listener
     {
         log = Logger.getLogger("net.jetrix");
         ServerConfig serverConfig = Server.getInstance().getConfig();
-        running = true;
-
+        
         try
         {
             // bind the listener to the host & port
             serverSocket = new ServerSocket(getPort(), 50, serverConfig.getHost());
+            running = true;
             log.info("Listening at " + getName() + " port " + getPort()
                     + ((serverConfig.getHost() != null) ? ", bound to " + serverConfig.getHost() : ""));
         }
         catch (BindException e)
         {
             log.severe("Unable to bind " + getName() + " listener at port " + getPort());
-            running = false;
         }
         catch (IOException e)
         {
-            log.severe("Cannot open ServerSocket");
-            e.printStackTrace();
+            log.log(Level.SEVERE, "Cannot open ServerSocket on port " + getPort(), e);
         }
 
         while (serverConfig.isRunning() && running)
@@ -87,7 +84,9 @@ public abstract class ClientListener extends AbstractService implements Listener
                 // waiting for connexions
                 socket = serverSocket.accept();
                 socket.setSoTimeout(10000);
-
+                socket.setTcpNoDelay(true);
+                socket.setTrafficClass(0x10); // low delay
+                
                 InetAddress address = socket.getInetAddress();
 
                 // log the connection
