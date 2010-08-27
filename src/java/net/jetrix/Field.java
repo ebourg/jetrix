@@ -1,6 +1,6 @@
 /**
  * Jetrix TetriNET Server
- * Copyright (C) 2001-2005  Emmanuel Bourg
+ * Copyright (C) 2001-2010  Emmanuel Bourg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,9 +21,9 @@ package net.jetrix;
 
 import static net.jetrix.config.Special.*;
 
-import java.util.logging.*;
-import java.util.*;
 import java.io.*;
+import java.util.*;
+import java.util.logging.*;
 
 import net.jetrix.config.*;
 import net.jetrix.messages.channel.*;
@@ -36,33 +36,34 @@ import net.jetrix.messages.channel.*;
  */
 public class Field
 {
+    private static Logger log = Logger.getLogger("net.jetrix");
+
     public static final int WIDTH = 12;
     public static final int HEIGHT = 22;
 
-    public static final byte BLOCK_VOID   = '0';
-    public static final byte BLOCK_BLUE   = '1';
-    public static final byte BLOCK_YELLOW = '2';
-    public static final byte BLOCK_GREEN  = '3';
-    public static final byte BLOCK_PURPLE = '4';
-    public static final byte BLOCK_RED    = '5';
-    public static final byte BLOCK_RANDOM = '6';
+    public static final byte BLOCK_VOID     = '0';
+    public static final byte BLOCK_BLUE     = '1';
+    public static final byte BLOCK_YELLOW   = '2';
+    public static final byte BLOCK_GREEN    = '3';
+    public static final byte BLOCK_PURPLE   = '4';
+    public static final byte BLOCK_RED      = '5';
+    public static final byte BLOCK_PREVIOUS = '6';
 
-    private static final byte blocks[] =
-            new byte[] { BLOCK_VOID, BLOCK_BLUE, BLOCK_YELLOW, BLOCK_GREEN, BLOCK_PURPLE, BLOCK_RED,
-                         (byte) ADDLINE.getLetter(),
-                         (byte) CLEARLINE.getLetter(),
-                         (byte) NUKEFIELD.getLetter(),
-                         (byte) RANDOMCLEAR.getLetter(),
-                         (byte) SWITCHFIELD.getLetter(),
-                         (byte) CLEARSPECIAL.getLetter(),
-                         (byte) GRAVITY.getLetter(),
-                         (byte) QUAKEFIELD.getLetter(),
-                         (byte) BLOCKBOMB.getLetter() };
+    /** The index of blocks used in a partial update. */
+    private static final byte[] BLOCKS = {
+            BLOCK_VOID, BLOCK_BLUE, BLOCK_YELLOW, BLOCK_GREEN, BLOCK_PURPLE, BLOCK_RED,
+            (byte) ADDLINE.getLetter(),
+            (byte) CLEARLINE.getLetter(),
+            (byte) NUKEFIELD.getLetter(),
+            (byte) RANDOMCLEAR.getLetter(),
+            (byte) SWITCHFIELD.getLetter(),
+            (byte) CLEARSPECIAL.getLetter(),
+            (byte) GRAVITY.getLetter(),
+            (byte) QUAKEFIELD.getLetter(),
+            (byte) BLOCKBOMB.getLetter()};
 
-    /** Array of blocks. (0, 0) is the bottom left block, and (12, 22) is the upper right block. */
+    /** Array of blocks. (0, 0) is the bottom left block, and (11, 21) is the upper right block. */
     private byte[][] field = new byte[WIDTH][HEIGHT];
-
-    private Logger log = Logger.getLogger("net.jetrix");
 
     public Field()
     {
@@ -180,50 +181,43 @@ public class Field
      * Update the field with the specified FieldMessage.
      */
     public void update(FieldMessage message)
-    {
-        String fieldString = message.getField();
-        if (fieldString != null && fieldString.length() > 0)
+    {       
+        if (message.isPartialUpdate())
         {
-            char first = fieldString.charAt(0);
-            if (first >= 0x21 && first <= 0x2f)
+            StringTokenizer tokenizer = new StringTokenizer(message.getField(), "!\"#$%&'()*+,-./", true);
+            
+            while (tokenizer.hasMoreTokens())
             {
-                // partial update
-                StringTokenizer tokenizer = new StringTokenizer(fieldString, "!\"#$%&'()*+,-./", true);
-
-                while (tokenizer.hasMoreTokens())
+                // block type
+                String type = tokenizer.nextToken();
+                byte color = BLOCKS[type.charAt(0) - 0x21];
+                
+                // locations
+                String locations = tokenizer.nextToken();
+                for (int i = 0; i < locations.length(); i = i + 2)
                 {
-                    // block type
-                    String type = tokenizer.nextToken();
-                    byte color = blocks[type.charAt(0) - 0x21];
-
-                    // locations
-                    String locations = tokenizer.nextToken();
-                    for (int i = 0; i < locations.length(); i = i + 2)
-                    {
-                        int x = locations.charAt(i) - '3';
-                        int y = HEIGHT - (locations.charAt(i + 1) - '3') - 1;
-                        field[x][y] = color;
-                    }
+                    int x = locations.charAt(i) - '3';
+                    int y = HEIGHT - (locations.charAt(i + 1) - '3') - 1;
+                    field[x][y] = color;
                 }
             }
-            else if (fieldString.length() == WIDTH * HEIGHT)
+        }
+        else if (message.isFullUpdate())
+        {
+            String fieldString = message.getField();
+            for (int i = 0; i < fieldString.length(); i++)
             {
-                // full update
-                for (int i = 0; i < fieldString.length(); i++)
+                char c = fieldString.charAt(i);
+                if (c != BLOCK_PREVIOUS)
                 {
-                    char c = fieldString.charAt(i);
-
-                    // replace random colored blocks
-                    c = (c == BLOCK_RANDOM) ? (char) (BLOCK_BLUE + ((int) (Math.random() * 5))) : c;
-
                     field[i % WIDTH][HEIGHT - i / WIDTH - 1] = (byte) c;
                 }
             }
-            else
-            {
-                // malformed message
-                log.warning("Malformed field update received from " + message.getSource());
-            }
+        }
+        else if (!message.isEmpty())
+        {
+            // malformed message
+            log.warning("Malformed field update received from " + message.getSource());
         }
     }
 
@@ -248,7 +242,7 @@ public class Field
 
     /**
      * Return the block at the specified location. (0, 0) is the bottom left
-     * block, and (12, 22) is the upper right block.
+     * block, and (11, 21) is the upper right block.
      *
      * @param x
      * @param y

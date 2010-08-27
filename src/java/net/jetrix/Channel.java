@@ -173,7 +173,7 @@ public class Channel extends Thread implements Destination
     }
 
     /**
-     * Main loop. The channel listens for incomming messages until the server
+     * Main loop. The channel listens for incoming messages until the server
      * or the channel closes. Every message is first passed through the
      * registered filters and then handled by the channel.
      */
@@ -437,6 +437,11 @@ public class Channel extends Thread implements Destination
         }
         else
         {
+            if (m.isFullUpdate())
+            {
+                // rewrite the field to handle properly the BLOCK_PREVIOUS type on non standard client
+                m.setField(fields[slot - 1].getFieldString());
+            }
             sendAll(m);
         }
     }
@@ -665,7 +670,7 @@ public class Channel extends Thread implements Destination
             client.send(winlistMessage);
         }
 
-        // send a welcome message to the incomming client
+        // send a welcome message to the incoming client
         PlineMessage mwelcome = new PlineMessage();
         mwelcome.setKey("channel.welcome", client.getUser().getName(), channelConfig.getName());
         client.send(mwelcome);

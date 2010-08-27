@@ -14,6 +14,7 @@ Player visible changes
 - Channels can be dedicated to TetriFast or non TetriFast clients. A warning is displayed when mixed clients play together.
 - Spaces in team names are now properly handled
 - The winner can now hear the victory sound at the end of the game
+- The end screen displayed after a player has lost renders properly on alternative clients
 
 Admin visible changes
 - Jetrix now requires Java 6

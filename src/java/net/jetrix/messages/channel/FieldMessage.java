@@ -19,6 +19,8 @@
 
 package net.jetrix.messages.channel;
 
+import net.jetrix.Field;
+
 /**
  * A field change message.
  *
@@ -52,4 +54,39 @@ public class FieldMessage extends ChannelMessage
         this.field = field;
     }
 
+    /**
+     * Tells if the field message is a full update.
+     * 
+     * @since 0.3
+     */
+    public boolean isFullUpdate()
+    {
+        return !isEmpty() && field.length() == Field.WIDTH * Field.HEIGHT;
+    }
+
+    /**
+     * Tells if the field message is a partial update.
+     * 
+     * @since 0.3
+     */
+    public boolean isPartialUpdate()
+    {
+        if (isEmpty())
+        {
+            return false;
+        }
+        
+        char first = field.charAt(0);
+        return first >= 0x21 && first <= 0x2f;
+    }
+
+    /**
+     * Tells if the field message is empty.
+     * 
+     * @since 0.3
+     */
+    public boolean isEmpty()
+    {
+        return field == null || field.length() == 0;
+    }
 }
