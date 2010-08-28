@@ -3,3 +3,6 @@
 # Master system-wide jetrix switch. The initscript
 # will not run if it is not set to yes.
 RUN="yes"
+
+# Arguments to pass to the Java virtual machine (JVM).
+JAVA_OPTS=-Xmx128m
