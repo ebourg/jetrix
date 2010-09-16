@@ -266,6 +266,39 @@ public class Field
         }
     }
     
+    /**
+     * Load the field from the specified stream
+     *
+     * @since 0.3
+     */
+    public void load(InputStream in) throws IOException
+    {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        
+        for (int i = 0; i < HEIGHT; i++)
+        {
+            String line = reader.readLine();
+
+            if (line == null || line.length() != WIDTH)
+            {
+                throw new IOException("Field format error at line " + i);
+            }
+            
+            for (int j = 0; j < WIDTH; j++)
+            {
+                byte block = (byte) line.charAt(j);
+
+                if (isValidBlock(block))
+                {
+                    field[j][HEIGHT - i - 1] = block;
+                }
+                else
+                {
+                    throw new IOException("Illegal block '" + block + "' at line " + i + " , column " + j);
+                }
+            }
+        }
+    }
 
     /**
      * Load the field from the specified file
@@ -274,35 +307,12 @@ public class Field
      */
     public void load(String file) throws IOException
     {
-        BufferedReader in = null;
-
+        InputStream in = null;
+        
         try
         {
-            in = new BufferedReader(new FileReader(file));
-
-            for (int i = 0; i < HEIGHT; i++)
-            {
-                String line = in.readLine();
-
-                if (line == null || line.length() != WIDTH)
-                {
-                    throw new IOException("Field format error at line " + i);
-                }
-
-                for (int j = 0; j < WIDTH; j++)
-                {
-                    byte block = (byte) line.charAt(j);
-
-                    if (isValidBlock(block))
-                    {
-                        field[j][HEIGHT - i - 1] = block;
-                    }
-                    else
-                    {
-                        throw new IOException("Illegal block '" + block + "' at line " + i + " , column " + j);
-                    }
-                }
-            }
+            in = new FileInputStream(file);
+            load(in);
         }
         finally
         {
