@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -52,7 +53,6 @@ import net.jetrix.Server;
  */
 public class PublishingService extends ScheduledService
 {
-
     private Logger log = Logger.getLogger("net.jetrix");
 
     private String host;
@@ -226,7 +226,8 @@ public class PublishingService extends ScheduledService
                     InetAddress addr = addresses.nextElement();
                     if (!addr.isLoopbackAddress()
                             && !addr.isLinkLocalAddress()
-                            && !addr.isSiteLocalAddress())
+                            && !addr.isSiteLocalAddress()
+                            && !is6to4(addr))
                     {
                         address = addr;
                     }
@@ -235,10 +236,18 @@ public class PublishingService extends ScheduledService
         }
         catch (SocketException e)
         {
-            log.log(Level.WARNING, e.getMessage(), e);
+            log.log(Level.WARNING, "Couldn't find the network address", e);
         }
 
         return address;
     }
 
+    /**
+     * Check if the specified address is a 6to4 address (an IPv6 address starting with the 2002: prefix).
+     * @since 0.3
+     */
+    private boolean is6to4(InetAddress addr)
+    {
+        return (addr instanceof Inet6Address) && addr.getHostName().startsWith("2002");
+    }
 }
