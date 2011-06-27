@@ -19,7 +19,7 @@
 
 package net.jetrix.config;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 /**
  * JUnit TestCase for the class net.jetrix.config.Settings
@@ -49,8 +49,8 @@ public class SettingsTest extends TestCase
         defaultSettings.setSuddenDeathMessage("Hurry Up!");
         defaultSettings.setSuddenDeathTime(20);
 
-        defaultSettings.setOccurancy(Block.LINE, 10);
-        defaultSettings.setOccurancy(Special.GRAVITY, 10);
+        defaultSettings.getBlockOccurancy().setOccurancy(Block.LINE, 10);
+        defaultSettings.getSpecialOccurancy().setOccurancy(Special.GRAVITY, 10);
 
         Settings.setDefaultSettings(defaultSettings);
     }
@@ -58,93 +58,6 @@ public class SettingsTest extends TestCase
     public void testGetDefaultSettings()
     {
         assertEquals(defaultSettings, Settings.getDefaultSettings());
-    }
-
-    public void testNormalize1()
-    {
-        Settings s = new Settings();
-        int[] tab = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        s.normalize(tab);
-        assertEquals("Erreur de normalisation", 100, sum(tab));
-    }
-
-    public void testNormalize2()
-    {
-        Settings s = new Settings();
-        int[] tab = { 0, 0, 0, 0, 0 };
-        s.normalize(tab);
-        assertEquals("Erreur de normalisation", 100, sum(tab));
-        assertEquals("tab[0]", 20, tab[0]);
-        assertEquals("tab[1]", 20, tab[1]);
-        assertEquals("tab[2]", 20, tab[2]);
-        assertEquals("tab[3]", 20, tab[3]);
-        assertEquals("tab[4]", 20, tab[4]);
-    }
-
-    public void testNormalize3()
-    {
-        Settings s = new Settings();
-        int[] tab = { 100, 200, 300, 50, 100, 50, 250, 300 };
-        s.normalize(tab);
-        assertEquals("Erreur de normalisation", 100, sum(tab));
-    }
-
-    public void testNormalize4()
-    {
-        Settings s = new Settings();
-        int[] tab = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
-        s.normalize(tab);
-        assertEquals("Erreur de normalisation", 100, sum(tab));
-    }
-
-    public void testNormalize5()
-    {
-        Settings s = new Settings();
-        int[] tab4 = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
-        int[] tab5 = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
-        s.normalize(tab4);
-        assertTrue("Erreur de normalisation", equals(tab4, tab5));
-    }
-
-    public void testNormalize6()
-    {
-        Settings s = new Settings();
-        int[] tab = { 0, -10 };
-        s.normalize(tab);
-        assertEquals("Erreur de normalisation", 100, sum(tab));
-        assertEquals("tab[0]", 50, tab[0]);
-        assertEquals("tab[1]", 50, tab[1]);
-    }
-
-    private long sum(int[] tab)
-    {
-        long s = 0;
-        for(int i=0; i<tab.length; i++) s = s + tab[i];
-        return s;
-    }
-
-    /**
-     * todo: replace with ArrayAssert from junit-addons
-     */
-    private boolean equals(int[] a, int[] b)
-    {
-        boolean equals = true;
-
-        if (a.length == b.length)
-        {
-            int i=0;
-            while(equals && i<a.length)
-            {
-                equals = (a[i]==b[i]);
-                i++;
-            }
-        }
-        else
-        {
-            equals = false;
-        }
-
-        return equals;
     }
 
     public void testAverageLevels()
@@ -263,7 +176,7 @@ public class SettingsTest extends TestCase
     {
         Settings settings = new Settings();
         assertEquals(defaultSettings.getOccurancy(Block.LINE), settings.getOccurancy(Block.LINE));
-        settings.setOccurancy(Block.LINE, 50);
+        settings.getBlockOccurancy().setOccurancy(Block.LINE, 50);
         assertEquals(50, settings.getOccurancy(Block.LINE));
     }
 
@@ -271,8 +184,7 @@ public class SettingsTest extends TestCase
     {
         Settings settings = new Settings();
         assertEquals(defaultSettings.getOccurancy(Special.GRAVITY), settings.getOccurancy(Special.GRAVITY));
-        settings.setOccurancy(Special.GRAVITY, 50);
+        settings.getSpecialOccurancy().setOccurancy(Special.GRAVITY, 50);
         assertEquals(50, settings.getOccurancy(Special.GRAVITY));
     }
-
 }

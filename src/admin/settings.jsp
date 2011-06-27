@@ -46,7 +46,7 @@
 
       <table class="thin" style="width: 100%">
         <tr>
-          <th width="70%">Special</th>
+          <th width="70%">Block</th>
           <th width="30%">Occurancy</th>
         </tr>
 <%  for (Block block : Block.values()) { %>

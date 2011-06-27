@@ -171,23 +171,27 @@ public class DownstackPuzzleGenerator implements PuzzleGenerator
                     else if (line.startsWith("SPECIAL"))
                     {
                         // parse the special occurancies
-                        String[] occurancy = StringUtils.split(line.substring(7).trim(), ' ');
-
+                        String[] values = StringUtils.split(line.substring(7).trim(), ' ');
+                        
+                        Occurancy<Special> occurancy = new Occurancy<Special>();
                         for (Special special : Special.values())
                         {
-                            settings.setOccurancy(special, Integer.parseInt(occurancy[special.ordinal()]));
+                            occurancy.setOccurancy(special, Integer.parseInt(values[special.ordinal()]));
                         }
+                        settings.setSpecialOccurancy(occurancy);
                     }
                     else if (line.startsWith("BLOCK"))
                     {
                         // parse the block occurancies
-                        String[] occurancy = StringUtils.split(line.substring(5).trim(), ' ');
-
+                        String[] values = StringUtils.split(line.substring(5).trim(), ' ');
+                        
                         // careful, it doesn't follow the standard order
+                        Occurancy<Block> occurancy = new Occurancy<Block>();
                         for (int i = 0; i < BLOCKS.length; i++)
                         {
-                            settings.setOccurancy(BLOCKS[i], Integer.parseInt(occurancy[i]));
+                            occurancy.setOccurancy(BLOCKS[i], Integer.parseInt(values[i]));
                         }
+                        settings.setBlockOccurancy(occurancy);
                     }
                     else if (line.startsWith("SUDDENDEATHMSG"))
                     {

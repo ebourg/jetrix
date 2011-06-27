@@ -19,8 +19,6 @@
 
 package net.jetrix.config;
 
-import java.util.*;
-
 /**
  * Game settings.
  *
@@ -61,8 +59,8 @@ public class Settings
     private int levelIncrease;
     private int specialAdded;
     private int specialCapacity;
-    private int blockOccurancy[];
-    private int specialOccurancy[];
+    private Occurancy<Block> blockOccurancy = new Occurancy<Block>();
+    private Occurancy<Special> specialOccurancy = new Occurancy<Special>();
     private boolean averageLevels;
     private boolean classicRules;
     private boolean sameBlocks;
@@ -96,9 +94,6 @@ public class Settings
      */
     public Settings(boolean useDefaultSettings)
     {
-        blockOccurancy = new int[Block.values().length];
-        specialOccurancy = new int [Special.values().length];
-
         if (useDefaultSettings)
         {
             defaultBlockOccurancy = true;
@@ -211,12 +206,12 @@ public class Settings
 
     public int getOccurancy(Block piece)
     {
-        return isDefaultBlockOccurancy() ? defaultSettings.getOccurancy(piece) : blockOccurancy[piece.ordinal()];
+        return getBlockOccurancy().getOccurancy(piece);
     }
 
     public int getOccurancy(Special special)
     {
-        return isDefaultSpecialOccurancy() ? defaultSettings.getOccurancy(special) : specialOccurancy[special.ordinal()];
+        return getSpecialOccurancy().getOccurancy(special);
     }
 
     public void setStartingLevel(int startingLevel)
@@ -324,109 +319,26 @@ public class Settings
         defaultSuddenDeathDelay = false;
     }
 
-
-    /**
-     * Set the occurancy of a block.
-     *
-     * @since 0.2
-     *
-     * @param block
-     * @param occurancy
-     */
-    public void setOccurancy(Block block, int occurancy)
+    public Occurancy<Block> getBlockOccurancy()
     {
-        if (defaultBlockOccurancy)
-        {
-            defaultBlockOccurancy = false;
-            Arrays.fill(blockOccurancy, 0);
-        }
-
-        blockOccurancy[block.ordinal()] = occurancy;
+        return defaultBlockOccurancy ? defaultSettings.blockOccurancy : blockOccurancy;
     }
 
-    /**
-     * Set the occurancy of a special block
-     *
-     * @since 0.2
-     *
-     * @param special
-     * @param occurancy
-     */
-    public void setOccurancy(Special special, int occurancy)
+    public void setBlockOccurancy(Occurancy<Block> blockOccurancy)
     {
-        if (defaultSpecialOccurancy)
-        {
-            defaultSpecialOccurancy = false;
-            Arrays.fill(specialOccurancy, 0);
-        }
-
-        specialOccurancy[special.ordinal()] = occurancy;
+        defaultBlockOccurancy = false;
+        this.blockOccurancy = blockOccurancy;
     }
 
-    /**
-     * Normalize array values to get a sum equals to 100.
-     * Any negative value is nullified.
-     */
-    protected void normalize(int[] tab)
+    public Occurancy<Special> getSpecialOccurancy()
     {
-        int sum = 0;
-
-        // computing sum
-        for (int i = 0; i < tab.length; i++)
-        {
-            if (tab[i] < 0)
-            {
-                tab[i] = 0;
-            }
-            sum = sum + tab[i];
-        }
-
-        if (sum != 100)
-        {
-            // equalization
-            if (sum == 0)
-            {
-                int v = 100 / tab.length;
-                for (int i = 0; i < tab.length; i++)
-                {
-                    tab[i] = v;
-                }
-            }
-            else
-            {
-                float f = 100f / sum;
-                for (int i = 0; i < tab.length; i++)
-                {
-                    tab[i] = (int) (tab[i] * f);
-                }
-            }
-
-            // distributing points left
-            sum = 0;
-            for (int i = 0; i < tab.length; i++)
-            {
-                sum = sum + tab[i];
-            }
-            int r = 100 - sum;
-            int i = 0;
-            while (i < tab.length && r > 0)
-            {
-                tab[i] = tab[i] + 1;
-                r = r - 1;
-                i = i + 1;
-            }
-        }
+        return defaultSpecialOccurancy ? defaultSettings.specialOccurancy : specialOccurancy;
     }
 
-
-    public void normalizeBlockOccurancy()
+    public void setSpecialOccurancy(Occurancy<Special> specialOccurancy)
     {
-        normalize(blockOccurancy);
-    }
-
-    public void normalizeSpecialOccurancy()
-    {
-        normalize(specialOccurancy);
+        defaultSpecialOccurancy = false;
+        this.specialOccurancy = specialOccurancy;
     }
 
     private boolean isDefault()

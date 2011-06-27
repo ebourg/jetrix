@@ -31,7 +31,6 @@ import org.apache.commons.digester.Rule;
  */
 class ChannelsRuleSet extends RuleSetBase
 {
-
     public void addRuleInstances(Digester digester)
     {
         digester.addCallMethod("tetrinet-channels/motd", "setMessageOfTheDay", 0);
@@ -54,21 +53,25 @@ class ChannelsRuleSet extends RuleSetBase
         digester.addCallMethod("*/classic-rules", "setClassicRules", 0, new Class[] {Boolean.TYPE});
         digester.addCallMethod("*/average-levels", "setAverageLevels", 0, new Class[] {Boolean.TYPE});
         digester.addCallMethod("*/same-blocks", "setSameBlocks", 0, new Class[] {Boolean.TYPE});
-
+        
+        // block occurancy
+        digester.addObjectCreate("*/block-occurancy", Occurancy.class.getName());
+        digester.addCallMethod("*/block-occurancy", "normalize", 0, (Class[]) null);
+        digester.addSetNext("*/block-occurancy", "setBlockOccurancy", Occurancy.class.getName());
         for (Block block : Block.values())
         {
-            digester.addRule("*/block-occurancy/" + block.getCode(), new OccurancyRule(digester, block));
+            digester.addRule("*/block-occurancy/" + block.getCode(), new OccurancyRule<Block>(digester, block));
         }
-
-        digester.addCallMethod("*/block-occurancy", "normalizeBlockOccurancy", 0, (Class[]) null);
-
+        
+        // special occurancy
+        digester.addObjectCreate("*/special-occurancy", Occurancy.class.getName());
+        digester.addCallMethod("*/special-occurancy", "normalize", 0, (Class[]) null);
+        digester.addSetNext("*/special-occurancy", "setSpecialOccurancy", Occurancy.class.getName());
         for (Special special : Special.values())
         {
-            digester.addRule("*/special-occurancy/" + special.getCode(), new OccurancyRule(digester, special));
+            digester.addRule("*/special-occurancy/" + special.getCode(), new OccurancyRule<Special>(digester, special));
         }
-
-        digester.addCallMethod("*/special-occurancy", "normalizeSpecialOccurancy", 0, (Class[]) null);
-
+        
         digester.addCallMethod("*/sudden-death/time", "setSuddenDeathTime", 0, new Class[] { Integer.TYPE });
         digester.addCallMethod("*/sudden-death/message", "setSuddenDeathMessage", 0);
         digester.addCallMethod("*/sudden-death/delay", "setSuddenDeathDelay", 0, new Class[] { Integer.TYPE });
@@ -133,41 +136,26 @@ class ChannelsRuleSet extends RuleSetBase
     /**
      * Custom rule to set the block and special occurancies.
      */
-    private class OccurancyRule extends Rule
+    private class OccurancyRule<T extends Enum> extends Rule
     {
-        private Block block;
-        private Special special;
+        private T element;
 
-        public OccurancyRule(Digester digester, Block block)
+        public OccurancyRule(Digester digester, T element)
         {
             super(digester);
-            this.block = block;
-        }
-
-        public OccurancyRule(Digester digester, Special special)
-        {
-            super(digester);
-            this.special = special;
+            this.element = element;
         }
 
         public void body(String body) throws Exception
         {
             // get the settings on the stack
-            Settings settings = (Settings) digester.peek();
+            Occurancy<T> occurancy = (Occurancy<T>) digester.peek();
 
             // get the value of the occurancy
             int value = Integer.parseInt(body);
 
             // set the value
-            if (special == null)
-            {
-                settings.setOccurancy(block, value);
-            }
-            else
-            {
-                settings.setOccurancy(special, value);
-            }
+            occurancy.setOccurancy(element, value);
         }
     }
-
 }

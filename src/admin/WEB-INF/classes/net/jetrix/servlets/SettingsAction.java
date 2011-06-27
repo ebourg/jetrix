@@ -19,14 +19,24 @@
 
 package net.jetrix.servlets;
 
-import net.jetrix.*;
-import net.jetrix.config.*;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
+import org.apache.commons.lang.StringUtils;
+
+import net.jetrix.Channel;
+import net.jetrix.ChannelManager;
+import net.jetrix.Server;
+import net.jetrix.config.Block;
+import net.jetrix.config.Occurancy;
+import net.jetrix.config.Settings;
+import net.jetrix.config.Special;
 
 /**
  * Action Servlet handling the server and channels settings changes.
@@ -36,7 +46,6 @@ import java.util.*;
  */
 public class SettingsAction extends HttpServlet
 {
-
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         Collection errors = new ArrayList();
@@ -61,41 +70,57 @@ public class SettingsAction extends HttpServlet
                 settings = Settings.getDefaultSettings();
             }
         }
-
+        
         // update the special occurancies
         boolean resetSpecials = true;
+        Occurancy<Special> specialOccurancy = settings.getSpecialOccurancy().clone();
         for (Special special : Special.values())
         {
             String value = request.getParameter(special.getCode());
-            resetSpecials = resetSpecials && (value == null || "".equals(value.trim()));
-
-            if (value != null && !"".equals(value.trim()) && !value.equals(String.valueOf(settings.getOccurancy(special))))
+            resetSpecials = resetSpecials && StringUtils.isBlank(value);
+            
+            if (StringUtils.isNotBlank(value))
             {
-                settings.setOccurancy(special, Integer.parseInt(value));
+                specialOccurancy.setOccurancy(special, Integer.parseInt(value));
             }
         }
-
-        settings.setDefaultSpecialOccurancy(resetSpecials);
-
+        
+        if (!specialOccurancy.equals(settings.getSpecialOccurancy()))
+        {
+            specialOccurancy.normalize();
+            settings.setSpecialOccurancy(specialOccurancy);
+        }
+        else if (resetSpecials)
+        {
+            settings.setDefaultSpecialOccurancy(true);
+        }
+        
+        
         // update the block occurancies
         boolean resetBlocks = true;
+        Occurancy<Block> blockOccurancy = settings.getBlockOccurancy().clone();
         for (Block block : Block.values())
         {
             String value = request.getParameter(block.getCode());
-            resetBlocks = resetBlocks && (value == null || "".equals(value.trim()));
-
-            if (value != null && !"".equals(value.trim()) && !value.equals(String.valueOf(settings.getOccurancy(block))))
+            resetBlocks = resetBlocks && StringUtils.isBlank(value);
+            
+            if (StringUtils.isNotBlank(value)) 
             {
-                settings.setOccurancy(block, Integer.parseInt(request.getParameter(block.getCode())));
+                blockOccurancy.setOccurancy(block, Integer.parseInt(value));
             }
         }
-
-        settings.setDefaultSpecialOccurancy(resetSpecials);
-
-        // normalize the occurancies
-        settings.normalizeBlockOccurancy();
-        settings.normalizeSpecialOccurancy();
-
+        
+        if (!blockOccurancy.equals(settings.getBlockOccurancy()))
+        {
+            blockOccurancy.normalize();
+            settings.setBlockOccurancy(blockOccurancy);
+        }
+        else if (resetBlocks)
+        {
+            settings.setDefaultBlockOccurancy(true);
+        }
+        
+        
         // update the game settings
         updateSettingsField(settings, "startingLevel", request);
         updateSettingsField(settings, "stackHeight", request);

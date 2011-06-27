@@ -29,6 +29,7 @@ import net.jetrix.Server;
 import net.jetrix.config.Block;
 import net.jetrix.config.ServerConfig;
 import net.jetrix.config.Settings;
+import net.jetrix.config.Occurancy;
 import net.jetrix.messages.channel.EndGameMessage;
 import net.jetrix.messages.channel.FieldMessage;
 import net.jetrix.messages.channel.GmsgMessage;
@@ -81,10 +82,13 @@ public class SpeedCheckInterceptor extends InteractiveInterceptor
     protected void prologue(Client client)
     {
         // start the game at high speed with squares only
-        Settings settings = new Settings();
-        settings.setOccurancy(Block.SQUARE, 100);
+        Settings settings = new Settings(false);
         settings.setStartingLevel(99);
         settings.setAverageLevels(false);
+        
+        Occurancy<Block> occurancy = new Occurancy<Block>();
+        occurancy.setOccurancy(Block.SQUARE, 100);
+        settings.setBlockOccurancy(occurancy);
         
         client.send(new NewGameMessage(settings));
         

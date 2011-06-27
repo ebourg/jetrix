@@ -19,11 +19,14 @@
 
 package net.jetrix.filter;
 
-import java.util.*;
+import java.util.List;
 
-import net.jetrix.*;
-import net.jetrix.config.*;
-import net.jetrix.messages.channel.*;
+import net.jetrix.Message;
+import net.jetrix.config.Block;
+import net.jetrix.config.Occurancy;
+import net.jetrix.config.Settings;
+import net.jetrix.config.Special;
+import net.jetrix.messages.channel.NewGameMessage;
 
 /**
  * A filter randomizing the blocks and the specials occurancies when the game starts.
@@ -39,24 +42,25 @@ public class RandomFilter extends GenericFilter
     {
         // get the settings
         Settings settings = m.getSettings();
-
-        // randomize the block occurancies
-        for (Block block : Block.values())
-        {
-            settings.setOccurancy(block, (int) (Math.random() * 100));
-        }
-
-        settings.normalizeBlockOccurancy();
-
-        for (Special special : Special.values())
-        {
-            settings.setOccurancy(special, (int) (Math.random() * 100));
-        }
-
-        settings.normalizeSpecialOccurancy();
-
+        
+        // randomize the block and special occurancies
+        settings.setBlockOccurancy(getRandomOccurancy(Block.class));
+        settings.setSpecialOccurancy(getRandomOccurancy(Special.class));
+        
         // forward the new game message
         out.add(m);
     }
 
+    private <T extends Enum> Occurancy<T> getRandomOccurancy(Class<T> enumType)
+    {
+        Occurancy<T> occurancy = new Occurancy<T>();
+        for (T element : enumType.getEnumConstants())
+        {
+            occurancy.setOccurancy(element, (int) (Math.random() * 100));
+        }
+        
+        occurancy.normalize();
+        
+        return occurancy;
+    }
 }

@@ -67,11 +67,13 @@ public class ModeCommand extends AbstractCommand
 
     public void updateSetting(Settings settings, int[] mode)
     {
+        Occurancy<Block> occurancy = new Occurancy<Block>();
         for (Block block : Block.values())
         {
-            settings.setOccurancy(block, mode[block.ordinal()]);
+            occurancy.setOccurancy(block, mode[block.ordinal()]);
         }
-
+        
+        settings.setBlockOccurancy(occurancy);
         settings.setLinesPerSpecial(mode[7]);
         settings.setSpecialAdded(mode[8]);
     }
