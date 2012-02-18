@@ -202,11 +202,9 @@
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
       <zipfileset prefix="jetrix-${version}" dir="${build}/dist" filemode="755">
         <include name="jetrix"/>
-        <include name="update"/>
       </zipfileset>
       <zipfileset prefix="jetrix-${version}" dir="${build}/dist">
         <exclude  name="jetrix"/>
-        <exclude  name="update"/>
       </zipfileset>
     </zip>
 
@@ -214,11 +212,9 @@
     <tar destfile="${dist}/bin/jetrix-${version}.tar.bz2" compression="bzip2">
       <tarfileset prefix="jetrix-${version}" dir="${build}/dist" filemode="755">
         <include name="jetrix"/>
-        <include name="update"/>
       </tarfileset>
       <tarfileset prefix="jetrix-${version}" dir="${build}/dist">
         <exclude  name="jetrix"/>
-        <exclude  name="update"/>
       </tarfileset>
     </tar>
 
@@ -239,7 +235,6 @@
       </tarfileset>
       <tarfileset prefix="/usr/share/jetrix" dir="${build}/dist" username="root" group="root">
         <exclude  name="jetrix"/>
-        <exclude  name="update"/>
         <exclude  name="*.bat"/>
       </tarfileset>
     </deb>
@@ -312,7 +307,6 @@
     <mkdir dir="${deploy}"/>
     <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
     <chmod file="${deploy}/jetrix-${version}/jetrix" perm="+x"/>
-    <chmod file="${deploy}/jetrix-${version}/update" perm="+x"/>
   </target>
 
   <target name="run" depends="deploy">
@@ -321,21 +315,6 @@
       <arg value="--conf"/>
       <arg value="conf/server.xml"/>
     </java>
-  </target>
-
-  <target name="update" depends="deploy" description="Uploads Jetrix to the patch server">
-    <!-- Installing -->
-    <delete dir="${deploy}"/>
-    <mkdir dir="${deploy}"/>
-    <unzip src="${dist}/bin/jetrix-${version}.zip" dest="${deploy}" />
-
-    <!-- Checksum computation -->
-    <java classname="net.jetrix.tools.patcher.UpdateList" dir="${deploy}/jetrix-${version}" classpath="${deploy}/jetrix-${version}/lib/jetrix-${version}.jar" fork="yes" />
-
-    <!-- Uploading to patch server -->
-    <ftp server="${ftp.host}" remotedir="/vsite/tetrinet/public_html/jetrix/autoupdate" userid="${ftp.login}" password="${ftp.pass}" depends="yes" verbose="yes" ignoreNoncriticalErrors="yes">
-      <fileset dir="${deploy}/jetrix-${version}"/>
-    </ftp>
   </target>
 
   <target name="docgen" depends="compile" description="Generates the documentation of the server commands">
