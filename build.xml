@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <project name="Jetrix TetriNET Server" default="dist" basedir=".">
 
-  <taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/build/Pack200Task.jar"/>
+  <taskdef resource="org/jdesktop/deployment/ant/pack200/antlib.xml" classpath="lib/build/deployment-ant-pack200-1.0-rc1.jar"/>
 
   <property name="compile.debug"    value="true"/>
   <property name="compile.optimize" value="false"/>
@@ -16,10 +16,7 @@
   <property file="password.properties" />
 
   <path id="classpath.main">
-    <fileset dir="${lib}">
-      <include name="**/*.jar"/>
-      <include name="**/*.zip"/>
-    </fileset>
+    <fileset dir="${lib}" includes="**/*.jar"/>
   </path>
 
   <target name="init">
@@ -98,9 +95,7 @@
         <attribute name="Implementation-Title" value="Jetrix TetriNET Server"/>
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
-      <fileset dir="${build}/classes">
-        <exclude name="**/Launcher*.class"/>
-      </fileset>
+      <fileset dir="${build}/classes" excludes="**/Launcher*.class"/>
       <fileset dir="${src}/etc">
         <include name="tetrinet-server.dtd"/>
         <include name="tetrinet-channels.dtd"/>
@@ -116,9 +111,7 @@
         <attribute name="Implementation-Version" value="${version}"/>
         <attribute name="Main-Class" value="net.jetrix.Launcher"/>
       </manifest>
-      <fileset dir="${build}/classes">
-        <include name="**/Launcher*.class"/>
-      </fileset>
+      <fileset dir="${build}/classes" includes="**/Launcher*.class"/>
     </jar>
 
     <!-- Create the WAR for the administration console -->
@@ -129,9 +122,7 @@
         <exclude name="**/*.jsp"/>
         <exclude name="**/*.java"/>
       </fileset>
-      <classes dir="${build}/jsp">
-        <include name="**/*.class"/>
-      </classes>
+      <classes dir="${build}/jsp" includes="**/*.class"/>
     </war>
   </target>
 
@@ -146,21 +137,9 @@
     <pack200 src="${dist}/webapp/jetrix-admin-${version}.war" destfile="${dist}/webapp/jetrix-admin-${version}.war.pack" gzipoutput="false" stripdebug="false" keepfileorder="false"/>
 
     <!-- Pack the dependencies -->
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-digester"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-beanutils"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-lang-2.0-light"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-pool-1.4"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="commons-dbcp-1.2.2"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="winstone-lite-0.9.10"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jsp-api-light"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jasper-runtime"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="jcrontab-1.4.1-light"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="mailapi-1.4.1"/></antcall>
-    <antcall target="pack.lib" inheritAll="true"><param name="library" value="smtp-1.4.1"/></antcall>
-  </target>
-
-  <target name="pack.lib" description="Pack the library specified by the ${library} property">
-    <pack200 src="${build}/lib/${library}.jar" destfile="${build}/lib/${library}.jar.pack" gzipoutput="false" stripdebug="true" keepfileorder="false"/>
+    <pack200 gzipoutput="false" stripdebug="true" keepfileorder="false" segmentlimit="-1" todir="${build}/lib">
+      <fileset dir="${build}/lib" includes="*.jar" excludes="jetrix-${version}.jar"/>
+    </pack200>
   </target>
 
   <target name="dist" depends="pack">
@@ -178,21 +157,15 @@
         <include name="data/**" />
         <include name="log/**" />
       </fileset>
-      <fileset dir="${build}">
-        <include name="lib/*.pack" />
-      </fileset>
+      <fileset dir="${build}" includes="lib/*.pack"/>
       <fileset dir="${dist}">
         <include name="lib/jetrix-${version}.jar.pack" />
         <include name="lib/jetrix-launcher-${version}.jar" />
       </fileset>
-      <fileset dir="${src}">
-        <include name="lang/**/*.properties" />
-      </fileset>
+      <fileset dir="${src}" includes="lang/**/*.properties"/>
     </copy>
     <copy todir="${build}/dist/lib">
-      <fileset dir="${dist}/webapp/">
-        <include name="*.war.pack" />
-      </fileset>
+      <fileset dir="${dist}/webapp/" includes="*.war.pack"/>
     </copy>
 
     <!-- Create the distribution directory -->
@@ -200,27 +173,21 @@
 
     <!-- Create the Windows distribution -->
     <zip zipfile="${dist}/bin/jetrix-${version}.zip">
-      <zipfileset prefix="jetrix-${version}" dir="${build}/dist" filemode="755">
-        <include name="jetrix"/>
-      </zipfileset>
-      <zipfileset prefix="jetrix-${version}" dir="${build}/dist">
-        <exclude  name="jetrix"/>
-      </zipfileset>
+      <zipfileset prefix="jetrix-${version}" dir="${build}/dist" includes="jetrix" filemode="755"/>
+      <zipfileset prefix="jetrix-${version}" dir="${build}/dist" excludes="jetrix"/>
     </zip>
 
     <!-- Create the Unix distribution -->
     <tar destfile="${dist}/bin/jetrix-${version}.tar.bz2" compression="bzip2">
-      <tarfileset prefix="jetrix-${version}" dir="${build}/dist" filemode="755">
-        <include name="jetrix"/>
-      </tarfileset>
-      <tarfileset prefix="jetrix-${version}" dir="${build}/dist">
-        <exclude  name="jetrix"/>
-      </tarfileset>
+      <tarfileset prefix="jetrix-${version}" dir="${build}/dist" includes="jetrix" filemode="755"/>
+      <tarfileset prefix="jetrix-${version}" dir="${build}/dist" excludes="jetrix"/>
     </tar>
 
   </target>
 
-  <target name="dist.linux" depends="dist" description="Build the Linux installer">
+  <target name="dist.linux" depends="dist.debian" description="Build the Linux packages"/>
+
+  <target name="dist.debian" depends="dist" description="Build the Debian package">
     <mkdir dir="${build}/control"/>
     <copy todir="${build}/control" filtering="true" >
       <fileset dir="src/etc/deb/control"/>
@@ -277,9 +244,7 @@
         <include name="project.xml" />
         <include name="project.properties" />
       </zipfileset>
-      <zipfileset prefix="jetrix-${version}-src/src/" dir="${src}">
-        <exclude name="site/"/>
-      </zipfileset>
+      <zipfileset prefix="jetrix-${version}-src/src/" dir="${src}" excludes="site/"/>
       <zipfileset prefix="jetrix-${version}-src/lib/" dir="${lib}" />
     </zip>
 
@@ -289,9 +254,7 @@
         <include name="project.xml" />
         <include name="project.properties" />
       </tarfileset>
-      <tarfileset prefix="jetrix-${version}-src/src/" dir="${src}">
-        <exclude name="site/"/>
-      </tarfileset>
+      <tarfileset prefix="jetrix-${version}-src/src/" dir="${src}" excludes="site/"/>
       <tarfileset prefix="jetrix-${version}-src/lib/" dir="${lib}" />
     </tar>
 
