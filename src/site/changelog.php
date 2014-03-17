@@ -157,7 +157,7 @@ Changes in version 0.0.10 (2002-09-28)
 --------------------------------------
 - implemented the client repository
 - nickname uniqueness is now checked on logging
-- incomming clients are now rejected when the server is full
+- incoming clients are now rejected when the server is full
 - implemented the pluggable command system
 - implemented the /who command
 - implemented the /tell command (/msg and /cmsg are aliases)

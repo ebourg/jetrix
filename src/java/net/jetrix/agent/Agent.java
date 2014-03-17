@@ -55,7 +55,7 @@ public interface Agent
     /**
      * Receive a message sent by the server.
      * 
-     * @param message
+     * @param message the message received
      * @throws IOException
      */
     void receive(Message message) throws IOException;

@@ -24,7 +24,7 @@ import java.net.*;
 import java.util.*;
 
 /**
- * Layer handling communication with a client. Incomming messages are turned
+ * Layer handling the communication with a client. Incoming messages are turned
  * into a server understandable format and forwarded to the apropriate
  * destination for processing (player's channel or main server thread)
  *
