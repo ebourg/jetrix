@@ -19,25 +19,29 @@
 
 package net.jetrix;
 
-import junit.framework.TestCase;
 import net.jetrix.messages.channel.FieldMessage;
+import org.junit.Before;
+import org.junit.Test;
 
 import static net.jetrix.config.Special.*;
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.Field.
  *
  * @author Emmanuel Bourg
  */
-public class FieldTest extends TestCase
+public class FieldTest
 {
     private Field field;
 
-    protected void setUp()
+    @Before
+    public void setUp()
     {
         field = new Field();
     }
 
+    @Test
     public void testFullUpdate()
     {
         StringBuilder buffer = new StringBuilder();
@@ -75,6 +79,7 @@ public class FieldTest extends TestCase
         assertEquals("block at (9, 17)", Field.BLOCK_RED, field.getBlock(9, 17));
     }
 
+    @Test
     public void testPartialUpdate1()
     {
         FieldMessage message = new FieldMessage();
@@ -87,6 +92,7 @@ public class FieldTest extends TestCase
         assertEquals("block at (0, 1)", Field.BLOCK_GREEN, field.getBlock(0, 1));
     }
 
+    @Test
     public void testPartialUpdate2()
     {
         FieldMessage message = new FieldMessage();
@@ -106,6 +112,7 @@ public class FieldTest extends TestCase
         assertEquals("block at (11,0)", Field.BLOCK_BLUE, field.getBlock(11, 0));
     }
 
+    @Test
     public void testPartialUpdate3()
     {
         FieldMessage message = new FieldMessage();
@@ -117,6 +124,7 @@ public class FieldTest extends TestCase
         assertEquals("block at (2, 0)", QUAKEFIELD.getLetter(), field.getBlock(2, 0));
     }
 
+    @Test
     public void testGetFieldString()
     {
         StringBuilder buffer = new StringBuilder();
@@ -151,6 +159,7 @@ public class FieldTest extends TestCase
         assertEquals("field string", buffer.toString(), field.getFieldString());
     }
 
+    @Test
     public void testGetHighest()
     {
         byte[][] array = new byte[Field.WIDTH][Field.HEIGHT];
@@ -164,6 +173,7 @@ public class FieldTest extends TestCase
         assertEquals("highest block", 15, field.getHighest());
     }
 
+    @Test
     public void testIsEmpty()
     {
         assertTrue("the field is not empty", field.isEmpty());
@@ -173,6 +183,7 @@ public class FieldTest extends TestCase
         assertFalse("the field is empty", field.isEmpty());
     }
 
+    @Test
     public void testHasHoles()
     {
         byte[][] array = new byte[Field.WIDTH][Field.HEIGHT];

@@ -19,6 +19,11 @@
 
 package net.jetrix.winlist;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 /**
  * JUnit TestCase for the class net.jetrix.winlist.TetrixWinlist.
  *
@@ -33,12 +38,14 @@ public class TetrixWinlistTest extends SimpleWinlistTest
 
     private Score score;
 
+    @Before
     public void setUp()
     {
         super.setUp();
         score = new Score("hell's_players\u2020", Score.TYPE_TEAM, 1418);
     }
 
+    @Test
     public void testBuildScore() throws Exception
     {
         TetrixWinlist winlist = new TetrixWinlist();
@@ -50,6 +57,7 @@ public class TetrixWinlistTest extends SimpleWinlistTest
         assertEquals("type", score.getType(), score2.getType());
     }
 
+    @Test
     public void testBuildStruct() throws Exception
     {
         TetrixWinlist winlist = new TetrixWinlist();

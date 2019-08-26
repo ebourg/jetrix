@@ -19,18 +19,22 @@
 
 package net.jetrix.config;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.config.Settings
  *
  * @author Emmanuel Bourg
  */
-public class SettingsTest extends TestCase
+public class SettingsTest
 {
     private Settings defaultSettings;
 
-    protected void setUp() throws Exception
+    @Before
+    public void setUp()
     {
         defaultSettings = new Settings(false);
         defaultSettings.setAverageLevels(true);
@@ -54,11 +58,13 @@ public class SettingsTest extends TestCase
         Settings.setDefaultSettings(defaultSettings);
     }
 
+    @Test
     public void testGetDefaultSettings()
     {
         assertEquals(defaultSettings, Settings.getDefaultSettings());
     }
 
+    @Test
     public void testAverageLevels()
     {
         Settings settings = new Settings();
@@ -67,6 +73,7 @@ public class SettingsTest extends TestCase
         assertEquals(false, settings.getAverageLevels());
     }
 
+    @Test
     public void testClassicRules()
     {
         Settings settings = new Settings();
@@ -75,6 +82,7 @@ public class SettingsTest extends TestCase
         assertEquals(false, settings.getClassicRules());
     }
 
+    @Test
     public void testLevelIncrease()
     {
         Settings settings = new Settings();
@@ -83,6 +91,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getLevelIncrease());
     }
 
+    @Test
     public void testLinesPerLevel()
     {
         Settings settings = new Settings();
@@ -91,6 +100,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getLinesPerLevel());
     }
 
+    @Test
     public void testLinesPerSpecial()
     {
         Settings settings = new Settings();
@@ -99,6 +109,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getLinesPerSpecial());
     }
 
+    @Test
     public void testSameBlocks()
     {
         Settings settings = new Settings();
@@ -107,6 +118,7 @@ public class SettingsTest extends TestCase
         assertEquals(false, settings.getSameBlocks());
     }
 
+    @Test
     public void testSpecialAdded()
     {
         Settings settings = new Settings();
@@ -115,6 +127,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getSpecialAdded());
     }
 
+    @Test
     public void testSpecialCapacity()
     {
         Settings settings = new Settings();
@@ -123,6 +136,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getSpecialCapacity());
     }
 
+    @Test
     public void testStartingLevel()
     {
         Settings settings = new Settings();
@@ -131,6 +145,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getStartingLevel());
     }
 
+    @Test
     public void testStackHeight()
     {
         Settings settings = new Settings();
@@ -139,6 +154,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getStackHeight());
     }
 
+    @Test
     public void testSuddenDeathDelay()
     {
         Settings settings = new Settings();
@@ -147,6 +163,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getSuddenDeathDelay());
     }
 
+    @Test
     public void testSuddenDeathLinesAdded()
     {
         Settings settings = new Settings();
@@ -155,6 +172,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getSuddenDeathLinesAdded());
     }
 
+    @Test
     public void testSuddenDeathMessage()
     {
         Settings settings = new Settings();
@@ -163,6 +181,7 @@ public class SettingsTest extends TestCase
         assertEquals("", settings.getSuddenDeathMessage());
     }
 
+    @Test
     public void testSuddenDeathTime()
     {
         Settings settings = new Settings();
@@ -171,6 +190,7 @@ public class SettingsTest extends TestCase
         assertEquals(0, settings.getSuddenDeathTime());
     }
 
+    @Test
     public void testBlockOccurancy()
     {
         Settings settings = new Settings();
@@ -179,6 +199,7 @@ public class SettingsTest extends TestCase
         assertEquals(50, settings.getOccurancy(Block.LINE));
     }
 
+    @Test
     public void testSpecialOccurancy()
     {
         Settings settings = new Settings();

@@ -19,16 +19,19 @@
 
 package net.jetrix.messages;
 
-import junit.framework.TestCase;
 import net.jetrix.messages.channel.CommandMessage;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.messages.CommandMessage
  * 
  * @author Emmanuel Bourg
  */
-public class CommandMessageTest extends TestCase {
+public class CommandMessageTest {
 
+    @Test
     public void testGetIntParameter()
     {
         CommandMessage message = new CommandMessage();
@@ -38,6 +41,7 @@ public class CommandMessageTest extends TestCase {
         assertEquals("2nd parameter", 456, message.getIntParameter(1, 456));
     }
 
+    @Test
     public void testGetIntegerParameter()
     {
         CommandMessage message = new CommandMessage();
@@ -47,6 +51,7 @@ public class CommandMessageTest extends TestCase {
         assertEquals("2nd parameter", null, message.getIntegerParameter(1));
     }
 
+    @Test
     public void testGetParameterCount()
     {
         CommandMessage message = new CommandMessage();

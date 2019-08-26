@@ -19,16 +19,19 @@
 
 package net.jetrix;
 
-import junit.framework.TestCase;
 import net.jetrix.protocols.TetrinetProtocol;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.ProtocolManager.
  *
  * @author Emmanuel Bourg
  */
-public class ProtocolManagerTest extends TestCase
+public class ProtocolManagerTest
 {
+    @Test
     public void testGetProtocol()
     {
         ProtocolManager manager = ProtocolManager.getInstance();
@@ -38,6 +41,7 @@ public class ProtocolManagerTest extends TestCase
         assertEquals("protocol returned", TetrinetProtocol.class, protocol.getClass());
     }
 
+    @Test
     public void testGetCachedProtocol()
     {
         ProtocolManager manager = ProtocolManager.getInstance();
@@ -47,6 +51,7 @@ public class ProtocolManagerTest extends TestCase
         assertEquals("the protocol is not cached", protocol1, protocol2);
     }
 
+    @Test
     public void testGetUnknownProtocol()
     {
         ProtocolManager manager = ProtocolManager.getInstance();

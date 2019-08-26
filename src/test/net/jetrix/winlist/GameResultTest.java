@@ -22,16 +22,19 @@ package net.jetrix.winlist;
 import java.util.Collection;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
 import net.jetrix.User;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.winlist.GameResult.
  *
  * @author Emmanuel Bourg
  */
-public class GameResultTest extends TestCase
+public class GameResultTest
 {
+    @Test
     public void testUpdate()
     {
         GameResult result = new GameResult();
@@ -60,6 +63,7 @@ public class GameResultTest extends TestCase
         }
     }
 
+    @Test
     public void testGetPlayerAtRank() throws Exception
     {
         // create a GameResult
@@ -122,6 +126,7 @@ public class GameResultTest extends TestCase
         }
     }
 
+    @Test
     public void testGetTeamCount()
     {
         // create a GameResult

@@ -19,22 +19,27 @@
 
 package  net.jetrix.config;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.config.ChannelConfig
  *
  * @author Emmanuel Bourg
  */
-public class ChannelConfigTest extends TestCase
+public class ChannelConfigTest
 {
     private ChannelConfig config;
 
+    @Before
     public void setUp()
     {
         config = new ChannelConfig();
     }
 
+    @Test
     public void testIsPasswordProtected()
     {
         assertEquals("is the channel protected ?", false, config.isPasswordProtected());

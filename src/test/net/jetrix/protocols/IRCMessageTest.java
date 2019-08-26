@@ -19,15 +19,18 @@
 
 package net.jetrix.protocols;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.IRCMessage.
  *
  * @author Emmanuel Bourg
  */
-public class IRCMessageTest extends TestCase
- {
+public class IRCMessageTest
+{
+    @Test
     public void testSetPrefix1()
     {
         IRCMessage message = new IRCMessage();
@@ -38,6 +41,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("host", "host", message.getHost());
     }
 
+    @Test
     public void testSetPrefix2()
     {
         IRCMessage message = new IRCMessage();
@@ -48,6 +52,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("host", null, message.getHost());
     }
 
+    @Test
     public void testSetPrefix3()
     {
         IRCMessage message = new IRCMessage();
@@ -58,6 +63,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("host", "host", message.getHost());
     }
 
+    @Test
     public void testSetPrefix4()
     {
         IRCMessage message = new IRCMessage();
@@ -68,6 +74,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("host", null, message.getHost());
     }
 
+    @Test
     public void testGetPrefix1()
     {
         IRCMessage message = new IRCMessage();
@@ -78,6 +85,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("prefix", "nick!user@host", message.getPrefix());
     }
 
+    @Test
     public void testGetPrefix2()
     {
         IRCMessage message = new IRCMessage();
@@ -87,6 +95,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("prefix", "nick!user", message.getPrefix());
     }
 
+    @Test
     public void testGetPrefix3()
     {
         IRCMessage message = new IRCMessage();
@@ -96,6 +105,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("prefix", "nick@host", message.getPrefix());
     }
 
+    @Test
     public void testGetPrefix4()
     {
         IRCMessage message = new IRCMessage();
@@ -104,6 +114,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("prefix", "nick", message.getPrefix());
     }
 
+    @Test
     public void testParse()
     {
         String line = "PRIVMSG #tetrinet1 :Hi there!";
@@ -120,6 +131,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("param 2", "Hi there!", message.getParameter(1));
     }
 
+    @Test
     public void testParseWithPrefix()
     {
         String line = ":nick!user@host PRIVMSG #tetrinet1 :Hi there!";
@@ -140,6 +152,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("param 2", "Hi there!", message.getParameter(1));
     }
 
+    @Test
     public void testParseEmptyMessage()
     {
         String line = "";
@@ -151,6 +164,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("reply", 0, message.getReply());
     }
 
+    @Test
     public void testToString()
     {
         IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);
@@ -161,6 +175,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("message", "PRIVMSG #tetrinet1 :Hi there!", message.toString());
     }
 
+    @Test
     public void testToStringWithPrefix()
     {
         IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);
@@ -174,6 +189,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("message", ":nick!user@host PRIVMSG #tetrinet1 :Hi there!", message.toString());
     }
 
+    @Test
     public void testToStringWithNumericReply()
     {
         IRCMessage message = new IRCMessage(IRCReply.RPL_MOTD);
@@ -184,6 +200,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("message", ":localhost 372 Smanux :Message of the day", message.toString());
     }
 
+    @Test
     public void testToStringWithoutParameter()
     {
         IRCMessage message = new IRCMessage(IRCCommand.LIST);
@@ -192,6 +209,7 @@ public class IRCMessageTest extends TestCase
         assertEquals("message", ":localhost LIST", message.toString());
     }
 
+    @Test
     public void testToStringWithSemicolon()
     {
         IRCMessage message = new IRCMessage(IRCCommand.PRIVMSG);

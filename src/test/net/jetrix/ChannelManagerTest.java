@@ -19,20 +19,25 @@
 
 package net.jetrix;
 
-import junit.framework.TestCase;
 import net.jetrix.config.ChannelConfig;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.ChannelManager.
  *
  * @author Emmanuel Bourg
  */
-public class ChannelManagerTest extends TestCase
+public class ChannelManagerTest
 {
     private ChannelManager manager;
     private ChannelConfig config1;
     private ChannelConfig config2;
 
+    @Before
     public void setUp()
     {
         manager = ChannelManager.getInstance();
@@ -45,11 +50,13 @@ public class ChannelManagerTest extends TestCase
         config2.setName("test2");
     }
 
+    @After
     public void tearDown()
     {
         manager.clear();
     }
 
+    @Test
     public void testCreateChannel()
     {
         assertEquals("channel count before creation", 0, manager.getChannelCount());
@@ -60,6 +67,7 @@ public class ChannelManagerTest extends TestCase
         assertEquals("channel count after creation", 1, manager.getChannelCount());
     }
 
+    @Test
     public void testGetChannel()
     {
         // add a test channel
@@ -72,6 +80,7 @@ public class ChannelManagerTest extends TestCase
         assertEquals("channel name", name, channel.getConfig().getName());
     }
 
+    @Test
     public void testGetChannelSharp()
     {
         // add a test channel
@@ -84,6 +93,7 @@ public class ChannelManagerTest extends TestCase
         assertEquals("channel name", name, channel.getConfig().getName());
     }
 
+    @Test
     public void testGetChannelMixedCase()
     {
         // add a test channel
@@ -96,6 +106,7 @@ public class ChannelManagerTest extends TestCase
         assertEquals("channel name", name, channel.getConfig().getName());
     }
 
+    @Test
     public void testGetChannelPartialName()
     {
         // add a test channel
@@ -109,6 +120,7 @@ public class ChannelManagerTest extends TestCase
         assertEquals("channel name", config2.getName(), channel.getConfig().getName());
     }
 
+    @Test
     public void testGetChannelByNumber()
     {
         // add a test channel
@@ -124,6 +136,7 @@ public class ChannelManagerTest extends TestCase
         assertNull("channel found at index 1", channel2);
     }
 
+    @Test
     public void testGetOpenedChannel()
     {
         // add a test channel
@@ -136,6 +149,7 @@ public class ChannelManagerTest extends TestCase
         assertNotNull("opened channel not found", manager.getOpenedChannel());
     }
 
+    @Test
     public void testRemoveChannel()
     {
         // add a test channel

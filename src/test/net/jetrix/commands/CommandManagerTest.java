@@ -21,22 +21,27 @@ package net.jetrix.commands;
 
 import java.util.Iterator;
 
-import junit.framework.TestCase;
 import net.jetrix.AccessLevel;
 import net.jetrix.messages.channel.CommandMessage;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.commands.CommandManager
  *
  * @author Emmanuel Bourg
  */
-public class CommandManagerTest extends TestCase
+public class CommandManagerTest
 {
     private CommandManager commandManager;
     private Command command1;
     private Command command2;
     private Command command3;
 
+    @Before
     public void setUp()
     {
         commandManager = CommandManager.getInstance();
@@ -61,11 +66,13 @@ public class CommandManagerTest extends TestCase
 
     }
 
+    @After
     public void tearDown()
     {
         commandManager.clear();
     }
 
+    @Test
     public void testGetCommand1()
     {
         commandManager.addCommand(command1);
@@ -79,6 +86,7 @@ public class CommandManagerTest extends TestCase
         assertEquals(null, commandManager.getCommand("xyz"));
     }
 
+    @Test
     public void testGetCommand2()
     {
         commandManager.addCommand(command1);
@@ -91,6 +99,7 @@ public class CommandManagerTest extends TestCase
         assertEquals(command3, commandManager.getCommand("aaabbbe"));
     }
 
+    @Test
     public void testGetCommand3()
     {
         commandManager.addCommand(command1);
@@ -102,6 +111,7 @@ public class CommandManagerTest extends TestCase
         assertEquals(command1, commandManager.getCommand("aaabbb"));
     }
 
+    @Test
     public void testGetCommand4()
     {
         commandManager.addCommand(command3);
@@ -113,6 +123,7 @@ public class CommandManagerTest extends TestCase
         assertEquals(command1, commandManager.getCommand("aaabbb"));
     }
 
+    @Test
     public void testGetCommand5()
     {
         commandManager.addCommand(command1);
@@ -125,6 +136,7 @@ public class CommandManagerTest extends TestCase
         assertEquals(command3, commandManager.getCommand("aaabbb"));
     }
 
+    @Test
     public void testGetCommand6()
     {
         commandManager.addCommand(command1);
@@ -138,6 +150,7 @@ public class CommandManagerTest extends TestCase
         assertEquals("Error getCommand is case sensitive", command1, commandManager.getCommand("AAA"));
     }
 
+    @Test
     public void testAddCommandAlias()
     {
         commandManager.addCommand(command1);
@@ -146,6 +159,7 @@ public class CommandManagerTest extends TestCase
         assertEquals(command1, commandManager.getCommand("xyz"));
     }
 
+    @Test
     public void testGetCommands1()
     {
         commandManager.addCommand(command3);
@@ -157,6 +171,7 @@ public class CommandManagerTest extends TestCase
         assertEquals(command2, commands.next());
     }
 
+    @Test
     public void testGetCommands2()
     {
         commandManager.addCommand(command3);
@@ -169,12 +184,14 @@ public class CommandManagerTest extends TestCase
         assertEquals(command3, commands.next());
     }
 
+    @Test
     public void testColorizeUsage()
     {
         assertEquals("<red>/usage", commandManager.colorizeUsage("/usage"));
         assertEquals("<red>/usage <blue>param1 param2", commandManager.colorizeUsage("/usage param1 param2"));
     }
 
+    @Test
     public void testRemoveCommand()
     {
         commandManager.addCommand(new HelpCommand());

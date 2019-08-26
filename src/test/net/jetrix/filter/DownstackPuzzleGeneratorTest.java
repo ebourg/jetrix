@@ -21,17 +21,20 @@ package net.jetrix.filter;
 
 import java.io.File;
 
-import junit.framework.TestCase;
 import net.jetrix.config.Block;
 import net.jetrix.config.Puzzle;
 import net.jetrix.config.Settings;
 import net.jetrix.config.Special;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Emmanuel Bourg
  */
-public class DownstackPuzzleGeneratorTest extends TestCase
+public class DownstackPuzzleGeneratorTest
 {
+    @Test
     public void testGetNextPuzzle()
     {
         PuzzleGenerator generator = new DownstackPuzzleGenerator();
@@ -44,6 +47,7 @@ public class DownstackPuzzleGeneratorTest extends TestCase
         }
     }
 
+    @Test
     public void testLoadPuzzle() throws Exception
     {
         DownstackPuzzleGenerator generator = new DownstackPuzzleGenerator();

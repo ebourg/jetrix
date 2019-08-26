@@ -22,40 +22,48 @@ package net.jetrix;
 import java.util.Collection;
 import java.util.Locale;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.Language.
  *
  * @author Emmanuel Bourg
  */
-public class LanguageTest extends TestCase
+public class LanguageTest
 {
-    protected void setUp() throws Exception
+    @Before
+    public void setUp()
     {
         Locale.setDefault(Locale.KOREA);
         Language.getInstance().addResources("jetrix");
         Language.getInstance().addResources("foo");
     }
 
+    @Test
     public void testLoad()
     {
         Language language = Language.getInstance();
         language.load(Locale.FRENCH);
     }
 
+    @Test
     public void testIsSupported()
     {
         assertTrue("french is not supported", Language.isSupported(Locale.FRENCH));
         assertFalse("korean is supported", Language.isSupported(Locale.KOREAN));
     }
 
+    @Test
     public void testGetText()
     {
         assertEquals("common.yes in english", "yes", Language.getText("common.yes", Locale.ENGLISH));
         assertEquals("common.yes in french", "oui", Language.getText("common.yes", Locale.FRENCH));
     }
 
+    @Test
     public void testGetTextWithParameter()
     {
         Object[] params = new Object[] { "Smanux", 123 };
@@ -65,6 +73,7 @@ public class LanguageTest extends TestCase
         assertEquals("welcome message in french", frenchText, Language.getText("channel.welcome", Locale.FRENCH, params));
     }
 
+    @Test
     public void testGetTestWithLocalizedParameter()
     {
         String englishText = "<gray>Game started by <b>yes</b>";
@@ -73,6 +82,7 @@ public class LanguageTest extends TestCase
         assertEquals("localized message in french", frenchText, Language.getText("channel.game.started-by", Locale.FRENCH, "key:common.yes"));
     }
 
+    @Test
     public void testGetMissingText()
     {
         Language language = Language.getInstance();
@@ -83,6 +93,7 @@ public class LanguageTest extends TestCase
         assertEquals("missing text", "[fr:xyz]", text);
     }
 
+    @Test
     public void testGetLocales()
     {
         Collection locales = Language.getLocales();
@@ -92,6 +103,7 @@ public class LanguageTest extends TestCase
         assertTrue("french locale not found", locales.contains(Locale.FRENCH));
     }
 
+    @Test
     public void testAdditionalBundle()
     {
         Language.getInstance().addResources("command.mode");

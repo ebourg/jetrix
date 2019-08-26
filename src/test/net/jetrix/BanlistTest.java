@@ -21,27 +21,34 @@ package net.jetrix;
 
 import java.util.Date;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.Banlist
  *
  * @author Emmanuel Bourg
  */
-public class BanlistTest extends TestCase
+public class BanlistTest
 {
     private Banlist banlist;
 
-    protected void setUp() throws Exception
+    @Before
+    public void setUp()
     {
         banlist = Banlist.getInstance();
     }
 
-    protected void tearDown() throws Exception
+    @After
+    public void tearDown()
     {
         banlist.clear();
     }
 
+    @Test
     public void testBanNone()
     {
         assertEquals("isBanned(\"localhost\")", false, banlist.isBanned("localhost"));
@@ -49,6 +56,7 @@ public class BanlistTest extends TestCase
         assertEquals("isBanned(\"127.0.0.1\")", false, banlist.isBanned("127.0.0.1"));
     }
 
+    @Test
     public void testBanAll()
     {
         banlist.ban("*");
@@ -57,6 +65,7 @@ public class BanlistTest extends TestCase
         assertEquals("isBanned(\"127.0.0.1\")", true, banlist.isBanned("127.0.0.1"));
     }
 
+    @Test
     public void testBanUnban()
     {
         banlist.ban("*");
@@ -64,24 +73,28 @@ public class BanlistTest extends TestCase
         assertEquals("isBanned(\"localhost\")", false, banlist.isBanned("localhost"));
     }
 
+    @Test
     public void testBanPartial1()
     {
         banlist.ban("local*");
         assertEquals("isBanned(\"localhost\")", true, banlist.isBanned("localhost"));
     }
 
+    @Test
     public void testBanPartial2()
     {
         banlist.ban("*host");
         assertEquals("isBanned(\"localhost\")", true, banlist.isBanned("localhost"));
     }
 
+    @Test
     public void testBanPartial3()
     {
         banlist.ban("*calho*");
         assertEquals("isBanned(\"localhost\")", true, banlist.isBanned("localhost"));
     }
 
+    @Test
     public void testBanPartial4()
     {
         banlist.ban("192.168.1?.*");
@@ -90,6 +103,7 @@ public class BanlistTest extends TestCase
         assertEquals("isBanned(\"192.168.110.25\")", false, banlist.isBanned("192.168.110.25"));
     }
 
+    @Test
     public void testBanPartial5()
     {
         banlist.ban("*.168.1?.*");
@@ -97,6 +111,7 @@ public class BanlistTest extends TestCase
         assertEquals("isBanned(\"192.168.20.255\")", false, banlist.isBanned("192.168.20.255"));
     }
 
+    @Test
     public void testExpirationDate() throws Exception
     {
         banlist.ban("*", new Date(System.currentTimeMillis() + 100));

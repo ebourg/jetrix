@@ -19,24 +19,29 @@
 
 package net.jetrix.protocols;
 
-import junit.framework.TestCase;
 import net.jetrix.Message;
 import net.jetrix.messages.channel.CommandMessage;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.QueryProtocolTest
  * 
  * @author Emmanuel Bourg
  */
-public class QueryProtocolTest extends TestCase {
+public class QueryProtocolTest {
 
     private QueryProtocol protocol;
 
+    @Before
     public void setUp()
     {
         protocol = new QueryProtocol();
     }
 
+    @Test
     public void testIsQueryCommand()
     {
         assertTrue(QueryProtocol.isQueryCommand("listuser"));
@@ -47,6 +52,7 @@ public class QueryProtocolTest extends TestCase {
         assertFalse(QueryProtocol.isQueryCommand("foo"));
     }
 
+    @Test
     public void testGetCommandMessage()
     {
         String raw = "playerquery";

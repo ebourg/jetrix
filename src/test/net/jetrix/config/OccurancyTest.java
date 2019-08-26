@@ -19,13 +19,14 @@
 
 package net.jetrix.config;
 
-import junit.framework.TestCase;
-import junitx.framework.ArrayAssert;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Emmanuel Bourg
  */
-public class OccurancyTest extends TestCase
+public class OccurancyTest
 {
     private long sum(int[] values)
     {
@@ -37,6 +38,7 @@ public class OccurancyTest extends TestCase
         return sum;
     }
 
+    @Test
     public void testNormalize1()
     {
         Occurancy s = new Occurancy();
@@ -45,6 +47,7 @@ public class OccurancyTest extends TestCase
         assertEquals("Erreur de normalisation", 100, sum(tab));
     }
 
+    @Test
     public void testNormalize2()
     {
         Occurancy s = new Occurancy();
@@ -58,6 +61,7 @@ public class OccurancyTest extends TestCase
         assertEquals("tab[4]", 20, tab[4]);
     }
 
+    @Test
     public void testNormalize3()
     {
         Occurancy s = new Occurancy();
@@ -66,6 +70,7 @@ public class OccurancyTest extends TestCase
         assertEquals("Erreur de normalisation", 100, sum(tab));
     }
 
+    @Test
     public void testNormalize4()
     {
         Occurancy s = new Occurancy();
@@ -74,15 +79,17 @@ public class OccurancyTest extends TestCase
         assertEquals("Erreur de normalisation", 100, sum(tab));
     }
 
+    @Test
     public void testNormalize5()
     {
         Occurancy s = new Occurancy();
         int[] tab4 = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
         int[] tab5 = { 8, 14, 1, 19, 5, 15, 3, 17, 6, 12 };
         s.normalize(tab4);
-        ArrayAssert.assertEquals("Normalization error", tab4, tab5);
+        assertArrayEquals("Normalization error", tab4, tab5);
     }
 
+    @Test
     public void testNormalize6()
     {
         Occurancy s = new Occurancy();

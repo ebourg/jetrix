@@ -19,34 +19,41 @@
 
 package net.jetrix.config;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.config.Configuration
  *
  * @author Emmanuel Bourg
  */
-public class ConfigurationTest extends TestCase
+public class ConfigurationTest
 {
     private Configuration configuration;
 
-    protected void setUp()
+    @Before
+    public void setUp()
     {
         configuration = new Configuration();
     }
 
+    @Test
     public void testGetString() {
         assertEquals("unset string", "default", configuration.getString("unset", "default"));
         configuration.setParameter("string", "value");
         assertEquals("string", "value", configuration.getString("string", "default"));
     }
 
+    @Test
     public void testGetInt() {
         assertEquals("unset integer", 123, configuration.getInt("unset", 123));
         configuration.setParameter("integer", "123");
         assertEquals("integer", 123, configuration.getInt("integer", 456));
     }
 
+    @Test
     public void testGetBoolean() {
 
         assertEquals("unset boolean", true, configuration.getBoolean("unset", true));

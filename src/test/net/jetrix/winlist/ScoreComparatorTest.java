@@ -19,15 +19,18 @@
 
 package net.jetrix.winlist;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.winlist.ScoreComparator.
  *
  * @author Emmanuel Bourg
  */
-public class ScoreComparatorTest extends TestCase
+public class ScoreComparatorTest
 {
+    @Test
     public void testCompare()
     {
         Score score1 = new Score();

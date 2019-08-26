@@ -19,14 +19,15 @@
 
 package net.jetrix.agent;
 
-import junit.framework.TestCase;
 import net.jetrix.messages.channel.PlineMessage;
+import org.junit.Test;
 
 /**
  * @author Emmanuel Bourg
  */
-public class TSpecAgentTest extends TestCase
+public class TSpecAgentTest
 {
+    @Test
     public void testConnect() throws Exception
     {
         TSpecAgent agent = new TSpecAgent("JetrixSpec", "rien");

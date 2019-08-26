@@ -21,17 +21,20 @@ package net.jetrix;
 
 import java.util.Locale;
 
-import junit.framework.TestCase;
 import net.jetrix.messages.channel.PlineMessage;
 import net.jetrix.protocols.TetrinetProtocol;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.Message.
  * 
  * @author Emmanuel Bourg
  */
-public class MessageTest extends TestCase {
+public class MessageTest {
 
+    @Test
     public void testGetRawMessage()
     {
         PlineMessage message = new PlineMessage("hello!");

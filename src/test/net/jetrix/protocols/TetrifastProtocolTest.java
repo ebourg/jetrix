@@ -21,34 +21,40 @@ package net.jetrix.protocols;
 
 import java.util.Locale;
 
-import junit.framework.TestCase;
 import net.jetrix.Protocol;
 import net.jetrix.config.Settings;
 import net.jetrix.messages.channel.NewGameMessage;
 import net.jetrix.messages.channel.PlayerNumMessage;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.TetrifastProtocolTest
  * 
  * @author Emmanuel Bourg
  */
-public class TetrifastProtocolTest extends TestCase {
+public class TetrifastProtocolTest {
 
     private Protocol protocol;
     private Locale locale;
 
+    @Before
     public void setUp()
     {
         protocol = new TetrifastProtocol();
         locale = new Locale("fr");
     }
 
+    @Test
     public void testTranslatePlayerNum()
     {
         PlayerNumMessage message = new PlayerNumMessage(1);
         assertEquals(")#)(!@(*3 1", protocol.translate(message, locale));
     }
 
+    @Test
     public void testTranslateNewGame()
     {
         NewGameMessage message = new NewGameMessage();

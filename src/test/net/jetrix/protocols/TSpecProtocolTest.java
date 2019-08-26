@@ -21,7 +21,6 @@ package net.jetrix.protocols;
 
 import java.util.Locale;
 
-import junit.framework.TestCase;
 import net.jetrix.Client;
 import net.jetrix.Language;
 import net.jetrix.Message;
@@ -29,23 +28,29 @@ import net.jetrix.Protocol;
 import net.jetrix.User;
 import net.jetrix.clients.TetrinetClient;
 import net.jetrix.messages.channel.SmsgMessage;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.TSpecProtocolTest
  *
  * @author Emmanuel Bourg
  */
-public class TSpecProtocolTest extends TestCase
+public class TSpecProtocolTest
 {
     private Protocol protocol;
     private Locale locale;
 
+    @Before
     public void setUp()
     {
         protocol = new TspecProtocol();
         locale = new Locale("fr");
     }
 
+    @Test
     public void testTranslateSmsg()
     {
         User user = new User();
@@ -59,6 +64,7 @@ public class TSpecProtocolTest extends TestCase
         assertEquals(protocol.applyStyle(raw), protocol.translate(message, locale));
     }
 
+    @Test
     public void testTranslatePrivateSmsg()
     {
         User user = new User();
@@ -72,6 +78,7 @@ public class TSpecProtocolTest extends TestCase
         assertEquals("smsg Smanux spectator message", protocol.translate(message, locale));
     }
 
+    @Test
     public void testGetMessageSmsg()
     {
         String raw = "pline 1 // spectator message";
@@ -86,6 +93,7 @@ public class TSpecProtocolTest extends TestCase
         assertEquals("text", "spectator message", smsg.getText());
     }
 
+    @Test
     public void testGetMessagePrivateSmsg()
     {
         String raw = "pline 1 spectator message";

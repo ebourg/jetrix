@@ -19,20 +19,24 @@
 
 package net.jetrix.winlist;
 
-import junit.framework.TestCase;
 import net.jetrix.User;
 import net.jetrix.config.WinlistConfig;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.winlist.SimpleWinlist.
  *
  * @author Emmanuel Bourg
  */
-public class SimpleWinlistTest extends TestCase {
+public class SimpleWinlistTest {
 
     private SimpleWinlist winlist;
     private GameResult result;
 
+    @Before
     public void setUp()
     {
         winlist = new SimpleWinlist();
@@ -40,6 +44,7 @@ public class SimpleWinlistTest extends TestCase {
         result = new GameResult();
     }
 
+    @Test
     public void testSaveGameResult1()
     {
         User user1 = new User("user1");
@@ -57,6 +62,7 @@ public class SimpleWinlistTest extends TestCase {
         assertEquals("score of the 1st player", 2, score1.getScore());
     }
 
+    @Test
     public void testSaveGameResult2()
     {
         User user1 = new User("user1");
@@ -77,6 +83,7 @@ public class SimpleWinlistTest extends TestCase {
         assertEquals("score of the 1st player", 2, scoreT1.getScore());
     }
 
+    @Test
     public void testSaveGameResult3()
     {
         User user1 = new User("user1");
@@ -98,6 +105,7 @@ public class SimpleWinlistTest extends TestCase {
         assertEquals("score of the 1st player", 3, score1.getScore());
     }
 
+    @Test
     public void testSaveGameResult4() throws Exception
     {
         User user1 = new User("user1");
@@ -131,6 +139,7 @@ public class SimpleWinlistTest extends TestCase {
         assertNull("score of the 6th player not null", winlist.getScore("user6", Score.TYPE_PLAYER));
     }
 
+    @Test
     public void testSaveLoad()
     {
         WinlistConfig config = new WinlistConfig();
@@ -160,6 +169,7 @@ public class SimpleWinlistTest extends TestCase {
         assertTrue("score 2 missing", winlist2.scores.contains(score2));
     }
 
+    @Test
     public void testClear()
     {
         SimpleWinlist winlist = getWinlist();
@@ -178,6 +188,7 @@ public class SimpleWinlistTest extends TestCase {
         assertNull("score not cleared", winlist.getScore(score.getName(), score.getType()));
     }
 
+    @Test
     public void testSize()
     {
         SimpleWinlist winlist = getWinlist();

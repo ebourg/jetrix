@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-import junit.framework.TestCase;
 import net.jetrix.Message;
 import net.jetrix.Protocol;
 import net.jetrix.messages.channel.CommandMessage;
@@ -39,26 +38,31 @@ import net.jetrix.messages.channel.PlayerNumMessage;
 import net.jetrix.messages.channel.PlineActMessage;
 import net.jetrix.messages.channel.PlineMessage;
 import net.jetrix.messages.channel.TeamMessage;
+import org.junit.Before;
+import org.junit.Test;
 
 import static net.jetrix.protocols.TetrinetProtocol.decode;
 import static net.jetrix.protocols.TetrinetProtocol.encode;
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.TetrinetProtocolTest
  *
  * @author Emmanuel Bourg
  */
-public class TetrinetProtocolTest extends TestCase
+public class TetrinetProtocolTest
 {
     private Protocol protocol;
     private Locale locale;
 
+    @Before
     public void setUp()
     {
         protocol = new TetrinetProtocol();
         locale = new Locale("fr");
     }
 
+    @Test
     public void testTranslatePline()
     {
         PlineMessage message = new PlineMessage();
@@ -67,6 +71,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("pline 1 Hello Jetrix!", protocol.translate(message, locale));
     }
 
+    @Test
     public void testGetMessagePline()
     {
         String raw = "pline 1 hello world!";
@@ -80,6 +85,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("text", "hello world!", pline.getText(Locale.ENGLISH));
     }
 
+    @Test
     public void testGetMessageCommand()
     {
         String raw = "pline 1 /move 1 2";
@@ -97,6 +103,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("2nd parameter", "2", command.getParameter(1));
     }
 
+    @Test
     public void testTranslatePlineAct()
     {
         PlineActMessage message = new PlineActMessage();
@@ -105,6 +112,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("plineact 1 feels faster", protocol.translate(message, locale));
     }
 
+    @Test
     public void testGetMessagePlineAct()
     {
         String raw = "plineact 1 says hello world!";
@@ -118,6 +126,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("text", "says hello world!", plineact.getText(Locale.ENGLISH));
     }
 
+    @Test
     public void testTranslateGmsg()
     {
         GmsgMessage message = new GmsgMessage();
@@ -125,6 +134,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("gmsg <Smanux> hello world!", protocol.translate(message, locale));
     }
 
+    @Test
     public void testGetMessageGmsg()
     {
         String raw = "gmsg <Smanux> Hello world!";
@@ -138,6 +148,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("text", "<Smanux> Hello world!", gmsg.getText(Locale.ENGLISH));
     }
 
+    @Test
     public void testTranslatePlayerJoin()
     {
         JoinMessage message = new JoinMessage();
@@ -146,6 +157,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("playerjoin 1 Smanux", protocol.translate(message, locale));
     }
 
+    @Test
     public void testGetMessagePlayerJoin()
     {
         String raw = "playerjoin 1 Smanux";
@@ -159,6 +171,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("name", "Smanux", playerjoin.getName());
     }
 
+    @Test
     public void testTranslateTeam1()
     {
         TeamMessage msg1 = new TeamMessage();
@@ -167,6 +180,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("team 1 LFJR", protocol.translate(msg1, locale));
     }
 
+    @Test
     public void testTranslateTeam2()
     {
         TeamMessage msg2 = new TeamMessage();
@@ -174,6 +188,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("team 1 ", protocol.translate(msg2, locale));
     }
 
+    @Test
     public void testGetMessageTeam1()
     {
         String raw = "team 1 LFJR";
@@ -187,6 +202,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("name", "LFJR", team.getName());
     }
 
+    @Test
     public void testGetMessageTeam2()
     {
         String raw = "team 1";
@@ -200,6 +216,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("name", null, team.getName());
     }
 
+    @Test
     public void testGetMessageTeam3()
     {
         // check the parsing of a team name containing a space character
@@ -214,6 +231,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("name", "L F J R", team.getName());
     }
 
+    @Test
     public void testGetMessageTeam4()
     {
         // check the parsing of a team name containing a leading and a trailing space character
@@ -228,6 +246,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("name", "LFJR", team.getName());
     }
 
+    @Test
     public void testTranslatePlayerLeave()
     {
         LeaveMessage message = new LeaveMessage();
@@ -235,6 +254,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("playerleave 1", protocol.translate(message, locale));
     }
 
+    @Test
     public void testGetMessagePlayerLeave()
     {
         String raw = "playerleave 1";
@@ -247,18 +267,21 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("slot", 1, leave.getSlot());
     }
 
+    @Test
     public void testTranslatePlayerNum()
     {
         PlayerNumMessage message = new PlayerNumMessage(1);
         assertEquals("playernum 1", protocol.translate(message, locale));
     }
 
+    @Test
     public void testTranslateEndGame()
     {
         EndGameMessage message = new EndGameMessage();
         assertEquals("endgame", protocol.translate(message, locale));
     }
 
+    @Test
     public void testTranslatePlayerLost()
     {
         PlayerLostMessage message = new PlayerLostMessage();
@@ -266,6 +289,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("playerlost 1", protocol.translate(message, locale));
     }
 
+    @Test
     public void testTranslateField()
     {
         FieldMessage message = new FieldMessage();
@@ -274,6 +298,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("f 1 XYZABCD", protocol.translate(message, locale));
     }
 
+    @Test
     public void testGetMessageField()
     {
         String raw = "f 1 XYZABCD";
@@ -287,6 +312,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("field", "XYZABCD", field.getField());
     }
 
+    @Test
     public void testTranslateLevel()
     {
         LevelMessage message = new LevelMessage();
@@ -295,6 +321,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("lvl 1 50", protocol.translate(message, locale));
     }
 
+    @Test
     public void testGetMessageLevel()
     {
         String raw = "lvl 1 50";
@@ -308,6 +335,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("level", 50, level.getLevel());
     }
 
+    @Test
     public void testEncode()
     {
         byte[] ip = {127, 0, 0, 1};
@@ -317,6 +345,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("80C210B3134A85CF71E46FD4C123A83D9E22A2F512769FE5", encode(nickname, version, ip, false));
     }
 
+    @Test
     public void testDecode()
     {
         String init = "80C210B3134A85CF71E46FD4C123A83D9E22A2F512769FE5";
@@ -324,6 +353,7 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("decoded string", "tetrisstart Smanux 1.13", decode(init));
     }
 
+    @Test
     public void testEncodeDecode()
     {
         byte[] ip = {(byte) 195, (byte) 139, (byte) 204, (byte) 206};
@@ -338,43 +368,31 @@ public class TetrinetProtocolTest extends TestCase
         assertEquals("decoded", "tetrisstart Smanux 1.13", decode(init));
     }
 
-    public void testLongMessage()
+    @Test(expected = IOException.class)
+    public void testLongMessage() throws Exception
     {
         byte[] message = new byte[16 * 1024];
-        try
-        {
-            protocol.readLine(new ByteArrayInputStream(message, 0, message.length), "Cp1252");
-            fail("No exception raised on a 16K message");
-        }
-        catch (IOException e)
-        {
-            // expected
-        }
+        protocol.readLine(new ByteArrayInputStream(message, 0, message.length), "Cp1252");
+        fail("No exception raised on a 16K message");
     }
 
-    public void testSlowClient()
+    @Test(expected = IOException.class)
+    public void testSlowClient() throws Exception
     {
-        try
-        {
-            protocol.readLine(new InputStream() {
-                int i = 34;
-                public int read() throws IOException
+        protocol.readLine(new InputStream() {
+            int i = 34;
+            public int read() throws IOException
+            {
+                try
                 {
-                    try
-                    {
-                        Thread.sleep(1000);
-                    }
-                    catch (InterruptedException e)
-                    {
-                    }
-                    return --i;
+                    Thread.sleep(1000);
                 }
-            }, "Cp1252");
-            fail("No exception raised on extremely slow input");
-        }
-        catch (IOException e)
-        {
-            // expected
-        }
+                catch (InterruptedException e)
+                {
+                }
+                return --i;
+            }
+        }, "Cp1252");
+        fail("No exception raised on extremely slow input");
     }
 }

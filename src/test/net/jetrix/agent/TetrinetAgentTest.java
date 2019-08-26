@@ -19,14 +19,15 @@
 
 package net.jetrix.agent;
 
-import junit.framework.TestCase;
 import net.jetrix.messages.channel.PlineMessage;
+import org.junit.Test;
 
 /**
  * @author Emmanuel Bourg
  */
-public class TetrinetAgentTest extends TestCase
+public class TetrinetAgentTest
 {
+    @Test
     public void testConnect() throws Exception
     {
         TetrinetAgent agent = new TetrinetAgent("JetrixBot");

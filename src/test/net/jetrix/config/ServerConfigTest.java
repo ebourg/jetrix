@@ -21,18 +21,21 @@ package  net.jetrix.config;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
 import net.jetrix.ChannelManager;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.config.ServerConfig
  *
  * @author Emmanuel Bourg
  */
-public class ServerConfigTest extends TestCase
+public class ServerConfigTest
 {
     private URL serverConfigURL = getClass().getResource("/conf/server.xml");
 
+    @Test
     public void testGetInstance()
     {
         try
@@ -46,6 +49,7 @@ public class ServerConfigTest extends TestCase
         }
     }
 
+    @Test
     public void testSave() throws Exception
     {
         // load...

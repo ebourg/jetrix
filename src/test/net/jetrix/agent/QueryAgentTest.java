@@ -21,15 +21,18 @@ package net.jetrix.agent;
 
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Emmanuel Bourg
  */
-public class QueryAgentTest extends TestCase
+public class QueryAgentTest
 {
     private String hostname = "tetrinet.fr";
 
+    @Test
     public void testGetVersion() throws Exception
     {
         QueryAgent agent = new QueryAgent();
@@ -40,6 +43,7 @@ public class QueryAgentTest extends TestCase
         assertEquals("version", "1.13.2ice Dual server", version);
     }
 
+    @Test
     public void testGetPlayerNumber() throws Exception
     {
         QueryAgent agent = new QueryAgent();
@@ -50,6 +54,7 @@ public class QueryAgentTest extends TestCase
         assertTrue("player number", count >= 0) ;
     }
 
+    @Test
     public void testGetChannels() throws Exception
     {
         QueryAgent agent = new QueryAgent();
@@ -61,6 +66,7 @@ public class QueryAgentTest extends TestCase
         assertFalse("list is empty", channels.isEmpty());
     }
 
+    @Test
     public void testGetPlayers() throws Exception
     {
         QueryAgent agent = new QueryAgent();
@@ -72,6 +78,7 @@ public class QueryAgentTest extends TestCase
         assertFalse("list is empty", players.isEmpty());
     }
 
+    @Test
     public void testGetPing() throws Exception
     {
         QueryAgent agent = new QueryAgent();

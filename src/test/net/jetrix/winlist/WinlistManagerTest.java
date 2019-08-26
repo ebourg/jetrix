@@ -19,21 +19,25 @@
 
 package net.jetrix.winlist;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.winlist.WinlistManager.
  *
  * @author Emmanuel Bourg
  */
-public class WinlistManagerTest extends TestCase
+public class WinlistManagerTest
 {
+    @Test
     public void testGetInstance()
     {
         WinlistManager manager = WinlistManager.getInstance();
         assertNotNull("null manager", manager);
     }
 
+    @Test
     public void testGetWinlist()
     {
         Winlist winlist1 = new SimpleWinlist();

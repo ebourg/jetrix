@@ -24,19 +24,24 @@ import java.net.Socket;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
 import net.jetrix.clients.TetrinetClient;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.ClientRepository
  *
  * @author Emmanuel Bourg
  */
-public class ClientRepositoryTest extends TestCase
+public class ClientRepositoryTest
 {
     private ClientRepository repository;
     private Client client1, client2, client3, client4;
 
+    @Before
     public void setUp()
     {
         repository = ClientRepository.getInstance();
@@ -69,11 +74,13 @@ public class ClientRepositoryTest extends TestCase
         repository.addClient(client4);
     }
 
+    @After
     public void tearDown()
     {
         repository.clear();
     }
 
+    @Test
     public void testGetClient()
     {
         repository.addClient(client1);
@@ -83,12 +90,14 @@ public class ClientRepositoryTest extends TestCase
         assertEquals("non case sensitive search", client1, repository.getClient(client1.getUser().getName().toLowerCase()));
     }
 
+    @Test
     public void testGetClientNull()
     {
         // lookup on a null name
         assertEquals(null, repository.getClient(null));
     }
 
+    @Test
     public void testGetClients()
     {
         // adding clients to the repository
@@ -119,6 +128,7 @@ public class ClientRepositoryTest extends TestCase
         assertEquals("getSpectators", "Test", spectatorList.toString());
     }
 
+    @Test
     public void testGetClientCount()
     {
         // adding clients to the repository
@@ -128,6 +138,7 @@ public class ClientRepositoryTest extends TestCase
         assertEquals("getSpectatorCount", 1, repository.getSpectatorCount());
     }
 
+    @Test
     public void testRemoveClient()
     {
         // adding clients to the repository
@@ -142,6 +153,7 @@ public class ClientRepositoryTest extends TestCase
         assertEquals("client count after removal", 0, repository.getClientCount());
     }
 
+    @Test
     public void testClear()
     {
         // adding clients to the repository
@@ -152,6 +164,7 @@ public class ClientRepositoryTest extends TestCase
         assertEquals("client count after clearing", 0, repository.getClientCount());
     }
 
+    @Test
     public void testHostCount() throws Exception
     {
         // adding clients to the repository
@@ -175,6 +188,7 @@ public class ClientRepositoryTest extends TestCase
         assertEquals(localhost + " count", 0, repository.getHostCount(localhost));
     }
 
+    @Test
     public void testConcurrentModification()
     {
         repository.addClient(client1);

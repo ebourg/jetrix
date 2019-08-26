@@ -19,13 +19,16 @@
 
 package net.jetrix.tools;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Emmanuel Bourg
  */
-public class TetrinetRandomGeneratorTest extends TestCase
+public class TetrinetRandomGeneratorTest
 {
+    @Test
     public void testRandom() {
         TetrinetRandomGenerator generator = new TetrinetRandomGenerator(0);
 
@@ -42,6 +45,7 @@ public class TetrinetRandomGeneratorTest extends TestCase
         assertEquals("s5", 0x45DE2B0DL, generator.getValue());
     }
 
+    @Test
     public void testNextInt() {
         TetrinetRandomGenerator generator = new TetrinetRandomGenerator(0);
 
