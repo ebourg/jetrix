@@ -32,7 +32,6 @@ import net.jetrix.*;
  *
  * @author Gamereplay
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ModeCommand extends AbstractCommand
 {

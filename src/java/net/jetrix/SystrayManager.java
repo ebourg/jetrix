@@ -34,7 +34,6 @@ import net.jetrix.listeners.HttpListener;
  * Manages the system trayIcon (windows only).
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.2
  */
 public class SystrayManager

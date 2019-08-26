@@ -23,7 +23,6 @@ import net.jetrix.Message;
 
 /**
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ShutdownMessage extends Message
 {

@@ -30,7 +30,6 @@ import org.apache.commons.lang.*;
  * Protocol to communicate with IRC clients.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class IRCProtocol extends AbstractProtocol
 {

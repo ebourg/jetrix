@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  * Message sent when a player or spectator leave a channel.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class LeaveMessage extends ChannelMessage
 {

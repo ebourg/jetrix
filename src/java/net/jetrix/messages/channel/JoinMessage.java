@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  * A playerjoin message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class JoinMessage extends ChannelMessage
 {

@@ -29,7 +29,6 @@ import net.jetrix.*;
  * Show the spectators in the channel.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SpecListCommand extends AbstractCommand
 {

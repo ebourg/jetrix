@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Display the message of the day.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class MotdCommand extends AbstractCommand
 {

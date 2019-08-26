@@ -40,7 +40,6 @@ import net.jetrix.messages.channel.specials.*;
  * Tetrinet agent to log on a server as a player.
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrinetAgent implements Agent
 {

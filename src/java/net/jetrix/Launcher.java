@@ -37,7 +37,6 @@ import java.util.jar.Pack200;
  * its class path.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Launcher {
 

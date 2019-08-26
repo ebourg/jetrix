@@ -30,7 +30,6 @@ import net.jetrix.config.*;
  * class and implement the process() method.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public abstract class MessageFilter
 {

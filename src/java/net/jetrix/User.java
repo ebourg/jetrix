@@ -25,7 +25,6 @@ import java.util.*;
  * A user connected to the server. The user can be a player or a spectator.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class User
 {

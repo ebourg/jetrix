@@ -25,7 +25,6 @@ package net.jetrix.listeners.interceptor;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ClientValidationException extends Exception
 {

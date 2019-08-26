@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  * A level change message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class LevelMessage extends ChannelMessage
 {

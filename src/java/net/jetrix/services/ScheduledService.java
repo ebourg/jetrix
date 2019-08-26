@@ -29,7 +29,6 @@ import java.util.TimerTask;
  * milliseconds between successive executions of the task.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.2
  */
 public abstract class ScheduledService extends AbstractService

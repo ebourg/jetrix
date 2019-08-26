@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Display the version of the server.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class VersionCommand extends AbstractCommand
 {

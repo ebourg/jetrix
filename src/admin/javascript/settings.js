@@ -1,5 +1,4 @@
 /* Validation functions for settings.jsp */
-/* $Revision$, $Date$ */
 
 function updateSpecials()
 {

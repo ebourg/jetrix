@@ -40,7 +40,6 @@ import net.jetrix.messages.channel.PlayerLostMessage;
  * Interceptor checking the delay between two successive pieces.
  *  
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public class SpeedCheckInterceptor extends InteractiveInterceptor

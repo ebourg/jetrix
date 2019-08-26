@@ -30,7 +30,6 @@ import net.jetrix.*;
  * Action Servlet handling actions on users.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class UserAction extends HttpServlet
 {

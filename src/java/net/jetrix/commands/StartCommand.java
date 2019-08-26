@@ -33,7 +33,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Start the game.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class StartCommand extends AbstractCommand
 {

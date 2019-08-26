@@ -31,7 +31,6 @@ import net.jetrix.messages.channel.*;
  * Starts the game automatically once everyone said "go".
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class StartFilter extends GenericFilter
 {

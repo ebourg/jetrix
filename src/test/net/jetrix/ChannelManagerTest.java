@@ -27,7 +27,6 @@ import net.jetrix.config.*;
  * JUnit TestCase for the class net.jetrix.ChannelManager.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ChannelManagerTest extends TestCase
 {

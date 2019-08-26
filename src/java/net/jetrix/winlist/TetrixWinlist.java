@@ -28,7 +28,6 @@ import net.jetrix.config.*;
  * A winlist compatible with the tetrinetx winlist format. 
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrixWinlist extends SimpleWinlist
 {

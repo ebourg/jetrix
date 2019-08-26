@@ -23,7 +23,6 @@ package net.jetrix.config;
  * Game settings.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Settings
 {

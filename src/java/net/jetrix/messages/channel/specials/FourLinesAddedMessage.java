@@ -23,7 +23,6 @@ package net.jetrix.messages.channel.specials;
  * Message sent when 4 lines are cleared and 4 lines are added to all opponents.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class FourLinesAddedMessage extends LinesAddedMessage
 {

@@ -29,7 +29,6 @@ import net.jetrix.config.*;
  * @since 0.1.2
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface Winlist
 {

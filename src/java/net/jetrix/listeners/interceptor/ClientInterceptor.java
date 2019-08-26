@@ -28,7 +28,6 @@ import net.jetrix.Client;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface ClientInterceptor
 {

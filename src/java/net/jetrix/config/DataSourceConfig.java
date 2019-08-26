@@ -25,7 +25,6 @@ import net.jetrix.DataSourceManager;
  * Configuration for a pool of connections to a database.
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public class DataSourceConfig

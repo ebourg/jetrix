@@ -31,7 +31,6 @@ import java.util.logging.*;
  * a network issue.
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class GhostbusterService extends ScheduledService
 {

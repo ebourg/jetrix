@@ -28,7 +28,6 @@ import java.util.*;
  * The top teams and players of a winlist.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class WinlistMessage extends Message
 {

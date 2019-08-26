@@ -25,7 +25,6 @@ import java.util.Arrays;
  * The occurancies in percents of a set of elements.
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public class Occurancy<T extends Enum> implements Cloneable

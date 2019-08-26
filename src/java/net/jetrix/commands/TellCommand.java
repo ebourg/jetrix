@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Send a private message to a player.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TellCommand extends AbstractCommand implements ParameterCommand
 {

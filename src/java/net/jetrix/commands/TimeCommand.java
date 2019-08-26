@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Display the server's time.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TimeCommand extends AbstractCommand
 {

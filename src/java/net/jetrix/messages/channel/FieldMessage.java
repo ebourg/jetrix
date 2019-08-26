@@ -25,7 +25,6 @@ import net.jetrix.Field;
  * A field change message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class FieldMessage extends ChannelMessage
 {

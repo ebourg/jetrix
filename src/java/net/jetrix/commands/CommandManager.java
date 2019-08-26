@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * CommandManager
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class CommandManager
 {

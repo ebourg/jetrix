@@ -37,7 +37,6 @@ import org.apache.commons.lang.time.StopWatch;
  * specified rate until the game ends.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SuddenDeathFilter extends GenericFilter
 {

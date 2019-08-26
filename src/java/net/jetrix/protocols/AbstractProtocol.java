@@ -31,7 +31,6 @@ import net.jetrix.Protocol;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public abstract class AbstractProtocol implements Protocol
 {

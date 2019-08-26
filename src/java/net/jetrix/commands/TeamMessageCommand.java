@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Send a message to all members of the player's team.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TeamMessageCommand extends AbstractCommand implements ParameterCommand
 {

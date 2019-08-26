@@ -39,7 +39,6 @@ import net.jetrix.clients.TetrinetClient;
  * Game channel.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Channel extends Thread implements Destination
 {

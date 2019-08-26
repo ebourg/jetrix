@@ -28,7 +28,6 @@ import net.jetrix.messages.ShutdownMessage;
  * Manages Channels
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ChannelManager
 {

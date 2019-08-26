@@ -33,7 +33,6 @@ import net.jetrix.config.DataSourceConfig;
  * Manage the connection pools to the databases.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public final class DataSourceManager

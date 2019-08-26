@@ -30,7 +30,6 @@ import net.jetrix.protocols.*;
  * JUnit TestCase for the class net.jetrix.Message.
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class MessageTest extends TestCase {
 

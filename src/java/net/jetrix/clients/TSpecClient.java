@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.SmsgMessage;
  * Spectator client.
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TSpecClient extends TetrinetClient
 {

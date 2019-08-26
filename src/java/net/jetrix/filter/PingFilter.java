@@ -31,7 +31,6 @@ import net.jetrix.messages.channel.*;
  * message to the player.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class PingFilter extends MessageFilter
 {

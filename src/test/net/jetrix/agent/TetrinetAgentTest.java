@@ -26,7 +26,6 @@ import net.jetrix.messages.channel.TeamMessage;
 
 /**
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrinetAgentTest extends TestCase
 {

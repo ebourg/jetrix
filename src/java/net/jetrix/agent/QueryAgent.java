@@ -41,7 +41,6 @@ import net.jetrix.protocols.QueryProtocol;
  * @see <a href="See http://jetrix.sourceforge.net/dev-guide.php#section2-4">Query Protocol Documentation</a>
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class QueryAgent implements Agent
 {

@@ -27,7 +27,6 @@ import net.jetrix.messages.channel.ChannelMessage;
  * attack.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public abstract class SpecialMessage extends ChannelMessage
 {

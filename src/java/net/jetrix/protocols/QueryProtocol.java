@@ -30,7 +30,6 @@ import net.jetrix.messages.channel.*;
  * for more information.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class QueryProtocol extends AbstractProtocol
 {

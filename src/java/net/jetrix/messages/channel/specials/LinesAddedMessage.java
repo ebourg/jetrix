@@ -23,7 +23,6 @@ package net.jetrix.messages.channel.specials;
  * Message sent when a player clears several lines and add lines to all opponents.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public abstract class LinesAddedMessage extends SpecialMessage

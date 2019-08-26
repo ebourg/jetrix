@@ -30,7 +30,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Teleport a player to another channel.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TeleportCommand extends AbstractCommand implements ParameterCommand
 {

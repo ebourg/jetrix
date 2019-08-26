@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Blocks spam over pline.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class FloodFilter extends GenericFilter
 {

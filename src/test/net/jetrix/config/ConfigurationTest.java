@@ -25,7 +25,6 @@ import junit.framework.*;
  * JUnit TestCase for the class net.jetrix.config.Configuration
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ConfigurationTest extends TestCase
 {

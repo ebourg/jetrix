@@ -30,7 +30,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Grant operator status to the player.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class OperatorCommand extends AbstractCommand implements ParameterCommand
 {

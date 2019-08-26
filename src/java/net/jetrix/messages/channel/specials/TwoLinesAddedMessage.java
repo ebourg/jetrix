@@ -23,7 +23,6 @@ package net.jetrix.messages.channel.specials;
  * Message sent when 3 lines are cleared and 2 lines are added to all opponents.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TwoLinesAddedMessage extends LinesAddedMessage
 {

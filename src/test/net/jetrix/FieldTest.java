@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.FieldMessage;
  * JUnit TestCase for the class net.jetrix.Field.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class FieldTest extends TestCase
 {

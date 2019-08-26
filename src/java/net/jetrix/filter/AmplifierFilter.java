@@ -30,7 +30,6 @@ import net.jetrix.messages.channel.specials.SpecialMessage;
  * can be changed by adding a <tt>factor</tt> parameter to the FilterConfig.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class AmplifierFilter extends MessageFilter
 {

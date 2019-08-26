@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.CommandMessage;
  * Move a player to a new slot or switch two players.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class MoveCommand extends AbstractCommand implements ParameterCommand
 {

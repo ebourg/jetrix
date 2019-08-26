@@ -24,7 +24,6 @@ package net.jetrix.messages.channel;
  * receive it.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SmsgMessage extends TextMessage
 {

@@ -27,7 +27,6 @@ import junit.framework.*;
  * JUnit TestCase for the class net.jetrix.Banlist
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class BanlistTest extends TestCase
 {

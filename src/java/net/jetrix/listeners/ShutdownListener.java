@@ -35,7 +35,6 @@ import net.jetrix.services.AbstractService;
  * the server from the shell on Unix.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ShutdownListener extends AbstractService implements Listener
 {

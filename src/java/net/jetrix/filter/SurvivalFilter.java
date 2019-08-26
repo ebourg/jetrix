@@ -30,7 +30,6 @@ import net.jetrix.messages.channel.specials.*;
  * death (1 line every 5 seconds).
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SurvivalFilter extends GenericFilter
 {

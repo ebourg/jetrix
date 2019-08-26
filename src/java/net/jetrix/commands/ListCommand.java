@@ -33,7 +33,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * List available channels.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ListCommand extends AbstractCommand
 {

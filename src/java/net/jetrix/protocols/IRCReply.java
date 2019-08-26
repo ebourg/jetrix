@@ -25,7 +25,6 @@ package net.jetrix.protocols;
  * @since 0.2
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface IRCReply {
 

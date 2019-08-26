@@ -28,7 +28,6 @@ import net.jetrix.clients.*;
  * JUnit TestCase for the class net.jetrix.ClientRepository
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ClientRepositoryTest extends TestCase
 {

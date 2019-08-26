@@ -37,7 +37,6 @@ import net.jetrix.mail.MailSessionManager;
  * Main class, starts the server components and handle the server level messages.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Server implements Runnable, Destination
 {

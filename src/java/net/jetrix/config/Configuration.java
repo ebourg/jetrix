@@ -25,7 +25,6 @@ import java.util.Properties;
  * A generic configuration.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Configuration
 {

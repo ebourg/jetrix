@@ -23,7 +23,6 @@ package net.jetrix;
  * Enumeration of users' access levels.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface AccessLevel
 {

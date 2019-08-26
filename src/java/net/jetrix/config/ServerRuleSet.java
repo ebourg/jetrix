@@ -26,7 +26,6 @@ import org.apache.commons.digester.RuleSetBase;
  * RuleSet for processing the content of a server configuration file.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 class ServerRuleSet extends RuleSetBase
 {

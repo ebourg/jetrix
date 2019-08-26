@@ -25,7 +25,6 @@ package net.jetrix.agent;
  * @since 0.2
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ChannelInfo
 {

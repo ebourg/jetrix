@@ -27,7 +27,6 @@ import net.jetrix.*;
  * A /command.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class CommandMessage extends TextMessage
 {

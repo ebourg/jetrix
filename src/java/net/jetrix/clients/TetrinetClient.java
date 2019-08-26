@@ -37,7 +37,6 @@ import net.jetrix.messages.channel.*;
  * server thread)
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrinetClient implements Client
 {

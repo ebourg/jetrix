@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Set the language of the user.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class LanguageCommand extends AbstractCommand
 {

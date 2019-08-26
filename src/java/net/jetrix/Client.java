@@ -29,7 +29,6 @@ import java.util.*;
  * destination for processing (player's channel or main server thread)
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface Client extends Runnable, Destination
 {

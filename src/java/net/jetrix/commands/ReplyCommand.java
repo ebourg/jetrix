@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Reply to a private message sent by a player.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ReplyCommand extends AbstractCommand implements ParameterCommand
 {

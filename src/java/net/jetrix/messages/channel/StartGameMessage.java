@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  * A start game message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class StartGameMessage extends ChannelMessage
 {

@@ -24,7 +24,6 @@ import junitx.framework.ArrayAssert;
 
 /**
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class OccurancyTest extends TestCase
 {

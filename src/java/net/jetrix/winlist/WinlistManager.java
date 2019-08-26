@@ -28,7 +28,6 @@ import net.jetrix.config.*;
  * Winlist manager.
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class WinlistManager
 {

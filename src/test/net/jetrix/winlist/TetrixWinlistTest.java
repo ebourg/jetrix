@@ -23,7 +23,6 @@ package net.jetrix.winlist;
  * JUnit TestCase for the class net.jetrix.winlist.TetrixWinlist.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrixWinlistTest extends SimpleWinlistTest
 {

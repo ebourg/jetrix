@@ -36,7 +36,6 @@ import net.jetrix.config.ServerConfig;
  * @since 0.2
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class VersionService extends CronService
 {

@@ -25,7 +25,6 @@ import java.util.*;
  * Internal message sent between server, channels and client handlers.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public abstract class Message
 {

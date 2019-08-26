@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * List all commands available.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class HelpCommand extends AbstractCommand
 {

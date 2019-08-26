@@ -25,7 +25,6 @@ import junit.framework.TestCase;
  * JUnit TestCase for the class net.jetrix.winlist.ScoreComparator.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ScoreComparatorTest extends TestCase
 {

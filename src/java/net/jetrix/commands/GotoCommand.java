@@ -32,7 +32,6 @@ import java.util.*;
  * protected.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class GotoCommand extends AbstractCommand implements ParameterCommand
 {

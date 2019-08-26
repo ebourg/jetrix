@@ -26,7 +26,6 @@ import java.util.Comparator;
  * descending order, hence <code>score(200) < score(100)</code>.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ScoreComparator implements Comparator<Score>
 {

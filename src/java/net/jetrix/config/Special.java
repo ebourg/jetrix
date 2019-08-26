@@ -29,7 +29,6 @@ import java.util.Locale;
  * @since 0.2
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public enum Special
 {

@@ -35,7 +35,6 @@ import java.util.logging.*;
  * @since 0.2
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 class LogManager
 {

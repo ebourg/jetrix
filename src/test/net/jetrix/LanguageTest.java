@@ -27,7 +27,6 @@ import junit.framework.*;
  * JUnit TestCase for the class net.jetrix.Language.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class LanguageTest extends TestCase
 {

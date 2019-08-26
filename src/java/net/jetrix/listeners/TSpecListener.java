@@ -30,7 +30,6 @@ import net.jetrix.messages.*;
  * Listener for tspec clients.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TSpecListener extends TetrinetListener
 {

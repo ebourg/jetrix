@@ -23,7 +23,6 @@ package net.jetrix.messages.channel.specials;
  * A clear random blocks message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class RandomClearMessage extends SpecialMessage
 {

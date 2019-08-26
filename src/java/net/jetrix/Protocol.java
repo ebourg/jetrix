@@ -30,7 +30,6 @@ import java.util.Locale;
  * reverse operation.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface Protocol
 {

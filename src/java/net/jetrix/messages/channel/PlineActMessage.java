@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  * A party line action message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class PlineActMessage extends TextMessage
 {

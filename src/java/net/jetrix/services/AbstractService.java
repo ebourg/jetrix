@@ -27,7 +27,6 @@ import java.util.logging.Logger;
  * An abstract Service.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.2
  */
 public abstract class AbstractService implements Service

@@ -27,7 +27,6 @@ import org.apache.commons.digester.Rule;
  * RuleSet for processing the content of a channel configuration file.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 class ChannelsRuleSet extends RuleSetBase
 {

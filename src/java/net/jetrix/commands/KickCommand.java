@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Kick a player out of the server.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class KickCommand extends AbstractCommand implements ParameterCommand
 {

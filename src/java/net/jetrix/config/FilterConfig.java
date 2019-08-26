@@ -23,7 +23,6 @@ package net.jetrix.config;
  * Filter configuration.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class FilterConfig extends Configuration
 {

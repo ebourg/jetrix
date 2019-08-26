@@ -38,7 +38,6 @@ import java.util.logging.Logger;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class AccessInterceptor implements ClientInterceptor
 {

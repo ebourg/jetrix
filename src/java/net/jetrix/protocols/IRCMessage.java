@@ -29,7 +29,6 @@ import java.util.StringTokenizer;
  * @since 0.2
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class IRCMessage
 {

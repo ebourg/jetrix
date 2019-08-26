@@ -27,7 +27,6 @@ import net.jetrix.messages.channel.CommandMessage;
  * A command consummes a CommandMessage to execute a specific operation.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface Command
 {

@@ -32,7 +32,6 @@ import net.jetrix.messages.channel.*;
  * A game field.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Field
 {

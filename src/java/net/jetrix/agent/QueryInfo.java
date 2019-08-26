@@ -25,7 +25,6 @@ import java.util.List;
  * Information about a tetrinet server retrieved through the query protocol.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class QueryInfo
 {

@@ -27,7 +27,6 @@ import net.jetrix.*;
  * The result of a game.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class GameResult
 {

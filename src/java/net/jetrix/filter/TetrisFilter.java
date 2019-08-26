@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
  * Game mod : The first player completing 7 tetris win.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrisFilter extends GenericFilter
 {

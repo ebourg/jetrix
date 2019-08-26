@@ -23,7 +23,6 @@ package net.jetrix.messages.channel.specials;
  *
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class NukeFieldMessage extends SpecialMessage
 {

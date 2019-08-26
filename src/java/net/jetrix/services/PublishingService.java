@@ -48,7 +48,6 @@ import net.jetrix.Server;
  * is used as the description. The address is published once a day by default.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.2
  */
 public class PublishingService extends ScheduledService

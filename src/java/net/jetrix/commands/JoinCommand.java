@@ -31,7 +31,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Join or create a channel.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class JoinCommand extends AbstractCommand implements ParameterCommand
 {

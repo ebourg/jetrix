@@ -30,7 +30,6 @@ import net.jetrix.config.ServerConfig;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ServerStatsInterceptor implements ClientInterceptor
 {

@@ -26,7 +26,6 @@ import java.text.*;
  * Helper class to handle and retrieve localized strings.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Language
 {

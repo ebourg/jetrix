@@ -32,7 +32,6 @@ import net.jetrix.protocols.*;
  * Listener for tetrinet and tetrifast clients.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrinetListener extends ClientListener
 {

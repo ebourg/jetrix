@@ -29,7 +29,6 @@ import java.util.*;
  * Send a request for assistance to all operators online.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class PetitionCommand extends AbstractCommand implements ParameterCommand
 {

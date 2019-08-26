@@ -27,7 +27,6 @@ import java.util.*;
  * same unique instance of the specified protocol.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ProtocolManager
 {

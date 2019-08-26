@@ -35,7 +35,6 @@ import net.jetrix.*;
  * file.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SimpleWinlist implements Winlist
 {

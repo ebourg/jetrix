@@ -27,7 +27,6 @@ import net.jetrix.protocols.TspecProtocol;
  * TSpec agent to log on a TetriNET server as a spectator.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TSpecAgent extends TetrinetAgent
 {

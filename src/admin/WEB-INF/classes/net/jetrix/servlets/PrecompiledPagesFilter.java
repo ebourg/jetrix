@@ -27,7 +27,6 @@ import javax.servlet.http.*;
  * Filter redirecting the requests on .jsp files to the precompiled servlets.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class PrecompiledPagesFilter implements Filter
 {

@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.*;
  * Display a logo on the field of players losing the game.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class LogoFilter extends GenericFilter
 {

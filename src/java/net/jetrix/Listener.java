@@ -23,7 +23,6 @@ package net.jetrix;
  * A service bound to a port.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface Listener extends Runnable, Service
 {

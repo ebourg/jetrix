@@ -23,7 +23,6 @@ package net.jetrix.commands;
  * A command with a fixed number of parameters
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.2
  */
 public interface ParameterCommand extends Command

@@ -38,7 +38,6 @@ import net.jetrix.config.ServerConfig;
  * Generates the documentation for the server commands.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class DocumentationGenerator
 {

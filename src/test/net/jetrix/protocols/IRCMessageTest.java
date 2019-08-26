@@ -25,7 +25,6 @@ import junit.framework.TestCase;
  * JUnit TestCase for the class net.jetrix.protocols.IRCMessage.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class IRCMessageTest extends TestCase
  {

@@ -31,7 +31,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * Repository of clients connected to the server.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ClientRepository
 {

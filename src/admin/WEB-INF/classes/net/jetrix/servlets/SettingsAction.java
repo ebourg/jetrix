@@ -42,7 +42,6 @@ import net.jetrix.config.Special;
  * Action Servlet handling the server and channels settings changes.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SettingsAction extends HttpServlet
 {

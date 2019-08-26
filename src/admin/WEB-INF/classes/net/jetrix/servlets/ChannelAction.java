@@ -38,7 +38,6 @@ import static java.lang.Math.*;
  * Action Servlet handling actions on channels.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ChannelAction extends HttpServlet
 {

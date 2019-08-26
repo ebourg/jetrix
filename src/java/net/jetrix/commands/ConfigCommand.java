@@ -33,7 +33,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Display the channel settings.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ConfigCommand extends AbstractCommand
 {

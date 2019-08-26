@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Display the IP of a player.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class IpCommand extends AbstractCommand implements ParameterCommand
 {

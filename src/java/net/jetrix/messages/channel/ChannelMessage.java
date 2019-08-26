@@ -25,7 +25,6 @@ import net.jetrix.*;
  * A channel message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public abstract class ChannelMessage extends Message
 {

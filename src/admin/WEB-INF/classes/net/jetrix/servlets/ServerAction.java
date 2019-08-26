@@ -36,7 +36,6 @@ import net.jetrix.config.*;
  * Action Servlet handling actions on the server.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ServerAction extends HttpServlet
 {

@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.CommandMessage;
  * JUnit TestCase for the class net.jetrix.commands.CommandManager
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class CommandManagerTest extends TestCase
 {

@@ -25,7 +25,6 @@ import net.jetrix.*;
  * A connection denial message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class NoConnectingMessage extends Message
 {

@@ -27,7 +27,6 @@ import java.net.*;
  * List of hosts banned from the server.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Banlist
 {

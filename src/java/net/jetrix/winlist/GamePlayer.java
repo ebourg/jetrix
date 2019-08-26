@@ -25,7 +25,6 @@ import java.util.*;
  * Information about a player involved in a game.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class GamePlayer
 {

@@ -44,7 +44,6 @@ import javax.mail.internet.MimeMultipart;
  * to provide a valid mail session.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public class MailMessage

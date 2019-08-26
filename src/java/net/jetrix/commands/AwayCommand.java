@@ -31,7 +31,6 @@ import net.jetrix.Client;
  * Set the away status of a player.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.2
  */
 public class AwayCommand extends AbstractCommand

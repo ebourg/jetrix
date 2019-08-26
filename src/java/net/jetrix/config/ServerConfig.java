@@ -39,7 +39,6 @@ import net.jetrix.commands.*;
  * channel definitions and the ban list.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ServerConfig
 {

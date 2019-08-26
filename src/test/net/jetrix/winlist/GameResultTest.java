@@ -29,7 +29,6 @@ import net.jetrix.User;
  * JUnit TestCase for the class net.jetrix.winlist.GameResult.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class GameResultTest extends TestCase
 {

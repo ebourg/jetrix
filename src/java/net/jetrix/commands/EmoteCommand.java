@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineActMessage;
  * Display an emote.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class EmoteCommand extends AbstractCommand
 {

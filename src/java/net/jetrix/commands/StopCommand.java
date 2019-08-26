@@ -27,7 +27,6 @@ import net.jetrix.messages.channel.CommandMessage;
  * Stop the game.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class StopCommand extends AbstractCommand
 {

@@ -30,7 +30,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class OnlineUsersInterceptor implements ClientInterceptor
 {

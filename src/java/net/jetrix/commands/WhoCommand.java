@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * List all players connected to the server.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class WhoCommand extends AbstractCommand
 {

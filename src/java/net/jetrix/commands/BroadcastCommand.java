@@ -28,7 +28,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Send a message to all clients on the server.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class BroadcastCommand extends AbstractCommand implements ParameterCommand
 {

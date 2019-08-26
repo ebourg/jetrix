@@ -38,7 +38,6 @@ import net.jetrix.messages.channel.PlayerNumMessage;
  * Interceptor expecting a response from the client (a password, a speed check, etc).
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public abstract class InteractiveInterceptor implements ClientInterceptor, Destination

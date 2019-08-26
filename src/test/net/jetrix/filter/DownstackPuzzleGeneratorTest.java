@@ -26,7 +26,6 @@ import net.jetrix.config.*;
 
 /**
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class DownstackPuzzleGeneratorTest extends TestCase
 {

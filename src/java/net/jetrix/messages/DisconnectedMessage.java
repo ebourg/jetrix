@@ -25,7 +25,6 @@ import net.jetrix.*;
  * A client disconnection message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class DisconnectedMessage extends Message
 {

@@ -25,7 +25,6 @@ import java.util.*;
  * Channel configuration.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ChannelConfig
 {

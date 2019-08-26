@@ -23,7 +23,6 @@ package net.jetrix.config;
  * Winlist configuration.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class WinlistConfig extends Configuration
 {

@@ -23,7 +23,6 @@ package net.jetrix.winlist;
  * The score of a player or team in a winlist.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Score
 {

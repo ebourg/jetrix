@@ -35,7 +35,6 @@ import winstone.Launcher;
  * Web administration console.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class HttpListener extends AbstractService implements Listener
 {

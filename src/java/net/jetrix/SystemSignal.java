@@ -26,7 +26,6 @@ import sun.misc.SignalHandler;
  * Wrapper around the sun.misc.Signal class to prevent linkage errors.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 class SystemSignal
 {

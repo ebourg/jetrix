@@ -25,7 +25,6 @@ import net.jetrix.config.*;
  * A new game message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class NewGameMessage extends ChannelMessage
 {

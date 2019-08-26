@@ -24,7 +24,6 @@ package net.jetrix.filter;
  * indicate that the creation of a filter threw a checked exception.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class FilterException extends Exception
 {

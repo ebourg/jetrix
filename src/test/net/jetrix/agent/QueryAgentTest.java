@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 
 /**
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class QueryAgentTest extends TestCase
 {

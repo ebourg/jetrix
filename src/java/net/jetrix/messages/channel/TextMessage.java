@@ -31,7 +31,6 @@ import net.jetrix.Server;
  * A generic internationalized text message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public abstract class TextMessage extends ChannelMessage
 {

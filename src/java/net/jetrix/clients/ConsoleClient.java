@@ -33,7 +33,6 @@ import net.jetrix.config.*;
  * Command line console.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ConsoleClient implements Client
 {

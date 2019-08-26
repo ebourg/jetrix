@@ -1,5 +1,4 @@
 /* Functions for server.jsp */
-/* $Revision$, $Date$ */
 
 function shutdown()
 {

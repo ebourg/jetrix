@@ -36,7 +36,6 @@ import net.jetrix.messages.channel.CommandMessage;
  * is true. If so it will display the ping of the player.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class PingCommand extends AbstractCommand
 {

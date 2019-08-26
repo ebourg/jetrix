@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  *
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class EndGameMessage extends ChannelMessage
 {

@@ -32,7 +32,6 @@ import java.util.*;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class FilenameComparator implements Comparator<File>
 {

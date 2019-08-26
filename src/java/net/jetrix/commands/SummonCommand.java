@@ -29,7 +29,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Summon a player to the current channel.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SummonCommand extends AbstractCommand implements ParameterCommand
 {

@@ -27,7 +27,6 @@ import java.util.*;
  * List of spectators in a channel.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SpectatorListMessage extends Message
 {

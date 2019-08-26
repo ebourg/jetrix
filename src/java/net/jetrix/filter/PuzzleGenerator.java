@@ -27,7 +27,6 @@ import net.jetrix.config.*;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface PuzzleGenerator
 {

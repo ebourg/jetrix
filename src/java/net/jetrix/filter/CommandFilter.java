@@ -41,7 +41,6 @@ import net.jetrix.commands.*;
  * </pre>
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class CommandFilter extends GenericFilter
 {

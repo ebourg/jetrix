@@ -28,7 +28,6 @@ import net.jetrix.ChannelManager;
  * JUnit TestCase for the class net.jetrix.config.ServerConfig
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ServerConfigTest extends TestCase
 {

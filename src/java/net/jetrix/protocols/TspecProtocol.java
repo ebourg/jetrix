@@ -29,7 +29,6 @@ import java.util.*;
  * An abstract protocol to communicate with a client.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TspecProtocol extends TetrinetProtocol
 {

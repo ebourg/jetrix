@@ -33,7 +33,6 @@ import net.jetrix.protocols.*;
  * Client for the query protocol on port 31457.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class QueryClient extends TetrinetClient
 {

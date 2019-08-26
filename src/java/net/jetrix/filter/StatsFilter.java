@@ -34,7 +34,6 @@ import org.apache.commons.lang.time.StopWatch;
  * by each player.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class StatsFilter extends GenericFilter
 {

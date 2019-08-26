@@ -23,7 +23,6 @@ package net.jetrix.tools;
  * Random number generator used by Tetrinet (ie. the Random() function in Delphi)
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrinetRandomGenerator
 {

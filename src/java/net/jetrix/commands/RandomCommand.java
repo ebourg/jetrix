@@ -30,7 +30,6 @@ import net.jetrix.messages.channel.PlineMessage;
  * Display a random number.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class RandomCommand extends AbstractCommand
 {

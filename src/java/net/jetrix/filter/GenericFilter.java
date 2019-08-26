@@ -33,7 +33,6 @@ import net.jetrix.messages.channel.specials.*;
  * onStartGame(), etc...).
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public abstract class GenericFilter extends MessageFilter
 {

@@ -26,7 +26,6 @@ import net.jetrix.*;
  * the channel will switch the two specified slots.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class PlayerSwitchMessage extends Message
 {

@@ -23,7 +23,6 @@ package net.jetrix;
  * A service running in background.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.2
  */
 public interface Service

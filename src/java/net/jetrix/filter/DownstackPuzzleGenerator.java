@@ -40,7 +40,6 @@ import org.apache.commons.lang.*;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class DownstackPuzzleGenerator implements PuzzleGenerator
 {

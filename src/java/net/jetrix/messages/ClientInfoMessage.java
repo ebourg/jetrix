@@ -25,7 +25,6 @@ import net.jetrix.Message;
  * Information about the client (name & version).
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ClientInfoMessage extends Message
 {

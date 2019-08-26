@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  * An ingame chat message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class GmsgMessage extends TextMessage
 {

@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  * A stop game message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class StopGameMessage extends ChannelMessage
 {

@@ -23,7 +23,6 @@ package net.jetrix;
  * A destination for server messages.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public interface Destination
 {

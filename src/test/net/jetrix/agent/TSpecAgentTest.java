@@ -24,7 +24,6 @@ import net.jetrix.messages.channel.PlineMessage;
 
 /**
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TSpecAgentTest extends TestCase
 {

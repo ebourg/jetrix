@@ -28,7 +28,6 @@ import net.jetrix.Message;
  * @see net.jetrix.services.GhostbusterService
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.1.4
  */
 public class NoopMessage extends Message

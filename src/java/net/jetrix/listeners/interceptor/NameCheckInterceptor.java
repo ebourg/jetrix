@@ -33,7 +33,6 @@ import net.jetrix.messages.NoConnectingMessage;
  * @since 0.3
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class NameCheckInterceptor implements ClientInterceptor
 {

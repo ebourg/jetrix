@@ -29,7 +29,6 @@ import java.lang.reflect.*;
  * type of the filter (static or not).
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class FilterManager
 {

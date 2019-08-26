@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
  * Singleton holding the session to send mails.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public final class MailSessionManager

@@ -33,7 +33,6 @@ import org.apache.commons.lang.StringUtils;
  * Protocol to communicate with TetriNET 1.13 compatible clients.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrinetProtocol extends AbstractProtocol
 {

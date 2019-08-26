@@ -31,7 +31,6 @@ import net.jetrix.messages.channel.*;
  * JUnit TestCase for the class net.jetrix.protocols.TetrifastProtocolTest
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrifastProtocolTest extends TestCase {
 

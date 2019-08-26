@@ -25,7 +25,6 @@ import net.jetrix.messages.channel.*;
  * Protocol to communicate with Tetrifast compatible clients.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TetrifastProtocol extends TetrinetProtocol
 {

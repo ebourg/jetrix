@@ -35,7 +35,6 @@ import net.jetrix.services.*;
  * Abstract Listener waiting for incoming clients.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public abstract class ClientListener extends AbstractService implements Listener
 {

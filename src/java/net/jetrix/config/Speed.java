@@ -23,7 +23,6 @@ package net.jetrix.config;
  * Client speed settings for a channel.
  * 
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public enum Speed

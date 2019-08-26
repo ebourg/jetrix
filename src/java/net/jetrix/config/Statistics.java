@@ -23,7 +23,6 @@ package net.jetrix.config;
  * Basic statistics about the server usage.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class Statistics
 {

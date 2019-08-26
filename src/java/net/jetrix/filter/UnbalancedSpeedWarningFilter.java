@@ -37,7 +37,6 @@ import org.apache.commons.lang.StringUtils;
  * isn't playing with the same piece delay.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.3
  */
 public class UnbalancedSpeedWarningFilter extends GenericFilter

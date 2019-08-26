@@ -27,7 +27,6 @@ import net.jetrix.messages.channel.*;
  * Protocol to communicate with a console client
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ConsoleProtocol extends AbstractProtocol
 {

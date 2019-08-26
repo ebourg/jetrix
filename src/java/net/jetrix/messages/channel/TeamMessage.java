@@ -23,7 +23,6 @@ package net.jetrix.messages.channel;
  * A team change message.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class TeamMessage extends ChannelMessage
 {

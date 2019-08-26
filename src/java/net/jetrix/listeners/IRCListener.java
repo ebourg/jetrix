@@ -31,7 +31,6 @@ import net.jetrix.protocols.*;
  * Listener for IRC clients.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class IRCListener extends ClientListener
 {

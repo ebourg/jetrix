@@ -25,7 +25,6 @@ import junit.framework.*;
  * JUnit TestCase for the class net.jetrix.config.ChannelConfig
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ChannelConfigTest extends TestCase
 {

@@ -30,7 +30,6 @@ import org.apache.commons.lang.*;
  * Manage the ignore list.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class IgnoreCommand extends AbstractCommand
 {

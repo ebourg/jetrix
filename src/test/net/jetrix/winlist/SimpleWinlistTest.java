@@ -27,7 +27,6 @@ import net.jetrix.config.*;
  * JUnit TestCase for the class net.jetrix.winlist.SimpleWinlist.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class SimpleWinlistTest extends TestCase {
 

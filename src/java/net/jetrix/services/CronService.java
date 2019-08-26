@@ -37,7 +37,6 @@ import org.jcrontab.data.CrontabParser;
  * (see http://www.nncron.ru/nncronlt/help/EN/working/cron-format.htm).
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  * @since 0.2
  */
 public abstract class CronService extends AbstractService

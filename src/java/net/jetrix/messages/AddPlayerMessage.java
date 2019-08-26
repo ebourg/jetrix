@@ -26,7 +26,6 @@ import net.jetrix.Message;
  * A message indicating a new client joined the server.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class AddPlayerMessage extends Message
 {
