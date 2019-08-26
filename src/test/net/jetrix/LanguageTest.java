@@ -19,9 +19,10 @@
 
 package net.jetrix;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Locale;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 /**
  * JUnit TestCase for the class net.jetrix.Language.

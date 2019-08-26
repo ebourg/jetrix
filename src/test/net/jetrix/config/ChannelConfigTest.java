@@ -19,7 +19,7 @@
 
 package  net.jetrix.config;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 /**
  * JUnit TestCase for the class net.jetrix.config.ChannelConfig

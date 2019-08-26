@@ -21,7 +21,7 @@ package  net.jetrix.config;
 
 import java.net.URL;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 import net.jetrix.ChannelManager;
 
 /**

@@ -19,13 +19,16 @@
 
 package net.jetrix.protocols;
 
-import java.util.*;
+import java.util.Locale;
 
-import junit.framework.*;
-
-import net.jetrix.*;
-import net.jetrix.clients.*;
-import net.jetrix.messages.channel.*;
+import junit.framework.TestCase;
+import net.jetrix.Client;
+import net.jetrix.Language;
+import net.jetrix.Message;
+import net.jetrix.Protocol;
+import net.jetrix.User;
+import net.jetrix.clients.TetrinetClient;
+import net.jetrix.messages.channel.SmsgMessage;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.TSpecProtocolTest

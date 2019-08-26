@@ -19,9 +19,10 @@
 
 package net.jetrix.commands;
 
-import junit.framework.*;
-import java.util.*;
-import net.jetrix.*;
+import java.util.Iterator;
+
+import junit.framework.TestCase;
+import net.jetrix.AccessLevel;
 import net.jetrix.messages.channel.CommandMessage;
 
 /**

@@ -19,9 +19,8 @@
 
 package net.jetrix;
 
-import junit.framework.*;
-
-import net.jetrix.protocols.*;
+import junit.framework.TestCase;
+import net.jetrix.protocols.TetrinetProtocol;
 
 /**
  * JUnit TestCase for the class net.jetrix.ProtocolManager.

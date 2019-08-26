@@ -19,14 +19,29 @@
 
 package net.jetrix.protocols;
 
-import static net.jetrix.protocols.TetrinetProtocol.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
 
-import java.io.*;
-import java.util.*;
+import junit.framework.TestCase;
+import net.jetrix.Message;
+import net.jetrix.Protocol;
+import net.jetrix.messages.channel.CommandMessage;
+import net.jetrix.messages.channel.EndGameMessage;
+import net.jetrix.messages.channel.FieldMessage;
+import net.jetrix.messages.channel.GmsgMessage;
+import net.jetrix.messages.channel.JoinMessage;
+import net.jetrix.messages.channel.LeaveMessage;
+import net.jetrix.messages.channel.LevelMessage;
+import net.jetrix.messages.channel.PlayerLostMessage;
+import net.jetrix.messages.channel.PlayerNumMessage;
+import net.jetrix.messages.channel.PlineActMessage;
+import net.jetrix.messages.channel.PlineMessage;
+import net.jetrix.messages.channel.TeamMessage;
 
-import junit.framework.*;
-import net.jetrix.*;
-import net.jetrix.messages.channel.*;
+import static net.jetrix.protocols.TetrinetProtocol.decode;
+import static net.jetrix.protocols.TetrinetProtocol.encode;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.TetrinetProtocolTest

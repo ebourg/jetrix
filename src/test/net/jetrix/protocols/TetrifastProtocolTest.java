@@ -22,10 +22,10 @@ package net.jetrix.protocols;
 import java.util.Locale;
 
 import junit.framework.TestCase;
-
-import net.jetrix.*;
-import net.jetrix.config.*;
-import net.jetrix.messages.channel.*;
+import net.jetrix.Protocol;
+import net.jetrix.config.Settings;
+import net.jetrix.messages.channel.NewGameMessage;
+import net.jetrix.messages.channel.PlayerNumMessage;
 
 /**
  * JUnit TestCase for the class net.jetrix.protocols.TetrifastProtocolTest

@@ -19,10 +19,10 @@
 
 package net.jetrix;
 
-import static net.jetrix.config.Special.*;
-
-import junit.framework.*;
+import junit.framework.TestCase;
 import net.jetrix.messages.channel.FieldMessage;
+
+import static net.jetrix.config.Special.*;
 
 /**
  * JUnit TestCase for the class net.jetrix.Field.

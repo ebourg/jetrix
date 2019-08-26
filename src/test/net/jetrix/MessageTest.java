@@ -22,9 +22,8 @@ package net.jetrix;
 import java.util.Locale;
 
 import junit.framework.TestCase;
-
 import net.jetrix.messages.channel.PlineMessage;
-import net.jetrix.protocols.*;
+import net.jetrix.protocols.TetrinetProtocol;
 
 /**
  * JUnit TestCase for the class net.jetrix.Message.

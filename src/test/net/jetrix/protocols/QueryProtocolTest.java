@@ -20,8 +20,7 @@
 package net.jetrix.protocols;
 
 import junit.framework.TestCase;
-
-import net.jetrix.*;
+import net.jetrix.Message;
 import net.jetrix.messages.channel.CommandMessage;
 
 /**

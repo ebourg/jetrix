@@ -19,10 +19,13 @@
 
 package net.jetrix;
 
-import java.net.*;
-import java.util.*;
-import junit.framework.*;
-import net.jetrix.clients.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+
+import junit.framework.TestCase;
+import net.jetrix.clients.TetrinetClient;
 
 /**
  * JUnit TestCase for the class net.jetrix.ClientRepository

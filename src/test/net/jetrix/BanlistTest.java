@@ -19,9 +19,9 @@
 
 package net.jetrix;
 
-import java.util.*;
+import java.util.Date;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 /**
  * JUnit TestCase for the class net.jetrix.Banlist

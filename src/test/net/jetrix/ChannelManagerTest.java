@@ -19,9 +19,8 @@
 
 package net.jetrix;
 
-import junit.framework.*;
-
-import net.jetrix.config.*;
+import junit.framework.TestCase;
+import net.jetrix.config.ChannelConfig;
 
 /**
  * JUnit TestCase for the class net.jetrix.ChannelManager.

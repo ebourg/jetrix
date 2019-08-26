@@ -21,8 +21,11 @@ package net.jetrix.filter;
 
 import java.io.File;
 
-import junit.framework.*;
-import net.jetrix.config.*;
+import junit.framework.TestCase;
+import net.jetrix.config.Block;
+import net.jetrix.config.Puzzle;
+import net.jetrix.config.Settings;
+import net.jetrix.config.Special;
 
 /**
  * @author Emmanuel Bourg

@@ -21,7 +21,7 @@ package net.jetrix.winlist;
 
 import junit.framework.TestCase;
 import net.jetrix.User;
-import net.jetrix.config.*;
+import net.jetrix.config.WinlistConfig;
 
 /**
  * JUnit TestCase for the class net.jetrix.winlist.SimpleWinlist.
